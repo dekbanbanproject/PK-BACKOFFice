@@ -41,8 +41,7 @@ $pos = strrpos($url, '/') + 1;
                     </div>                   
                     <div class="col"></div>
                     <div class="col-md-3">
-                        <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-info" data-bs-toggle="modal"
-                            data-bs-target="#insertdata">
+                        <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#insertdata">
                             <i class="fa-solid fa-folder-plus text-info me-2"></i>
                             เพิ่มวัตถุประสงค์
                         </button>

@@ -21,6 +21,7 @@ return new class extends Migration
                 $table->string('cid')->nullable();//       
                 $table->string('ptname')->nullable();//    
                 $table->string('ct_check')->nullable();//   ส่วนตรวจ
+                $table->string('ct_check_hos')->nullable();//   ส่วนตรวจ hos
                 $table->string('price_check')->nullable();// ค่าตรวจ
                 $table->string('total_price_check')->nullable();// รวมค่าตรวจ 
                 $table->string('opaque_price')->nullable();// ค่าสารทึบแสง

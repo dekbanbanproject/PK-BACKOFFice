@@ -148,8 +148,9 @@
                                             <i class="fa-solid fa-cloud-arrow-up me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="UP STM"></i>
                                             UP STM
                                         </button> --}}
+                                        {{-- <button class="btn btn-danger ladda-button" data-style="expand-left"><span class="ladda-label">expand-left</span></button> --}}
                                         <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary d-shadow mb-3 me-2 " data-style="expand-left">
-                                            <span class="ladda-label"> <i class="fa-solid fa-cloud-arrow-up text-white me-2"></i> IMPORT</span>
+                                            <span class="ladda-label"> <i class="fa-solid fa-cloud-arrow-up text-white me-2"></i>IMPORT</span>
                                             <span class="ladda-spinner"></span>
                                         </button> 
                                     @endif
@@ -160,12 +161,12 @@
                     </div>
                 </div>
            
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <div class="progress" style="height: 50px;">
                        <div class="bar"></div>
                        <div class="percent" style="font-size: 30px">0%</div> 
                     </div>
-                </div> 
+                </div>  --}}
                 <br> 
             </div>
             <div class="col"></div>

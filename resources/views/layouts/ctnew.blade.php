@@ -312,6 +312,7 @@ background-repeat: no-repeat;
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
     <!-- App js -->
     <script src="{{ asset('pkclaim/js/app.js') }}"></script> 
+    <script src="{{ asset('js/ladda.js') }}"></script> 
     @yield('footer')
 
 <script type="text/javascript">

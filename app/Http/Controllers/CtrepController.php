@@ -126,45 +126,29 @@ class CtrepController extends Controller
         $date = date('Y-m-d');
         $y = date('Y') + 543;
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newDate = date('Y-m-d', strtotime($date . ' -2 months')); //ย้อนหลัง 2 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
         $yearnew = date('Y')+1;
         $yearold = date('Y');
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
         if ($startdate == '') {  
-            
-        } else {
-                $iduser = Auth::user()->id;
-                D_ofc_401::truncate(); 
-                $data_main_ = DB::connection('mysql2')->select(' 
-                        SELECT v.vn,o.an,v.cid,v.hn,concat(pt.pname,pt.fname," ",pt.lname) ptname
-                        ,v.vstdate,v.pttype  ,rd.sss_approval_code AS "Apphos",v.inc04 as xray
-                        ,rd.amount AS price_ofc,v.income,ptt.hipdata_code 
-                        ,group_concat(distinct hh.appr_code,":",hh.transaction_amount,"/") AS AppKTB 
-                        ,GROUP_CONCAT(DISTINCT ov.icd10 order by ov.diagtype) AS icd10 
-                        FROM hos.vn_stat v
-                        LEFT OUTER JOIN hos.patient pt ON v.hn=pt.hn
-                        LEFT OUTER JOIN hos.ovstdiag ov ON v.vn=ov.vn
-                        LEFT OUTER JOIN hos.ovst o ON v.vn=o.vn
-                        LEFT OUTER JOIN hos.opdscreen op ON v.vn = op.vn
-                        LEFT OUTER JOIN hos.pttype ptt ON v.pttype=ptt.pttype 
-                        LEFT OUTER JOIN hos.rcpt_debt rd ON v.vn=rd.vn
-                        LEFT OUTER JOIN hos.hpc11_ktb_approval hh on hh.pid = pt.cid and hh.transaction_date = v.vstdate 
-                        LEFT OUTER JOIN hos.ipt i on i.vn = v.vn
-                        
-                        WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                        AND v.pttype in ("O1","O2","O3","O4","O5") AND rd.sss_approval_code <> ""
-                        AND v.pttype not in ("OF","FO") 
-                        
-                        AND o.an is null
-                        AND v.pdx <> ""
-                        GROUP BY v.vn; 
-                ');                 
-                  
+            $data['datashow'] = DB::connection('mysql')->select('
+               SELECT a.a_stm_ct_id,a.hn,a.cid,a.ptname,a.ct_date,a.pttypename_spsch,a.price_check,a.total_price_check,a.opaque_price,a.before_price
+               ,a.discount,a.vat,a.total,a.sumprice,a.paid,a.remain,a.sfhname,b.ct_check
+               FROM a_stm_ct a 
+               LEFT OUTER JOIN a_stm_ct_item b on b.hn = a.hn 
+               WHERE a.ct_date BETWEEN "'.$newDate.'" and "'.$date.'"');  
+        } else { 
+            $data['datashow'] = DB::connection('mysql')->select('
+               SELECT a.a_stm_ct_id,a.hn,a.cid,a.ptname,a.ct_date,a.pttypename_spsch,a.price_check,a.total_price_check,a.opaque_price,a.before_price
+               ,a.discount,a.vat,a.total,a.sumprice,a.paid,a.remain,a.sfhname,b.ct_check
+               FROM a_stm_ct a 
+               LEFT OUTER JOIN a_stm_ct_item b on b.hn = a.hn 
+               WHERE a.ct_date BETWEEN "'.$startdate.'" and "'.$enddate.'"');  
         } 
 
-        return view('ct.ct_rep',[
+        return view('ct.ct_rep',$data,[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate, 
         ]);
@@ -406,7 +390,7 @@ class CtrepController extends Controller
                 SELECT  
                     ct_date,hn,an,cid ,ptname,ct_check,price_check,total_price_check,opaque_price,total_opaque_price,before_price,discount,vat,total,sumprice,paid,remain,STMDoc
                 FROM a_stm_ct_excel
-                GROUP BY cid 
+              
             ');
             // GROUP BY cid
             foreach ($data_ as $key => $value) {
@@ -517,6 +501,52 @@ class CtrepController extends Controller
             A_stm_ct_excel::truncate(); 
 
             return redirect()->route('ct.ct_rep_import');
+    }
+
+    public function ct_rep_sync(Request $request)
+    { 
+        $startdate    = $request->startdate;
+        $enddate      = $request->enddate;
+
+        // ***** OPD *****
+            $datasync     = DB::connection('mysql2')->select('
+                SELECT o.vstdate,o.hn,p.cid,x.icode,x.xray_items_name ,x.service_price,xr.confirm   
+                FROM xray_report xr  
+                LEFT OUTER JOIN xray_items x on x.xray_items_code=xr.xray_items_code  
+                LEFT OUTER JOIN ovst o on o.vn=xr.vn
+                LEFT OUTER JOIN patient p on p.hn=o.hn
+                WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            ');
+            foreach ($datasync as $key => $value) {
+                $count = A_stm_ct_item::where('ct_date',$value->vstdate)->where('cid',$value->cid)->count('ct_check');
+                
+                if ($count > 1) {
+                    $data_item = DB::connection('mysql')->select('SELECT ct_check FROM a_stm_ct_item WHERE ct_date = "'.$value->vstdate.'" AND cid = "'.$value->cid.'"');
+                    foreach ($data_item as $v) {
+                    if ($v->ct_check == 'CT Lower abdomen') {
+                            A_stm_ct_item::where('ct_check','=','CT Lower abdomen')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT Lower abdomen with contrast']);
+                        } elseif ($v->ct_check == 'CT Upper abdomen') {
+                            A_stm_ct_item::where('ct_check','=','CT Upper abdomen')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT Upper ABD.Multiphase']);
+                        } elseif ($v->ct_check == 'CT Chest') {
+                            A_stm_ct_item::where('ct_check','=','CT Chest')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT Chest with contrast']);
+                        } elseif ($v->ct_check == 'CT Neck') {
+                            A_stm_ct_item::where('ct_check','=','CT Neck')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT Neck with contrast']);
+                    } else {
+                        # code...
+                    }
+                    
+                    }
+                } else {
+                    A_stm_ct_item::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update([
+                        'ct_check_hos'    => $value->xray_items_name
+                    ]);
+                } 
+            }
+     
+     
+        return response()->json([
+                'status'    => '200',
+            ]);
     }
 
     

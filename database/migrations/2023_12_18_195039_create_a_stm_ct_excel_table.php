@@ -24,6 +24,7 @@ return new class extends Migration
                 $table->string('sfhname')->nullable();// ส่งจาก รพ.
                 $table->string('typename')->nullable();// ในเวลา / นอกเวลา
                 $table->string('pttypename')->nullable();// สิทธิ์การรักษา
+                $table->string('pttypename_spsch')->nullable();// สิทธิ์การรักษา สปสช
                 $table->string('hname')->nullable();//  รพ. ต้นสังกัด
                 $table->string('cardno')->nullable();// เลขที่บัตร
                 $table->string('ward')->nullable();// แผนก
