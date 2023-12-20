@@ -188,8 +188,20 @@ background-repeat: no-repeat;
                                 <li class="menu-title">Menu</li> 
                                 <li>
                                     <a href="{{ url('ct_rep') }}">  
+                                        <i class="fa fa-lungs-virus text-info"></i>
+                                        <span>CT Check Report OPD</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('ct_rep_ipd') }}">  
                                         <i class="fa fa-lungs-virus text-danger"></i>
-                                        <span>CT Report</span>
+                                        <span>CT Check Report IPD</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('ct_rep_pay') }}">  
+                                        <i class="fa fa-lungs-virus text-success"></i>
+                                        <span>CT Pay Report</span>
                                     </a>
                                 </li>
                                 <li>

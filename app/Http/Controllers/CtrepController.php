@@ -138,14 +138,16 @@ class CtrepController extends Controller
                ,a.discount,a.vat,a.total,a.sumprice,a.paid,a.remain,a.sfhname,b.ct_check
                FROM a_stm_ct a 
                LEFT OUTER JOIN a_stm_ct_item b on b.hn = a.hn 
-               WHERE a.ct_date BETWEEN "'.$newDate.'" and "'.$date.'"');  
+               WHERE a.ct_date BETWEEN "'.$newDate.'" and "'.$date.'" AND ward = "OPD"
+            ');  
         } else { 
             $data['datashow'] = DB::connection('mysql')->select('
                SELECT a.a_stm_ct_id,a.hn,a.cid,a.ptname,a.ct_date,a.pttypename_spsch,a.price_check,a.total_price_check,a.opaque_price,a.before_price
                ,a.discount,a.vat,a.total,a.sumprice,a.paid,a.remain,a.sfhname,b.ct_check
                FROM a_stm_ct a 
                LEFT OUTER JOIN a_stm_ct_item b on b.hn = a.hn 
-               WHERE a.ct_date BETWEEN "'.$startdate.'" and "'.$enddate.'"');  
+               WHERE a.ct_date BETWEEN "'.$startdate.'" and "'.$enddate.'" AND ward = "OPD"
+            ');  
         } 
 
         return view('ct.ct_rep',$data,[
