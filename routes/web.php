@@ -2473,6 +2473,7 @@ Route::match(['get','post'],'ct_rep_import_save',[App\Http\Controllers\CtrepCont
 Route::match(['get','post'],'ct_rep_import_send',[App\Http\Controllers\CtrepController::class, 'ct_rep_import_send'])->name('ct.ct_rep_import_send');//
 Route::match(['get','post'],'ct_rep_sync',[App\Http\Controllers\CtrepController::class, 'ct_rep_sync'])->name('ct.ct_rep_sync');//
 Route::match(['get','post'],'ct_rep_confirm',[App\Http\Controllers\CtrepController::class, 'ct_rep_confirm'])->name('ct.ct_rep_confirm');//
+Route::match(['get','post'],'ct_rep_checksit',[App\Http\Controllers\CtrepController::class, 'ct_rep_checksit'])->name('ct.ct_rep_checksit');//
 
 Route::match(['get','post'],'thalassemia_year',[App\Http\Controllers\PctController::class, 'thalassemia_year'])->name('pct.thalassemia_year');//
 Route::match(['get','post'],'thalassemia_yearsearch',[App\Http\Controllers\PctController::class, 'thalassemia_yearsearch'])->name('pct.thalassemia_yearsearch');//

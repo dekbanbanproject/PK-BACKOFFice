@@ -211,7 +211,7 @@
                                                 <td class="p-2" >{{ $item->ptname }}</td> 
                                                 <td class="text-center" width="10%">{{ $item->ct_date }}</td>   
                                                 <td class="text-center" width="10%">{{ $item->pttypename }}</td> 
-                                                <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->pttypename_spsch }}</td>  
+                                                <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->ptty_spsch }}</td>  
                                                 <td class="text-center" width="10%">{{ number_format($item->price_check, 2) }}</td> 
                                                 <td class="text-center" width="10%">{{ number_format($item->total_price_check, 2) }}</td>  
                                                 <td class="text-center" width="10%">{{ number_format($item->opaque_price, 2) }}</td>  
@@ -668,6 +668,62 @@
                         // });
 
                     }
+                })
+            });
+
+
+            $('.CheckSit').click(function() {
+                var datestart = $('#datepicker').val(); 
+                var dateend = $('#datepicker2').val(); 
+                //    alert(datestart);
+                Swal.fire({
+                        title: 'ต้องการตรวจสอบสอทธิ์ใช่ไหม ?',
+                        text: "You Check Sit Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, pull it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner-div").show(); //Load button clicked show spinner 
+                            $.ajax({
+                                url: "{{ route('ct.ct_rep_checksit') }}",
+                                type: "POST",
+                                dataType: 'json',
+                                data: {
+                                    datestart,
+                                    dateend                        
+                                },
+                                success: function(data) {
+                                    if (data.status == 200) { 
+                                        Swal.fire({
+                                            title: 'เช็คสิทธิ์สำเร็จ',
+                                            text: "You Check sit success",
+                                            icon: 'success',
+                                            showCancelButton: false,
+                                            confirmButtonColor: '#06D177',
+                                            confirmButtonText: 'เรียบร้อย'
+                                        }).then((result) => {
+                                            if (result
+                                                .isConfirmed) {
+                                                console.log(
+                                                    data);
+                                                window.location.reload();
+                                                $('#spinner-div').hide();//Request is complete so hide spinner
+                                                    setTimeout(function(){
+                                                        $("#overlay").fadeOut(300);
+                                                    },500);
+                                            }
+                                        })
+                                    } else {
+                                        
+                                    }
+
+                                },
+                            });
+                        }
                 })
             });
 

@@ -135,7 +135,7 @@ class CtrepController extends Controller
         if ($startdate == '') {  
             $data['datashow'] = DB::connection('mysql')->select('
                SELECT a.a_stm_ct_id,a.vn,a.hn,a.cid,a.ptname,a.ct_date,a.pttypename,a.pttypename_spsch,a.price_check,a.total_price_check,a.opaque_price,a.before_price
-               ,a.discount,a.vat,a.total,a.sumprice,a.paid,a.remain,a.sfhname,b.ct_check,a.active
+               ,a.discount,a.vat,a.total,a.sumprice,a.paid,a.remain,a.sfhname,b.ct_check,a.active,a.ptty_spsch
                FROM a_stm_ct a 
                LEFT OUTER JOIN a_stm_ct_item b on b.hn = a.hn 
                WHERE a.ct_date BETWEEN "'.$newDate.'" and "'.$date.'" AND ward = "OPD"
@@ -143,7 +143,7 @@ class CtrepController extends Controller
         } else { 
             $data['datashow'] = DB::connection('mysql')->select('
                SELECT a.a_stm_ct_id,a.vn,a.hn,a.cid,a.ptname,a.ct_date,a.pttypename,a.pttypename_spsch,a.price_check,a.total_price_check,a.opaque_price,a.before_price
-               ,a.discount,a.vat,a.total,a.sumprice,a.paid,a.remain,a.sfhname,b.ct_check,a.active
+               ,a.discount,a.vat,a.total,a.sumprice,a.paid,a.remain,a.sfhname,b.ct_check,a.active,a.ptty_spsch
                FROM a_stm_ct a 
                LEFT OUTER JOIN a_stm_ct_item b on b.hn = a.hn 
                WHERE a.ct_date BETWEEN "'.$startdate.'" and "'.$enddate.'" AND ward = "OPD"
@@ -174,9 +174,7 @@ class CtrepController extends Controller
             'datashow'      =>     $datashow,
             'countc'        =>     $countc
         ]);
-    }
-    
-
+    }    
     function ct_rep_import_save (Request $request)
     {  
         // A_stm_ct_excel::truncate(); 
@@ -436,7 +434,6 @@ class CtrepController extends Controller
             //     'status'    => '200',
             // ]);
     }
-
     public function ct_rep_import_send(Request $request)
     {
 
@@ -506,7 +503,6 @@ class CtrepController extends Controller
 
             return redirect()->route('ct.ct_rep_import');
     }
-
     public function ct_rep_sync(Request $request)
     { 
         $startdate    = $request->startdate;
@@ -566,7 +562,6 @@ class CtrepController extends Controller
                 'status'    => '200',
             ]);
     }
-
     public function ct_rep_confirm(Request $request)
     { 
         $id    = $request->a_stm_ct_id; 
@@ -590,6 +585,83 @@ class CtrepController extends Controller
             'data_show'            =>  $data_show,
         ]);
     }
+    public function ct_rep_checksit(Request $request)
+    {
+        $datestart = $request->datestart;
+        $dateend = $request->dateend; 
+
+                $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
+                foreach ($token_data as $key => $value) {
+                    $cid_    = $value->cid;
+                    $token_  = $value->token;
+                }
+                $ct_data = DB::connection('mysql')->select('SELECT cid,ct_date FROM a_stm_ct WHERE ct_date BETWEEN "'.$datestart.'" AND "'.$dateend.'"');
+                foreach ($ct_data as $key => $vv) {
+                
+                        $client = new SoapClient(
+                            "http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
+                            array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1', "trace" => 1, "exceptions" => 0, "cache_wsdl" => 0)
+                        );
+                        $params = array(
+                            'sequence' => array(
+                                "user_person_id" => "$cid_",
+                                "smctoken"       => "$token_",
+                                "person_id"      => "$vv->cid"
+                            )
+                        );
+                        $contents = $client->__soapCall('searchCurrentByPID', $params);
+                        // dd($contents);
+                        //   dd($hcode);
+                        foreach ($contents as $v) {
+                            @$status                   = $v->status;
+                            @$maininscl                = $v->maininscl;  // maininscl": "WEL"
+                            @$startdate                = $v->startdate;  //"25650728"
+                            @$hmain                    = $v->hmain;   //"11066"
+                            @$subinscl                  = $v->subinscl;    //subinscl": "73"
+                            @$person_id_nhso           = $v->person_id;
+                            if (@$maininscl == 'WEL') {
+                                @$cardid                    = $v->cardid;  // "R73450035286038"
+                            } else {
+                                $cardid = '';
+                            } 
+                            @$hmain_op                 = $v->hmain_op;  //"10978"
+                            @$hmain_op_name            = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
+                            @$hsub                     = $v->hsub;    //"04047"
+                            @$hsub_name                = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
+                            @$subinscl_name            = $v->subinscl_name; //"ช่วงอายุ 12-59 ปี"
+                            @$primary_amphur_name      = $v->primary_amphur_name;  // อำเภอ  "โพนทอง"
+                            @$primary_moo              = $v->primary_moo;    //หมู่ที่ 01
+                            @$primary_mooban_name      = $v->primary_mooban_name;  // ชื่อหมู่บ้าน  "หนองนกแก้ว"
+                            @$primary_tumbon_name      = $v->primary_tumbon_name;   //ชื่อตำบล   "สระนกแก้ว"
+                            @$primary_province_name    = $v->primary_province_name;  //ชื่อจังหวัด
+                        } 
+                        IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert 
+                                A_stm_ct::where('cid', $vv->cid)->where('ct_date', $vv->ct_date)
+                                ->update([
+                                    'ptty_spsch'       => @$subinscl,
+                                    'pttypename_spsch' => @$maininscl,
+                                
+                                ]);  
+                        }elseif(@$maininscl !="" || @$subinscl !=""){
+                                $date2 = date("Y-m-d");
+                                A_stm_ct::where('cid', $vv->cid)->where('ct_date', $vv->ct_date)
+                                    ->update([
+                                        'ptty_spsch'       => @$subinscl,
+                                        'pttypename_spsch' => @$maininscl,
+                                       
+                                    ]); 
+                        }
+                }
+            // }
+        // }
+        return response()->json([
+            'status'               => '200', 
+            // 'data_show'            =>  $data_show,
+        ]);
+        // return view('rpst.checksit_pullhosauto');
+
+    }
+
 
 
     
