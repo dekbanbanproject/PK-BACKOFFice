@@ -220,14 +220,14 @@
                                                 {{-- <td class="text-center" width="10%">{{ number_format($item->vat, 2) }}</td>  --}}
                                                 {{-- <td class="text-center" width="10%">{{ number_format($item->total, 2) }}</td>  --}}
                                                 <td class="text-center" width="10%">
-                                                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#MoneyModal_2{{ $item->a_stm_ct_id }}" data-bs-toggle="tooltip" data-bs-placement="right" title="รายละเอียด"> 
+                                                    {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#MoneyModal_2{{ $item->a_stm_ct_id }}" data-bs-toggle="tooltip" data-bs-placement="right" title="รายละเอียด"> 
                                                         <i class="fa fa-lungs-virus" style="font-size:17px;color: rgb(255, 34, 89)"></i> 
                                                         {{ number_format($item->sumprice, 2) }}
-                                                    </button>
-                                                    {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger MoneyModal" value="{{ $item->a_stm_ct_id }}" data-bs-toggle="tooltip" data-bs-placement="right" title="รายละเอียด"> 
+                                                    </button> --}}
+                                                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger MoneyModal" value="{{ $item->a_stm_ct_id }}" data-bs-toggle="tooltip" data-bs-placement="right" title="รายละเอียด"> 
                                                         <i class="fa fa-lungs-virus" style="font-size:17px;color: rgb(255, 34, 89)"></i> 
                                                         {{ number_format($item->sumprice, 2) }}
-                                                    </button>   --}}
+                                                    </button>  
                                                 </td> 
                                                 <td class="text-center" width="10%">{{ number_format($item->paid, 2) }}</td> 
                                                 <td class="text-center" width="10%">{{ number_format($item->remain, 2) }}</td> 
@@ -246,98 +246,6 @@
                                                     //     $total_price_check = $v->total_price_check;
                                                     // } 
                                             ?> 
-
-                                                <div class="modal fade" id="MoneyModal_2{{ $item->a_stm_ct_id }}" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true"> 
-                                                    <div class="modal-dialog modal-dialog-slideout">
-                                                    <div class="modal-content">
-                                                        <div class="modal-body">
- 
-                                                            <hr>
-                                                            <div class="row mt-4" style="font-size:15px;color:red"> 
-                                                                <div class="col-md-2 text-center" >รายการ</div>
-                                                                <div class="col-md-2 text-center" >รายการ HOS</div>
-                                                                <div class="col-md-1 text-center">ค่าตรวจ </div>
-                                                                <div class="col-md-1 text-center">รวมค่าตรวจ</div>
-                                                                <div class="col-md-1 text-center">ค่าสารทึบแสง</div>
-                                                                <div class="col-md-1 text-center">before</div> 
-                                                                <div class="col-md-1 text-center">Total</div>
-                                                                <div class="col-md-1 text-center">ค่าใช้จ่ายรวม</div>
-                                                                <div class="col-md-1 text-center">ชำระแล้ว</div>
-                                                                <div class="col-md-1 text-center">ค้างชำระ</div>
-                                                            </div>
-                                                            <?php $ii = 1; ?>
-                                                            @foreach ($data_sub as $v)
-                                                            <hr>
-                                                                <div class="row" style="font-size:12px;height: 12px;">  
-                                                                    <div class="col-md-2 text-start">{{ $v->ct_check}}</div>
-                                                                    <div class="col-md-2 text-start">{{ $v->ct_check_hos}}</div>
-                                                                    <div class="col-md-1 text-center">{{ number_format($v->price_check, 2) }}</div>
-                                                                    @if ($v->total_price_check == '')
-                                                                    <div class="col-md-1 text-center">0.00</div> 
-                                                                    @else
-                                                                    <div class="col-md-1 text-center">{{ number_format($v->total_price_check, 2) }}</div> 
-                                                                    @endif
-
-                                                                    @if ($v->opaque_price == '')
-                                                                        <div class="col-md-1 text-center">0.00</div> 
-                                                                    @else
-                                                                        <div class="col-md-1 text-center">{{ number_format($v->opaque_price, 2) }}</div> 
-                                                                    @endif
-                                                                    
-                                                                    @if ($v->before_price =='')
-                                                                        <div class="col-md-1 text-center">0.00</div>
-                                                                    @else
-                                                                        <div class="col-md-1 text-center">{{ number_format($v->before_price, 2) }}</div>
-                                                                    @endif 
-
-                                                                    @if ($v->total =='')
-                                                                        <div class="col-md-1 text-center">0.00</div>
-                                                                    @else
-                                                                        <div class="col-md-1 text-center">{{ number_format($v->total, 0) }}</div>
-                                                                    @endif
-
-                                                                    @if ($v->sumprice =='')
-                                                                        <div class="col-md-1 text-center">0.00</div>
-                                                                    @else
-                                                                        <div class="col-md-1 text-center">{{ number_format($v->sumprice, 2) }}</div>
-                                                                    @endif
-
-                                                                    @if ($v->paid =='')
-                                                                        <div class="col-md-1 text-center">0.00</div>
-                                                                    @else
-                                                                        <div class="col-md-1 text-center">{{ number_format($v->paid, 2) }}</div>
-                                                                    @endif
-
-                                                                    @if ($v->remain =='')
-                                                                        <div class="col-md-1 text-center">0.00</div>
-                                                                    @else
-                                                                        <div class="col-md-1 text-center">{{ number_format($v->remain, 2) }}</div>
-                                                                    @endif 
-                                                                </div>
-                                                            @endforeach 
-                                                            <hr>
-                                                            <form action="{{ route('ct.ct_rep_confirm') }}" method="POST" id="Comfirm_finish">
-                                                                @csrf
-                                                                <input type="text" id="a_stm_ct_id_tt" name="a_stm_ct_id" value="{{ $item->a_stm_ct_id }}">
-                                                                <div class="row mt-5">
-                                                                    <div class="col"></div>
-                                                                    <div class="col-md-2">
-                                                                        {{-- <button type="button" class="ladda-button btn-pill btn btn-success d-shadow Finish me-3 ms-2" data-style="expand-left" style="width: 150px">
-                                                                            <span class="ladda-label me-2"> <i class="fa-solid fa-user text-danger text-white me-2 ms-2"></i>Finish</span>
-                                                                            <span class="ladda-spinner"></span>
-                                                                        </button> --}}
-                                                                        <button type="submit" class="ladda-button btn-pill btn btn-success d-shadow me-3 ms-2" id="Comfirm_finish" data-style="expand-left" style="width: 150px">
-                                                                            <span class="ladda-label me-2"> <i class="fa-solid fa-user text-danger text-white me-2 ms-2"></i>Finish</span>
-                                                                            <span class="ladda-spinner"></span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="col"></div>
-                                                                </div> 
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div> 
-                                            </div>
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -609,8 +517,8 @@
 
             $('.Finish').click(function() {
                 // var id = $(this).val();
-                var a_stm_ct_id = $('#a_stm_ct_id_tt').val(); 
-                alert(a_stm_ct_id);
+                var a_stm_ct_id = $('#a_stm_ct_id_edit').val(); 
+                alert(id);
                 Swal.fire({
                     title: 'ยืนยันข้อมูลครบถ้วนใช่ไหม ?',
                     text: "You Confirm Data Success!",
@@ -664,43 +572,6 @@
 
                     }
                 })
-            });
-
-            $('.Comfirm_finish').on('submit',function(e){
-              e.preventDefault();
-
-                  var form = this;
-                  // alert('OJJJJOL');
-                  $.ajax({
-                    url:$(form).attr('action'),
-                    method:$(form).attr('method'),
-                    data:new FormData(form),
-                    processData:false,
-                    dataType:'json',
-                    contentType:false,
-                    beforeSend:function(){
-                      $(form).find('span.error-text').text('');
-                    },
-                    success:function(data){
-                      if (data.status == 200 ) {
-                        Swal.fire({
-                          title: 'ยืนยันข้อมูลสำเร็จ',
-                          text: "You Confirm data success",
-                          icon: 'success',
-                          showCancelButton: false,
-                          confirmButtonColor: '#06D177',
-                          // cancelButtonColor: '#d33',
-                          confirmButtonText: 'เรียบร้อย'
-                        }).then((result) => {
-                          if (result.isConfirmed) {
-                            window.location="{{url('ct_rep')}}";
-                          }
-                        })
-                      } else {
-                        
-                      }
-                    }
-                  });
             });
 
            

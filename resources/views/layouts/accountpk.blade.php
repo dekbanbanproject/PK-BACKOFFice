@@ -148,7 +148,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
 
         <header id="page-topbar">
             {{-- <div class="navbar-header shadow-lg" style="background-color: rgb(252, 252, 252)"> --}}
-                <div class="navbar-header shadow" style="background-color: rgba(237, 199, 247)">
+                <div class="navbar-header shadow" style="background-color: pink">
 
                 <div class="d-flex">
                     <!-- LOGO -->
@@ -159,7 +159,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                             </span>
                             <span class="logo-lg">
                                 {{-- <img src="{{ asset('assets/images/logo-dark.png') }}" alt="logo-dark" height="20"> --}}
-                                <h4 style="color:rgba(237, 199, 247, 0.74)" class="mt-4">PK-BACKOFFice</h4>
+                                <h4 style="color:pink" class="mt-4">PK-BACKOFFice</h4>
                             </span>
                         </a>
 
@@ -169,7 +169,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgba(237, 199, 247, 0.781)" class="mt-4">PK-BACKOFFice</h4>
+                                <h4 style="color:pink" class="mt-4">PK-BACKOFFice</h4>
                             </span>
                         </a>
                     </div>

@@ -134,16 +134,16 @@ class CtrepController extends Controller
         $end = (''.$yearnew.'-09-30'); 
         if ($startdate == '') {  
             $data['datashow'] = DB::connection('mysql')->select('
-               SELECT a.a_stm_ct_id,a.hn,a.cid,a.ptname,a.ct_date,a.pttypename_spsch,a.price_check,a.total_price_check,a.opaque_price,a.before_price
-               ,a.discount,a.vat,a.total,a.sumprice,a.paid,a.remain,a.sfhname,b.ct_check
+               SELECT a.a_stm_ct_id,a.vn,a.hn,a.cid,a.ptname,a.ct_date,a.pttypename,a.pttypename_spsch,a.price_check,a.total_price_check,a.opaque_price,a.before_price
+               ,a.discount,a.vat,a.total,a.sumprice,a.paid,a.remain,a.sfhname,b.ct_check,a.active
                FROM a_stm_ct a 
                LEFT OUTER JOIN a_stm_ct_item b on b.hn = a.hn 
                WHERE a.ct_date BETWEEN "'.$newDate.'" and "'.$date.'" AND ward = "OPD"
             ');  
         } else { 
             $data['datashow'] = DB::connection('mysql')->select('
-               SELECT a.a_stm_ct_id,a.hn,a.cid,a.ptname,a.ct_date,a.pttypename_spsch,a.price_check,a.total_price_check,a.opaque_price,a.before_price
-               ,a.discount,a.vat,a.total,a.sumprice,a.paid,a.remain,a.sfhname,b.ct_check
+               SELECT a.a_stm_ct_id,a.vn,a.hn,a.cid,a.ptname,a.ct_date,a.pttypename,a.pttypename_spsch,a.price_check,a.total_price_check,a.opaque_price,a.before_price
+               ,a.discount,a.vat,a.total,a.sumprice,a.paid,a.remain,a.sfhname,b.ct_check,a.active
                FROM a_stm_ct a 
                LEFT OUTER JOIN a_stm_ct_item b on b.hn = a.hn 
                WHERE a.ct_date BETWEEN "'.$startdate.'" and "'.$enddate.'" AND ward = "OPD"
@@ -179,6 +179,8 @@ class CtrepController extends Controller
 
     function ct_rep_import_save (Request $request)
     {  
+        // A_stm_ct_excel::truncate(); 
+
         $the_file = $request->file('file'); 
         $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
         // dd($file_);
@@ -396,7 +398,7 @@ class CtrepController extends Controller
             ');
             // GROUP BY cid
             foreach ($data_ as $key => $value) {
-                if ($value->cid != '') {
+                if ($value->ct_date != '') {
                     // $check = A_stm_ct_item::where('ct_date','=',$value->ct_date)->where('cid','=',$value->cid)->where('ct_check','=',$value->ct_check)->count();
                     // $check = A_stm_ct_item::where('STMDoc','=',$file_)->count();
                     // if ($check == '0') {
@@ -512,7 +514,7 @@ class CtrepController extends Controller
 
         // ***** OPD *****
             $datasync     = DB::connection('mysql2')->select('
-                SELECT o.vstdate,o.hn,p.cid,x.icode,x.xray_items_name ,x.service_price,xr.confirm   
+                SELECT o.vstdate,xr.vn,o.hn,p.cid,x.icode,x.xray_items_name ,x.service_price,xr.confirm   
                 FROM xray_report xr  
                 LEFT OUTER JOIN xray_items x on x.xray_items_code=xr.xray_items_code  
                 LEFT OUTER JOIN ovst o on o.vn=xr.vn
@@ -527,12 +529,25 @@ class CtrepController extends Controller
                     foreach ($data_item as $v) {
                     if ($v->ct_check == 'CT Lower abdomen') {
                             A_stm_ct_item::where('ct_check','=','CT Lower abdomen')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT Lower abdomen with contrast']);
+                            A_stm_ct::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['vn' => $value->vn]);
                         } elseif ($v->ct_check == 'CT Upper abdomen') {
-                            A_stm_ct_item::where('ct_check','=','CT Upper abdomen')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT Upper ABD.Multiphase']);
+                            A_stm_ct_item::where('ct_check','=','CT Upper abdomen')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT Upper abdomen']);
+                            A_stm_ct::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['vn' => $value->vn]);
                         } elseif ($v->ct_check == 'CT Chest') {
                             A_stm_ct_item::where('ct_check','=','CT Chest')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT Chest with contrast']);
+                            A_stm_ct::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['vn' => $value->vn]);
                         } elseif ($v->ct_check == 'CT Neck') {
                             A_stm_ct_item::where('ct_check','=','CT Neck')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT Neck with contrast']);
+                            A_stm_ct::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['vn' => $value->vn]);
+                        } elseif ($v->ct_check == 'CT BRAIN  WITHOUT CONTRAST STUDY') {
+                            A_stm_ct_item::where('ct_check','=','CT BRAIN  WITHOUT CONTRAST STUDY')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT Brain without contrast study']);
+                            A_stm_ct::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['vn' => $value->vn]);
+                        } elseif ($v->ct_check == 'CT SPINE: CERVICAL') {
+                            A_stm_ct_item::where('ct_check','=','CT SPINE: CERVICAL')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT C-Spine']);
+                            A_stm_ct::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['vn' => $value->vn]);
+                        } elseif ($v->ct_check == 'CT FACIAL BONE') {
+                            A_stm_ct_item::where('ct_check','=','CT FACIAL BONE')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT Facial bone']);
+                            A_stm_ct::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['vn' => $value->vn]);
                     } else {
                         # code...
                     }
@@ -542,6 +557,7 @@ class CtrepController extends Controller
                     A_stm_ct_item::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update([
                         'ct_check_hos'    => $value->xray_items_name
                     ]);
+                    A_stm_ct::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['vn' => $value->vn]);
                 } 
             }
      
@@ -550,6 +566,34 @@ class CtrepController extends Controller
                 'status'    => '200',
             ]);
     }
+
+    public function ct_rep_confirm(Request $request)
+    { 
+        $id    = $request->a_stm_ct_id; 
+        //   dd($id);
+        A_stm_ct::where('a_stm_ct_id',$id)->update(['active' => 'Y']); 
+     
+        return response()->json([
+                'status'    => '200',
+            ]);
+    }
+    public function ct_rep_edit(Request $request,$id)
+    {
+    //    dd($id);
+        // $data_show = Plan_control::leftJoin('plan_control_money', 'plan_control.plan_control_id', '=', 'plan_control_money.plan_control_id')
+        // ->where('plan_control.plan_control_id',$id)->first();
+        $data_ = A_stm_ct::where('a_stm_ct_id',$id)->first();
+        $cid         = $data_->cid;
+        $ct_date     = $data_->ct_date;
+        $data_show = A_stm_ct_item::where('ct_date',$ct_date)->where('cid',$cid)->first();
+
+     
+        return response()->json([
+            'status'               => '200', 
+            'data_show'            =>  $data_show,
+        ]);
+    }
+
 
     
  

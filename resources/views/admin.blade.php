@@ -532,8 +532,7 @@
             </div>
 
             <div class="col-xl-4 col-md-4">
-                <div class="main-card mb-2 card shadow-lg rounded-pill"
-                    style="background-color: rgba(237, 199, 247, 0.781)">
+                <div class="main-card mb-2 card shadow-lg rounded-pill" style="background-color: pink">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
                             <div class="col-sm-12">
@@ -550,7 +549,7 @@
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
                                                     <i class="fa-solid fa-3x fa-file-invoice-dollar font-size-26"
-                                                        style="color: rgba(230, 171, 245, 0.781)"></i>
+                                                        style="color: pink"></i>
                                                 </button>
                                             </a>
                                         </div>

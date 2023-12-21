@@ -2467,10 +2467,12 @@ Route::match(['get','post'],'report_dep',[App\Http\Controllers\PersonController:
 Route::match(['get','post'],'ct_rep',[App\Http\Controllers\CtrepController::class, 'ct_rep'])->name('ct.ct_rep');//
 Route::match(['get','post'],'ct_rep_ipd',[App\Http\Controllers\CtrepController::class, 'ct_rep_ipd'])->name('ct.ct_rep_ipd');//
 Route::match(['get','post'],'ct_rep_pay',[App\Http\Controllers\CtrepController::class, 'ct_rep_pay'])->name('ct.ct_rep_pay');//
+Route::match(['get','post'],'ct_rep_edit/{id}',[App\Http\Controllers\CtrepController::class, 'ct_rep_edit'])->name('ct.ct_rep_edit');//
 Route::match(['get','post'],'ct_rep_import',[App\Http\Controllers\CtrepController::class, 'ct_rep_import'])->name('ct.ct_rep_import');//
 Route::match(['get','post'],'ct_rep_import_save',[App\Http\Controllers\CtrepController::class, 'ct_rep_import_save'])->name('ct.ct_rep_import_save');//
 Route::match(['get','post'],'ct_rep_import_send',[App\Http\Controllers\CtrepController::class, 'ct_rep_import_send'])->name('ct.ct_rep_import_send');//
 Route::match(['get','post'],'ct_rep_sync',[App\Http\Controllers\CtrepController::class, 'ct_rep_sync'])->name('ct.ct_rep_sync');//
+Route::match(['get','post'],'ct_rep_confirm',[App\Http\Controllers\CtrepController::class, 'ct_rep_confirm'])->name('ct.ct_rep_confirm');//
 
 Route::match(['get','post'],'thalassemia_year',[App\Http\Controllers\PctController::class, 'thalassemia_year'])->name('pct.thalassemia_year');//
 Route::match(['get','post'],'thalassemia_yearsearch',[App\Http\Controllers\PctController::class, 'thalassemia_yearsearch'])->name('pct.thalassemia_yearsearch');//
