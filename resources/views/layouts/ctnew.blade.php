@@ -189,15 +189,15 @@ background-repeat: no-repeat;
                                 <li>
                                     <a href="{{ url('ct_rep') }}">  
                                         <i class="fa fa-lungs-virus text-info"></i>
-                                        <span>CT Check Report OPD</span>
+                                        <span>CT Check Report </span>
                                     </a>
                                 </li>
-                                <li>
+                                {{-- <li>
                                     <a href="{{ url('ct_rep_ipd') }}">  
                                         <i class="fa fa-lungs-virus text-danger"></i>
                                         <span>CT Check Report IPD</span>
                                     </a>
-                                </li>
+                                </li> --}}
                                 <li>
                                     <a href="{{ url('ct_rep_pay') }}">  
                                         <i class="fa fa-lungs-virus text-success"></i>

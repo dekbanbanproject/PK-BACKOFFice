@@ -215,17 +215,17 @@ class Account216Controller extends Controller
                 WHEN sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) > 0 THEN v.income	
                 WHEN  vp.pttype_number ="2" AND vp.pttype NOT IN ("31","36","39") AND vp.max_debt_amount = "" OR sum(if(op.income="02",sum_price,0)) > 0 THEN 
                 (sum(if(op.income="02",sum_price,0))) +
-                (sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))     
+                (sum(if(op.icode IN("1560016","1540073","1530005","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))     
                 WHEN vp.pttype_number ="2" AND vp.pttype NOT IN ("31","36","39") AND vp.max_debt_amount <> "" THEN vp.max_debt_amount  		
                 ELSE                 
                 (sum(if(op.income="02",sum_price,0))) +
-                (sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))   
+                (sum(if(op.icode IN("1560016","1540073","1530005","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))   
                 END as debit
                                                 
                 ,v.income-v.discount_money-v.rcpt_money as debit2
                  
                 ,sum(if(op.income="02",sum_price,0)) as debit_instument
-                ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015"),sum_price,0)) as debit_drug
+                ,sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0)) as debit_drug
                 ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
                 ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
                 ,vp.max_debt_amount
@@ -247,7 +247,7 @@ class Account216Controller extends Controller
                 AND (o.an="" or o.an is null)
                 GROUP BY v.vn 
                 
-        ');
+        '); 
         // AND s.nhso_adp_code NOT IN("3001","3002","2501","2502","3001","3002","9214","8901","8902","8904","8608","9001","8903","9211","9212","020700")
         // AND op.icode NOT IN("3003661","3003662","3010272","3003663","3002896","3002897","3002898","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3009702","3010348")
         // AND op.icode IN(SELECT icode from pkbackoffice.acc_setpang_type WHERE icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217"))

@@ -578,10 +578,7 @@ class CtrepController extends Controller
             ]);
     }
     public function ct_rep_edit(Request $request,$id)
-    {
-    //    dd($id);
-        // $data_show = Plan_control::leftJoin('plan_control_money', 'plan_control.plan_control_id', '=', 'plan_control_money.plan_control_id')
-        // ->where('plan_control.plan_control_id',$id)->first();
+    { 
         $data_ = A_stm_ct::where('a_stm_ct_id',$id)->first();
         $cid         = $data_->cid;
         $ct_date     = $data_->ct_date;

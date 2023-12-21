@@ -316,9 +316,12 @@
                                                                 </div>
                                                             @endforeach 
                                                             <hr>
-                                                            <form action="{{ route('ct.ct_rep_confirm') }}" method="POST" id="Comfirm_finish">
-                                                                @csrf
-                                                                <input type="text" id="a_stm_ct_id_tt" name="a_stm_ct_id" value="{{ $item->a_stm_ct_id }}">
+                                                            <form class="custom-validation" action="{{ route('ct.ct_rep_confirm') }}" method="POST" id="insert_articleForm" enctype="multipart/form-data">
+                                                            @csrf
+                        
+                                                            {{-- <form action="{{ route('ct.ct_rep_confirm') }}" method="POST" id="Comfirmfinish">
+                                                                @csrf --}}
+                                                                <input type="hidden" id="a_stm_ct_id_tt" name="a_stm_ct_id" value="{{ $item->a_stm_ct_id }}">
                                                                 <div class="row mt-5">
                                                                     <div class="col"></div>
                                                                     <div class="col-md-2">
@@ -326,7 +329,7 @@
                                                                             <span class="ladda-label me-2"> <i class="fa-solid fa-user text-danger text-white me-2 ms-2"></i>Finish</span>
                                                                             <span class="ladda-spinner"></span>
                                                                         </button> --}}
-                                                                        <button type="submit" class="ladda-button btn-pill btn btn-success d-shadow me-3 ms-2" id="Comfirm_finish" data-style="expand-left" style="width: 150px">
+                                                                        <button type="submit" class="ladda-button btn-pill btn btn-success d-shadow me-3 ms-2" data-style="expand-left" style="width: 150px">
                                                                             <span class="ladda-label me-2"> <i class="fa-solid fa-user text-danger text-white me-2 ms-2"></i>Finish</span>
                                                                             <span class="ladda-spinner"></span>
                                                                         </button>
@@ -666,11 +669,11 @@
                 })
             });
 
-            $('.Comfirm_finish').on('submit',function(e){
+            $('.Comfirmfinish').on('submit',function(e){
               e.preventDefault();
 
                   var form = this;
-                  // alert('OJJJJOL');
+                  alert('OJJJJOL');
                   $.ajax({
                     url:$(form).attr('action'),
                     method:$(form).attr('method'),
