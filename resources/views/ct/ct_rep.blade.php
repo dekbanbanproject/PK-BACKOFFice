@@ -316,7 +316,7 @@
                                                                 </div>
                                                             @endforeach 
                                                             <hr>
-                                                            <form class="custom-validation" action="{{ route('ct.ct_rep_confirm') }}" method="POST" id="insert_articleForm" enctype="multipart/form-data">
+                                                            <form class="custom-validation" action="{{ route('ct.ct_rep_confirm') }}" method="POST" enctype="multipart/form-data">
                                                             @csrf
                         
                                                             {{-- <form action="{{ route('ct.ct_rep_confirm') }}" method="POST" id="Comfirmfinish">
@@ -508,6 +508,8 @@
                 }
             });
 
+           
+
             $(document).on('click', '.MoneyModal', function() {
                 var a_stm_ct_id = $(this).val();
                 // $('#plan_control_moneydate').datepicker();
@@ -628,7 +630,7 @@
                         $("#spinner").show();
 
                         // $.ajax({
-                        //     url: "{{ url('ct_rep_confirm') }}",
+                        //     url: "{{ route('ct.ct_rep_confirm') }}",
                         //     type: "POST",
                         //     dataType: 'json',
                         //     data: {a_stm_ct_id},
@@ -669,42 +671,7 @@
                 })
             });
 
-            $('.Comfirmfinish').on('submit',function(e){
-              e.preventDefault();
-
-                  var form = this;
-                  alert('OJJJJOL');
-                  $.ajax({
-                    url:$(form).attr('action'),
-                    method:$(form).attr('method'),
-                    data:new FormData(form),
-                    processData:false,
-                    dataType:'json',
-                    contentType:false,
-                    beforeSend:function(){
-                      $(form).find('span.error-text').text('');
-                    },
-                    success:function(data){
-                      if (data.status == 200 ) {
-                        Swal.fire({
-                          title: 'ยืนยันข้อมูลสำเร็จ',
-                          text: "You Confirm data success",
-                          icon: 'success',
-                          showCancelButton: false,
-                          confirmButtonColor: '#06D177',
-                          // cancelButtonColor: '#d33',
-                          confirmButtonText: 'เรียบร้อย'
-                        }).then((result) => {
-                          if (result.isConfirmed) {
-                            window.location="{{url('ct_rep')}}";
-                          }
-                        })
-                      } else {
-                        
-                      }
-                    }
-                  });
-            });
+           
 
            
 

@@ -561,7 +561,7 @@ class CtrepController extends Controller
                 } 
             }
      
-     
+            // return redirect()->route('ct.ct_rep');
         return response()->json([
                 'status'    => '200',
             ]);
@@ -572,10 +572,10 @@ class CtrepController extends Controller
         $id    = $request->a_stm_ct_id; 
         //   dd($id);
         A_stm_ct::where('a_stm_ct_id',$id)->update(['active' => 'Y']); 
-     
-        return response()->json([
-                'status'    => '200',
-            ]);
+        return redirect()->route('ct.ct_rep');
+        // return response()->json([
+        //         'status'    => '200',
+        //     ]);
     }
     public function ct_rep_edit(Request $request,$id)
     { 

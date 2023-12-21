@@ -335,6 +335,42 @@ background-repeat: no-repeat;
         $('#example4').DataTable();
         $('#example5').DataTable(); 
 
+        // $('#Comfirm').on('submit',function(e){
+        //       e.preventDefault();
+        //       alert('OJJJJOL');
+        //           var form = this;
+                
+        //           $.ajax({
+        //             url:$(form).attr('action'),
+        //             method:$(form).attr('method'),
+        //             data:new FormData(form),
+        //             processData:false,
+        //             dataType:'json',
+        //             contentType:false,
+        //             beforeSend:function(){
+        //               $(form).find('span.error-text').text('');
+        //             },
+        //             success:function(data){
+        //               if (data.status == 200 ) {
+        //                 Swal.fire({
+        //                   title: 'ยืนยันข้อมูลสำเร็จ',
+        //                   text: "You Confirm data success",
+        //                   icon: 'success',
+        //                   showCancelButton: false,
+        //                   confirmButtonColor: '#06D177',
+        //                   // cancelButtonColor: '#d33',
+        //                   confirmButtonText: 'เรียบร้อย'
+        //                 }).then((result) => {
+        //                   if (result.isConfirmed) {
+        //                     window.location="{{url('ct_rep')}}";
+        //                   }
+        //                 })
+        //               } else {
+                        
+        //               }
+        //             }
+        //           });
+        //     });
         
     });
     
