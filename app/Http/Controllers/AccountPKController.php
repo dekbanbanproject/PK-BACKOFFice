@@ -3745,274 +3745,274 @@ class AccountPKController extends Controller
 
     // *************************** account_pk 803 B1-B5*******************************************
 
-     public function account_803_dash(Request $request)
-     {
-         $startdate = $request->startdate;
-         $enddate = $request->enddate;
-         $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
-         $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
-         $date = date('Y-m-d');
-         $y = date('Y') + 543;
-         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
-         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+    public function account_803_dash(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
 
-         if ($startdate == '') {
-             $datashow = DB::select('
-                 SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-                     ,count(distinct a.hn) as hn
-                     ,count(distinct a.vn) as vn
-                     ,sum(a.paid_money) as paid_money
-                     ,sum(a.income) as income
-                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-                     FROM acc_debtor a
-                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                     WHERE a.vstdate between "'.$newyear.'" and "'.$date.'"
-                     and account_code="1102050102.803"
-                     and income <> 0
-                     group by month(a.vstdate) order by month(a.vstdate) desc limit 3;
-             ');
+        if ($startdate == '') {
+            $datashow = DB::select('
+                SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn
+                    ,count(distinct a.vn) as vn
+                    ,sum(a.paid_money) as paid_money
+                    ,sum(a.income) as income
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+                    WHERE a.vstdate between "'.$newyear.'" and "'.$date.'"
+                    and account_code="1102050102.803"
+                    and income <> 0
+                    group by month(a.vstdate) order by month(a.vstdate) desc limit 3;
+            ');
 
-         } else {
-             $datashow = DB::select('
-                 SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-                     ,count(distinct a.hn) as hn
-                     ,count(distinct a.vn) as vn
-                     ,sum(a.paid_money) as paid_money
-                     ,sum(a.income) as income
-                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-                     FROM acc_debtor a
-                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                     WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
-                     and account_code="1102050102.803"
-                     and income <>0
-                     group by month(a.vstdate) order by month(a.vstdate) desc;
-             ');
-         }
+        } else {
+            $datashow = DB::select('
+                SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn
+                    ,count(distinct a.vn) as vn
+                    ,sum(a.paid_money) as paid_money
+                    ,sum(a.income) as income
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+                    WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
+                    and account_code="1102050102.803"
+                    and income <>0
+                    group by month(a.vstdate) order by month(a.vstdate) desc;
+            ');
+        }
 
-         return view('account_pk.account_803_dash',[
-             'startdate'        => $startdate,
-             'enddate'          => $enddate,
-             'leave_month_year' => $leave_month_year,
-             'datashow'         => $datashow,
-             'newyear'          => $newyear,
-             'date'             => $date,
-         ]);
-     }
-     public function account_803_pull(Request $request)
-     {
-         $datenow = date('Y-m-d');
-         $months = date('m');
-         $year = date('Y');
-         // dd($year);
-         $startdate = $request->startdate;
-         $enddate = $request->enddate;
-         if ($startdate == '') {
-             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
-             $acc_debtor = DB::select('
-                 SELECT a.*,c.subinscl from acc_debtor a
-                 left outer join check_sit_auto c on c.hn = a.hn and c.vstdate = a.vstdate
-                 WHERE a.account_code="1102050102.803"
-                 AND a.stamp = "N"
-                 group by a.vn
-                 order by a.vstdate asc;
+        return view('account_pk.account_803_dash',[
+            'startdate'        => $startdate,
+            'enddate'          => $enddate,
+            'leave_month_year' => $leave_month_year,
+            'datashow'         => $datashow,
+            'newyear'          => $newyear,
+            'date'             => $date,
+        ]);
+    }
+    public function account_803_pull(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $months = date('m');
+        $year = date('Y');
+        // dd($year);
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        if ($startdate == '') {
+            // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
+            $acc_debtor = DB::select('
+                SELECT a.*,c.subinscl from acc_debtor a
+                left outer join check_sit_auto c on c.hn = a.hn and c.vstdate = a.vstdate
+                WHERE a.account_code="1102050102.803"
+                AND a.stamp = "N"
+                group by a.vn
+                order by a.vstdate asc;
 
-             ');
-             // and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
-         } else {
-             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
-         }
+            ');
+            // and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
+        } else {
+            // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
+        }
 
-         return view('account_pk.account_803_pull',[
-             'startdate'     =>     $startdate,
-             'enddate'       =>     $enddate,
-             'acc_debtor'    =>     $acc_debtor,
-         ]);
-     }
-     public function account_803_pulldata(Request $request)
-     {
-         $datenow = date('Y-m-d');
-         $startdate = $request->datepicker;
-         $enddate = $request->datepicker2;
-         // Acc_opitemrece::truncate();
-         $acc_debtor = DB::connection('mysql3')->select('
-             SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
-                     ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
-                      ,totime(o.vsttime) as vsttime
-                     ,v.hospmain,op.income as income_group
-                     ,o.vstdate
-                     ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype
-                     ,ptt.pttype_eclaim_id
-                     ,o.pttype
-                     ,e.gf_opd as gfmis,e.code as acc_code
-                     ,e.ar_opd as account_code
-                     ,e.name as account_name
-                     ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
-                     ,v.rcpno_list as rcpno
-                     ,v.income-v.discount_money-v.rcpt_money as debit
-                     ,sum(if(op.income="02",sum_price,0)) as debit_instument
-                     ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
-                     ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
-                     ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
-                     ,ptt.max_debt_money
-             from ovst o
-             left join vn_stat v on v.vn=o.vn
-             left join patient pt on pt.hn=o.hn
-             LEFT JOIN pttype ptt on o.pttype=ptt.pttype
-             LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
-             LEFT JOIN opitemrece op ON op.vn = o.vn
-             WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-             AND ptt.pttype IN("B1","B2","B3","B4","B5")
-             and (o.an="" or o.an is null)
-             AND v.income <> 0
-             GROUP BY o.vn
-         ');
+        return view('account_pk.account_803_pull',[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'acc_debtor'    =>     $acc_debtor,
+        ]);
+    }
+    public function account_803_pulldata(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->datepicker;
+        $enddate = $request->datepicker2;
+        // Acc_opitemrece::truncate();
+        $acc_debtor = DB::connection('mysql3')->select('
+            SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
+                    ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+                    ,totime(o.vsttime) as vsttime
+                    ,v.hospmain,op.income as income_group
+                    ,o.vstdate
+                    ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype
+                    ,ptt.pttype_eclaim_id
+                    ,o.pttype
+                    ,e.gf_opd as gfmis,e.code as acc_code
+                    ,e.ar_opd as account_code
+                    ,e.name as account_name
+                    ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
+                    ,v.rcpno_list as rcpno
+                    ,v.income-v.discount_money-v.rcpt_money as debit
+                    ,sum(if(op.income="02",sum_price,0)) as debit_instument
+                    ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
+                    ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
+                    ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
+                    ,ptt.max_debt_money
+            from ovst o
+            left join vn_stat v on v.vn=o.vn
+            left join patient pt on pt.hn=o.hn
+            LEFT JOIN pttype ptt on o.pttype=ptt.pttype
+            LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
+            LEFT JOIN opitemrece op ON op.vn = o.vn
+            WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+            AND ptt.pttype IN("B1","B2","B3","B4","B5")
+            and (o.an="" or o.an is null)
+            AND v.income <> 0
+            GROUP BY o.vn
+        ');
 
-         foreach ($acc_debtor as $key => $value) {
-                     $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050102.803')->whereBetween('vstdate', [$startdate, $enddate])->count();
-                     if ($check == 0) {
-                         Acc_debtor::insert([
-                             'hn'                 => $value->hn,
-                             'an'                 => $value->an,
-                             'vn'                 => $value->vn,
-                             'cid'                => $value->cid,
-                             'ptname'             => $value->ptname,
-                             'pttype'             => $value->pttype,
-                             'vstdate'            => $value->vstdate,
-                             'acc_code'           => $value->acc_code,
-                             'account_code'       => $value->account_code,
-                             'account_name'       => $value->account_name,
-                             'income_group'       => $value->income_group,
-                             'income'             => $value->income,
-                             'uc_money'           => $value->uc_money,
-                             'discount_money'     => $value->discount_money,
-                             'paid_money'         => $value->paid_money,
-                             'rcpt_money'         => $value->rcpt_money,
-                             'debit'              => $value->debit,
-                             'debit_drug'         => $value->debit_drug,
-                             'debit_instument'    => $value->debit_instument,
-                             'debit_toa'          => $value->debit_toa,
-                             'debit_refer'        => $value->debit_refer,
-                             'debit_total'        => $value->debit,
-                             'max_debt_amount'    => $value->max_debt_money,
-                             'acc_debtor_userid'  => Auth::user()->id
-                         ]);
-                     }
+        foreach ($acc_debtor as $key => $value) {
+                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050102.803')->whereBetween('vstdate', [$startdate, $enddate])->count();
+                    if ($check == 0) {
+                        Acc_debtor::insert([
+                            'hn'                 => $value->hn,
+                            'an'                 => $value->an,
+                            'vn'                 => $value->vn,
+                            'cid'                => $value->cid,
+                            'ptname'             => $value->ptname,
+                            'pttype'             => $value->pttype,
+                            'vstdate'            => $value->vstdate,
+                            'acc_code'           => $value->acc_code,
+                            'account_code'       => $value->account_code,
+                            'account_name'       => $value->account_name,
+                            'income_group'       => $value->income_group,
+                            'income'             => $value->income,
+                            'uc_money'           => $value->uc_money,
+                            'discount_money'     => $value->discount_money,
+                            'paid_money'         => $value->paid_money,
+                            'rcpt_money'         => $value->rcpt_money,
+                            'debit'              => $value->debit,
+                            'debit_drug'         => $value->debit_drug,
+                            'debit_instument'    => $value->debit_instument,
+                            'debit_toa'          => $value->debit_toa,
+                            'debit_refer'        => $value->debit_refer,
+                            'debit_total'        => $value->debit,
+                            'max_debt_amount'    => $value->max_debt_money,
+                            'acc_debtor_userid'  => Auth::user()->id
+                        ]);
+                    }
 
-         }
+        }
 
-             return response()->json([
+            return response()->json([
 
-                 'status'    => '200'
-             ]);
-     }
-     public function account_803_stam(Request $request)
-     {
-         $id = $request->ids;
-         $iduser = Auth::user()->id;
-         $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
-             Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))
-                     ->update([
-                         'stamp' => 'Y'
-                     ]);
-         foreach ($data as $key => $value) {
-                 $date = date('Y-m-d H:m:s');
-             //  $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.4011')->where('account_code','1102050101.4011')->count();
-                 $check = Acc_debtor::where('vn', $value->vn)->where('debit_total','=','0')->count();
-                 if ($check > 0) {
-                 # code...
-                 } else {
-                     Acc_1102050102_803::insert([
-                             'vn'                => $value->vn,
-                             'hn'                => $value->hn,
-                             'an'                => $value->an,
-                             'cid'               => $value->cid,
-                             'ptname'            => $value->ptname,
-                             'vstdate'           => $value->vstdate,
-                             'regdate'           => $value->regdate,
-                             'dchdate'           => $value->dchdate,
-                             'pttype'            => $value->pttype,
-                             'pttype_nhso'       => $value->pttype_spsch,
-                             'acc_code'          => $value->acc_code,
-                             'account_code'      => $value->account_code,
-                             'income'            => $value->income,
-                             'income_group'      => $value->income_group,
-                             'uc_money'          => $value->uc_money,
-                             'discount_money'    => $value->discount_money,
-                             'rcpt_money'        => $value->rcpt_money,
-                             'debit'             => $value->debit,
-                             'debit_drug'        => $value->debit_drug,
-                             'debit_instument'   => $value->debit_instument,
-                             'debit_refer'       => $value->debit_refer,
-                             'debit_toa'         => $value->debit_toa,
-                             'debit_total'       => $value->debit,
-                             'max_debt_amount'   => $value->max_debt_amount,
-                             'acc_debtor_userid' => $iduser
-                     ]);
-                 }
+                'status'    => '200'
+            ]);
+    }
+    public function account_803_stam(Request $request)
+    {
+        $id = $request->ids;
+        $iduser = Auth::user()->id;
+        $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
+            Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))
+                    ->update([
+                        'stamp' => 'Y'
+                    ]);
+        foreach ($data as $key => $value) {
+                $date = date('Y-m-d H:m:s');
+            //  $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.4011')->where('account_code','1102050101.4011')->count();
+                $check = Acc_debtor::where('vn', $value->vn)->where('debit_total','=','0')->count();
+                if ($check > 0) {
+                # code...
+                } else {
+                    Acc_1102050102_803::insert([
+                            'vn'                => $value->vn,
+                            'hn'                => $value->hn,
+                            'an'                => $value->an,
+                            'cid'               => $value->cid,
+                            'ptname'            => $value->ptname,
+                            'vstdate'           => $value->vstdate,
+                            'regdate'           => $value->regdate,
+                            'dchdate'           => $value->dchdate,
+                            'pttype'            => $value->pttype,
+                            'pttype_nhso'       => $value->pttype_spsch,
+                            'acc_code'          => $value->acc_code,
+                            'account_code'      => $value->account_code,
+                            'income'            => $value->income,
+                            'income_group'      => $value->income_group,
+                            'uc_money'          => $value->uc_money,
+                            'discount_money'    => $value->discount_money,
+                            'rcpt_money'        => $value->rcpt_money,
+                            'debit'             => $value->debit,
+                            'debit_drug'        => $value->debit_drug,
+                            'debit_instument'   => $value->debit_instument,
+                            'debit_refer'       => $value->debit_refer,
+                            'debit_toa'         => $value->debit_toa,
+                            'debit_total'       => $value->debit,
+                            'max_debt_amount'   => $value->max_debt_amount,
+                            'acc_debtor_userid' => $iduser
+                    ]);
+                }
 
-         }
-         return response()->json([
-             'status'    => '200'
-         ]);
-     }
+        }
+        return response()->json([
+            'status'    => '200'
+        ]);
+    }
 
-     // *************************** account_pk 804 OPD*******************************************
+    // *************************** account_pk 804 OPD*******************************************
 
-     public function account_804_dash(Request $request)
-     {
-         $startdate = $request->startdate;
-         $enddate = $request->enddate;
-         $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
-         $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
-         $date = date('Y-m-d');
-         $y = date('Y') + 543;
-         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
-         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+    public function account_804_dash(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
 
-         if ($startdate == '') {
-             $datashow = DB::select('
-                 SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-                     ,count(distinct a.hn) as hn
-                     ,count(distinct a.vn) as vn
-                     ,sum(a.paid_money) as paid_money
-                     ,sum(a.income) as income
-                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-                     FROM acc_debtor a
-                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                     WHERE a.vstdate between "'.$newyear.'" and "'.$date.'"
-                     and account_code="1102050102.804"
-                     and income <> 0
-                     group by month(a.vstdate) order by month(a.vstdate) desc limit 3;
-             ');
+        if ($startdate == '') {
+            $datashow = DB::select('
+                SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn
+                    ,count(distinct a.vn) as vn
+                    ,sum(a.paid_money) as paid_money
+                    ,sum(a.income) as income
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+                    WHERE a.vstdate between "'.$newyear.'" and "'.$date.'"
+                    and account_code="1102050102.804"
+                    and income <> 0
+                    group by month(a.vstdate) order by month(a.vstdate) desc limit 3;
+            ');
 
-         } else {
-             $datashow = DB::select('
-                 SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-                     ,count(distinct a.hn) as hn
-                     ,count(distinct a.vn) as vn
-                     ,sum(a.paid_money) as paid_money
-                     ,sum(a.income) as income
-                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-                     FROM acc_debtor a
-                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                     WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
-                     and account_code="1102050102.804"
-                     and income <>0
-                     group by month(a.vstdate) order by month(a.vstdate) desc;
-             ');
-         }
+        } else {
+            $datashow = DB::select('
+                SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn
+                    ,count(distinct a.vn) as vn
+                    ,sum(a.paid_money) as paid_money
+                    ,sum(a.income) as income
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+                    WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
+                    and account_code="1102050102.804"
+                    and income <>0
+                    group by month(a.vstdate) order by month(a.vstdate) desc;
+            ');
+        }
 
-         return view('account_pk.account_804_dash',[
-             'startdate'        => $startdate,
-             'enddate'          => $enddate,
-             'leave_month_year' => $leave_month_year,
-             'datashow'         => $datashow,
-             'newyear'          => $newyear,
-             'date'             => $date,
-         ]);
-     }
+        return view('account_pk.account_804_dash',[
+            'startdate'        => $startdate,
+            'enddate'          => $enddate,
+            'leave_month_year' => $leave_month_year,
+            'datashow'         => $datashow,
+            'newyear'          => $newyear,
+            'date'             => $date,
+        ]);
+    }
 
 
     // *************************** account_pkti 4022*******************************************
@@ -4816,79 +4816,79 @@ class AccountPKController extends Controller
         ]);
     }
     public function account_pkti2166_pulldata(Request $request)
-     {
-         $datenow = date('Y-m-d');
-         $startdate = $request->datepicker;
-         $enddate = $request->datepicker2;
-         // Acc_opitemrece::truncate();
-         $acc_debtor = DB::connection('mysql3')->select('
-             SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
-                     ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
-                     ,setdate(o.vstdate) as vstdate,totime(o.vsttime) as vsttime
-                     ,v.hospmain,op.income as income_group
-                     ,o.vstdate as vstdatesave
-                     ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype
-                     ,ptt.pttype_eclaim_id
-                     ,o.pttype
-                     ,e.gf_opd as gfmis,e.code as acc_code
-                     ,e.ar_opd as account_code
-                     ,e.name as account_name
-                     ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
-                     ,v.rcpno_list as rcpno
-                     ,v.income-v.discount_money-v.rcpt_money as debit
-                     ,sum(if(op.income="02",sum_price,0)) as debit_instument
-                     ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
-                     ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
-                     ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
-                     ,ptt.max_debt_money
-             from ovst o
-             left join vn_stat v on v.vn=o.vn
-             left join patient pt on pt.hn=o.hn
-             LEFT JOIN pttype ptt on o.pttype=ptt.pttype
-             LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
-             LEFT JOIN opitemrece op ON op.vn = o.vn
-             WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-             AND ptt.pttype IN("M3","M4")
-             GROUP BY o.vn
-         ');
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->datepicker;
+        $enddate = $request->datepicker2;
+        // Acc_opitemrece::truncate();
+        $acc_debtor = DB::connection('mysql3')->select('
+            SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
+                    ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+                    ,setdate(o.vstdate) as vstdate,totime(o.vsttime) as vsttime
+                    ,v.hospmain,op.income as income_group
+                    ,o.vstdate as vstdatesave
+                    ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype
+                    ,ptt.pttype_eclaim_id
+                    ,o.pttype
+                    ,e.gf_opd as gfmis,e.code as acc_code
+                    ,e.ar_opd as account_code
+                    ,e.name as account_name
+                    ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
+                    ,v.rcpno_list as rcpno
+                    ,v.income-v.discount_money-v.rcpt_money as debit
+                    ,sum(if(op.income="02",sum_price,0)) as debit_instument
+                    ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
+                    ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
+                    ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
+                    ,ptt.max_debt_money
+            from ovst o
+            left join vn_stat v on v.vn=o.vn
+            left join patient pt on pt.hn=o.hn
+            LEFT JOIN pttype ptt on o.pttype=ptt.pttype
+            LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
+            LEFT JOIN opitemrece op ON op.vn = o.vn
+            WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+            AND ptt.pttype IN("M3","M4")
+            GROUP BY o.vn
+        ');
 
-         foreach ($acc_debtor as $key => $value) {
-                     $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.2166')->whereBetween('vstdate', [$startdate, $enddate])->count();
-                     if ($check == 0) {
-                        Acc_debtor::insert([
-                             'hn'                 => $value->hn,
-                             'an'                 => $value->an,
-                             'vn'                 => $value->vn,
-                             'cid'                => $value->cid,
-                             'ptname'             => $value->ptname,
-                             'pttype'             => $value->pttype,
-                             'vstdate'            => $value->vstdatesave,
-                             'acc_code'           => $value->acc_code,
-                             'account_code'       => $value->account_code,
-                             'account_name'       => $value->account_name,
-                             'income_group'       => $value->income_group,
-                             'income'             => $value->income,
-                             'uc_money'           => $value->uc_money,
-                             'discount_money'     => $value->discount_money,
-                             'paid_money'         => $value->paid_money,
-                             'rcpt_money'         => $value->rcpt_money,
-                             'debit'              => $value->debit,
-                             'debit_drug'         => $value->debit_drug,
-                             'debit_instument'    => $value->debit_instument,
-                             'debit_toa'          => $value->debit_toa,
-                             'debit_refer'        => $value->debit_refer,
-                             'debit_total'        => $value->debit,
-                             'max_debt_amount'    => $value->max_debt_money,
-                             'acc_debtor_userid'  => Auth::user()->id
-                         ]);
-                     }
-         }
+        foreach ($acc_debtor as $key => $value) {
+                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.2166')->whereBetween('vstdate', [$startdate, $enddate])->count();
+                    if ($check == 0) {
+                    Acc_debtor::insert([
+                            'hn'                 => $value->hn,
+                            'an'                 => $value->an,
+                            'vn'                 => $value->vn,
+                            'cid'                => $value->cid,
+                            'ptname'             => $value->ptname,
+                            'pttype'             => $value->pttype,
+                            'vstdate'            => $value->vstdatesave,
+                            'acc_code'           => $value->acc_code,
+                            'account_code'       => $value->account_code,
+                            'account_name'       => $value->account_name,
+                            'income_group'       => $value->income_group,
+                            'income'             => $value->income,
+                            'uc_money'           => $value->uc_money,
+                            'discount_money'     => $value->discount_money,
+                            'paid_money'         => $value->paid_money,
+                            'rcpt_money'         => $value->rcpt_money,
+                            'debit'              => $value->debit,
+                            'debit_drug'         => $value->debit_drug,
+                            'debit_instument'    => $value->debit_instument,
+                            'debit_toa'          => $value->debit_toa,
+                            'debit_refer'        => $value->debit_refer,
+                            'debit_total'        => $value->debit,
+                            'max_debt_amount'    => $value->max_debt_money,
+                            'acc_debtor_userid'  => Auth::user()->id
+                        ]);
+                    }
+        }
 
-             return response()->json([
+            return response()->json([
 
-                 'status'    => '200'
-             ]);
-     }
+                'status'    => '200'
+            ]);
+    }
     public function account_pkti2166(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');
@@ -5671,42 +5671,22 @@ class AccountPKController extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate;
         $datashow = DB::connection('mysql')->select('
-            SELECT STMDoc ,SUM(total_approve) as total 
-            FROM acc_stm_ucs WHERE STMDoc LIKE "STM_10978_OPU%" GROUP BY STMDoc'
+            SELECT STMDoc ,SUM(total_approve) as total FROM acc_stm_ucs WHERE STMDoc LIKE "STM_10978_OPU%" GROUP BY STMDoc ORDER BY STMDoc DESC'
         );
         $data['ucs_ipd'] = DB::connection('mysql')->select('
-            SELECT STMDoc ,SUM(total_approve) as total 
-            FROM acc_stm_ucs WHERE STMDoc LIKE "STM_10978_IPU%" GROUP BY STMDoc'
+            SELECT STMDoc ,SUM(total_approve) as total FROM acc_stm_ucs WHERE STMDoc LIKE "STM_10978_IPU%" GROUP BY STMDoc ORDER BY STMDoc DESC'
         );
         // ,(SELECT STMDoc WHERE STMDoc LIKE "STM_10978_IPU%") as STMDoc_ipd
         // ,(SELECT STMDoc WHERE STMDoc LIKE "STM_10978_OPU%") as STMDoc_opd
-        $data['ofc_opd'] = DB::connection('mysql')->select('
-            SELECT STMDoc,SUM(pricereq_all) as total FROM acc_stm_ofc WHERE STMDoc LIKE "STM_10978_OP%" GROUP BY STMDoc
-        ');
-        $data['ofc_ipd'] = DB::connection('mysql')->select('
-            SELECT STMDoc,SUM(pricereq_all) as total FROM acc_stm_ofc WHERE STMDoc LIKE "STM_10978_IP%" GROUP BY STMDoc
-        ');
-        $data['lgo_opd'] = DB::connection('mysql')->select('
-            SELECT STMDoc,SUM(claim_true_af) as total FROM acc_stm_lgo WHERE STMDoc LIKE "eclaim_10978_OP%" GROUP BY STMDoc
-        ');
-        $data['lgo_ipd'] = DB::connection('mysql')->select('
-            SELECT STMDoc,SUM(claim_true_af) as total FROM acc_stm_lgo WHERE STMDoc LIKE "eclaim_10978_IP%" GROUP BY STMDoc
-        ');
-        $data['ucs_ti'] = DB::connection('mysql')->select('
-            SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("WEL","UCS") GROUP BY STMDoc
-        ');
-        $data['ofc_ti'] = DB::connection('mysql')->select('
-            SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("COC") GROUP BY STMDoc
-        ');
-        $data['sss_ti'] = DB::connection('mysql')->select('
-            SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("COS") GROUP BY STMDoc
-        ');
-        $data['lgo_opdti'] = DB::connection('mysql')->select('
-            SELECT STMDoc,SUM(pay_amount) as total FROM acc_stm_lgoti WHERE type LIKE "ผู้ป่วยนอก%" GROUP BY STMDoc
-        ');
-        $data['lgo_ipdti'] = DB::connection('mysql')->select('
-            SELECT STMDoc,SUM(pay_amount) as total FROM acc_stm_lgoti WHERE type LIKE "ผู้ป่วยใน%" GROUP BY STMDoc
-        ');
+        $data['ofc_opd'] = DB::connection('mysql')->select('SELECT STMDoc,SUM(pricereq_all) as total FROM acc_stm_ofc WHERE STMDoc LIKE "STM_10978_OP%" GROUP BY STMDoc ORDER BY STMDoc DESC');
+        $data['ofc_ipd'] = DB::connection('mysql')->select('SELECT STMDoc,SUM(pricereq_all) as total FROM acc_stm_ofc WHERE STMDoc LIKE "STM_10978_IP%" GROUP BY STMDoc ORDER BY STMDoc DESC');
+        $data['lgo_opd'] = DB::connection('mysql')->select('SELECT STMDoc,SUM(claim_true_af) as total FROM acc_stm_lgo WHERE STMDoc LIKE "eclaim_10978_OP%" GROUP BY STMDoc ORDER BY STMDoc DESC');
+        $data['lgo_ipd'] = DB::connection('mysql')->select('SELECT STMDoc,SUM(claim_true_af) as total FROM acc_stm_lgo WHERE STMDoc LIKE "eclaim_10978_IP%" GROUP BY STMDoc ORDER BY STMDoc DESC');
+        $data['ucs_ti'] = DB::connection('mysql')->select('SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("WEL","UCS") GROUP BY STMDoc ORDER BY STMDoc DESC');
+        $data['ofc_ti'] = DB::connection('mysql')->select('SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("COC") GROUP BY STMDoc ORDER BY STMDoc DESC');
+        $data['sss_ti'] = DB::connection('mysql')->select('SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("COS") GROUP BY STMDoc ORDER BY STMDoc DESC');
+        $data['lgo_opdti'] = DB::connection('mysql')->select('SELECT STMDoc,SUM(pay_amount) as total FROM acc_stm_lgoti WHERE type LIKE "ผู้ป่วยนอก%" GROUP BY STMDoc ORDER BY STMDoc DESC');
+        $data['lgo_ipdti'] = DB::connection('mysql')->select('SELECT STMDoc,SUM(pay_amount) as total FROM acc_stm_lgoti WHERE type LIKE "ผู้ป่วยใน%" GROUP BY STMDoc ORDER BY STMDoc DESC');
 
         $countc = DB::table('acc_stm_ucs_excel')->count();
         // dd($countc );
@@ -5728,10 +5708,7 @@ class AccountPKController extends Controller
             where au.STMdoc = "'.$id.'" 
             AND au.claim_true_af IS NOT NULL
         ');
-        $data['lgo_opd'] = DB::connection('mysql')->select('
-            SELECT STMDoc FROM acc_stm_lgo WHERE STMDoc LIKE "eclaim_10978_OP%" GROUP BY STMDoc
-        ');
- 
+        $data['lgo_opd'] = DB::connection('mysql')->select('SELECT STMDoc FROM acc_stm_lgo WHERE STMDoc LIKE "eclaim_10978_OP%" GROUP BY STMDoc ORDER BY STMDoc DESC'); 
         return view('account_pk.upstm_lgo_detail_opd',$data,[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
@@ -5750,10 +5727,7 @@ class AccountPKController extends Controller
             where au.STMdoc = "'.$id.'" 
             AND au.claim_true_af IS NOT NULL
         ');
-        $data['lgo_ipd'] = DB::connection('mysql')->select('
-            SELECT STMDoc FROM acc_stm_lgo WHERE STMDoc LIKE "eclaim_10978_iP%" GROUP BY STMDoc
-        ');
- 
+        $data['lgo_ipd'] = DB::connection('mysql')->select('SELECT STMDoc FROM acc_stm_lgo WHERE STMDoc LIKE "eclaim_10978_IP%" GROUP BY STMDoc ORDER BY STMDoc DESC'); 
         return view('account_pk.upstm_lgo_detail_ipd',$data,[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
@@ -5781,23 +5755,127 @@ class AccountPKController extends Controller
             'countc'        =>     $countc
         ]);
     }
-    public function upstm_ucs_detail(Request $request,$id)
-    {
-        $datenow = date('Y-m-d');
+    public function upstm_ucs_detail_opd(Request $request,$id)
+    { 
         $startdate = $request->startdate;
         $enddate = $request->enddate;
         $datashow = DB::connection('mysql')->select('
-            SELECT rep,vstdate,SUM(ip_paytrue) as Sumprice,STMdoc,month(vstdate) as months
-            FROM acc_stm_ucs
-            GROUP BY rep
-            ');
- 
-        return view('account_pk.upstm_ucs',[
+                SELECT a.vn,a.hn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,b.STMdoc,b.ip_paytrue,b.total_approve
+                from acc_1102050101_201 a
+                LEFT JOIN acc_stm_ucs b ON b.hn = a.hn AND b.vstdate = a.vstdate
+                where b.STMdoc = "'.$id.'" 
+                AND b.total_approve IS NOT NULL
+        ');
+        $data['ucs_opd'] = DB::connection('mysql')->select(' SELECT STMDoc FROM acc_stm_ucs WHERE STMDoc LIKE "STM_10978_OPU%" GROUP BY STMDoc ORDER BY STMDoc DESC');
+        return view('account_pk.upstm_ucs_detail_opd',$data,[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
             'datashow'      =>     $datashow, 
+            'STMDoc'        =>     $id, 
         ]);
     }
+    public function upstm_ucs_detail_ipd(Request $request,$id)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+                SELECT a.an,a.vn,a.hn,a.vstdate,a.dchdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,b.STMdoc,b.ip_paytrue,b.total_approve
+                from acc_1102050101_202 a
+                LEFT JOIN acc_stm_ucs b ON b.an = a.an  
+                where b.STMdoc = "'.$id.'" 
+                AND b.total_approve IS NOT NULL
+        ');
+        $data['ucs_ipd'] = DB::connection('mysql')->select('SELECT STMDoc FROM acc_stm_ucs WHERE STMDoc LIKE "STM_10978_IPU%" GROUP BY STMDoc ORDER BY STMDoc DESC');
+        return view('account_pk.upstm_ucs_detail_ipd',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow, 
+            'STMDoc'        =>     $id, 
+        ]);
+    }
+    public function upstm_ofc_detail_opd(Request $request,$id)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+                SELECT a.vn,a.hn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,b.STMdoc,b.pricereq_all
+                FROM acc_1102050101_401 a
+                LEFT OUTER JOIN acc_stm_ofc b ON b.hn = a.hn AND b.vstdate = a.vstdate
+                WHERE b.STMdoc = "'.$id.'" 
+                AND b.pricereq_all IS NOT NULL 
+        ');
+        $data['ofc_opd'] = DB::connection('mysql')->select('SELECT STMDoc FROM acc_stm_ofc WHERE STMDoc LIKE "STM_10978_OP%" GROUP BY STMDoc ORDER BY STMDoc DESC');
+        return view('account_pk.upstm_ofc_detail_opd',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow, 
+            'STMDoc'        =>     $id, 
+        ]);
+    }
+    public function upstm_ofc_detail_ipd(Request $request,$id)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+                SELECT a.an,a.vn,a.hn,a.vstdate,a.dchdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,b.STMdoc,b.pricereq_all
+                FROM acc_1102050101_402 a
+                LEFT OUTER JOIN acc_stm_ofc b ON b.an = a.an  
+                WHERE b.STMdoc = "'.$id.'" 
+                AND b.pricereq_all IS NOT NULL 
+        ');
+        $data['ofc_ipd'] = DB::connection('mysql')->select('SELECT STMDoc FROM acc_stm_ofc WHERE STMDoc LIKE "STM_10978_IP%" GROUP BY STMDoc ORDER BY STMDoc DESC');
+        return view('account_pk.upstm_ofc_detail_ipd',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow, 
+            'STMDoc'        =>     $id, 
+        ]);
+    }
+    public function upstm_ucs_detail_ti(Request $request,$id)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+                SELECT a.vn,a.hn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,b.STMdoc,b.Total_amount
+                FROM acc_1102050101_2166 a
+                LEFT OUTER JOIN acc_stm_ti_total b ON b.hn = a.hn AND b.vstdate = a.vstdate
+                WHERE b.STMdoc = "'.$id.'"
+                AND b.Total_amount IS NOT NULL 
+        ');
+        $data['ucs_ti'] = DB::connection('mysql')->select('SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("WEL","UCS") GROUP BY STMDoc ORDER BY STMDoc DESC');
+        return view('account_pk.upstm_ucs_detail_ti',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow, 
+            'STMDoc'        =>     $id, 
+        ]);
+    }
+    public function upstm_ofc_detail_ti(Request $request,$id)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+                SELECT a.vn,a.hn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,b.STMdoc,b.Total_amount
+                FROM acc_1102050101_4011 a
+                LEFT OUTER JOIN acc_stm_ti_total b ON b.hn = a.hn AND b.vstdate = a.vstdate
+                WHERE b.STMdoc = "'.$id.'"
+                AND b.Total_amount IS NOT NULL 
+        '); 
+        $data['ofc_ti'] = DB::connection('mysql')->select('SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("COC") GROUP BY STMDoc ORDER BY STMDoc DESC');
+        return view('account_pk.upstm_ofc_detail_ti',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow, 
+            'STMDoc'        =>     $id, 
+        ]);
+    }
+
+
+
+
+
+
+
     function upstm_ucs_excel(Request $request)
     { 
         $this->validate($request, [

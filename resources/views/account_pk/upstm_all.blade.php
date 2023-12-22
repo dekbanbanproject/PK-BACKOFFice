@@ -191,7 +191,9 @@
                                 
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
-                                                                        <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px"> {{ $item->STMDoc }}</td>  
+                                                                        <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px">  
+                                                                            <a href="{{url('upstm_ucs_detail_opd/'.$item->STMDoc)}}"> {{ $item->STMDoc }}</a>  
+                                                                        </td>  
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($item->total, 2) }}</td>
                                                                     </tr>
                                                                 @endforeach
@@ -223,7 +225,9 @@
                                 
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
-                                                                        <td class="text-start" style="color:rgb(252, 53, 129);font-size:15px"> {{ $item_ip->STMDoc }}</td>  
+                                                                        <td class="text-start" style="color:rgb(252, 53, 129);font-size:15px"> 
+                                                                            <a href="{{url('upstm_ucs_detail_ipd/'.$item_ip->STMDoc)}}"> {{ $item_ip->STMDoc }}</a>  
+                                                                        </td>  
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($item_ip->total, 2) }}</td>
                                                                     </tr>
                                                                 @endforeach
@@ -259,7 +263,9 @@
                                 
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
-                                                                        <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px"> {{ $item2->STMDoc }}</td> 
+                                                                        <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px"> 
+                                                                           <a href="{{url('upstm_ofc_detail_opd/'.$item2->STMDoc)}}"> {{ $item2->STMDoc }}</a>  
+                                                                        </td> 
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($item2->total, 2) }}</td>
                                                                     </tr>
                                                                 @endforeach
@@ -290,7 +296,9 @@
                                 
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
-                                                                        <td class="text-start" style="color:rgb(252, 53, 129);font-size:15px"> {{ $item_ofcipd->STMDoc }}</td> 
+                                                                        <td class="text-start" style="color:rgb(252, 53, 129);font-size:15px">
+                                                                            <a href="{{url('upstm_ofc_detail_ipd/'.$item_ofcipd->STMDoc)}}"> {{ $item_ofcipd->STMDoc }}</a>
+                                                                        </td> 
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($item_ofcipd->total, 2) }}</td>
                                                                     </tr>
                                                                 @endforeach
@@ -400,7 +408,9 @@
                                 
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
-                                                                        <td class="text-start" style="color:rgb(107, 67, 250);font-size:15px"> {{ $itemucsti->STMDoc }}</td> 
+                                                                        <td class="text-start" style="color:rgb(107, 67, 250);font-size:15px">
+                                                                            <a href="{{url('upstm_ucs_detail_ti/'.$itemucsti->STMDoc)}}"> {{ $itemucsti->STMDoc }}</a>
+                                                                        </td> 
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($itemucsti->total, 2) }}</td>
                                                                     </tr>
                                                                 @endforeach
@@ -437,7 +447,9 @@
                                 
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
-                                                                        <td class="text-start" style="color:rgb(107, 67, 250);font-size:15px"> {{ $itemofcti->STMDoc }}</td> 
+                                                                        <td class="text-start" style="color:rgb(107, 67, 250);font-size:15px"> 
+                                                                            <a href="{{url('upstm_ofc_detail_ti/'.$itemofcti->STMDoc)}}"> {{ $itemofcti->STMDoc }}</a>
+                                                                        </td> 
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($itemofcti->total, 2) }}</td>
                                                                     </tr>
                                                                 @endforeach
@@ -474,7 +486,9 @@
                                 
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
-                                                                        <td class="text-start" style="color:rgb(107, 67, 250);font-size:15px"> {{ $itemsssti->STMDoc }}</td> 
+                                                                        <td class="text-start" style="color:rgb(107, 67, 250);font-size:15px"> 
+                                                                            <a href="{{url('upstm_sss_detail_ti/'.$itemsssti->STMDoc)}}"> {{ $itemsssti->STMDoc }}</a>
+                                                                        </td> 
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($itemsssti->total, 2) }}</td>
                                                                     </tr>
                                                                 @endforeach
@@ -512,7 +526,9 @@
                                 
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
-                                                                        <td class="text-start" style="color:rgb(107, 67, 250);font-size:15px"> {{ $lgoopdti->STMDoc }}</td> 
+                                                                        <td class="text-start" style="color:rgb(107, 67, 250);font-size:15px"> 
+                                                                            <a href="{{url('upstm_lgo_detail_ti/'.$lgoopdti->STMDoc)}}"> {{ $lgoopdti->STMDoc }}</a>
+                                                                        </td> 
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($lgoopdti->total, 2) }}</td>
                                                                     </tr>
                                                                 @endforeach
@@ -566,74 +582,7 @@
                 <!-- end card -->
             </div>
         </div>
-  
-        {{-- <div class="row">
-
-            <div class="col"></div>
-            <div class="col-xl-8 col-md-6">
-                <div class="main-card card p-3">
-                    <div class="grid-menu-col">
- 
-                        <table id="example" class="table table-striped table-bordered "
-                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">ลำดับ</th>
-                                    <th class="text-center">rep</th>
-                                    <th class="text-center">months</th>
-                                    <th class="text-center">filename</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $number = 0;
-                                $total1 = 0; ?>
-                                @foreach ($datashow as $item)
-                                    <?php $number++; ?>
-
-                                    <tr height="20" style="font-size: 14px;color:rgb(235, 6, 6)">
-                                        <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
-                                        <td class="text-center" width="10%" style="color:rgb(248, 12, 12)"> {{ $item->rep }}</td>
-                                        @if ($item->months == '1')
-                                        <td width="10%" class="text-center" >มกราคม </td>
-                                    @elseif ($item->months == '2')
-                                        <td width="10%" class="text-center">กุมภาพันธ์  </td>
-                                    @elseif ($item->months == '3')
-                                        <td width="10%" class="text-center">มีนาคม  </td>
-                                    @elseif ($item->months == '4')
-                                        <td width="10%" class="text-center">เมษายน </td>
-                                    @elseif ($item->months == '5')
-                                        <td width="10%" class="text-center">พฤษภาคม</td>
-                                    @elseif ($item->months == '6')
-                                        <td width="10%" class="text-center">มิถุนายน </td>
-                                    @elseif ($item->months == '7')
-                                        <td width="10%" class="text-center">กรกฎาคม</td>
-                                    @elseif ($item->months == '8')
-                                        <td width="10%" class="text-center">สิงหาคม </td>
-                                    @elseif ($item->months == '9')
-                                        <td width="10%" class="text-center">กันยายน </td>
-                                    @elseif ($item->months == '10')
-                                        <td width="10%" class="text-center">ตุลาคม </td>
-                                    @elseif ($item->months == '11')
-                                        <td width="10%" class="text-center">พฤษจิกายน </td>
-                                    @else
-                                        <td width="10%" class="text-center">ธันวาคม</td>
-                                    @endif
-                                        <td class="text-end" style="color:rgb(248, 12, 12)" width="7%"> {{ $item->STMdoc }}</td>
-                                    </tr>
-                                @endforeach
-
-                            </tbody> 
-                        </table>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col"></div>
-        </div>
- 
-    </div> --}}
-
+   
 
 @endsection
 @section('footer')
@@ -738,42 +687,7 @@
                 });
             });
 
-            //    $('#UpdateHN').click(function() {
-            //             var datepicker = $('#datepicker').val();
-            //             var datepicker2 = $('#datepicker2').val();
-
-            //             $.ajax({
-            //                 url: "{{ route('acc.upstm_hn') }}",
-            //                 type: "POST",
-            //                 dataType: 'json',
-            //                 data: {
-            //                     datepicker,datepicker2
-            //                 },
-            //                 success: function(data) {
-            //                     if (data.status == 200) {
-            //                         Swal.fire({
-            //                             title: 'อัพเดทข้อมูลสำเร็จ',
-            //                             text: "You Update data success",
-            //                             icon: 'success',
-            //                             showCancelButton: false,
-            //                             confirmButtonColor: '#06D177',
-            //                             confirmButtonText: 'เรียบร้อย'
-            //                         }).then((result) => {
-            //                             if (result
-            //                                 .isConfirmed) {
-            //                                 console.log(
-            //                                     data);
-            //                                 window.location.reload();
-            //                                 // window.location="{{ url('warehouse/warehouse_index') }}";
-            //                             }
-            //                         })
-            //                     } else {
-
-            //                     }
-
-            //                 },
-            //             });
-            //     });
+            
 
         });
     </script>
