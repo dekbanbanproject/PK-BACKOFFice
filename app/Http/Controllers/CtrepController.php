@@ -155,6 +155,92 @@ class CtrepController extends Controller
             'enddate'       =>     $enddate, 
         ]);
     }
+    public function ct_rep_pull(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->datepicker;
+        $enddate = $request->datepicker2;
+        // Acc_opitemrece::truncate();
+        $data_ct = DB::connection('mysql2')->select('
+          
+            SELECT v.vn,ifnull(o.an,"") as an,v.hn,pt.cid as cid
+                ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+                ,v.vstdate as vstdate 
+                ,o.vsttime ,v.hospmain,op.income as income_group  
+                ,ptt.pttype_eclaim_id
+                ,vp.pttype
+                ,e.code as acc_code
+                ,e.ar_opd as account_code
+                ,e.name as account_name
+                ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
+                ,v.rcpno_list as rcpno
+                ,vp.nhso_ownright_pid
+                ,format(vp.nhso_ownright_pid-v.uc_money,2) as sauntang
+                ,v.income-v.discount_money-v.rcpt_money as debit
+                ,"2000" as fokliad
+                ,sum(if(op.income="02",sum_price,0)) as debit_instument
+                ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
+                ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
+                ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
+                ,vp.max_debt_amount
+                from hos.ovst o
+                left join hos.vn_stat v on v.vn=o.vn
+                left join hos.patient pt on pt.hn=o.hn
+                LEFT JOIN hos.visit_pttype vp on vp.vn = v.vn
+                LEFT JOIN hos.pttype ptt on o.pttype=ptt.pttype
+                LEFT JOIN hos.pttype_eclaim e on e.code=ptt.pttype_eclaim_id
+                LEFT JOIN hos.opitemrece op ON op.vn = o.vn
+                WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+                AND vp.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.4011")
+                
+                AND v.income-v.discount_money-v.rcpt_money <> 0
+                and (o.an="" or o.an is null)
+                GROUP BY v.vn 
+            
+        ');
+     
+        foreach ($data_ct as $key => $value) {
+                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.4011')->count();
+                    
+                    if ($check > 0) {
+                  
+                    } else {
+                        Acc_debtor::insert([
+                            'hn'                 => $value->hn,
+                            'an'                 => $value->an,
+                            'vn'                 => $value->vn,
+                            'cid'                => $value->cid,
+                            'ptname'             => $value->ptname,
+                            'pttype'             => $value->pttype,
+                            'vstdate'            => $value->vstdate, 
+                            'acc_code'           => $value->acc_code,
+                            'account_code'       => $value->account_code,
+                            'account_name'       => $value->account_name,
+                            'income_group'       => $value->income_group,
+                            'income'             => $value->income,
+                            'uc_money'           => $value->uc_money,
+                            'discount_money'     => $value->discount_money,
+                            'paid_money'         => $value->paid_money,
+                            'rcpt_money'         => $value->rcpt_money,
+                            'fokliad'            => $value->fokliad,
+                            'debit'              => $value->fokliad,
+                            'debit_drug'         => $value->debit_drug,
+                            'debit_instument'    => $value->debit_instument,
+                            'debit_toa'          => $value->debit_toa,
+                            'debit_refer'        => $value->debit_refer,
+                            'debit_total'        => $value->fokliad,
+                            'max_debt_amount'    => $value->max_debt_amount,
+                            'acc_debtor_userid'  => Auth::user()->id
+                        ]);
+                    }
+                     
+        }
+
+            return response()->json([
+
+                'status'    => '200'
+            ]);
+    }
     public function ct_rep_import(Request $request)
     {
         $datenow = date('Y-m-d');

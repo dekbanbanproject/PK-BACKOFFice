@@ -145,7 +145,7 @@
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-7 text-end">
+            <div class="col-md-6 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control d-shadow" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
@@ -156,10 +156,15 @@
                             <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                             <span class="ladda-spinner"></span>
                         </button> 
-                        <button type="button" class="ladda-button btn-pill btn btn-danger d-shadow Syncdata" data-style="expand-left">
+                        <button type="button" class="ladda-button btn-pill btn btn-info d-shadow" id="Pulldata">
+                            <span class="ladda-label">  <i class="fa-solid fa-file-circle-plus text-white me-2"></i>ดึงข้อมูล</span>
+                            <span class="ladda-spinner"></span>
+                        </button>    
+                     
+                        {{-- <button type="button" class="ladda-button btn-pill btn btn-danger d-shadow Syncdata" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-arrows-rotate text-danger text-white me-2"></i>Sync Data</span>
                             <span class="ladda-spinner"></span>
-                        </button> 
+                        </button>  --}}
                         <button type="button" class="ladda-button btn-pill btn btn-success d-shadow CheckSit" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-user text-danger text-white me-2"></i>Check Sit</span>
                             <span class="ladda-spinner"></span>
@@ -724,6 +729,61 @@
                                 },
                             });
                         }
+                })
+            });
+
+            $('#Pulldata').click(function() {
+                var datepicker = $('#datepicker').val(); 
+                var datepicker2 = $('#datepicker2').val(); 
+                Swal.fire({
+                        title: 'ต้องการดึงข้อมูลใช่ไหม ?',
+                        text: "You Warn Pull Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, pull it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+                                
+                                $.ajax({
+                                    url: "{{ route('ct.ct_rep_pull') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {
+                                        datepicker,
+                                        datepicker2                        
+                                    },
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({
+                                                title: 'ดึงข้อมูลสำเร็จ',
+                                                text: "You Pull data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+                                        } else {
+                                            
+                                        }
+                                    },
+                                });
+                                
+                            }
                 })
             });
 

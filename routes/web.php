@@ -2465,6 +2465,7 @@ Route::match(['get','post'],'report_dep',[App\Http\Controllers\PersonController:
 // Route::match(['get','post'],'equipment_spsch/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'equipment_spsch'])->name('pt.equipment_spsch');//
 // Route::match(['get','post'],'equipment_nokey/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'equipment_nokey'])->name('pt.equipment_nokey');//
 Route::match(['get','post'],'ct_rep',[App\Http\Controllers\CtrepController::class, 'ct_rep'])->name('ct.ct_rep');//
+Route::match(['get','post'],'ct_rep_pull',[App\Http\Controllers\CtrepController::class, 'ct_rep_pull'])->name('ct.ct_rep_pull');//
 Route::match(['get','post'],'ct_rep_ipd',[App\Http\Controllers\CtrepController::class, 'ct_rep_ipd'])->name('ct.ct_rep_ipd');//
 Route::match(['get','post'],'ct_rep_pay',[App\Http\Controllers\CtrepController::class, 'ct_rep_pay'])->name('ct.ct_rep_pay');//
 Route::match(['get','post'],'ct_rep_edit/{id}',[App\Http\Controllers\CtrepController::class, 'ct_rep_edit'])->name('ct.ct_rep_edit');//
