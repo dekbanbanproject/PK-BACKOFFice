@@ -5717,6 +5717,27 @@ class AccountPKController extends Controller
             'countc'        =>     $countc
         ]);
     }
+    public function upstm_lgo_detail_opd(Request $request,$id)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+            SELECT a.vn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,au.STMdoc,au.claim_true_af
+            from acc_1102050102_801 a
+            LEFT JOIN acc_stm_lgo au ON au.cid_f = a.cid AND au.vstdate_i = a.vstdate 
+            where au.STMdoc = "eclaim_10978_OPLGO_25660306_122749000.xls" 
+            AND au.claim_true_af IS NOT NULL
+        ');
+        $data['lgo_opd'] = DB::connection('mysql')->select('
+            SELECT STMDoc FROM acc_stm_lgo WHERE STMDoc LIKE "eclaim_10978_OP%" GROUP BY STMDoc
+        ');
+ 
+        return view('account_pk.upstm_lgo_detail_opd',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow, 
+        ]);
+    }
     public function upstm_ucs(Request $request)
     {
         $datenow = date('Y-m-d');
@@ -5735,6 +5756,23 @@ class AccountPKController extends Controller
             'enddate'       =>     $enddate,
             'datashow'      =>     $datashow,
             'countc'        =>     $countc
+        ]);
+    }
+    public function upstm_ucs_detail(Request $request,$id)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+            SELECT rep,vstdate,SUM(ip_paytrue) as Sumprice,STMdoc,month(vstdate) as months
+            FROM acc_stm_ucs
+            GROUP BY rep
+            ');
+ 
+        return view('account_pk.upstm_ucs',[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow, 
         ]);
     }
     function upstm_ucs_excel(Request $request)

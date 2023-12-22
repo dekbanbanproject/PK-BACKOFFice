@@ -680,7 +680,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     </li>
                                 </ul>
                             </li>
-                            <li>
+                            {{-- <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">
                                     <i class="fa-solid fa-chart-line text-info"></i>
                                     <span>STM report</span>
@@ -690,7 +690,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     <li><a href="{{ url('acc_stm') }}">เทียบ stm</a></li>
                                     <li><a href="{{ url('acc_repstm') }}">report stm ไต</a></li>
                                 </ul>
-                            </li>
+                            </li> --}}
                         @endif
 
                         

@@ -152,7 +152,7 @@
                         {{-- btn-shadow btn-dashed btn btn-outline-info bt mb-2 --}} 
                         {{-- <button type="button" class="btn btn-info btn-rounded waves-effect waves-light">Info</button> --}}
                         <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-1">
                                 {{-- <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical"> --}}
                                 <div class="nav flex-column" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                                 <a class="nav-link btn btn-info btn-rounded waves-effect waves-light mb-2 active" id="v-pills-ucs-tab" data-bs-toggle="pill" href="#v-pills-ucs" role="tab" aria-controls="v-pills-ucs" aria-selected="true">UCS</a>
@@ -165,7 +165,7 @@
                                 {{-- <a class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a> --}}
                                 </div>  
                             </div>
-                            <div class="col-md-10">
+                            <div class="col-md-11">
                                 <div class="tab-content text-muted mt-4 mt-md-0" id="v-pills-tabContent">
                                     <div class="tab-pane fade show active" id="v-pills-ucs" role="tabpanel" aria-labelledby="v-pills-ucs-tab">
                                         <div class="row"> 
@@ -327,7 +327,10 @@
                                 
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
-                                                                        <td class="text-start" style="color:rgb(107, 67, 250);font-size:15px"> {{ $item3->STMDoc }}</td> 
+                                                                        <td class="text-start" style="color:rgb(107, 67, 250);font-size:15px"> 
+                                                                          <a href="{{url('upstm_lgo_detail_opd/'.$item3->STMDoc)}}"> {{ $item3->STMDoc }}</a>  
+                                                                           
+                                                                        </td> 
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($item3->total, 2) }}</td>
                                                                     </tr>
                                                                 @endforeach
