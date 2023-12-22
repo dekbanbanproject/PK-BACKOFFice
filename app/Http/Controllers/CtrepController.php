@@ -63,7 +63,7 @@ use App\Models\D_apiofc_opd;
 use App\Models\D_apiofc_orf;
 use App\Models\Book_send_person;
 use App\Models\Book_sendteam;
-use App\Models\Bookrepdelete;
+use App\Models\A_ct;
 
 use App\Models\D_ins;
 use App\Models\D_pat;
@@ -200,12 +200,12 @@ class CtrepController extends Controller
         ');
      
         foreach ($data_ct as $key => $value) {
-                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.4011')->count();
+                    $check = A_ct::where('vn', $value->vn)->count();
                     
                     if ($check > 0) {
                   
                     } else {
-                        Acc_debtor::insert([
+                        A_ct::insert([
                             'hn'                 => $value->hn,
                             'an'                 => $value->an,
                             'vn'                 => $value->vn,
