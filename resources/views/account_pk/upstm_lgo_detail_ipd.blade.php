@@ -157,7 +157,7 @@
                 <div class="col-md-3">                               
                     <div class="nav flex-column" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                         <div class="card p-4 card-lgo">
-                            <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL LGO OPD </h4>
+                            <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL LGO IPD </h4>
                             <div class="table-responsive">
                                 <table id="example" class="table table-striped table-bordered "
                                     style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -169,11 +169,11 @@
                                     <tbody>
                                         <?php $number = 0;
                                         $total1 = 0; ?>
-                                        @foreach ($lgo_opd as $item_1)
+                                        @foreach ($lgo_ipd as $item_1)
                                             <?php $number++; ?> 
                                             <tr height="20"> 
                                                 <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px"> 
-                                                    <a href="{{url('upstm_lgo_detail_opd/'.$item_1->STMDoc)}}"> {{ $item_1->STMDoc }}</a>  
+                                                    <a href="{{url('upstm_lgo_detail_ipd/'.$item_1->STMDoc)}}"> {{ $item_1->STMDoc }}</a>  
                                                 </td>   
                                             </tr>
                                         @endforeach 
@@ -190,7 +190,7 @@
                             <div class="row"> 
                                 <div class="col-md-12">
                                     <div class="card p-4 card-lgo">
-                                        <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL LGO OPD :::: >> {{$STMDoc}}</h4>
+                                        <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL LGO IPD :::: >> {{$STMDoc}}</h4>
                                         <div class="table-responsive">
                                             {{-- <table id="example2" class="table table-striped table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                                                 <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
@@ -198,8 +198,8 @@
                                                 <thead>
                                                     <tr>
                                                         <th class="text-center">ลำดับ</th> 
-                                                        <th class="text-center">vn</th> 
-                                                        <th class="text-center">hn</th>
+                                                        <th class="text-center">an</th> 
+                                                        <th class="text-center">hn</th> 
                                                         <th class="text-center">cid</th> 
                                                         <th class="text-center">vstdate</th> 
                                                         <th class="text-center">ptname</th> 
@@ -215,7 +215,7 @@
                                                         <?php $number++; ?>                    
                                                         <tr height="20">
                                                             <td class="text-center" width="4%">{{ $number }}</td>
-                                                            <td class="text-center" width="7%">{{ $item->vn }}</td>
+                                                            <td class="text-center" width="7%">{{ $item->an }}</td>
                                                             <td class="text-center" width="7%">{{ $item->hn }}</td>
                                                             <td class="text-center" width="7%">{{ $item->cid }}</td>
                                                             <td class="text-center" width="7%">{{ $item->vstdate }}</td>
@@ -229,7 +229,7 @@
                                                                 $total1 = $total1 + $item->income;
                                                                 $total2 = $total2 + $item->debit_total;
                                                                 $total3 = $total3 + $item->claim_true_af; 
-                                                                $total4 = $total4 + $item->price1_k; 
+                                                                $total4 = $total4 + $item->price1_k;
                                                         ?> 
                                                     @endforeach                    
                                                 </tbody> 
@@ -247,8 +247,7 @@
                                     
                             </div> 
                         </div>
-
-                        
+ 
                     </div>
                 </div>
             </div>

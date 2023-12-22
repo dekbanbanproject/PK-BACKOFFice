@@ -5722,10 +5722,10 @@ class AccountPKController extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate;
         $datashow = DB::connection('mysql')->select('
-            SELECT a.vn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,au.STMdoc,au.claim_true_af
+            SELECT a.vn,a.vstdate,a.hn,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,au.STMdoc,au.claim_true_af,au.price1_k
             from acc_1102050102_801 a
-            LEFT JOIN acc_stm_lgo au ON au.cid_f = a.cid AND au.vstdate_i = a.vstdate 
-            where au.STMdoc = "eclaim_10978_OPLGO_25660306_122749000.xls" 
+            LEFT OUTER JOIN acc_stm_lgo au ON au.cid_f = a.cid AND au.vstdate_i = a.vstdate 
+            where au.STMdoc = "'.$id.'" 
             AND au.claim_true_af IS NOT NULL
         ');
         $data['lgo_opd'] = DB::connection('mysql')->select('
@@ -5736,6 +5736,29 @@ class AccountPKController extends Controller
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
             'datashow'      =>     $datashow, 
+            'STMDoc'        =>     $id, 
+        ]);
+    }
+    public function upstm_lgo_detail_ipd(Request $request,$id)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+            SELECT a.vn,a.an,a.hn,a.vstdate,a.dchdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,au.STMdoc,au.claim_true_af,au.price1_k
+            from acc_1102050102_802 a
+            LEFT OUTER JOIN acc_stm_lgo au ON au.an_e = a.an  
+            where au.STMdoc = "'.$id.'" 
+            AND au.claim_true_af IS NOT NULL
+        ');
+        $data['lgo_ipd'] = DB::connection('mysql')->select('
+            SELECT STMDoc FROM acc_stm_lgo WHERE STMDoc LIKE "eclaim_10978_iP%" GROUP BY STMDoc
+        ');
+ 
+        return view('account_pk.upstm_lgo_detail_ipd',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow, 
+            'STMDoc'        =>     $id, 
         ]);
     }
     public function upstm_ucs(Request $request)

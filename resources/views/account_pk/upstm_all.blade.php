@@ -361,7 +361,9 @@
                             
                                                                 <tr height="20">
                                                                     <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
-                                                                    <td class="text-start" style="color:rgb(252, 53, 129);font-size:15px"> {{ $item_lgoi->STMDoc }}</td> 
+                                                                    <td class="text-start" style="color:rgb(252, 53, 129);font-size:15px"> 
+                                                                         <a href="{{url('upstm_lgo_detail_ipd/'.$item_lgoi->STMDoc)}}"> {{ $item_lgoi->STMDoc }}</a> 
+                                                                    </td> 
                                                                     <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($item_lgoi->total, 2) }}</td>
                                                                 </tr>
                                                             @endforeach
