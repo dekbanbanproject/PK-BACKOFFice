@@ -146,13 +146,13 @@
                 <div class="col"></div> 
                 <div class="col-md-2 text-end">
                     <a href="{{url('upstm_all')}}" class="ladda-button btn-pill btn btn-primary d-shadow me-2 ms-4" data-style="expand-left">
-                        <span class="ladda-label"> <i class="fa-solid fa-user text-primary text-white me-2"></i>Back</span>
+                        <span class="ladda-label"> <i class="far fa-arrow-alt-circle-left text-primary text-white me-2"></i>Back</span>
                         <span class="ladda-spinner"></span>
                     </a> 
                 </div>
             </div>  
 
-     
+         
             <div class="row">
                 <div class="col-md-3">                               
                     <div class="nav flex-column" id="v-pills-tab" role="tablist" aria-orientation="vertical">
