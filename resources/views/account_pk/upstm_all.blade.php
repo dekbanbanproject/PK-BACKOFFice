@@ -426,9 +426,9 @@
 
                                     <div class="tab-pane fade" id="v-pills-ofcti" role="tabpanel" aria-labelledby="v-pills-ofcti-tab">
                                         <div class="row">
-                                            <div class="col-md-8"> 
+                                            <div class="col-md-6"> 
                                                 <div class="card p-4 card-ofcti">
-                                                    <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL OFC TI</h4>
+                                                    <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL OFC TI OPD</h4>
                                                     <div class="table-responsive">
                                                         <table id="example8" class="table table-striped table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                                             <thead>
@@ -442,7 +442,7 @@
                                                             <tbody>
                                                                 <?php $number = 0;
                                                                 $total1 = 0; ?>
-                                                                @foreach ($ofc_ti as $itemofcti)
+                                                                @foreach ($ofc_ti_opd as $itemofcti)
                                                                     <?php $number++; ?>
                                 
                                                                     <tr height="20">
@@ -451,6 +451,39 @@
                                                                             <a href="{{url('upstm_ofc_detail_ti/'.$itemofcti->STMDoc)}}"> {{ $itemofcti->STMDoc }}</a>
                                                                         </td> 
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($itemofcti->total, 2) }}</td>
+                                                                    </tr>
+                                                                @endforeach
+                                
+                                                            </tbody> 
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6"> 
+                                                <div class="card p-4 card-ofcti">
+                                                    <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL OFC TI IPD</h4>
+                                                    <div class="table-responsive">
+                                                        <table id="example13" class="table table-striped table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-center">ลำดับ</th> 
+                                                                    <th class="text-center">STMDoc</th>
+                                                                    <th class="text-center">total</th>
+                                
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php $number = 0;
+                                                                $total1 = 0; ?>
+                                                                @foreach ($ofc_ti_ipd as $itemofcti_i)
+                                                                    <?php $number++; ?>
+                                
+                                                                    <tr height="20">
+                                                                        <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
+                                                                        <td class="text-start" style="color:rgb(107, 67, 250);font-size:15px"> 
+                                                                            <a href="{{url('upstm_ofc_detail_ti_ipd/'.$itemofcti_i->STMDoc)}}"> {{ $itemofcti_i->STMDoc }}</a>
+                                                                        </td> 
+                                                                        <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($itemofcti_i->total, 2) }}</td>
                                                                     </tr>
                                                                 @endforeach
                                 
@@ -600,6 +633,11 @@
             $('#example9').DataTable();
             $('#example10').DataTable();
             $('#example11').DataTable();
+            $('#example12').DataTable();
+            $('#example13').DataTable();
+            $('#example14').DataTable();
+            $('#example15').DataTable();
+            $('#example16').DataTable();
 
             $('#datepicker').datepicker({
                 format: 'yyyy-mm-dd'

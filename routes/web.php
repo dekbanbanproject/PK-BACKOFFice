@@ -1681,6 +1681,7 @@ Route::middleware(['type'])->group(function(){
 
     Route::match(['get','post'],'upstm_ucs_detail_ti/{id}',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_detail_ti'])->name('acc.upstm_ucs_detail_ti');//
     Route::match(['get','post'],'upstm_ofc_detail_ti/{id}',[App\Http\Controllers\AccountPKController::class, 'upstm_ofc_detail_ti'])->name('acc.upstm_ofc_detail_ti');//
+    Route::match(['get','post'],'upstm_ofc_detail_ti_ipd/{id}',[App\Http\Controllers\AccountPKController::class, 'upstm_ofc_detail_ti_ipd'])->name('acc.upstm_ofc_detail_ti_ipd');//
     Route::match(['get','post'],'upstm_sss_detail_ti/{id}',[App\Http\Controllers\AccountPKController::class, 'upstm_sss_detail_ti'])->name('acc.upstm_sss_detail_ti');//
     Route::match(['get','post'],'upstm_lgo_detail_ti/{id}',[App\Http\Controllers\AccountPKController::class, 'upstm_lgo_detail_ti'])->name('acc.upstm_lgo_detail_ti');//
     
