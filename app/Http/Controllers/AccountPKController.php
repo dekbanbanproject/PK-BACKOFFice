@@ -5889,6 +5889,62 @@ class AccountPKController extends Controller
             'STMDoc'        =>     $id, 
         ]);
     }
+    public function upstm_lgo_detail_ti(Request $request,$id)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+                SELECT a.vn,a.hn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,b.STMdoc,b.pay_amount
+                FROM acc_1102050102_8011 a
+                LEFT OUTER JOIN acc_stm_lgoti b ON b.hn = a.hn AND b.vstdate = a.vstdate
+                WHERE b.STMdoc = "'.$id.'"
+                AND b.pay_amount IS NOT NULL 
+        '); 
+        $data['lgo_ti_opd'] = DB::connection('mysql')->select('SELECT STMDoc,SUM(pay_amount) as total FROM acc_stm_lgoti WHERE type LIKE "ผู้ป่วยนอก%" GROUP BY STMDoc ORDER BY STMDoc DESC');
+        return view('account_pk.upstm_lgo_detail_ti',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow, 
+            'STMDoc'        =>     $id, 
+        ]);
+    }
+    public function upstm_lgo_detail_ti_ipd(Request $request,$id)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+            SELECT * FROM acc_stm_lgoti 
+                WHERE STMdoc = "'.$id.'" 
+                AND type = "ผู้ป่วยใน"
+                 
+        '); 
+        $data['lgo_ti_ipd'] = DB::connection('mysql')->select('SELECT STMDoc,SUM(pay_amount) as total FROM acc_stm_lgoti WHERE type LIKE "ผู้ป่วยใน%" GROUP BY STMDoc ORDER BY STMDoc DESC');
+        return view('account_pk.upstm_lgo_detail_ti_ipd',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow, 
+            'STMDoc'        =>     $id, 
+        ]);
+    }
+    public function upstm_sss_detail_ti(Request $request,$id)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+                SELECT a.vn,a.hn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,b.STMdoc,b.Total_amount
+                FROM acc_1102050101_3099 a
+                LEFT OUTER JOIN acc_stm_ti_total b ON b.hn = a.hn AND b.vstdate = a.vstdate
+                WHERE b.STMdoc = "'.$id.'"
+                AND b.Total_amount IS NOT NULL 
+        '); 
+        $data['sss_ti'] = DB::connection('mysql')->select('SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("COS") GROUP BY STMDoc ORDER BY STMDoc DESC');
+        return view('account_pk.upstm_sss_detail_ti',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow, 
+            'STMDoc'        =>     $id, 
+        ]);
+    }
 
 
 
