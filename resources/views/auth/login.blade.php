@@ -1024,6 +1024,7 @@
            <script src="{{ asset('Login_v1/js/main.js') }}"></script>
       <!--===============================================================================================-->
     <script>
+        
         $(document).ready(function() {
             $('#example').DataTable();
             $('#example2').DataTable();
@@ -1108,11 +1109,7 @@
             });
              
         });
-
        
-        
-
-        
     </script>
 </body>
 
