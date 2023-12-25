@@ -1933,12 +1933,12 @@ class PPfs30011Controller extends Controller
                     }                     
                     // if(rmdir($pathdir)){ // ลบ folder ใน export                    
                     // }                    
-                    return redirect()->route('data.ANC_claim');                    
+                    return redirect()->route('data.ppfs_30011');                    
                 }
         }
 
 
-            return redirect()->route('data.six');
+            return redirect()->route('data.ppfs_30011');
 
     }
 

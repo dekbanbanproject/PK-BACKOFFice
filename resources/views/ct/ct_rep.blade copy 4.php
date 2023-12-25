@@ -212,21 +212,15 @@
                                                 {{-- <td class="text-center" width="10%">{{ number_format($item->total_price_check, 2) }}</td>  
                                                 <td class="text-center" width="10%">{{ number_format($item->opaque_price, 2) }}</td>  
                                                 <td class="text-center" width="10%">{{ number_format($item->before_price, 2) }}</td>   --}}
-                                                <td class="text-center" width="7%">
-                                                    <button type="button" style="width: 100%" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#MoneyModal_2{{ $item->vn }}" data-bs-toggle="tooltip" data-bs-placement="right" title="รายละเอียด"> 
+                                                <td class="text-center" width="10%">
+                                                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#MoneyModal_2{{ $item->vn }}" data-bs-toggle="tooltip" data-bs-placement="right" title="รายละเอียด"> 
                                                         <i class="fa fa-lungs-virus" style="font-size:17px;color: rgb(255, 34, 89)"></i> 
                                                         {{ number_format($item->sum_price, 2) }}
                                                     </button> 
-                                                </td>  
-                                                @if ($item->active == 'Y')
-                                                    <td class="text-center" style="color:rgb(247, 34, 98)" width="5%"> 
-                                                        <span class="bg-success badge me-2">{{ $item->active }}</span> 
-                                                    </td> 
-                                                @else
-                                                    <td class="text-center" style="color:rgb(247, 34, 98)" width="5%">  
-                                                        <span class="bg-danger badge me-2">{{ $item->active }}</span> 
-                                                    </td> 
-                                                @endif
+                                                </td> 
+                                                {{-- <td class="text-center" width="10%">{{ number_format($item->paid, 2) }}</td> 
+                                                <td class="text-center" width="10%">{{ number_format($item->remain, 2) }}</td>   --}}
+                                                <td class="text-center" style="color:rgb(247, 34, 98)" width="10%">{{ $item->active }}</td> 
                                             </tr>
 
                                             <?php 
@@ -271,18 +265,64 @@
                                                                     <div class="col-md-1 text-start">{{ $v->qty}}</div> 
                                                                     <div class="col-md-1 text-center">{{ number_format($v->unitprice, 2) }}</div>
                                                                     <div class="col-md-1 text-center">{{ number_format($v->sum_price, 2) }}</div>
-                                                                   
+                                                                    {{-- @if ($v->total_price_check == '')
+                                                                    <div class="col-md-1 text-center">0.00</div> 
+                                                                    @else
+                                                                    <div class="col-md-1 text-center">{{ number_format($v->total_price_check, 2) }}</div> 
+                                                                    @endif
+
+                                                                    @if ($v->opaque_price == '')
+                                                                        <div class="col-md-1 text-center">0.00</div> 
+                                                                    @else
+                                                                        <div class="col-md-1 text-center">{{ number_format($v->opaque_price, 2) }}</div> 
+                                                                    @endif
+                                                                    
+                                                                    @if ($v->before_price =='')
+                                                                        <div class="col-md-1 text-center">0.00</div>
+                                                                    @else
+                                                                        <div class="col-md-1 text-center">{{ number_format($v->before_price, 2) }}</div>
+                                                                    @endif 
+
+                                                                    @if ($v->total =='')
+                                                                        <div class="col-md-1 text-center">0.00</div>
+                                                                    @else
+                                                                        <div class="col-md-1 text-center">{{ number_format($v->total, 0) }}</div>
+                                                                    @endif
+
+                                                                    @if ($v->sumprice =='')
+                                                                        <div class="col-md-1 text-center">0.00</div>
+                                                                    @else
+                                                                        <div class="col-md-1 text-center">{{ number_format($v->sumprice, 2) }}</div>
+                                                                    @endif
+
+                                                                    @if ($v->paid =='')
+                                                                        <div class="col-md-1 text-center">0.00</div>
+                                                                    @else
+                                                                        <div class="col-md-1 text-center">{{ number_format($v->paid, 2) }}</div>
+                                                                    @endif
+
+                                                                    @if ($v->remain =='')
+                                                                        <div class="col-md-1 text-center">0.00</div>
+                                                                    @else
+                                                                        <div class="col-md-1 text-center">{{ number_format($v->remain, 2) }}</div>
+                                                                    @endif  --}}
                                                                     <div class="col"></div>
                                                                 </div>
                                                             @endforeach 
                                                             <hr>
                                                             <form class="custom-validation" action="{{ route('ct.ct_rep_confirm') }}" method="POST" enctype="multipart/form-data">
                                                             @csrf
-                         
+                        
+                                                            {{-- <form action="{{ route('ct.ct_rep_confirm') }}" method="POST" id="Comfirmfinish">
+                                                                @csrf --}}
                                                                 <input type="hidden" id="vn" name="vn" value="{{ $item->vn }}">
                                                                 <div class="row mt-5">
                                                                     <div class="col"></div>
-                                                                    <div class="col-md-2"> 
+                                                                    <div class="col-md-2">
+                                                                        {{-- <button type="button" class="ladda-button btn-pill btn btn-success d-shadow Finish me-3 ms-2" data-style="expand-left" style="width: 150px">
+                                                                            <span class="ladda-label me-2"> <i class="fa-solid fa-user text-danger text-white me-2 ms-2"></i>Finish</span>
+                                                                            <span class="ladda-spinner"></span>
+                                                                        </button> --}}
                                                                         <button type="submit" class="ladda-button btn-pill btn btn-success d-shadow me-3 ms-2" data-style="expand-left" style="width: 150px">
                                                                             <span class="ladda-label me-2"> <i class="fa-solid fa-user text-danger text-white me-2 ms-2"></i>Finish</span>
                                                                             <span class="ladda-spinner"></span>

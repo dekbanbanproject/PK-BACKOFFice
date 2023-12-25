@@ -217,14 +217,20 @@
                                                         <i class="fa fa-lungs-virus" style="font-size:17px;color: rgb(255, 34, 89)"></i> 
                                                         {{ number_format($item->sum_price, 2) }}
                                                     </button> 
-                                                </td>  
+                                                </td> 
+                                                {{-- <td class="text-center" width="10%">{{ number_format($item->paid, 2) }}</td> 
+                                                <td class="text-center" width="10%">{{ number_format($item->remain, 2) }}</td>   --}}
+                                                {{-- <td class="text-center" style="color:rgb(247, 34, 98)" width="10%">{{ $item->active }}</td>  --}}
                                                 @if ($item->active == 'Y')
                                                     <td class="text-center" style="color:rgb(247, 34, 98)" width="5%"> 
-                                                        <span class="bg-success badge me-2">{{ $item->active }}</span> 
+                                                        <span class="bg-success badge me-2">{{ $item->active }}</span>
+                                                        {{-- <span class="mdi mdi-circle-outline text-info float-end">{{ $item->active }} </span>  --}}
                                                     </td> 
                                                 @else
-                                                    <td class="text-center" style="color:rgb(247, 34, 98)" width="5%">  
-                                                        <span class="bg-danger badge me-2">{{ $item->active }}</span> 
+                                                    <td class="text-center" style="color:rgb(247, 34, 98)" width="5%"> 
+                                                        {{-- <span class="star-toggle far fa-star">{{ $item->active }}</span> --}}
+                                                        <span class="bg-danger badge me-2">{{ $item->active }}</span>
+                                                        {{-- <span class="mdi mdi-circle-outline text-danger float-end">{{ $item->active }} </span>   --}}
                                                     </td> 
                                                 @endif
                                             </tr>

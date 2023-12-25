@@ -29,6 +29,7 @@ return new class extends Migration
                 $table->string('cardno')->nullable();// เลขที่บัตร
                 $table->string('ward')->nullable();// แผนก
                 $table->string('service')->nullable();// Service
+                $table->string('icode_hos')->nullable();// 
                 $table->string('ct_check')->nullable();//   ส่วนตรวจ
                 $table->string('price_check')->nullable();// ค่าตรวจ
                 $table->string('total_price_check')->nullable();// รวมค่าตรวจ

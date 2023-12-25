@@ -30,6 +30,7 @@ class A_stm_ct_excel extends Authenticatable
         'cardno',
         'ward',
         'service',
+        'icode_hos',
         'ct_check',
         'price_check',
         'total_price_check',

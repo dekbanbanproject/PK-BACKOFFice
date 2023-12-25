@@ -10,20 +10,21 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class A_ct extends Authenticatable
+class A_ct_item extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'a_ct'; 
-    // protected $primaryKey = 'a_ct_id';
+    protected $table = 'a_ct_item'; 
+    // protected $primaryKey = 'a_ct_item_id';
     protected $fillable = [
         'vn', 
         'hn', 
         'cid',
         'vstdate', 
-        'ptname', 
-        'pttype', 
+        'icode', 
+        'ctname', 
         'qty',
+        'unitprice',
         'sum_price',
         'user_id' 
     ];
