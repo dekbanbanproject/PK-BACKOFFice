@@ -189,6 +189,7 @@ iframe {
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 177px 130px 33px 95px;
+  
 }
 
 /*------------------------------------------------------------------
@@ -206,6 +207,7 @@ iframe {
 [  ]*/
 .login100-form {
   width: 190px;
+  
 }
 
 .login100-form-title {

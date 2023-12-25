@@ -53,11 +53,12 @@
     <!--===============================================================================================-->
         <link rel="stylesheet" type="text/css" href="{{ asset('Login_v1/css/util.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('Login_v1/css/main.css') }}">
+        {{-- <link rel="stylesheet" href="{{ asset('css/dcss.css') }}"> --}}
    
 </head>
 <style>
     .modal-dialog {
-            max-width: 80%;
+            max-width: 50%;
         }
 
         .modal-dialog-slideout {
@@ -66,9 +67,13 @@
             background: #fff;
         }
 
-        .modal.fade .modal-dialog.modal-dialog-slideout {
+        /* .modal.fade .modal-dialog.modal-dialog-slideout {
             -webkit-transform: translate(100%, 0)scale(1);
             transform: translate(100%, 0)scale(1);
+        } */
+        .modal.fade .modal-dialog.modal-dialog-slideout {
+            -webkit-transform: translate(100%, 0)scale(30);
+            transform: translate(100%, 0)scale(5);
         }
 
         .modal.fade.show .modal-dialog.modal-dialog-slideout {
@@ -104,6 +109,10 @@
             /* display: flex; */
             /* align-items: center; */
             /* justify-content: center; */
+        }
+        .dcheckbox{        
+            border: 30px solid teal; 
+            box-shadow: 0 0 10px teal; 
         }
 </style>
 
@@ -910,6 +919,7 @@
                                    
                         <div class="limiter">
                             <div class="container-login100">
+                                {{-- <div class="wrap-login100 dcheckbox"> --}}
                                 <div class="wrap-login100">
                                     <div class="login100-pic js-tilt" data-tilt> 
                                         <img src="{{ asset('images/team.png') }}" width="500" height="250" alt="IMG">
