@@ -232,7 +232,7 @@ class CtrepController extends Controller
                                     'qty'                => $value2->qty,
                                     'unitprice'          => $value2->unitprice,
                                     'sum_price'          => $value2->sum_price,  
-                                    'userid'             => Auth::user()->id
+                                    'user_id'             => Auth::user()->id
                                 ]); 
                             }
                             
@@ -684,10 +684,12 @@ class CtrepController extends Controller
             ,other_price,total_other_price,before_price,discount,vat,total,sumprice,paid,remain,STMDoc
             FROM a_stm_ct_excel
             WHERE ct_date BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-            GROUP BY cid,ct_date,icode_hos
+           
         ');
+        // GROUP BY cid,ct_date,icode_hos
         foreach ($data_sync_excel as $key => $value) {
-            $count = A_ct_item::where('vstdate',$value->ct_date)->where('cid',$value->cid)->where('xray_items_code',$value->icode_hos)->count();
+            // $count = A_ct_item::where('vstdate',$value->ct_date)->where('cid',$value->cid)->where('xray_items_code',$value->icode_hos)->count();
+            $count = A_ct_item::where('vstdate',$value->ct_date)->where('cid',$value->cid)->count();
             // dd($count);
             if ($count > 1) {
                 A_ct_item::where('vstdate',$value->ct_date)->where('cid',$value->cid)->where('xray_items_code',$value->icode_hos)->update([
@@ -741,6 +743,11 @@ class CtrepController extends Controller
                     'user_id'             => Auth::user()->id
                 ]); 
             }
+
+            A_ct::where('vstdate',$value->ct_date)->where('cid',$value->cid)->where('xray_items_code',$value->icode_hos)->update([
+                
+                'STMDoc'             =>  $value->STMDoc,
+            ]);
             
         }
         // ***** OPD *****
