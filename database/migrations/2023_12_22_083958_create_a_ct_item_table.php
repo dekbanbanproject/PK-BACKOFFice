@@ -25,8 +25,31 @@ return new class extends Migration
                 $table->string('xray_icode')->nullable();//   
                 $table->string('qty')->nullable();// 
                 $table->string('unitprice')->nullable();//  
-                $table->string('sum_price')->nullable();//  
-                $table->string('user_id')->nullable();//  
+                $table->string('sum_price')->nullable();// 
+                $table->string('user_id')->nullable();// 
+                
+                $table->string('sfhname')->nullable();//  
+                $table->string('pttypename')->nullable();// 
+                $table->string('ward')->nullable();// 
+                $table->string('icode_hos')->nullable();// 
+                $table->string('ct_check')->nullable();// 
+                $table->string('price_check')->nullable();// 
+                $table->string('total_price_check')->nullable();// 
+                $table->string('opaque')->nullable();// 
+                $table->string('opaque_price')->nullable();// 
+                $table->string('total_opaque_price')->nullable();// 
+                $table->string('other_price')->nullable();// 
+                $table->string('total_other_price')->nullable();// 
+                $table->string('before_price')->nullable();// 
+                $table->string('discount')->nullable();// 
+                $table->string('vat')->nullable();// 
+                $table->string('total')->nullable();// 
+                $table->string('sumprice')->nullable();// 
+                $table->string('paid')->nullable();// 
+                $table->string('remain')->nullable();// 
+                $table->string('STMDoc')->nullable();// 
+
+                 
                 $table->timestamps();
             });
         }

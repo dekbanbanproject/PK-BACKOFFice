@@ -677,6 +677,128 @@ class CtrepController extends Controller
     }
     public function ct_rep_sync(Request $request)
     { 
+        $startdate           = $request->startdate;
+        $enddate             = $request->enddate;
+        $data_sync_excel     = DB::connection('mysql')->select('
+            SELECT ct_date,hn,an,cid,ptname,sfhname,pttypename,ward,icode_hos,ct_check,price_check,total_price_check,opaque,opaque_price,total_opaque_price
+            ,other_price,total_other_price,before_price,discount,vat,total,sumprice,paid,remain,STMDoc
+            FROM a_stm_ct_excel
+            WHERE ct_date BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+            GROUP BY cid,ct_date,icode_hos
+        ');
+        foreach ($data_sync_excel as $key => $value) {
+            $count = A_ct_item::where('vstdate',$value->ct_date)->where('cid',$value->cid)->where('xray_items_code',$value->icode_hos)->count();
+            // dd($count);
+            if ($count > 1) {
+                A_ct_item::where('vstdate',$value->ct_date)->where('cid',$value->cid)->where('xray_items_code',$value->icode_hos)->update([
+                    'sfhname'            =>  $value->sfhname,
+                    'pttypename'         =>  $value->pttypename,
+                    'ward'               =>  $value->ward,
+                    'icode_hos'          =>  $value->icode_hos,
+                    'ct_check'           =>  $value->ct_check,
+                    'price_check'        =>  $value->price_check,
+                    'total_price_check'  =>  $value->total_price_check,
+                    'opaque'             =>  $value->opaque,
+                    'opaque_price'       =>  $value->opaque_price,
+                    'total_opaque_price' =>  $value->total_opaque_price,
+                    'other_price'        =>  $value->other_price,
+                    'total_other_price'  =>  $value->total_other_price,
+                    'before_price'       =>  $value->before_price,
+                    'discount'           =>  $value->discount,
+                    'vat'                =>  $value->vat,
+                    'total'              =>  $value->total,
+                    'sumprice'           =>  $value->sumprice,
+                    'paid'               =>  $value->paid,
+                    'remain'             =>  $value->remain,
+                    'STMDoc'             =>  $value->STMDoc,
+                ]);
+            } else {
+                A_ct_item::insert([ 
+                    'hn'                 =>  $value->hn,                                 
+                    'cid'                =>  $value->cid, 
+                    'vstdate'            =>  $value->ct_date,
+                    // 'ptname'             =>  $value->ptname, 
+                    'sfhname'            =>  $value->sfhname,
+                    'pttypename'         =>  $value->pttypename,
+                    'ward'               =>  $value->ward,
+                    'icode_hos'          =>  $value->icode_hos,
+                    'ct_check'           =>  $value->ct_check,
+                    'price_check'        =>  $value->price_check,
+                    'total_price_check'  =>  $value->total_price_check,
+                    'opaque'             =>  $value->opaque,
+                    'opaque_price'       =>  $value->opaque_price,
+                    'total_opaque_price' =>  $value->total_opaque_price,
+                    'other_price'        =>  $value->other_price,
+                    'total_other_price'  =>  $value->total_other_price,
+                    'before_price'       =>  $value->before_price,
+                    'discount'           =>  $value->discount,
+                    'vat'                =>  $value->vat,
+                    'total'              =>  $value->total,
+                    'sumprice'           =>  $value->sumprice,
+                    'paid'               =>  $value->paid,
+                    'remain'             =>  $value->remain,
+                    'STMDoc'             =>  $value->STMDoc, 
+                    'user_id'             => Auth::user()->id
+                ]); 
+            }
+            
+        }
+        // ***** OPD *****
+            // $datasync     = DB::connection('mysql2')->select('
+            //     SELECT o.vstdate,xr.vn,o.hn,p.cid,x.icode,x.xray_items_name ,x.service_price,xr.confirm   
+            //     FROM xray_report xr  
+            //     LEFT OUTER JOIN xray_items x on x.xray_items_code=xr.xray_items_code  
+            //     LEFT OUTER JOIN ovst o on o.vn=xr.vn
+            //     LEFT OUTER JOIN patient p on p.hn=o.hn
+            //     WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            // ');
+            // foreach ($datasync as $key => $value) {
+            //     $count = A_stm_ct_item::where('ct_date',$value->vstdate)->where('cid',$value->cid)->count('ct_check');
+                
+            //     if ($count > 1) {
+            //         $data_item = DB::connection('mysql')->select('SELECT ct_check FROM a_stm_ct_item WHERE ct_date = "'.$value->vstdate.'" AND cid = "'.$value->cid.'"');
+            //         foreach ($data_item as $v) {
+            //         if ($v->ct_check == 'CT Lower abdomen') {
+            //                 A_stm_ct_item::where('ct_check','=','CT Lower abdomen')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT Lower abdomen with contrast']);
+            //                 A_stm_ct::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['vn' => $value->vn]);
+            //             } elseif ($v->ct_check == 'CT Upper abdomen') {
+            //                 A_stm_ct_item::where('ct_check','=','CT Upper abdomen')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT Upper abdomen']);
+            //                 A_stm_ct::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['vn' => $value->vn]);
+            //             } elseif ($v->ct_check == 'CT Chest') {
+            //                 A_stm_ct_item::where('ct_check','=','CT Chest')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT Chest with contrast']);
+            //                 A_stm_ct::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['vn' => $value->vn]);
+            //             } elseif ($v->ct_check == 'CT Neck') {
+            //                 A_stm_ct_item::where('ct_check','=','CT Neck')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT Neck with contrast']);
+            //                 A_stm_ct::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['vn' => $value->vn]);
+            //             } elseif ($v->ct_check == 'CT BRAIN  WITHOUT CONTRAST STUDY') {
+            //                 A_stm_ct_item::where('ct_check','=','CT BRAIN  WITHOUT CONTRAST STUDY')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT Brain without contrast study']);
+            //                 A_stm_ct::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['vn' => $value->vn]);
+            //             } elseif ($v->ct_check == 'CT SPINE: CERVICAL') {
+            //                 A_stm_ct_item::where('ct_check','=','CT SPINE: CERVICAL')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT C-Spine']);
+            //                 A_stm_ct::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['vn' => $value->vn]);
+            //             } elseif ($v->ct_check == 'CT FACIAL BONE') {
+            //                 A_stm_ct_item::where('ct_check','=','CT FACIAL BONE')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT Facial bone']);
+            //                 A_stm_ct::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['vn' => $value->vn]);
+            //         } else {
+            //             # code...
+            //         }
+                    
+            //         }
+            //     } else {
+            //         A_stm_ct_item::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update([
+            //             'ct_check_hos'    => $value->xray_items_name
+            //         ]);
+            //         A_stm_ct::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['vn' => $value->vn]);
+            //     } 
+            // }
+     
+            // return redirect()->route('ct.ct_rep');
+        return response()->json([
+                'status'    => '200',
+            ]);
+    }
+    public function ct_rep_sync222(Request $request)
+    { 
         $startdate    = $request->startdate;
         $enddate      = $request->enddate;
 

@@ -181,7 +181,6 @@
                                     <th class="text-center">เลขที่ใบเสร็จ</th> 
                                     <th class="text-center">ลูกหนี้</th> 
                                     <th class="text-center">รับจริง</th> 
-                                    <th class="text-center">ส่วนต่าง</th> 
                                 </tr>
                             </thead>
                             <tbody>
@@ -207,30 +206,20 @@
                                                         ยังไม่ได้ลงเลขหนังสือ-เลขที่ใบเสร็จ 
                                                     </button>
                                                 @else
-                                                    {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
+                                                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
                                                         <i class="fa-solid fa-book-open text-primary me-2"></i> 
                                                         {{$item->nhso_docno}}
-                                                    </button> --}}
-                                                    <button type="button" style="width: 100%" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-primary editModal" value="{{ $item->account_code.'/'.$item->id }}"> 
-                                                        {{-- value="$item->account_code.'/'.$item->id }}" --}}
-                                                        <i class="fa-solid fa-book-open text-primary me-2"></i> 
-                                                        {{$item->nhso_docno}}
-                                                    </button> 
+                                                    </button>
                                                 @endif                                                  
                                                                                                         
                                             </td> 
                                             <td class="text-center" width="10%"> 
 
                                                 @if ($item->pttype == 'ss')
-                                                    {{-- <a href="{{url('uprep_sss_alleditpage/'.$item->account_code.'/'.$item->id)}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                                                    <a href="{{url('uprep_sss_alleditpage/'.$item->account_code.'/'.$item->id)}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                                                         <i class="fa-solid fa-file-invoice text-danger me-2"></i> 
                                                         ลงเลขที่ใบเสร็จ 
-                                                    </a>  --}}
-                                                    <button type="button" style="width: 100%" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger editModal" value="{{ $item->account_code.'/'.$item->id }}"> 
-                                                        {{-- value="$item->account_code.'/'.$item->id }}" --}}
-                                                        <i class="fa-solid fa-file-invoice text-danger me-2"></i> 
-                                                        ลงเลขที่ใบเสร็จ
-                                                    </button> 
+                                                    </a> 
                                                 @elseif ($item->nhso_docno != '' && $item->recieve_no =='' )
                                                     {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger editModal" value="{{ $item->id }}">
                                                         <i class="fa-solid fa-file-invoice text-danger me-2"></i> 
@@ -251,21 +240,16 @@
                                                         ยังไม่ได้ลงเลขหนังสือ-เลขที่ใบเสร็จ 
                                                     </button> 
                                                 @else
-                                                    {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
                                                         <i class="fa-solid fa-book-open text-success me-2"></i> 
                                                         {{$item->recieve_no}}
-                                                    </button> --}}
-                                                    <button type="button" style="width: 100%" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-success editModal" value="{{ $item->account_code.'/'.$item->id }}"> 
-                                                        {{-- value="$item->account_code.'/'.$item->id }}" --}}
-                                                        <i class="fa-solid fa-file-invoice text-success me-2"></i> 
-                                                        {{$item->recieve_no}}
-                                                    </button> 
+                                                    </button>
                                                 @endif
                                             </td>  
                                             
                                             <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>   
                                             <td class="text-end" style="color:rgb(53, 196, 76)" width="7%">{{$item->recieve_true}}</td>                                           
-                                            <td class="text-end" style="color:rgb(247, 129, 33)" width="7%">{{$item->difference}}</td> 
+                                          
                                         </tr>
                                         
                                     
@@ -303,20 +287,29 @@
                     </div>
                     
                 </div>
-                <div class="modal-body"> 
-                    <div class="row"> 
+                <div class="modal-body">
+
+                    <div class="row">
+
                         <div class="col-md-3">
                             <label for="difference" class="form-label">ลูกหนี้</label>
                             <div class="input-group input-group-sm"> 
                                 <input type="text" class="form-control" id="editdebit_total" name="debit_total" readonly>
                             </div>
-                        </div> 
+                        </div>
+                        
                         <div class="col-md-3">
                             <label for="recieve_true" class="form-label">รับจริง</label>
                             <div class="input-group input-group-sm"> 
                                 <input type="text" class="form-control" id="editrecieve_true" name="recieve_true">
                             </div>
-                        </div> 
+                        </div>
+                        {{-- <div class="col-md-3">
+                            <label for="difference" class="form-label">ส่วนต่าง</label>
+                            <div class="input-group input-group-sm"> 
+                                <input type="text" class="form-control" id="editdifference" name="difference">
+                            </div>
+                        </div> --}}
                         <div class="col-md-3">
                             <label for="recieve_no" class="form-label">เลขที่ใบเสร็จ</label>
                             <div class="input-group input-group-sm"> 
@@ -333,12 +326,24 @@
                     </div>
  
                     <input type="hidden" name="user_id" id="edituser_id" value="{{$iduser}}"> 
-                    <input type="hidden" name="editid" id="editid"> 
-                    <input type="hidden" name="editaccount_code" id="editaccount_code"> 
+                    <input type="hidden" name="editan" id="editid"> 
                 </div>
-              
+                {{-- <div class="modal-footer">
+                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Updatedata">
+                        <i class="pe-7s-diskette btn-icon-wrapper"></i>Update changes
+                    </button>
+                </div> --}}
                 <div class="modal-footer">
-                   
+                    {{-- <div class="col-md-12 text-end">
+                        <div class="form-group">
+                            <button type="button" id="Updatedata" class="btn-icon btn-shadow btn-dashed btn btn-outline-info me-2"> 
+                                <i class="pe-7s-diskette btn-icon-wrapper me-2"></i> Save
+                            </button>
+                            <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger" data-bs-dismiss="modal">
+                                <i class="fa-solid fa-xmark me-2"></i>Close
+                            </button> 
+                        </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -389,53 +394,12 @@
                         $('#editdifference').val(data.data_show.difference)
                         $('#editrecieve_no').val(data.data_show.recieve_no)
                         $('#editrecieve_date').val(data.data_show.recieve_date)
-                        $('#editid').val(data.id)
-                        $('#editaccount_code').val(data.data_show.account_code)
+                        $('#editid').val(data.data_show.id)
                     },
                 });
             });
+
             $('#Updatedata').click(function() {
-                    var recieve_true  = $('#editrecieve_true').val();
-                    var debit_total    = $('#editdebit_total').val();
-                    var recieve_no    = $('#editrecieve_no').val();
-                    var recieve_date  = $('#editrecieve_date').val();                    
-                    var user_id       = $('#edituser_id').val();
-                    var id            = $('#editid').val();
-                    var account_code  = $('#editaccount_code').val(); 
-                    $.ajax({
-                        url: "{{ route('acc.uprep_sss_all_update') }}",
-                        type: "POST",
-                        dataType: 'json',
-                        data: {
-                            recieve_true,debit_total,recieve_no,recieve_date,user_id,id,account_code
-                        },
-                        success: function(data) {
-                            if (data.status == 200) {
-                                Swal.fire({
-                                    title: 'ลงเลขที่ใบเสร็จรายตัวสำเร็จ',
-                                    text: "You Insert data success",
-                                    icon: 'success',
-                                    showCancelButton: false,
-                                    confirmButtonColor: '#06D177',
-                                    confirmButtonText: 'เรียบร้อย'
-                                }).then((result) => {
-                                    if (result
-                                        .isConfirmed) {
-                                        console.log(
-                                            data);
-                                        // window.location.reload(); 
-                                        window.location="{{url('uprep_sss_all')}}";
-                                    }
-                                })
-                            } else {
-
-                            }
-
-                        },
-                    });
-            }); 
-
-            $('#Updatedata22').click(function() {
                     var recieve_true = $('#editrecieve_true').val();
                     var difference = $('#editdifference').val();
                     var recieve_no = $('#editrecieve_no').val();

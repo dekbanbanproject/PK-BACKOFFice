@@ -308,7 +308,7 @@
         </div> 
     </div>
 
-    {{-- <div class="modal fade" id="MoneyModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true"> 
+    <div class="modal fade" id="MoneyModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true"> 
         <div class="modal-dialog modal-dialog-slideout">
           <div class="modal-content">
             <div class="modal-body">
@@ -316,7 +316,7 @@
 
             </div>
         </div>
-    </div>  --}}
+    </div> 
 
 
     <div class="modal fade" id="MoneyModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true"> 
@@ -512,10 +512,7 @@
                             url: "{{ url('ct_rep_sync') }}",
                             type: "POST",
                             dataType: 'json',
-                            data: {
-                                startdate,
-                                enddate
-                            },
+                            data: { startdate,enddate},
                             success: function(data) {
                                 if (data.status == 200) {
                                     Swal.fire({
