@@ -345,6 +345,7 @@ class UpstmController extends Controller
 
          $data['users'] = User::get(); 
             if ($startdate != '') {
+                // AND U2.nhso_docno <> "" AND U2.nhso_ownright_pid <> ""
                 $data['data'] = DB::select('                  
                         SELECT U1.acc_1102050101_304_id as id,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U1.account_code,U1.nhso_docno,U1.recieve_no,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.recieve_user
                         from acc_1102050101_304 U1 
@@ -356,7 +357,7 @@ class UpstmController extends Controller
                         SELECT U2.acc_1102050101_307_id as id,U2.an,U2.vn,U2.hn,U2.cid,U2.ptname,U2.vstdate,U2.dchdate,U2.pttype,U2.debit_total,U2.account_code,U2.nhso_docno,U2.recieve_no,U2.nhso_ownright_pid,U2.recieve_true,U2.difference,U2.recieve_no,U2.recieve_date,U2.recieve_user
                         from acc_1102050101_307 U2 
                         WHERE U2.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                        AND U2.nhso_docno <> "" AND U2.nhso_ownright_pid <> ""
+                       
                         
                         UNION 
                         
@@ -397,6 +398,7 @@ class UpstmController extends Controller
                         WHERE U4.vstdate BETWEEN "'.$newDate.'" AND "'.$date.'" AND U4.nhso_docno <> "" AND U4.nhso_ownright_pid <> "" 
                 ');  
             } 
+            // AND U2.nhso_docno <> "" AND U2.nhso_ownright_pid <> ""
             // WHERE U2.nhso_ownright_pid <> ""
             // U2.nhso_docno <> "" AND 
          return view('account_stm.uprep_sss_all', $data,[

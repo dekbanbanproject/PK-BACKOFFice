@@ -744,7 +744,7 @@ class CtrepController extends Controller
                 ]); 
             }
 
-            A_ct::where('vstdate',$value->ct_date)->where('cid',$value->cid)->where('xray_items_code',$value->icode_hos)->update([
+            A_ct::where('vstdate',$value->ct_date)->where('cid',$value->cid)->update([
                 
                 'STMDoc'             =>  $value->STMDoc,
             ]);

@@ -200,7 +200,7 @@
                                             <td class="text-center" width="7%">{{ $item->dchdate }}</td>  
                                             <td class="text-center" width="5%">{{ $item->pttype }}</td> 
                                             <td class="p-2" >{{ $item->account_code }}</td> 
-                                            <td class="text-center" width="5%">  
+                                            <td class="text-center" width="3%">  
                                                 @if ($item->nhso_docno == '' && $item->pttype =='ss')
                                                     <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning" >
                                                         <i class="fa-solid fa-book-open text-warning me-2"></i> 
@@ -211,7 +211,7 @@
                                                         <i class="fa-solid fa-book-open text-primary me-2"></i> 
                                                         {{$item->nhso_docno}}
                                                     </button> --}}
-                                                    <button type="button" style="width: 100%" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-primary editModal" value="{{ $item->account_code.'/'.$item->id }}"> 
+                                                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-primary editModal" value="{{ $item->account_code.'/'.$item->id }}"> 
                                                         {{-- value="$item->account_code.'/'.$item->id }}" --}}
                                                         <i class="fa-solid fa-book-open text-primary me-2"></i> 
                                                         {{$item->nhso_docno}}
@@ -219,14 +219,14 @@
                                                 @endif                                                  
                                                                                                         
                                             </td> 
-                                            <td class="text-center" width="10%"> 
+                                            <td class="text-center" width="3%"> 
 
                                                 @if ($item->pttype == 'ss')
                                                     {{-- <a href="{{url('uprep_sss_alleditpage/'.$item->account_code.'/'.$item->id)}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                                                         <i class="fa-solid fa-file-invoice text-danger me-2"></i> 
                                                         ลงเลขที่ใบเสร็จ 
                                                     </a>  --}}
-                                                    <button type="button" style="width: 100%" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger editModal" value="{{ $item->account_code.'/'.$item->id }}"> 
+                                                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger editModal" value="{{ $item->account_code.'/'.$item->id }}"> 
                                                         {{-- value="$item->account_code.'/'.$item->id }}" --}}
                                                         <i class="fa-solid fa-file-invoice text-danger me-2"></i> 
                                                         ลงเลขที่ใบเสร็จ
@@ -236,7 +236,7 @@
                                                         <i class="fa-solid fa-file-invoice text-danger me-2"></i> 
                                                         ลงเลขที่ใบเสร็จ 
                                                     </button>  --}}
-                                                    <button type="button" style="width: 100%" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger editModal" value="{{ $item->account_code.'/'.$item->id }}"> 
+                                                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger editModal" value="{{ $item->account_code.'/'.$item->id }}"> 
                                                         {{-- value="$item->account_code.'/'.$item->id }}" --}}
                                                         <i class="fa-solid fa-file-invoice text-danger me-2"></i> 
                                                         ลงเลขที่ใบเสร็จ
@@ -255,7 +255,7 @@
                                                         <i class="fa-solid fa-book-open text-success me-2"></i> 
                                                         {{$item->recieve_no}}
                                                     </button> --}}
-                                                    <button type="button" style="width: 100%" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-success editModal" value="{{ $item->account_code.'/'.$item->id }}"> 
+                                                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-success editModal" value="{{ $item->account_code.'/'.$item->id }}"> 
                                                         {{-- value="$item->account_code.'/'.$item->id }}" --}}
                                                         <i class="fa-solid fa-file-invoice text-success me-2"></i> 
                                                         {{$item->recieve_no}}
