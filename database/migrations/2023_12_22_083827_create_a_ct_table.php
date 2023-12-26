@@ -26,6 +26,7 @@ return new class extends Migration
                 // $table->string('ctname')->nullable();//  
                 $table->string('qty')->nullable();//  
                 $table->string('sum_price')->nullable();//  
+                $table->string('STMdoc')->nullable();// 
                 $table->string('user_id')->nullable();// 
                 $table->enum('active', ['N', 'Y', 'W'])->default('N');  
                 $table->timestamps();

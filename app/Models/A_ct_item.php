@@ -15,7 +15,7 @@ class A_ct_item extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'a_ct_item'; 
-    // protected $primaryKey = 'a_ct_item_id';
+    protected $primaryKey = 'a_ct_item_id';
     protected $fillable = [
         'vn', 
         'hn', 
@@ -23,6 +23,8 @@ class A_ct_item extends Authenticatable
         'vstdate', 
         'icode', 
         'ctname', 
+        'xray_items_code',
+        'xray_icode',      
         'qty',
         'unitprice',
         'sum_price',

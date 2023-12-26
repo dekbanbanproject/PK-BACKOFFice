@@ -18,13 +18,11 @@ return new class extends Migration
                 $table->string('vn')->nullable();//  
                 $table->string('hn')->nullable();// 
                 $table->string('cid')->nullable();//    
-                $table->date('vstdate')->nullable();//     
-                // $table->string('ptname')->nullable();//  
-                
-                $table->string('xray_items_code')->nullable();//   
-
+                $table->date('vstdate')->nullable();//    
                 $table->string('icode')->nullable();//  
                 $table->string('ctname')->nullable();//  
+                $table->string('xray_items_code')->nullable();//  
+                $table->string('xray_icode')->nullable();//   
                 $table->string('qty')->nullable();// 
                 $table->string('unitprice')->nullable();//  
                 $table->string('sum_price')->nullable();//  

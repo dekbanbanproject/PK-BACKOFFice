@@ -186,8 +186,8 @@
                                         <th class="text-center">cid</th>
                                         <th class="text-center">months</th>
                                         <th class="text-center">sumprice</th>
-                                        <th class="text-center">paid</th>
-                                        <th class="text-center">remain</th>
+                                        {{-- <th class="text-center">paid</th> --}}
+                                        {{-- <th class="text-center">remain</th> --}}
                                         <th class="text-center">filename</th>
 
                                     </tr>
@@ -227,8 +227,8 @@
                                                 <td width="10%" class="text-center">ธันวาคม</td>
                                             @endif
                                             <td class="text-center" width="10%">{{ number_format($item->sumprice, 2) }}</td> 
-                                            <td class="text-center" width="10%">{{ number_format($item->paid, 2) }}</td> 
-                                            <td class="text-center" width="10%">{{ number_format($item->remain, 2) }}</td> 
+                                            {{-- <td class="text-center" width="10%">{{ number_format($item->paid, 2) }}</td>  --}}
+                                            {{-- <td class="text-center" width="10%">{{ number_format($item->remain, 2) }}</td>  --}}
                                             <td class="text-start" style="color:rgb(248, 12, 12)" > {{ $item->STMdoc }}</td>
                                         </tr>
                                     @endforeach

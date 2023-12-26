@@ -156,15 +156,15 @@
                             <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                             <span class="ladda-spinner"></span>
                         </button> 
-                        <button type="button" class="ladda-button btn-pill btn btn-info d-shadow" id="Pulldata">
+                        {{-- <button type="button" class="ladda-button btn-pill btn btn-info d-shadow" id="Pulldata">
                             <span class="ladda-label">  <i class="fa-solid fa-file-circle-plus text-white me-2"></i>ดึงข้อมูล</span>
                             <span class="ladda-spinner"></span>
-                        </button>    
+                        </button>     --}}
                      
-                        {{-- <button type="button" class="ladda-button btn-pill btn btn-danger d-shadow Syncdata" data-style="expand-left">
+                        <button type="button" class="ladda-button btn-pill btn btn-danger d-shadow Syncdata" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-arrows-rotate text-danger text-white me-2"></i>Sync Data</span>
                             <span class="ladda-spinner"></span>
-                        </button>  --}}
+                        </button> 
                         <button type="button" class="ladda-button btn-pill btn btn-success d-shadow CheckSit" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-user text-danger text-white me-2"></i>Check Sit</span>
                             <span class="ladda-spinner"></span>
@@ -194,6 +194,7 @@
                                             <th class="text-center">total qty</th> 
                                             <th class="text-center">total price Hos</th> 
                                             <th class="text-center">สถานะ</th> 
+                                            <th class="text-center">STMdoc</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -227,6 +228,7 @@
                                                         <span class="bg-danger badge me-2">{{ $item->active }}</span> 
                                                     </td> 
                                                 @endif
+                                                <td class="p-2" >{{ $item->STMdoc }}</td> 
                                             </tr>
 
                                             <?php 
