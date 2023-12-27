@@ -83,13 +83,13 @@ $pos = strrpos($url, '/') + 1;
         </div>
 
     </div>
-    <form action="{{ url('ofc_401') }}" method="POST">
+    <form action="{{ url('ofc_402') }}" method="POST">
         @csrf
     <div class="row"> 
       
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-7 text-end">
+            <div class="col-md-8 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
@@ -116,7 +116,7 @@ $pos = strrpos($url, '/') + 1;
                             <i class="fa-solid fa-upload text-primary me-2"></i>
                             Export
                         </button> --}}
-                        <a href="{{url('ofc_401_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                        <a href="{{url('ofc_402_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                             <i class="fa-solid fa-file-export text-danger me-2"></i>
                             Export
                         </a>
@@ -145,7 +145,7 @@ $pos = strrpos($url, '/') + 1;
         <div class="col-md-12">
             <div class="main-card mb-3 card">
                 <div class="card-header shadow-lg" style="background-color: #fcd6c1">
-                     OFC OPD ข้าราชการ
+                     OFC IPD ข้าราชการ
                     <div class="btn-actions-pane-right">
                         {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary Updatedata" >
                             <i class="fa-solid fa-spinner text-info me-2"></i> 
@@ -269,30 +269,40 @@ $pos = strrpos($url, '/') + 1;
                                         <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                             <thead>
                                                 <tr style="font-size: 13px">
-                                                    <th class="text-center">ลำดับ</th>
+                                                    <th class="text-center">ลำดับ</th> 
                                                     <th class="text-center">vn</th>
                                                     <th class="text-center">hn</th>
                                                     <th class="text-center">an</th>  
                                                     <th class="text-center">pttype</th> 
-                                                    <th class="text-center">vstdate</th> 
-                                                    <th class="text-center">Apphos</th> 
-                                                    <th class="text-center">price_ofc</th> 
+                                                    <th class="text-center">dchdate</th> 
+                                                    <th class="text-center">claim_code</th> 
+                                                    <th class="text-center">icd10</th> 
+                                                    <th class="text-center">ptname</th> 
+                                                    <th class="text-center">instument</th> 
+                                                    <th class="text-center">income</th> 
+                                                    <th class="text-center">covid</th> 
+                                                    <th class="text-center">lab</th> 
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php $number = 0; ?>
-                                                @foreach ($d_ofc_401 as $item1)
+                                                @foreach ($d_ofc_402 as $item1)
                                                 <?php $number++; ?>
                     
                                                 <tr height="20" style="font-size: 12px;">
-                                                    <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td>
-                                                    <td class="text-center" width="10%">  {{ $item1->vn }}  </td>
-                                                    <td class="text-center" width="10%">{{ $item1->hn }}</td>
-                                                    <td class="text-center" width="10%">{{ $item1->an }}</td>  
-                                                    <td class="text-center" width="10%">{{ $item1->pttype }}</td> 
-                                                    <td class="text-center" width="10%">{{ $item1->vstdate }}</td> 
-                                                    <td class="text-center" width="10%">{{ $item1->Apphos }}</td> 
-                                                    <td class="text-center" width="10%">{{ $item1->price_ofc }}</td> 
+                                                    <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td> 
+                                                    <td class="text-center" width="7%">{{ $item1->vn }}</td> 
+                                                    <td class="text-center" width="5%">{{ $item1->hn }}</td>
+                                                    <td class="text-center" width="7%">{{ $item1->an }}</td>  
+                                                    <td class="text-center" width="5%">{{ $item1->pttype }}</td> 
+                                                    <td class="text-center" width="7%">{{ $item1->dchdate }}</td> 
+                                                    <td class="text-center" width="10%">{{ $item1->claim_code }}</td> 
+                                                    <td class="text-center" width="5%">{{ $item1->icd10 }}</td> 
+                                                    <td class="p-2" >{{ $item1->ptname }}</td> 
+                                                    <td class="text-center" >{{ $item1->instument }}</td> 
+                                                    <td class="text-center" >{{ $item1->income }}</td> 
+                                                    <td class="text-center" >{{ $item1->covid }}</td> 
+                                                    <td class="text-center" >{{ $item1->lab }}</td> 
                                                 </tr>
                     
                     
@@ -976,7 +986,7 @@ $pos = strrpos($url, '/') + 1;
                                 $("#spinner").show(); //Load button clicked show spinner 
                                 
                                 $.ajax({
-                                    url: "{{ route('claim.ofc_401_process') }}",
+                                    url: "{{ route('claim.ofc_402_process') }}",
                                     type: "POST",
                                     dataType: 'json',
                                     data: {
@@ -1031,7 +1041,7 @@ $pos = strrpos($url, '/') + 1;
                                 $("#spinner").show(); //Load button clicked show spinner 
                                 
                                 $.ajax({
-                                    url: "{{ route('claim.ofc_401_sendapi') }}",
+                                    url: "{{ route('claim.ofc_402_sendapi') }}",
                                     type: "POST",
                                     dataType: 'json',
                                     data: {
@@ -1085,7 +1095,7 @@ $pos = strrpos($url, '/') + 1;
                                 $("#spinner").show(); //Load button clicked show spinner 
                                 
                                 $.ajax({
-                                    url: "{{ route('claim.ofc_401_exportapi') }}",
+                                    url: "{{ route('claim.ofc_402_exportapi') }}",
                                     type: "POST",
                                     dataType: 'json',
                                     data: {

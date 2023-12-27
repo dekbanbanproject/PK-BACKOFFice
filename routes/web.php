@@ -303,6 +303,10 @@ Route::match(['get','post'],'ofc_401_sendapi',[App\Http\Controllers\Ofc401_apiCo
 
 
 Route::match(['get','post'],'ofc_402',[App\Http\Controllers\Ofc402Controller::class, 'ofc_402'])->name('claim.ofc_402');//
+Route::match(['get','post'],'ofc_402_process',[App\Http\Controllers\Ofc402Controller::class, 'ofc_402_process'])->name('claim.ofc_402_process');//
+Route::match(['get','post'],'ofc_402_export',[App\Http\Controllers\Ofc402Controller::class, 'ofc_402_export'])->name('claim.ofc_402_export');//
+Route::match(['get','post'],'ofc_402_exportapi',[App\Http\Controllers\Ofc402Controller::class, 'ofc_402_exportapi'])->name('claim.ofc_402_exportapi');//
+Route::match(['get','post'],'ofc_402_sendapi',[App\Http\Controllers\Ofc402Controller::class, 'ofc_402_sendapi'])->name('claim.ofc_402_sendapi');//
 
 // ******************* LGO *******************
 Route::match(['get','post'],'lgo_801',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801'])->name('claim.lgo_801');//

@@ -17,12 +17,21 @@ return new class extends Migration
                 $table->bigIncrements('d_ofc_402_id');//  
                 $table->string('vn')->nullable();//   
                 $table->string('an')->nullable();//  
-                $table->string('hn')->nullable();//  
+                $table->string('hn')->nullable();// 
+                $table->string('cid')->nullable();//  
                 $table->string('pttype')->nullable();// 
                 $table->date('dchdate')->nullable();// 
-                $table->string('Apphos')->nullable();// 
-                $table->string('Appktb')->nullable();// 
-                $table->string('price_ofc')->nullable();// 
+                $table->string('claim_code')->nullable();// 
+                $table->string('icd10')->nullable();// 
+                $table->string('ptname')->nullable();// 
+                $table->string('instument')->nullable();// 
+                $table->string('income')->nullable();// 
+                $table->string('paid_money')->nullable();// 
+                $table->string('uc_money')->nullable();// 
+                $table->string('rfrocs')->nullable();// 
+                $table->string('rfrolct')->nullable();// 
+                $table->string('covid')->nullable();// 
+                $table->string('lab')->nullable();// 
                 $table->timestamps();
             }); 
         }
