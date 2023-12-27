@@ -889,7 +889,7 @@
                                             <a href="{{ url('ct_rep') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill"> 
-                                                        <i class="fas fa-3x fa-lungs-virus font-size-25" style="color: rgba(23, 189, 147, 0.74)"></i>
+                                                        <i class="fa-regular fa-heart fa-3x font-size-25" style="color: rgba(23, 189, 147, 0.74)"></i>
                                                       
                                                 </button>
                                             </a>

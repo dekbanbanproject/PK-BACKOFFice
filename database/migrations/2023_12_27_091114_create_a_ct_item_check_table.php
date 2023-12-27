@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     { 
-        if (!Schema::hasTable('a_stm_ct'))
+        if (!Schema::hasTable('a_ct_item_check'))
         {
-            Schema::create('a_stm_ct', function (Blueprint $table) {
-                $table->bigIncrements('a_stm_ct_id'); 
+            Schema::create('a_ct_item_check', function (Blueprint $table) {
+                $table->bigIncrements('a_ct_item_check_id');  
                 $table->date('ct_date')->nullable();//   
                 $table->Time('ct_timein')->nullable();//       
                 $table->string('hn')->nullable();//  
@@ -24,8 +24,7 @@ return new class extends Migration
                 $table->string('sfhname')->nullable();// ส่งจาก รพ.
                 $table->string('typename')->nullable();// ในเวลา / นอกเวลา
                 $table->string('pttypename')->nullable();// สิทธิ์การรักษา
-                $table->string('ptty_spsch')->nullable();// สิทธิ์การรักษา สปสช
-                $table->string('pttypename_spsch')->nullable();//สิทธิ์การรักษา สปสช
+                $table->string('pttypename_spsch')->nullable();// สิทธิ์การรักษา สปสช
                 $table->string('hname')->nullable();//  รพ. ต้นสังกัด
                 $table->string('cardno')->nullable();// เลขที่บัตร
                 $table->string('ward')->nullable();// แผนก
@@ -58,8 +57,7 @@ return new class extends Migration
                 $table->string('vn')->nullable();//  HOS
                 $table->string('hos_check')->nullable();//   ส่วนตรวจ HOS
                 $table->string('hos_price_check')->nullable();// ค่าตรวจ HOS
-                $table->string('hos_total_price_check')->nullable();// รวมค่าตรวจ HOS     
-                $table->enum('active', ['N', 'Y', 'W'])->default('N'); 
+                $table->string('hos_total_price_check')->nullable();// รวมค่าตรวจ HOS               
                 $table->timestamps();
             });
         }
@@ -70,6 +68,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('a_stm_ct');
+        Schema::dropIfExists('a_ct_item_check');
     }
 };

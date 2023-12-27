@@ -12,9 +12,12 @@
 <!-- App favicon -->
 <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw=="
+crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-
+<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" rel="stylesheet"> 
 
 {{-- <link href="{{ asset('pkclaim/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
 <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
@@ -89,8 +92,8 @@ background-repeat: no-repeat;
 
 </style>
        
-    
- <body data-sidebar="white" data-keep-enlarged="true" class="vertical-collpsed">
+<body data-topbar="dark">
+ {{-- <body data-sidebar="white" data-keep-enlarged="true" class="vertical-collpsed"> --}}
 
         <!-- Begin page -->
         <div id="layout-wrapper">
@@ -188,7 +191,7 @@ background-repeat: no-repeat;
                                 <li class="menu-title">Menu</li> 
                                 <li>
                                     <a href="{{ url('ct_rep') }}">  
-                                        <i class="fa fa-lungs-virus text-info"></i>
+                                        <i class="fa-regular fa-heart text-info"></i>
                                         <span>CT Check Report </span>
                                     </a>
                                 </li>
@@ -200,13 +203,13 @@ background-repeat: no-repeat;
                                 </li> --}}
                                 <li>
                                     <a href="{{ url('ct_rep_pay') }}">  
-                                        <i class="fa fa-lungs-virus text-success"></i>
+                                        <i class="fa-regular fa-heart text-success"></i>
                                         <span>CT Pay Report</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="{{ url('ct_rep_import') }}">  
-                                        <i class="fa fa-lungs-virus text-primary"></i>
+                                        <i class="fa-regular fa-heart text-primary"></i>
                                         <span>Import Excel CT</span>
                                     </a>
                                 </li>
@@ -269,8 +272,7 @@ background-repeat: no-repeat;
     <div class="rightbar-overlay"></div>
 
     <!-- JAVASCRIPT -->
-    <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>
-
+    <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script> 
     <script src="{{ asset('pkclaim/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/metismenu/metisMenu.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/simplebar/simplebar.min.js') }}"></script>
@@ -282,11 +284,9 @@ background-repeat: no-repeat;
     <script src="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/admin-resources/bootstrap-filestyle/bootstrap-filestyle.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
-
-    <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.th.min.js" integrity="sha512-cp+S0Bkyv7xKBSbmjJR0K7va0cor7vHYhETzm2Jy//ZTQDUvugH/byC4eWuTii9o5HN9msulx2zqhEXWau20Dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>  --}}
     <!-- jquery.vectormap map -->
     <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js') }}">

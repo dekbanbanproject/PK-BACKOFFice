@@ -48,7 +48,7 @@
         }
 
         .modal-dialog {
-            max-width: 75%;
+            max-width: 55%;
         }
 
         .modal-dialog-slideout {
@@ -145,40 +145,23 @@
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-5 text-end"> 
-            {{-- <div class="col-md-2 text-end"> 
-                <input type="text" class="form-control d-shadow" name="startdate" id="startdate" placeholder="Start Date" data-date-autoclose="true" autocomplete="off" value="{{ $startdate }}" required/>
-            </div> 
-            <div class="col-md-2 text-end">
-                <input type="text" class="form-control d-shadow" name="enddate" id="enddate" placeholder="End Date" data-date-autoclose="true" autocomplete="off" value="{{ $enddate }}" required/>
-            </div>
-            <div class="col-md-3">  
-                <button type="submit" class="ladda-button btn-pill btn btn-primary d-shadow" data-style="expand-left">
-                    <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
-                    <span class="ladda-spinner"></span>
-                </button>         
-                <button type="button" class="ladda-button btn-pill btn btn-danger d-shadow Syncdata" data-style="expand-left">
-                    <span class="ladda-label"> <i class="fa-solid fa-arrows-rotate text-danger text-white me-2"></i>Sync Data</span>
-                    <span class="ladda-spinner"></span>
-                </button> 
-                <button type="button" class="ladda-button btn-pill btn btn-success d-shadow CheckSit" data-style="expand-left">
-                    <span class="ladda-label"> <i class="fa-solid fa-user text-danger text-white me-2"></i>Check Sit</span>
-                    <span class="ladda-spinner"></span>
-                </button> 
-            </div> --}}
-           
-            <div class="input-daterange input-group" id="datepicker1" data-date-format="yyyy-mm-dd" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+            <div class="col-md-6 text-end">
+                <div class="input-daterange input-group datepicker" id="datepicker1" data-date-format="yyyy-mm-dd H:mm:ss" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     
-                <input type="text" class="form-control d-shadow" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datetimepicker" data-date-autoclose="true" autocomplete="off"
-                    data-date-language="th-th" value="{{ $startdate }}" required/>
-                <input type="text" class="form-control d-shadow" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datetimepicker" data-date-autoclose="true" autocomplete="off"
-                    data-date-language="th-th" value="{{ $enddate }}"/>  
+                    <input type="text" class="form-control d-shadow" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datetimepicker" data-date-autoclose="true" autocomplete="off"
+                        data-date-language="th-th" value="{{ $startdate }}" required/>
+                    <input type="text" class="form-control d-shadow" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datetimepicker" data-date-autoclose="true" autocomplete="off"
+                        data-date-language="th-th" value="{{ $enddate }}"/>  
                   
                         <button type="submit" class="ladda-button btn-pill btn btn-primary d-shadow" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                             <span class="ladda-spinner"></span>
                         </button> 
-                       
+                        {{-- <button type="button" class="ladda-button btn-pill btn btn-info d-shadow" id="Pulldata">
+                            <span class="ladda-label">  <i class="fa-solid fa-file-circle-plus text-white me-2"></i>ดึงข้อมูล</span>
+                            <span class="ladda-spinner"></span>
+                        </button>     --}}
+                     
                         <button type="button" class="ladda-button btn-pill btn btn-danger d-shadow Syncdata" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-arrows-rotate text-danger text-white me-2"></i>Sync Data</span>
                             <span class="ladda-spinner"></span>
@@ -206,11 +189,11 @@
                                             <th class="text-center" >hn</th>
                                             <th class="text-center" >cid</th>
                                             <th class="text-center">ptname</th>
-                                            <th class="text-center">order_date</th> 
+                                            <th class="text-center">vstdate</th> 
                                             <th class="text-center">สิทธิ์</th>  
                                             <th class="text-center">spsch</th> 
-                                            <th class="text-center">xray_price</th> 
-                                            <th class="text-center">ค่าใช้จ่ายรวม</th> 
+                                            <th class="text-center">total qty</th> 
+                                            <th class="text-center">total price Hos</th> 
                                             <th class="text-center">สถานะ</th> 
                                             <th class="text-center">STMdoc</th> 
                                         </tr>
@@ -224,18 +207,17 @@
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  
                                                 <td class="text-center" width="10%">{{ $item->cid }}</td>  
                                                 <td class="p-2" >{{ $item->ptname }}</td> 
-                                                <td class="text-center" width="10%">{{ $item->order_date }}</td>   
+                                                <td class="text-center" width="10%">{{ $item->vstdate }}</td>   
                                                 <td class="text-center" width="10%">{{ $item->pttype }}</td> 
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->ptty_spsch }}</td>  
-                                                {{-- <td class="text-center" width="10%">{{ $item->qty }}</td>  --}}
-                                                <td class="text-center" width="10%">{{ number_format($item->xray_price, 2) }}</td>  
-                                                {{-- <td class="text-center" width="10%">{{ number_format($item->total_price, 2) }}</td>   --}}
-                                                {{-- <td class="text-center" width="10%">{{ number_format($item->before_price, 2) }}</td>   --}}
+                                                <td class="text-center" width="10%">{{ $item->qty }}</td> 
+                                                {{-- <td class="text-center" width="10%">{{ number_format($item->total_price_check, 2) }}</td>  
+                                                <td class="text-center" width="10%">{{ number_format($item->opaque_price, 2) }}</td>  
+                                                <td class="text-center" width="10%">{{ number_format($item->before_price, 2) }}</td>   --}}
                                                 <td class="text-center" width="7%">
                                                     <button type="button" style="width: 100%" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#MoneyModal_2{{ $item->vn }}" data-bs-toggle="tooltip" data-bs-placement="right" title="รายละเอียด"> 
-                                                        {{-- <i class="fa fa-lungs-virus" style="font-size:17px;color: rgb(255, 34, 89)"></i>  --}}
-                                                        <i class="fa-regular fa-heart me-2" style="font-size:17px;color: rgb(12, 161, 124)"></i>
-                                                        {{ number_format($item->total_price, 2) }}
+                                                        <i class="fa fa-lungs-virus" style="font-size:17px;color: rgb(255, 34, 89)"></i> 
+                                                        {{ number_format($item->sum_price, 2) }}
                                                     </button> 
                                                 </td>  
                                                 @if ($item->active == 'Y')
@@ -251,21 +233,16 @@
                                             </tr>
 
                                                 <?php 
-                                                    // $data_sub = DB::select('
-                                                    //         SELECT a.vn,a.hn,a.cid,a.vstdate,a.ptname,a.pttype,a.ptty_spsch,a.qty,a.sum_price,b.xray_items_code,b.icode,b.ctname,b.qty,b.unitprice,b.sum_price
-                                                    //         FROM a_ct a 
-                                                    //         LEFT OUTER JOIN a_ct_item b ON b.vn = a.vn
-                                                    //         WHERE a.vn = "'.$item->vn.'"
-                                                    // '); 
                                                     $data_sub = DB::select('
-                                                            SELECT *
-                                                            FROM a_ct_scan 
-                                                            WHERE vn = "'.$item->vn.'"
+                                                            SELECT a.vn,a.hn,a.cid,a.vstdate,a.ptname,a.pttype,a.ptty_spsch,a.qty,a.sum_price,b.xray_items_code,b.icode,b.ctname,b.qty,b.unitprice,b.sum_price
+                                                            FROM a_ct a 
+                                                            LEFT OUTER JOIN a_ct_item b ON b.vn = a.vn
+                                                            WHERE a.vn = "'.$item->vn.'"
                                                     ');  
                                                     $data_subsub = DB::select('
                                                             SELECT *
                                                             FROM a_ct_item_check   
-                                                            WHERE ct_date = "'.$item->order_date.'" AND cid = "'.$item->cid.'"
+                                                            WHERE ct_date = "'.$item->vstdate.'" AND cid = "'.$item->cid.'"
                                                     ');   
                                                 ?>  
                                                 <div class="modal fade" id="MoneyModal_2{{ $item->vn }}" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true"> 
@@ -277,31 +254,31 @@
                                                         <div class="modal-body"> 
 
                                                             <div class="row mt-4 mb-4" style="font-size:15px;color:red"> 
-                                                                {{-- <div class="col"></div> --}}
+                                                                <div class="col"></div>
                                                                 <div class="col-md-1 text-center" >hn</div>
-                                                                <div class="col-md-1 text-center" >order_date</div>
-                                                                {{-- <div class="col-md-2 text-center" >ptname</div> --}}
-                                                                <div class="col-md-7 text-center" >รายการ</div>                                                               
-                                                                {{-- <div class="col-md-1 text-center" >pttype</div> --}}
-                                                                <div class="col-md-1 text-center">order_number</div>
-                                                                <div class="col-md-1 text-center">xray_price </div>
-                                                                <div class="col-md-1 text-center">total_price</div> 
-                                                                {{-- <div class="col"></div> --}}
+                                                                <div class="col-md-1 text-center" >vstdate</div>
+                                                                <div class="col-md-1 text-center" >icode</div>
+                                                                <div class="col-md-1 text-center" >items_code</div>                                                               
+                                                                <div class="col-md-3 text-center" >รายการ</div>
+                                                                <div class="col-md-1 text-center">qty</div>
+                                                                <div class="col-md-1 text-center">unitprice </div>
+                                                                <div class="col-md-1 text-center">total</div> 
+                                                                <div class="col"></div>
                                                             </div>
                                                             <?php $ii = 1; ?>
                                                             @foreach ($data_sub as $v)
                                                             <hr>
                                                                 <div class="row" style="font-size:12px;height: 12px;">  
-                                                                    {{-- <div class="col"></div> --}}
+                                                                    <div class="col"></div>
                                                                     <div class="col-md-1 text-start">{{ $v->hn}}</div>
-                                                                    <div class="col-md-1 text-start">{{ $v->order_date}}</div>                                                                    
-                                                                    {{-- <div class="col-md-2 text-start">{{ $v->ptname}}</div> --}}
-                                                                    <div class="col-md-7 text-start">{{ $v->xray_list}}</div>
-                                                                    {{-- <div class="col-md-1 text-start">{{ $v->pttype}}</div> --}}
-                                                                    <div class="col-md-1 text-start">{{ $v->xray_order_number}}</div> 
-                                                                    <div class="col-md-1 text-center">{{ number_format($v->xray_price, 2) }}</div>
-                                                                    <div class="col-md-1 text-center">{{ number_format($v->total_price, 2) }}</div>                                                                   
-                                                                    {{-- <div class="col"></div> --}}
+                                                                    <div class="col-md-1 text-start">{{ $v->vstdate}}</div>                                                                    
+                                                                    <div class="col-md-1 text-start">{{ $v->icode}}</div>
+                                                                    <div class="col-md-1 text-start">{{ $v->xray_items_code}}</div>
+                                                                    <div class="col-md-3 text-start">{{ $v->ctname}}</div>
+                                                                    <div class="col-md-1 text-start">{{ $v->qty}}</div> 
+                                                                    <div class="col-md-1 text-center">{{ number_format($v->unitprice, 2) }}</div>
+                                                                    <div class="col-md-1 text-center">{{ number_format($v->sum_price, 2) }}</div>                                                                   
+                                                                    <div class="col"></div>
                                                                 </div>
                                                             @endforeach 
                                                             <hr>
@@ -512,36 +489,32 @@
 
 @endsection
 @section('footer')
-
-{{-- <script src="{{ asset('js/jquery-1.9.1.min.js') }}"></script> --}}
     <script>
        
         $(document).ready(function() {
             $('#example').DataTable();
             $('#example2').DataTable();
             $('#example3').DataTable();
+           
+            $('#startdate').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm:ss'
+                // dateFormat: "dd-mm-yy", 
+                // timeFormat: "HH:mm:ss"
+            });
+            $('#enddate').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm:ss'
+                // dateFormat: "dd-mm-yy", 
+                // timeFormat: "HH:mm:ss"
+            });
 
-            // jQuery('#startdate_').datetimepicker({
-            //     format:'Y-m-d H:i:s',
-            //     lang:'th'
-            // });
-            // jQuery('#enddate_').datetimepicker({
-            //     format:'Y-m-d H:i:s',
-            //     lang:'th'
-            // });
             // $('#startdate').datetimepicker({
-            //     format: 'yyyy-mm-dd ' 
+            //     dateFormat: 'yyyy-mm-dd ',
+            //     timeFormat:  "hh:mm:ss"
             // });
             // $('#enddate').datetimepicker({
-            //     format: 'yyyy-mm-dd' 
+            //     dateFormat: 'yyyy-mm-dd',
+            //     timeFormat:  "hh:mm:ss"
             // });
-
-            $('#startdate').datepicker({
-                format: 'yyyy-mm-dd ' 
-            });
-            $('#enddate').datepicker({
-                format: 'yyyy-mm-dd' 
-            });
 
             $('#datepicker').datepicker({
                 format: 'yyyy-mm-dd'

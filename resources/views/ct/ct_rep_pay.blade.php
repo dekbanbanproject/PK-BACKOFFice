@@ -136,37 +136,17 @@
                 </div>
             </div>
         </div>
-        <form action="{{ url('ct_rep') }}" method="POST">
+        <form action="{{ url('ct_rep_pay') }}" method="POST">
             @csrf
         <div class="row"> 
             <div class="col-md-2"> 
-                <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail CT</h4>
-                <p class="card-title-desc">รายละเอียด CT</p>
+                <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail CT Confirm</h4>
+                <p class="card-title-desc">รายละเอียด CT ที่ผ่านการตรวจสอบแล้ว</p>
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
             <div class="col-md-5 text-end"> 
-            {{-- <div class="col-md-2 text-end"> 
-                <input type="text" class="form-control d-shadow" name="startdate" id="startdate" placeholder="Start Date" data-date-autoclose="true" autocomplete="off" value="{{ $startdate }}" required/>
-            </div> 
-            <div class="col-md-2 text-end">
-                <input type="text" class="form-control d-shadow" name="enddate" id="enddate" placeholder="End Date" data-date-autoclose="true" autocomplete="off" value="{{ $enddate }}" required/>
-            </div>
-            <div class="col-md-3">  
-                <button type="submit" class="ladda-button btn-pill btn btn-primary d-shadow" data-style="expand-left">
-                    <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
-                    <span class="ladda-spinner"></span>
-                </button>         
-                <button type="button" class="ladda-button btn-pill btn btn-danger d-shadow Syncdata" data-style="expand-left">
-                    <span class="ladda-label"> <i class="fa-solid fa-arrows-rotate text-danger text-white me-2"></i>Sync Data</span>
-                    <span class="ladda-spinner"></span>
-                </button> 
-                <button type="button" class="ladda-button btn-pill btn btn-success d-shadow CheckSit" data-style="expand-left">
-                    <span class="ladda-label"> <i class="fa-solid fa-user text-danger text-white me-2"></i>Check Sit</span>
-                    <span class="ladda-spinner"></span>
-                </button> 
-            </div> --}}
-           
+             
             <div class="input-daterange input-group" id="datepicker1" data-date-format="yyyy-mm-dd" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     
                 <input type="text" class="form-control d-shadow" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datetimepicker" data-date-autoclose="true" autocomplete="off"
@@ -177,16 +157,7 @@
                         <button type="submit" class="ladda-button btn-pill btn btn-primary d-shadow" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                             <span class="ladda-spinner"></span>
-                        </button> 
-                       
-                        <button type="button" class="ladda-button btn-pill btn btn-danger d-shadow Syncdata" data-style="expand-left">
-                            <span class="ladda-label"> <i class="fa-solid fa-arrows-rotate text-danger text-white me-2"></i>Sync Data</span>
-                            <span class="ladda-spinner"></span>
-                        </button> 
-                        <button type="button" class="ladda-button btn-pill btn btn-success d-shadow CheckSit" data-style="expand-left">
-                            <span class="ladda-label"> <i class="fa-solid fa-user text-danger text-white me-2"></i>Check Sit</span>
-                            <span class="ladda-spinner"></span>
-                        </button> 
+                        </button>  
                 </div> 
             </div>
         </div>      
@@ -197,8 +168,10 @@
                     <div class="card-body">  
                         <p class="mb-0">
                             <div class="table-responsive">
-                                <table id="example" class="table table-hover table-sm dt-responsive nowrap"
-                                style=" border-spacing: 0; width: 100%;">
+                                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
+                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                {{-- <table id="example" class="table table-hover table-sm dt-responsive nowrap"
+                                style=" border-spacing: 0; width: 100%;"> --}}
                                     <thead>
                                         <tr> 
                                             <th width="5%" class="text-center">ลำดับ</th>  
@@ -249,144 +222,7 @@
                                                 @endif
                                                 <td class="p-2" >{{ $item->STMdoc }}</td> 
                                             </tr>
-
-                                                <?php 
-                                                    // $data_sub = DB::select('
-                                                    //         SELECT a.vn,a.hn,a.cid,a.vstdate,a.ptname,a.pttype,a.ptty_spsch,a.qty,a.sum_price,b.xray_items_code,b.icode,b.ctname,b.qty,b.unitprice,b.sum_price
-                                                    //         FROM a_ct a 
-                                                    //         LEFT OUTER JOIN a_ct_item b ON b.vn = a.vn
-                                                    //         WHERE a.vn = "'.$item->vn.'"
-                                                    // '); 
-                                                    $data_sub = DB::select('
-                                                            SELECT *
-                                                            FROM a_ct_scan 
-                                                            WHERE vn = "'.$item->vn.'"
-                                                    ');  
-                                                    $data_subsub = DB::select('
-                                                            SELECT *
-                                                            FROM a_ct_item_check   
-                                                            WHERE ct_date = "'.$item->order_date.'" AND cid = "'.$item->cid.'"
-                                                    ');   
-                                                ?>  
-                                                <div class="modal fade" id="MoneyModal_2{{ $item->vn }}" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true"> 
-                                                    <div class="modal-dialog modal-dialog-slideout">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            เทียบรายการจาก HOS และ CT
-                                                        </div>
-                                                        <div class="modal-body"> 
-
-                                                            <div class="row mt-4 mb-4" style="font-size:15px;color:red"> 
-                                                                {{-- <div class="col"></div> --}}
-                                                                <div class="col-md-1 text-center" >hn</div>
-                                                                <div class="col-md-1 text-center" >order_date</div>
-                                                                {{-- <div class="col-md-2 text-center" >ptname</div> --}}
-                                                                <div class="col-md-7 text-center" >รายการ</div>                                                               
-                                                                {{-- <div class="col-md-1 text-center" >pttype</div> --}}
-                                                                <div class="col-md-1 text-center">order_number</div>
-                                                                <div class="col-md-1 text-center">xray_price </div>
-                                                                <div class="col-md-1 text-center">total_price</div> 
-                                                                {{-- <div class="col"></div> --}}
-                                                            </div>
-                                                            <?php $ii = 1; ?>
-                                                            @foreach ($data_sub as $v)
-                                                            <hr>
-                                                                <div class="row" style="font-size:12px;height: 12px;">  
-                                                                    {{-- <div class="col"></div> --}}
-                                                                    <div class="col-md-1 text-start">{{ $v->hn}}</div>
-                                                                    <div class="col-md-1 text-start">{{ $v->order_date}}</div>                                                                    
-                                                                    {{-- <div class="col-md-2 text-start">{{ $v->ptname}}</div> --}}
-                                                                    <div class="col-md-7 text-start">{{ $v->xray_list}}</div>
-                                                                    {{-- <div class="col-md-1 text-start">{{ $v->pttype}}</div> --}}
-                                                                    <div class="col-md-1 text-start">{{ $v->xray_order_number}}</div> 
-                                                                    <div class="col-md-1 text-center">{{ number_format($v->xray_price, 2) }}</div>
-                                                                    <div class="col-md-1 text-center">{{ number_format($v->total_price, 2) }}</div>                                                                   
-                                                                    {{-- <div class="col"></div> --}}
-                                                                </div>
-                                                            @endforeach 
-                                                            <hr>
-                                                            <form class="custom-validation" action="{{ route('ct.ct_rep_confirm') }}" method="POST" enctype="multipart/form-data">
-                                                                @csrf                         
-                                                                    <input type="hidden" id="vn" name="vn" value="{{ $item->vn }}">
-                                                                    <div class="row mt-5 mb-5">
-                                                                        <div class="col"></div>
-                                                                        <div class="col-md-2"> 
-                                                                            <button type="submit" class="ladda-button btn-pill btn btn-success d-shadow me-2 ms-2" data-style="expand-left" style="width: 150px">
-                                                                                <span class="ladda-label me-2"> <i class="fa-solid fa-user text-danger text-white me-2 ms-2"></i>Finish</span>
-                                                                                <span class="ladda-spinner"></span>
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="col"></div>
-                                                                    </div> 
-                                                            </form>
-
-                                                            <hr>
-
-                                                            
-                                                            <div class="row" style="font-size:15px;color:rgb(255, 153, 0)"> 
-                                                               
-                                                                <div class="col-md-1 text-center" >hn</div>
-                                                                <div class="col-md-1 text-center" >ct_date</div>
-                                                                <div class="col-md-1 text-center" >items_code</div>  
-                                                                <div class="col-md-3 text-center" >รายการ</div> 
-                                                                <div class="col-md-1 text-center">price_check </div>
-                                                                {{-- <div class="col-md-1 text-center">total</div> --}}
-                                                                <div class="col-md-1 text-center">รวมค่าตรวจ</div>
-                                                                <div class="col-md-1 text-center">ค่าสารทึบแสง</div>
-                                                                {{-- <div class="col-md-1 text-center">before</div>  --}}
-                                                                {{-- <div class="col-md-1 text-center">Total</div> --}}
-                                                                <div class="col-md-1 text-center">ค่าใช้จ่ายรวม</div>
-                                                                <div class="col-md-1 text-center">ชำระแล้ว</div>
-                                                                <div class="col-md-1 text-center">ค้างชำระ</div>
-                                                                
-                                                            </div>
-                                                            <?php $iii = 1; ?>
-                                                                @foreach ($data_subsub as $vv)
-                                                                <hr>
-                                                                    <div class="row" style="font-size:12px;height: 12px;">  
-                                                                        
-                                                                        <div class="col-md-1 text-start">{{ $vv->hn}}</div>
-                                                                        <div class="col-md-1 text-start">{{ $vv->ct_date}}</div>
-                                                                        <div class="col-md-1 text-start">{{ $vv->icode_hos}}</div>
-                                                                        <div class="col-md-3 text-start">{{ $vv->ct_check}}</div> 
-                                                                        <div class="col-md-1 text-center">{{ number_format($vv->price_check, 2) }}</div>
-                                                                        @if ($vv->total_price_check == '')
-                                                                        <div class="col-md-1 text-center">{{ $vv->total_price_check }}</div> 
-                                                                        @else
-                                                                        <div class="col-md-1 text-center">{{ number_format($vv->total_price_check, 2) }}</div> 
-                                                                        @endif
-                                                                        @if ($vv->total_opaque_price == '')
-                                                                        <div class="col-md-1 text-center">{{ $vv->total_opaque_price }}</div> 
-                                                                        @else
-                                                                        <div class="col-md-1 text-center">{{ number_format($vv->total_opaque_price, 2) }}</div> 
-                                                                        @endif 
-                                                                        @if ($vv->sumprice == '')
-                                                                        <div class="col-md-1 text-center">{{ $vv->sumprice }}</div> 
-                                                                        @else
-                                                                        <div class="col-md-1 text-center">{{ number_format($vv->sumprice, 2) }}</div> 
-                                                                        @endif 
-                                                                        @if ($vv->paid == '')
-                                                                        <div class="col-md-1 text-center">{{ $vv->paid }}</div> 
-                                                                        @else
-                                                                        <div class="col-md-1 text-center">{{ number_format($vv->paid, 2) }}</div> 
-                                                                        @endif 
-                                                                        @if ($vv->remain == '')
-                                                                        <div class="col-md-1 text-center">{{ $vv->remain }}</div> 
-                                                                        @else
-                                                                        <div class="col-md-1 text-center">{{ number_format($vv->remain, 2) }}</div> 
-                                                                        @endif                                                                 
-                                                                        
-                                                                    </div>
-                                                                @endforeach 
-
-
-
-                                                        </div>
-                                                        <div class="modal-footer"> 
-                                                        </div>
-                                                    </div>
-                                                </div> 
-                                            </div>
+ 
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -398,116 +234,7 @@
         </div> 
     </div>
 
-    {{-- <div class="modal fade" id="MoneyModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true"> 
-        <div class="modal-dialog modal-dialog-slideout">
-          <div class="modal-content">
-            <div class="modal-body">
-
-
-            </div>
-        </div>
-    </div>  --}}
-
-
-    <div class="modal fade" id="MoneyModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true"> 
-        <div class="modal-dialog modal-dialog-slideout">
-          <div class="modal-content">
-            <div class="modal-body">
-               
-                {{-- <hr>
-                <div class="row mt-4" style="font-size:15px;color:red"> 
-                    <div class="col-md-2 text-center" >รายการ</div>
-                    <div class="col-md-2 text-center" >รายการ HOS</div>
-                    <div class="col-md-1 text-center">ค่าตรวจ </div>
-                    <div class="col-md-1 text-center">รวมค่าตรวจ</div>
-                    <div class="col-md-1 text-center">ค่าสารทึบแสง</div>
-                    <div class="col-md-1 text-center">before</div> 
-                    <div class="col-md-1 text-center">Total</div>
-                    <div class="col-md-1 text-center">ค่าใช้จ่ายรวม</div>
-                    <div class="col-md-1 text-center">ชำระแล้ว</div>
-                    <div class="col-md-1 text-center">ค้างชำระ</div>
-                </div>
-                <?php $ii = 1; ?>
-                @foreach ($data_sub as $v)
-                <hr>
-                    <div class="row" style="font-size:12px;height: 12px;">  
-                        <div class="col-md-2 text-start">{{ $v->ct_check}}</div>
-                        <div class="col-md-2 text-start">{{ $v->ct_check_hos}}</div>
-                        <div class="col-md-1 text-center">{{ number_format($v->price_check, 2) }}</div>
-                        @if ($v->total_price_check == '')
-                           <div class="col-md-1 text-center">0.00</div> 
-                        @else
-                           <div class="col-md-1 text-center">{{ number_format($v->total_price_check, 2) }}</div> 
-                        @endif
-
-                        @if ($v->opaque_price == '')
-                            <div class="col-md-1 text-center">0.00</div> 
-                        @else
-                            <div class="col-md-1 text-center">{{ number_format($v->opaque_price, 2) }}</div> 
-                        @endif
-                        
-                        @if ($v->before_price =='')
-                            <div class="col-md-1 text-center">0.00</div>
-                        @else
-                            <div class="col-md-1 text-center">{{ number_format($v->before_price, 2) }}</div>
-                        @endif 
-
-                        @if ($v->total =='')
-                            <div class="col-md-1 text-center">0.00</div>
-                        @else
-                            <div class="col-md-1 text-center">{{ number_format($v->total, 0) }}</div>
-                        @endif
-
-                        @if ($v->sumprice =='')
-                            <div class="col-md-1 text-center">0.00</div>
-                        @else
-                            <div class="col-md-1 text-center">{{ number_format($v->sumprice, 2) }}</div>
-                        @endif
-
-                        @if ($v->paid =='')
-                            <div class="col-md-1 text-center">0.00</div>
-                        @else
-                            <div class="col-md-1 text-center">{{ number_format($v->paid, 2) }}</div>
-                        @endif
-
-                        @if ($v->remain =='')
-                            <div class="col-md-1 text-center">0.00</div>
-                        @else
-                            <div class="col-md-1 text-center">{{ number_format($v->remain, 2) }}</div>
-                        @endif 
-                    </div>
-                @endforeach 
-                <hr> --}}
-              
-
-                <input type="text" name="ct_check_edit" id="ct_check_edit">
-                <input type="text" name="price_check_edit" id="price_check_edit">
-
-                <input type="text" name="total_price_check_edit" id="total_price_check_edit">
-                <input type="text" name="opaque_price_edit" id="opaque_price_edit">
-                <input type="text" name="before_price_edit" id="before_price_edit">
-                <input type="text" name="total_edit" id="total_edit">
-                <input type="text" name="sumprice_edit" id="sumprice_edit">
-                <input type="text" name="paid_edit" id="paid_edit">
-                <input type="text" name="remain_edit" id="remain_edit"> 
-
-                <input type="text" name="ct_date_edit" id="ct_date_edit"> 
-                <input type="text" name="cid_edit" id="cid_edit"> 
-
-                {{-- <input type="text" name="a_stm_ct_id_edit" id="a_stm_ct_id_edit"> --}}
-                <div class="row mt-5">
-                    <div class="col"></div>
-                    <div class="col-md-2">
-                        <button type="button" class="ladda-button btn-pill btn btn-success d-shadow Finish me-3 ms-2" data-style="expand-left" style="width: 150px">
-                            <span class="ladda-label me-2"> <i class="fa-solid fa-user text-danger text-white me-2 ms-2"></i>Finish</span>
-                            <span class="ladda-spinner"></span>
-                        </button>
-                    </div>
-                    <div class="col"></div>
-                </div> 
-            </div>
-        </div>
-    </div> 
+   
 </div>
 
 @endsection
@@ -520,21 +247,7 @@
             $('#example').DataTable();
             $('#example2').DataTable();
             $('#example3').DataTable();
-
-            // jQuery('#startdate_').datetimepicker({
-            //     format:'Y-m-d H:i:s',
-            //     lang:'th'
-            // });
-            // jQuery('#enddate_').datetimepicker({
-            //     format:'Y-m-d H:i:s',
-            //     lang:'th'
-            // });
-            // $('#startdate').datetimepicker({
-            //     format: 'yyyy-mm-dd ' 
-            // });
-            // $('#enddate').datetimepicker({
-            //     format: 'yyyy-mm-dd' 
-            // });
+ 
 
             $('#startdate').datepicker({
                 format: 'yyyy-mm-dd ' 

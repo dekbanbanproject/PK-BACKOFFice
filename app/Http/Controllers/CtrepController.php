@@ -61,7 +61,7 @@ use App\Models\D_apiofc_odx;
 use App\Models\D_apiofc_oop;
 use App\Models\D_apiofc_opd;
 use App\Models\D_apiofc_orf;
-use App\Models\Book_send_person;
+use App\Models\A_ct_scan;
 use App\Models\A_ct_item;
 use App\Models\A_ct;
 
@@ -122,6 +122,8 @@ class CtrepController extends Controller
     {
         $startdate = $request->startdate;
         $enddate = $request->enddate;
+
+        
  
         $date = date('Y-m-d');
         $y = date('Y') + 543;
@@ -149,7 +151,8 @@ class CtrepController extends Controller
         //        WHERE a.ct_date BETWEEN "'.$startdate.'" and "'.$enddate.'" AND ward = "OPD"
         //     ');  
         // } 
-        if ($startdate != '') {   
+        if ($startdate != '') {  
+            // dd($startdate); 
                 $data_ct = DB::connection('mysql2')->select('
                     SELECT v.vn,v.hn,v.cid ,v.vstdate,v.pttype,concat(p.pname,p.fname," ",p.lname) as ptname,s.icode,concat(s.name," ",s.strength," ",s.units) as ctname ,SUM(o.qty) total_qty,SUM(o.sum_price) total_sum_price 
                     FROM opitemrece o  
@@ -237,16 +240,132 @@ class CtrepController extends Controller
                             }
                             
                 } 
+                $data_ct_new = DB::connection('mysql2')->select('
+                    SELECT x.vn,x.hn,p.cid,x.order_date,x.order_time,x.order_date_time,concat(p.pname,p.fname," ",p.lname) as ptname,x.xray_list,x.confirm_all,x.department,x.department_code,x.department_name,x.pttype
+                    ,x.xray_order_number,x.xray_price,x.total_price,x.department_list,y.priority_name  
+                    FROM xray_head x  
+                    LEFT OUTER JOIN patient p on p.hn = x.hn    
+                    LEFT OUTER JOIN xray_priority y on y.xray_priority_id = x.xray_priority_id 
+                    WHERE x.order_date BETWEEN "' . $startdate . '" AND "' . $enddate . '" AND x.xray_list LIKE "CT%"
+                    GROUP BY x.vn   
+                    ORDER BY x.order_date_time  
+                ');
+                // WHERE (x.order_date_time BETWEEN "' . $startdate . '" AND "' . $enddate . '" ) 
+                foreach ($data_ct_new as $key => $value_new) {
+                    // $check2 = A_ct_scan::where('vn', $value_new->vn)->where('order_date', $value_new->order_date)->count();      
+                    $check2 = A_ct_scan::where('vn', $value_new->vn)->count();               
+                    if ($check2 > 0) {    
+                        A_ct_scan::where('vn',$value_new->vn)->update([
+                            'vn'                  => $value_new->vn,
+                            'hn'                  => $value_new->hn,                                 
+                            'cid'                 => $value_new->cid, 
+                            'order_date'          => $value_new->order_date,
+                            'order_time'          => $value_new->order_time, 
+                            'order_date_time'     => $value_new->order_date_time,
+                            'ptname'              => $value_new->ptname,
+                            'xray_list'           => $value_new->xray_list,
+                            'confirm_all'         => $value_new->confirm_all,
+                            'department'          => $value_new->department,
+                            'department_code'     => $value_new->department_code, 
+                            'department_name'     => $value_new->department_name, 
+                            'pttype'              => $value_new->pttype, 
+                            'xray_order_number'   => $value_new->xray_order_number, 
+                            'xray_price'          => $value_new->xray_price, 
+                            'total_price'         => $value_new->total_price, 
+                            'department_list'     => $value_new->department_list, 
+                            'priority_name'       => $value_new->priority_name,  
+                            'user_id'             => Auth::user()->id
+                        ]);              
+                    } else {
+                        A_ct_scan::insert([
+                            'vn'                  => $value_new->vn,
+                            'hn'                  => $value_new->hn,                                 
+                            'cid'                 => $value_new->cid, 
+                            'order_date'          => $value_new->order_date,
+                            'order_time'          => $value_new->order_time, 
+                            'order_date_time'     => $value_new->order_date_time,
+                            'ptname'              => $value_new->ptname,
+                            'xray_list'           => $value_new->xray_list,
+                            'confirm_all'         => $value_new->confirm_all,
+                            'department'          => $value_new->department,
+                            'department_code'     => $value_new->department_code, 
+                            'department_name'     => $value_new->department_name, 
+                            'pttype'              => $value_new->pttype, 
+                            'xray_order_number'   => $value_new->xray_order_number, 
+                            'xray_price'          => $value_new->xray_price, 
+                            'total_price'         => $value_new->total_price, 
+                            'department_list'     => $value_new->department_list, 
+                            'priority_name'       => $value_new->priority_name,  
+                            'user_id'             => Auth::user()->id
+                        ]); 
+                    }
+                    
+        } 
 
-                $data['datashow'] = DB::connection('mysql')->select('SELECT * FROM a_ct WHERE vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '" ORDER BY vstdate DESC');        
+                // $data['datashow'] = DB::connection('mysql')->select('SELECT * FROM a_ct WHERE vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '" ORDER BY vstdate DESC'); 
+                $data['datashow'] = DB::connection('mysql')->select('
+                    SELECT a_ct_scan_id,vn,hn,cid,order_date,order_time,order_date_time,ptname,xray_list,confirm_all,department,department_code
+                    ,department_name,pttype,ptty_spsch,xray_order_number,xray_price,total_price,department_list,priority_name,STMdoc,user_id,active
+                    FROM a_ct_scan 
+                    WHERE order_date BETWEEN "' . $startdate . '" AND "' . $enddate . '" ORDER BY order_date_time DESC
+                '); 
+
         } else { 
-
-                $data['datashow'] = DB::connection('mysql')->select('SELECT * FROM a_ct WHERE vstdate BETWEEN "' . $newDate . '" AND "' . $date . '" ORDER BY vstdate DESC');
+                $data['datashow'] = DB::connection('mysql')->select('
+                    SELECT a_ct_scan_id,vn,hn,cid,order_date,order_time,order_date_time,ptname,xray_list,confirm_all,department,department_code
+                    ,department_name,pttype,ptty_spsch,xray_order_number,xray_price,total_price,department_list,priority_name,STMdoc,user_id,active
+                    FROM a_ct_scan 
+                    WHERE order_date BETWEEN "' . $newDate . '" AND "' . $date . '" ORDER BY order_date_time DESC
+                '); 
+                // $data['datashow'] = DB::connection('mysql')->select('SELECT * FROM a_ct WHERE vstdate BETWEEN "' . $newDate . '" AND "' . $date . '" ORDER BY vstdate DESC');
+                // $data['datashow'] = DB::connection('mysql')->select('SELECT * FROM a_ct_scan WHERE order_date BETWEEN "' . $newDate . '" AND "' . $date . '" ORDER BY order_date_time DESC'); 
             
         }  
         
         
         return view('ct.ct_rep',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+            // 'datashow'      =>     $datashow,
+        ]);
+    }
+    public function ct_rep_pay(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+
+        
+ 
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -2 months')); //ย้อนหลัง 2 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y')+1;
+        $yearold = date('Y');
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+     
+        if ($startdate != '') {   
+                $data['datashow'] = DB::connection('mysql')->select('
+                    SELECT a_ct_scan_id,vn,hn,cid,order_date,order_time,order_date_time,ptname,xray_list,confirm_all,department,department_code
+                    ,department_name,pttype,ptty_spsch,xray_order_number,xray_price,total_price,department_list,priority_name,STMdoc,user_id,active
+                    FROM a_ct_scan 
+                    WHERE order_date BETWEEN "' . $startdate . '" AND "' . $enddate . '" AND active = "Y" ORDER BY order_date_time DESC
+                '); 
+
+        } else { 
+                $data['datashow'] = DB::connection('mysql')->select('
+                    SELECT a_ct_scan_id,vn,hn,cid,order_date,order_time,order_date_time,ptname,xray_list,confirm_all,department,department_code
+                    ,department_name,pttype,ptty_spsch,xray_order_number,xray_price,total_price,department_list,priority_name,STMdoc,user_id,active
+                    FROM a_ct_scan 
+                    WHERE order_date BETWEEN "' . $newDate . '" AND "' . $date . '" AND active = "Y" ORDER BY order_date_time DESC
+                '); 
+                
+        }  
+        
+        
+        return view('ct.ct_rep_pay',$data,[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate, 
             // 'datashow'      =>     $datashow,
@@ -334,13 +453,20 @@ class CtrepController extends Controller
         $datenow = date('Y-m-d');
         $startdate = $request->startdate;
         $enddate = $request->enddate;
+        // $datashow = DB::connection('mysql')->select('
+        //     SELECT cid,vstdate,SUM(sum_price) as sumprice,STMdoc,month(vstdate) as months
+        //     FROM a_ct
+        //     WHERE cid is not null
+        //     GROUP BY cid
+        //     ORDER BY STMdoc DESC
+        // ');
         $datashow = DB::connection('mysql')->select('
-            SELECT cid,vstdate,SUM(sum_price) as sumprice,STMdoc,month(vstdate) as months
-            FROM a_ct
+            SELECT cid,ct_date,SUM(sumprice) as sumprice,STMdoc,month(ct_date) as months
+            FROM a_stm_ct_excel
             WHERE cid is not null
             GROUP BY cid
             ORDER BY STMdoc DESC
-            ');
+        ');
             // SELECT cid,vstdate,SUM(sum_price) as sumprice,SUM(paid) as paid,SUM(remain) as remain,STMdoc,month(vstdate) as months
         $countc = DB::table('a_stm_ct_excel')->count(); 
         return view('ct.ct_rep_import',[
@@ -352,7 +478,7 @@ class CtrepController extends Controller
     }    
     function ct_rep_import_save (Request $request)
     {  
-        // A_stm_ct_excel::truncate(); 
+        A_stm_ct_excel::truncate(); 
 
         $the_file = $request->file('file'); 
         $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
@@ -498,10 +624,10 @@ class CtrepController extends Controller
                     ]);
 
                 } 
-                // foreach (array_chunk($data,500) as $t)  
-                // { 
-                //     DB::table('a_stm_ct_excel')->insert($t);
-                // }    
+                foreach (array_chunk($data,500) as $t)  
+                { 
+                    DB::table('a_ct_item_check')->insert($t);
+                }    
             } catch (Exception $e) {
                 $error_code = $e->errorInfo[1];
                 return back()->withErrors('There was a problem uploading the data!');
@@ -515,8 +641,9 @@ class CtrepController extends Controller
             //         ,sum(before_price) before_price,sum(discount) discount,sum(vat) vat,sum(total) total,sum(sumprice) sumprice,sum(paid) paid,sum(remain) remain
             //         ,doctor,doctor_read,technician,technician_sub,nurse,icd9,user_id,STMDoc
             //     FROM a_stm_ct_excel
-            //     GROUP BY cid
+               
             // ');
+            // // GROUP BY cid
             // foreach ($data_excel as $key => $v) {
             //     if ($v->cid !='') {  
             //             A_stm_ct::insert([
@@ -533,7 +660,7 @@ class CtrepController extends Controller
             //                 'cardno'                  =>$v->cardno,
             //                 'ward'                    =>$v->ward,
             //                 'service'                 =>$v->service,
-            //                 // 'icode_hos'               =>$v->icode_hos,
+            //                 'icode_hos'               =>$v->icode_hos,
             //                 'ct_check'                =>$v->ct_check,
             //                 'price_check'             =>$v->price_check,
             //                 'total_price_check'       =>$v->total_price_check,
@@ -689,63 +816,64 @@ class CtrepController extends Controller
         // GROUP BY cid,ct_date,icode_hos
         foreach ($data_sync_excel as $key => $value) {
             // $count = A_ct_item::where('vstdate',$value->ct_date)->where('cid',$value->cid)->where('xray_items_code',$value->icode_hos)->count();
-            $count = A_ct_item::where('vstdate',$value->ct_date)->where('cid',$value->cid)->count();
+            // $count = A_ct_item::where('vstdate',$value->ct_date)->where('cid',$value->cid)->count();
             // dd($count);
-            if ($count > 1) {
-                A_ct_item::where('vstdate',$value->ct_date)->where('cid',$value->cid)->where('xray_items_code',$value->icode_hos)->update([
-                    'sfhname'            =>  $value->sfhname,
-                    'pttypename'         =>  $value->pttypename,
-                    'ward'               =>  $value->ward,
-                    'icode_hos'          =>  $value->icode_hos,
-                    'ct_check'           =>  $value->ct_check,
-                    'price_check'        =>  $value->price_check,
-                    'total_price_check'  =>  $value->total_price_check,
-                    'opaque'             =>  $value->opaque,
-                    'opaque_price'       =>  $value->opaque_price,
-                    'total_opaque_price' =>  $value->total_opaque_price,
-                    'other_price'        =>  $value->other_price,
-                    'total_other_price'  =>  $value->total_other_price,
-                    'before_price'       =>  $value->before_price,
-                    'discount'           =>  $value->discount,
-                    'vat'                =>  $value->vat,
-                    'total'              =>  $value->total,
-                    'sumprice'           =>  $value->sumprice,
-                    'paid'               =>  $value->paid,
-                    'remain'             =>  $value->remain,
-                    'STMDoc'             =>  $value->STMDoc,
-                ]);
-            } else {
-                A_ct_item::insert([ 
-                    'hn'                 =>  $value->hn,                                 
-                    'cid'                =>  $value->cid, 
-                    'vstdate'            =>  $value->ct_date,
-                    // 'ptname'             =>  $value->ptname, 
-                    'sfhname'            =>  $value->sfhname,
-                    'pttypename'         =>  $value->pttypename,
-                    'ward'               =>  $value->ward,
-                    'icode_hos'          =>  $value->icode_hos,
-                    'ct_check'           =>  $value->ct_check,
-                    'price_check'        =>  $value->price_check,
-                    'total_price_check'  =>  $value->total_price_check,
-                    'opaque'             =>  $value->opaque,
-                    'opaque_price'       =>  $value->opaque_price,
-                    'total_opaque_price' =>  $value->total_opaque_price,
-                    'other_price'        =>  $value->other_price,
-                    'total_other_price'  =>  $value->total_other_price,
-                    'before_price'       =>  $value->before_price,
-                    'discount'           =>  $value->discount,
-                    'vat'                =>  $value->vat,
-                    'total'              =>  $value->total,
-                    'sumprice'           =>  $value->sumprice,
-                    'paid'               =>  $value->paid,
-                    'remain'             =>  $value->remain,
-                    'STMDoc'             =>  $value->STMDoc, 
-                    'user_id'             => Auth::user()->id
-                ]); 
-            }
+            // if ($count > 1) {
+            //     A_ct_item::where('vstdate',$value->ct_date)->where('cid',$value->cid)->where('xray_items_code',$value->icode_hos)->update([
+            //         'sfhname'            =>  $value->sfhname,
+            //         'pttypename'         =>  $value->pttypename,
+            //         'ward'               =>  $value->ward,
+            //         'icode_hos'          =>  $value->icode_hos,
+            //         'ct_check'           =>  $value->ct_check,
+            //         'price_check'        =>  $value->price_check,
+            //         'total_price_check'  =>  $value->total_price_check,
+            //         'opaque'             =>  $value->opaque,
+            //         'opaque_price'       =>  $value->opaque_price,
+            //         'total_opaque_price' =>  $value->total_opaque_price,
+            //         'other_price'        =>  $value->other_price,
+            //         'total_other_price'  =>  $value->total_other_price,
+            //         'before_price'       =>  $value->before_price,
+            //         'discount'           =>  $value->discount,
+            //         'vat'                =>  $value->vat,
+            //         'total'              =>  $value->total,
+            //         'sumprice'           =>  $value->sumprice,
+            //         'paid'               =>  $value->paid,
+            //         'remain'             =>  $value->remain,
+            //         'STMDoc'             =>  $value->STMDoc,
+            //     ]);
+            // } else {
+            //     A_ct_item::insert([ 
+            //         'hn'                 =>  $value->hn,                                 
+            //         'cid'                =>  $value->cid, 
+            //         'vstdate'            =>  $value->ct_date, 
+            //         'sfhname'            =>  $value->sfhname,
+            //         'pttypename'         =>  $value->pttypename,
+            //         'ward'               =>  $value->ward,
+            //         'icode_hos'          =>  $value->icode_hos,
+            //         'ct_check'           =>  $value->ct_check,
+            //         'price_check'        =>  $value->price_check,
+            //         'total_price_check'  =>  $value->total_price_check,
+            //         'opaque'             =>  $value->opaque,
+            //         'opaque_price'       =>  $value->opaque_price,
+            //         'total_opaque_price' =>  $value->total_opaque_price,
+            //         'other_price'        =>  $value->other_price,
+            //         'total_other_price'  =>  $value->total_other_price,
+            //         'before_price'       =>  $value->before_price,
+            //         'discount'           =>  $value->discount,
+            //         'vat'                =>  $value->vat,
+            //         'total'              =>  $value->total,
+            //         'sumprice'           =>  $value->sumprice,
+            //         'paid'               =>  $value->paid,
+            //         'remain'             =>  $value->remain,
+            //         'STMDoc'             =>  $value->STMDoc, 
+            //         'user_id'             => Auth::user()->id
+            //     ]); 
+            // }
 
-            A_ct::where('vstdate',$value->ct_date)->where('cid',$value->cid)->update([
-                
+            // A_ct::where('vstdate',$value->ct_date)->where('cid',$value->cid)->update([                
+            //     'STMDoc'             =>  $value->STMDoc,
+            // ]);
+            A_ct_scan::where('order_date',$value->ct_date)->where('cid',$value->cid)->update([                
                 'STMDoc'             =>  $value->STMDoc,
             ]);
             
@@ -868,7 +996,7 @@ class CtrepController extends Controller
         $id    = $request->vn; 
         //   dd($id);
         // A_stm_ct::where('a_stm_ct_id',$id)->update(['active' => 'Y']); 
-        A_ct::where('vn',$id)->update(['active' => 'Y']); 
+        A_ct_scan::where('vn',$id)->update(['active' => 'Y']); 
         return redirect()->route('ct.ct_rep');
 
         // return response()->json([
@@ -899,7 +1027,7 @@ class CtrepController extends Controller
                     $token_  = $value->token;
                 }
                 // $ct_data = DB::connection('mysql')->select('SELECT cid,ct_date FROM a_stm_ct WHERE ct_date BETWEEN "'.$datestart.'" AND "'.$dateend.'"');
-                $ct_data = DB::connection('mysql')->select('SELECT cid,vstdate FROM a_ct WHERE vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'" AND ptty_spsch IS NULL');
+                $ct_data = DB::connection('mysql')->select('SELECT cid,order_date FROM a_ct_scan WHERE order_date BETWEEN "'.$datestart.'" AND "'.$dateend.'" AND ptty_spsch IS NULL');
                 foreach ($ct_data as $key => $vv) {
                 
                         $client = new SoapClient(
@@ -946,11 +1074,15 @@ class CtrepController extends Controller
                                 //     'pttypename_spsch' => @$maininscl,
                                 
                                 // ]); 
-                                A_ct::where('cid', $vv->cid)->where('vstdate', $vv->vstdate)
-                                ->update([
-                                    'ptty_spsch'       => @$subinscl,
-                                    // 'pttypename_spsch' => @$maininscl,
+                                // A_ct::where('cid', $vv->cid)->where('vstdate', $vv->vstdate)
+                                // ->update([
+                                //     'ptty_spsch'       => @$subinscl,
+                                //     // 'pttypename_spsch' => @$maininscl,                                
+                                // ]);  
                                 
+                                A_ct_scan::where('cid', $vv->cid)->where('order_date', $vv->order_date)
+                                ->update([
+                                    'ptty_spsch'       => @$subinscl                                 
                                 ]);  
                         }elseif(@$maininscl !="" || @$subinscl !=""){ 
                                 // A_stm_ct::where('cid', $vv->cid)->where('ct_date', $vv->ct_date)
@@ -959,11 +1091,13 @@ class CtrepController extends Controller
                                 //         'pttypename_spsch' => @$maininscl,
                                        
                                 // ]); 
-                                A_ct::where('cid', $vv->cid)->where('vstdate', $vv->vstdate)
-                                    ->update([
-                                        'ptty_spsch'       => @$subinscl,
-                                        // 'pttypename_spsch' => @$maininscl,
-                                       
+                                // A_ct::where('cid', $vv->cid)->where('vstdate', $vv->vstdate)
+                                //     ->update([
+                                //         'ptty_spsch'       => @$subinscl, 
+                                // ]); 
+                                A_ct_scan::where('cid', $vv->cid)->where('order_date', $vv->order_date)
+                                ->update([
+                                    'ptty_spsch'       => @$subinscl ,                                
                                 ]); 
                         }
                 }
