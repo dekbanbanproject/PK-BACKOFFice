@@ -116,10 +116,10 @@ $pos = strrpos($url, '/') + 1;
                             <i class="fa-solid fa-upload text-primary me-2"></i>
                             Export
                         </button> --}}
-                        {{-- <a href="{{url('ofc_401_exportapi')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                        <a href="{{url('ofc_401_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                             <i class="fa-solid fa-file-export text-danger me-2"></i>
                             Export
-                        </a> --}}
+                        </a>
                     {{-- </form> --}}
                     {{-- <form action="{{ route('claim.ofc_401_sendapi') }}" method="POST">
                         @csrf
@@ -130,7 +130,7 @@ $pos = strrpos($url, '/') + 1;
                     </form> --}}
                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger" id="ExportdataAPI">
                         <i class="fa-solid fa-upload text-danger me-2"></i>
-                        Export
+                        Export Api
                     </button>
                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="SenddataAPI">
                         <i class="fa-solid fa-upload text-primary me-2"></i>

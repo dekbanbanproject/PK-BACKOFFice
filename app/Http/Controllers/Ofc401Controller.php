@@ -940,498 +940,498 @@ class Ofc401Controller extends Controller
              'status'    => '200'
          ]);
     }
-    // public function ofc_401_export(Request $request)
-    // {
-    //     $sss_date_now = date("Y-m-d");
-    //     $sss_time_now = date("H:i:s");
+    public function ofc_401_export(Request $request)
+    {
+        $sss_date_now = date("Y-m-d");
+        $sss_time_now = date("H:i:s");
 
-    //     #ตัดขีด, ตัด : ออก
-    //     $pattern_date = '/-/i';
-    //     $sss_date_now_preg = preg_replace($pattern_date, '', $sss_date_now);
-    //     $pattern_time = '/:/i';
-    //     $sss_time_now_preg = preg_replace($pattern_time, '', $sss_time_now);
-    //     #ตัดขีด, ตัด : ออก
+        #ตัดขีด, ตัด : ออก
+        $pattern_date = '/-/i';
+        $sss_date_now_preg = preg_replace($pattern_date, '', $sss_date_now);
+        $pattern_time = '/:/i';
+        $sss_time_now_preg = preg_replace($pattern_time, '', $sss_time_now);
+        #ตัดขีด, ตัด : ออก
 
-    //      #delete file in folder ทั้งหมด
-    //     $file = new Filesystem;
-    //     $file->cleanDirectory('Export'); //ทั้งหมด
-    //     // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
-    //     $folder='OFC_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+         #delete file in folder ทั้งหมด
+        $file = new Filesystem;
+        $file->cleanDirectory('Export'); //ทั้งหมด
+        // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
+        $folder='OFC_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
 
-    //      mkdir ('Export/'.$folder, 0777, true);  //Web
-    //     //  mkdir ('C:Export/'.$folder, 0777, true); //localhost
+         mkdir ('Export/'.$folder, 0777, true);  //Web
+        //  mkdir ('C:Export/'.$folder, 0777, true); //localhost
 
-    //     header("Content-type: text/txt");
-    //     header("Cache-Control: no-store, no-cache");
-    //     header('Content-Disposition: attachment; filename="content.txt"');
+        header("Content-type: text/txt");
+        header("Cache-Control: no-store, no-cache");
+        header('Content-Disposition: attachment; filename="content.txt"');
 
-    //     //1 ins.txt
-    //     $file_d_ins = "Export/".$folder."/INS.txt";
-    //     $objFopen_ins = fopen($file_d_ins, 'w'); 
-    //     $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
-    //     fwrite($objFopen_ins, $opd_head); 
-    //     $ins = DB::connection('mysql')->select('
-    //         SELECT * from d_ins where d_anaconda_id = "OFC_401"
-    //     ');
-    //     foreach ($ins as $key => $value1) {
-    //         $a1 = $value1->HN;
-    //         $a2 = $value1->INSCL;
-    //         $a3 = $value1->SUBTYPE;
-    //         $a4 = $value1->CID;
-    //         $a5 = $value1->DATEIN;
-    //         $a6 = $value1->DATEEXP;
-    //         $a7 = $value1->HOSPMAIN;
-    //         $a8 = $value1->HOSPSUB;
-    //         $a9 = $value1->GOVCODE;
-    //         $a10 = $value1->GOVNAME;
-    //         $a11 = $value1->PERMITNO;
-    //         $a12 = $value1->DOCNO;
-    //         $a13 = $value1->OWNRPID;
-    //         $a14= $value1->OWNRNAME;
-    //         $a15 = $value1->AN;
-    //         $a16= $value1->SEQ;
-    //         $a17= $value1->SUBINSCL;
-    //         $a18 = $value1->RELINSCL;
-    //         $a19 = $value1->HTYPE;
-    //         $str_ins="\n".$a1."|".$a2."|".$a3."|".$a4."|".$a5."|".$a6."|".$a7."|".$a8."|".$a9."|".$a10."|".$a11."|".$a12."|".$a13."|".$a14."|".$a15."|".$a16."|".$a17."|".$a18."|".$a19;
-    //         $ansitxt_ins = iconv('UTF-8', 'TIS-620', $str_ins); 
-    //         fwrite($objFopen_ins, $ansitxt_ins); 
-    //     }
-    //     fclose($objFopen_ins); 
+        //1 ins.txt
+        $file_d_ins = "Export/".$folder."/INS.txt";
+        $objFopen_ins = fopen($file_d_ins, 'w'); 
+        $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
+        fwrite($objFopen_ins, $opd_head); 
+        $ins = DB::connection('mysql')->select('
+            SELECT * from d_ins where d_anaconda_id = "OFC_401"
+        ');
+        foreach ($ins as $key => $value1) {
+            $a1 = $value1->HN;
+            $a2 = $value1->INSCL;
+            $a3 = $value1->SUBTYPE;
+            $a4 = $value1->CID;
+            $a5 = $value1->DATEIN;
+            $a6 = $value1->DATEEXP;
+            $a7 = $value1->HOSPMAIN;
+            $a8 = $value1->HOSPSUB;
+            $a9 = $value1->GOVCODE;
+            $a10 = $value1->GOVNAME;
+            $a11 = $value1->PERMITNO;
+            $a12 = $value1->DOCNO;
+            $a13 = $value1->OWNRPID;
+            $a14= $value1->OWNRNAME;
+            $a15 = $value1->AN;
+            $a16= $value1->SEQ;
+            $a17= $value1->SUBINSCL;
+            $a18 = $value1->RELINSCL;
+            $a19 = $value1->HTYPE;
+            $str_ins="\n".$a1."|".$a2."|".$a3."|".$a4."|".$a5."|".$a6."|".$a7."|".$a8."|".$a9."|".$a10."|".$a11."|".$a12."|".$a13."|".$a14."|".$a15."|".$a16."|".$a17."|".$a18."|".$a19;
+            $ansitxt_ins = iconv('UTF-8', 'TIS-620', $str_ins); 
+            fwrite($objFopen_ins, $ansitxt_ins); 
+        }
+        fclose($objFopen_ins); 
 
-    //     //2 pat.txt
-    //     $file_d_pat = "Export/".$folder."/PAT.txt";
-    //     $objFopen_pat = fopen($file_d_pat, 'w'); 
-    //     $opd_head_pat = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
-    //     fwrite($objFopen_pat, $opd_head_pat);
-    //     $pat = DB::connection('mysql')->select('
-    //         SELECT * from d_pat where d_anaconda_id = "OFC_401"
-    //     ');
-    //     foreach ($pat as $key => $value9) {
-    //         $i1 = $value9->HCODE;
-    //         $i2 = $value9->HN;
-    //         $i3 = $value9->CHANGWAT;
-    //         $i4 = $value9->AMPHUR;
-    //         $i5 = $value9->DOB;
-    //         $i6 = $value9->SEX;
-    //         $i7 = $value9->MARRIAGE;
-    //         $i8 = $value9->OCCUPA;
-    //         $i9 = $value9->NATION;
-    //         $i10 = $value9->PERSON_ID;
-    //         $i11 = $value9->NAMEPAT;
-    //         $i12 = $value9->TITLE;
-    //         $i13 = $value9->FNAME;
-    //         $i14 = $value9->LNAME;
-    //         $i15 = $value9->IDTYPE;      
-    //         $str_pat="\n".$i1."|".$i2."|".$i3."|".$i4."|".$i5."|".$i6."|".$i7."|".$i8."|".$i9."|".$i10."|".$i11."|".$i12."|".$i13."|".$i14."|".$i15;
-    //         $ansitxt_pat = iconv('UTF-8', 'TIS-620', $str_pat); 
-    //         fwrite($objFopen_pat, $ansitxt_pat);
+        //2 pat.txt
+        $file_d_pat = "Export/".$folder."/PAT.txt";
+        $objFopen_pat = fopen($file_d_pat, 'w'); 
+        $opd_head_pat = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
+        fwrite($objFopen_pat, $opd_head_pat);
+        $pat = DB::connection('mysql')->select('
+            SELECT * from d_pat where d_anaconda_id = "OFC_401"
+        ');
+        foreach ($pat as $key => $value9) {
+            $i1 = $value9->HCODE;
+            $i2 = $value9->HN;
+            $i3 = $value9->CHANGWAT;
+            $i4 = $value9->AMPHUR;
+            $i5 = $value9->DOB;
+            $i6 = $value9->SEX;
+            $i7 = $value9->MARRIAGE;
+            $i8 = $value9->OCCUPA;
+            $i9 = $value9->NATION;
+            $i10 = $value9->PERSON_ID;
+            $i11 = $value9->NAMEPAT;
+            $i12 = $value9->TITLE;
+            $i13 = $value9->FNAME;
+            $i14 = $value9->LNAME;
+            $i15 = $value9->IDTYPE;      
+            $str_pat="\n".$i1."|".$i2."|".$i3."|".$i4."|".$i5."|".$i6."|".$i7."|".$i8."|".$i9."|".$i10."|".$i11."|".$i12."|".$i13."|".$i14."|".$i15;
+            $ansitxt_pat = iconv('UTF-8', 'TIS-620', $str_pat); 
+            fwrite($objFopen_pat, $ansitxt_pat);
             
-    //     }
-    //     fclose($objFopen_pat);
+        }
+        fclose($objFopen_pat);
         
 
-    //     //3 opd.txt
-    //     $file_d_opd = "Export/".$folder."/OPD.txt";
-    //     $objFopen_opd = fopen($file_d_opd, 'w');
+        //3 opd.txt
+        $file_d_opd = "Export/".$folder."/OPD.txt";
+        $objFopen_opd = fopen($file_d_opd, 'w');
      
-    //     $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT';
-    //     fwrite($objFopen_opd, $opd_head_opd);
-    //     $opd = DB::connection('mysql')->select('
-    //         SELECT * from d_opd where d_anaconda_id = "OFC_401"
-    //     ');
-    //     foreach ($opd as $key => $value15) {
-    //         $o1 = $value15->HN;
-    //         $o2 = $value15->CLINIC;
-    //         $o3 = $value15->DATEOPD; 
-    //         $o4 = $value15->TIMEOPD; 
-    //         $o5 = $value15->SEQ; 
-    //         $o6 = $value15->UUC;  
-    //         $str_opd="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6;
-    //         $ansitxt_opd = iconv('UTF-8', 'TIS-620', $str_opd); 
-    //         fwrite($objFopen_opd, $ansitxt_opd);
+        $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT';
+        fwrite($objFopen_opd, $opd_head_opd);
+        $opd = DB::connection('mysql')->select('
+            SELECT * from d_opd where d_anaconda_id = "OFC_401"
+        ');
+        foreach ($opd as $key => $value15) {
+            $o1 = $value15->HN;
+            $o2 = $value15->CLINIC;
+            $o3 = $value15->DATEOPD; 
+            $o4 = $value15->TIMEOPD; 
+            $o5 = $value15->SEQ; 
+            $o6 = $value15->UUC;  
+            $str_opd="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6;
+            $ansitxt_opd = iconv('UTF-8', 'TIS-620', $str_opd); 
+            fwrite($objFopen_opd, $ansitxt_opd);
             
-    //     }
-    //     fclose($objFopen_opd);
+        }
+        fclose($objFopen_opd);
        
 
-    //     //4 orf.txt
-    //     $file_d_orf = "Export/".$folder."/ORF.txt";
-    //     $objFopen_orf = fopen($file_d_orf, 'w'); 
-    //     $opd_head_orf = 'HN|DATEOPD|CLINIC|REFER|REFERTYPE|SEQ';
-    //     fwrite($objFopen_orf, $opd_head_orf);
-    //     $orf = DB::connection('mysql')->select('
-    //         SELECT * from d_orf where d_anaconda_id = "OFC_401"
-    //     ');
-    //     foreach ($orf as $key => $value16) {
-    //         $p1 = $value16->HN;
-    //         $p2 = $value16->DATEOPD;
-    //         $p3 = $value16->CLINIC; 
-    //         $p4 = $value16->REFER; 
-    //         $p5 = $value16->REFERTYPE; 
-    //         $p6 = $value16->SEQ;  
-    //         $str_orf="\n".$p1."|".$p2."|".$p3."|".$p4."|".$p5."|".$p6;
-    //         $ansitxt_orf = iconv('UTF-8', 'TIS-620', $str_orf); 
-    //         fwrite($objFopen_orf, $ansitxt_orf); 
-    //     }
-    //     fclose($objFopen_orf);
+        //4 orf.txt
+        $file_d_orf = "Export/".$folder."/ORF.txt";
+        $objFopen_orf = fopen($file_d_orf, 'w'); 
+        $opd_head_orf = 'HN|DATEOPD|CLINIC|REFER|REFERTYPE|SEQ';
+        fwrite($objFopen_orf, $opd_head_orf);
+        $orf = DB::connection('mysql')->select('
+            SELECT * from d_orf where d_anaconda_id = "OFC_401"
+        ');
+        foreach ($orf as $key => $value16) {
+            $p1 = $value16->HN;
+            $p2 = $value16->DATEOPD;
+            $p3 = $value16->CLINIC; 
+            $p4 = $value16->REFER; 
+            $p5 = $value16->REFERTYPE; 
+            $p6 = $value16->SEQ;  
+            $str_orf="\n".$p1."|".$p2."|".$p3."|".$p4."|".$p5."|".$p6;
+            $ansitxt_orf = iconv('UTF-8', 'TIS-620', $str_orf); 
+            fwrite($objFopen_orf, $ansitxt_orf); 
+        }
+        fclose($objFopen_orf);
         
 
-    //     //5 odx.txt
-    //     $file_d_odx = "Export/".$folder."/ODX.txt";
-    //     $objFopen_odx = fopen($file_d_odx, 'w'); 
-    //     $opd_head_odx = 'HN|DATEDX|CLINIC|DIAG|DXTYPE|DRDX|PERSON_ID|SEQ';
-    //     fwrite($objFopen_odx, $opd_head_odx);
-    //     $odx = DB::connection('mysql')->select('
-    //         SELECT * from d_odx where d_anaconda_id = "OFC_401"
-    //     ');
-    //     foreach ($odx as $key => $value13) {
-    //         $m1 = $value13->HN;
-    //         $m2 = $value13->DATEDX;
-    //         $m3 = $value13->CLINIC; 
-    //         $m4 = $value13->DIAG; 
-    //         $m5 = $value13->DXTYPE; 
-    //         $m6 = $value13->DRDX; 
-    //         $m7 = $value13->PERSON_ID; 
-    //         $m8 = $value13->SEQ; 
-    //         $str_odx="\n".$m1."|".$m2."|".$m3."|".$m4."|".$m5."|".$m6."|".$m7."|".$m8;
-    //         $ansitxt_odx = iconv('UTF-8', 'TIS-620', $str_odx); 
-    //         fwrite($objFopen_odx, $ansitxt_odx); 
-    //     }
-    //     fclose($objFopen_odx); 
+        //5 odx.txt
+        $file_d_odx = "Export/".$folder."/ODX.txt";
+        $objFopen_odx = fopen($file_d_odx, 'w'); 
+        $opd_head_odx = 'HN|DATEDX|CLINIC|DIAG|DXTYPE|DRDX|PERSON_ID|SEQ';
+        fwrite($objFopen_odx, $opd_head_odx);
+        $odx = DB::connection('mysql')->select('
+            SELECT * from d_odx where d_anaconda_id = "OFC_401"
+        ');
+        foreach ($odx as $key => $value13) {
+            $m1 = $value13->HN;
+            $m2 = $value13->DATEDX;
+            $m3 = $value13->CLINIC; 
+            $m4 = $value13->DIAG; 
+            $m5 = $value13->DXTYPE; 
+            $m6 = $value13->DRDX; 
+            $m7 = $value13->PERSON_ID; 
+            $m8 = $value13->SEQ; 
+            $str_odx="\n".$m1."|".$m2."|".$m3."|".$m4."|".$m5."|".$m6."|".$m7."|".$m8;
+            $ansitxt_odx = iconv('UTF-8', 'TIS-620', $str_odx); 
+            fwrite($objFopen_odx, $ansitxt_odx); 
+        }
+        fclose($objFopen_odx); 
 
-    //     //6 oop.txt
-    //     $file_d_oop = "Export/".$folder."/OOP.txt";
-    //     $objFopen_oop = fopen($file_d_oop, 'w'); 
-    //     $opd_head_oop = 'HN|DATEOPD|CLINIC|OPER|DROPID|PERSON_ID|SEQ';
-    //     fwrite($objFopen_oop, $opd_head_oop);
-    //     $oop = DB::connection('mysql')->select('
-    //         SELECT * from d_oop where d_anaconda_id = "OFC_401"
-    //     ');
-    //     foreach ($oop as $key => $value14) {
-    //         $n1 = $value14->HN;
-    //         $n2 = $value14->DATEOPD;
-    //         $n3 = $value14->CLINIC; 
-    //         $n4 = $value14->OPER; 
-    //         $n5 = $value14->DROPID; 
-    //         $n6 = $value14->PERSON_ID; 
-    //         $n7 = $value14->SEQ;  
-    //         $str_oop="\n".$n1."|".$n2."|".$n3."|".$n4."|".$n5."|".$n6."|".$n7;
-    //         $ansitxt_oop = iconv('UTF-8', 'TIS-620', $str_oop); 
-    //         fwrite($objFopen_oop, $ansitxt_oop); 
-    //     }
-    //     fclose($objFopen_oop); 
+        //6 oop.txt
+        $file_d_oop = "Export/".$folder."/OOP.txt";
+        $objFopen_oop = fopen($file_d_oop, 'w'); 
+        $opd_head_oop = 'HN|DATEOPD|CLINIC|OPER|DROPID|PERSON_ID|SEQ';
+        fwrite($objFopen_oop, $opd_head_oop);
+        $oop = DB::connection('mysql')->select('
+            SELECT * from d_oop where d_anaconda_id = "OFC_401"
+        ');
+        foreach ($oop as $key => $value14) {
+            $n1 = $value14->HN;
+            $n2 = $value14->DATEOPD;
+            $n3 = $value14->CLINIC; 
+            $n4 = $value14->OPER; 
+            $n5 = $value14->DROPID; 
+            $n6 = $value14->PERSON_ID; 
+            $n7 = $value14->SEQ;  
+            $str_oop="\n".$n1."|".$n2."|".$n3."|".$n4."|".$n5."|".$n6."|".$n7;
+            $ansitxt_oop = iconv('UTF-8', 'TIS-620', $str_oop); 
+            fwrite($objFopen_oop, $ansitxt_oop); 
+        }
+        fclose($objFopen_oop); 
 
-    //     //7 ipd.txt
-    //     $file_d_ipd = "Export/".$folder."/IPD.txt";
-    //     $objFopen_ipd = fopen($file_d_ipd, 'w'); 
-    //     $opd_head_ipd = 'HN|AN|DATEADM|TIMEADM|DATEDSC|TIMEDSC|DISCHS|DISCHT|WARDDSC|DEPT|ADM_W|UUC|SVCTYPE';
-    //     fwrite($objFopen_ipd, $opd_head_ipd);
-    //     $ipd = DB::connection('mysql')->select('
-    //         SELECT * from d_ipd where d_anaconda_id = "OFC_401"
-    //     ');
-    //     foreach ($ipd as $key => $value10) {
-    //         $j1 = $value10->HN;
-    //         $j2 = $value10->AN;
-    //         $j3 = $value10->DATEADM;
-    //         $j4 = $value10->TIMEADM;
-    //         $j5 = $value10->DATEDSC;
-    //         $j6 = $value10->TIMEDSC;
-    //         $j7 = $value10->DISCHS;
-    //         $j8 = $value10->DISCHT;
-    //         $j9 = $value10->WARDDSC;
-    //         $j10 = $value10->DEPT;
-    //         $j11 = $value10->ADM_W;
-    //         $j12 = $value10->UUC;
-    //         $j13 = $value10->SVCTYPE;    
-    //         $str_ipd="\n".$j1."|".$j2."|".$j3."|".$j4."|".$j5."|".$j6."|".$j7."|".$j8."|".$j9."|".$j10."|".$j11."|".$j12."|".$j13;
-    //         $ansitxt_ipd = iconv('UTF-8', 'TIS-620', $str_ipd); 
-    //         fwrite($objFopen_ipd, $ansitxt_ipd); 
-    //     }
-    //     fclose($objFopen_ipd); 
+        //7 ipd.txt
+        $file_d_ipd = "Export/".$folder."/IPD.txt";
+        $objFopen_ipd = fopen($file_d_ipd, 'w'); 
+        $opd_head_ipd = 'HN|AN|DATEADM|TIMEADM|DATEDSC|TIMEDSC|DISCHS|DISCHT|WARDDSC|DEPT|ADM_W|UUC|SVCTYPE';
+        fwrite($objFopen_ipd, $opd_head_ipd);
+        $ipd = DB::connection('mysql')->select('
+            SELECT * from d_ipd where d_anaconda_id = "OFC_401"
+        ');
+        foreach ($ipd as $key => $value10) {
+            $j1 = $value10->HN;
+            $j2 = $value10->AN;
+            $j3 = $value10->DATEADM;
+            $j4 = $value10->TIMEADM;
+            $j5 = $value10->DATEDSC;
+            $j6 = $value10->TIMEDSC;
+            $j7 = $value10->DISCHS;
+            $j8 = $value10->DISCHT;
+            $j9 = $value10->WARDDSC;
+            $j10 = $value10->DEPT;
+            $j11 = $value10->ADM_W;
+            $j12 = $value10->UUC;
+            $j13 = $value10->SVCTYPE;    
+            $str_ipd="\n".$j1."|".$j2."|".$j3."|".$j4."|".$j5."|".$j6."|".$j7."|".$j8."|".$j9."|".$j10."|".$j11."|".$j12."|".$j13;
+            $ansitxt_ipd = iconv('UTF-8', 'TIS-620', $str_ipd); 
+            fwrite($objFopen_ipd, $ansitxt_ipd); 
+        }
+        fclose($objFopen_ipd); 
 
-    //     //8 irf.txt
-    //     $file_d_irf = "Export/".$folder."/IRF.txt";
-    //     $objFopen_irf = fopen($file_d_irf, 'w'); 
-    //     $opd_head_irf = 'AN|REFER|REFERTYPE';
-    //     fwrite($objFopen_irf, $opd_head_irf);
-    //     $irf = DB::connection('mysql')->select('
-    //         SELECT * from d_irf where d_anaconda_id = "OFC_401"
-    //     ');
-    //     foreach ($irf as $key => $value11) {
-    //         $k1 = $value11->AN;
-    //         $k2 = $value11->REFER;
-    //         $k3 = $value11->REFERTYPE; 
-    //         $str_irf="\n".$k1."|".$k2."|".$k3;
-    //         $ansitxt_irf = iconv('UTF-8', 'TIS-620', $str_irf); 
-    //         fwrite($objFopen_irf, $ansitxt_irf); 
-    //     }
-    //     fclose($objFopen_irf); 
+        //8 irf.txt
+        $file_d_irf = "Export/".$folder."/IRF.txt";
+        $objFopen_irf = fopen($file_d_irf, 'w'); 
+        $opd_head_irf = 'AN|REFER|REFERTYPE';
+        fwrite($objFopen_irf, $opd_head_irf);
+        $irf = DB::connection('mysql')->select('
+            SELECT * from d_irf where d_anaconda_id = "OFC_401"
+        ');
+        foreach ($irf as $key => $value11) {
+            $k1 = $value11->AN;
+            $k2 = $value11->REFER;
+            $k3 = $value11->REFERTYPE; 
+            $str_irf="\n".$k1."|".$k2."|".$k3;
+            $ansitxt_irf = iconv('UTF-8', 'TIS-620', $str_irf); 
+            fwrite($objFopen_irf, $ansitxt_irf); 
+        }
+        fclose($objFopen_irf); 
 
-    //     //9 idx.txt
-    //     $file_d_idx = "Export/".$folder."/IDX.txt";
-    //     $objFopen_idx = fopen($file_d_idx, 'w'); 
-    //     $opd_head_idx = 'AN|DIAG|DXTYPE|DRDX';
-    //     fwrite($objFopen_idx, $opd_head_idx);
-    //     $idx = DB::connection('mysql')->select('
-    //         SELECT * from d_idx where d_anaconda_id = "OFC_401"
-    //     ');
-    //     foreach ($idx as $key => $value8) {
-    //         $h1 = $value8->AN;
-    //         $h2 = $value8->DIAG;
-    //         $h3 = $value8->DXTYPE;
-    //         $h4 = $value8->DRDX; 
-    //         $str_idx="\n".$h1."|".$h2."|".$h3."|".$h4;
-    //         $ansitxt_idx = iconv('UTF-8', 'TIS-620', $str_idx); 
-    //         fwrite($objFopen_idx, $ansitxt_idx); 
-    //     }
-    //     fclose($objFopen_idx); 
+        //9 idx.txt
+        $file_d_idx = "Export/".$folder."/IDX.txt";
+        $objFopen_idx = fopen($file_d_idx, 'w'); 
+        $opd_head_idx = 'AN|DIAG|DXTYPE|DRDX';
+        fwrite($objFopen_idx, $opd_head_idx);
+        $idx = DB::connection('mysql')->select('
+            SELECT * from d_idx where d_anaconda_id = "OFC_401"
+        ');
+        foreach ($idx as $key => $value8) {
+            $h1 = $value8->AN;
+            $h2 = $value8->DIAG;
+            $h3 = $value8->DXTYPE;
+            $h4 = $value8->DRDX; 
+            $str_idx="\n".$h1."|".$h2."|".$h3."|".$h4;
+            $ansitxt_idx = iconv('UTF-8', 'TIS-620', $str_idx); 
+            fwrite($objFopen_idx, $ansitxt_idx); 
+        }
+        fclose($objFopen_idx); 
                    
-    //     //10 iop.txt
-    //     $file_d_iop = "Export/".$folder."/IOP.txt";
-    //     $objFopen_iop = fopen($file_d_iop, 'w'); 
-    //     $opd_head_iop = 'AN|OPER|OPTYPE|DROPID|DATEIN|TIMEIN|DATEOUT|TIMEOUT';
-    //     fwrite($objFopen_iop, $opd_head_iop);
-    //     $iop = DB::connection('mysql')->select('
-    //         SELECT * from d_iop where d_anaconda_id = "OFC_401"
-    //     ');
-    //     foreach ($iop as $key => $value2) {
-    //         $b1 = $value2->AN;
-    //         $b2 = $value2->OPER;
-    //         $b3 = $value2->OPTYPE;
-    //         $b4 = $value2->DROPID;
-    //         $b5 = $value2->DATEIN;
-    //         $b6 = $value2->TIMEIN;
-    //         $b7 = $value2->DATEOUT;
-    //         $b8 = $value2->TIMEOUT;
+        //10 iop.txt
+        $file_d_iop = "Export/".$folder."/IOP.txt";
+        $objFopen_iop = fopen($file_d_iop, 'w'); 
+        $opd_head_iop = 'AN|OPER|OPTYPE|DROPID|DATEIN|TIMEIN|DATEOUT|TIMEOUT';
+        fwrite($objFopen_iop, $opd_head_iop);
+        $iop = DB::connection('mysql')->select('
+            SELECT * from d_iop where d_anaconda_id = "OFC_401"
+        ');
+        foreach ($iop as $key => $value2) {
+            $b1 = $value2->AN;
+            $b2 = $value2->OPER;
+            $b3 = $value2->OPTYPE;
+            $b4 = $value2->DROPID;
+            $b5 = $value2->DATEIN;
+            $b6 = $value2->TIMEIN;
+            $b7 = $value2->DATEOUT;
+            $b8 = $value2->TIMEOUT;
            
-    //         $str_iop="\n".$b1."|".$b2."|".$b3."|".$b4."|".$b5."|".$b6."|".$b7."|".$b8;
-    //         $ansitxt_iop = iconv('UTF-8', 'TIS-620', $str_iop); 
-    //         fwrite($objFopen_iop, $ansitxt_iop); 
-    //     }
-    //     fclose($objFopen_iop); 
-    //     //11 cht.txt
-    //     $file_d_cht = "Export/".$folder."/CHT.txt";
-    //     $objFopen_cht = fopen($file_d_cht, 'w'); 
-    //     $opd_head_cht = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ';
-    //     fwrite($objFopen_cht, $opd_head_cht);
-    //     $cht = DB::connection('mysql')->select('
-    //         SELECT * from d_cht where d_anaconda_id = "OFC_401"
-    //     ');
-    //     foreach ($cht as $key => $value6) {
-    //         $f1 = $value6->HN;
-    //         $f2 = $value6->AN;
-    //         $f3 = $value6->DATE;
-    //         $f4 = $value6->TOTAL;
-    //         $f5 = $value6->PAID;
-    //         $f6 = $value6->PTTYPE;
-    //         $f7 = $value6->PERSON_ID; 
-    //         $f8 = $value6->SEQ;
-    //         $str_cht="\n".$f1."|".$f2."|".$f3."|".$f4."|".$f5."|".$f6."|".$f7."|".$f8;
-    //         $ansitxt_cht = iconv('UTF-8', 'TIS-620', $str_cht); 
-    //         fwrite($objFopen_cht, $ansitxt_cht); 
-    //     }
-    //     fclose($objFopen_cht); 
-    //     //12 cha.txt
-    //     $file_d_cha = "Export/".$folder."/CHA.txt";
-    //     $objFopen_cha = fopen($file_d_cha, 'w'); 
-    //     $opd_head_cha = 'HN|AN|DATE|CHRGITEM|AMOUNT|PERSON_ID|SEQ';
-    //     fwrite($objFopen_cha, $opd_head_cha);
-    //     $cha = DB::connection('mysql')->select('
-    //         SELECT * from d_cha where d_anaconda_id = "OFC_401"
-    //     ');
-    //     foreach ($cha as $key => $value5) {
-    //         $e1 = $value5->HN;
-    //         $e2 = $value5->AN;
-    //         $e3 = $value5->DATE;
-    //         $e4 = $value5->CHRGITEM;
-    //         $e5 = $value5->AMOUNT;
-    //         $e6 = $value5->PERSON_ID;
-    //         $e7 = $value5->SEQ; 
-    //         $str_cha="\n".$e1."|".$e2."|".$e3."|".$e4."|".$e5."|".$e6."|".$e7;
-    //         $ansitxt_cha = iconv('UTF-8', 'TIS-620', $str_cha); 
-    //         fwrite($objFopen_cha, $ansitxt_cha); 
-    //     }
-    //     fclose($objFopen_cha); 
+            $str_iop="\n".$b1."|".$b2."|".$b3."|".$b4."|".$b5."|".$b6."|".$b7."|".$b8;
+            $ansitxt_iop = iconv('UTF-8', 'TIS-620', $str_iop); 
+            fwrite($objFopen_iop, $ansitxt_iop); 
+        }
+        fclose($objFopen_iop); 
+        //11 cht.txt
+        $file_d_cht = "Export/".$folder."/CHT.txt";
+        $objFopen_cht = fopen($file_d_cht, 'w'); 
+        $opd_head_cht = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ';
+        fwrite($objFopen_cht, $opd_head_cht);
+        $cht = DB::connection('mysql')->select('
+            SELECT * from d_cht where d_anaconda_id = "OFC_401"
+        ');
+        foreach ($cht as $key => $value6) {
+            $f1 = $value6->HN;
+            $f2 = $value6->AN;
+            $f3 = $value6->DATE;
+            $f4 = $value6->TOTAL;
+            $f5 = $value6->PAID;
+            $f6 = $value6->PTTYPE;
+            $f7 = $value6->PERSON_ID; 
+            $f8 = $value6->SEQ;
+            $str_cht="\n".$f1."|".$f2."|".$f3."|".$f4."|".$f5."|".$f6."|".$f7."|".$f8;
+            $ansitxt_cht = iconv('UTF-8', 'TIS-620', $str_cht); 
+            fwrite($objFopen_cht, $ansitxt_cht); 
+        }
+        fclose($objFopen_cht); 
+        //12 cha.txt
+        $file_d_cha = "Export/".$folder."/CHA.txt";
+        $objFopen_cha = fopen($file_d_cha, 'w'); 
+        $opd_head_cha = 'HN|AN|DATE|CHRGITEM|AMOUNT|PERSON_ID|SEQ';
+        fwrite($objFopen_cha, $opd_head_cha);
+        $cha = DB::connection('mysql')->select('
+            SELECT * from d_cha where d_anaconda_id = "OFC_401"
+        ');
+        foreach ($cha as $key => $value5) {
+            $e1 = $value5->HN;
+            $e2 = $value5->AN;
+            $e3 = $value5->DATE;
+            $e4 = $value5->CHRGITEM;
+            $e5 = $value5->AMOUNT;
+            $e6 = $value5->PERSON_ID;
+            $e7 = $value5->SEQ; 
+            $str_cha="\n".$e1."|".$e2."|".$e3."|".$e4."|".$e5."|".$e6."|".$e7;
+            $ansitxt_cha = iconv('UTF-8', 'TIS-620', $str_cha); 
+            fwrite($objFopen_cha, $ansitxt_cha); 
+        }
+        fclose($objFopen_cha); 
 
-    //      //13 aer.txt
-    //      $file_d_aer = "Export/".$folder."/AER.txt";
-    //      $objFopen_aer = fopen($file_d_aer, 'w'); 
-    //      $opd_head_aer = 'HN|AN|DATEOPD|AUTHAE|AEDATE|AETIME|AETYPE|REFER_NO|REFMAINI|IREFTYPE|REFMAINO|OREFTYPE|UCAE|EMTYPE|SEQ|AESTATUS|DALERT|TALERT';
-    //      fwrite($objFopen_aer, $opd_head_aer);
-    //      $aer = DB::connection('mysql')->select('
-    //          SELECT * from d_aer where d_anaconda_id = "OFC_401"
-    //      ');
-    //      foreach ($aer as $key => $value4) {
-    //          $d1 = $value4->HN;
-    //          $d2 = $value4->AN;
-    //          $d3 = $value4->DATEOPD;
-    //          $d4 = $value4->AUTHAE;
-    //          $d5 = $value4->AEDATE;
-    //          $d6 = $value4->AETIME;
-    //          $d7 = $value4->AETYPE;
-    //          $d8 = $value4->REFER_NO;
-    //          $d9 = $value4->REFMAINI;
-    //          $d10 = $value4->IREFTYPE;
-    //          $d11 = $value4->REFMAINO;
-    //          $d12 = $value4->OREFTYPE;
-    //          $d13 = $value4->UCAE;
-    //          $d14 = $value4->EMTYPE;
-    //          $d15 = $value4->SEQ;
-    //          $d16 = $value4->AESTATUS;
-    //          $d17 = $value4->DALERT;
-    //          $d18 = $value4->TALERT;        
-    //          $str_aer="\n".$d1."|".$d2."|".$d3."|".$d4."|".$d5."|".$d6."|".$d7."|".$d8."|".$d9."|".$d10."|".$d11."|".$d12."|".$d13."|".$d14."|".$d15."|".$d16."|".$d17."|".$d18;
-    //          $ansitxt_aer = iconv('UTF-8', 'TIS-620', $str_aer); 
-    //          fwrite($objFopen_aer, $ansitxt_aer); 
-    //      }
-    //      fclose($objFopen_aer); 
+         //13 aer.txt
+         $file_d_aer = "Export/".$folder."/AER.txt";
+         $objFopen_aer = fopen($file_d_aer, 'w'); 
+         $opd_head_aer = 'HN|AN|DATEOPD|AUTHAE|AEDATE|AETIME|AETYPE|REFER_NO|REFMAINI|IREFTYPE|REFMAINO|OREFTYPE|UCAE|EMTYPE|SEQ|AESTATUS|DALERT|TALERT';
+         fwrite($objFopen_aer, $opd_head_aer);
+         $aer = DB::connection('mysql')->select('
+             SELECT * from d_aer where d_anaconda_id = "OFC_401"
+         ');
+         foreach ($aer as $key => $value4) {
+             $d1 = $value4->HN;
+             $d2 = $value4->AN;
+             $d3 = $value4->DATEOPD;
+             $d4 = $value4->AUTHAE;
+             $d5 = $value4->AEDATE;
+             $d6 = $value4->AETIME;
+             $d7 = $value4->AETYPE;
+             $d8 = $value4->REFER_NO;
+             $d9 = $value4->REFMAINI;
+             $d10 = $value4->IREFTYPE;
+             $d11 = $value4->REFMAINO;
+             $d12 = $value4->OREFTYPE;
+             $d13 = $value4->UCAE;
+             $d14 = $value4->EMTYPE;
+             $d15 = $value4->SEQ;
+             $d16 = $value4->AESTATUS;
+             $d17 = $value4->DALERT;
+             $d18 = $value4->TALERT;        
+             $str_aer="\n".$d1."|".$d2."|".$d3."|".$d4."|".$d5."|".$d6."|".$d7."|".$d8."|".$d9."|".$d10."|".$d11."|".$d12."|".$d13."|".$d14."|".$d15."|".$d16."|".$d17."|".$d18;
+             $ansitxt_aer = iconv('UTF-8', 'TIS-620', $str_aer); 
+             fwrite($objFopen_aer, $ansitxt_aer); 
+         }
+         fclose($objFopen_aer); 
                    
-    //     //14 adp.txt
-    //     $file_d_adp = "Export/".$folder."/ADP.txt";
-    //     $objFopen_adp = fopen($file_d_adp, 'w'); 
-    //     $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP|LMP|SP_ITEM';
-    //     fwrite($objFopen_adp, $opd_head_adp);
-    //     $adp = DB::connection('mysql')->select('
-    //         SELECT * from d_adp where d_anaconda_id = "OFC_401"
-    //     ');
-    //     foreach ($adp as $key => $value3) {
-    //         $c1 = $value3->HN;
-    //         $c2 = $value3->AN;
-    //         $c3 = $value3->DATEOPD;
-    //         $c4 = $value3->TYPE;
-    //         $c5 = $value3->CODE;
-    //         $c6 = $value3->QTY;
-    //         $c7 = $value3->RATE;
-    //         $c8 = $value3->SEQ;
-    //         $c9 = $value3->CAGCODE;
-    //         $c10 = $value3->DOSE;
-    //         $c11 = $value3->CA_TYPE;
-    //         $c12 = $value3->SERIALNO;
-    //         $c13 = $value3->TOTCOPAY;
-    //         $c14 = $value3->USE_STATUS;
-    //         $c15 = $value3->TOTAL;
-    //         $c16 = $value3->QTYDAY;
-    //         $c17 = $value3->TMLTCODE;
-    //         $c18 = $value3->STATUS1;
-    //         $c19 = $value3->BI;
-    //         $c20 = $value3->CLINIC;
-    //         $c21 = $value3->ITEMSRC;
-    //         $c22 = $value3->PROVIDER;
-    //         $c23 = $value3->GRAVIDA;
-    //         $c24 = $value3->GA_WEEK;
-    //         $c25 = $value3->DCIP;
-    //         $c26 = $value3->LMP;
-    //         $c27 = $value3->SP_ITEM;           
-    //         $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17."|".$c18."|".$c19."|".$c20."|".$c21."|".$c22."|".$c23."|".$c24."|".$c25."|".$c26."|".$c27;
-    //         $ansitxt_adp = iconv('UTF-8', 'TIS-620', $str_adp); 
-    //         fwrite($objFopen_adp, $ansitxt_adp); 
-    //     }
-    //     fclose($objFopen_adp); 
+        //14 adp.txt
+        $file_d_adp = "Export/".$folder."/ADP.txt";
+        $objFopen_adp = fopen($file_d_adp, 'w'); 
+        $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP|LMP|SP_ITEM';
+        fwrite($objFopen_adp, $opd_head_adp);
+        $adp = DB::connection('mysql')->select('
+            SELECT * from d_adp where d_anaconda_id = "OFC_401"
+        ');
+        foreach ($adp as $key => $value3) {
+            $c1 = $value3->HN;
+            $c2 = $value3->AN;
+            $c3 = $value3->DATEOPD;
+            $c4 = $value3->TYPE;
+            $c5 = $value3->CODE;
+            $c6 = $value3->QTY;
+            $c7 = $value3->RATE;
+            $c8 = $value3->SEQ;
+            $c9 = $value3->CAGCODE;
+            $c10 = $value3->DOSE;
+            $c11 = $value3->CA_TYPE;
+            $c12 = $value3->SERIALNO;
+            $c13 = $value3->TOTCOPAY;
+            $c14 = $value3->USE_STATUS;
+            $c15 = $value3->TOTAL;
+            $c16 = $value3->QTYDAY;
+            $c17 = $value3->TMLTCODE;
+            $c18 = $value3->STATUS1;
+            $c19 = $value3->BI;
+            $c20 = $value3->CLINIC;
+            $c21 = $value3->ITEMSRC;
+            $c22 = $value3->PROVIDER;
+            $c23 = $value3->GRAVIDA;
+            $c24 = $value3->GA_WEEK;
+            $c25 = $value3->DCIP;
+            $c26 = $value3->LMP;
+            $c27 = $value3->SP_ITEM;           
+            $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17."|".$c18."|".$c19."|".$c20."|".$c21."|".$c22."|".$c23."|".$c24."|".$c25."|".$c26."|".$c27;
+            $ansitxt_adp = iconv('UTF-8', 'TIS-620', $str_adp); 
+            fwrite($objFopen_adp, $ansitxt_adp); 
+        }
+        fclose($objFopen_adp); 
         
-    //      //15 lvd.txt
-    //      $file_d_lvd = "Export/".$folder."/LVD.txt";
-    //      $objFopen_lvd = fopen($file_d_lvd, 'w'); 
-    //      $opd_head_lvd = 'SEQLVD|AN|DATEOUT|TIMEOUT|DATEIN|TIMEIN|QTYDAY';
-    //      fwrite($objFopen_lvd, $opd_head_lvd);
-    //      $lvd = DB::connection('mysql')->select('
-    //          SELECT * from d_lvd where d_anaconda_id = "OFC_401"
-    //      ');
-    //      foreach ($lvd as $key => $value12) {
-    //          $L1 = $value12->SEQLVD;
-    //          $L2 = $value12->AN;
-    //          $L3 = $value12->DATEOUT; 
-    //          $L4 = $value12->TIMEOUT; 
-    //          $L5 = $value12->DATEIN; 
-    //          $L6 = $value12->TIMEIN; 
-    //          $L7 = $value12->QTYDAY; 
-    //          $str_lvd="\n".$L1."|".$L2."|".$L3."|".$L4."|".$L5."|".$L6."|".$L7;
-    //          $ansitxt_lvd = iconv('UTF-8', 'TIS-620', $str_lvd); 
-    //          fwrite($objFopen_lvd, $ansitxt_lvd); 
-    //      }
-    //      fclose($objFopen_lvd); 
+         //15 lvd.txt
+         $file_d_lvd = "Export/".$folder."/LVD.txt";
+         $objFopen_lvd = fopen($file_d_lvd, 'w'); 
+         $opd_head_lvd = 'SEQLVD|AN|DATEOUT|TIMEOUT|DATEIN|TIMEIN|QTYDAY';
+         fwrite($objFopen_lvd, $opd_head_lvd);
+         $lvd = DB::connection('mysql')->select('
+             SELECT * from d_lvd where d_anaconda_id = "OFC_401"
+         ');
+         foreach ($lvd as $key => $value12) {
+             $L1 = $value12->SEQLVD;
+             $L2 = $value12->AN;
+             $L3 = $value12->DATEOUT; 
+             $L4 = $value12->TIMEOUT; 
+             $L5 = $value12->DATEIN; 
+             $L6 = $value12->TIMEIN; 
+             $L7 = $value12->QTYDAY; 
+             $str_lvd="\n".$L1."|".$L2."|".$L3."|".$L4."|".$L5."|".$L6."|".$L7;
+             $ansitxt_lvd = iconv('UTF-8', 'TIS-620', $str_lvd); 
+             fwrite($objFopen_lvd, $ansitxt_lvd); 
+         }
+         fclose($objFopen_lvd); 
 
-    //     //16 dru.txt
-    //     $file_d_dru = "Export/".$folder."/DRU.txt";
-    //     $objFopen_dru = fopen($file_d_dru, 'w'); 
-    //     $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGTYPE|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
-    //     fwrite($objFopen_dru, $opd_head_dru);
-    //     $dru = DB::connection('mysql')->select('
-    //         SELECT * from d_dru where d_anaconda_id = "OFC_401"
-    //     ');
-    //     foreach ($dru as $key => $value7) {
-    //         $g1 = $value7->HCODE;
-    //         $g2 = $value7->HN;
-    //         $g3 = $value7->AN;
-    //         $g4 = $value7->CLINIC;
-    //         $g5 = $value7->PERSON_ID;
-    //         $g6 = $value7->DATE_SERV;
-    //         $g7 = $value7->DID;
-    //         $g8 = $value7->DIDNAME;
-    //         $g9 = $value7->AMOUNT;
-    //         $g10 = $value7->DRUGPRIC;
-    //         $g11 = $value7->DRUGCOST;
-    //         $g12 = $value7->DIDSTD;
-    //         $g13 = $value7->UNIT;
-    //         $g14 = $value7->UNIT_PACK;
-    //         $g15 = $value7->SEQ;
-    //         $g16 = $value7->DRUGREMARK;
-    //         $g17 = $value7->PA_NO;
-    //         $g18 = $value7->TOTCOPAY;
-    //         $g19 = $value7->USE_STATUS;
-    //         $g20 = $value7->TOTAL;
-    //         $g21 = $value7->SIGCODE;
-    //         $g22 = $value7->SIGTEXT;  
-    //         $g23 = $value7->SIGTEXT;      
-    //         $str_dru="\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g16."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22."|".$g23;
-    //         $ansitxt_dru = iconv('UTF-8', 'TIS-620', $str_dru); 
-    //         fwrite($objFopen_dru, $ansitxt_dru); 
-    //     }
-    //     fclose($objFopen_dru); 
+        //16 dru.txt
+        $file_d_dru = "Export/".$folder."/DRU.txt";
+        $objFopen_dru = fopen($file_d_dru, 'w'); 
+        $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGTYPE|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
+        fwrite($objFopen_dru, $opd_head_dru);
+        $dru = DB::connection('mysql')->select('
+            SELECT * from d_dru where d_anaconda_id = "OFC_401"
+        ');
+        foreach ($dru as $key => $value7) {
+            $g1 = $value7->HCODE;
+            $g2 = $value7->HN;
+            $g3 = $value7->AN;
+            $g4 = $value7->CLINIC;
+            $g5 = $value7->PERSON_ID;
+            $g6 = $value7->DATE_SERV;
+            $g7 = $value7->DID;
+            $g8 = $value7->DIDNAME;
+            $g9 = $value7->AMOUNT;
+            $g10 = $value7->DRUGPRIC;
+            $g11 = $value7->DRUGCOST;
+            $g12 = $value7->DIDSTD;
+            $g13 = $value7->UNIT;
+            $g14 = $value7->UNIT_PACK;
+            $g15 = $value7->SEQ;
+            $g16 = $value7->DRUGREMARK;
+            $g17 = $value7->PA_NO;
+            $g18 = $value7->TOTCOPAY;
+            $g19 = $value7->USE_STATUS;
+            $g20 = $value7->TOTAL;
+            $g21 = $value7->SIGCODE;
+            $g22 = $value7->SIGTEXT;  
+            $g23 = $value7->SIGTEXT;      
+            $str_dru="\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g16."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22."|".$g23;
+            $ansitxt_dru = iconv('UTF-8', 'TIS-620', $str_dru); 
+            fwrite($objFopen_dru, $ansitxt_dru); 
+        }
+        fclose($objFopen_dru); 
 
-    //      //17 lab.txt
-    //      $file_d_lab = "Export/".$folder."/LAB.txt";
-    //      $objFopen_lab = fopen($file_d_lab, 'w');
-    //      $opd_head_lab = 'HCODE|HN|PERSON_ID|DATESERV|SEQ|LABTEST|LABRESULT';
-    //      fwrite($objFopen_lab, $opd_head_lab);
+         //17 lab.txt
+         $file_d_lab = "Export/".$folder."/LAB.txt";
+         $objFopen_lab = fopen($file_d_lab, 'w');
+         $opd_head_lab = 'HCODE|HN|PERSON_ID|DATESERV|SEQ|LABTEST|LABRESULT';
+         fwrite($objFopen_lab, $opd_head_lab);
 
-    //      fclose($objFopen_lab);
+         fclose($objFopen_lab);
 
 
 
-    //     $pathdir =  "Export/".$folder."/";
-    //     $zipcreated = $folder.".zip";
+        $pathdir =  "Export/".$folder."/";
+        $zipcreated = $folder.".zip";
 
-    //     $newzip = new ZipArchive;
-    //     if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
-    //     $dir = opendir($pathdir);
+        $newzip = new ZipArchive;
+        if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
+        $dir = opendir($pathdir);
         
-    //     while($file = readdir($dir)) {
-    //         if(is_file($pathdir.$file)) {
-    //             $newzip -> addFile($pathdir.$file, $file);
-    //         }
-    //     }
-    //     $newzip ->close();
-    //             if (file_exists($zipcreated)) {
-    //                 header('Content-Type: application/zip');
-    //                 header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
-    //                 header('Content-Length: ' . filesize($zipcreated));
-    //                 flush();
-    //                 readfile($zipcreated); 
-    //                 unlink($zipcreated);   
-    //                 $files = glob($pathdir . '/*');   
-    //                 foreach($files as $file) {   
-    //                     if(is_file($file)) {      
-    //                         // unlink($file); 
-    //                     } 
-    //                 }                      
-    //                 return redirect()->route('claim.ofc_401');                    
-    //             }
-    //     } 
+        while($file = readdir($dir)) {
+            if(is_file($pathdir.$file)) {
+                $newzip -> addFile($pathdir.$file, $file);
+            }
+        }
+        $newzip ->close();
+                if (file_exists($zipcreated)) {
+                    header('Content-Type: application/zip');
+                    header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
+                    header('Content-Length: ' . filesize($zipcreated));
+                    flush();
+                    readfile($zipcreated); 
+                    unlink($zipcreated);   
+                    $files = glob($pathdir . '/*');   
+                    foreach($files as $file) {   
+                        if(is_file($file)) {      
+                            // unlink($file); 
+                        } 
+                    }                      
+                    return redirect()->route('claim.ofc_401');                    
+                }
+        } 
 
-    //         return redirect()->route('claim.ofc_401');
+            return redirect()->route('claim.ofc_401');
 
-    // }
+    }
 
     public function ofc_401_rep(Request $request)
     {
