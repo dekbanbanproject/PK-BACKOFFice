@@ -106,11 +106,11 @@ class Account302Controller extends Controller
         
             // $data_trimart = DB::table('acc_trimart')->limit(3)->orderBy('acc_trimart_id','desc')->get();
             if ($acc_trimart_id == '') {
-                $data_trimart = DB::table('acc_trimart')->limit(12)->orderBy('acc_trimart_id','desc')->get();
+                $data_trimart = DB::table('acc_trimart')->where('active','Y')->limit(12)->orderBy('acc_trimart_id','desc')->get();
                 $trimart = DB::table('acc_trimart')->orderBy('acc_trimart_id','desc')->get();
             } else {
                 // $data_trimart = DB::table('acc_trimart')->whereBetween('dchdate', [$startdate, $enddate])->orderBy('acc_trimart_id','desc')->get();
-                $data_trimart = DB::table('acc_trimart')->where('acc_trimart_id','=',$acc_trimart_id)->orderBy('acc_trimart_id','desc')->get();
+                $data_trimart = DB::table('acc_trimart')->where('active','Y')->where('acc_trimart_id','=',$acc_trimart_id)->orderBy('acc_trimart_id','desc')->get();
                 $trimart = DB::table('acc_trimart')->orderBy('acc_trimart_id','desc')->get();
             }
             return view('account_302.account_302_dash',[

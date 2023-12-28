@@ -74,26 +74,45 @@
     ?>
 
    <div class="tabs-animation">
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner"> 
+    <div class="row text-center">
+        <div id="overlay">
+            <div class="cv-spinner">
+                <span class="spinner"></span>
+            </div>
+        </div> 
+    </div> 
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner"> 
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0">Detail</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Detail</a></li>
+                            <li class="breadcrumb-item active">1102050101.302</li>
+                        </ol>
+                    </div>
+
                 </div>
             </div>
         </div>
+        <!-- end page title -->
+    </div> <!-- container-fluid -->
  
-            <div class="row ms-3 me-3"> 
-                <div class="col-md-4">
-                    <h4 class="card-title">Detail 1102050101.302</h4>
-                    <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.302</p>
-                </div>
-                <div class="col"></div>
-               
-            </div>
+           
        
-        <div class="row ms-3 me-3"> 
+        <div class="row "> 
             @foreach ($datashow as $item)   
             <div class="col-xl-4 col-md-6">
-                <div class="main-card mb-3 card shadow" style="background-color: rgb(246, 235, 247)"> 
+                <div class="card cardacc" style="background-color: rgb(246, 235, 247)"> 
  
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -110,7 +129,7 @@
                                                     ,sum(a.income) as income
                                                     ,sum(a.paid_money) as paid_money
                                                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-                                                    ,sum(a.debit) as debit
+                                                    ,sum(a.debit_total) as debit
                                                     FROM acc_debtor a
                                                     left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
                                                     WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
@@ -131,7 +150,7 @@
                                                     ,sum(a.income) as income
                                                     ,sum(a.paid_money) as paid_money
                                                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-                                                    ,sum(a.debit) as debit
+                                                    ,sum(a.debit_total) as debit
                                                     FROM acc_debtor a
                                                     left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
                                                     WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"

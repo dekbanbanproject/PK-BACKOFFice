@@ -107,13 +107,13 @@ $pos = strrpos($url, '/') + 1;
                         <i class="fa-solid fa-spinner text-warning me-2"></i> 
                         Update Ucep24
                     </button>
-                    {{-- <a href="{{url('ucep24_claim_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                    <a href="{{url('ucep24_claim_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                         <i class="fa-solid fa-file-export text-danger me-2"></i>
-                        Export
-                    </a> --}}
+                        Export Txt
+                    </a>
                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger" id="ExportdataAPI">
                         <i class="fa-solid fa-upload text-danger me-2"></i>
-                        Export
+                        Export Api
                     </button>
                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="SenddataAPI">
                         <i class="fa-solid fa-upload text-primary me-2"></i>
@@ -144,7 +144,7 @@ $pos = strrpos($url, '/') + 1;
                             <li class="nav-item">
                                 <a class="nav-link active" data-bs-toggle="tab" href="#Main" role="tab">
                                     <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                    <span class="d-none d-sm-block">VN UCEP24</span>    
+                                    <span class="d-none d-sm-block">รายการ UCEP24</span>    
                                 </a>
                             </li>   
                             <li class="nav-item">
@@ -255,6 +255,9 @@ $pos = strrpos($url, '/') + 1;
                                                 <th class="text-center">an</th>
                                                 <th class="text-center">hn</th>
                                                 <th class="text-center">vn</th>  
+                                                <th class="text-center">cid</th> 
+                                                <th class="text-center">dchdate</th> 
+                                                <th class="text-center">ptname</th> 
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -267,6 +270,9 @@ $pos = strrpos($url, '/') + 1;
                                                 <td class="text-center" width="10%">  {{ $item1->an }}  </td>
                                                 <td class="text-center" width="10%">{{ $item1->hn }}</td>
                                                 <td class="text-center" width="10%">{{ $item1->vn }}</td>  
+                                                <td class="text-center" width="10%">{{ $item1->cid }}</td> 
+                                                <td class="text-center" width="10%">{{ $item1->dchdate }}</td> 
+                                                <td class="p-2" >{{ $item1->ptname }}</td> 
                                             </tr>
                 
                 

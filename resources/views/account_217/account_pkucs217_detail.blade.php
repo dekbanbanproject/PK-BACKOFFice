@@ -126,7 +126,13 @@ $yb = date('Y') + 542;
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $number = 0; ?>
+                                <?php $number = 0;  
+                                $total1 = 0;
+                                $total2 = 0;
+                                $total3 = 0;
+                                $total4 = 0;
+                                $total5 = 0;
+                                ?>
                                 @foreach ($data as $item)
                                     <?php $number++; ?>
                                     <tr height="20">
@@ -141,17 +147,27 @@ $yb = date('Y') + 542;
                                                 <td class="p-2" >{{ $item->ptname }}</td>
                                                 <td class="text-center" width="10%">{{ $item->vstdate }}</td>
                                                 <td class="text-center" width="10%">{{ $item->dchdate }}</td>
-                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td> 
-                                                <td class="text-end" width="10%">
+                                                <td class="text-center"  width="5%">{{ $item->pttype }}</td> 
+                                                <td class="text-end" style="color:rgb(73, 147, 231)" width="10%">
                                                     {{-- <button type="button" class="btn btn-icon btn-shadow btn-dashed btn-outline-primary" data-bs-toggle="modal" data-bs-target="#DetailModal{{ $item->an }}" data-bs-placement="right" title="ค่าใช้จ่าย"> --}}
                                                         {{ number_format($item->debit_total,2)}} 
                                                     {{-- </button> --}}
                                                 </td>
                                     </tr>
- 
+                                    <?php
+                                            $total1 = $total1 + $item->debit_total; 
+                                    ?>
                                 @endforeach
 
                             </tbody>
+                            <tr style="background-color: #f3fca1">
+                                <td colspan="9" class="text-end" style="background-color: #fca1a1"></td>
+                                {{-- <td class="text-center" style="background-color: #44E952"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label> </td>  --}}
+                                <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
+                                {{-- <td class="text-center" style="background-color: #FCA533" ><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td> --}}
+                                {{-- <td class="text-center" style="background-color: #8340f0"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label> </td>  --}}
+                                {{-- <td class="text-center" style="background-color: #f08640"><label for="" style="color: #FFFFFF">{{ number_format($total5, 2) }}</label> </td>  --}}
+                            </tr>  
                         </table>
                     </div>
                     </div>

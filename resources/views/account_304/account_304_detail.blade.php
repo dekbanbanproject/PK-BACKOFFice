@@ -71,14 +71,37 @@
                 <div class="cv-spinner">
                     <span class="spinner"></span>
                 </div>
+            </div> 
+        </div> 
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner"> 
+                </div>
             </div>
-
         </div>
-
-        <div class="row ms-3 me-3">
+        <div class="container-fluid">
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Detail</h4>
+    
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Detail</a></li>
+                                <li class="breadcrumb-item active">1102050101.304</li>
+                            </ol>
+                        </div>
+    
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+        </div> <!-- container-fluid -->
+        <div class="row">
             <div class="col-md-12">
-                <div class="main-card mb-3 card">
-                    <div class="card-header">
+                <div class="card cardacc">
+                    {{-- <div class="card-header">
                         รายละเอียด 1102050101.304
                         <div class="btn-actions-pane-right">
                             <button type="button"
@@ -87,7 +110,7 @@
                                 Sync Data All
                             </button>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="card-body">
                         <input type="hidden" name="year" id="year" value="{{ $year }}">
                         <input type="hidden" name="months" id="months" value="{{ $months }}">

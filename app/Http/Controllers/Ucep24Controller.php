@@ -450,7 +450,11 @@ class Ucep24Controller extends Controller
                     D_ucep24_main::insert([
                         'vn'                => $value2->vn,
                         'hn'                => $value2->hn,
-                        'an'                => $value2->an 
+                        'an'                => $value2->an, 
+                        'cid'               => $value2->cid,
+                        'dchdate'           => $value2->dchdate, 
+                        'ptname'            => $value2->ptname, 
+                        'pttype'            => $value2->pttype, 
                     ]);
                     
                 }   
@@ -1241,36 +1245,36 @@ class Ucep24Controller extends Controller
     { 
         $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from d_ucep24_main');
         $iduser = Auth::user()->id; 
-        // D_opd::where('d_anaconda_id','=','HERB')->delete();
-        // D_orf::where('d_anaconda_id','=','HERB')->delete();
-        // D_oop::where('d_anaconda_id','=','HERB')->delete();
-        // D_odx::where('d_anaconda_id','=','HERB')->delete();
-        // D_idx::where('d_anaconda_id','=','HERB')->delete();
-        // D_ipd::where('d_anaconda_id','=','HERB')->delete();
-        // D_irf::where('d_anaconda_id','=','HERB')->delete();
-        // D_aer::where('d_anaconda_id','=','HERB')->delete();
-        // D_iop::where('d_anaconda_id','=','HERB')->delete();
-        // D_adp::where('d_anaconda_id','=','HERB')->delete();   
-        // D_dru::where('d_anaconda_id','=','HERB')->delete();   
-        // D_pat::where('d_anaconda_id','=','HERB')->delete();
-        // D_cht::where('d_anaconda_id','=','HERB')->delete();
-        // D_cha::where('d_anaconda_id','=','HERB')->delete();
-        // D_ins::where('d_anaconda_id','=','HERB')->delete();
-        D_opd::truncate();
-        D_orf::truncate();
-        D_oop::truncate();
-        D_odx::truncate();
-        D_idx::truncate();
-        D_ipd::truncate();
-        D_irf::truncate();
-        D_aer::truncate();
-        D_iop::truncate();
-        D_adp::truncate();  
-        D_dru::truncate();   
-        D_pat::truncate();
-        D_cht::truncate();
-        D_cha::truncate();
-        D_ins::truncate();
+        D_ins::where('d_anaconda_id','=','UCEP24')->delete();
+        D_pat::where('d_anaconda_id','=','UCEP24')->delete();
+        D_opd::where('d_anaconda_id','=','UCEP24')->delete();
+        D_orf::where('d_anaconda_id','=','UCEP24')->delete();
+        D_odx::where('d_anaconda_id','=','UCEP24')->delete();
+        D_oop::where('d_anaconda_id','=','UCEP24')->delete();
+        D_ipd::where('d_anaconda_id','=','UCEP24')->delete();
+        D_irf::where('d_anaconda_id','=','UCEP24')->delete();
+        D_idx::where('d_anaconda_id','=','UCEP24')->delete();
+        D_iop::where('d_anaconda_id','=','UCEP24')->delete();
+        D_cht::where('d_anaconda_id','=','UCEP24')->delete();
+        D_cha::where('d_anaconda_id','=','UCEP24')->delete();
+        D_aer::where('d_anaconda_id','=','UCEP24')->delete();
+        D_adp::where('d_anaconda_id','=','UCEP24')->delete(); 
+        D_dru::where('d_anaconda_id','=','UCEP24')->delete();
+        // D_opd::truncate();
+        // D_orf::truncate();
+        // D_oop::truncate();
+        // D_odx::truncate();
+        // D_idx::truncate();
+        // D_ipd::truncate();
+        // D_irf::truncate();
+        // D_aer::truncate();
+        // D_iop::truncate();
+        // D_adp::truncate();  
+        // D_dru::truncate();   
+        // D_pat::truncate();
+        // D_cht::truncate();
+        // D_cha::truncate();
+        // D_ins::truncate();
 
          foreach ($data_vn_1 as $key => $va1) {
                 //D_ins OK

@@ -71,13 +71,18 @@ $pos = strrpos($url, '/') + 1;
                 <div class="cv-spinner">
                     <span class="spinner"></span>
                 </div>
+            </div> 
+        </div> 
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner"> 
+                </div>
             </div>
-
         </div>
 
         <div class="row">
             <div class="col-md-12">
-                <div class="main-card mb-3 card">
+                <div class="card cardacc">
                     <div class="card-header">
                     รายละเอียด 1102050101.301
                         <div class="btn-actions-pane-right">

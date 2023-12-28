@@ -182,7 +182,7 @@
                                                                 WHERE U1.status ="N" 
                                                                 AND year(U1.vstdate) = "'.$item->year.'"
                                                                 AND month(U1.vstdate) = "'.$item->months.'"
-                                                                AND (s.hc_drug+ s.hc+s.ae_drug+s.inst+s.ae+s.fs <> 0 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.ae+s.fs is null)
+                                                                AND (s.hc_drug+ s.hc+s.ae_drug+s.inst+s.ae+s.fs < 1 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.ae+s.fs is null)
                                                                
                                                                 
                                                     ');
@@ -358,7 +358,7 @@
                                                             LEFT JOIN acc_stm_ucs s ON s.hn = U1.hn AND s.vstdate = U1.vstdate
                                                             WHERE U1.status ="N" 
                                                             AND U1.vstdate between "'.$startdate.'" and "'.$enddate.'"
-                                                            AND (s.hc_drug+ s.hc+s.ae_drug+s.inst+s.ae+s.fs <> 0 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.ae+s.fs is null)
+                                                            AND (s.hc_drug+ s.hc+s.ae_drug+s.inst+s.ae+s.fs < 1 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.ae+s.fs is null)
                                                             
                                                 ');
                                                 // AND month(U1.dchdate) < "'.$mo.'"

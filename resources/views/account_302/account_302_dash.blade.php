@@ -124,7 +124,7 @@
         <div class="row "> 
             @foreach ($data_trimart as $item)   
             <div class="col-xl-4 col-md-4">
-                <div class="card cardshadow" style="background-color: rgb(235, 242, 247)"> 
+                <div class="card cardacc" style="background-color: rgb(235, 242, 247)"> 
 
                     {{-- @if ($startdate == '') --}}
                     <div class="grid-menu-col">
@@ -137,7 +137,7 @@
                                             // ลูกหนี้ทั้งหมด
                                             $datas = DB::select('
                                                 SELECT count(DISTINCT an) as Can
-                                                    ,SUM(debit) as sumdebit
+                                                    ,SUM(debit_total) as sumdebit
                                                     from acc_debtor
                                                     WHERE account_code="1102050101.302"
                                                     AND stamp = "N"

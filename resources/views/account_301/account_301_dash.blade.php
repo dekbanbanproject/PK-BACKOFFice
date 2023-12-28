@@ -96,8 +96,8 @@
                 </div>
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
-                <div class="col-md-4 text-center">
-                    <select name="acc_trimart_id" id="acc_trimart_id" class="form-control d-shadow">
+                <div class="col-md-4 text-center ">
+                    <select name="acc_trimart_id" id="acc_trimart_id" class="form-control inputacc">
                         <option value="">--เลือก--</option>
                         @foreach ($trimart as $item)
                             {{-- <option value="{{$item->acc_trimart_id}}">{{$item->acc_trimart_name}} {{$item->acc_trimart_start_date}} {{$item->acc_trimart_end_date}}</option> --}}
@@ -120,7 +120,7 @@
                     </button> --}}
                 </div>
                     <div class="col-md-2 text-start">
-                    <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary d-shadow" data-style="expand-left">
+                    <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary inputacc" data-style="expand-left">
                         <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                         <span class="ladda-spinner"></span>
                     </button> 
@@ -134,7 +134,7 @@
         <div class="row "> 
             @foreach ($data_trimart as $item)   
             <div class="col-xl-4 col-md-6">
-                <div class="card cardshadow" style="background-color: rgb(235, 242, 247)"> 
+                <div class="card cardacc" style="background-color: rgb(235, 242, 247)"> 
 
                     {{-- @if ($startdate == '') --}}
                     <div class="grid-menu-col">
@@ -147,7 +147,7 @@
                                             // ลูกหนี้ทั้งหมด
                                             $datas = DB::select('
                                                 SELECT count(DISTINCT vn) as Can
-                                                    ,SUM(debit) as sumdebit
+                                                    ,SUM(debit_total) as sumdebit
                                                     from acc_debtor
                                                     WHERE account_code="1102050101.301"
                                                     AND stamp = "N"
@@ -159,7 +159,7 @@
                                             }
                                             // ตั้งลูกหนี้
                                             $datasum_ = DB::select('
-                                                SELECT sum(debit_total) as debit_total,count(vn) as Cvit
+                                                SELECT sum(debit_total) as debit_total,count(DISTINCT vn) as Cvit
                                                 from acc_1102050101_301
                                                 where vstdate between "'.$item->acc_trimart_start_date.'" and "'.$item->acc_trimart_end_date.'"
                                             ');   

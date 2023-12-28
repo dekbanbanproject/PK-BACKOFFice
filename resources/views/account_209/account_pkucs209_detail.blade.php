@@ -183,7 +183,7 @@ $yb = date('Y') + 542;
                                 <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
                                 <td class="text-center" style="background-color: #FCA533" ><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td>
                                 <td class="text-center" style="background-color: #8340f0"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label> </td> 
-                                <td class="text-center" style="background-color: #f08640"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label> </td> 
+                                <td class="text-center" style="background-color: #f08640"><label for="" style="color: #FFFFFF">{{ number_format($total5, 2) }}</label> </td> 
                             </tr>  
                         </table>
                     </div>

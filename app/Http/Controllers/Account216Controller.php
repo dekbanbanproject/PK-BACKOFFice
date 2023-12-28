@@ -420,7 +420,7 @@ class Account216Controller extends Controller
                 LEFT JOIN acc_stm_ucs s ON s.hn = a.hn AND s.vstdate = a.vstdate
                 WHERE a.status ="N"
                 AND month(a.vstdate) = "'.$months.'" and year(a.vstdate) = "'.$year.'"
-                AND (s.hc_drug+ s.hc+s.ae_drug+s.inst+s.ae+s.fs <> 0 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.ae+s.fs is null)
+                AND (s.hc_drug+ s.hc+s.ae_drug+s.inst+s.ae+s.fs < 1 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.ae+s.fs is null)
                 
                 group by a.vn
         ');

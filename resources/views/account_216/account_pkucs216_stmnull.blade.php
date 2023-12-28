@@ -119,11 +119,11 @@ $yb = date('Y') + 542;
                                     <th class="text-center">ลำดับ</th>
                                     {{-- <th class="text-center">tranid</th> --}}
                                     <th class="text-center" width="5%">vn</th> 
-                                    <th class="text-center">an</th>
+                                    {{-- <th class="text-center">an</th> --}}
                                     <th class="text-center" >hn</th>
                                     <th class="text-center" >cid</th>
                                     <th class="text-center">ptname</th> 
-                                    <th class="text-center">dchdate</th>   
+                                    <th class="text-center">vstdate</th>   
                                     <th class="text-center">ลูกหนี้</th> 
                                     <th class="text-center">Stm 216</th> 
                                     {{-- <th class="text-center">ส่วนต่าง</th>  --}}
@@ -133,19 +133,18 @@ $yb = date('Y') + 542;
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $number = 0; $total1 = 0; $total2 = 0;$total3 = 0;?>
+                                <?php $number = 0; $total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;?>
                                 @foreach ($data as $item)
                                     <?php $number++; ?>
                                     <tr height="20" style="font-size: 14px;">
                                         <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td>  
                                         <td class="text-center" width="8%">{{ $item->vn }}</td> 
-                                                <td class="text-center" width="6%">{{ $item->an }}</td> 
+                                                {{-- <td class="text-center" width="6%">{{ $item->an }}</td>  --}}
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  
                                                 <td class="text-center" width="8%">{{ $item->cid }}</td>  
                                                 <td class="p-2" width="10%">{{ $item->ptname }}</td>  
-                                                <td class="text-center" width="6%">{{ $item->dchdate }}</td>  
-                                                <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>
-                                                
+                                                <td class="text-center" width="6%">{{ $item->vstdate }}</td>  
+                                                <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>                                                
                                                 <td class="text-end" style="color:rgb(184, 12, 169)" width="7%">{{ number_format(($item->stm216),2)}}</td> 
                                                 <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($item->ip_paytrue,2)}}</td> 
                                                 <td class="text-end" style="color:rgb(9, 196, 180)" width="8%">{{ number_format($item->total_approve,2)}}</td>  
@@ -155,98 +154,22 @@ $yb = date('Y') + 542;
                                                 </td>  --}}
                                     </tr>
                                         <?php
-                                            $total1 = $total1 + ($item->debit_total-$item->inst); 
-                                            $total2 = $total2 + $item->ip_paytrue;
-                                            $total3 = $total3 + $item->total_approve;
+                                            $total1 = $total1 + $item->debit_total; 
+                                            $total2 = $total2 + $item->stm216;
+                                            $total3 = $total3 + $item->ip_paytrue;
+                                            $total4 = $total4 + $item->total_approve;
                                         ?>
-
-                                    {{-- <div class="modal fade" id="DetailModal{{ $item->an }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-xl">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">
-                                                        รายละเอียดค่าใช้จ่าย
-                                                    </h5> 
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body"> 
-                                                    <?php 
-                                                    
-                                                        $detail_ =  DB::connection('mysql3')->select('
-                                                            SELECT o.an,o.vn,o.hn,o.icode,s.name as dname,o.qty,o.unitprice,o.sum_price 
-                                                                FROM opitemrece o
-                                                                left outer join s_drugitems s on s.icode = o.icode 
-                                                                WHERE o.an ="'.$item->an.'" 
-                                                                and o.income IN("02","03")
-				                                                GROUP BY s.icode;
-                                                        '); 
-                                                    ?>
-                                                     <div class="row">
-                                                        <div class="col-md-2 text-primary">
-                                                            <label for="">icode </label> 
-                                                        </div>
-                                                        <div class="col-md-4 text-primary">
-                                                            <label for="">รายการ </label> 
-                                                        </div> 
-                                                        <div class="col-md-2 text-primary">
-                                                            <label for="">จำนวน </label> 
-                                                        </div>
-                                                        <div class="col-md-2 text-primary">
-                                                            <label for="">ราคา </label> 
-                                                        </div>
-                                                        <div class="col-md-2 text-primary">
-                                                            <label for="" >รวม</label> 
-                                                        </div> 
-                                                    </div>
-                                                    @foreach ($detail_ as $items) 
-                                                    <div class="row">
-                                                        <div class="col-md-2">
-                                                            <label for="">{{$items->icode}} </label> 
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <label for="">{{$items->dname}} </label> 
-                                                        </div> 
-                                                        <div class="col-md-2">
-                                                            <label for="">{{$items->qty}}</label> 
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <label for="">{{$items->unitprice}}</label> 
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <label for="">{{$items->sum_price}}</label> 
-                                                        </div> 
-                                                    </div>
-                                                    @endforeach
-                                                    <div class="row">
-                                                        <div class="col"> </div> 
-                                                        <div class="col-md-2 text-danger">
-                                                          
-                                                        </div> 
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <div class="col-md-12 text-end">
-                                                        <div class="form-group"> 
-                                                            <button type="button"
-                                                                class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger"
-                                                                data-bs-dismiss="modal"><i class="fa-solid fa-xmark me-2"></i>Close</button> 
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> --}}
+ 
                                 @endforeach  
                                
                             </tbody>
-                                        {{-- <tr style="background-color: #f3fca1">
-                                            <td colspan="8" class="text-end" style="background-color: #ff9d9d"></td>
-                                            <td class="text-end" style="background-color: #ace5fc">{{ number_format($sum_debit_total,2)}}</td>
-                                            <td class="text-end" style="background-color: #f3d1be">{{ number_format($sum_stm_total,2)}}</td>
-                                            <td class="text-end" style="background-color: #e09be9">{{ number_format($total1,2)}}</td> 
-                                            <td class="text-end" style="background-color: #f5a382">{{ number_format($total2,2)}}</td> 
-                                            <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total3,2)}}</td>   
-                                        </tr>   --}}
+                                        <tr style="background-color: #f3fca1">
+                                            <td colspan="6" class="text-end" style="background-color: #ff9d9d"></td>
+                                            <td class="text-end" style="background-color: rgb(73, 147, 231)"><label for="" style="color: #FFFFFF">{{ number_format($total1,2)}}</label></td>
+                                            <td class="text-end" style="background-color: rgb(184, 12, 169)"><label for="" style="color: #FFFFFF">{{ number_format($total2,2)}}</label></td>
+                                            <td class="text-end" style="background-color: rgb(216, 95, 14)"><label for="" style="color: #FFFFFF">{{ number_format($total3,2)}}</label></td> 
+                                            <td class="text-end" style="background-color: rgb(9, 196, 180)"><label for="" style="color: #FFFFFF">{{ number_format($total4,2)}}</label></td>  
+                                        </tr>  
                         </table>
                     </div>
                     </div>

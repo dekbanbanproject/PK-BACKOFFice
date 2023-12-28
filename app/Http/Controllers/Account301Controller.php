@@ -113,7 +113,7 @@ class Account301Controller extends Controller
             $trimart = DB::table('acc_trimart')->orderBy('acc_trimart_id','desc')->get();
        } else {
             // $data_trimart = DB::table('acc_trimart')->whereBetween('dchdate', [$startdate, $enddate])->orderBy('acc_trimart_id','desc')->get();
-            $data_trimart = DB::table('acc_trimart')->where('acc_trimart_id','=',$acc_trimart_id)->orderBy('acc_trimart_id','desc')->get();
+            $data_trimart = DB::table('acc_trimart')->where('active','Y')->where('acc_trimart_id','=',$acc_trimart_id)->orderBy('acc_trimart_id','desc')->get();
             $trimart = DB::table('acc_trimart')->orderBy('acc_trimart_id','desc')->get();
        }
        
@@ -146,7 +146,7 @@ class Account301Controller extends Controller
                     ,sum(a.income) as income
                     ,sum(a.paid_money) as paid_money
                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-                    ,sum(a.debit) as debit
+                    ,sum(a.debit_total) as debit
                     FROM acc_debtor a
                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
                     WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
@@ -171,10 +171,8 @@ class Account301Controller extends Controller
 
         $data = DB::select('
         SELECT 
-            month(vstdate) as months,year(vstdate) as year
-            ,vn,hn,cid,ptname,vstdate,pttype,debit_total
-            from acc_1102050101_301
-        
+            vn,hn,cid,ptname,vstdate,pttype,debit_total
+            from acc_1102050101_301 
             WHERE month(vstdate) = "'.$months.'"  
             AND year(vstdate) = "'.$year.'"
         ');
@@ -294,8 +292,7 @@ class Account301Controller extends Controller
         $acc_debtor = DB::connection('mysql2')->select('
             SELECT v.vn,ifnull(o.an,"") as an,o.hn,pt.cid
                     ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
-                    ,v.vstdate ,o.vsttime ,v.hospmain,op.income as income_group 
-                    
+                    ,v.vstdate ,o.vsttime ,v.hospmain,op.income as income_group                     
                     ,ptt.pttype_eclaim_id ,vp.pttype ,e.code as acc_code
                     ,e.ar_opd as account_code ,e.name as account_name
                     ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
@@ -307,16 +304,15 @@ class Account301Controller extends Controller
                     ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
                     ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
                     ,ptt.max_debt_money
-            from hos.ovst o
-            left join hos.vn_stat v on v.vn=o.vn
+            from ovst o
+            left join vn_stat v on v.vn=o.vn
             LEFT JOIN visit_pttype vp on vp.vn = v.vn
-            left join hos.patient pt on pt.hn=o.hn
-            LEFT JOIN hos.pttype ptt on o.pttype=ptt.pttype
-            LEFT JOIN hos.pttype_eclaim e on e.code=ptt.pttype_eclaim_id
-            LEFT JOIN hos.opitemrece op ON op.vn = o.vn
+            left join patient pt on pt.hn=o.hn
+            LEFT JOIN pttype ptt on o.pttype=ptt.pttype
+            LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
+            LEFT JOIN opitemrece op ON op.vn = o.vn
             WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-            AND vp.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.301")
-             
+            AND vp.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.301")             
             AND v.income <> 0
             and (o.an="" or o.an is null)
             GROUP BY v.vn
@@ -339,7 +335,7 @@ class Account301Controller extends Controller
                             'acc_code'           => $value->acc_code,
                             'account_code'       => $value->account_code,
                             'account_name'       => $value->account_name,
-                            'income_group'       => $value->income_group,
+                            // 'income_group'       => $value->income_group,
                             'income'             => $value->income,
                             'uc_money'           => $value->uc_money,
                             'discount_money'     => $value->discount_money,
@@ -351,7 +347,7 @@ class Account301Controller extends Controller
                             'debit_toa'          => $value->debit_toa,
                             'debit_refer'        => $value->debit_refer, 
                             'fokliad'            => $value->fokliad,
-                            'debit_total'        => $value->debit,
+                            'debit_total'        => ($value->debit - $value->debit_instument),
                             // 'debit_total'        => $value->debit - $value->debit_drug - $value->debit_instument - $value->debit_toa - $value->debit_refer,
                             'max_debt_amount'    => $value->max_debt_money,
                             'acc_debtor_userid'  => Auth::user()->id
@@ -470,7 +466,7 @@ class Account301Controller extends Controller
                             'acc_code'          => $value->acc_code,
                             'account_code'      => $value->account_code,
                             'income'            => $value->income,
-                            'income_group'      => $value->income_group,
+                            // 'income_group'      => $value->income_group,
                             'uc_money'          => $value->uc_money,
                             'discount_money'    => $value->discount_money,
                             'rcpt_money'        => $value->rcpt_money,

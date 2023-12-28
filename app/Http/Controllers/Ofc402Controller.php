@@ -141,7 +141,7 @@ class Ofc402Controller extends Controller
                 D_dru_out::truncate();
                 $data_main_ = DB::connection('mysql2')->select(' 
                     SELECT ip.vn,a.hn,a.an,pt.cid,a.regdate,a.dchdate,ip.pttype,it.claim_code,p.hipdata_code
-                    ,group_concat(DISTINCT ii.icd10) as icd10
+                    ,group_concat(DISTINCT ii.icd10) as icd10,a.pdx
                     ,concat(pt.pname,pt.fname," ",pt.lname) as ptname,
                     a.inc08 as instument,a.income,a.paid_money,a.uc_money,
                     ip.rfrocs,ip.rfrolct 
@@ -158,6 +158,7 @@ class Ofc402Controller extends Controller
                     LEFT OUTER JOIN opitemrece o1 on o1.an = l.vn and o1.icode in("3010601","3010605","3010590","3010604","3010602","3010603","3010592","3010591","3010600","3000406","3000407","3010640","3010641","3010677","3010698")
                     WHERE a.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                     AND a.pttype in("38","09","O1","O2","O3","O4","O5","O6","20") 
+                    AND a.pdx <> ""
                     GROUP BY a.an; 
                 ');                 
                 foreach ($data_main_ as $key => $value) {    
@@ -301,36 +302,36 @@ class Ofc402Controller extends Controller
     { 
         $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from d_ofc_402');
         $iduser = Auth::user()->id; 
-        // D_opd::where('d_anaconda_id','=','OFC_402')->delete();
-        // D_orf::where('d_anaconda_id','=','OFC_402')->delete();
-        // D_oop::where('d_anaconda_id','=','OFC_402')->delete();
-        // D_odx::where('d_anaconda_id','=','OFC_402')->delete();
-        // D_idx::where('d_anaconda_id','=','OFC_402')->delete();
-        // D_ipd::where('d_anaconda_id','=','OFC_402')->delete();
-        // D_irf::where('d_anaconda_id','=','OFC_402')->delete();
-        // D_aer::where('d_anaconda_id','=','OFC_402')->delete();
-        // D_iop::where('d_anaconda_id','=','OFC_402')->delete();
-        // D_adp::where('d_anaconda_id','=','OFC_402')->delete();   
-        // D_dru::where('d_anaconda_id','=','OFC_402')->delete();   
-        // D_pat::where('d_anaconda_id','=','OFC_402')->delete();
-        // D_cht::where('d_anaconda_id','=','OFC_402')->delete();
-        // D_cha::where('d_anaconda_id','=','OFC_402')->delete();
-        // D_ins::where('d_anaconda_id','=','OFC_402')->delete();
-        D_opd::truncate();
-        D_orf::truncate();
-        D_oop::truncate();
-        D_odx::truncate();
-        D_idx::truncate();
-        D_ipd::truncate();
-        D_irf::truncate();
-        D_aer::truncate();
-        D_iop::truncate();
-        D_adp::truncate();  
-        D_dru::truncate();   
-        D_pat::truncate();
-        D_cht::truncate();
-        D_cha::truncate();
-        D_ins::truncate();
+        D_opd::where('d_anaconda_id','=','OFC_402')->delete();
+        D_orf::where('d_anaconda_id','=','OFC_402')->delete();
+        D_oop::where('d_anaconda_id','=','OFC_402')->delete();
+        D_odx::where('d_anaconda_id','=','OFC_402')->delete();
+        D_idx::where('d_anaconda_id','=','OFC_402')->delete();
+        D_ipd::where('d_anaconda_id','=','OFC_402')->delete();
+        D_irf::where('d_anaconda_id','=','OFC_402')->delete();
+        D_aer::where('d_anaconda_id','=','OFC_402')->delete();
+        D_iop::where('d_anaconda_id','=','OFC_402')->delete();
+        D_adp::where('d_anaconda_id','=','OFC_402')->delete();   
+        D_dru::where('d_anaconda_id','=','OFC_402')->delete();   
+        D_pat::where('d_anaconda_id','=','OFC_402')->delete();
+        D_cht::where('d_anaconda_id','=','OFC_402')->delete();
+        D_cha::where('d_anaconda_id','=','OFC_402')->delete();
+        D_ins::where('d_anaconda_id','=','OFC_402')->delete();
+        // D_opd::truncate();
+        // D_orf::truncate();
+        // D_oop::truncate();
+        // D_odx::truncate();
+        // D_idx::truncate();
+        // D_ipd::truncate();
+        // D_irf::truncate();
+        // D_aer::truncate();
+        // D_iop::truncate();
+        // D_adp::truncate();  
+        // D_dru::truncate();   
+        // D_pat::truncate();
+        // D_cht::truncate();
+        // D_cha::truncate();
+        // D_ins::truncate();
 
          foreach ($data_vn_1 as $key => $va1) {
                 //D_ins OK

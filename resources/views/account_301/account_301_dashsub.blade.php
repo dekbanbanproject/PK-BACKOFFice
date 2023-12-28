@@ -74,26 +74,51 @@
     ?>
 
    <div class="tabs-animation">
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner"> 
-                </div>
+    <div class="row text-center">
+        <div id="overlay">
+            <div class="cv-spinner">
+                <span class="spinner"></span>
+            </div>
+        </div> 
+    </div> 
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner"> 
             </div>
         </div>
-       
-            <div class="row"> 
+    </div>
+        <div class="container-fluid">
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Detail</h4>
+    
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Detail</a></li>
+                                <li class="breadcrumb-item active">1102050101.301</li>
+                            </ol>
+                        </div>
+    
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+        </div> <!-- container-fluid -->
+            {{-- <div class="row"> 
                 <div class="col-md-4">
                     <h4 class="card-title">Detail 1102050101.301</h4>
                     <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.301</p>
                 </div>
                 <div class="col"></div>
                
-            </div>
+            </div> --}}
         
         <div class="row"> 
             @foreach ($datashow as $item)   
             <div class="col-xl-4 col-md-6">
-                <div class="main-card mb-3 card shadow" style="background-color: rgb(246, 235, 247)"> 
+                <div class="card cardacc" style="background-color: rgb(246, 235, 247)"> 
  
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -110,7 +135,7 @@
                                                     ,sum(a.income) as income
                                                     ,sum(a.paid_money) as paid_money
                                                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-                                                    ,sum(a.debit) as debit
+                                                    ,sum(a.debit_total) as debit
                                                     FROM acc_debtor a
                                                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
                                                     WHERE a.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
@@ -131,12 +156,13 @@
                                                     ,sum(a.income) as income
                                                     ,sum(a.paid_money) as paid_money
                                                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-                                                    ,sum(a.debit) as debit
+                                                    ,sum(a.debit_total) as debit
                                                     FROM acc_debtor a
                                                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
                                                     WHERE a.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                                                     and month(a.vstdate) = "'.$item->months.'"
-                                                    and a.account_code="1102050101.301" and a.stamp ="Y"    
+                                                    and a.account_code="1102050101.301" 
+                                                    and a.stamp ="Y"    
                                                                                                   
                                             ');
                                             foreach ($datashow_b as $key => $value2) {
@@ -145,7 +171,7 @@
                                             }
                                         ?>
                                         <div class="row">
-                                            <div class="col-md-5 text-start mt-4 ms-2">
+                                            <div class="col-md-5 text-start mt-4 ms-4">
                                                 <h5 > {{$item->MONTH_NAME}} {{$ynew}}</h5>
                                             </div>
                                             <div class="col"></div>
@@ -159,7 +185,7 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-md-1 text-start ms-2">
+                                            <div class="col-md-1 text-start ms-4">
                                                 <i class="fa-solid fa-2x fa-sack-dollar me-2 align-middle text-secondary"></i>
                                             </div>
                                             <div class="col-md-4 text-start mt-3">
@@ -168,7 +194,7 @@
                                                 </p>
                                             </div>
                                             <div class="col"></div>
-                                            <div class="col-md-5 text-end me-2">
+                                            <div class="col-md-5 text-end me-4">
                                                 {{-- <a href="" target="_blank"> --}}
                                                     <div class="widget-chart widget-chart-hover" >
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ที่ต้องตั้ง {{ $visit}} Visit" >
@@ -181,7 +207,7 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-md-1 text-start ms-2">
+                                            <div class="col-md-1 text-start ms-4">
                                                 <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle text-danger"></i>
                                             </div>
                                             <div class="col-md-4 text-start mt-3">
@@ -190,7 +216,7 @@
                                                 </p>
                                             </div>
                                             <div class="col"></div>
-                                            <div class="col-md-5 text-end me-2">
+                                            <div class="col-md-5 text-end me-4">
                                                 {{-- <a href="" target="_blank"> --}}
                                                     <a href="{{url('account_301_dashsubdetail/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">

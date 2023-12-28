@@ -278,10 +278,11 @@
 
                                                             <div class="row mt-4 mb-4" style="font-size:15px;color:red"> 
                                                                 {{-- <div class="col"></div> --}}
+                                                                <div class="col-md-1 text-center" >vn/an</div>
                                                                 <div class="col-md-1 text-center" >hn</div>
                                                                 <div class="col-md-1 text-center" >order_date</div>
                                                                 {{-- <div class="col-md-2 text-center" >ptname</div> --}}
-                                                                <div class="col-md-7 text-center" >รายการ</div>                                                               
+                                                                <div class="col-md-6 text-center" >รายการ</div>                                                               
                                                                 {{-- <div class="col-md-1 text-center" >pttype</div> --}}
                                                                 <div class="col-md-1 text-center">order_number</div>
                                                                 <div class="col-md-1 text-center">xray_price </div>
@@ -293,10 +294,11 @@
                                                             <hr>
                                                                 <div class="row" style="font-size:12px;height: 12px;">  
                                                                     {{-- <div class="col"></div> --}}
+                                                                    <div class="col-md-1 text-start">{{ $v->vn}}</div>
                                                                     <div class="col-md-1 text-start">{{ $v->hn}}</div>
                                                                     <div class="col-md-1 text-start">{{ $v->order_date}}</div>                                                                    
                                                                     {{-- <div class="col-md-2 text-start">{{ $v->ptname}}</div> --}}
-                                                                    <div class="col-md-7 text-start">{{ $v->xray_list}}</div>
+                                                                    <div class="col-md-6 text-start">{{ $v->xray_list}}</div>
                                                                     {{-- <div class="col-md-1 text-start">{{ $v->pttype}}</div> --}}
                                                                     <div class="col-md-1 text-start">{{ $v->xray_order_number}}</div> 
                                                                     <div class="col-md-1 text-center">{{ number_format($v->xray_price, 2) }}</div>
@@ -324,11 +326,11 @@
 
                                                             
                                                             <div class="row" style="font-size:15px;color:rgb(255, 153, 0)"> 
-                                                               
+                                                                <div class="col-md-1 text-center" >an</div>
                                                                 <div class="col-md-1 text-center" >hn</div>
                                                                 <div class="col-md-1 text-center" >ct_date</div>
                                                                 <div class="col-md-1 text-center" >items_code</div>  
-                                                                <div class="col-md-3 text-center" >รายการ</div> 
+                                                                <div class="col-md-2 text-center" >รายการ</div> 
                                                                 <div class="col-md-1 text-center">price_check </div>
                                                                 {{-- <div class="col-md-1 text-center">total</div> --}}
                                                                 <div class="col-md-1 text-center">รวมค่าตรวจ</div>
@@ -344,11 +346,11 @@
                                                                 @foreach ($data_subsub as $vv)
                                                                 <hr>
                                                                     <div class="row" style="font-size:12px;height: 12px;">  
-                                                                        
+                                                                        <div class="col-md-1 text-start">{{ $vv->an}}</div>
                                                                         <div class="col-md-1 text-start">{{ $vv->hn}}</div>
                                                                         <div class="col-md-1 text-start">{{ $vv->ct_date}}</div>
                                                                         <div class="col-md-1 text-start">{{ $vv->icode_hos}}</div>
-                                                                        <div class="col-md-3 text-start">{{ $vv->ct_check}}</div> 
+                                                                        <div class="col-md-2 text-start">{{ $vv->ct_check}}</div> 
                                                                         <div class="col-md-1 text-center">{{ number_format($vv->price_check, 2) }}</div>
                                                                         @if ($vv->total_price_check == '')
                                                                         <div class="col-md-1 text-center">{{ $vv->total_price_check }}</div> 
