@@ -1,4 +1,4 @@
-@extends('layouts.userdashboard')
+@extends('layouts.user')
 @section('title', 'PK-BACKOFFice || แจ้งซ่อมคอมพิวเตอร์')
 
 @section('content')

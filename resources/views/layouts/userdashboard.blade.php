@@ -301,6 +301,30 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 {{-- <li><a href="{{ url('user_meetting/meetting_index') }}">ช้อมูลการจองห้องประชุม</a></li>   --}}
                             </ul>
                         </li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
+                                <i class="fas fa-desktop text-primary"></i>
+                                <span>แจ้งซ่อมคอมพิวเตอร์</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('user_com/repair_com_add') }}">แจ้งซ่อมคอมพิวเตอร์</a></li>     
+                                {{-- <li><a href="{{ url('user_meetting/meetting_index') }}">ช้อมูลการจองห้องประชุม</a></li>   --}}
+                            </ul>
+                        </li>
+                        {{-- <div class="dropdown">
+                            <a class="dropdown-item dropdown-toggle arrow-none " href="#"
+                                id="topnav-layout-hori" role="button">
+                                <span key="t-horizontal">แจ้งซ่อมคอมพิวเตอร์</span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="topnav-layout-hori"> 
+                                <a href="{{ url('user_com/repair_com_calenda') }}" class="dropdown-item"
+                                    key="t-horizontal">ปฎิทินการแจ้งซ่อมคอมพิวเตอร์</a>
+                                <a href="{{ url('user_com/repair_com') }}" class="dropdown-item"
+                                    key="t-topbar-light">ทะเบียนซ่อมคอมพิวเตอร์</a>
+                                <a href="{{ url('user_com/repair_com_add') }}" class="dropdown-item"
+                                    key="t-topbar-light">แจ้งซ่อมคอมพิวเตอร์</a>
+                            </div>
+                        </div> --}}
                         {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">  
                                 <i class="fa-solid fa-people-roof text-danger"></i>
