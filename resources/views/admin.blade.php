@@ -137,7 +137,7 @@
                 </div>
             </div>
 
-            {{-- <div class="col-xl-2 col-md-2">
+            <div class="col-xl-4 col-md-4">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(245, 176, 250)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -163,7 +163,7 @@
                         </div>
                     </div>
                 </div>
-            </div> --}}
+            </div>
            
             {{-- <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(207, 248, 253)">
@@ -291,7 +291,7 @@
                 </div>
             </div>
 
-            {{-- <div class="col-xl-2 col-md-2">
+            <div class="col-xl-4 col-md-4">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(171, 175, 173)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -319,7 +319,7 @@
                         </div>
                     </div>
                 </div>
-            </div> --}}
+            </div>
 
             <div class="col-xl-4 col-md-4">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(170, 167, 250)">
