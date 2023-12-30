@@ -1,4 +1,4 @@
-@extends('layouts.user')
+@extends('layouts.userdashboard')
 @section('title', 'PK-BACKOFFice || แจ้งซ่อมคอมพิวเตอร์')
 @section('content')
     <script>
@@ -97,7 +97,7 @@
         }
     </style>
     
-    <div class="container-fluids">
+    <div class="container">
         <div class="row justify-content-center">
             <div class="row invoice-card-row">
                 <div class="col-md-12">
@@ -120,7 +120,7 @@
                             <div class="table-responsive">
                                 {{-- <table class="table table-hover table-bordered table-sm myTable " style="width: 100%;" id="example">  --}}
                                 <table style="width: 100%;" id="example"
-                                    class="table table-hover table-striped table-bordered myTable">
+                                    class="table table-hover table-striped table-bordered">
                                     <thead>
                                         <tr height="10px">
                                             <th width="7%">ลำดับ</th>
