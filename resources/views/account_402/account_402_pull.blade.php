@@ -115,7 +115,7 @@
 
                         <p class="mb-0">
                             <div class="table-responsive">
-                                <table id="example" class="table table-hover table-sm dt-responsive nowrap"
+                                <table id="example" class="table table-hover table-sm dt-responsive nowrap myTable"
                                 style=" border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr>

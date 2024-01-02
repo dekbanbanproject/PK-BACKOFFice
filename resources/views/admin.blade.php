@@ -719,7 +719,7 @@
 
             <div class="col-xl-4 col-md-4">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
-                    style="background-color: rgba(210, 211, 210, 0.781)">
+                    style="background-color: rgba(30, 187, 148, 0.74)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
                             <div class="col-sm-12">
@@ -736,7 +736,7 @@
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
                                                     <i class="fa-solid fa-3x fa-square-person-confined font-size-25 "
-                                                        style="color: rgb(210, 211, 210, 0.781)"></i>
+                                                        style="color: rgba(22, 145, 114, 0.74)"></i>
                                                 </button>
                                                 </span>
                                             </a>

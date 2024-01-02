@@ -104,10 +104,10 @@
                         @endforeach
                     </select> --}}
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                        <input type="text" class="form-control d-shadow" name="startdate" id="datepicker" placeholder="Start Date"
+                        <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $startdate }}" required/>
-                        <input type="text" class="form-control d-shadow" name="enddate" placeholder="End Date" id="datepicker2"
+                        <input type="text" class="form-control cardacc" name="enddate" placeholder="End Date" id="datepicker2"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $enddate }}" required/>  
                   
@@ -115,7 +115,7 @@
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
                     </button> --}}
-                    <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary d-shadow" data-style="expand-left">
+                    <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left">
                         <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                         <span class="ladda-spinner"></span>
                     </button>
@@ -126,7 +126,7 @@
         <div class="row"> 
             @foreach ($datashow as $item)   
             <div class="col-xl-4 col-md-6">
-                <div class="card cardshadow" style="background-color: rgb(246, 235, 247)"> 
+                <div class="card cardacc" style="background-color: rgb(246, 235, 247)"> 
 
                    
                     @if ($startdate == '') 

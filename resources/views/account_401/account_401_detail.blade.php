@@ -48,26 +48,50 @@
         }
     </style>
 
-    <div class="tabs-animation">
+<div class="tabs-animation">
 
-        <div class="row text-center">
-            <div id="overlay">
-                <div class="cv-spinner">
-                    <span class="spinner"></span>
+    <div class="row text-center">
+        <div id="overlay">
+            <div class="cv-spinner">
+                <span class="spinner"></span>
+            </div>
+        </div>
+    </div>
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner">
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0">Detail</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Detail</a></li>
+                            <li class="breadcrumb-item active">1102050101.401</li>
+                        </ol>
+                    </div>
+
                 </div>
             </div>
-
         </div>
+        <!-- end page title -->
+    </div> <!-- container-fluid -->
 
         <div class="row">
             <div class="col-md-12">
-                <div class="main-card mb-3 card">
-                    <div class="card-header">
+                <div class="card cardacc">
+                    {{-- <div class="card-header">
                     รายละเอียด 1102050101.401
                         <div class="btn-actions-pane-right">
 
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="card-body">
                             {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}

@@ -321,7 +321,7 @@ class Account301Controller extends Controller
         // AND v.hospmain = "10702"
 
         foreach ($acc_debtor as $key => $value) {
-                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.301')->whereBetween('vstdate', [$startdate, $enddate])->count();
+                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.301')->count();
                     // $check = Acc_debtor::where('vn', $value->vn)->whereBetween('vstdate', [$startdate, $enddate])->count();
                     if ($check == 0) {
                         Acc_debtor::insert([
@@ -347,7 +347,7 @@ class Account301Controller extends Controller
                             'debit_toa'          => $value->debit_toa,
                             'debit_refer'        => $value->debit_refer, 
                             'fokliad'            => $value->fokliad,
-                            'debit_total'        => ($value->debit - $value->debit_instument),
+                            'debit_total'        => $value->debit - $value->debit_instument,
                             // 'debit_total'        => $value->debit - $value->debit_drug - $value->debit_instument - $value->debit_toa - $value->debit_refer,
                             'max_debt_amount'    => $value->max_debt_money,
                             'acc_debtor_userid'  => Auth::user()->id

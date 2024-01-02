@@ -63,10 +63,29 @@
                 </div>
             </div>
         </div>
+        <div class="container-fluid">
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Detail</h4>
+    
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Detail</a></li>
+                                <li class="breadcrumb-item active">1102050101.307</li>
+                            </ol>
+                        </div>
+    
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+        </div> <!-- container-fluid -->
 
         <div class="row">
             <div class="col-xl-12">
-                    <div class="card cardshadow"> 
+                    <div class="card cardacc"> 
                     {{-- <div class="card-header">
                         รายละเอียด 1102050101.307
                         <div class="btn-actions-pane-right">
@@ -81,7 +100,7 @@
                         <input type="hidden" name="enddate" id="enddate" value="{{$enddate}}">
                         <div class="table-responsive">
                             <div class="row mb-3">
-                                <div class="col-md-4 text-start">   <h4 class="card-title" style="color:rgb(10, 151, 85)">รายละเอียด 1102050101.307</h4></div>
+                                {{-- <div class="col-md-4 text-start">   <h4 class="card-title" style="color:rgb(10, 151, 85)">รายละเอียด 1102050101.307</h4></div> --}}
                                 <div class="col"></div>
                                 <div class="col-md-2 text-end">
                                     <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll" >

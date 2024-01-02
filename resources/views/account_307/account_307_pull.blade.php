@@ -76,6 +76,10 @@
         </div>
        
         <div class="row"> 
+            <div class="col-md-4">
+                <h5 class="card-title">Detail 1102050101.307</h5>
+                <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.307</p>
+            </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
             <div class="col-md-5 text-end">
@@ -103,18 +107,18 @@
             {{-- <div class="col"></div> --}}
         </div>
     </div>    
-        <div class="row mt-3">
+        <div class="row">
             <div class="col-xl-12">
-                <div class="card cardshadow">
+                <div class="card cardacc">
                     <div class="card-body">
                         
                       
-                        <div class="row">
-                            <div class="col-md-4">
-                                {{-- <h4 class="card-title">Detail Account ผัง 1102050101.307</h4> --}}
+                        <div class="row mb-2">
+                            {{-- <div class="col-md-4">
+                                
                                 <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail Account ผัง 1102050101.307</h4>
                                 <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
-                            </div>
+                            </div> --}}
                             <div class="col"></div>
                             <div class="col-md-2 text-end">
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-primary d-shadow Savestamp" data-url="{{url('account_307_stam')}}">
@@ -132,7 +136,7 @@
                                         <tr>
                                           
                                             <th width="5%" class="text-center">ลำดับ</th> 
-                                            <th width="5%" class="text-center"><input type="checkbox" class="d-checkbox" name="stamp" id="stamp"> </th> 
+                                            <th width="5%" class="text-center"><input type="checkbox" class="cardacc" name="stamp" id="stamp"> </th> 
                                             <th class="text-center" width="5%">vn</th> 
                                             <th class="text-center">an</th>
                                             <th class="text-center" >hn</th>
@@ -158,7 +162,7 @@
                                                 @else
                                                     <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
                                                 @endif --}}
-                                                <td class="text-center" width="5%"><input type="checkbox" class="d-checkbox sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
+                                                <td class="text-center" width="5%"><input type="checkbox" class="cardacc sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
 
                                                 <td class="text-center" width="5%">{{ $item->vn }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->an }}</td> 

@@ -76,15 +76,19 @@
         </div>
        
         <div class="row"> 
+            <div class="col-md-4">
+                <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail Account ผัง 1102050101.310</h4>
+                <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
+            </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
             <div class="col-md-5 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control d-shadow" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
-                    <input type="text" class="form-control d-shadow" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
-                        <button type="button" class="ladda-button me-2 btn-pill btn btn-primary d-shadow" data-style="expand-left" id="Pulldata">
+                        <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left" id="Pulldata">
                             <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>ดึงข้อมูล</span>
                             <span class="ladda-spinner"></span>
                         </button>
@@ -97,19 +101,19 @@
         </div>
              
         
-        <div class="row mt-3">
+        <div class="row">
             <div class="col-xl-12">
-                <div class="card cardshadow">
+                <div class="card cardacc">
                     <div class="card-body">
                         
-                        <div class="row">
-                            <div class="col-md-4">
+                        <div class="row mb-3">
+                            {{-- <div class="col-md-4">
                                 <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail Account ผัง 1102050101.310</h4>
                                 <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
-                            </div>
+                            </div> --}}
                             <div class="col"></div>
                             <div class="col-md-2 text-end">
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-primary d-shadow Savestamp" data-url="{{url('account_310_stam')}}">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_310_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
                                 </button>
@@ -124,7 +128,7 @@
                                         <tr>
                                           
                                             <th width="5%" class="text-center">ลำดับ</th> 
-                                            <th width="5%" class="text-center"><input type="checkbox" class="d-checkbox" name="stamp" id="stamp"> </th> 
+                                            <th width="5%" class="text-center"><input type="checkbox" class="cardacc" name="stamp" id="stamp"> </th> 
                                             <th class="text-center" width="5%">vn</th> 
                                             <th class="text-center">an</th>
                                             <th class="text-center" >hn</th>
@@ -149,7 +153,7 @@
                                                 @else
                                                     <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
                                                 @endif --}}
-                                                <td class="text-center" width="5%"><input type="checkbox" class="d-checkbox sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
+                                                <td class="text-center" width="5%"><input type="checkbox" class="cardacc sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
 
                                                 <td class="text-center" width="5%">{{ $item->vn }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->an }}</td> 

@@ -100,7 +100,7 @@
         <div class="row"> 
             @foreach ($datashow as $item)   
             <div class="col-xl-4 col-md-6">
-                <div class="card cardshadow" style="background-color: rgb(246, 235, 247)"> 
+                <div class="card cardacc" style="background-color: rgb(246, 235, 247)"> 
  
                     <div class="grid-menu-col">
                         <div class="g-0 row">

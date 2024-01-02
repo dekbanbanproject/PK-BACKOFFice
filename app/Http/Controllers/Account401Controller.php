@@ -103,7 +103,7 @@ class Account401Controller extends Controller
         $yearold = date('Y')-1;
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
-
+        // dd($start);
         if ($startdate == '') {
             $datashow = DB::select('
                 SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME

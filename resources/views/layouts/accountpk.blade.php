@@ -91,7 +91,10 @@
         background-image: url('/pkbackoffice/public/images/bgheader.jpg');
         background-repeat: no-repeat;
     }
-
+    .myTable tbody tr{
+        font-size:13px;
+        height: 13px;
+    }
     /* .myTable thead tr{
     background-color: #b56fca;
     color: #ffffff;

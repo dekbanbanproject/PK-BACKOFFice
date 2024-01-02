@@ -104,13 +104,13 @@ class Account310Controller extends Controller
             $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
             $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
             $yearnew = date('Y')+1;
-            $yearold = date('Y');
+            $yearold = date('Y')-1;
             $start = (''.$yearold.'-10-01');
             $end = (''.$yearnew.'-09-30'); 
-        
+            // dd($start);
             // $data_trimart = DB::table('acc_trimart')->limit(3)->orderBy('acc_trimart_id','desc')->get();
             if ($acc_trimart_id == '') {
-                $data_trimart = DB::select('SELECT *,year(acc_trimart_start_date) as year FROM acc_trimart order by acc_trimart_id desc');
+                $data_trimart = DB::select('SELECT *,year(acc_trimart_start_date) as year FROM acc_trimart WHERE acc_trimart_start_date BETWEEN "'.$start.'" AND "'.$date.'" order by acc_trimart_id desc');
                 // $data_trimart = DB::table('acc_trimart')->limit(6)->orderBy('acc_trimart_id','desc')->get();
                 $trimart = DB::table('acc_trimart')->orderBy('acc_trimart_id','desc')->get();
             } else {
@@ -121,11 +121,11 @@ class Account310Controller extends Controller
             }
 
             return view('account_310.account_310_dash',[
-                'startdate'        =>     $startdate,
-                'enddate'          =>     $enddate,
+                'startdate'        => $startdate,
+                'enddate'          => $enddate,
                 'trimart'          => $trimart,
-                'leave_month_year' =>  $leave_month_year,
-                'data_trimart'     =>  $data_trimart,
+                'leave_month_year' => $leave_month_year,
+                'data_trimart'     => $data_trimart,
             ]);
     }
     

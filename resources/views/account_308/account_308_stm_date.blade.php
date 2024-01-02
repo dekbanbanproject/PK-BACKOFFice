@@ -56,21 +56,37 @@
                     <span class="spinner"></span>
                 </div>
             </div>
-
         </div>
-
-        <div class="row ms-3 me-3">
-            <div class="col-md-12">
-                <div class="main-card mb-3 card">
-                    <div class="card-header">
-                        รายละเอียด 1102050101.308 STM
-                        <div class="btn-actions-pane-right">
-                            {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll" >
-                                <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>
-                                Sync Data All 
-                            </button> --}}
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner">
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Detail STM</h4>
+    
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Detail STM</a></li>
+                                <li class="breadcrumb-item active">1102050101.308</li>
+                            </ol>
                         </div>
+    
                     </div>
+                </div>
+            </div>
+            <!-- end page title -->
+        </div> <!-- container-fluid -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card cardacc">
+                     
                     <div class="card-body">
                         <input type="hidden" name="startdate" id="startdate" value="{{$startdate}}">
                         <input type="hidden" name="enddate" id="enddate" value="{{$enddate}}">

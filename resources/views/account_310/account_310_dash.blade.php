@@ -97,7 +97,7 @@
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
                 <div class="col-md-4 text-end">
-                    <select name="acc_trimart_id" id="acc_trimart_id" class="form-control d-shadow">
+                    <select name="acc_trimart_id" id="acc_trimart_id" class="form-control cardacc">
                         <option value="">--เลือก--</option>
                         @foreach ($trimart as $item)
                             <option value="{{$item->acc_trimart_id}}">{{$item->acc_trimart_name}}( {{$item->acc_trimart_start_date}} ถึง {{$item->acc_trimart_end_date}})</option>
@@ -106,7 +106,7 @@
                 </div>
            
                     <div class="col-md-2 text-start">
-                        <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary d-shadow" data-style="expand-left">
+                        <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                             <span class="ladda-spinner"></span>
                         </button> 
@@ -124,7 +124,7 @@
         <div class="row"> 
             @foreach ($data_trimart as $item)   
             <div class="col-xl-4 col-md-4">
-                <div class="card cardshadow" style="background-color: rgb(235, 242, 247)"> 
+                <div class="card cardacc" style="background-color: rgb(235, 242, 247)"> 
 
                     {{-- @if ($startdate == '') --}}
                     <div class="grid-menu-col">

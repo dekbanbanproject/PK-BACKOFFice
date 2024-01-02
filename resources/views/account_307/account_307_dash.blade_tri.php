@@ -120,7 +120,7 @@
         <div class="row ms-3 me-3"> 
             @foreach ($data_trimart as $item)   
             <div class="col-xl-4 col-md-6">
-                <div class="main-card mb-3 card shadow" style="background-color: rgb(246, 235, 247)"> 
+                <div class="card cardacc" style="background-color: rgb(246, 235, 247)"> 
 
                     {{-- @if ($startdate == '') --}}
                     <div class="grid-menu-col">
