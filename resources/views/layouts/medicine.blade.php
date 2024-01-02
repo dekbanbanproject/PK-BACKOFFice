@@ -8,50 +8,60 @@
     <title>@yield('title')</title>
 
     <!-- Font Awesome -->
-    <link href="{{ asset('assets/fontawesome/css/all.css') }}" rel="stylesheet">
-    <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link href="{{ asset('assets/fontawesome/css/all.css') }}" rel="stylesheet">
+<!-- App favicon -->
+<link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw=="
+crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" rel="stylesheet"> 
 
+{{-- <link href="{{ asset('pkclaim/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
+<link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+<link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet">
 
-    {{-- <link href="{{ asset('pkclaim/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
-    <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet">
+<!-- jquery.vectormap css -->
+<link href="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}"
+rel="stylesheet" type="text/css" />
 
-    <!-- jquery.vectormap css -->
-    <link href="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}"
-        rel="stylesheet" type="text/css" />
+<!-- DataTables -->
+<link href="{{ asset('pkclaim/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet"
+type="text/css" />
+<link href="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet"
+type="text/css" />
+<link href="{{ asset('pkclaim/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}" rel="stylesheet"
+type="text/css" />
 
-    <!-- DataTables -->
-    <link href="{{ asset('pkclaim/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet"
-        type="text/css" />
-    <link href="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet"
-        type="text/css" />
-    <link href="{{ asset('pkclaim/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}" rel="stylesheet"
-        type="text/css" />
+<!-- Responsive datatable examples -->
+<link href="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}"
+rel="stylesheet" type="text/css" />
 
-    <!-- Responsive datatable examples -->
-    <link href="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}"
-        rel="stylesheet" type="text/css" />
+<!-- Bootstrap Css -->
+<link href="{{ asset('pkclaim/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+<!-- Icons Css -->
+<link href="{{ asset('pkclaim/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+<!-- App Css-->
+<link href="{{ asset('pkclaim/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
 
-    <!-- Bootstrap Css -->
-    <link href="{{ asset('pkclaim/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
-    <!-- Icons Css -->
-    <link href="{{ asset('pkclaim/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-    <!-- App Css-->
-    <link href="{{ asset('pkclaim/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/fullcalendar.css') }}" rel="stylesheet">
+<!-- select2 -->
+<link rel="stylesheet" href="{{asset('asset/js/plugins/select2/css/select2.min.css')}}">
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet"
+href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
+<link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
 
-    <link href="{{ asset('css/fullcalendar.css') }}" rel="stylesheet">
-   <!-- select2 -->
-    <link rel="stylesheet" href="{{asset('asset/js/plugins/select2/css/select2.min.css')}}">
-   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-   <link rel="stylesheet" href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
-   <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
-<!-- Plugins css -->
-{{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
+<link rel="stylesheet" href="{{ asset('disacc/vendors/@fortawesome/fontawesome-free/css/all.min.css') }}">
+<link rel="stylesheet" href="{{ asset('disacc/vendors/ionicons-npm/css/ionicons.css') }}">
+<link rel="stylesheet" href="{{ asset('disacc/vendors/linearicons-master/dist/web-font/style.css') }}">
+<link rel="stylesheet"
+href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
+<link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('css/dcss.css') }}">
 </head>
 <style>
     body{
@@ -142,9 +152,10 @@ use App\Models\Products_request_sub;
     <!-- Begin page -->
     <div id="layout-wrapper">
 
-        <header id="page-topbar ">
+        <header id="page-topbar"> 
+            <div class="navbar-header shadow" style="background-color: rgba(23, 189, 147, 0.74)">
             {{-- <div class="navbar-header"> --}}
-                <div class="navbar-header shadow" style="background-color: rgb(200, 195, 201)">
+                {{-- <div class="navbar-header shadow" style="background-color: rgb(200, 195, 201)"> --}}
                 {{-- <div class="d-flex">
                     <div class="navbar-brand-box">
                         <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-BACKOFFice</h4>
@@ -169,7 +180,7 @@ use App\Models\Products_request_sub;
 
                 </div> --}}
 
-                <div class="d-flex">
+                {{-- <div class="d-flex">
                     <!-- LOGO -->
                     <div class="navbar-brand-box" style="background-color: rgb(255, 255, 255)">
                         <a href="" class="logo logo-dark">
@@ -202,64 +213,88 @@ use App\Models\Products_request_sub;
                                 where orginfo_id = 1                                                                                                                      ',
                         );
                     ?>
-                    {{-- <form class="app-search d-none d-lg-block">
-                        <div class="position-relative">
-                            @foreach ($org as $item)
-                            <h4 style="color:rgb(255, 255, 255)" class="mt-2">{{$item->orginfo_name}}</h4>
-                            @endforeach
-                            <h4 style="color:rgb(255, 255, 255)" class="mt-3">ACCOUNT</h4>
-                        </div>
-                    </form> --}}
-                </div>
+                   
+                </div> --}}
 
-
-
-                <div class="d-flex">
-                    <div class="dropdown d-none d-lg-inline-block ms-1">
-                        <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
-                            <i class="ri-fullscreen-line" style="color: rgb(39, 38, 38)"></i>
-                        </button>
-                    </div>
-
-                    <div class="dropdown d-inline-block user-dropdown">
-                        <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            @if (Auth::user()->img == null)
-                                <img src="{{ asset('assets/images/default-image.jpg') }}" height="32px"
-                                    width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
-                            @else
-                                <img src="{{ asset('storage/person/' . Auth::user()->img) }}" height="32px"
-                                    width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
-                            @endif
-                            <span class="d-none d-xl-inline-block ms-1" style="color: rgb(49, 48, 48)">
-                                {{ Auth::user()->fname }} {{ Auth::user()->lname }}
-                            </span>
-                            <i class="mdi mdi-chevron-down d-none d-xl-inline-block" style="color: rgb(44, 43, 43)"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <!-- item-->
-                            <a class="dropdown-item" href="{{ url('profile_edit/' . Auth::user()->id) }}"><i
-                                    class="ri-user-line align-middle me-1"></i> Profile</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-danger" href="{{ route('logout') }}"
-                                class="text-reset notification-item"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
-                                    class="ri-shut-down-line align-middle me-1 text-danger"></i>
-                                Logout
+                {{-- <div class="navbar-header shadow" style="background-color: rgba(23, 189, 147, 0.74)"> --}}
+        
+                    <div class="d-flex">
+                        <!-- LOGO -->
+                        <div class="navbar-brand-box" style="background-color: rgb(255, 255, 255)">
+                            <a href="" class="logo logo-dark">
+                                <span class="logo-sm">
+                                    <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm" height="37">
+                                </span>
+                                <span class="logo-lg">
+                                    {{-- <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-dark" height="20"> --}}
+                                    <h4 style="color:rgba(23, 189, 147, 0.74)" class="mt-4">PK-BACKOFFice</h4>
+                                </span>
                             </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
+    
+                            <a href="" class="logo logo-light">
+                                <span class="logo-sm">
+                                    <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light"
+                                        height="40">
+                                </span>
+                                <span class="logo-lg">
+                                    <h4 style="color:rgba(23, 189, 147, 0.74)" class="mt-4">PK-BACKOFFice</h4>
+                                </span>
+                            </a>
+                        </div>
+    
+                        <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect"
+                            id="vertical-menu-btn">
+                            <i class="ri-menu-2-line align-middle" style="color: rgb(255, 255, 255)"></i>
+                        </button>
+                        <a href="{{url('plan')}}">
+                            <h4 style="color:rgb(255, 255, 255)" class="mt-4">Thai traditional medicine</h4>
+                        </a>
+                       
+                        <?php
+                        $org = DB::connection('mysql')->select('   
+                                                        select * from orginfo 
+                                                        where orginfo_id = 1                                                                                                                      ');
+                        ?>
+                       
+                    </div>
+
+                    <div class="d-flex">
+                        <div class="dropdown d-none d-lg-inline-block ms-1">
+                            <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
+                                <i class="ri-fullscreen-line" style="color: rgb(54, 53, 53)"></i>
+                            </button>
+                        </div>
+                        <div class="dropdown d-inline-block user-dropdown">
+                            <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @if (Auth::user()->img == null)
+                                    <img src="{{ asset('assets/images/default-image.jpg') }}" height="32px"
+                                        width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                @else
+                                    <img src="{{ asset('storage/person/' . Auth::user()->img) }}" height="32px"
+                                        width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                @endif
+                                <span class="d-none d-xl-inline-block ms-1" style="font-size: 12px;color:black">
+                                    {{ Auth::user()->fname }} {{ Auth::user()->lname }}
+                                </span>
+                                <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <!-- item-->
+                                <a class="dropdown-item" href="{{ url('profile_edit/' . Auth::user()->id) }}"
+                                    style="font-size: 12px"><i class="ri-user-line align-middle me-1"></i> Profile</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="{{ route('logout') }}" {{-- class="text-reset notification-item" --}}
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
+                                        class="ri-shut-down-line align-middle me-1 text-danger"></i>
+                                    Logout
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
                         </div>
                     </div>
-
-
-
-                    <div class="dropdown d-inline-block user-dropdown">
-
-                    </div>
-
-                </div>
             </div>
         </header>
 
@@ -268,7 +303,7 @@ use App\Models\Products_request_sub;
         <div class="vertical-menu">
             {{-- <div class="vertical-menu Bgsidebar"> --}}
 
-            <div data-simplebar class="h-100">
+            {{-- <div data-simplebar class="h-100"> --}}
 
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
@@ -328,7 +363,7 @@ use App\Models\Products_request_sub;
                     </ul>
                 </div>
                 <!-- Sidebar -->
-            </div>
+            {{-- </div> --}}
         </div>
         <!-- Left Sidebar End -->
 
@@ -337,13 +372,13 @@ use App\Models\Products_request_sub;
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
-        <div class="main-content mt-3">
+        <div class="main-content">
             {{-- <div class="page-content"> --}}
-            {{-- <div class="page-content"> --}}
+            <div class="page-content">
 
                 @yield('content')
 
-            {{-- </div> --}}
+            </div>
             <!-- End Page-content -->
 
             <footer class="footer">
@@ -375,74 +410,61 @@ use App\Models\Products_request_sub;
     <!-- Right bar overlay-->
     <div class="rightbar-overlay"></div>
 
-    <!-- JAVASCRIPT -->
-    <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>
+     <!-- JAVASCRIPT -->
+     <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script> 
+     <script src="{{ asset('pkclaim/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+     <script src="{{ asset('pkclaim/libs/metismenu/metisMenu.min.js') }}"></script>
+     <script src="{{ asset('pkclaim/libs/simplebar/simplebar.min.js') }}"></script>
+     <script src="{{ asset('pkclaim/libs/node-waves/waves.min.js') }}"></script>
+ 
+     <script src="{{ asset('js/select2.min.js') }}"></script>
+     {{-- <script src="{{ asset('pkclaim/libs/select2/js/select2.min.js') }}"></script> --}}
+     <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+     <script src="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.js') }}"></script>
+     <script src="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
+     <script src="{{ asset('pkclaim/libs/admin-resources/bootstrap-filestyle/bootstrap-filestyle.min.js') }}"></script>
+     <script src="{{ asset('pkclaim/libs/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script> 
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.th.min.js" integrity="sha512-cp+S0Bkyv7xKBSbmjJR0K7va0cor7vHYhETzm2Jy//ZTQDUvugH/byC4eWuTii9o5HN9msulx2zqhEXWau20Dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>  --}}
+     <!-- jquery.vectormap map -->
+     <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
+     <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js') }}">
+     </script>
+ 
+     <!-- Required datatable js -->
+     <script src="{{ asset('pkclaim/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+     <script src="{{ asset('pkclaim/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+ 
+     <!-- Buttons examples -->
+     <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+     <script src="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}"></script>
+     <script src="{{ asset('pkclaim/libs/jszip/jszip.min.js') }}"></script>
+     <script src="{{ asset('pkclaim/libs/pdfmake/build/pdfmake.min.js') }}"></script>
+     <script src="{{ asset('pkclaim/libs/pdfmake/build/vfs_fonts.js') }}"></script>
+     <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+     <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+     <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
+ 
+     <script src="{{ asset('pkclaim/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
+     <script src="{{ asset('pkclaim/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>
+ 
+     <!-- Responsive examples -->
+     <script src="{{ asset('pkclaim/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+     <script src="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
+ 
+     <!-- Datatable init js -->
+     <script src="{{ asset('pkclaim/js/pages/datatables.init.js') }}"></script>
+     <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script> 
+     <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/prettify.js') }}"></script> 
+     <script src="{{ asset('pkclaim/js/pages/form-wizard.init.js') }}"></script>
+     <script type="text/javascript" src="{{ asset('fullcalendar/lib/moment.min.js') }}"></script>
+     <script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.min.js') }}"></script>
+     <script type="text/javascript" src="{{ asset('fullcalendar/lang/th.js') }}"></script> 
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
+     <!-- App js -->
+     <script src="{{ asset('pkclaim/js/app.js') }}"></script> 
+     <script src="{{ asset('js/ladda.js') }}"></script> 
 
-    <script src="{{ asset('pkclaim/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/metismenu/metisMenu.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/simplebar/simplebar.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/node-waves/waves.min.js') }}"></script>
-
-    <script src="{{ asset('js/select2.min.js') }}"></script>
-    {{-- <script src="{{ asset('pkclaim/libs/select2/js/select2.min.js') }}"></script> --}}
-    <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/admin-resources/bootstrap-filestyle/bootstrap-filestyle.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
-
-    <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.th.min.js" integrity="sha512-cp+S0Bkyv7xKBSbmjJR0K7va0cor7vHYhETzm2Jy//ZTQDUvugH/byC4eWuTii9o5HN9msulx2zqhEXWau20Dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    <!-- jquery.vectormap map -->
-    <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js') }}">
-    </script>
-
-    <!-- Required datatable js -->
-    <script src="{{ asset('pkclaim/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-
-    <!-- Buttons examples -->
-    <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/jszip/jszip.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/pdfmake/build/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/pdfmake/build/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
-
-    <script src="{{ asset('pkclaim/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>
-
-    <!-- Responsive examples -->
-    <script src="{{ asset('pkclaim/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
-
-    <!-- Datatable init js -->
-    <script src="{{ asset('pkclaim/js/pages/datatables.init.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script>
-
-    <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/prettify.js') }}"></script>
-
-
-    <script src="{{ asset('pkclaim/js/pages/form-wizard.init.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('fullcalendar/lib/moment.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('fullcalendar/lang/th.js') }}"></script>
-
-    {{-- <script type="text/javascript" src="{{ asset('acccph/vendors/@chenfengyuan/datepicker/dist/datepicker.min.js') }}"></script> --}}
-    <script type="text/javascript" src="{{ asset('acccph/vendors/daterangepicker/daterangepicker.js') }}"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{{ asset('assets/jquery-tabledit/jquery.tabledit.min.js') }}"></script>
-
-    <script type="text/javascript" src="{{ asset('acccph/js/form-components/toggle-switch.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('acccph/js/form-components/datepicker.js') }}"></script>
-    <!-- App js -->
-    <script src="{{ asset('pkclaim/js/app.js') }}"></script>
-    {{-- <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet"> --}}
     @yield('footer')
 
 

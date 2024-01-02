@@ -25,54 +25,127 @@
     $url = Request::url();
     $pos = strrpos($url, '/') + 1;
     ?>
-    <div class="container-fluid">
+     <style>
+        #button{
+               display:block;
+               margin:20px auto;
+               padding:30px 30px;
+               background-color:#eee;
+               border:solid #ccc 1px;
+               cursor: pointer;
+               }
+               #overlay{	
+               position: fixed;
+               top: 0;
+               z-index: 100;
+               width: 100%;
+               height:100%;
+               display: none;
+               background: rgba(0,0,0,0.6);
+               }
+               .cv-spinner {
+               height: 100%;
+               display: flex;
+               justify-content: center;
+               align-items: center;  
+               }
+               .spinner {
+               width: 250px;
+               height: 250px;
+               border: 10px #ddd solid;
+               border-top: 10px #20a886 solid;
+               border-radius: 50%;
+               animation: sp-anime 0.8s infinite linear;
+               }
+               @keyframes sp-anime {
+               100% { 
+                   transform: rotate(390deg); 
+               }
+               }
+               .is-hide{
+               display:none;
+               }
+               .inputmedsalt{
+                    border-radius: 4em 4em 4em 4em;
+                    box-shadow: 0 0 10px rgb(189, 187, 187);
+                }
+                .cardmedsalt{
+                    border-radius: 4em 4em 4em 4em;
+                    box-shadow: 0 0 10px rgb(122, 121, 121);
+                    /* box-shadow: 0 0 10px rgb(232, 187, 243); */
+                }
+    </style>
+     <div class="tabs-animation">
+        <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
+                </div>
+            </div> 
+        </div> 
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner"> 
+                </div>
+            </div>
+        </div>
+    {{-- <div class="container-fluid"> --}}
         <div class="row"> 
             <div class="col-xl-12">
-                <form action="{{ route('me.medicine_saltsearch') }}" method="POST">
+                <form action="{{ route('me.medicine_salt') }}" method="POST">
                     @csrf
                     <div class="row">
+                        <div class="col-md-2"> 
+                            <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail Over the salt pot</h4>
+                            <p class="card-title-desc"> การลงข้อมูล ทับหม้อเกลือ บัตรทองในเขต  </p>
+                        </div>
                         <div class="col"></div>
                         <div class="col-md-1 text-end">วันที่</div>
                         <div class="col-md-4 text-center">
                             <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                <input type="text" class="form-control d-shadow" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                                     data-date-language="th-th" value="{{ $start }}" required/>
-                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                <input type="text" class="form-control d-shadow" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                                     data-date-language="th-th" value="{{ $end }}"/>  
-                            </div> 
+                                    {{-- </div>  --}}
 
-                            {{-- <div class="input-group" id="datepicker1">
-                                <input type="text" class="form-control" name="startdate" id="datepicker"  data-date-container='#datepicker1'
-                                    data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                    value="{{ $start }}">
-                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span> 
-                            </div> --}}
-                        </div>
-                        {{-- <div class="col-md-1 text-center">ถึงวันที่</div>
-                        <div class="col-md-2 text-center">
-                            <div class="input-group" id="datepicker1"> 
-                                <input type="text" class="form-control" name="enddate" id="datepicker2" data-date-container='#datepicker1'
-                                    data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                    value="{{ $end }}">
-                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                    {{-- <div class="input-group" id="datepicker1">
+                                        <input type="text" class="form-control" name="startdate" id="datepicker"  data-date-container='#datepicker1'
+                                            data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
+                                            value="{{ $start }}">
+                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span> 
+                                    </div> --}}
+                                {{-- </div> --}}
+                                {{-- <div class="col-md-1 text-center">ถึงวันที่</div>
+                                <div class="col-md-2 text-center">
+                                    <div class="input-group" id="datepicker1"> 
+                                        <input type="text" class="form-control" name="enddate" id="datepicker2" data-date-container='#datepicker1'
+                                            data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
+                                            value="{{ $end }}">
+                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                    </div>
+                                </div> --}}
+                                <button type="submit" class="ladda-button btn-pill btn btn-primary d-shadow" data-style="expand-left">
+                                    <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
+                                    <span class="ladda-spinner"></span>
+                                </button> 
+                                {{-- <div class="col-md-2">
+                                    <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                        <i class="fa-solid fa-magnifying-glass me-2"></i>
+                                        ค้นหา
+                                    </button>
+                                </div> --}}
                             </div>
-                        </div> --}}
-                         
-                        <div class="col-md-2">
-                            <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                <i class="fa-solid fa-magnifying-glass me-2"></i>
-                                ค้นหา
-                            </button>
                         </div>
-                        <div class="col"></div>
+                        {{-- <div class="col"></div> --}}
                 </form>
             </div>
 
         </div>
         <div class="row mt-3">
             <div class="col"></div>
-            <div class="col-md-7">
-                <div class="main-card mb-3 card">
+            <div class="col-md-8">
+                <div class="card cardshadow">
                     {{-- <div class="card-header ">
                         <div class="row">
                             <div class="col-md-8">
@@ -80,15 +153,12 @@
                             </div> 
                         </div>
                     </div> --}}
-                    <div class="card-header">
+                    {{-- <div class="card-header">
                         การลงข้อมูล ทับหม้อเกลือ บัตรทองในเขต  
                         <div class="btn-actions-pane-right">
-                                <!-- Button trigger modal -->
-                                <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                Launch demo modal
-                                </button> -->
+                             
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="card-body">
                         <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>

@@ -53,9 +53,25 @@
     {{-- <link href="{{ asset('css/tablemoney.css') }}" rel="stylesheet"> --}}
     <link rel="stylesheet" href="{{asset('asset/js/plugins/select2/css/select2.min.css')}}">
    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <link rel="stylesheet" href="{{ asset('css/dacccss.css') }}">
 </head>
  
 <style>
+     body {
+        /* background: */
+        /* url(/pkbackoffice/public/images/bg7.png);  */
+        /* -webkit-background-size: cover; */
+        background-color: rgb(245, 240, 240);
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        /* background-size: cover; */
+        background-size: 100% 100%;
+        /* display: flex; */
+        /* align-items: center; */
+        /* justify-content: center; */
+        /* width: 100vw;   ให้เต็มพอดี */
+        /* height: 100vh; ให้เต็มพอดี  */
+    }
     .myTable thead tr{
     background-color: rgb(139, 76, 223) ;
     color: #ffffff;

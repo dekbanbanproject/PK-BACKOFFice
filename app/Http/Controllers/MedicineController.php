@@ -119,7 +119,7 @@ class MedicineController extends Controller
         }
         // dd($output_show);
 
-        $datashow = DB::connection('mysql3')->select('
+        $datashow = DB::connection('mysql2')->select('
             SELECT year(i.labor_date) as years,month(i.labor_date) as months,count(distinct i.an) as countan
                 from hos.ipt_pregnancy i
                 LEFT JOIN hos.an_stat a on a.an = i.an
@@ -153,9 +153,9 @@ class MedicineController extends Controller
         $data['users'] = User::get();
         $data['leave_month'] = DB::table('leave_month')->get();
        
-        $data_key = DB::connection('mysql5')->select('SELECT uuid() as keygen');
+        // $data_key = DB::connection('mysql5')->select('SELECT uuid() as keygen');
         
-        $datashow = DB::connection('mysql3')->select('
+        $datashow = DB::connection('mysql2')->select('
             SELECT year(i.labor_date) as years,month(i.labor_date) as months,count(distinct i.an) as countan,i.labor_date
                 from hos.ipt_pregnancy i
                 LEFT JOIN hos.an_stat a on a.an = i.an
@@ -176,7 +176,7 @@ class MedicineController extends Controller
             'start'     => $datestart,
             'end'       => $dateend,
             'datashow'  => $datashow,
-            'data_key'  => $data_key,
+            // 'data_key'  => $data_key,
         ]);
     }
 
@@ -201,10 +201,9 @@ class MedicineController extends Controller
                 
                 (select GROUP_CONCAT(distinct hi.icd10tm," ","|"," ")  
                 from hos.health_med_service hs 
-                left outer join hos.health_med_service_operation ho on ho.health_med_service_id = hs.health_med_service_id 
-                left outer join hos.health_med_operation_item hi on hi.health_med_operation_item_id = ho.health_med_operation_item_id 
-                where hs.hn=h.hn and hi.icd10tm in ("9007712","9007713","9007714","9007716","9007730") 
-                and hs.service_date between "'.$startdate.'" AND "'.$new_enddate.'"
+                left outer join hos.health_med_service_operation ho on ho.health_med_service_id = hs.health_med_service_id and ho.health_med_operation_item_id in("7","8","9","11","16")
+                left outer join hos.health_med_operation_item hi on hi.health_med_operation_item_id = ho.health_med_operation_item_id and hi.icd10tm in("9007712","9007713","9007714","9007716","9007730")
+                where hs.service_date between "'.$startdate.'" AND "'.$new_enddate.'"
                 and hs.an is null
                 order by hs.service_date desc,hs.service_time desc limit 0,1)  as icd10tm
   

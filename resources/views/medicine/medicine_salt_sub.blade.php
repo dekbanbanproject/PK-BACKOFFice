@@ -25,21 +25,85 @@
     $url = Request::url();
     $pos = strrpos($url, '/') + 1;
     ?>
-    <div class="container-fluid">
-        
-        <div class="row mt-3">
-          
+       <style>
+        #button{
+               display:block;
+               margin:20px auto;
+               padding:30px 30px;
+               background-color:#eee;
+               border:solid #ccc 1px;
+               cursor: pointer;
+               }
+               #overlay{	
+               position: fixed;
+               top: 0;
+               z-index: 100;
+               width: 100%;
+               height:100%;
+               display: none;
+               background: rgba(0,0,0,0.6);
+               }
+               .cv-spinner {
+               height: 100%;
+               display: flex;
+               justify-content: center;
+               align-items: center;  
+               }
+               .spinner {
+               width: 250px;
+               height: 250px;
+               border: 10px #ddd solid;
+               border-top: 10px #20a886 solid;
+               border-radius: 50%;
+               animation: sp-anime 0.8s infinite linear;
+               }
+               @keyframes sp-anime {
+               100% { 
+                   transform: rotate(390deg); 
+               }
+               }
+               .is-hide{
+               display:none;
+               }
+               .inputmedsalt{
+                    border-radius: 4em 4em 4em 4em;
+                    box-shadow: 0 0 10px rgb(189, 187, 187);
+                }
+                .cardmedsalt{
+                    border-radius: 4em 4em 4em 4em;
+                    box-shadow: 0 0 10px rgb(122, 121, 121);
+                    /* box-shadow: 0 0 10px rgb(232, 187, 243); */
+                }
+    </style>
+     <div class="tabs-animation">
+        <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
+                </div>
+            </div> 
+        </div> 
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner"> 
+                </div>
+            </div>
+        </div>
+     
+                
+        <div class="row">
+            <div class="col-md-2"> 
+                <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail Over the salt pot</h4>
+                <p class="card-title-desc"> การลงข้อมูล ทับหม้อเกลือ บัตรทองในเขต  </p>
+            </div>
+            <div class="col"></div>
+            
+        </div>
+                     
+        <div class="row">          
             <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header ">
-                        การลงข้อมูล ทับหม้อเกลือ บัตรทองในเขต  
-                        <div class="btn-actions-pane-right">
-                                <!-- Button trigger modal -->
-                                <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                Launch demo modal
-                                </button> -->
-                        </div>
-                    </div>
+                <div class="card cardshadow">
+                     
                     <div class="card-body">
                        
                         <table id="example" class="table table-striped table-bordered" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
