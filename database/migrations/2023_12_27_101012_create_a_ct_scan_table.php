@@ -16,11 +16,13 @@ return new class extends Migration
             Schema::create('a_ct_scan', function (Blueprint $table) {
                 $table->bigIncrements('a_ct_scan_id');      
                 $table->string('vn')->nullable();//  
+                $table->string('an')->nullable();// 
                 $table->string('hn')->nullable();// 
                 $table->string('cid')->nullable();//    
                 $table->date('order_date')->nullable();//  
                 $table->time('order_time')->nullable();// 
                 $table->dateTime('order_date_time')->nullable();//    
+                $table->date('request_date')->nullable();// 
                 $table->string('ptname')->nullable();//  
                 $table->string('xray_list')->nullable();//  
                 $table->string('confirm_all')->nullable();//  

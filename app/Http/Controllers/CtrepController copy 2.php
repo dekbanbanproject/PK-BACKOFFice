@@ -156,26 +156,24 @@ class CtrepController extends Controller
                  
                 // $data['datashow'] = DB::connection('mysql')->select('SELECT * FROM a_ct WHERE vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '" ORDER BY vstdate DESC'); 
                 $data['datashow'] = DB::connection('mysql')->select('
-                    SELECT a_ct_scan_id,vn,hn,cid,order_date,order_time,order_date_time,request_date,ptname,xray_list,confirm_all,department,department_code
+                    SELECT a_ct_scan_id,vn,hn,cid,order_date,order_time,order_date_time,ptname,xray_list,confirm_all,department,department_code
                     ,department_name,pttype,ptty_spsch,xray_order_number,xray_price,total_price,department_list,priority_name,STMdoc,user_id,active
                     FROM a_ct_scan 
-                    WHERE request_date BETWEEN "' . $startdate . '" AND "' . $enddate . '" 
-                    GROUP BY vn
-                    ORDER BY request_date ASC
+                    WHERE order_date BETWEEN "' . $startdate . '" AND "' . $enddate . '" ORDER BY order_date_time ASC
                 '); 
 
         } else { 
                 $data['datashow'] = DB::connection('mysql')->select('
-                    SELECT a_ct_scan_id,vn,hn,cid,order_date,order_time,order_date_time,request_date,ptname,xray_list,confirm_all,department,department_code
+                    SELECT a_ct_scan_id,vn,hn,cid,order_date,order_time,order_date_time,ptname,xray_list,confirm_all,department,department_code
                     ,department_name,pttype,ptty_spsch,xray_order_number,xray_price,total_price,department_list,priority_name,STMdoc,user_id,active
                     FROM a_ct_scan 
-                    WHERE request_date BETWEEN "' . $newDate . '" AND "' . $date . '" 
-                    GROUP BY vn
-                    ORDER BY request_date ASC
+                    WHERE order_date BETWEEN "' . $newDate . '" AND "' . $date . '" 
+                    AND (xray_list LIKE "CX%" OR xray_list LIKE "CT%")
+                    ORDER BY order_date_time ASC
                 '); 
                 // $data['datashow'] = DB::connection('mysql')->select('SELECT * FROM a_ct WHERE vstdate BETWEEN "' . $newDate . '" AND "' . $date . '" ORDER BY vstdate DESC');
                 // $data['datashow'] = DB::connection('mysql')->select('SELECT * FROM a_ct_scan WHERE order_date BETWEEN "' . $newDate . '" AND "' . $date . '" ORDER BY order_date_time DESC'); 
-                // AND (xray_list LIKE "CX%" OR xray_list LIKE "CT%")
+            
         }  
         // AND (xray_list LIKE "CX%" OR xray_list LIKE "CT%")
         
@@ -191,66 +189,27 @@ class CtrepController extends Controller
             $startdate = $request->startdate;
             $enddate = $request->enddate;
          
-                $data_ct_new = DB::connection('mysql2')->select(' 
-                    SELECT  
-                        IFNULL(i.vn ,x.vn) vn
-                        ,x.an,x.hn,x.request_date,x.report_date,p.cid
-                        ,concat(p.pname," ",p.fname," ",p.lname) as ptname
-                        ,xi.xray_items_name as xray_list,x.confirm as confirm_all 
-                        ,case 
-                        when xh.department is null then xt.department
-                        else xh.department
-                        end as department
-                        ,case 
-                        when xh.department_code is null then xt.department_code
-                        else xh.department_code
-                        end as department_code
-                        ,case 
-                        when xh.department_name is null then xt.department_name
-                        else xh.department_name
-                        end as department_name 
-                        ,IFNULL(v.pttype ,i.pttype) pttype
-                        ,case 
-                        when xh.xray_order_number is null then xt.xray_order_number
-                        else xh.xray_order_number
-                        end as xray_order_number
-                        ,case 
-                        when xh.xray_price is null then xt.xray_price
-                        else xh.xray_price
-                        end as xray_price
-                        ,case 
-                        when xh.total_price is null then xt.total_price
-                        else xh.total_price
-                        end as total_price
-                        ,case 
-                        when xh.department_list is null then xt.department_list
-                        else xh.department_list
-                        end as department_list                            
-                        ,y.priority_name
-                        
-                        FROM xray_report x  
-                        LEFT OUTER JOIN patient p on p.hn=x.hn  
-                        LEFT JOIN vn_stat v on v.vn = x.vn   
-                        LEFT JOIN ipt i on i.an = x.an 
-                        LEFT OUTER JOIN xray_items xi on xi.xray_items_code=x.xray_items_code  
-                        LEFT JOIN xray_head xh on xh.vn = x.vn
-                        LEFT JOIN xray_head xt on xt.vn = x.an 
-                        LEFT OUTER JOIN xray_priority y on y.xray_priority_id = xh.xray_priority_id 
-                        WHERE x.request_date BETWEEN "' . $startdate . '" AND "' . $enddate . '" 
-                        AND (xi.xray_items_name LIKE "CT%") 
-
-                         
+                $data_ct_new = DB::connection('mysql2')->select('
+                    SELECT x.vn,x.hn,p.cid,x.order_date,x.order_time,x.order_date_time,concat(p.pname,p.fname," ",p.lname) as ptname,x.xray_list,x.confirm_all,x.department,x.department_code,x.department_name,x.pttype
+                    ,x.xray_order_number,x.xray_price,x.total_price,x.department_list,y.priority_name  
+                    FROM xray_head x  
+                    LEFT OUTER JOIN patient p on p.hn = x.hn    
+                    LEFT OUTER JOIN xray_priority y on y.xray_priority_id = x.xray_priority_id 
+                    WHERE x.order_date BETWEEN "' . $startdate . '" AND "' . $enddate . '" AND (x.xray_list LIKE "CX%" OR x.xray_list LIKE "CT%")
+                    GROUP BY x.vn   
+                    ORDER BY x.order_date_time    
                 ');
             
                 foreach ($data_ct_new as $key => $value_new) {   
-                    $check2 = A_ct_scan::where('vn', $value_new->vn)->where('xray_list', $value_new->xray_list)->count();               
+                    $check2 = A_ct_scan::where('vn', $value_new->vn)->count();               
                     if ($check2 > 0) {    
-                        A_ct_scan::where('vn',$value_new->vn)->where('xray_list', $value_new->xray_list)->update([
+                        A_ct_scan::where('vn',$value_new->vn)->update([
                             'vn'                  => $value_new->vn,
-                            'an'                  => $value_new->an,
                             'hn'                  => $value_new->hn,                                 
-                            'cid'                 => $value_new->cid,  
-                            'request_date'        => $value_new->request_date,
+                            'cid'                 => $value_new->cid, 
+                            'order_date'          => $value_new->order_date,
+                            'order_time'          => $value_new->order_time, 
+                            'order_date_time'     => $value_new->order_date_time,
                             'ptname'              => $value_new->ptname,
                             'xray_list'           => $value_new->xray_list,
                             'confirm_all'         => $value_new->confirm_all,
@@ -268,10 +227,11 @@ class CtrepController extends Controller
                     } else {
                         A_ct_scan::insert([
                             'vn'                  => $value_new->vn,
-                            'an'                  => $value_new->an,
                             'hn'                  => $value_new->hn,                                 
-                            'cid'                 => $value_new->cid,  
-                            'request_date'        => $value_new->request_date,
+                            'cid'                 => $value_new->cid, 
+                            'order_date'          => $value_new->order_date,
+                            'order_time'          => $value_new->order_time, 
+                            'order_date_time'     => $value_new->order_date_time,
                             'ptname'              => $value_new->ptname,
                             'xray_list'           => $value_new->xray_list,
                             'confirm_all'         => $value_new->confirm_all,
@@ -495,7 +455,7 @@ class CtrepController extends Controller
             WHERE ct_date BETWEEN "' . $startdate . '" AND "' . $enddate . '"           
         ');     
         foreach ($data_sync_excel as $key => $value) {            
-            A_ct_scan::where('request_date',$value->ct_date)->where('cid',$value->cid)->update([                
+            A_ct_scan::where('order_date',$value->ct_date)->where('cid',$value->cid)->update([                
                 'STMDoc'             =>  $value->STMDoc,
             ]);
             
@@ -713,7 +673,7 @@ class CtrepController extends Controller
                     $token_  = $value->token;
                 }
                 // $ct_data = DB::connection('mysql')->select('SELECT cid,ct_date FROM a_stm_ct WHERE ct_date BETWEEN "'.$datestart.'" AND "'.$dateend.'"');
-                $ct_data = DB::connection('mysql')->select('SELECT cid,request_date FROM a_ct_scan WHERE request_date BETWEEN "'.$datestart.'" AND "'.$dateend.'" AND ptty_spsch IS NULL');
+                $ct_data = DB::connection('mysql')->select('SELECT cid,order_date FROM a_ct_scan WHERE order_date BETWEEN "'.$datestart.'" AND "'.$dateend.'" AND ptty_spsch IS NULL');
                 foreach ($ct_data as $key => $vv) {
                 
                         $client = new SoapClient(
@@ -766,7 +726,7 @@ class CtrepController extends Controller
                                 //     // 'pttypename_spsch' => @$maininscl,                                
                                 // ]);  
                                 
-                                A_ct_scan::where('cid', $vv->cid)->where('request_date', $vv->request_date)
+                                A_ct_scan::where('cid', $vv->cid)->where('order_date', $vv->order_date)
                                 ->update([
                                     'ptty_spsch'       => @$subinscl                                 
                                 ]);  
@@ -781,7 +741,7 @@ class CtrepController extends Controller
                                 //     ->update([
                                 //         'ptty_spsch'       => @$subinscl, 
                                 // ]); 
-                                A_ct_scan::where('cid', $vv->cid)->where('request_date', $vv->request_date)
+                                A_ct_scan::where('cid', $vv->cid)->where('order_date', $vv->order_date)
                                 ->update([
                                     'ptty_spsch'       => @$subinscl ,                                
                                 ]); 

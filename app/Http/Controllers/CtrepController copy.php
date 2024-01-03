@@ -64,7 +64,6 @@ use App\Models\D_apiofc_orf;
 use App\Models\A_ct_scan;
 use App\Models\A_ct_item;
 use App\Models\A_ct;
-use App\Models\A_ct_excel;
 
 use App\Models\D_ins;
 use App\Models\D_pat;
@@ -153,104 +152,116 @@ class CtrepController extends Controller
         //     ');  
         // } 
         if ($startdate != '') {  
-                 
-                // $data['datashow'] = DB::connection('mysql')->select('SELECT * FROM a_ct WHERE vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '" ORDER BY vstdate DESC'); 
-                $data['datashow'] = DB::connection('mysql')->select('
-                    SELECT a_ct_scan_id,vn,hn,cid,order_date,order_time,order_date_time,request_date,ptname,xray_list,confirm_all,department,department_code
-                    ,department_name,pttype,ptty_spsch,xray_order_number,xray_price,total_price,department_list,priority_name,STMdoc,user_id,active
-                    FROM a_ct_scan 
-                    WHERE request_date BETWEEN "' . $startdate . '" AND "' . $enddate . '" 
-                    GROUP BY vn
-                    ORDER BY request_date ASC
-                '); 
-
-        } else { 
-                $data['datashow'] = DB::connection('mysql')->select('
-                    SELECT a_ct_scan_id,vn,hn,cid,order_date,order_time,order_date_time,request_date,ptname,xray_list,confirm_all,department,department_code
-                    ,department_name,pttype,ptty_spsch,xray_order_number,xray_price,total_price,department_list,priority_name,STMdoc,user_id,active
-                    FROM a_ct_scan 
-                    WHERE request_date BETWEEN "' . $newDate . '" AND "' . $date . '" 
-                    GROUP BY vn
-                    ORDER BY request_date ASC
-                '); 
-                // $data['datashow'] = DB::connection('mysql')->select('SELECT * FROM a_ct WHERE vstdate BETWEEN "' . $newDate . '" AND "' . $date . '" ORDER BY vstdate DESC');
-                // $data['datashow'] = DB::connection('mysql')->select('SELECT * FROM a_ct_scan WHERE order_date BETWEEN "' . $newDate . '" AND "' . $date . '" ORDER BY order_date_time DESC'); 
-                // AND (xray_list LIKE "CX%" OR xray_list LIKE "CT%")
-        }  
-        // AND (xray_list LIKE "CX%" OR xray_list LIKE "CT%")
-        
-        return view('ct.ct_rep',$data,[
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate, 
-            // 'datashow'      =>     $datashow,
-        ]);
-    }
-     
-    public function ct_rep_pull(Request $request)
-    {   
-            $startdate = $request->startdate;
-            $enddate = $request->enddate;
-         
-                $data_ct_new = DB::connection('mysql2')->select(' 
-                    SELECT  
-                        IFNULL(i.vn ,x.vn) vn
-                        ,x.an,x.hn,x.request_date,x.report_date,p.cid
-                        ,concat(p.pname," ",p.fname," ",p.lname) as ptname
-                        ,xi.xray_items_name as xray_list,x.confirm as confirm_all 
-                        ,case 
-                        when xh.department is null then xt.department
-                        else xh.department
-                        end as department
-                        ,case 
-                        when xh.department_code is null then xt.department_code
-                        else xh.department_code
-                        end as department_code
-                        ,case 
-                        when xh.department_name is null then xt.department_name
-                        else xh.department_name
-                        end as department_name 
-                        ,IFNULL(v.pttype ,i.pttype) pttype
-                        ,case 
-                        when xh.xray_order_number is null then xt.xray_order_number
-                        else xh.xray_order_number
-                        end as xray_order_number
-                        ,case 
-                        when xh.xray_price is null then xt.xray_price
-                        else xh.xray_price
-                        end as xray_price
-                        ,case 
-                        when xh.total_price is null then xt.total_price
-                        else xh.total_price
-                        end as total_price
-                        ,case 
-                        when xh.department_list is null then xt.department_list
-                        else xh.department_list
-                        end as department_list                            
-                        ,y.priority_name
-                        
-                        FROM xray_report x  
-                        LEFT OUTER JOIN patient p on p.hn=x.hn  
-                        LEFT JOIN vn_stat v on v.vn = x.vn   
-                        LEFT JOIN ipt i on i.an = x.an 
-                        LEFT OUTER JOIN xray_items xi on xi.xray_items_code=x.xray_items_code  
-                        LEFT JOIN xray_head xh on xh.vn = x.vn
-                        LEFT JOIN xray_head xt on xt.vn = x.an 
-                        LEFT OUTER JOIN xray_priority y on y.xray_priority_id = xh.xray_priority_id 
-                        WHERE x.request_date BETWEEN "' . $startdate . '" AND "' . $enddate . '" 
-                        AND (xi.xray_items_name LIKE "CT%") 
-
-                         
+            // dd($startdate); 
+                $data_ct = DB::connection('mysql2')->select('
+                    SELECT v.vn,v.hn,v.cid ,v.vstdate,v.pttype,concat(p.pname,p.fname," ",p.lname) as ptname,s.icode,concat(s.name," ",s.strength," ",s.units) as ctname ,SUM(o.qty) total_qty,SUM(o.sum_price) total_sum_price 
+                    FROM opitemrece o  
+                    LEFT OUTER JOIN s_drugitems s on s.icode = o.icode   
+                    LEFT OUTER JOIN vn_stat v on v.vn = o.vn
+                    LEFT OUTER JOIN patient p on p.hn = o.hn 
+                    WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+                    AND s.name LIKE "CT%" GROUP BY v.vn
+                    ORDER BY o.item_no 
+                ');        
+                foreach ($data_ct as $key => $value) {
+                            $check = A_ct::where('vn', $value->vn)->count();                    
+                            if ($check > 0) {   
+                                A_ct::where('vn',$value->vn)->update([
+                                    'hn'                 => $value->hn, 
+                                    'vn'                 => $value->vn,
+                                    'cid'                => $value->cid,
+                                    'ptname'             => $value->ptname, 
+                                    'vstdate'            => $value->vstdate,
+                                    'pttype'             => $value->pttype,  
+                                    'qty'                => $value->total_qty, 
+                                    'sum_price'          => $value->total_sum_price,  
+                                    'user_id'             => Auth::user()->id
+                                ]);               
+                            } else {
+                                A_ct::insert([
+                                    'hn'                 => $value->hn, 
+                                    'vn'                 => $value->vn,
+                                    'cid'                => $value->cid,
+                                    'ptname'             => $value->ptname, 
+                                    'vstdate'            => $value->vstdate,
+                                    'pttype'             => $value->pttype,  
+                                    'qty'                => $value->total_qty, 
+                                    'sum_price'          => $value->total_sum_price,  
+                                    'user_id'             => Auth::user()->id
+                                ]);
+                            }
+                            
+                }
+                // $data_ct_item = DB::connection('mysql2')->select('
+                //     SELECT v.vn,v.hn,v.cid ,v.vstdate,v.pttype,concat(p.pname,p.fname," ",p.lname) as ptname,s.icode,concat(s.name," ",s.strength," ",s.units) as ctname 
+                //     ,x.xray_items_code,x.icode as xray_icode,o.qty,o.sum_price,o.unitprice                
+                //     FROM opitemrece o  
+                //     LEFT OUTER JOIN s_drugitems s on s.icode = o.icode   
+                //     LEFT OUTER JOIN vn_stat v on v.vn = o.vn
+                //     LEFT OUTER JOIN patient p on p.hn = o.hn 
+                //     LEFT OUTER JOIN xray_items x on x.icode = o.icode
+                //     LEFT OUTER JOIN xray_items_group g on g.xray_items_group = x.xray_items_group
+                //     WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+                //     AND s.name LIKE "CT%" GROUP BY v.vn,o.icode
+                //     ORDER BY o.item_no  
+                // ');        
+                // foreach ($data_ct_item as $key => $value2) {
+                //             $check2 = A_ct_item::where('vn', $value2->vn)->where('vstdate', $value2->vstdate)->where('icode', $value2->icode)->count();                    
+                //             if ($check2 > 0) {    
+                //                 A_ct_item::where('vn',$value2->vn)->where('vstdate', $value2->vstdate)->where('icode', $value2->icode)->update([
+                //                     'vn'                 => $value2->vn,
+                //                     'hn'                 => $value2->hn,                                 
+                //                     'cid'                => $value2->cid, 
+                //                     'vstdate'            => $value2->vstdate,
+                //                     'icode'              => $value2->icode, 
+                //                     'ctname'             => $value2->ctname,
+                //                     'xray_items_code'    => $value2->xray_items_code,
+                //                     'xray_icode'         => $value2->xray_icode,
+                //                     'qty'                => $value2->qty,
+                //                     'unitprice'          => $value2->unitprice,
+                //                     'sum_price'          => $value2->sum_price, 
+                //                     'user_id'             => Auth::user()->id
+                //                 ]);              
+                //             } else {
+                //                 A_ct_item::insert([
+                //                     'vn'                 => $value2->vn,
+                //                     'hn'                 => $value2->hn,                                 
+                //                     'cid'                => $value2->cid, 
+                //                     'vstdate'            => $value2->vstdate,
+                //                     'icode'              => $value2->icode, 
+                //                     'ctname'             => $value2->ctname,
+                //                     'xray_items_code'    => $value2->xray_items_code,
+                //                     'xray_icode'         => $value2->xray_icode,
+                //                     'qty'                => $value2->qty,
+                //                     'unitprice'          => $value2->unitprice,
+                //                     'sum_price'          => $value2->sum_price,  
+                //                     'user_id'             => Auth::user()->id
+                //                 ]); 
+                //             }
+                            
+                // } 
+                $data_ct_new = DB::connection('mysql2')->select('
+                    SELECT x.vn,x.hn,p.cid,x.order_date,x.order_time,x.order_date_time,concat(p.pname,p.fname," ",p.lname) as ptname,x.xray_list,x.confirm_all,x.department,x.department_code,x.department_name,x.pttype
+                    ,x.xray_order_number,x.xray_price,x.total_price,x.department_list,y.priority_name  
+                    FROM xray_head x  
+                    LEFT OUTER JOIN patient p on p.hn = x.hn    
+                    LEFT OUTER JOIN xray_priority y on y.xray_priority_id = x.xray_priority_id 
+                    WHERE x.order_date BETWEEN "' . $startdate . '" AND "' . $enddate . '" AND x.xray_list LIKE "CT%"
+                    GROUP BY x.vn   
+                    ORDER BY x.order_date_time  
                 ');
-            
-                foreach ($data_ct_new as $key => $value_new) {   
-                    $check2 = A_ct_scan::where('vn', $value_new->vn)->where('xray_list', $value_new->xray_list)->count();               
+                // WHERE (x.order_date_time BETWEEN "' . $startdate . '" AND "' . $enddate . '" ) 
+                foreach ($data_ct_new as $key => $value_new) {
+                    // $check2 = A_ct_scan::where('vn', $value_new->vn)->where('order_date', $value_new->order_date)->count();      
+                    $check2 = A_ct_scan::where('vn', $value_new->vn)->count();               
                     if ($check2 > 0) {    
-                        A_ct_scan::where('vn',$value_new->vn)->where('xray_list', $value_new->xray_list)->update([
+                        A_ct_scan::where('vn',$value_new->vn)->update([
                             'vn'                  => $value_new->vn,
-                            'an'                  => $value_new->an,
                             'hn'                  => $value_new->hn,                                 
-                            'cid'                 => $value_new->cid,  
-                            'request_date'        => $value_new->request_date,
+                            'cid'                 => $value_new->cid, 
+                            'order_date'          => $value_new->order_date,
+                            'order_time'          => $value_new->order_time, 
+                            'order_date_time'     => $value_new->order_date_time,
                             'ptname'              => $value_new->ptname,
                             'xray_list'           => $value_new->xray_list,
                             'confirm_all'         => $value_new->confirm_all,
@@ -268,10 +279,11 @@ class CtrepController extends Controller
                     } else {
                         A_ct_scan::insert([
                             'vn'                  => $value_new->vn,
-                            'an'                  => $value_new->an,
                             'hn'                  => $value_new->hn,                                 
-                            'cid'                 => $value_new->cid,  
-                            'request_date'        => $value_new->request_date,
+                            'cid'                 => $value_new->cid, 
+                            'order_date'          => $value_new->order_date,
+                            'order_time'          => $value_new->order_time, 
+                            'order_date_time'     => $value_new->order_date_time,
                             'ptname'              => $value_new->ptname,
                             'xray_list'           => $value_new->xray_list,
                             'confirm_all'         => $value_new->confirm_all,
@@ -288,44 +300,38 @@ class CtrepController extends Controller
                         ]); 
                     }
                     
-                } 
+        } 
 
-            return response()->json([
+                // $data['datashow'] = DB::connection('mysql')->select('SELECT * FROM a_ct WHERE vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '" ORDER BY vstdate DESC'); 
+                $data['datashow'] = DB::connection('mysql')->select('
+                    SELECT a_ct_scan_id,vn,hn,cid,order_date,order_time,order_date_time,ptname,xray_list,confirm_all,department,department_code
+                    ,department_name,pttype,ptty_spsch,xray_order_number,xray_price,total_price,department_list,priority_name,STMdoc,user_id,active
+                    FROM a_ct_scan 
+                    WHERE order_date BETWEEN "' . $startdate . '" AND "' . $enddate . '" ORDER BY order_date_time ASC
+                '); 
 
-                'status'    => '200'
-            ]);
-    }
-    public function ct_rep_import(Request $request)
-    {
-        $datenow = date('Y-m-d');
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        // $datashow = DB::connection('mysql')->select('
-        //     SELECT cid,vstdate,SUM(sum_price) as sumprice,STMdoc,month(vstdate) as months
-        //     FROM a_ct
-        //     WHERE cid is not null
-        //     GROUP BY cid
-        //     ORDER BY STMdoc DESC
-        // ');
-        $datashow = DB::connection('mysql')->select('
-            SELECT cid,ct_date,SUM(sumprice) as sumprice,STMdoc,month(ct_date) as months
-            FROM a_ct_excel
-            WHERE cid is not null
-            GROUP BY cid
-            ORDER BY STMdoc DESC
-        ');
-            // SELECT cid,vstdate,SUM(sum_price) as sumprice,SUM(paid) as paid,SUM(remain) as remain,STMdoc,month(vstdate) as months
-        $countc = DB::table('a_ct_excel')->count(); 
-        return view('ct.ct_rep_import',[
+        } else { 
+                $data['datashow'] = DB::connection('mysql')->select('
+                    SELECT a_ct_scan_id,vn,hn,cid,order_date,order_time,order_date_time,ptname,xray_list,confirm_all,department,department_code
+                    ,department_name,pttype,ptty_spsch,xray_order_number,xray_price,total_price,department_list,priority_name,STMdoc,user_id,active
+                    FROM a_ct_scan 
+                    WHERE order_date BETWEEN "' . $newDate . '" AND "' . $date . '" ORDER BY order_date_time ASC
+                '); 
+                // $data['datashow'] = DB::connection('mysql')->select('SELECT * FROM a_ct WHERE vstdate BETWEEN "' . $newDate . '" AND "' . $date . '" ORDER BY vstdate DESC');
+                // $data['datashow'] = DB::connection('mysql')->select('SELECT * FROM a_ct_scan WHERE order_date BETWEEN "' . $newDate . '" AND "' . $date . '" ORDER BY order_date_time DESC'); 
+            
+        }  
+        
+        
+        return view('ct.ct_rep',$data,[
             'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate,
-            'datashow'      =>     $datashow,
-            'countc'        =>     $countc
+            'enddate'       =>     $enddate, 
+            // 'datashow'      =>     $datashow,
         ]);
-    }  
+    }
     function ct_rep_import_save (Request $request)
     {  
-        A_ct_excel::truncate(); 
+        A_stm_ct_excel::truncate(); 
 
         $the_file = $request->file('file'); 
         $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
@@ -429,7 +435,7 @@ class CtrepController extends Controller
                     ];
                     $startcount++;  
 
-                    A_ct_excel::insert([
+                    A_stm_ct_excel::insert([
                         'ct_date'                 =>$ct_date,
                         'ct_timein'               =>$sheet->getCell( 'C' . $row )->getValue(),
                         'hn'                      =>$sheet->getCell( 'D' . $row )->getValue(),
@@ -479,33 +485,112 @@ class CtrepController extends Controller
                 $error_code = $e->errorInfo[1];
                 return back()->withErrors('There was a problem uploading the data!');
             }
-  
+
+            // $data_excel = DB::connection('mysql')->select('
+            //     SELECT  
+            //         ct_date,ct_timein,hn,an,cid ,ptname,sfhname,typename,pttypename,hname,cardno,ward,service,icode_hos,ct_check
+            //         ,sum(price_check) price_check,sum(total_price_check) total_price_check,opaque,sum(opaque_price) opaque_price,sum(total_opaque_price) total_opaque_price
+            //         ,other,sum(other_price) other_price,sum(total_other_price) total_other_price
+            //         ,sum(before_price) before_price,sum(discount) discount,sum(vat) vat,sum(total) total,sum(sumprice) sumprice,sum(paid) paid,sum(remain) remain
+            //         ,doctor,doctor_read,technician,technician_sub,nurse,icd9,user_id,STMDoc
+            //     FROM a_stm_ct_excel
+               
+            // ');
+            // // GROUP BY cid
+            // foreach ($data_excel as $key => $v) {
+            //     if ($v->cid !='') {  
+            //             A_stm_ct::insert([
+            //                 'ct_date'                 =>$v->ct_date,
+            //                 'ct_timein'               =>$v->ct_timein,
+            //                 'hn'                      =>$v->hn,
+            //                 'an'                      =>$v->an,
+            //                 'cid'                     =>$v->cid,
+            //                 'ptname'                  =>$v->ptname,
+            //                 'sfhname'                 =>$v->sfhname, 
+            //                 'typename'                =>$v->typename, 
+            //                 'pttypename'              =>$v->pttypename,  
+            //                 'hname'                   =>$v->hname, 
+            //                 'cardno'                  =>$v->cardno,
+            //                 'ward'                    =>$v->ward,
+            //                 'service'                 =>$v->service,
+            //                 'icode_hos'               =>$v->icode_hos,
+            //                 'ct_check'                =>$v->ct_check,
+            //                 'price_check'             =>$v->price_check,
+            //                 'total_price_check'       =>$v->total_price_check,
+            //                 'opaque'                  =>$v->opaque,
+            //                 'opaque_price'            =>$v->opaque_price, 
+            //                 'total_opaque_price'      =>$v->total_opaque_price, 
+            //                 'other'                   =>$v->other, 
+            //                 'other_price'             =>$v->other_price, 
+            //                 'total_other_price'       =>$v->total_other_price, 
+            //                 'before_price'            =>$v->before_price,
+            //                 'discount'                =>$v->discount,
+            //                 'vat'                     =>$v->vat,
+            //                 'total'                   =>$v->total,
+            //                 'sumprice'                =>$v->sumprice,
+            //                 'paid'                    =>$v->paid,
+            //                 'remain'                  =>$v->remain, 
+            //                 'doctor'                  =>$v->doctor, 
+            //                 'doctor_read'             =>$v->doctor_read, 
+            //                 'technician'              =>$v->technician, 
+            //                 'technician_sub'          =>$v->technician_sub, 
+            //                 'nurse'                   =>$v->nurse, 
+            //                 'icd9'                    =>$v->icd9,  
+            //                 'user_id'                 =>$iduser,  
+            //                 'STMDoc'                  =>$file_   
+            //             ]);  
+            //     } else {
+                     
+            //     }
+               
+            // }
+
+            // $data_ = DB::connection('mysql')->select('
+            //     SELECT  
+            //         ct_date,hn,an,cid ,ptname,ct_check,icode_hos,price_check,total_price_check,opaque_price,total_opaque_price,before_price,discount,vat,total,sumprice,paid,remain,STMDoc
+            //     FROM a_stm_ct_excel 
+            // ');
+         
+            // foreach ($data_ as $key => $value) {
+            //     if ($value->ct_date != '') { 
+            //             A_stm_ct_item::insert([
+            //                 'ct_date'                  =>$value->ct_date, 
+            //                 'hn'                       =>$value->hn,
+            //                 'an'                       =>$value->an,
+            //                 'cid'                      =>$value->cid,
+            //                 'ptname'                   =>$value->ptname, 
+            //                 'icode_hos'                =>$value->icode_hos,
+            //                 'ct_check'                 =>$value->ct_check,
+            //                 'price_check'              =>$value->price_check,
+            //                 'total_price_check'        =>$value->total_price_check, 
+            //                 'opaque_price'             =>$value->opaque_price, 
+            //                 'total_opaque_price'       =>$value->total_opaque_price,   
+            //                 'before_price'             =>$value->before_price, 
+            //                 'discount'                 =>$value->discount, 
+            //                 'vat'                      =>$value->vat, 
+            //                 'total'                    =>$value->total, 
+            //                 'sumprice'                 =>$value->sumprice, 
+            //                 'paid'                     =>$value->paid, 
+            //                 'remain'                   =>$value->remain,  
+            //                 'user_id'                  =>$iduser,  
+            //                 'STMDoc'                   =>$value->STMDoc, 
+            //             ]); 
+            //     } else {
+            //     }
+            // }
+
+                
             // A_stm_ct_excel::truncate(); 
             return redirect()->route('ct.ct_rep_import');
-       
-    }  
-    public function ct_rep_sync(Request $request)
-    { 
-        $startdate           = $request->startdate;
-        $enddate             = $request->enddate;
-        $data_sync_excel     = DB::connection('mysql')->select('
-            SELECT ct_date,hn,an,cid,ptname,sfhname,pttypename,ward,icode_hos,ct_check,price_check,total_price_check,opaque,opaque_price,total_opaque_price
-            ,other_price,total_other_price,before_price,discount,vat,total,sumprice,paid,remain,STMDoc
-            FROM a_ct_excel
-            WHERE ct_date BETWEEN "' . $startdate . '" AND "' . $enddate . '"           
-        ');     
-        foreach ($data_sync_excel as $key => $value) {            
-            A_ct_scan::where('request_date',$value->ct_date)->where('cid',$value->cid)->update([                
-                'STMDoc'             =>  $value->STMDoc,
-            ]);
-            
-        }
-       
-        return response()->json([
-                'status'    => '200',
-            ]);
+            // return response()->json([
+            //     'status'    => '200',
+            // ]);
     }
 
+
+
+
+    
     public function ct_rep_pay(Request $request)
     {
         $startdate = $request->startdate;
@@ -548,6 +633,112 @@ class CtrepController extends Controller
             // 'datashow'      =>     $datashow,
         ]);
     }
+    public function ct_rep_pull(Request $request)
+    {
+            $datenow = date('Y-m-d');
+            $startdate = $request->startdate;
+            $enddate = $request->enddate;
+        
+            // $data_ct = DB::connection('mysql2')->select('
+            //     SELECT v.vn,v.hn,v.cid ,v.vstdate,v.pttype,concat(p.pname,p.fname," ",p.lname) as ptname,s.icode,concat(s.name," ",s.strength," ",s.units) as ctname ,SUM(o.qty) total_qty,SUM(o.sum_price) total_sum_price 
+            //     FROM opitemrece o  
+            //     LEFT OUTER JOIN s_drugitems s on s.icode = o.icode   
+            //     LEFT OUTER JOIN vn_stat v on v.vn = o.vn
+            //     LEFT OUTER JOIN patient p on p.hn = o.hn 
+            //     WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+            //     AND s.name LIKE "CT%" GROUP BY v.vn
+            //     ORDER BY o.item_no 
+            // ');        
+            // foreach ($data_ct as $key => $value) {
+            //             $check = A_ct::where('vn', $value->vn)->count();                    
+            //             if ($check > 0) {                  
+            //             } else {
+            //                 A_ct::insert([
+            //                     'hn'                 => $value->hn, 
+            //                     'vn'                 => $value->vn,
+            //                     'cid'                => $value->cid,
+            //                     'ptname'             => $value->ptname, 
+            //                     'vstdate'            => $value->vstdate,
+            //                     'icode'              => $value->icode, 
+            //                     'ctname'             => $value->ctname,
+            //                     'qty'                => $value->total_qty,
+            //                     // 'unitprice'          => $value->unitprice,
+            //                     'sum_price'          => $value->total_sum_price,  
+            //                     'userid'             => Auth::user()->id
+            //                 ]);
+            //             }
+                        
+            // }
+
+            $data_ct_item = DB::connection('mysql2')->select('
+                SELECT v.vn,v.hn,v.cid ,v.vstdate,v.pttype,concat(p.pname,p.fname," ",p.lname) as ptname,s.icode,concat(s.name," ",s.strength," ",s.units) as ctname 
+                ,x.xray_items_code,x.icode as xray_icode,o.qty,o.sum_price,o.unitprice                
+                FROM opitemrece o  
+                LEFT OUTER JOIN s_drugitems s on s.icode = o.icode   
+                LEFT OUTER JOIN vn_stat v on v.vn = o.vn
+                LEFT OUTER JOIN patient p on p.hn = o.hn 
+                LEFT OUTER JOIN xray_items x on x.icode = o.icode
+                LEFT OUTER JOIN xray_items_group g on g.xray_items_group = x.xray_items_group
+                WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+                AND s.name LIKE "CT%"
+                ORDER BY o.item_no 
+            ');        
+            foreach ($data_ct_item as $key => $value2) {
+                        // $check2 = A_ct_item::where('vn', $value2->vn)->where('vstdate', $value2->vstdate)->where('icode', $value2->icode)->count();                    
+                        // if ($check2 > 0) {                  
+                        // } else {
+                            A_ct_item::insert([
+                                'vn'                 => $value2->vn,
+                                'hn'                 => $value2->hn,                                 
+                                'cid'                => $value2->cid, 
+                                'vstdate'            => $value2->vstdate,
+                                'icode'              => $value2->icode, 
+                                'ctname'             => $value2->ctname,
+                                'xray_items_code'    => $value2->xray_items_code,
+                                'xray_icode'         => $value2->xray_icode,
+                                'qty'                => $value2->qty,
+                                'unitprice'          => $value2->unitprice,
+                                'sum_price'          => $value2->sum_price,  
+                                'userid'             => Auth::user()->id
+                            ]);
+                        // }
+                        
+            }
+
+            return response()->json([
+
+                'status'    => '200'
+            ]);
+    }
+    public function ct_rep_import(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        // $datashow = DB::connection('mysql')->select('
+        //     SELECT cid,vstdate,SUM(sum_price) as sumprice,STMdoc,month(vstdate) as months
+        //     FROM a_ct
+        //     WHERE cid is not null
+        //     GROUP BY cid
+        //     ORDER BY STMdoc DESC
+        // ');
+        $datashow = DB::connection('mysql')->select('
+            SELECT cid,ct_date,SUM(sumprice) as sumprice,STMdoc,month(ct_date) as months
+            FROM a_stm_ct_excel
+            WHERE cid is not null
+            GROUP BY cid
+            ORDER BY STMdoc DESC
+        ');
+            // SELECT cid,vstdate,SUM(sum_price) as sumprice,SUM(paid) as paid,SUM(remain) as remain,STMdoc,month(vstdate) as months
+        $countc = DB::table('a_stm_ct_excel')->count(); 
+        return view('ct.ct_rep_import',[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow,
+            'countc'        =>     $countc
+        ]);
+    }    
+   
     public function ct_rep_import_send(Request $request)
     {
 
@@ -617,7 +808,136 @@ class CtrepController extends Controller
 
             return redirect()->route('ct.ct_rep_import');
     }
-   
+    public function ct_rep_sync(Request $request)
+    { 
+        $startdate           = $request->startdate;
+        $enddate             = $request->enddate;
+        $data_sync_excel     = DB::connection('mysql')->select('
+            SELECT ct_date,hn,an,cid,ptname,sfhname,pttypename,ward,icode_hos,ct_check,price_check,total_price_check,opaque,opaque_price,total_opaque_price
+            ,other_price,total_other_price,before_price,discount,vat,total,sumprice,paid,remain,STMDoc
+            FROM a_stm_ct_excel
+            WHERE ct_date BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+           
+        ');
+        // GROUP BY cid,ct_date,icode_hos
+        foreach ($data_sync_excel as $key => $value) {
+            // $count = A_ct_item::where('vstdate',$value->ct_date)->where('cid',$value->cid)->where('xray_items_code',$value->icode_hos)->count();
+            // $count = A_ct_item::where('vstdate',$value->ct_date)->where('cid',$value->cid)->count();
+            // dd($count);
+            // if ($count > 1) {
+            //     A_ct_item::where('vstdate',$value->ct_date)->where('cid',$value->cid)->where('xray_items_code',$value->icode_hos)->update([
+            //         'sfhname'            =>  $value->sfhname,
+            //         'pttypename'         =>  $value->pttypename,
+            //         'ward'               =>  $value->ward,
+            //         'icode_hos'          =>  $value->icode_hos,
+            //         'ct_check'           =>  $value->ct_check,
+            //         'price_check'        =>  $value->price_check,
+            //         'total_price_check'  =>  $value->total_price_check,
+            //         'opaque'             =>  $value->opaque,
+            //         'opaque_price'       =>  $value->opaque_price,
+            //         'total_opaque_price' =>  $value->total_opaque_price,
+            //         'other_price'        =>  $value->other_price,
+            //         'total_other_price'  =>  $value->total_other_price,
+            //         'before_price'       =>  $value->before_price,
+            //         'discount'           =>  $value->discount,
+            //         'vat'                =>  $value->vat,
+            //         'total'              =>  $value->total,
+            //         'sumprice'           =>  $value->sumprice,
+            //         'paid'               =>  $value->paid,
+            //         'remain'             =>  $value->remain,
+            //         'STMDoc'             =>  $value->STMDoc,
+            //     ]);
+            // } else {
+            //     A_ct_item::insert([ 
+            //         'hn'                 =>  $value->hn,                                 
+            //         'cid'                =>  $value->cid, 
+            //         'vstdate'            =>  $value->ct_date, 
+            //         'sfhname'            =>  $value->sfhname,
+            //         'pttypename'         =>  $value->pttypename,
+            //         'ward'               =>  $value->ward,
+            //         'icode_hos'          =>  $value->icode_hos,
+            //         'ct_check'           =>  $value->ct_check,
+            //         'price_check'        =>  $value->price_check,
+            //         'total_price_check'  =>  $value->total_price_check,
+            //         'opaque'             =>  $value->opaque,
+            //         'opaque_price'       =>  $value->opaque_price,
+            //         'total_opaque_price' =>  $value->total_opaque_price,
+            //         'other_price'        =>  $value->other_price,
+            //         'total_other_price'  =>  $value->total_other_price,
+            //         'before_price'       =>  $value->before_price,
+            //         'discount'           =>  $value->discount,
+            //         'vat'                =>  $value->vat,
+            //         'total'              =>  $value->total,
+            //         'sumprice'           =>  $value->sumprice,
+            //         'paid'               =>  $value->paid,
+            //         'remain'             =>  $value->remain,
+            //         'STMDoc'             =>  $value->STMDoc, 
+            //         'user_id'             => Auth::user()->id
+            //     ]); 
+            // }
+
+            // A_ct::where('vstdate',$value->ct_date)->where('cid',$value->cid)->update([                
+            //     'STMDoc'             =>  $value->STMDoc,
+            // ]);
+            A_ct_scan::where('order_date',$value->ct_date)->where('cid',$value->cid)->update([                
+                'STMDoc'             =>  $value->STMDoc,
+            ]);
+            
+        }
+        // ***** OPD *****
+            // $datasync     = DB::connection('mysql2')->select('
+            //     SELECT o.vstdate,xr.vn,o.hn,p.cid,x.icode,x.xray_items_name ,x.service_price,xr.confirm   
+            //     FROM xray_report xr  
+            //     LEFT OUTER JOIN xray_items x on x.xray_items_code=xr.xray_items_code  
+            //     LEFT OUTER JOIN ovst o on o.vn=xr.vn
+            //     LEFT OUTER JOIN patient p on p.hn=o.hn
+            //     WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            // ');
+            // foreach ($datasync as $key => $value) {
+            //     $count = A_stm_ct_item::where('ct_date',$value->vstdate)->where('cid',$value->cid)->count('ct_check');
+                
+            //     if ($count > 1) {
+            //         $data_item = DB::connection('mysql')->select('SELECT ct_check FROM a_stm_ct_item WHERE ct_date = "'.$value->vstdate.'" AND cid = "'.$value->cid.'"');
+            //         foreach ($data_item as $v) {
+            //         if ($v->ct_check == 'CT Lower abdomen') {
+            //                 A_stm_ct_item::where('ct_check','=','CT Lower abdomen')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT Lower abdomen with contrast']);
+            //                 A_stm_ct::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['vn' => $value->vn]);
+            //             } elseif ($v->ct_check == 'CT Upper abdomen') {
+            //                 A_stm_ct_item::where('ct_check','=','CT Upper abdomen')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT Upper abdomen']);
+            //                 A_stm_ct::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['vn' => $value->vn]);
+            //             } elseif ($v->ct_check == 'CT Chest') {
+            //                 A_stm_ct_item::where('ct_check','=','CT Chest')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT Chest with contrast']);
+            //                 A_stm_ct::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['vn' => $value->vn]);
+            //             } elseif ($v->ct_check == 'CT Neck') {
+            //                 A_stm_ct_item::where('ct_check','=','CT Neck')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT Neck with contrast']);
+            //                 A_stm_ct::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['vn' => $value->vn]);
+            //             } elseif ($v->ct_check == 'CT BRAIN  WITHOUT CONTRAST STUDY') {
+            //                 A_stm_ct_item::where('ct_check','=','CT BRAIN  WITHOUT CONTRAST STUDY')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT Brain without contrast study']);
+            //                 A_stm_ct::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['vn' => $value->vn]);
+            //             } elseif ($v->ct_check == 'CT SPINE: CERVICAL') {
+            //                 A_stm_ct_item::where('ct_check','=','CT SPINE: CERVICAL')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT C-Spine']);
+            //                 A_stm_ct::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['vn' => $value->vn]);
+            //             } elseif ($v->ct_check == 'CT FACIAL BONE') {
+            //                 A_stm_ct_item::where('ct_check','=','CT FACIAL BONE')->where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['ct_check_hos' => 'CT Facial bone']);
+            //                 A_stm_ct::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['vn' => $value->vn]);
+            //         } else {
+            //             # code...
+            //         }
+                    
+            //         }
+            //     } else {
+            //         A_stm_ct_item::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update([
+            //             'ct_check_hos'    => $value->xray_items_name
+            //         ]);
+            //         A_stm_ct::where('ct_date',$value->vstdate)->where('cid',$value->cid)->update(['vn' => $value->vn]);
+            //     } 
+            // }
+     
+            // return redirect()->route('ct.ct_rep');
+        return response()->json([
+                'status'    => '200',
+            ]);
+    }
     public function ct_rep_sync222(Request $request)
     { 
         $startdate    = $request->startdate;
@@ -713,7 +1033,7 @@ class CtrepController extends Controller
                     $token_  = $value->token;
                 }
                 // $ct_data = DB::connection('mysql')->select('SELECT cid,ct_date FROM a_stm_ct WHERE ct_date BETWEEN "'.$datestart.'" AND "'.$dateend.'"');
-                $ct_data = DB::connection('mysql')->select('SELECT cid,request_date FROM a_ct_scan WHERE request_date BETWEEN "'.$datestart.'" AND "'.$dateend.'" AND ptty_spsch IS NULL');
+                $ct_data = DB::connection('mysql')->select('SELECT cid,order_date FROM a_ct_scan WHERE order_date BETWEEN "'.$datestart.'" AND "'.$dateend.'" AND ptty_spsch IS NULL');
                 foreach ($ct_data as $key => $vv) {
                 
                         $client = new SoapClient(
@@ -766,7 +1086,7 @@ class CtrepController extends Controller
                                 //     // 'pttypename_spsch' => @$maininscl,                                
                                 // ]);  
                                 
-                                A_ct_scan::where('cid', $vv->cid)->where('request_date', $vv->request_date)
+                                A_ct_scan::where('cid', $vv->cid)->where('order_date', $vv->order_date)
                                 ->update([
                                     'ptty_spsch'       => @$subinscl                                 
                                 ]);  
@@ -781,7 +1101,7 @@ class CtrepController extends Controller
                                 //     ->update([
                                 //         'ptty_spsch'       => @$subinscl, 
                                 // ]); 
-                                A_ct_scan::where('cid', $vv->cid)->where('request_date', $vv->request_date)
+                                A_ct_scan::where('cid', $vv->cid)->where('order_date', $vv->order_date)
                                 ->update([
                                     'ptty_spsch'       => @$subinscl ,                                
                                 ]); 
