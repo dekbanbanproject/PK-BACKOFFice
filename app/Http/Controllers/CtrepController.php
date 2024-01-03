@@ -128,7 +128,7 @@ class CtrepController extends Controller
         $date = date('Y-m-d');
         $y = date('Y') + 543;
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-        $newDate = date('Y-m-d', strtotime($date . ' -2 months')); //ย้อนหลัง 2 เดือน
+        $newDate = date('Y-m-d', strtotime($date . ' -3 months')); //ย้อนหลัง 2 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
         $yearnew = date('Y')+1;
         $yearold = date('Y');
@@ -307,7 +307,7 @@ class CtrepController extends Controller
                     SELECT a_ct_scan_id,vn,hn,cid,order_date,order_time,order_date_time,ptname,xray_list,confirm_all,department,department_code
                     ,department_name,pttype,ptty_spsch,xray_order_number,xray_price,total_price,department_list,priority_name,STMdoc,user_id,active
                     FROM a_ct_scan 
-                    WHERE order_date BETWEEN "' . $startdate . '" AND "' . $enddate . '" ORDER BY order_date_time DESC
+                    WHERE order_date BETWEEN "' . $startdate . '" AND "' . $enddate . '" ORDER BY order_date_time ASC
                 '); 
 
         } else { 
@@ -315,7 +315,7 @@ class CtrepController extends Controller
                     SELECT a_ct_scan_id,vn,hn,cid,order_date,order_time,order_date_time,ptname,xray_list,confirm_all,department,department_code
                     ,department_name,pttype,ptty_spsch,xray_order_number,xray_price,total_price,department_list,priority_name,STMdoc,user_id,active
                     FROM a_ct_scan 
-                    WHERE order_date BETWEEN "' . $newDate . '" AND "' . $date . '" ORDER BY order_date_time DESC
+                    WHERE order_date BETWEEN "' . $newDate . '" AND "' . $date . '" ORDER BY order_date_time ASC
                 '); 
                 // $data['datashow'] = DB::connection('mysql')->select('SELECT * FROM a_ct WHERE vstdate BETWEEN "' . $newDate . '" AND "' . $date . '" ORDER BY vstdate DESC');
                 // $data['datashow'] = DB::connection('mysql')->select('SELECT * FROM a_ct_scan WHERE order_date BETWEEN "' . $newDate . '" AND "' . $date . '" ORDER BY order_date_time DESC'); 
