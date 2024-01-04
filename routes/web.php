@@ -287,6 +287,14 @@ Route::match(['get','post'],'fdh_data',[App\Http\Controllers\FdhController::clas
 Route::match(['get','post'],'fdh_data_process',[App\Http\Controllers\FdhController::class, 'fdh_data_process'])->name('claim.fdh_data_process');//
 Route::match(['get','post'],'fdh_data_export',[App\Http\Controllers\FdhController::class, 'fdh_data_export'])->name('claim.fdh_data_export');//
 
+// *******************UCS *******************
+Route::match(['get','post'],'walkin',[App\Http\Controllers\DwalkinController::class, 'walkin'])->name('claim.walkin');//
+Route::match(['get','post'],'walkin_process',[App\Http\Controllers\DwalkinController::class, 'walkin_process'])->name('claim.walkin_process');//
+Route::match(['get','post'],'walkin_export',[App\Http\Controllers\DwalkinController::class, 'walkin_export'])->name('claim.walkin_export');//
+Route::match(['get','post'],'walkin_exportapi',[App\Http\Controllers\DwalkinController::class, 'walkin_exportapi'])->name('claim.walkin_exportapi');//
+Route::match(['get','post'],'walkin_sendapi',[App\Http\Controllers\DwalkinController::class, 'walkin_sendapi'])->name('claim.walkin_sendapi');//
+Route::match(['get','post'],'walkin_report',[App\Http\Controllers\DwalkinController::class, 'walkin_report'])->name('claim.walkin_report');//
+
 // *******************OFC *******************
 Route::match(['get','post'],'ofc_401_main',[App\Http\Controllers\Ofc401Controller::class, 'ofc_401_main'])->name('claim.ofc_401_main');//
 Route::match(['get','post'],'ofc_401',[App\Http\Controllers\Ofc401Controller::class, 'ofc_401'])->name('claim.ofc_401');//
@@ -2194,6 +2202,8 @@ Route::middleware(['type'])->group(function(){
 
     Route::match(['get','post'],'check_auth',[App\Http\Controllers\NeweclaimController::class, 'check_auth'])->name('api.check_auth');//
     Route::match(['get','post'],'check_authapi',[App\Http\Controllers\NeweclaimController::class, 'check_authapi'])->name('api.check_authapi');//
+
+ 
 
     Route::match(['get','post'],'acc_stm',[App\Http\Controllers\AccountPKController::class, 'acc_stm'])->name('acc.acc_stm');//
     Route::match(['get','post'],'acc_repstm',[App\Http\Controllers\AccountPKController::class, 'acc_repstm'])->name('acc.acc_repstm');//

@@ -397,7 +397,7 @@ class Ofc401Controller extends Controller
                     ,DATE_FORMAT(if(i.an is null,v.pttype_begin,ap.begin_date), "%Y%m%d") DATEIN
                     ,DATE_FORMAT(if(i.an is null,v.pttype_expire,ap.expire_date), "%Y%m%d") DATEEXP
                     ,if(i.an is null,v.hospmain,ap.hospmain) HOSPMAIN,if(i.an is null,v.hospsub,ap.hospsub) HOSPSUB,"" GOVCODE ,"" GOVNAME
-                    ,ifnull(if(i.an is null,vp.claim_code or vp.auth_code,ap.claim_code),r.sss_approval_code) PERMITNO
+                    ,ifnull(if(i.an is null,ca.claimcode,ap.claim_code),r.sss_approval_code) PERMITNO
                     ,"" DOCNO ,"" OWNRPID,"" OWNRNAME ,i.an AN ,v.vn SEQ ,"" SUBINSCL,"" RELINSCL,"2" HTYPE
                     FROM vn_stat v
                     LEFT OUTER JOIN pttype p on p.pttype = v.pttype
@@ -406,7 +406,8 @@ class Ofc401Controller extends Controller
                     LEFT OUTER JOIN ipt_pttype ap on ap.an = i.an
                     LEFT OUTER JOIN visit_pttype vp on vp.vn = v.vn
                     LEFT OUTER JOIN rcpt_debt r on r.vn = v.vn
-                    LEFT OUTER JOIN patient px on px.hn = v.hn                
+                    LEFT OUTER JOIN patient px on px.hn = v.hn     
+                    LEFT OUTER JOIN pkbackoffice.check_authen ca on ca.cid = px.cid AND ca.vstdate = v.vstdate               
                     WHERE v.vn IN("'.$va1->vn.'")   
                 ');
                 // ,c.claimcode PERMITNO

@@ -40,10 +40,13 @@
     box-shadow: 0 0 10px rgb(161, 160, 160);
     /* box-shadow: 0 0 10px rgb(232, 187, 243); */
 }
+.cardclaim{
+    border-radius: 4em 4em 4em 4em;
+    box-shadow: 0 0 10px rgb(252, 161, 119);
+    /* box-shadow: 0 0 10px rgb(247, 198, 176); */
+}
 
-/* .checkbox{
-    border: 10px solid teal;
-} */
+ 
 .dcheckbox{         
     width: 20px;
     height: 20px;       
@@ -54,13 +57,4 @@
     box-shadow: 0 0 10px pink;
     /* box-shadow: 0 0 10px teal; */
 }
-.nav{
-
-    border-radius: 3em 3em 3em 3em;
-    background-color: aliceblue;
-    /* box-shadow: 0 0 10px teal; */
-}
-.nav-link{
-    border-radius: 20 20 10 10;
-    box-shadow: 0 0 10px teal;
-}
+ 

@@ -1,5 +1,5 @@
 @extends('layouts.pkclaim')
-@section('title', 'PK-BACKOFFice || OFC')
+@section('title', 'PK-BACKOFFice || UCS')
 @section('content')
 <script>
     function TypeAdmin() {
@@ -88,17 +88,20 @@ $pos = strrpos($url, '/') + 1;
             </div>
         </div>
     </div>
-    <form action="{{ url('ofc_401') }}" method="POST">
+    <form action="{{ url('walkin') }}" method="POST">
         @csrf
     <div class="row"> 
-      
+            <div class="col-md-3">
+                <h4 class="card-title" style="color:rgb(252, 161, 119)">Detail WalkIn List</h4>
+                <p class="card-title-desc">รายละเอียดข้อมูล WalkIn List</p>
+            </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
             <div class="col-md-7 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control cardclaim" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
-                    <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control cardclaim" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
         
                     <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
@@ -106,33 +109,17 @@ $pos = strrpos($url, '/') + 1;
                         ค้นหา
                     </button>  
 
-                </form>
+                    </form>
                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success" id="Processdata">
                         <i class="fa-solid fa-spinner text-success me-2"></i>
                         ประมวลผล
                     </button>
-                    {{-- <a href="{{url('ofc_401_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
-                        <i class="fa-solid fa-file-export text-danger me-2"></i>
-                        Export
-                    </a> --}}
-                    {{-- <form action="{{url('ofc_401_exportapi')}}" method="POST">
-                        @csrf
-                        <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" >
-                            <i class="fa-solid fa-upload text-primary me-2"></i>
-                            Export
-                        </button> --}}
-                        <a href="{{url('ofc_401_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                   
+                        <a href="{{url('walkin_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                             <i class="fa-solid fa-file-export text-danger me-2"></i>
-                            Export
+                            Export Txt
                         </a>
-                    {{-- </form> --}}
-                    {{-- <form action="{{ route('claim.ofc_401_sendapi') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" >
-                            <i class="fa-solid fa-upload text-primary me-2"></i>
-                            ส่ง New Eclaim
-                        </button>
-                    </form> --}}
+                   
                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger" id="ExportdataAPI">
                         <i class="fa-solid fa-upload text-danger me-2"></i>
                         Export Api
@@ -144,20 +131,17 @@ $pos = strrpos($url, '/') + 1;
                 </div> 
             </div>
           
-        </div>
-    {{-- </form> --}}
-    <div class="row mt-3">
-        <div class="col-md-12">
-            <div class="main-card mb-3 card">
-                <div class="card-header shadow-lg" style="background-color: #fcd6c1">
-                     OFC OPD ข้าราชการ
+    </div>
+ 
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card cardclaim">
+                {{-- <div class="card-header" style="background-color: rgb(180, 250, 227)">
+                     WalkIn List
                     <div class="btn-actions-pane-right">
-                        {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary Updatedata" >
-                            <i class="fa-solid fa-spinner text-info me-2"></i> 
-                            Update Ucep24
-                        </button> --}}
+                        
                     </div>
-                </div>
+                </div> --}}
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
@@ -166,7 +150,7 @@ $pos = strrpos($url, '/') + 1;
                                 <li class="nav-item">
                                     <a class="nav-link active" data-bs-toggle="tab" href="#Main" role="tab">
                                         <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                        <span class="d-none d-sm-block">OFC</span>    
+                                        <span class="d-none d-sm-block">WalkIn</span>    
                                     </a>
                                 </li>   
                                 <li class="nav-item">
@@ -277,27 +261,31 @@ $pos = strrpos($url, '/') + 1;
                                                     <th class="text-center">ลำดับ</th>
                                                     <th class="text-center">vn</th>
                                                     <th class="text-center">hn</th>
-                                                    <th class="text-center">an</th>  
+                                                    <th class="text-center">cid</th>  
                                                     <th class="text-center">pttype</th> 
+                                                    <th class="text-center">icd10</th> 
                                                     <th class="text-center">vstdate</th> 
-                                                    <th class="text-center">Apphos</th> 
-                                                    <th class="text-center">price_ofc</th> 
+                                                    <th class="text-center">Authen</th> 
+                                                    <th class="text-center">ptname</th> 
+                                                    <th class="text-center">income</th> 
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php $number = 0; ?>
-                                                @foreach ($d_ofc_401 as $item1)
+                                                @foreach ($d_walkin as $item1)
                                                 <?php $number++; ?>
                     
                                                 <tr height="20" style="font-size: 12px;">
                                                     <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td>
                                                     <td class="text-center" width="10%">  {{ $item1->vn }}  </td>
-                                                    <td class="text-center" width="10%">{{ $item1->hn }}</td>
-                                                    <td class="text-center" width="10%">{{ $item1->an }}</td>  
-                                                    <td class="text-center" width="10%">{{ $item1->pttype }}</td> 
+                                                    <td class="text-center" width="5%">{{ $item1->hn }}</td>
+                                                    <td class="text-center" width="10%">{{ $item1->cid }}</td>  
+                                                    <td class="text-center" width="5%">{{ $item1->pttype }}</td> 
+                                                    <td class="text-center" width="7%">{{ $item1->icd10 }}</td> 
                                                     <td class="text-center" width="10%">{{ $item1->vstdate }}</td> 
-                                                    <td class="text-center" width="10%">{{ $item1->Apphos }}</td> 
-                                                    <td class="text-center" width="10%">{{ $item1->price_ofc }}</td> 
+                                                    <td class="text-center" width="10%">{{ $item1->authen }}</td> 
+                                                    <td class="text-start">{{ $item1->ptname }}</td> 
+                                                    <td class="text-center" width="10%">{{ $item1->income }}</td> 
                                                 </tr>
                     
                     
@@ -981,7 +969,7 @@ $pos = strrpos($url, '/') + 1;
                                 $("#spinner").show(); //Load button clicked show spinner 
                                 
                                 $.ajax({
-                                    url: "{{ route('claim.ofc_401_process') }}",
+                                    url: "{{ route('claim.walkin_process') }}",
                                     type: "POST",
                                     dataType: 'json',
                                     data: {
@@ -1036,7 +1024,7 @@ $pos = strrpos($url, '/') + 1;
                                 $("#spinner").show(); //Load button clicked show spinner 
                                 
                                 $.ajax({
-                                    url: "{{ route('claim.ofc_401_sendapi') }}",
+                                    url: "{{ route('claim.walkin_sendapi') }}",
                                     type: "POST",
                                     dataType: 'json',
                                     data: {
@@ -1090,7 +1078,7 @@ $pos = strrpos($url, '/') + 1;
                                 $("#spinner").show(); //Load button clicked show spinner 
                                 
                                 $.ajax({
-                                    url: "{{ route('claim.ofc_401_exportapi') }}",
+                                    url: "{{ route('claim.walkin_exportapi') }}",
                                     type: "POST",
                                     dataType: 'json',
                                     data: {

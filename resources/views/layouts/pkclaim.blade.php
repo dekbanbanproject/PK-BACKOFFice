@@ -54,6 +54,7 @@
     <link rel="stylesheet"
         href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
     <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
+    {{-- <link rel="stylesheet" href="{{ asset('css/dacccss.css') }}"> --}}
     {{-- <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet"> --}}
     <!-- Plugins css -->
     {{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
@@ -85,6 +86,29 @@
     .Bgheader {
         background-image: url('/pkbackoffice/public/images/bgheader.jpg');
         background-repeat: no-repeat;
+    }
+    .myTable tbody tr{
+        font-size:13px;
+        height: 13px;
+    }
+    .cardclaim{
+        border-radius: 3em 3em 3em 3em;
+        box-shadow: 0 0 10px rgb(252, 161, 119);
+        /* box-shadow: 0 0 10px rgb(247, 198, 176); */
+    }
+
+    /* .checkbox{
+        border: 10px solid teal;
+    } */
+    .dcheckbox{         
+        width: 20px;
+        height: 20px;       
+        /* border-radius: 2em 2em 2em 2em; */
+        border: 10px solid pink;
+        /* color: teal; */
+        /* border-color: teal; */
+        box-shadow: 0 0 10px pink;
+        /* box-shadow: 0 0 10px teal; */
     }
 </style>
 
@@ -223,10 +247,19 @@
                             </a>
                         </li> --}}
                         <li>
-                            <a href="{{ url('report_zero') }}">  
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-chart-column text-success"></i>
-                                <span>Report STM 0</span> 
+                                <span>Report STM</span>
                             </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('report_zero') }}">Report STM 0</a></li>
+                                <li><a href="javascript: void(0);" class="has-arrow">UCS</a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li><a href="{{ url('walkin_report') }}">WalkIn</a></li>
+                                       
+                                    </ul>
+                                </li> 
+                            </ul>  
                         </li>
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
@@ -243,10 +276,13 @@
                                 <span>Claim</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('ucep24') }}">UCEP 24</a></li>
-                                <li><a href="{{ url('ucep24_claim') }}">UCEP 24-Claim</a></li> 
-                                {{-- <li><a href="{{ url('imc') }}">IMC</a></li> --}}
-                                {{-- <li><a href="{{ url('ofc') }}">OFC 401</a></li> --}}
+                                <li><a href="javascript: void(0);" class="has-arrow">UCS</a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li><a href="{{ url('ucep24') }}">UCEP 24</a></li>
+                                        <li><a href="{{ url('ucep24_claim') }}">UCEP 24-Claim</a></li> 
+                                        <li><a href="{{ url('walkin') }}">WalkIn</a></li> 
+                                    </ul>
+                                </li> 
                                 <li><a href="javascript: void(0);" class="has-arrow">OFC</a>
                                     <ul class="sub-menu" aria-expanded="true"> 
                                         <li><a href="{{ url('ofc_401_main') }}">OFC-MAIN </a></li>

@@ -1097,8 +1097,7 @@ class ReportFontController extends Controller
                 ,case 
                 when u2.STMdoc is null then c.STMdoc
                 else u2.STMdoc
-                end as STMdoc
-                
+                end as STMdoc               
               
                 from an_stat a
                 left outer join patient pt on pt.hn = a.hn

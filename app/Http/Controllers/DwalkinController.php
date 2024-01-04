@@ -22,78 +22,32 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Department;
 use App\Models\Departmentsub;
 use App\Models\Departmentsubsub;
-use App\Models\Position;
-use App\Models\Product_spyprice;
-use App\Models\Products;
-use App\Models\Products_type;
-use App\Models\Product_group;
-use App\Models\Product_unit;
-use App\Models\Products_category;
-use App\Models\Article;
-use App\Models\Product_prop;
-use App\Models\Product_decline;
-use App\Models\Department_sub_sub;
-use App\Models\Products_vendor;
-use App\Models\Status; 
-use App\Models\Products_request;
-use App\Models\Products_request_sub;   
-use App\Models\Leave_leader;
-use App\Models\Leave_leader_sub;
-use App\Models\Book_type;
-use App\Models\Book_import_fam;
-use App\Models\Book_signature;
-use App\Models\Bookrep;
-use App\Models\Book_objective;
-
-use App\Models\D_apiofc_ins;
-use App\Models\D_apiofc_iop;
-use App\Models\D_apiofc_adp;
-use App\Models\D_apiofc_aer;
-use App\Models\D_apiofc_cha;
-use App\Models\D_apiofc_cht;
-use App\Models\D_apiofc_dru;
-use App\Models\D_apiofc_idx;  
-use App\Models\D_apiofc_pat;
-use App\Models\D_apiofc_ipd;
-use App\Models\D_apiofc_irf;
-use App\Models\D_apiofc_ldv;
-use App\Models\D_apiofc_odx;
-use App\Models\D_apiofc_oop;
-use App\Models\D_apiofc_opd;
-use App\Models\D_apiofc_orf;
-use App\Models\Book_send_person;
-use App\Models\Book_sendteam;
-use App\Models\Bookrepdelete;
-
-use App\Models\D_ins;
-use App\Models\D_pat;
-use App\Models\D_opd;
-use App\Models\D_orf;
-use App\Models\D_odx;
-use App\Models\D_cht;
-use App\Models\D_cha;
-use App\Models\D_oop;
-use App\Models\D_claim;
-use App\Models\D_adp;
-use App\Models\D_dru;
-use App\Models\D_idx;
-use App\Models\D_iop;
-use App\Models\D_ipd;
-use App\Models\D_aer;
-use App\Models\D_irf;
-use App\Models\D_ofc_401;
-use App\Models\D_ofc_402;
-use App\Models\D_dru_out;
-use App\Models\D_claim_db_hipdata_code;
+use App\Models\Position; 
+use App\Models\D_apiwalkin_ins;  
+use App\Models\D_apiwalkin_adp;
+use App\Models\D_apiwalkin_aer;
+use App\Models\D_apiwalkin_orf;
+use App\Models\D_apiwalkin_odx;
+use App\Models\D_apiwalkin_cht;
+use App\Models\D_apiwalkin_cha;
+use App\Models\D_apiwalkin_oop;
+use App\Models\D_claim; 
+use App\Models\D_apiwalkin_dru;
+use App\Models\D_apiwalkin_idx;
+use App\Models\D_apiwalkin_iop;
+use App\Models\D_apiwalkin_ipd;
+use App\Models\D_apiwalkin_pat;
+use App\Models\D_apiwalkin_opd;
+use App\Models\D_walkin;
+use App\Models\D_apiwalkin_ldv;
+use App\Models\D_apiwalkin_irf;
+use App\Models\D_walkin_report;
 use Auth;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http; 
 use SoapClient;
 use Arr; 
-use App\Imports\ImportAcc_stm_ti;
-use App\Imports\ImportAcc_stm_tiexcel_import;
-use App\Imports\ImportAcc_stm_ofcexcel_import;
-use App\Imports\ImportAcc_stm_lgoexcel_import;
+ 
 use App\Models\D_ofc_repexcel;
 use App\Models\D_ofc_rep;
 use SplFileObject;
@@ -116,10 +70,9 @@ use Illuminate\Support\Facades\Storage;
  
 date_default_timezone_set("Asia/Bangkok");
 
-class Ofc402Controller extends Controller
-{ 
-    
-    public function ofc_402(Request $request)
+class DwalkinController extends Controller
+{  
+    public function walkin(Request $request)
     {
         $startdate = $request->startdate;
         $enddate = $request->enddate;
@@ -137,54 +90,79 @@ class Ofc402Controller extends Controller
             
         } else {
                 $iduser = Auth::user()->id;
-                D_ofc_402::truncate(); 
-                D_dru_out::truncate();
+                D_walkin::truncate();  
                 $data_main_ = DB::connection('mysql2')->select(' 
-                    SELECT ip.vn,a.hn,a.an,pt.cid,a.regdate,a.dchdate,ip.pttype,it.claim_code,p.hipdata_code
-                    ,group_concat(DISTINCT ii.icd10) as icd10,a.pdx
-                    ,concat(pt.pname,pt.fname," ",pt.lname) as ptname,
-                    a.inc08 as instument,a.income,a.paid_money,a.uc_money,
-                    ip.rfrocs,ip.rfrolct 
-                    ,o1.sum_price as covid
-                    ,group_concat(DISTINCT l2.lab_order_result) as lab
-                    FROM an_stat a
-                    LEFT OUTER JOIN patient pt on pt.hn = a.hn
-                    LEFT OUTER JOIN pttype p on p.pttype = a.pttype
-                    LEFT OUTER JOIN iptdiag ii on ii.an=a.an
-                    LEFT OUTER JOIN ipt ip on ip.an = a.an
-                    LEFT OUTER JOIN ipt_pttype it on it.an=a.an 
-                    LEFT OUTER JOIN lab_head l on l.vn = a.an
-                    LEFT OUTER JOIN lab_order l2 on l2.lab_order_number = l.lab_order_number and l2.lab_items_code in ("1700","1753","1759","1761")
-                    LEFT OUTER JOIN opitemrece o1 on o1.an = l.vn and o1.icode in("3010601","3010605","3010590","3010604","3010602","3010603","3010592","3010591","3010600","3000406","3000407","3010640","3010641","3010677","3010698")
-                    WHERE a.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                    AND a.pttype in("38","09","O1","O2","O3","O4","O5","O6","20") 
-                    AND a.pdx <> ""
-                    GROUP BY a.an; 
+                    SELECT v.hn,v.vn,i.an,v.vstdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.cid,v.pttype,group_concat(distinct oo.icd10) as icd10
+                        ,ca.claimcode as authen,h.hospcode,h.name as hospcode_name,ee.er_emergency_level_name ,v.income,v.uc_money,v.paid_money,v.rcpt_money,pt.hipdata_code
+                        FROM vn_stat v
+                        LEFT OUTER JOIN referin r on r.vn = v.vn
+                        LEFT OUTER JOIN oapp o on o.visit_vn = v.vn
+                        LEFT OUTER JOIN ipt i on i.vn = v.vn
+                        LEFT OUTER JOIN patient p on p.hn = v.hn
+                        LEFT OUTER JOIN ovstdiag oo on oo.vn = v.vn  
+                        LEFT OUTER JOIN hospcode h on h.hospcode = v.hospmain 
+                        LEFT OUTER JOIN er_regist g on g.vn=v.vn 
+                        LEFT OUTER JOIN er_emergency_level ee on ee.er_emergency_level_id = g.er_emergency_level_id
+                        LEFT OUTER JOIN visit_pttype vv on vv.vn = v.vn
+                        LEFT OUTER JOIN pttype pt on pt.pttype =v.pttype  
+                        LEFT OUTER JOIN hpc11_ktb_approval hh on hh.pid = v.cid and hh.transaction_date = v.vstdate 
+                        LEFT OUTER JOIN pkbackoffice.check_authen ca on ca.cid = v.cid AND ca.vstdate = v.vstdate
+                        WHERE v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                        AND i.an is null 
+                        AND v.pttype in("W2","W1","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81") 
+                        AND h.hospcode <> "10978" AND v.pdx <> ""
+                        AND pt.hipdata_code ="UCS"
+                        GROUP BY v.vn 
                 ');                 
                 foreach ($data_main_ as $key => $value) {    
-                    D_ofc_402::insert([
-                            'vn'                 => $value->vn,
-                            'hn'                 => $value->hn,
-                            'an'                 => $value->an, 
-                            'cid'             => $value->cid,
-                            'dchdate'             => $value->dchdate,
-                            'pttype'             => $value->pttype,
-                            'claim_code'             => $value->claim_code,
-                            'icd10'             => $value->icd10,
-                            'ptname'             => $value->ptname,
-                            'instument'             => $value->instument,
-                            'income'             => $value->income,
-                            'paid_money'             => $value->paid_money,
-                            'uc_money'             => $value->uc_money,
-                            'rfrocs'             => $value->rfrocs,
-                            'rfrolct'             => $value->rfrolct,
-                            'covid'             => $value->covid,
-                            'lab'             => $value->lab, 
+                        D_walkin::insert([
+                            'vn'                      => $value->vn,
+                            'hn'                      => $value->hn,
+                            'an'                      => $value->an, 
+                            'cid'                     => $value->cid,
+                            'pttype'                  => $value->pttype,
+                            'vstdate'                 => $value->vstdate,
+                            'authen'                  => $value->authen,
+                            'icd10'                   => $value->icd10, 
+                            'ptname'                  => $value->ptname, 
+                            'hospcode'                => $value->hospcode, 
+                            'hospcode_name'           => $value->hospcode_name, 
+                            'er_emergency_level_name' => $value->er_emergency_level_name, 
+                            'income'                  => $value->income, 
+                            'paid_money'              => $value->paid_money, 
+                            'uc_money'                => $value->uc_money,  
+                            'rcpt_money'              => $value->rcpt_money,  
                         ]);
-                    $check = D_claim::where('an',$value->an)->count();
+                                               
+
+                    $check = D_claim::where('vn',$value->vn)->count();
                     if ($check > 0) {
-                        D_claim::where('an',$value->an)->update([ 
+                        D_claim::where('vn',$value->vn)->update([ 
                             'sum_price'          => $value->income,  
+                        ]);
+                        // D_walkin_report::where('vn',$value->vn)->update([ 
+                        //     'income'            => $value->income, 
+                        //     'paid_money'        => $value->paid_money,
+                        //     'uc_money'          => $value->uc_money, 
+                        //     'rcpt_money'        => $value->rcpt_money, 
+                        // ]);
+                        D_walkin_report::insert([
+                            'vn'                      => $value->vn,
+                            'hn'                      => $value->hn,
+                            'an'                      => $value->an, 
+                            'cid'                     => $value->cid,
+                            'pttype'                  => $value->pttype,
+                            'vstdate'                 => $value->vstdate,
+                            'authen'                  => $value->authen,
+                            'icd10'                   => $value->icd10, 
+                            'ptname'                  => $value->ptname, 
+                            'hospcode'                => $value->hospcode, 
+                            'hospcode_name'           => $value->hospcode_name, 
+                            'er_emergency_level_name' => $value->er_emergency_level_name, 
+                            'income'                  => $value->income, 
+                            'paid_money'              => $value->paid_money, 
+                            'uc_money'                => $value->uc_money,  
+                            'rcpt_money'              => $value->rcpt_money,  
                         ]);
                     } else {
                         D_claim::insert([
@@ -194,129 +172,78 @@ class Ofc402Controller extends Controller
                             'cid'               => $value->cid,
                             'pttype'            => $value->pttype,
                             'ptname'            => $value->ptname,
-                            'dchdate'           => $value->dchdate,
-                            'hipdata_code'      => $value->hipdata_code,
-                            // 'qty'               => $value->qty,
+                            'vstdate'           => $value->vstdate,
+                            'hipdata_code'      => $value->hipdata_code, 
                             'sum_price'          => $value->income,
-                            'type'              => 'IPD',
-                            'nhso_adp_code'     => 'OFC',
+                            'type'              => 'OPD',
+                            'nhso_adp_code'     => 'WALKIN',
                             'claimdate'         => $date, 
                             'userid'            => $iduser, 
                         ]);
-                    } 
-                    // D_dru_out::truncate();
-                    
-                }
-                   
-                $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from d_ofc_402');
-                foreach ($data_vn_1 as $key => $val) {
-                    $data_dru_ = DB::connection('mysql2')->select('
-                        SELECT v.vn,vv.hcode HCODE ,v.hn HN ,v.an AN ,vv.spclty CLINIC ,vv.cid PERSON_ID ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
-                            ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,v.qty AMOUNT ,round(v.unitprice,2) DRUGPRIC
-                            ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
-                            ,oo.presc_reason DRUGREMARK ,oo.nhso_authorize_code PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
-                            ,"" TOTAL ,"" as SIGCODE ,"" as SIGTEXT ,""  PROVIDER,v.vstdate
-                            FROM opitemrece v
-                            LEFT OUTER JOIN drugitems d on d.icode = v.icode
-                            LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
-                            LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode                
-                        WHERE v.vn IN("'.$val->vn.'")
-                        AND d.did is not null 
-                        GROUP BY v.vn,did
-
-                        UNION all
-
-                        SELECT v.vn,pt.hcode HCODE ,v.hn HN ,v.an AN ,v1.spclty CLINIC ,pt.cid PERSON_ID ,DATE_FORMAT((v.vstdate),"%Y%m%d") DATE_SERV
-                            ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,sum(v.qty) AMOUNT ,round(v.unitprice,2) DRUGPRIC
-                            ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
-                            ,oo.presc_reason DRUGREMARK ,oo.nhso_authorize_code PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
-                            ,"" TOTAL,"" as SIGCODE,"" as SIGTEXT,""  PROVIDER,v.vstdate
-                            FROM opitemrece v
-                            LEFT OUTER JOIN drugitems d on d.icode = v.icode
-                            LEFT OUTER JOIN patient pt  on v.hn = pt.hn
-                            INNER JOIN ipt v1 on v1.an = v.an
-                            LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode                 
-                        WHERE v1.vn IN("'.$val->vn.'")
-                        AND d.did is not null AND v.qty<>"0"
-                        GROUP BY v.an,d.icode,USE_STATUS;              
-                    ');
-            
-                    foreach ($data_dru_ as $key => $va_14) {
-                        D_dru_out::insert([ 
-                            'vstdate'        => $va_14->vstdate, 
-                            'HN'             => $va_14->HN, 
-                            'PERSON_ID'      => $va_14->PERSON_ID, 
-                            'DID'            => $va_14->DID,
-                            'DIDNAME'        => $va_14->DIDNAME, 
-                            'AMOUNT'         => $va_14->AMOUNT,
-                            'DRUGPRIC'       => $va_14->DRUGPRIC,
-                            'DRUGCOST'       => $va_14->DRUGCOST,
-                            'DIDSTD'         => $va_14->DIDSTD,
-                            'UNIT'           => $va_14->UNIT,
-                            'UNIT_PACK'      => $va_14->UNIT_PACK,
-                            'SEQ'            => $va_14->SEQ,
-                            'DRUGREMARK'     => $va_14->DRUGREMARK,
-                            'PA_NO'          => $va_14->PA_NO 
+                        D_walkin_report::insert([
+                            'vn'                      => $value->vn,
+                            'hn'                      => $value->hn,
+                            'an'                      => $value->an, 
+                            'cid'                     => $value->cid,
+                            'pttype'                  => $value->pttype,
+                            'vstdate'                 => $value->vstdate,
+                            'authen'                  => $value->authen,
+                            'icd10'                   => $value->icd10, 
+                            'ptname'                  => $value->ptname, 
+                            'hospcode'                => $value->hospcode, 
+                            'hospcode_name'           => $value->hospcode_name, 
+                            'er_emergency_level_name' => $value->er_emergency_level_name, 
+                            'income'                  => $value->income, 
+                            'paid_money'              => $value->paid_money, 
+                            'uc_money'                => $value->uc_money,  
+                            'rcpt_money'              => $value->rcpt_money,  
                         ]);
-                    } 
-                   
-                }
-  
+                    }  
+                } 
         }
 
                 
-            $data['d_ofc_402'] = DB::connection('mysql')->select('SELECT * from d_ofc_402');  
-            $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd WHERE d_anaconda_id ="OFC_402"'); 
-            $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf WHERE d_anaconda_id ="OFC_402"'); 
-            $data['data_oop'] = DB::connection('mysql')->select('SELECT * from d_oop WHERE d_anaconda_id ="OFC_402"');
-            $data['data_odx'] = DB::connection('mysql')->select('SELECT * from d_odx WHERE d_anaconda_id ="OFC_402"');
-            $data['data_idx'] = DB::connection('mysql')->select('SELECT * from d_idx WHERE d_anaconda_id ="OFC_402"');
-            $data['data_ipd'] = DB::connection('mysql')->select('SELECT * from d_ipd WHERE d_anaconda_id ="OFC_402"');
-            $data['data_irf'] = DB::connection('mysql')->select('SELECT * from d_irf WHERE d_anaconda_id ="OFC_402"');
-            $data['data_aer'] = DB::connection('mysql')->select('SELECT * from d_aer WHERE d_anaconda_id ="OFC_402"');
-            $data['data_iop'] = DB::connection('mysql')->select('SELECT * from d_iop WHERE d_anaconda_id ="OFC_402"');
-            $data['data_adp'] = DB::connection('mysql')->select('SELECT * from d_adp WHERE d_anaconda_id ="OFC_402"');
-            $data['data_pat'] = DB::connection('mysql')->select('SELECT * from d_pat WHERE d_anaconda_id ="OFC_402"');
-            $data['data_cht'] = DB::connection('mysql')->select('SELECT * from d_cht WHERE d_anaconda_id ="OFC_402"');
-            $data['data_cha'] = DB::connection('mysql')->select('SELECT * from d_cha WHERE d_anaconda_id ="OFC_402"');
-            $data['data_ins'] = DB::connection('mysql')->select('SELECT * from d_ins WHERE d_anaconda_id ="OFC_402"');
-            $data['data_dru'] = DB::connection('mysql')->select('SELECT * from d_dru WHERE d_anaconda_id ="OFC_402"');
+            $data['d_walkin'] = DB::connection('mysql')->select('SELECT * from d_walkin');  
+            $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd WHERE d_anaconda_id ="WALKIN"'); 
+            $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf WHERE d_anaconda_id ="WALKIN"'); 
+            $data['data_oop'] = DB::connection('mysql')->select('SELECT * from d_oop WHERE d_anaconda_id ="WALKIN"');
+            $data['data_odx'] = DB::connection('mysql')->select('SELECT * from d_odx WHERE d_anaconda_id ="WALKIN"');
+            $data['data_idx'] = DB::connection('mysql')->select('SELECT * from d_idx WHERE d_anaconda_id ="WALKIN"');
+            $data['data_ipd'] = DB::connection('mysql')->select('SELECT * from d_ipd WHERE d_anaconda_id ="WALKIN"');
+            $data['data_irf'] = DB::connection('mysql')->select('SELECT * from d_irf WHERE d_anaconda_id ="WALKIN"');
+            $data['data_aer'] = DB::connection('mysql')->select('SELECT * from d_aer WHERE d_anaconda_id ="WALKIN"');
+            $data['data_iop'] = DB::connection('mysql')->select('SELECT * from d_iop WHERE d_anaconda_id ="WALKIN"');
+            $data['data_adp'] = DB::connection('mysql')->select('SELECT * from d_adp WHERE d_anaconda_id ="WALKIN"');
+            $data['data_pat'] = DB::connection('mysql')->select('SELECT * from d_pat WHERE d_anaconda_id ="WALKIN"');
+            $data['data_cht'] = DB::connection('mysql')->select('SELECT * from d_cht WHERE d_anaconda_id ="WALKIN"');
+            $data['data_cha'] = DB::connection('mysql')->select('SELECT * from d_cha WHERE d_anaconda_id ="WALKIN"');
+            $data['data_ins'] = DB::connection('mysql')->select('SELECT * from d_ins WHERE d_anaconda_id ="WALKIN"');
+            $data['data_dru'] = DB::connection('mysql')->select('SELECT * from d_dru WHERE d_anaconda_id ="WALKIN"');
 
-        return view('ofc.ofc_402',$data,[
+        return view('ucs.walkin',$data,[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate, 
         ]);
-    }
-    public function ofc_401_check(Request $request)
-    {
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        $data['datashow'] = DB::connection('mysql')->select('SELECT * from d_dru_out WHERE DRUGREMARK IS NOT NULL');
-
-        return view('ofc.ofc_401_check',$data,[
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate, 
-        ]);
-    }
-    public function ofc_402_process(Request $request)
+    }    
+    public function walkin_process(Request $request)
     { 
-        $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from d_ofc_402');
+        $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from d_walkin');
         $iduser = Auth::user()->id; 
-        D_opd::where('d_anaconda_id','=','OFC_402')->delete();
-        D_orf::where('d_anaconda_id','=','OFC_402')->delete();
-        D_oop::where('d_anaconda_id','=','OFC_402')->delete();
-        D_odx::where('d_anaconda_id','=','OFC_402')->delete();
-        D_idx::where('d_anaconda_id','=','OFC_402')->delete();
-        D_ipd::where('d_anaconda_id','=','OFC_402')->delete();
-        D_irf::where('d_anaconda_id','=','OFC_402')->delete();
-        D_aer::where('d_anaconda_id','=','OFC_402')->delete();
-        D_iop::where('d_anaconda_id','=','OFC_402')->delete();
-        D_adp::where('d_anaconda_id','=','OFC_402')->delete();   
-        D_dru::where('d_anaconda_id','=','OFC_402')->delete();   
-        D_pat::where('d_anaconda_id','=','OFC_402')->delete();
-        D_cht::where('d_anaconda_id','=','OFC_402')->delete();
-        D_cha::where('d_anaconda_id','=','OFC_402')->delete();
-        D_ins::where('d_anaconda_id','=','OFC_402')->delete();
+        D_opd::where('d_anaconda_id','=','WALKIN')->delete();
+        D_orf::where('d_anaconda_id','=','WALKIN')->delete();
+        D_oop::where('d_anaconda_id','=','WALKIN')->delete();
+        D_odx::where('d_anaconda_id','=','WALKIN')->delete();
+        D_idx::where('d_anaconda_id','=','WALKIN')->delete();
+        D_ipd::where('d_anaconda_id','=','WALKIN')->delete();
+        D_irf::where('d_anaconda_id','=','WALKIN')->delete();
+        D_aer::where('d_anaconda_id','=','WALKIN')->delete();
+        D_iop::where('d_anaconda_id','=','WALKIN')->delete();
+        D_adp::where('d_anaconda_id','=','WALKIN')->delete();   
+        D_dru::where('d_anaconda_id','=','WALKIN')->delete();   
+        D_pat::where('d_anaconda_id','=','WALKIN')->delete();
+        D_cht::where('d_anaconda_id','=','WALKIN')->delete();
+        D_cha::where('d_anaconda_id','=','WALKIN')->delete();
+        D_ins::where('d_anaconda_id','=','WALKIN')->delete();
         // D_opd::truncate();
         // D_orf::truncate();
         // D_oop::truncate();
@@ -350,8 +277,8 @@ class Ofc402Controller extends Controller
                     LEFT OUTER JOIN ipt_pttype ap on ap.an = i.an
                     LEFT OUTER JOIN visit_pttype vp on vp.vn = v.vn
                     LEFT OUTER JOIN rcpt_debt r on r.vn = v.vn
-                    LEFT OUTER JOIN patient px on px.hn = v.hn  
-                    LEFT OUTER JOIN pkbackoffice.check_authen ca on ca.cid = px.cid AND ca.vstdate = v.vstdate                  
+                    LEFT OUTER JOIN patient px on px.hn = v.hn    
+                    LEFT OUTER JOIN pkbackoffice.check_authen ca on ca.cid = px.cid AND ca.vstdate = v.vstdate            
                     WHERE v.vn IN("'.$va1->vn.'")   
                 ');
                 // ,c.claimcode PERMITNO
@@ -378,7 +305,7 @@ class Ofc402Controller extends Controller
                         'RELINSCL'          => $va_01->RELINSCL,
                         'HTYPE'             => $va_01->HTYPE,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_402'
+                        'd_anaconda_id'     => 'WALKIN'
                     ]);
                 }
                 //D_pat OK
@@ -411,7 +338,7 @@ class Ofc402Controller extends Controller
                         'LNAME'              => $va_02->LNAME,
                         'IDTYPE'             => $va_02->IDTYPE,
                         'user_id'            => $iduser,
-                        'd_anaconda_id'      => 'OFC_402'
+                        'd_anaconda_id'      => 'WALKIN'
                     ]);
                 }
                 //D_opd OK
@@ -447,7 +374,7 @@ class Ofc402Controller extends Controller
                         'TYPEIN'            => $val3->TYPEIN, 
                         'TYPEOUT'           => $val3->TYPEOUT, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_402'
+                        'd_anaconda_id'     => 'WALKIN'
                     ]);
                 }
                 //D_orf _OK
@@ -472,7 +399,7 @@ class Ofc402Controller extends Controller
                         'REFERTYPE'         => $va_03->REFERTYPE, 
                         'REFERDATE'         => $va_03->REFERDATE, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_402'
+                        'd_anaconda_id'     => 'WALKIN'
                     ]);
                 }
                  // D_odx OK
@@ -499,7 +426,7 @@ class Ofc402Controller extends Controller
                         'PERSON_ID'         => $va_04->PERSON_ID, 
                         'SEQ'               => $va_04->SEQ, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_402'
+                        'd_anaconda_id'     => 'WALKIN'
                     ]);
                     
                 }
@@ -526,7 +453,7 @@ class Ofc402Controller extends Controller
                         'SEQ'               => $va_05->SEQ, 
                         'SERVPRICE'         => $va_05->SERVPRICE, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_402'
+                        'd_anaconda_id'     => 'WALKIN'
                     ]);
                     
                 }
@@ -556,7 +483,7 @@ class Ofc402Controller extends Controller
                         'UUC'               => $va_06->UUC, 
                         'SVCTYPE'           => $va_06->SVCTYPE, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_402'
+                        'd_anaconda_id'     => 'WALKIN'
                     ]);
                 }
                 
@@ -576,7 +503,7 @@ class Ofc402Controller extends Controller
                         'REFER'              => $va_07->REFER,
                         'REFERTYPE'          => $va_07->REFERTYPE,
                         'user_id'            => $iduser,
-                        'd_anaconda_id'      => 'OFC_402',
+                        'd_anaconda_id'      => 'WALKIN',
                     ]);                     
                 }                 
                 //D_idx OK 
@@ -596,7 +523,7 @@ class Ofc402Controller extends Controller
                         'DXTYPE'            => $va_08->DXTYPE,
                         'DRDX'              => $va_08->DRDX, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_402'
+                        'd_anaconda_id'     => 'WALKIN'
                     ]);
                             
                 }
@@ -622,7 +549,7 @@ class Ofc402Controller extends Controller
                         'DATEOUT'           => $va_09->DATEOUT,
                         'TIMEOUT'           => $va_09->TIMEOUT,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_402'
+                        'd_anaconda_id'     => 'WALKIN'
                     ]);
                 }
                 //D_cht OK
@@ -652,7 +579,7 @@ class Ofc402Controller extends Controller
                         'INVOICE_NO'        => $va_10->INVOICE_NO,
                         'INVOICE_LT'        => $va_10->INVOICE_LT,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_402'
+                        'd_anaconda_id'     => 'WALKIN'
                     ]);
                 }
                 //D_cha OK
@@ -693,7 +620,7 @@ class Ofc402Controller extends Controller
                         'PERSON_ID'         => $va_11->PERSON_ID,
                         'SEQ'               => $va_11->SEQ, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_402'
+                        'd_anaconda_id'     => 'WALKIN'
                     ]);
                 } 
                  //D_aer OK
@@ -741,7 +668,7 @@ class Ofc402Controller extends Controller
                         'DALERT'            => $va_12->DALERT,
                         'TALERT'            => $va_12->TALERT,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_402'
+                        'd_anaconda_id'     => 'WALKIN'
                     ]);
                 } 
                 //D_adp
@@ -808,7 +735,7 @@ class Ofc402Controller extends Controller
                         'icode'                => $va_13->icode,
                         'vstdate'              => $va_13->vstdate,
                         'user_id'              => $iduser,
-                        'd_anaconda_id'        => 'OFC_402'
+                        'd_anaconda_id'        => 'WALKIN'
                     ]);
                 } 
                  //D_dru OK
@@ -873,7 +800,7 @@ class Ofc402Controller extends Controller
                         'PROVIDER'       => $va_14->PROVIDER,
                         'vstdate'        => $va_14->vstdate,   
                         'user_id'        => $iduser,
-                        'd_anaconda_id'  => 'OFC_402'
+                        'd_anaconda_id'  => 'WALKIN'
                     ]);
                 } 
                  
@@ -885,7 +812,7 @@ class Ofc402Controller extends Controller
              'status'    => '200'
          ]);
     }
-    public function ofc_402_export(Request $request)
+    public function walkin_export(Request $request)
     {
         $sss_date_now = date("Y-m-d");
         $sss_time_now = date("H:i:s");
@@ -901,7 +828,7 @@ class Ofc402Controller extends Controller
         $file = new Filesystem;
         $file->cleanDirectory('Export'); //ทั้งหมด
         // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
-        $folder='OFC_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+        $folder='WALKIN_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
 
          mkdir ('Export/'.$folder, 0777, true);  //Web
         //  mkdir ('C:Export/'.$folder, 0777, true); //localhost
@@ -916,7 +843,7 @@ class Ofc402Controller extends Controller
         $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
         fwrite($objFopen_ins, $opd_head); 
         $ins = DB::connection('mysql')->select('
-            SELECT * from d_ins where d_anaconda_id = "OFC_402"
+            SELECT * from d_ins where d_anaconda_id = "WALKIN"
         ');
         foreach ($ins as $key => $value1) {
             $a1 = $value1->HN;
@@ -950,7 +877,7 @@ class Ofc402Controller extends Controller
         $opd_head_pat = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
         fwrite($objFopen_pat, $opd_head_pat);
         $pat = DB::connection('mysql')->select('
-            SELECT * from d_pat where d_anaconda_id = "OFC_402"
+            SELECT * from d_pat where d_anaconda_id = "WALKIN"
         ');
         foreach ($pat as $key => $value9) {
             $i1 = $value9->HCODE;
@@ -983,7 +910,7 @@ class Ofc402Controller extends Controller
         $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT';
         fwrite($objFopen_opd, $opd_head_opd);
         $opd = DB::connection('mysql')->select('
-            SELECT * from d_opd where d_anaconda_id = "OFC_402"
+            SELECT * from d_opd where d_anaconda_id = "WALKIN"
         ');
         foreach ($opd as $key => $value15) {
             $o1 = $value15->HN;
@@ -1006,7 +933,7 @@ class Ofc402Controller extends Controller
         $opd_head_orf = 'HN|DATEOPD|CLINIC|REFER|REFERTYPE|SEQ';
         fwrite($objFopen_orf, $opd_head_orf);
         $orf = DB::connection('mysql')->select('
-            SELECT * from d_orf where d_anaconda_id = "OFC_402"
+            SELECT * from d_orf where d_anaconda_id = "WALKIN"
         ');
         foreach ($orf as $key => $value16) {
             $p1 = $value16->HN;
@@ -1028,7 +955,7 @@ class Ofc402Controller extends Controller
         $opd_head_odx = 'HN|DATEDX|CLINIC|DIAG|DXTYPE|DRDX|PERSON_ID|SEQ';
         fwrite($objFopen_odx, $opd_head_odx);
         $odx = DB::connection('mysql')->select('
-            SELECT * from d_odx where d_anaconda_id = "OFC_402"
+            SELECT * from d_odx where d_anaconda_id = "WALKIN"
         ');
         foreach ($odx as $key => $value13) {
             $m1 = $value13->HN;
@@ -1051,7 +978,7 @@ class Ofc402Controller extends Controller
         $opd_head_oop = 'HN|DATEOPD|CLINIC|OPER|DROPID|PERSON_ID|SEQ';
         fwrite($objFopen_oop, $opd_head_oop);
         $oop = DB::connection('mysql')->select('
-            SELECT * from d_oop where d_anaconda_id = "OFC_402"
+            SELECT * from d_oop where d_anaconda_id = "WALKIN"
         ');
         foreach ($oop as $key => $value14) {
             $n1 = $value14->HN;
@@ -1073,7 +1000,7 @@ class Ofc402Controller extends Controller
         $opd_head_ipd = 'HN|AN|DATEADM|TIMEADM|DATEDSC|TIMEDSC|DISCHS|DISCHT|WARDDSC|DEPT|ADM_W|UUC|SVCTYPE';
         fwrite($objFopen_ipd, $opd_head_ipd);
         $ipd = DB::connection('mysql')->select('
-            SELECT * from d_ipd where d_anaconda_id = "OFC_402"
+            SELECT * from d_ipd where d_anaconda_id = "WALKIN"
         ');
         foreach ($ipd as $key => $value10) {
             $j1 = $value10->HN;
@@ -1101,7 +1028,7 @@ class Ofc402Controller extends Controller
         $opd_head_irf = 'AN|REFER|REFERTYPE';
         fwrite($objFopen_irf, $opd_head_irf);
         $irf = DB::connection('mysql')->select('
-            SELECT * from d_irf where d_anaconda_id = "OFC_402"
+            SELECT * from d_irf where d_anaconda_id = "WALKIN"
         ');
         foreach ($irf as $key => $value11) {
             $k1 = $value11->AN;
@@ -1119,7 +1046,7 @@ class Ofc402Controller extends Controller
         $opd_head_idx = 'AN|DIAG|DXTYPE|DRDX';
         fwrite($objFopen_idx, $opd_head_idx);
         $idx = DB::connection('mysql')->select('
-            SELECT * from d_idx where d_anaconda_id = "OFC_402"
+            SELECT * from d_idx where d_anaconda_id = "WALKIN"
         ');
         foreach ($idx as $key => $value8) {
             $h1 = $value8->AN;
@@ -1138,7 +1065,7 @@ class Ofc402Controller extends Controller
         $opd_head_iop = 'AN|OPER|OPTYPE|DROPID|DATEIN|TIMEIN|DATEOUT|TIMEOUT';
         fwrite($objFopen_iop, $opd_head_iop);
         $iop = DB::connection('mysql')->select('
-            SELECT * from d_iop where d_anaconda_id = "OFC_402"
+            SELECT * from d_iop where d_anaconda_id = "WALKIN"
         ');
         foreach ($iop as $key => $value2) {
             $b1 = $value2->AN;
@@ -1161,7 +1088,7 @@ class Ofc402Controller extends Controller
         $opd_head_cht = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ';
         fwrite($objFopen_cht, $opd_head_cht);
         $cht = DB::connection('mysql')->select('
-            SELECT * from d_cht where d_anaconda_id = "OFC_402"
+            SELECT * from d_cht where d_anaconda_id = "WALKIN"
         ');
         foreach ($cht as $key => $value6) {
             $f1 = $value6->HN;
@@ -1183,7 +1110,7 @@ class Ofc402Controller extends Controller
         $opd_head_cha = 'HN|AN|DATE|CHRGITEM|AMOUNT|PERSON_ID|SEQ';
         fwrite($objFopen_cha, $opd_head_cha);
         $cha = DB::connection('mysql')->select('
-            SELECT * from d_cha where d_anaconda_id = "OFC_402"
+            SELECT * from d_cha where d_anaconda_id = "WALKIN"
         ');
         foreach ($cha as $key => $value5) {
             $e1 = $value5->HN;
@@ -1205,7 +1132,7 @@ class Ofc402Controller extends Controller
          $opd_head_aer = 'HN|AN|DATEOPD|AUTHAE|AEDATE|AETIME|AETYPE|REFER_NO|REFMAINI|IREFTYPE|REFMAINO|OREFTYPE|UCAE|EMTYPE|SEQ|AESTATUS|DALERT|TALERT';
          fwrite($objFopen_aer, $opd_head_aer);
          $aer = DB::connection('mysql')->select('
-             SELECT * from d_aer where d_anaconda_id = "OFC_402"
+             SELECT * from d_aer where d_anaconda_id = "WALKIN"
          ');
          foreach ($aer as $key => $value4) {
              $d1 = $value4->HN;
@@ -1238,7 +1165,7 @@ class Ofc402Controller extends Controller
         $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP|LMP|SP_ITEM';
         fwrite($objFopen_adp, $opd_head_adp);
         $adp = DB::connection('mysql')->select('
-            SELECT * from d_adp where d_anaconda_id = "OFC_402"
+            SELECT * from d_adp where d_anaconda_id = "WALKIN"
         ');
         foreach ($adp as $key => $value3) {
             $c1 = $value3->HN;
@@ -1280,7 +1207,7 @@ class Ofc402Controller extends Controller
          $opd_head_lvd = 'SEQLVD|AN|DATEOUT|TIMEOUT|DATEIN|TIMEIN|QTYDAY';
          fwrite($objFopen_lvd, $opd_head_lvd);
          $lvd = DB::connection('mysql')->select('
-             SELECT * from d_lvd where d_anaconda_id = "OFC_402"
+             SELECT * from d_lvd where d_anaconda_id = "WALKIN"
          ');
          foreach ($lvd as $key => $value12) {
              $L1 = $value12->SEQLVD;
@@ -1302,7 +1229,7 @@ class Ofc402Controller extends Controller
         $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGTYPE|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
         fwrite($objFopen_dru, $opd_head_dru);
         $dru = DB::connection('mysql')->select('
-            SELECT * from d_dru where d_anaconda_id = "OFC_402"
+            SELECT * from d_dru where d_anaconda_id = "WALKIN"
         ');
         foreach ($dru as $key => $value7) {
             $g1 = $value7->HCODE;
@@ -1370,14 +1297,14 @@ class Ofc402Controller extends Controller
                             // unlink($file); 
                         } 
                     }                      
-                    return redirect()->route('claim.ofc_402');                    
+                    return redirect()->route('claim.walkin');                    
                 }
         } 
 
-            return redirect()->route('claim.ofc_402');
+            return redirect()->route('claim.walkin');
 
     }
-    public function ofc_402_exportapi(Request $request)
+    public function walkin_exportapi(Request $request)
     {
         $sss_date_now = date("Y-m-d");
         $sss_time_now = date("H:i:s");
@@ -1393,7 +1320,7 @@ class Ofc402Controller extends Controller
         $file = new Filesystem;
         $file->cleanDirectory('Export'); //ทั้งหมด
         // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
-        $folder='OFC_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+        $folder='WALKIN_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
 
          mkdir ('Export/'.$folder, 0777, true);  //Web
         //  mkdir ('C:Export/'.$folder, 0777, true); //localhost
@@ -1410,7 +1337,7 @@ class Ofc402Controller extends Controller
         // fwrite($objFopen_ins, $opd_head);
         fwrite($objFopen_ins_utf, $opd_head);
         $ins = DB::connection('mysql')->select('
-            SELECT * from d_ins where d_anaconda_id = "OFC_402"
+            SELECT * from d_ins where d_anaconda_id = "WALKIN"
         ');
         foreach ($ins as $key => $value1) {
             $a1 = $value1->HN;
@@ -1440,13 +1367,13 @@ class Ofc402Controller extends Controller
         }
         // fclose($objFopen_ins);
         fclose($objFopen_ins_utf);
-        D_apiofc_ins::truncate();
+        D_apiwalkin_ins::truncate();
         $fread_file_ins = fread(fopen($file_d_ins,"r"),filesize($file_d_ins));
         $fread_file_ins_endcode = base64_encode($fread_file_ins);
         $read_file_ins_size = filesize($file_d_ins);
 
         // dd( $fread_file_ins);
-        D_apiofc_ins::insert([
+        D_apiwalkin_ins::insert([
             'blobName'   =>  'INS.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_ins_endcode,
@@ -1462,7 +1389,7 @@ class Ofc402Controller extends Controller
         // fwrite($objFopen_pat, $opd_head_pat);
         fwrite($objFopen_pat_utf, $opd_head_pat);
         $pat = DB::connection('mysql')->select('
-            SELECT * from d_pat where d_anaconda_id = "OFC_402"
+            SELECT * from d_pat where d_anaconda_id = "WALKIN"
         ');
         foreach ($pat as $key => $value9) {
             $i1 = $value9->HCODE;
@@ -1488,11 +1415,11 @@ class Ofc402Controller extends Controller
         }
         // fclose($objFopen_pat);
         fclose($objFopen_pat_utf);
-        D_apiofc_pat::truncate();
+        D_apiwalkin_pat::truncate();
         $fread_file_pat = fread(fopen($file_d_pat,"r"),filesize($file_d_pat));
         $fread_file_pat_endcode = base64_encode($fread_file_pat);
         $read_file_pat_size = filesize($file_d_pat);
-        D_apiofc_pat::insert([
+        D_apiwalkin_pat::insert([
             'blobName'   =>  'PAT.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_pat_endcode,
@@ -1508,7 +1435,7 @@ class Ofc402Controller extends Controller
         // fwrite($objFopen_opd, $opd_head_opd);
         fwrite($objFopen_opd_utf, $opd_head_opd);
         $opd = DB::connection('mysql')->select('
-            SELECT * from d_opd where d_anaconda_id = "OFC_402"
+            SELECT * from d_opd where d_anaconda_id = "WALKIN"
         ');
         foreach ($opd as $key => $value15) {
             $o1 = $value15->HN;
@@ -1525,11 +1452,11 @@ class Ofc402Controller extends Controller
         }
         // fclose($objFopen_opd);
         fclose($objFopen_opd_utf);
-        D_apiofc_opd::truncate();
+        D_apiwalkin_opd::truncate();
         $fread_file_opd = fread(fopen($file_d_opd,"r"),filesize($file_d_opd));
         $fread_file_opd_endcode = base64_encode($fread_file_opd);
         $read_file_opd_size = filesize($file_d_opd);
-        D_apiofc_opd::insert([
+        D_apiwalkin_opd::insert([
             'blobName'   =>  'OPD.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_opd_endcode,
@@ -1545,7 +1472,7 @@ class Ofc402Controller extends Controller
         // fwrite($objFopen_orf, $opd_head_orf);
         fwrite($objFopen_orf_utf, $opd_head_orf);
         $orf = DB::connection('mysql')->select('
-            SELECT * from d_orf where d_anaconda_id = "OFC_402"
+            SELECT * from d_orf where d_anaconda_id = "WALKIN"
         ');
         foreach ($orf as $key => $value16) {
             $p1 = $value16->HN;
@@ -1562,11 +1489,11 @@ class Ofc402Controller extends Controller
         }
         // fclose($objFopen_orf);
         fclose($objFopen_orf_utf);
-        D_apiofc_orf::truncate();
+        D_apiwalkin_orf::truncate();
         $fread_file_orf = fread(fopen($file_d_orf,"r"),filesize($file_d_orf));
         $fread_file_orf_endcode = base64_encode($fread_file_orf);
         $read_file_orf_size = filesize($file_d_orf);
-        D_apiofc_orf::insert([
+        D_apiwalkin_orf::insert([
             'blobName'   =>  'ORF.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_orf_endcode,
@@ -1582,7 +1509,7 @@ class Ofc402Controller extends Controller
         // fwrite($objFopen_odx, $opd_head_odx);
         fwrite($objFopen_odx_utf, $opd_head_odx);
         $odx = DB::connection('mysql')->select('
-            SELECT * from d_odx where d_anaconda_id = "OFC_402"
+            SELECT * from d_odx where d_anaconda_id = "WALKIN"
         ');
         foreach ($odx as $key => $value13) {
             $m1 = $value13->HN;
@@ -1601,11 +1528,11 @@ class Ofc402Controller extends Controller
         }
         // fclose($objFopen_odx);
         fclose($objFopen_odx_utf);
-        D_apiofc_odx::truncate();
+        D_apiwalkin_odx::truncate();
         $fread_file_odx = fread(fopen($file_d_odx,"r"),filesize($file_d_odx));
         $fread_file_odx_endcode = base64_encode($fread_file_odx);
         $read_file_odx_size = filesize($file_d_odx);
-        D_apiofc_odx::insert([
+        D_apiwalkin_odx::insert([
             'blobName'   =>  'ODX.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_odx_endcode,
@@ -1621,7 +1548,7 @@ class Ofc402Controller extends Controller
         // fwrite($objFopen_oop, $opd_head_oop);
         fwrite($objFopen_oop_utf, $opd_head_oop);
         $oop = DB::connection('mysql')->select('
-            SELECT * from d_oop where d_anaconda_id = "OFC_402"
+            SELECT * from d_oop where d_anaconda_id = "WALKIN"
         ');
         foreach ($oop as $key => $value14) {
             $n1 = $value14->HN;
@@ -1639,11 +1566,11 @@ class Ofc402Controller extends Controller
         }
         // fclose($objFopen_oop);
         fclose($objFopen_oop_utf);
-        D_apiofc_oop::truncate();
+        D_apiwalkin_oop::truncate();
         $fread_file_oop = fread(fopen($file_d_oop,"r"),filesize($file_d_oop));
         $fread_file_oop_endcode = base64_encode($fread_file_oop);
         $read_file_oop_size = filesize($file_d_oop);
-        D_apiofc_oop::insert([
+        D_apiwalkin_oop::insert([
             'blobName'   =>  'OOP.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_oop_endcode,
@@ -1659,7 +1586,7 @@ class Ofc402Controller extends Controller
         // fwrite($objFopen_ipd, $opd_head_ipd);
         fwrite($objFopen_ipd_utf, $opd_head_ipd);
         $ipd = DB::connection('mysql')->select('
-            SELECT * from d_ipd where d_anaconda_id = "OFC_402"
+            SELECT * from d_ipd where d_anaconda_id = "WALKIN"
         ');
         foreach ($ipd as $key => $value10) {
             $j1 = $value10->HN;
@@ -1683,11 +1610,11 @@ class Ofc402Controller extends Controller
         }
         // fclose($objFopen_ipd);
         fclose($objFopen_ipd_utf);
-        D_apiofc_ipd::truncate();
+        D_apiwalkin_ipd::truncate();
         $fread_file_ipd = fread(fopen($file_d_ipd,"r"),filesize($file_d_ipd));
         $fread_file_ipd_endcode = base64_encode($fread_file_ipd);
         $read_file_ipd_size = filesize($file_d_ipd);
-        D_apiofc_ipd::insert([
+        D_apiwalkin_ipd::insert([
             'blobName'   =>  'IPD.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_ipd_endcode,
@@ -1703,7 +1630,7 @@ class Ofc402Controller extends Controller
         // fwrite($objFopen_irf, $opd_head_irf);
         fwrite($objFopen_irf_utf, $opd_head_irf);
         $irf = DB::connection('mysql')->select('
-            SELECT * from d_irf where d_anaconda_id = "OFC_402"
+            SELECT * from d_irf where d_anaconda_id = "WALKIN"
         ');
         foreach ($irf as $key => $value11) {
             $k1 = $value11->AN;
@@ -1717,11 +1644,11 @@ class Ofc402Controller extends Controller
         }
         // fclose($objFopen_irf);
         fclose($objFopen_irf_utf);
-        D_apiofc_irf::truncate();
+        D_apiwalkin_irf::truncate();
         $fread_file_irf = fread(fopen($file_d_irf,"r"),filesize($file_d_irf));
         $fread_file_irf_endcode = base64_encode($fread_file_irf);
         $read_file_irf_size = filesize($file_d_irf);
-        D_apiofc_irf::insert([
+        D_apiwalkin_irf::insert([
             'blobName'   =>  'IRF.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_irf_endcode,
@@ -1737,7 +1664,7 @@ class Ofc402Controller extends Controller
         // fwrite($objFopen_idx, $opd_head_idx);
         fwrite($objFopen_idx_utf, $opd_head_idx);
         $idx = DB::connection('mysql')->select('
-            SELECT * from d_idx where d_anaconda_id = "OFC_402"
+            SELECT * from d_idx where d_anaconda_id = "WALKIN"
         ');
         foreach ($idx as $key => $value8) {
             $h1 = $value8->AN;
@@ -1752,11 +1679,11 @@ class Ofc402Controller extends Controller
         }
         // fclose($objFopen_idx);
         fclose($objFopen_idx_utf);
-        D_apiofc_idx::truncate();
+        D_apiwalkin_idx::truncate();
         $fread_file_idx = fread(fopen($file_d_idx,"r"),filesize($file_d_idx));
         $fread_file_idx_endcode = base64_encode($fread_file_idx);
         $read_file_idx_size = filesize($file_d_idx);
-        D_apiofc_idx::insert([
+        D_apiwalkin_idx::insert([
             'blobName'   =>  'IDX.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_idx_endcode,
@@ -1772,7 +1699,7 @@ class Ofc402Controller extends Controller
         // fwrite($objFopen_iop, $opd_head_iop);
         fwrite($objFopen_iop_utf, $opd_head_iop);
         $iop = DB::connection('mysql')->select('
-            SELECT * from d_iop where d_anaconda_id = "OFC_402"
+            SELECT * from d_iop where d_anaconda_id = "WALKIN"
         ');
         foreach ($iop as $key => $value2) {
             $b1 = $value2->AN;
@@ -1792,11 +1719,11 @@ class Ofc402Controller extends Controller
         }
         // fclose($objFopen_iop);
         fclose($objFopen_iop_utf);
-        D_apiofc_iop::truncate();
+        D_apiwalkin_iop::truncate();
         $fread_file_iop = fread(fopen($file_d_iop,"r"),filesize($file_d_iop));
         $fread_file_iop_endcode = base64_encode($fread_file_iop);
         $read_file_iop_size = filesize($file_d_iop);
-        D_apiofc_iop::insert([
+        D_apiwalkin_iop::insert([
             'blobName'   =>  'IOP.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_iop_endcode,
@@ -1812,7 +1739,7 @@ class Ofc402Controller extends Controller
         // fwrite($objFopen_cht, $opd_head_cht);
         fwrite($objFopen_cht_utf, $opd_head_cht);
         $cht = DB::connection('mysql')->select('
-            SELECT * from d_cht where d_anaconda_id = "OFC_402"
+            SELECT * from d_cht where d_anaconda_id = "WALKIN"
         ');
         foreach ($cht as $key => $value6) {
             $f1 = $value6->HN;
@@ -1831,11 +1758,11 @@ class Ofc402Controller extends Controller
         }
         // fclose($objFopen_cht);
         fclose($objFopen_cht_utf);
-        D_apiofc_cht::truncate();
+        D_apiwalkin_cht::truncate();
         $fread_file_cht = fread(fopen($file_d_cht,"r"),filesize($file_d_cht));
         $fread_file_cht_endcode = base64_encode($fread_file_cht);
         $read_file_cht_size = filesize($file_d_cht);
-        D_apiofc_cht::insert([
+        D_apiwalkin_cht::insert([
             'blobName'   =>  'CHT.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_cht_endcode,
@@ -1851,7 +1778,7 @@ class Ofc402Controller extends Controller
         // fwrite($objFopen_cha, $opd_head_cha);
         fwrite($objFopen_cha_utf, $opd_head_cha);
         $cha = DB::connection('mysql')->select('
-            SELECT * from d_cha where d_anaconda_id = "OFC_402"
+            SELECT * from d_cha where d_anaconda_id = "WALKIN"
         ');
         foreach ($cha as $key => $value5) {
             $e1 = $value5->HN;
@@ -1869,11 +1796,11 @@ class Ofc402Controller extends Controller
         }
         // fclose($objFopen_cha);
         fclose($objFopen_cha_utf);
-        D_apiofc_cha::truncate();
+        D_apiwalkin_cha::truncate();
         $fread_file_cha = fread(fopen($file_d_cha,"r"),filesize($file_d_cha));
         $fread_file_cha_endcode = base64_encode($fread_file_cha);
         $read_file_cha_size = filesize($file_d_cha);
-        D_apiofc_cha::insert([
+        D_apiwalkin_cha::insert([
             'blobName'   =>  'CHA.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_cha_endcode,
@@ -1889,7 +1816,7 @@ class Ofc402Controller extends Controller
         //  fwrite($objFopen_aer, $opd_head_aer);
         fwrite($objFopen_aer_utf, $opd_head_aer);
         $aer = DB::connection('mysql')->select('
-             SELECT * from d_aer where d_anaconda_id = "OFC_402"
+             SELECT * from d_aer where d_anaconda_id = "WALKIN"
          ');
          foreach ($aer as $key => $value4) {
              $d1 = $value4->HN;
@@ -1918,11 +1845,11 @@ class Ofc402Controller extends Controller
          }
         //  fclose($objFopen_aer);
          fclose($objFopen_aer_utf);
-         D_apiofc_aer::truncate();
+         D_apiwalkin_aer::truncate();
          $fread_file_aer = fread(fopen($file_d_aer,"r"),filesize($file_d_aer));
          $fread_file_aer_endcode = base64_encode($fread_file_aer);
          $read_file_aer_size = filesize($file_d_aer);
-         D_apiofc_aer::insert([
+         D_apiwalkin_aer::insert([
              'blobName'   =>  'AER.txt',
              'blobType'   =>  'text/plain',
              'blob'       =>   $fread_file_aer_endcode,
@@ -1938,7 +1865,7 @@ class Ofc402Controller extends Controller
         // fwrite($objFopen_adp, $opd_head_adp);
         fwrite($objFopen_adp_utf, $opd_head_adp);
         $adp = DB::connection('mysql')->select('
-            SELECT * from d_adp where d_anaconda_id = "OFC_402"
+            SELECT * from d_adp where d_anaconda_id = "WALKIN"
         ');
         foreach ($adp as $key => $value3) {
             $c1 = $value3->HN;
@@ -1976,11 +1903,11 @@ class Ofc402Controller extends Controller
         }
         // fclose($objFopen_adp);
         fclose($objFopen_adp_utf);
-        D_apiofc_adp::truncate();
+        D_apiwalkin_adp::truncate();
         $fread_file_adp = fread(fopen($file_d_adp,"r"),filesize($file_d_adp));
         $fread_file_adp_endcode = base64_encode($fread_file_adp);
         $read_file_adp_size = filesize($file_d_adp);
-        D_apiofc_adp::insert([
+        D_apiwalkin_adp::insert([
             'blobName'   =>  'ADP.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_adp_endcode,
@@ -1996,7 +1923,7 @@ class Ofc402Controller extends Controller
         //  fwrite($objFopen_lvd, $opd_head_lvd);
          fwrite($objFopen_lvd_utf, $opd_head_lvd);
          $lvd = DB::connection('mysql')->select('
-             SELECT * from d_lvd where d_anaconda_id = "OFC_402"
+             SELECT * from d_lvd where d_anaconda_id = "WALKIN"
          ');
          foreach ($lvd as $key => $value12) {
              $L1 = $value12->SEQLVD;
@@ -2014,11 +1941,11 @@ class Ofc402Controller extends Controller
          }
         //  fclose($objFopen_lvd);
          fclose($objFopen_lvd_utf);
-         D_apiofc_ldv::truncate();
+         D_apiwalkin_ldv::truncate();
          $fread_file_lvd = fread(fopen($file_d_lvd,"r"),filesize($file_d_lvd));
          $fread_file_lvd_endcode = base64_encode($fread_file_lvd);
          $read_file_lvd_size = filesize($file_d_lvd);
-         D_apiofc_ldv::insert([
+         D_apiwalkin_ldv::insert([
              'blobName'   =>  'LDV.txt',
              'blobType'   =>  'text/plain',
              'blob'       =>   $fread_file_lvd_endcode,
@@ -2034,7 +1961,7 @@ class Ofc402Controller extends Controller
         // fwrite($objFopen_dru, $opd_head_dru);
         fwrite($objFopen_dru_utf, $opd_head_dru);
         $dru = DB::connection('mysql')->select('
-            SELECT * from d_dru where d_anaconda_id = "OFC_402"
+            SELECT * from d_dru where d_anaconda_id = "WALKIN"
         ');
         foreach ($dru as $key => $value7) {
             $g1 = $value7->HCODE;
@@ -2068,11 +1995,11 @@ class Ofc402Controller extends Controller
         }
         // fclose($objFopen_dru);
         fclose($objFopen_dru_utf);
-        D_apiofc_dru::truncate();
+        D_apiwalkin_dru::truncate();
         $fread_file_dru = fread(fopen($file_d_dru,"r"),filesize($file_d_dru));
         $fread_file_dru_endcode = base64_encode($fread_file_dru);
         $read_file_dru_size = filesize($file_d_dru);
-        D_apiofc_dru::insert([
+        D_apiwalkin_dru::insert([
             'blobName'   =>  'DRU.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_dru_endcode,
@@ -2091,7 +2018,7 @@ class Ofc402Controller extends Controller
                 'status'    => '200'
             ]);
     }
-    public function ofc_402_sendapi(Request $request)
+    public function walkin_sendapi(Request $request)
     {  
         $iduser = Auth::user()->id;
         $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE user_id = "'.$iduser.'"');  
@@ -2102,8 +2029,8 @@ class Ofc402Controller extends Controller
         } 
         // dd($token);
           
-        $data_table = array("d_apiofc_ins","d_apiofc_pat","d_apiofc_opd","d_apiofc_orf","d_apiofc_odx","d_apiofc_oop","d_apiofc_ipd","d_apiofc_irf","d_apiofc_idx","d_apiofc_iop","d_apiofc_cht","d_apiofc_cha","d_apiofc_aer","d_apiofc_adp","d_apiofc_ldv","d_apiofc_dru");
-        // $data_table = array("ins","pat","opd","orf","odx","oop","ipd","irf","idx","iop","cht","cha","aer","adp","lvd","dru");
+        $data_table = array("d_apiwalkin_ins","d_apiwalkin_pat","d_apiwalkin_opd","d_apiwalkin_orf","d_apiwalkin_odx","d_apiwalkin_oop","d_apiwalkin_ipd","d_apiwalkin_irf","d_apiwalkin_idx","d_apiwalkin_iop","d_apiwalkin_cht","d_apiwalkin_cha","d_apiwalkin_aer","d_apiwalkin_adp","d_apiwalkin_ldv","d_apiwalkin_dru");
+   
         foreach ($data_table as $key => $val_t) {        
                 $data_all_ = DB::connection('mysql')->select('
                 SELECT * FROM '.$val_t.'
@@ -2119,7 +2046,7 @@ class Ofc402Controller extends Controller
             $fame_send = curl_init();
             $postData_send = [
                 "fileType" => "txt",
-                "maininscl" => "OFC",
+                "maininscl" => "UCS",
                 "importDup" => true, //นำเข้าซ้ำ กรณีพบข้อมูลยังไม่ส่งเบิกชดเชย 
                 "assignToMe" => true,  //กำหนดข้อมูลให้แสดงผลเฉพาะผู้นำเข้าเท่านั้น
                 "dataTypes" => ["OP","IP"],
@@ -2271,7 +2198,55 @@ class Ofc402Controller extends Controller
             'status'    => '200'
         ]);
     }
+    public function walkin_report(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+ 
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newday = date('Y-m-d', strtotime($date . ' -1 day')); //ย้อนหลัง 1 สัปดาห์
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y')+1;
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+        if ($startdate != '') {  
+            $data['walkin_report'] = DB::connection('mysql')->select(' 
+                    SELECT d.hn,d.vn,d.an,d.vstdate,d.ptname,d.cid,d.pttype,d.icd10
+                        ,d.authen,d.hospcode,d.hospcode_name,d.income,d.uc_money,d.paid_money,d.rcpt_money
+                        ,s.tranid,s.projectcode,s.pp,s.fs,s.total_approve,s.va,s.covid,s.STMdoc
+                        FROM d_walkin_report d  
+                        LEFT OUTER JOIN check_authen ca on ca.cid = d.cid AND ca.vstdate = d.vstdate
+                        LEFT OUTER JOIN acc_stm_ucs s on s.cid = d.cid AND s.vstdate = d.vstdate
 
-    
+                        WHERE d.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
+                        GROUP BY d.vn 
+                ');
+        } else { 
+                $data['walkin_report'] = DB::connection('mysql')->select(' 
+                        SELECT d.hn,d.vn,d.an,d.vstdate,d.ptname,d.cid,d.pttype,d.icd10
+                        ,d.authen,d.hospcode,d.hospcode_name,d.income,d.uc_money,d.paid_money,d.rcpt_money
+                        ,s.tranid,s.projectcode,s.pp,s.fs,s.total_approve,s.va,s.covid,s.STMdoc
+                        FROM d_walkin_report d  
+                        LEFT OUTER JOIN check_authen ca on ca.cid = d.cid AND ca.vstdate = d.vstdate
+                        LEFT OUTER JOIN acc_stm_ucs s on s.cid = d.cid AND s.vstdate = d.vstdate
+
+                        WHERE d.vstdate BETWEEN "'.$newday.'" and "'.$date.'" 
+                        GROUP BY d.vn
+                ');                 
+                
+        }
+
+ 
+
+        return view('report_stm.walkin_report',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+        ]);
+    } 
+ 
  
 }

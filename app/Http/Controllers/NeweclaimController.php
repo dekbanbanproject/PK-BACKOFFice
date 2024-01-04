@@ -217,6 +217,72 @@ class NeweclaimController extends Controller
 
     }
 
+    public function check_fdhapi(Request $request)
+    { 
+        $ip = $request->ip();
+        $username = $request->username;
+        $password = $request->password;
+     
+        if ($ip == '::1') {
+                $postData_send =  [
+                    'username'        =>  $username,
+                    'password'        =>  $password 
+                ]; 
+                $headers_send  = [    
+                    'User-Agent:<platform>/<version> <10978>',        
+                    'Content-Type: application/json'  
+                ];
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL,"https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth");
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData_send, JSON_UNESCAPED_SLASHES));
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers_send);
+
+                $server_output     = curl_exec ($ch);
+                $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                // dd($statusCode);  
+                $content = $server_output;
+                $result = json_decode($content, true);
+              
+                @$token = $result['token'];
+                // dd($token);  
+                $check = Api_neweclaim::where('api_neweclaim_user',$username)->where('api_neweclaim_pass',$password)->count();
+                if ($check > 0) { 
+                    Api_neweclaim::where('api_neweclaim_user',$username)->update([ 
+                        'api_neweclaim_token'       => @$token,
+                        'user_id'                   => Auth::user()->id,
+                    ]); 
+                } else {
+                    Api_neweclaim::insert([
+                        'api_neweclaim_user'        => $username,
+                        'api_neweclaim_pass'        => $password,
+                        'api_neweclaim_token'       => @$token,
+                        'user_id'                   => Auth::user()->id,
+                    ]); 
+                }
+        } else {
+            $username        = $request->username;
+            $password        = $request->password;        
+            $response = Http::withHeaders([ 
+                'User-Agent:<platform>/<version> <10978>',
+                'Accept' => 'application/json',
+            ])->post('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth', [
+                'username'    =>  $username ,
+                'password'    =>  $password 
+            ]);        
+       
+            $token = $response->json('token');
+        
+           
+        }
+         
+        return response()->json([
+            'status'     => '200'
+        ]); 
+
+    }
+
 
  
 

@@ -86,9 +86,13 @@ $pos = strrpos($url, '/') + 1;
     <form action="{{ url('ucep24_claim') }}" method="POST">
             @csrf
     <div class="row"> 
+            <div class="col-md-3">
+                <h4 class="card-title" style="color:rgb(252, 161, 119)">Detail Report UCEP24</h4>
+                <p class="card-title-desc">รายละเอียดข้อมูล รายการ UCEP24</p>
+            </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-8 text-end">
+            <div class="col-md-7 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
@@ -124,18 +128,15 @@ $pos = strrpos($url, '/') + 1;
           
         </div>
     </form>
-    <div class="row mt-3">
-        <div class="col-md-12">
-            <div class="main-card mb-3 card">
-                <div class="card-header shadow-lg" style="background-color: rgb(180, 250, 227)">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card cardclaim">
+                {{-- <div class="card-header">
                     รายละเอียด UCEP 24
                     <div class="btn-actions-pane-right">
-                        {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary Updatedata" >
-                            <i class="fa-solid fa-spinner text-info me-2"></i> 
-                            Update Ucep24
-                        </button> --}}
+                       
                     </div>
-                </div>
+                </div> --}}
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
