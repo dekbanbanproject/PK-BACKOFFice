@@ -129,7 +129,7 @@ class CtrepController extends Controller
         $date = date('Y-m-d');
         $y = date('Y') + 543;
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-        $newDate = date('Y-m-d', strtotime($date . ' -3 months')); //ย้อนหลัง 2 เดือน
+        $newDate = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 2 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
         $yearnew = date('Y')+1;
         $yearold = date('Y');
@@ -330,7 +330,7 @@ class CtrepController extends Controller
     }  
     function ct_rep_import_save (Request $request)
     {  
-        A_ct_excel::truncate(); 
+        // A_ct_excel::truncate(); 
 
         $the_file = $request->file('file'); 
         $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
@@ -484,8 +484,21 @@ class CtrepController extends Controller
                 $error_code = $e->errorInfo[1];
                 return back()->withErrors('There was a problem uploading the data!');
             }
+
+            $data_sync_excel     = DB::connection('mysql')->select('
+                SELECT ct_date,hn,an,cid,ptname,sfhname,pttypename,ward,icode_hos,ct_check,price_check,total_price_check,opaque,opaque_price,total_opaque_price
+                ,other_price,total_other_price,before_price,discount,vat,total,sumprice,paid,remain,STMDoc
+                FROM a_ct_excel 
+            ');     
+            foreach ($data_sync_excel as $key => $value) {            
+                A_ct_scan::where('request_date',$value->ct_date)->where('cid',$value->cid)->update([                
+                    'STMDoc'             =>  $value->STMDoc,
+                ]);
+                
+            }
   
-            // A_stm_ct_excel::truncate(); 
+            A_ct_excel::truncate(); 
+
             return redirect()->route('ct.ct_rep_import');
        
     }  
@@ -505,7 +518,8 @@ class CtrepController extends Controller
             ]);
             
         }
-       
+
+        // A_ct_excel::truncate(); 
         return response()->json([
                 'status'    => '200',
             ]);

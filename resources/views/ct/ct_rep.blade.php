@@ -184,10 +184,10 @@
                             <span class="ladda-spinner"></span>
                         </button> 
                        
-                        <button type="button" class="ladda-button btn-pill btn btn-danger d-shadow Syncdata" data-style="expand-left">
+                        {{-- <button type="button" class="ladda-button btn-pill btn btn-danger d-shadow Syncdata" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-arrows-rotate text-danger text-white me-2"></i>Sync Data</span>
                             <span class="ladda-spinner"></span>
-                        </button> 
+                        </button>  --}}
                         <button type="button" class="ladda-button btn-pill btn btn-success d-shadow CheckSit" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-user text-danger text-white me-2"></i>Check Sit</span>
                             <span class="ladda-spinner"></span>
