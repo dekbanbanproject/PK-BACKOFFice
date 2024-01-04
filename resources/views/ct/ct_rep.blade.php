@@ -293,25 +293,27 @@
                                                                 <div class="modal-body"> 
 
                                                                     <div class="row mt-4 mb-4" style="font-size:15px;color:red">  
+                                                                        <div class="col"></div>
                                                                         <div class="col-md-1 text-center" >vn/an</div>
                                                                         <div class="col-md-1 text-center" >hn</div>
                                                                         <div class="col-md-1 text-center" >request_date</div> 
-                                                                        <div class="col-md-6 text-center" >รายการ</div>   
+                                                                        <div class="col-md-5 text-center" >รายการ</div>   
                                                                         <div class="col-md-1 text-center">order_number</div>
-                                                                        <div class="col-md-1 text-center">xray_price </div>
-                                                                        <div class="col-md-1 text-center">total_price</div>  
+                                                                        <div class="col-md-1 text-center">xray_price </div> 
+                                                                        <div class="col"></div>
                                                                     </div>
                                                                     <?php $ii = 1; ?>
                                                                     @foreach ($data_sub as $v)
                                                                     <hr>
                                                                         <div class="row" style="font-size:12px;height: 12px;">   
+                                                                            <div class="col"></div>
                                                                             <div class="col-md-1 text-start">{{ $v->vn}}</div>
                                                                             <div class="col-md-1 text-start">{{ $v->hn}}</div>
                                                                             <div class="col-md-1 text-start">{{ $v->request_date}}</div>   
-                                                                            <div class="col-md-6 text-start">{{ $v->xray_list}}</div> 
+                                                                            <div class="col-md-5 text-start">{{ $v->xray_list}}</div> 
                                                                             <div class="col-md-1 text-start">{{ $v->xray_order_number}}</div> 
-                                                                            <div class="col-md-1 text-center">{{ number_format($v->xray_price, 2) }}</div>
-                                                                            <div class="col-md-1 text-center">{{ number_format($v->total_price, 2) }}</div>  
+                                                                            <div class="col-md-1 text-center">{{ number_format($v->xray_price, 2) }}</div> 
+                                                                            <div class="col"></div>
                                                                         </div>
                                                                     @endforeach 
                                                                     <hr>
@@ -320,9 +322,13 @@
                                                                             <input type="hidden" id="vn" name="vn" value="{{ $item->vn }}">
                                                                             <div class="row mt-5 mb-5">
                                                                                 <div class="col"></div>
-                                                                                <div class="col-md-2"> 
+                                                                                <div class="col-md-4"> 
                                                                                     <button type="submit" class="ladda-button btn-pill btn btn-success d-shadow me-2 ms-2" data-style="expand-left" style="width: 150px">
                                                                                         <span class="ladda-label me-2"> <i class="fa-solid fa-user text-danger text-white me-2 ms-2"></i>Finish</span>
+                                                                                        <span class="ladda-spinner"></span>
+                                                                                    </button>
+                                                                                    <button type="button" class="ladda-button btn-pill btn btn-danger d-shadow me-2 ms-2" data-style="expand-left" data-bs-dismiss="modal" style="width: 150px">
+                                                                                        <span class="ladda-label me-2"> <i class="fa-solid fa-xmark text-danger text-white me-2 ms-2"></i>Close</span>
                                                                                         <span class="ladda-spinner"></span>
                                                                                     </button>
                                                                                 </div>

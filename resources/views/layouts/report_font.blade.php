@@ -58,7 +58,8 @@
    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/highlight.min.js"></script>
 
    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
- 
+   <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet">
+   <link rel="stylesheet" href="{{ asset('css/dacccss.css') }}">
 </head>
 <style>
     body{
@@ -83,6 +84,10 @@
     }
     .headtable{
         font-size: 14px;
+    }
+    .myTable tbody tr{
+        font-size:13px;
+        height: 13px;
     }
 </style>
 

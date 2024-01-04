@@ -214,9 +214,10 @@ class CtrepController extends Controller
                         when xh.xray_order_number is null then xt.xray_order_number
                         else xh.xray_order_number
                         end as xray_order_number
+                       
                         ,case 
-                        when xh.xray_price is null then xt.xray_price
-                        else xh.xray_price
+                        when xi.service_price is null then xi.service_price_ipd
+                        else xi.service_price
                         end as xray_price
                         ,case 
                         when xh.total_price is null then xt.total_price
@@ -241,6 +242,10 @@ class CtrepController extends Controller
 
                          
                 ');
+                // ,case 
+                // when xh.xray_price is null then xt.xray_price
+                // else xh.xray_price
+                // end as xray_price
             
                 foreach ($data_ct_new as $key => $value_new) {   
                     $check2 = A_ct_scan::where('vn', $value_new->vn)->where('xray_list', $value_new->xray_list)->count();               

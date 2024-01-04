@@ -905,7 +905,24 @@ class ReportFontController extends Controller
                         ,e.paid_money as PAY
                         ,sum(distinct oo.sum_price) as Priceknee
                         ,group_concat(distinct n1.name) as Nameknee
-                        ,e.uc_money,U2.inst,U2.total_approve,u2.STMdoc
+                        ,e.uc_money
+
+                        ,case 
+                        when u2.inst is null then c.inst
+                        else u2.inst
+                        end as inst
+
+                        ,case 
+                        when u2.total_approve is null then c.pricereq_all
+                        else u2.total_approve
+                        end as total_approve
+
+                        ,case 
+                        when u2.STMdoc is null then c.STMdoc
+                        else u2.STMdoc
+                        end as STMdoc
+
+                        
                         FROM an_stat e
                         LEFT OUTER JOIN patient pt on pt.hn = e.hn
                         LEFT OUTER JOIN pttype p on p.pttype = e.pttype
@@ -917,10 +934,12 @@ class ReportFontController extends Controller
                         LEFT JOIN rent_reason r on r.id = ir.rent_reason_id
                         left join nondrugitems n1 on n1.icode = oo.icode 
                         LEFT OUTER JOIN pkbackoffice.acc_stm_ucs u2 on u2.an = e.an  
+                        LEFT OUTER JOIN pkbackoffice.acc_stm_ofc c on c.an = e.an
                         where e.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                         AND n1.nhso_adp_code="8154"
                         group by e.an;
         ');
+        // ,U2.inst,U2.total_approve,u2.STMdoc
         // and oo.icode IN("3009737","3010372","3010569")
         return view('dashboard.check_knee_ipd',[
             'startdate'     => $startdate,
@@ -937,8 +956,19 @@ class ReportFontController extends Controller
                 SELECT 
                 i.an,op.hn,pt.cid,concat(pt.pname,pt.fname,"  ",pt.lname) as ptname,a.pttype,i.icd9,i.doctor,ol.enter_date,a.dchdate
                 ,op.icode,op.qty,op.unitprice ,a.rw,ii.adjrw 
-                ,group_concat(distinct n.name) as nameknee
-                ,U2.inst,U2.total_approve,u2.STMdoc
+                ,group_concat(distinct n.name) as nameknee,a.inc08
+                ,case 
+                when u2.inst is null then c.inst
+                else u2.inst
+                end as inst
+                ,case 
+                when u2.total_approve is null then c.pricereq_all
+                else u2.total_approve
+                end as total_approve
+                ,case 
+                when u2.STMdoc is null then c.STMdoc
+                else u2.STMdoc
+                end as STMdoc
                 
                 FROM iptoprt i
                 LEFT OUTER JOIN operation_list ol ON ol.an = i.an
@@ -949,9 +979,10 @@ class ReportFontController extends Controller
                 LEFT OUTER JOIN opitemrece op ON op.an = i.an 
                 LEFT OUTER JOIN nondrugitems n on n.icode = op.icode
                 LEFT OUTER JOIN pkbackoffice.acc_stm_ucs u2 on u2.an = i.an 
+                LEFT OUTER JOIN pkbackoffice.acc_stm_ofc c on c.an = i.an 
                 WHERE i.icd9 = "'.$icd9.'" 
                 AND a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                AND op.income = "02"
+                AND op.income = "02" AND a.pttype NOT IN("O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6")
                 GROUP BY i.an  
         ');
         // AND ol.enter_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
@@ -968,7 +999,7 @@ class ReportFontController extends Controller
         $enddate = $request->enddate;
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        $datashow_ = DB::connection('mysql3')->select('
+        $datashow_ = DB::connection('mysql2')->select('
                 SELECT ip.vn,e.hn,e.an,e.regdate,e.dchdate,group_concat(distinct it2.pttype) as pttype
                         ,concat(pt.pname,pt.fname," ",pt.lname) as fullname,oo.icode,e.pdx,e.dx0,e.dx1,e.dx2,e.dx3,e.dx4
                         ,sd.name as s_name
@@ -1006,24 +1037,37 @@ class ReportFontController extends Controller
     {
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        $datashow_ = DB::connection('mysql3')->select('
+        $datashow_ = DB::connection('mysql2')->select('
                 SELECT ip.vn,a.hn,a.an,pt.cid ,a.regdate,a.dchdate,a.pttype
                 ,concat(pt.pname,pt.fname," ",pt.lname) as fullname
                 ,oo.icode,sum(distinct oo.sum_price) as Price
                 ,group_concat(distinct n1.name) as ListName
-                ,a.inc08,a.income,a.paid_money,a.uc_money ,U2.inst,U2.total_approve,u2.STMdoc
-                from an_stat a
-                left outer join patient pt on pt.hn = a.hn
-                left outer join pttype p on p.pttype = a.pttype
+                ,a.inc08,a.income,a.paid_money,a.uc_money 
+                ,case 
+                when u2.inst is null then c.inst
+                else u2.inst
+                end as inst
+                ,case 
+                when u2.total_approve is null then c.pricereq_all
+                else u2.total_approve
+                end as total_approve
+                ,case 
+                when u2.STMdoc is null then c.STMdoc
+                else u2.STMdoc
+                end as STMdoc
+                FROM an_stat a
+                LEFT OUTER JOIN patient pt on pt.hn = a.hn
+                LEFT OUTER JOIN pttype p on p.pttype = a.pttype
                 left join ipt ip on ip.an = a.an
-                left join hos.ipdrent ir on ir.an =a.an
-                left outer join hos.opitemrece oo on oo.an = a.an
-                left join hos.nondrugitems n1 on n1.icode = oo.icode
-                left join hos.s_drugitems sd on sd.icode = oo.icode
+                left join ipdrent ir on ir.an =a.an
+                LEFT OUTER JOIN opitemrece oo on oo.an = a.an
+                LEFT JOIN nondrugitems n1 on n1.icode = oo.icode
+                LEFT JOIN s_drugitems sd on sd.icode = oo.icode
                 LEFT OUTER JOIN pkbackoffice.acc_stm_ucs u2 on u2.an = a.an
-                where a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                and oo.icode IN("3011002","3009749")
-                group by a.an;
+                LEFT OUTER JOIN pkbackoffice.acc_stm_ofc c on c.an = a.an 
+                WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                AND oo.icode IN("3011002","3009749")
+                GROUP BY a.an; 
         ');
 
         return view('dashboard.check_kradook',[
@@ -1036,12 +1080,26 @@ class ReportFontController extends Controller
     {
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        $datashow_ = DB::connection('mysql3')->select('
+        $datashow_ = DB::connection('mysql2')->select('
             SELECT ip.vn,a.hn,a.an,pt.cid ,a.regdate,a.dchdate,group_concat(distinct it2.pttype) as pttype
                 ,concat(pt.pname,pt.fname," ",pt.lname) as fullname
                 ,oo.icode ,sum(distinct oo.sum_price) as Price
                 ,group_concat(distinct n1.name) as ListName
-                ,a.inc08 ,a.income,a.paid_money,a.uc_money,U2.inst,U2.total_approve,u2.STMdoc
+                ,a.inc08 ,a.income,a.paid_money,a.uc_money
+                ,case 
+                when u2.inst is null then c.inst
+                else u2.inst
+                end as inst
+                ,case 
+                when u2.total_approve is null then c.pricereq_all
+                else u2.total_approve
+                end as total_approve
+                ,case 
+                when u2.STMdoc is null then c.STMdoc
+                else u2.STMdoc
+                end as STMdoc
+                
+              
                 from an_stat a
                 left outer join patient pt on pt.hn = a.hn
                 left outer join pttype p on p.pttype = a.pttype
@@ -1053,7 +1111,8 @@ class ReportFontController extends Controller
                 LEFT JOIN hos.rent_reason r on r.id = ir.rent_reason_id
                 left join hos.nondrugitems n1 on n1.icode = oo.icode
                 left join hos.s_drugitems sd on sd.icode = oo.icode
-                LEFT OUTER JOIN pkbackoffice.acc_stm_ucs u2 on u2.an = a.an
+                LEFT OUTER JOIN pkbackoffice.acc_stm_ucs u2 on u2.an = a.an AND u2.total_approve>0
+                LEFT OUTER JOIN pkbackoffice.acc_stm_ofc c on c.an = a.an
                 where a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 and oo.icode IN("3009738","3009739","3010896","3009740","3010228")
                 group by a.an;
@@ -1067,7 +1126,7 @@ class ReportFontController extends Controller
     }
     public function check_khosaphokdetail(Request $request,$newDate,$datenow)
     {
-        $datashow_ = DB::connection('mysql3')->select('
+        $datashow_ = DB::connection('mysql2')->select('
                 SELECT ip.vn,a.hn,a.an,pt.cid ,a.regdate,a.dchdate,group_concat(distinct it2.pttype) as pttype
                 ,concat(pt.pname,pt.fname," ",pt.lname) as fullname
                 ,oo.icode

@@ -111,7 +111,7 @@
                          อุปกรณ์อวัยวะเที่ยม ICD9 IPD
                          <div class="btn-actions-pane-right">
 
-                            <form action="{{ route('rep.check_icd9_ipd') }}" method="POST">
+                            <form action="{{ route('rep.check_icd9_ipd') }}" method="GET">
                                 @csrf
                                    
                                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
@@ -135,11 +135,11 @@
                     <div class="card-body">
                         
  
-                        <div class="table-responsive mt-3">
+                        <div class="table-responsive">
                             {{-- <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example"> --}}
                                 {{-- <table id="example" class="table table-striped table-bordered "
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
-                                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
+                                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap myTable"
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr class="headtable text-center">
@@ -148,12 +148,11 @@
                                         <th>an</th> 
                                         <th>dchdate</th>
                                         <th>pttype</th>
-                                        <th>ptname</th> 
-                                        {{-- <th>icode</th>  --}}
-                                        {{-- <th>qty</th>  --}}
+                                        <th>ptname</th>  
                                         <th>Adjrw</th>  
-                                        <th>อุปกรณ์</th>  
-                                        <th>ชดเชยอุปกรณ์</th> 
+                                        <th>detail inst</th> 
+                                        <th>inst hos</th>  
+                                        <th>ชดเชย inst</th> 
                                         <th>ชดเชยทั้งหมด</th> 
                                         <th>ไฟล์ STM</th> 
                                     </tr>
@@ -162,7 +161,7 @@
                                     <?php $ia = 1; ?>
                                     @foreach ($datashow_ as $item)  
                                    
-                                        <tr class="detail">
+                                        <tr >
                                             <td width="3%" class="text-center">{{ $ia++ }}</td>
                                             <td width="5%" class="text-center">{{ $item->hn }}</td> 
                                             <td width="8%" class="text-center">{{ $item->an }}</td>   
@@ -171,19 +170,14 @@
                                             <td width="5%" class="text-center">{{ $item->pttype }}</td> 
                                             <td class="p-2" width="10%">{{ $item->ptname }}</td>   
                                             <td width="5%" class="text-center">{{ $item->adjrw }}</td>    
-                                            {{-- <td>{{ $item->qty }}</td>                                           --}}
-                                            {{-- <td>{{ number_format($item->unitprice,2) }}</td>  --}}
-                                            <td class="text-center" >
-                                              
-                                                <button class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-info" 
-                                                data-bs-toggle="modal" target="_blank" data-bs-target="#exampleModal{{$item->an}}"
-                                                data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
-                                                data-bs-placement="top" title="Print File"> 
-                                                
-                                                <label for="" style="font-size:12px;color: rgb(184, 84, 241)">รายการอุปกรณ์ </label>
-                                                {{-- {{ $item->nameknee }} --}}
-                                            </button>
+                                            <td class="text-center" > 
+                                                <button class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-info" data-bs-toggle="modal" target="_blank" data-bs-target="#exampleModal{{$item->an}}" >  
+                                                   
+                                                        Detail inst 
+                                               
+                                                </button>
                                             </td>  
+                                            <td class="text-center" width="10%">{{ $item->inc08 }}</td> 
                                             <td class="text-center" width="9%"> 
                                                 @if ($item->inst =='')
                                                     <span class="badge bg-danger rounded-pill"> 0.00 </span>

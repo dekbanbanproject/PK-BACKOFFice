@@ -95,7 +95,7 @@
                         
  
                         <div class="table-responsive mt-3">
-                            <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
+                            <table class="align-middle mb-0 table table-borderless table-striped table-hover myTable" id="example">
                                 <thead>
                                     <tr class="headtable">
                                         <th>ลำดับ</th> 
@@ -117,7 +117,7 @@
                                 <tbody>
                                     <?php $ia = 1; ?>
                                     @foreach ($datashow_ as $item)  
-                                        <tr class="detail">
+                                        <tr>
                                             <td>{{ $ia++ }}</td>
                                             <td>{{ $item->hn }}</td> 
                                             <td>{{ $item->an }}</td>   

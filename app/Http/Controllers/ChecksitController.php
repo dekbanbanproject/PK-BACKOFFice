@@ -1235,7 +1235,7 @@ class ChecksitController extends Controller
                 ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
                 from check_sit_auto c
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-                WHERE month(c.vstdate) = "'.$m.'"
+                WHERE month(c.vstdate) = "'.$m.'" AND YEAR(c.vstdate) = "'.$y.'"
                 AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
                 AND c.main_dep NOT IN("011","036","107")
                 GROUP BY day

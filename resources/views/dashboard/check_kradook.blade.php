@@ -81,40 +81,7 @@
                             </div>
                             </div>
                     <div class="card-body">
-                        {{-- <form action="{{ route('rep.check_kradook') }}" method="POST">
-                            @csrf
-                            <div class="row mt-3"> 
-                                <div class="col"></div>
-                                <div class="col-md-1 text-end">วันที่</div>
-                                <div class="col-md-2 text-center">
-                                    <div class="input-group" id="datepicker1">
-                                        <input type="text" class="form-control" name="startdate" id="datepicker"  data-date-container='#datepicker1'
-                                            data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                            value="{{ $start }}">
-                    
-                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-1 text-center">ถึงวันที่</div>
-                                <div class="col-md-2 text-center">
-                                    <div class="input-group" id="datepicker1">
-                                        <input type="text" class="form-control" name="enddate" id="datepicker2" data-date-container='#datepicker1'
-                                            data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                            value="{{ $end }}">
-                    
-                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                    </div>
-                                </div>    
-                                <div class="col-md-4">  
-                                    <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                        <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
-                                    </button> 
-                                </div>  
-                                 <div class="col"></div>   
-                            </div> 
-                       
-                        </form> --}}
- 
+                        
                         <div class="table-responsive mt-3">
                             <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
                                 <thead>

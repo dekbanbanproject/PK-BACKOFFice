@@ -60,7 +60,7 @@
                          อุปกรณ์อวัยวะเที่ยม ข้อสะโพก
                          <div class="btn-actions-pane-right">
 
-                            <form action="{{ route('rep.check_khosaphok') }}" method="POST">
+                            <form action="{{ route('rep.check_khosaphok') }}" method="GET">
                                 @csrf
                             
                                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
@@ -117,13 +117,13 @@
                         </form> --}}
  
                         <div class="table-responsive mt-3">
-                            <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
+                            <table class="align-middle mb-0 table table-borderless table-striped table-hover myTable" id="example">
                                 <thead>
                                     <tr class="headtable">
                                         <th>ลำดับ</th> 
                                         <th>hn</th>
                                         <th>an</th>
-                                        <th>regdate</th> 
+                                        {{-- <th>regdate</th>  --}}
                                         <th>dchdate</th>
                                         <th>pttype</th>
                                         <th>fullname</th> 
@@ -140,11 +140,11 @@
                                 <tbody>
                                     <?php $ia = 1; ?>
                                     @foreach ($datashow_ as $item)  
-                                    <tr class="detail">
+                                    <tr>
                                             <td>{{ $ia++ }}</td>
                                             <td>{{ $item->hn }}</td> 
                                             <td>{{ $item->an }}</td>   
-                                            <td>{{ $item->regdate }}</td> 
+                                            {{-- <td>{{ $item->regdate }}</td>  --}}
                                             <td>{{ $item->dchdate }}</td>  
                                             <td>{{ $item->pttype }}</td> 
                                             <td>{{ $item->fullname }}</td>   
