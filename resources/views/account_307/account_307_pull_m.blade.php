@@ -110,12 +110,9 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="card cardacc">
-                    <div class="card-body">
-                        
-                      
-                        <div class="row mb-3">
-                            {{-- <div class="col-md-4">
-                                
+                    <div class="card-body">      
+                        <div class="row mb-2">
+                            {{-- <div class="col-md-4">                                
                                 <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail Account ผัง 1102050101.307</h4>
                                 <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
                             </div> --}}
@@ -127,14 +124,12 @@
                                 </button>
                             </div>
                         </div>
-
                         <p class="mb-0">
                             <div class="table-responsive">
                                 <table id="example" class="table table-hover table-sm dt-responsive nowrap"
                                 style=" border-spacing: 0; width: 100%;">
                                     <thead>
-                                        <tr>
-                                          
+                                        <tr>                                          
                                             <th width="5%" class="text-center">ลำดับ</th> 
                                             <th width="5%" class="text-center"><input type="checkbox" class="cardacc" name="stamp" id="stamp"> </th> 
                                             <th class="text-center" width="5%">vn</th> 

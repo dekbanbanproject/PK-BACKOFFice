@@ -1911,6 +1911,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_304_syncall',[App\Http\Controllers\Account304Controller::class, 'account_304_syncall'])->name('acc.account_304_syncall');//
 
     Route::match(['get','post'],'account_307_pull',[App\Http\Controllers\Account307Controller::class, 'account_307_pull'])->name('acc.account_307_pull');//
+    Route::match(['get','post'],'account_307_pull_m/{months}/{year}',[App\Http\Controllers\Account307Controller::class, 'account_307_pull_m'])->name('acc.account_307_pull_m');//
     Route::match(['get','post'],'account_307_pulldata',[App\Http\Controllers\Account307Controller::class, 'account_307_pulldata'])->name('acc.account_307_pulldata');//
     Route::match(['get','post'],'account_307_dash',[App\Http\Controllers\Account307Controller::class, 'account_307_dash'])->name('acc.account_307_dash');//
     Route::match(['get','post'],'account_307/{months}/{year}',[App\Http\Controllers\Account307Controller::class, 'account_307'])->name('acc.account_307');//

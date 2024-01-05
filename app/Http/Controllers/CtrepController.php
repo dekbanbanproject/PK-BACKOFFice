@@ -251,23 +251,23 @@ class CtrepController extends Controller
                     $check2 = A_ct_scan::where('vn', $value_new->vn)->where('xray_list', $value_new->xray_list)->count();               
                     if ($check2 > 0) {    
                         A_ct_scan::where('vn',$value_new->vn)->where('xray_list', $value_new->xray_list)->update([
-                            'vn'                  => $value_new->vn,
-                            'an'                  => $value_new->an,
-                            'hn'                  => $value_new->hn,                                 
-                            'cid'                 => $value_new->cid,  
-                            'request_date'        => $value_new->request_date,
-                            'ptname'              => $value_new->ptname,
-                            'xray_list'           => $value_new->xray_list,
-                            'confirm_all'         => $value_new->confirm_all,
-                            'department'          => $value_new->department,
-                            'department_code'     => $value_new->department_code, 
-                            'department_name'     => $value_new->department_name, 
-                            'pttype'              => $value_new->pttype, 
-                            'xray_order_number'   => $value_new->xray_order_number, 
+                            // 'vn'                  => $value_new->vn,
+                            // 'an'                  => $value_new->an,
+                            // 'hn'                  => $value_new->hn,                                 
+                            // 'cid'                 => $value_new->cid,  
+                            // 'request_date'        => $value_new->request_date,
+                            // 'ptname'              => $value_new->ptname,
+                            // 'xray_list'           => $value_new->xray_list,
+                            // 'confirm_all'         => $value_new->confirm_all,
+                            // 'department'          => $value_new->department,
+                            // 'department_code'     => $value_new->department_code, 
+                            // 'department_name'     => $value_new->department_name, 
+                            // 'pttype'              => $value_new->pttype, 
+                            // 'xray_order_number'   => $value_new->xray_order_number, 
                             'xray_price'          => $value_new->xray_price, 
                             'total_price'         => $value_new->total_price, 
-                            'department_list'     => $value_new->department_list, 
-                            'priority_name'       => $value_new->priority_name,  
+                            // 'department_list'     => $value_new->department_list, 
+                            // 'priority_name'       => $value_new->priority_name,  
                             'user_id'             => Auth::user()->id
                         ]);              
                     } else {

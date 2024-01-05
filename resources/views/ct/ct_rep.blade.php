@@ -214,7 +214,7 @@
                                             <th class="text-center">request_date</th> 
                                             <th class="text-center">สิทธิ์</th>  
                                             <th class="text-center">spsch</th> 
-                                            <th class="text-center">xray_price</th> 
+                                            {{-- <th class="text-center">xray_price</th>  --}}
                                             <th class="text-center">CXR ONLY</th> 
                                             <th class="text-center">ค่าใช้จ่ายรวม</th> 
                                             <th class="text-center">สถานะ</th> 
@@ -245,7 +245,7 @@
                                                         <td class="text-center" width="10%">{{ $item->request_date }}</td>   
                                                         <td class="text-center" width="10%">{{ $item->pttype }}</td> 
                                                         <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->ptty_spsch }}</td>   
-                                                        <td class="text-center" width="7%">{{ number_format($item->xray_price, 2) }}</td> 
+                                                        {{-- <td class="text-center" width="7%">{{ number_format($item->xray_price, 2) }}</td>  --}}
                                                         @if ($countcxr < 1)
                                                             <td class="text-center" width="5%"> 
                                                                 <span class="bg-secondary badge me-2">CXR ONLY</span> 
