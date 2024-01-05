@@ -1208,9 +1208,9 @@ class ReportFontController extends Controller
         // and pt.hipdata_code ="UCS" and v.pttype NOT IN ("W1","49")
 
         if ($hospcode != '') {
-            $datashow_ = DB::connection('mysql3')->select('
-            SELECT * FROM
-            (
+            $datashow_ = DB::connection('mysql2')->select('
+                    SELECT * FROM
+                    (
                         SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,ro.icd10 as icd,h.name as hospmain,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income
                         ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer,ee.er_emergency_level_name,ee.er_emergency_level_id
                         ,sum(if(op.income = "02",sum_price,0)) as sum_inst
