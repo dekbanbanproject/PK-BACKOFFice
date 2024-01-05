@@ -341,7 +341,7 @@
                                             // ลูกหนี้ทั้งหมด
                                             $datas = DB::select('
                                                 SELECT count(DISTINCT vn) as Can
-                                                    ,SUM(debit) as sumdebit
+                                                    ,SUM(debit_total) as sumdebit
                                                     from acc_debtor
                                                     WHERE account_code="1102050101.307"
                                                     AND stamp = "N"
@@ -353,30 +353,29 @@
                                             }
                                             // ตั้งลูกหนี้
                                             $datasum_ = DB::select('
-                                                SELECT sum(debit_total) as debit_total,count(vn) as Cvit
+                                                SELECT sum(debit_total) as debit_total,count(DISTINCT vn) as Cvit
                                                 from acc_1102050101_307
-                                                where vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                                                
+                                                where vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"                                                
                                             ');   
                                             foreach ($datasum_ as $key => $value2) {
                                                 $sum_Y = $value2->debit_total;
                                                 $count_Y = $value2->Cvit;
                                             }
-
                                             // ตั้งลูกหนี้ IPD
-                                            $datasumipd_ = DB::select('
-                                                    SELECT sum(debit_total) as debit_totali,count(an) as Avit
-                                                    from acc_1102050101_307
-                                                    where dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                                            // $datasumipd_ = DB::select('
+                                            //         SELECT sum(debit_total) as debit_totali,count(DISTINCT an) as Avit
+                                            //         from acc_1102050101_307
+                                            //         where dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                                                     
-                                                ');   
-                                                foreach ($datasumipd_ as $key => $valueip) {
-                                                    $sum_iY = $valueip->debit_totali;
-                                                    $count_iY = $valueip->Avit;
-                                                }
-
-                                                $total_sumY   = $sum_Y + $sum_iY;
-                                                $total_countY = $count_Y + $count_iY;
+                                            //     ');   
+                                            //     foreach ($datasumipd_ as $key => $valueip) {
+                                            //         $sum_iY = $valueip->debit_totali;
+                                            //         $count_iY = $valueip->Avit;
+                                            //     }
+                                                // $total_sumY   = $sum_Y + $sum_iY;
+                                                // $total_countY = $count_Y + $count_iY;
+                                                $total_sumY   = $sum_Y;
+                                                $total_countY = $count_Y;
                                             
                                         // STM
                                         $sumapprove_ = DB::select('
