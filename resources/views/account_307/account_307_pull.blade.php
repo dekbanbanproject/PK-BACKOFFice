@@ -124,14 +124,12 @@
                                 </button>
                             </div>
                         </div>
-
                         <p class="mb-0">
                             <div class="table-responsive">
                                 <table id="example" class="table table-hover table-sm dt-responsive nowrap"
                                 style=" border-spacing: 0; width: 100%;">
                                     <thead>
-                                        <tr>
-                                          
+                                        <tr>                                          
                                             <th width="5%" class="text-center">ลำดับ</th> 
                                             <th width="5%" class="text-center"><input type="checkbox" class="cardacc" name="stamp" id="stamp"> </th> 
                                             <th class="text-center" width="5%">vn</th> 
@@ -294,11 +292,9 @@
                         }) 
                     // var check = confirm("Are you want ?");  
                 }
-            });
-             
+            });             
 
             $("#spinner-div").hide(); //Request is complete so hide spinner
-
          
             $('#Pulldata').click(function() {
                 var datepicker = $('#datepicker').val(); 
