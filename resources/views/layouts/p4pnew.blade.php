@@ -48,19 +48,20 @@
    <!-- select2 -->
     <link rel="stylesheet" href="{{asset('asset/js/plugins/select2/css/select2.min.css')}}">
    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-   
+   <link rel="stylesheet" href="{{ asset('css/dcss.css') }}">
 
 </head>
 <style>
-     body{   
+    body{   
         background:
-            url(/pkbackoffice/public/images/bg7.png);
+            /* url(/pkbackoffice/public/images/bg7.png); */
             /* url(/pkbackoffice/public/images/bg5.jpg); */
             /* -webkit-background-size: cover; */
-        background-repeat: no-repeat;
-		background-attachment: fixed;
-		/* background-size: cover; */
-        background-size: 100% 100%;
+            background-color: rgb(245, 240, 240);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            /* background-size: cover; */
+            background-size: 100% 100%;
         /* display: flex; */
         /* align-items: center; */
         /* justify-content: center; */
@@ -71,29 +72,15 @@
   		background-image: url('/pkbackoffice/public/images/bgside.jpg');
 		background-repeat: no-repeat;
 	}
-    /* .myTable thead tr{
-    background-color: #b56fca;
-    color: #ffffff;
-    text-align: center;
-    }
-    .myTable th .myTable td{
-        padding: 12px 15px;
+    .cardp4p{
+        border-radius: 3em 3em 3em 3em;
+        box-shadow: 0 0 10px rgba(235, 104, 247, 0.74);
+        /* box-shadow: 0 0 10px rgb(232, 187, 243); */
     }
     .myTable tbody tr{
-        border-bottom: 1px solid #b329f3;
+        font-size:13px;
+        height: 13px;
     }
-    .myTable tbody td{
-        font-size:15px;
-    }
-    .myTable tbody tr:nth-of-type(even){
-        background-color: #f4e1f7;
-    }
-    .myTable tbody tr:last-of-type{
-        border-bottom: 3px solid #ccbcd1;
-    }
-    .myTable tbody tr .active-row{
-        color: #ccbcd1;
-    } */
 </style>
 
 <body data-topbar="dark">
@@ -113,7 +100,8 @@
     <div id="layout-wrapper">
 
         <header id="page-topbar">
-            <div class="navbar-header" style="background-color: rgb(141, 135, 136)">
+            {{-- <div class="navbar-header" style="background-color: rgb(141, 135, 136)"> --}}
+                <div class="navbar-header shadow" style="background-color: rgba(235, 104, 247, 0.74)">
                 {{-- <div class="d-flex"> 
                     <div class="navbar-brand-box">
                         <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-BACKOFFice</h4>
@@ -138,7 +126,7 @@
 
                 </div> --}}
 
-                <div class="d-flex">
+                {{-- <div class="d-flex">
                     <!-- LOGO -->
                     <div class="navbar-brand-box">
                         <a href="" class="logo logo-dark">
@@ -177,6 +165,45 @@
                             
                         </div>
                     </form>                                         
+                </div> --}}
+                <div class="d-flex">
+                    <!-- LOGO -->
+                    <div class="navbar-brand-box" style="background-color: rgba(255, 255, 255, 0.836)">
+                        <a href="" class="logo logo-dark">
+                            <span class="logo-sm">
+                                <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm" height="37">
+                            </span>
+                            <span class="logo-lg">
+                                {{-- <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-dark" height="20"> --}}
+                                <h4 style="color:rgba(23, 189, 147, 0.74)" class="mt-4">PK-BACKOFFice</h4>
+                            </span>
+                        </a>
+
+                        <a href="" class="logo logo-light">
+                            <span class="logo-sm">
+                                <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light"
+                                    height="40">
+                            </span>
+                            <span class="logo-lg">
+                                <h4 style="color:rgba(206, 60, 219, 0.74)" class="mt-4">PK-BACKOFFice</h4>
+                            </span>
+                        </a>
+                    </div>
+
+                    <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect"
+                        id="vertical-menu-btn">
+                        <i class="ri-menu-2-line align-middle" style="color: rgb(255, 255, 255)"></i>
+                    </button>
+                    <a href="{{url('plan')}}">
+                        <h4 style="color:rgb(255, 255, 255)" class="mt-4">P4P</h4>
+                    </a>
+                   
+                    <?php
+                    $org = DB::connection('mysql')->select('   
+                                                    select * from orginfo 
+                                                    where orginfo_id = 1                                                                                                                      ');
+                    ?>
+                   
                 </div>
 
 
@@ -231,9 +258,9 @@
         </header>
 
         <!-- ========== Left Sidebar Start ========== -->
-        <div class="vertical-menu Bgsidebar">
-
-            <div data-simplebar class="h-100">
+        {{-- <div class="vertical-menu Bgsidebar"> --}}
+            <div class="vertical-menu">
+            {{-- <div data-simplebar class="h-100"> --}}
  
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
@@ -241,6 +268,17 @@
                     <ul class="metismenu list-unstyled" id="side-menu">
                         <li class="menu-title">Menu</li>
  
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="fas fa-user-md text-danger"></i>
+                                <span>P4P Doctor</span>
+                            </a> 
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('p4p_doctor') }}">Doctor</a></li> 
+                                {{-- <li><a href="{{ url('p4p_work') }}">ภาระงาน</a></li>  --}}
+                            </ul>
+                        </li>
 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
@@ -282,7 +320,7 @@
                     </ul>
                 </div>
                 <!-- Sidebar -->
-            </div>
+            {{-- </div> --}}
         </div>
         <!-- Left Sidebar End -->
 

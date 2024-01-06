@@ -79,7 +79,10 @@ background-size: 100% 100%;
 /* width: 100vw;   ให้เต็มพอดี */
 /* height: 100vh; ให้เต็มพอดี  */
 }
-
+.myTable tbody tr{
+        font-size:13px;
+        height: 13px;
+    }
 .Bgsidebar {
 background-image: url('/pkbackoffice/public/images/bgside.jpg');
 background-repeat: no-repeat;

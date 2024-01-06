@@ -138,12 +138,13 @@ class P4pController extends Controller
                     LEFT JOIN  kphis.ipd_pre_order_item od1 on  od.order_id=od1.order_id  
                     LEFT JOIN  doctor  d on  o.order_doctor=d.code
                     where od.order_date BETWEEN  "'.$startdate.'" and "'.$enddate.'"
-                    and od.order_type="oneday"  AND  od.order_date=i.regdate
-                    group by  o.order_id
+                    and od.order_type="oneday"  
+                    AND  od.order_date=i.regdate
+                
                     )as a                    
                     GROUP BY  a.order_doctor 
         ');
-   
+        // group by  o.order_id
         return view('p4p.p4p_doctor',$data, [
             'startdate'        =>  $startdate,
             'enddate'          =>  $enddate,
@@ -158,7 +159,7 @@ class P4pController extends Controller
         $data['y'] = date('Y')+543;  
 
         $datashow = DB::connection('mysql10')->select('
-                SELECT od.order_date,od.order_time,d.`name` as dname,od1.order_item_detail,p.hn,i.an,CONCAT(p.pname,p.fname," ",p.lname)as ptname,"400"as p4p,od.order_type,od.order_doctor FROM ipt i
+                SELECT od.order_date,od.order_time,d.`name` as dname,od1.order_item_detail,p.hn,i.an,CONCAT(p.pname,p.fname," ",p.lname)as fullname,"400"as p4p,od.order_type,od.order_doctor FROM ipt i
                     LEFT JOIN  an_stat a  on  i.an=a.an
                     LEFT JOIN  patient  p on  i.hn=p.hn
                     LEFT JOIN  kphis.ipd_order  o on  i.an=o.an
@@ -169,7 +170,7 @@ class P4pController extends Controller
                     and (od.order_type="oneday" AND od1.order_item_detail like "%O2%")
                     and  od.order_doctor="'.$doctor.'"
                     UNION 
-                    SELECT od.order_date,od.order_time,d.`name` as dname,od1.order_item_detail,p.hn,i.an,CONCAT(p.pname,p.fname," ",p.lname)as ptname,"50"as p4p,od.order_type,od.order_doctor FROM ipt i
+                    SELECT od.order_date,od.order_time,d.`name` as dname,od1.order_item_detail,p.hn,i.an,CONCAT(p.pname,p.fname," ",p.lname)as fullname,"50"as p4p,od.order_type,od.order_doctor FROM ipt i
                     LEFT JOIN  an_stat a  on  i.an=a.an
                     LEFT JOIN  patient  p on  i.hn=p.hn
                     LEFT JOIN  kphis.ipd_order  o on  i.an=o.an
@@ -180,7 +181,7 @@ class P4pController extends Controller
                     and od.order_type="oneday"
                     and  od.order_doctor="'.$doctor.'"
                     UNION 
-                    SELECT od.order_date,od.order_time,d.`name` as dname,od1.order_item_detail,p.hn,i.an,CONCAT(p.pname,p.fname," ",p.lname)as ptname,"100"as p4p,od.order_type,od.order_doctor  FROM ipt i
+                    SELECT od.order_date,od.order_time,d.`name` as dname,od1.order_item_detail,p.hn,i.an,CONCAT(p.pname,p.fname," ",p.lname)as fullname,"100"as p4p,od.order_type,od.order_doctor  FROM ipt i
                     LEFT JOIN  an_stat a  on  i.an=a.an
                     LEFT JOIN  patient  p on  i.hn=p.hn
                     LEFT JOIN  kphis.ipd_order  o on  i.an=o.an

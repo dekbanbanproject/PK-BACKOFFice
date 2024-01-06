@@ -2552,6 +2552,8 @@ Route::match(['get','post'],'thalassemia_opdsubdrug_hos/{vn}/{startdate}/{enddat
 Route::match(['get','post'],'thalassemia',[App\Http\Controllers\PctController::class, 'thalassemia'])->name('pct.thalassemia');//
 Route::match(['get','post'],'thalassemia',[App\Http\Controllers\PctController::class, 'thalassemia'])->name('pct.thalassemia');//
 
+Route::match(['get','post'],'p4p_doctor',[App\Http\Controllers\P4pController::class, 'p4p_doctor'])->name('p4.p4p_doctor');//
+Route::match(['get','post'],'p4p_doctor_detail/{doctor}/{startdate}/{enddate}',[App\Http\Controllers\P4pController::class, 'p4p_doctor_detail'])->name('p4.p4p_doctor_detail');//
 Route::match(['get','post'],'p4p',[App\Http\Controllers\P4pController::class, 'p4p'])->name('p4.p4p');//
 Route::match(['get','post'],'p4p_work',[App\Http\Controllers\P4pController::class, 'p4p_work'])->name('p4.p4p_work');//
 Route::match(['get','post'],'p4p_work_save',[App\Http\Controllers\P4pController::class, 'p4p_work_save'])->name('p4.p4p_work_save');//

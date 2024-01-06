@@ -565,7 +565,7 @@
 
             <div class="col-xl-4 col-md-4">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
-                    style="background-color: rgba(247, 242, 173, 0.781)">
+                    style="background-color: rgba(235, 104, 247, 0.781)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
                             <div class="col-sm-12">
