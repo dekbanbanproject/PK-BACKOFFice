@@ -31,7 +31,9 @@ return new class extends Migration
                 $table->string('ptsubtype')->nullable();//  
                 $table->string('pttype_eclaim_id')->nullable();// 
                 $table->string('pttype_eclaim_name')->nullable();// 
-                $table->string('hospmain',10)->nullable();//  
+                $table->string('hospmain',10)->nullable();//
+                $table->string('hospcode',10)->nullable();//
+                  
                 $table->string('nationality')->nullable();//    
                 $table->string('pttype')->nullable();// 
                 $table->string('pttypename')->nullable();// 

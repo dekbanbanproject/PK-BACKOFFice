@@ -52,7 +52,7 @@
             width: 250px;
             height: 250px;
             border: 5px #ddd solid;
-            border-top: 10px #12c6fd solid;
+            border-top: 10px #ff8897 solid;
             border-radius: 50%;
             animation: sp-anime 0.8s infinite linear;
         }

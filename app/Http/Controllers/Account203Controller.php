@@ -259,6 +259,7 @@ class Account203Controller extends Controller
                             'acc_code'           => $value->acc_code,
                             'account_code'       => $value->account_code,
                             'account_name'       => $value->account_name, 
+                            'hospcode'           => $value->hospcode,
                             'income'             => $value->income,
                             'uc_money'           => $value->uc_money,
                             'discount_money'     => $value->discount_money,
@@ -311,6 +312,7 @@ class Account203Controller extends Controller
                             'rcpt_money'         => $value->rcpt_money,
                             'debit'              => $value->income, 
                             'debit_total'        => $value->debit_total, 
+                            'hospcode'           => $value->hospcode, 
                             'cc'                 => $value->cc, 
                             'sauntang'           => $value->sauntang, 
                             'acc_debtor_userid'  => $iduser
@@ -323,34 +325,20 @@ class Account203Controller extends Controller
         ]);
     }
 
-    public function account_307_detail(Request $request,$months,$year)
+    public function account_203_detail(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');
-        // $startdate = $request->startdate;
-        // $enddate = $request->enddate;
-        // dd($id);
+      
         $data['users'] = User::get();
-
-        // $data = DB::select('
-        //         SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
-        //         from acc_1102050101_307 U1             
-        //         WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
-        //         GROUP BY U1.vn
-        //         UNION
-        //         SELECT U2.vn,U2.an,U2.hn,U2.cid,U2.ptname,U2.vstdate,U2.pttype,U2.debit_total,U2.nhso_docno,U2.nhso_ownright_pid,U2.recieve_true,U2.difference,U2.recieve_no,U2.recieve_date,U2.dchdate
-        //         from acc_1102050101_307 U2
-             
-        //         WHERE month(U2.dchdate) = "'.$months.'" AND year(U2.dchdate) = "'.$year.'"
-        //         GROUP BY U2.an
-        // ');
+ 
         $data = DB::select('
                 SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
-                from acc_1102050101_307 U1             
+                from acc_1102050101_203 U1             
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
                 GROUP BY U1.vn 
         ');
-        // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
-        return view('account_307.account_307_detail', $data, [ 
+  
+        return view('account_203.account_203_detail', $data, [ 
             'data'       =>     $data,
             'months'     =>     $months,
             'year'       =>     $year

@@ -32,6 +32,7 @@ return new class extends Migration
                 $table->string('income_group')->nullable();// 
                 $table->string('acc_code')->nullable();// 
                 $table->string('account_code')->nullable();// 
+                $table->string('hospcode')->nullable();// 
                 $table->string('income')->nullable();// 
                 $table->string('uc_money')->nullable();// 
                 $table->string('discount_money')->nullable();//  
