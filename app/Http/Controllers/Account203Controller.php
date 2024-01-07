@@ -193,7 +193,7 @@ class Account203Controller extends Controller
                         ,"07" as acc_code,"1102050101.203" as account_code,"UC นอก CUP ในจังหวัด" as account_name
                         ,v.income,v.uc_money ,v.discount_money,v.rcpt_money,v.paid_money  
                         ,case
-                        when v.income < 1000 then v.income
+                        when v.uc_money < 1000 then v.uc_money
                         else "1000"
                         end as toklong
                         from vn_stat v
@@ -217,7 +217,7 @@ class Account203Controller extends Controller
                         ,"07" as acc_code,"1102050101.203" as account_code,"UC นอก CUP ในจังหวัด" as account_name
                         ,v.income,v.uc_money ,v.discount_money,v.rcpt_money,v.paid_money  
                         ,case
-                        when v.income < 700 then v.income
+                        when v.uc_money < 700 then v.uc_money
                         else "700"
                         end as toklong
                         from vn_stat v
@@ -265,10 +265,10 @@ class Account203Controller extends Controller
                             'discount_money'     => $value->discount_money,
                             'paid_money'         => $value->paid_money,
                             'rcpt_money'         => $value->rcpt_money,
-                            'debit'              => $value->income, 
+                            'debit'              => $value->uc_money, 
                             'debit_total'        => $value->toklong, 
                             'cc'                 => $value->cc, 
-                            'sauntang'           => ($value->income) - ($value->toklong), 
+                            'sauntang'           => ($value->uc_money) - ($value->toklong), 
                             'acc_debtor_userid'  => Auth::user()->id
                         ]);
                     }
@@ -310,7 +310,7 @@ class Account203Controller extends Controller
                             'uc_money'           => $value->uc_money,
                             'discount_money'     => $value->discount_money, 
                             'rcpt_money'         => $value->rcpt_money,
-                            'debit'              => $value->income, 
+                            'debit'              => $value->debit, 
                             'debit_total'        => $value->debit_total, 
                             'hospcode'           => $value->hospcode, 
                             'cc'                 => $value->cc, 
@@ -332,7 +332,8 @@ class Account203Controller extends Controller
         $data['users'] = User::get();
  
         $data = DB::select('
-                SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
+                SELECT 
+                U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.hospcode,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
                 from acc_1102050101_203 U1             
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
                 GROUP BY U1.vn 
@@ -342,6 +343,25 @@ class Account203Controller extends Controller
             'data'       =>     $data,
             'months'     =>     $months,
             'year'       =>     $year
+        ]);
+    }
+    public function account_203_detail_date(Request $request,$startdate,$enddate)
+    {
+        $datenow = date('Y-m-d');      
+        $data['users'] = User::get();
+ 
+        $data = DB::select('
+                SELECT 
+                U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.hospcode,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
+                from acc_1102050101_203 U1             
+                WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"
+                GROUP BY U1.vn 
+        ');
+  
+        return view('account_203.account_203_detail_date', $data, [ 
+            'data'          => $data,
+            'startdate'     => $startdate,
+            'enddate'       => $enddate
         ]);
     }
     public function account_307_stm(Request $request,$months,$year)
