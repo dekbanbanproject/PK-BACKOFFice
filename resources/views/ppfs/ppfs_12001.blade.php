@@ -80,24 +80,31 @@ $pos = strrpos($url, '/') + 1;
             <div class="cv-spinner">
                 <span class="spinner"></span>
             </div>
+        </div> 
+    </div> 
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner"> 
+            </div>
         </div>
-
     </div>
     <form action="{{ url('ppfs_12001') }}" method="POST">
             @csrf
     <div class="row"> 
+        <div class="col-md-4">
+            <h4 class="card-title" style="color:rgb(252, 161, 119)">Detail Report 12001</h4>
+            <p class="card-title-desc">รายละเอียดข้อมูล บริการคัดกรองและประเมินปัจจัยเสี่ยงต่อสุขภาพกาย/สุขภาพจิต 15-34 ปี</p>
+        </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-4 text-end">
+            <div class="col-md-5 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control cardclaim" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
-                    <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control cardclaim" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
-                </div> 
-            </div>
-            <div class="col-md-3"> 
-                    <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+             
+                    <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
                     </button> 
@@ -105,31 +112,23 @@ $pos = strrpos($url, '/') + 1;
                         <i class="fa-solid fa-spinner text-success me-2"></i>
                         ประมวลผล
                     </a> --}}
-                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success" id="Processdata">
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success" id="Processdata">
                         <i class="fa-solid fa-spinner text-success me-2"></i>
                         ประมวลผล
                     </button>
-                    <a href="{{url('ppfs_12001_export')}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                    <a href="{{url('ppfs_12001_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                         <i class="fa-solid fa-file-export text-danger me-2"></i>
                         Export
                     </a>
                   
             </div>
-          
+        </div>
         </div>
     </form>
-    <div class="row mt-3">
+    <div class="row">
         <div class="col-md-12">
-            <div class="main-card mb-3 card">
-                <div class="card-header">
-                     บริการคัดกรองและประเมินปัจจัยเสี่ยงต่อสุขภาพกาย/สุขภาพจิต 15-34 ปี
-                    <div class="btn-actions-pane-right">
-                        {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary Updatedata" >
-                            <i class="fa-solid fa-spinner text-info me-2"></i> 
-                            Update Ucep24
-                        </button> --}}
-                    </div>
-                </div>
+            <div class="card cardclaim">
+                
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">

@@ -320,7 +320,7 @@
                                 {{-- <li><a href="{{ url('aipn_disability') }}">AIPN ทุภพพลภาพ </a></li> --}}
                                 {{-- <li><a href="{{ url('aipn_equipdev') }}">SSIP-Equipdev</a></li> --}}
                                 {{-- <li><a href="{{ url('free_schedule') }}">PPFS-Fre Schedule</a></li> --}}
-                                <li><a href="javascript: void(0);" class="has-arrow">PPFS-66</a>
+                                <li><a href="javascript: void(0);" class="has-arrow">PPFS-67</a>
                                     <ul class="sub-menu" aria-expanded="true">
                                         <li><a href="{{ url('ppfs_12001') }}">12001-คัดกรองสุขภาพจิต 15-34ปี</a></li>
                                         <li><a href="{{ url('ppfs_12002') }}">12002-คัดกรองสุขภาพจิต 35-59ปี</a></li>

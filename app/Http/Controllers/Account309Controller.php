@@ -221,13 +221,13 @@ class Account309Controller extends Controller
                     ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
                     ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
                     ,vp.max_debt_amount
-                    from hos.ovst o
-                    left join hos.vn_stat v on v.vn=o.vn
-                    left join hos.patient pt on pt.hn=o.hn
-                    LEFT JOIN hos.visit_pttype vp on vp.vn = v.vn
-                    LEFT JOIN hos.pttype ptt on o.pttype=ptt.pttype
-                    LEFT JOIN hos.pttype_eclaim e on e.code=ptt.pttype_eclaim_id
-                    LEFT JOIN hos.opitemrece op ON op.vn = o.vn
+                    from ovst o
+                    left join vn_stat v on v.vn=o.vn
+                    left join patient pt on pt.hn=o.hn
+                    LEFT JOIN visit_pttype vp on vp.vn = v.vn
+                    LEFT JOIN pttype ptt on o.pttype=ptt.pttype
+                    LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
+                    LEFT JOIN opitemrece op ON op.vn = o.vn
                     WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                   
                     AND vp.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.309")
@@ -238,7 +238,8 @@ class Account309Controller extends Controller
             // AND vp.pttype = "14" 
             // AND v.hospmain = "10702"
             foreach ($acc_debtor as $key => $value) {
-                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.309')->whereBetween('vstdate', [$startdate, $enddate])->count();
+                // $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.309')->whereBetween('vstdate', [$startdate, $enddate])->count();
+                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.309')->count();
                     // ->where('account_code','1102050101.307')
                     if ($check == 0) {
                         Acc_debtor::insert([

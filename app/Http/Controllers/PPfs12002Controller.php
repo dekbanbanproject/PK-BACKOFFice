@@ -125,8 +125,7 @@ class PPfs12002Controller extends Controller
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
         if ($startdate == '') {  
-            $data['data_main'] = DB::connection('mysql')->select('SELECT * from d_12002');  
-            // $data['data'] = DB::connection('mysql')->select('SELECT * from d_ucep24 group by an');
+            $data['data_main'] = DB::connection('mysql')->select('SELECT * from d_12002');   
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd'); 
             $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf'); 
             $data['data_oop'] = DB::connection('mysql')->select('SELECT * from d_oop');
@@ -146,26 +145,26 @@ class PPfs12002Controller extends Controller
             D_12002::truncate();
              
             $data_main_ = DB::connection('mysql2')->select(' 
-                        SELECT v.vn,v.hn,o.an,v.cid,v.pttype,concat(pt.pname,pt.fname," ",pt.lname) ptname,v.vstdate,p.hipdata_code,op.icode,op.qty,op.sum_price
-                        FROM hos.ovst o
-                        LEFT OUTER JOIN hos.vn_stat v on v.vn=o.vn
-                        LEFT OUTER JOIN hos.patient pt on pt.hn=o.hn 
-                        LEFT OUTER JOIN hos.pttype p ON p.pttype = v.pttype
-                        LEFT OUTER JOIN opitemrece op ON op.vn = v.vn   
-                        LEFT OUTER JOIN s_drugitems d on d.icode = op.icode
-                        where o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                        and v.pttype NOT IN("98","99","49","50","O1","O2","O3","O4","O5","L1","L2","L3","L4","L5","L6","L7","M1","M2","M3","M4","M5")
-                        and (o.an=" " or o.an is null)
-                        and pt.nationality="99" 
-                        and v.age_y between "35" and "59" AND pt.sex=2 
-                        AND d.nhso_adp_code ="12002"  
-                        group by v.vn;    
+                        SELECT o.vn,o.hn,p.cid,o.icode,v.vstdate,v.pttype,pt.hipdata_code,concat(p.pname,p.fname," ",p.lname) ptname,o.qty,o.sum_price
+                        ,if(month(o.vstdate)>=10,year(o.vstdate)+544,year(o.vstdate)+543) year 
+                        FROM opitemrece o 
+                        LEFT JOIN patient p on o.hn=p.hn 
+                        LEFT OUTER JOIN vn_stat v on v.vn = o.vn 
+                        LEFT OUTER JOIN pttype pt on pt.pttype = v.pttype
+                        WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
+                        AND o.icode in(select icode from s_drugitems where nhso_adp_code in("12002")) 
+                        AND p.nationality="99"
+                        AND length(p.cid)=13 
+                        GROUP BY o.hn    
                 ');                 
                 foreach ($data_main_ as $key => $value) {    
                         D_12002::insert([
                             'vn'                => $value->vn,
                             'hn'                => $value->hn,
-                            'an'                => $value->an, 
+                            'cid'               => $value->cid,                            
+                            'vstdate'           => $value->vstdate,
+                            'pttype'            => $value->pttype,
+                            'ptname'            => $value->ptname, 
                             'icode'             => $value->icode,
                             'sum_price'         => $value->sum_price 
                         ]);
@@ -176,14 +175,14 @@ class PPfs12002Controller extends Controller
                         D_claim::insert([
                             'vn'                => $value->vn,
                             'hn'                => $value->hn,
-                            'an'                => $value->an,
+                            // 'an'                => $value->an,
                             'cid'               => $value->cid,
                             'pttype'            => $value->pttype,
                             'ptname'            => $value->ptname,
                             'vstdate'           => $value->vstdate,
                             'hipdata_code'      => $value->hipdata_code,
                             'qty'               => $value->qty,
-                            'sum_price'          => $value->sum_price,
+                            'sum_price'         => $value->sum_price,
                             'type'              => 'PPFS',
                             'nhso_adp_code'     => '12002',
                             'claimdate'         => $date, 
