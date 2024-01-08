@@ -339,6 +339,8 @@ Route::match(['get','post'],'ppfs_12001_export',[App\Http\Controllers\PPfs12001C
 Route::match(['get','post'],'ppfs_12002',[App\Http\Controllers\PPfs12002Controller::class, 'ppfs_12002'])->name('claim.ppfs_12002');//
 Route::match(['get','post'],'ppfs_12002_process',[App\Http\Controllers\PPfs12002Controller::class, 'ppfs_12002_process'])->name('claim.ppfs_12002_process');//
 Route::match(['get','post'],'ppfs_12002_export',[App\Http\Controllers\PPfs12002Controller::class, 'ppfs_12002_export'])->name('claim.ppfs_12002_export');//
+Route::match(['get','post'],'ppfs_12002_exportapi',[App\Http\Controllers\PPfs12002Controller::class, 'ppfs_12002_exportapi'])->name('claim.ppfs_12002_exportapi');//
+Route::match(['get','post'],'ppfs_12002_sendapi',[App\Http\Controllers\PPfs12002Controller::class, 'ppfs_12002_sendapi'])->name('claim.ppfs_12002_sendapi');//
 
 // *******************2003 บริการเจาะเลือดจากหลอดเลือดดำภายหลังอดอาหาร8ชั่วโมง-12003*******************
 Route::match(['get','post'],'ppfs_12003',[App\Http\Controllers\PPfs12003Controller::class, 'ppfs_12003'])->name('claim.ppfs_12003');//

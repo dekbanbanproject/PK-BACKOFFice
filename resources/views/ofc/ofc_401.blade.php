@@ -123,7 +123,7 @@ $pos = strrpos($url, '/') + 1;
                         </button> --}}
                         <a href="{{url('ofc_401_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                             <i class="fa-solid fa-file-export text-danger me-2"></i>
-                            Export
+                            Export Txt
                         </a>
                     {{-- </form> --}}
                     {{-- <form action="{{ route('claim.ofc_401_sendapi') }}" method="POST">

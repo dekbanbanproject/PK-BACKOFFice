@@ -102,7 +102,7 @@ class Account209Controller extends Controller
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
 
         $yearnew = date('Y')+1;
-        $yearold = date('Y');
+        $yearold = date('Y')-1;
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
 
