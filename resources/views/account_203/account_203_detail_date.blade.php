@@ -124,10 +124,10 @@
 
                                         <tr height="20" style="font-size: 14px;">
                                             <td class="text-font" style="text-align: center;" width="4%">{{ $number }} </td> 
-                                            <td class="text-center" width="8%">{{ $item->vstdate }}</td>
-                                            <td class="text-center" width="10%">{{ $item->vn }}</td> 
+                                            <td class="text-center" width="7%">{{ $item->vstdate }}</td>
+                                            <td class="text-center" width="8%">{{ $item->vn }}</td> 
                                             <td class="text-center" width="5%">{{ $item->hn }}</td>
-                                            <td class="text-center" width="10%">{{ $item->cid }}</td>
+                                            <td class="text-center" width="7%">{{ $item->cid }}</td>
                                             <td class="p-2">{{ $item->ptname }}</td>                                            
                                             <td class="text-center" width="5%">{{ $item->pttype }}</td>   
                                             <td class="text-end" style="color:rgb(243, 157, 27)" width="7%"> {{ $item->nhso_ownright_pid }}</td>                                         
@@ -135,7 +135,7 @@
                                             <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->rcpt_money, 2) }}</td> 
                                             <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->income - $item->rcpt_money, 2) }}</td> 
                                             <td class="text-end text-success"  width="7%" style="color:#44E952"> {{ $item->debit_total }}</td>   
-                                            <td class="text-center">{{ $item->hospcode }}</td>
+                                            <td class="text-center" width="5%">{{ $item->hospcode }}</td>
                                         </tr>
                                         <?php
                                                 $total1 = $total1 + $item->income;

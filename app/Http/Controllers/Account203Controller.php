@@ -160,26 +160,26 @@ class Account203Controller extends Controller
             'acc_debtor'      =>     $acc_debtor,
         ]);
     }
-    // public function account_307_pull_m(Request $request,$months,$year)
-    // { 
-    //     $startdate = $request->startdate;
-    //     $enddate = $request->enddate;
+    public function account_203_pull_m(Request $request,$months,$year)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
   
-    //         $acc_debtor = DB::select('
-    //             SELECT a.*,c.subinscl from acc_debtor a
-    //             left join checksit_hos c on c.vn = a.vn
-    //             WHERE a.account_code="1102050101.307"
-    //             AND a.stamp = "N" AND month(a.vstdate) = "'.$months.'" AND year(a.vstdate) = "'.$year.'"
-    //             order by a.vstdate desc;
+            $acc_debtor = DB::select('
+                SELECT a.*,c.subinscl from acc_debtor a
+                left join checksit_hos c on c.vn = a.vn
+                WHERE a.account_code="1102050101.203"
+                AND a.stamp = "N" AND month(a.vstdate) = "'.$months.'" AND year(a.vstdate) = "'.$year.'"
+                order by a.vstdate desc;
 
-    //         '); 
+            '); 
 
-    //     return view('account_307.account_307_pull_m',[
-    //         'startdate'     =>     $startdate,
-    //         'enddate'       =>     $enddate,
-    //         'acc_debtor'    =>     $acc_debtor,
-    //     ]);
-    // }
+        return view('account_203.account_203_pull_m',[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'acc_debtor'    =>     $acc_debtor,
+        ]);
+    }
 
     public function account_203_pulldata(Request $request)
     {
