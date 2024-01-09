@@ -190,7 +190,7 @@ class Account203Controller extends Controller
                     SELECT * FROM
                     (
                         SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,i.dchdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,ro.icd10 as icd,h.name as hospmain
-                        ,"07" as acc_code,"1102050101.203" as account_code,"UC นอก CUP ในจังหวัด" as account_name
+                        ,"07" as acc_code,"1102050101.203" as account_code,"UC นอก CUP ในจังหวัด" as account_name,v.pdx,v.dx0
                         ,v.income,v.uc_money ,v.discount_money,v.rcpt_money,v.paid_money  
                         ,case
                         when v.uc_money < 1000 then v.uc_money
@@ -214,7 +214,7 @@ class Account203Controller extends Controller
                         UNION
                 
                         SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,i.dchdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,ro.icd10 as icd,h.name as hospmain
-                        ,"07" as acc_code,"1102050101.203" as account_code,"UC นอก CUP ในจังหวัด" as account_name
+                        ,"07" as acc_code,"1102050101.203" as account_code,"UC นอก CUP ในจังหวัด" as account_name,v.pdx,v.dx0
                         ,v.income,v.uc_money ,v.discount_money,v.rcpt_money,v.paid_money  
                         ,case
                         when v.uc_money < 700 then v.uc_money
@@ -267,6 +267,8 @@ class Account203Controller extends Controller
                             'rcpt_money'         => $value->rcpt_money,
                             'debit'              => $value->uc_money, 
                             'debit_total'        => $value->toklong, 
+                            'pdx'                => $value->pdx, 
+                            'dx0'                => $value->dx0, 
                             'cc'                 => $value->cc, 
                             'sauntang'           => ($value->uc_money) - ($value->toklong), 
                             'acc_debtor_userid'  => Auth::user()->id

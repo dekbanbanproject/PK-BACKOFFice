@@ -204,7 +204,7 @@ class AccountsettingController extends Controller
         return response()->json([
             'status'     => '200',
         ]);
-    }
+    }    
    
     public function subicode_destroy(Request $request,$id)
     { 
@@ -212,6 +212,18 @@ class AccountsettingController extends Controller
         $del = Acc_setpang_type::find($id);  
         $del->delete();  
         return response()->json(['status' => '200']);
+    }
+    public function acc_pang_addnoicodesave(Request $request)
+    {  
+        $add = new Acc_setpang_type(); 
+        $add->pang             = $request->input('addnopangcode');
+        $add->acc_setpang_id   = $request->input('acc_setpang_id');
+        $add->no_icode         = $request->input('addnoicodepang'); 
+        $add->save();
+
+        return response()->json([
+            'status'     => '200',
+        ]);
     }
 
     // *********************** hospmain *************

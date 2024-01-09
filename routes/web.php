@@ -287,6 +287,8 @@ Route::match(['get','post'],'fdh_data',[App\Http\Controllers\FdhController::clas
 Route::match(['get','post'],'fdh_data_process',[App\Http\Controllers\FdhController::class, 'fdh_data_process'])->name('claim.fdh_data_process');//
 Route::match(['get','post'],'fdh_data_export',[App\Http\Controllers\FdhController::class, 'fdh_data_export'])->name('claim.fdh_data_export');//
 
+// *******************Vaccein *******************
+Route::match(['get','post'],'hpv_report',[App\Http\Controllers\VaccineController::class, 'hpv_report'])->name('claim.hpv_report');//
 // *******************UCS *******************
 Route::match(['get','post'],'walkin',[App\Http\Controllers\DwalkinController::class, 'walkin'])->name('claim.walkin');//
 Route::match(['get','post'],'walkin_process',[App\Http\Controllers\DwalkinController::class, 'walkin_process'])->name('claim.walkin_process');//
@@ -2234,6 +2236,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'acc_pang_addicode/{id}',[App\Http\Controllers\AccountsettingController::class, 'acc_pang_addicode'])->name('acc.acc_pang_addicode');//
     Route::match(['get','post'],'acc_pang_addicodesave',[App\Http\Controllers\AccountsettingController::class, 'acc_pang_addicodesave'])->name('acc.acc_pang_addicodesave');//
     Route::match(['get','post'],'subicode_destroy/{id}',[App\Http\Controllers\AccountsettingController::class, 'subicode_destroy'])->name('acc.subicode_destroy');//
+    Route::match(['get','post'],'acc_pang_addnoicodesave',[App\Http\Controllers\AccountsettingController::class, 'acc_pang_addnoicodesave'])->name('acc.acc_pang_addnoicodesave');//
 
     Route::match(['get','post'],'acc_pang_addhospmain/{id}',[App\Http\Controllers\AccountsettingController::class, 'acc_pang_addhospmain'])->name('acc.acc_pang_addhospmain');//
     Route::match(['get','post'],'acc_pang_addhospmainsave',[App\Http\Controllers\AccountsettingController::class, 'acc_pang_addhospmainsave'])->name('acc.acc_pang_addhospmainsave');//

@@ -76,6 +76,7 @@ return new class extends Migration
                 $table->string('acc_debtor_filename')->nullable();// 
                 $table->string('acc_debtor_userid')->nullable();// 
                 $table->string('pdx')->nullable();// 
+                $table->string('dx0')->nullable();// 
                 $table->longtext('cc')->nullable();// 
                 $table->timestamps();
             });

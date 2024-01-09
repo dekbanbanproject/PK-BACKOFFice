@@ -22,6 +22,7 @@ return new class extends Migration
                 $table->string('pttype')->nullable();//    
                 $table->string('hipdata_code')->nullable();//   
                 $table->string('icode')->nullable();//
+                $table->string('no_icode')->nullable();//
                 $table->string('hospmain')->nullable();//
                 $table->string('icd9')->nullable();//
                 $table->string('opdipd')->nullable();//

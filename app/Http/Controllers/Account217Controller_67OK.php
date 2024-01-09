@@ -102,7 +102,7 @@ class Account217Controller extends Controller
                 from acc_debtor a
                 left join checksit_hos c on c.an = a.an
                 WHERE a.account_code="1102050101.217"
-                AND a.stamp = "N" AND a.debit_total > 0
+                AND a.stamp = "N"
                 AND a.dchdate IS NOT NULL
                 group by a.an
                 order by a.dchdate desc;
@@ -146,17 +146,17 @@ class Account217Controller extends Controller
                 ,ip.rw,ip.adjrw,ip.adjrw*8350 as total_adjrw_income
                 
                 ,CASE 
-                WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)))>0 THEN "03" 
+                WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))+sum(if(op.icode IN("3001412","3001417"),sum_price,0))+sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))>0 THEN "03" 
                 ELSE ec.code 
                 END as code
 
                 ,CASE 
-                WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)))>0 THEN "1102050101.217" 
+                WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))+sum(if(op.icode IN("3001412","3001417"),sum_price,0))+sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))>0 THEN "1102050101.217" 
                 ELSE ec.ar_ipd
                 END as account_code 
-
+                                
                 ,CASE 
-                WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)))>0 THEN "UC-IP บริการเฉพาะ (CR)" 
+                WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))+sum(if(op.icode IN("3001412","3001417"),sum_price,0))+sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))>0 THEN "UC-IP บริการเฉพาะ (CR)" 
                 ELSE ec.`name` 
                 END as account_name
 
@@ -171,12 +171,12 @@ class Account217Controller extends Controller
                 ,sum(if(op.income="02",sum_price,0)) as debit_instument
                 ,sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0)) as debit_drug
                 ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
-                ,sum(if(op.icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)) as debit_refer
+                ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
                 
                 ,sum(if(op.income="02",sum_price,0)) +
                 sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))+
                 sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) +
-                sum(if(op.icode IN (SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)) as debit
+                sum(if(op.icode IN ("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit
                                 
                 from ipt ip
                 LEFT OUTER JOIN an_stat a ON ip.an = a.an
@@ -188,12 +188,13 @@ class Account217Controller extends Controller
                 LEFT OUTER JOIN s_drugitems s on s.icode = op.icode
                 LEFT OUTER JOIN vn_stat v on v.vn = ip.vn
                 WHERE ip.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                AND ipt.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202")                
-                AND NOT(s.name like "CT%" OR s.name like "Portex tube%") 
-                AND op.icode NOT IN(SELECT no_icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND no_icode <> "")
-                GROUP BY ip.an;                
+                AND ipt.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202")
+                
+                AND s.name NOT like "CT%"
+                AND op.icode NOT IN("3003661","3003662","3003336","3003608","3010102","3010353","3009703","3010348")
+                GROUP BY ip.an;
+                
         ');
-        // AND op.icode NOT IN("3003661","3003662","3003336","3003608","3010102","3010353","3009703","3010348","3009713","3010312","3010349","3010894","1600015","1620015","3002047","3004241","3004242","3010192","3010193","3004250","3004251","3004252","3004253","3009706","1540048","3010192","3010193")
         // ,CASE 
         // WHEN sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) > 0 THEN a.income 
         // WHEN  ipt.pttype_number ="2" AND ipt.pttype NOT IN ("31","36") AND ipt.max_debt_amount = "" OR sum(if(op.income="02",sum_price,0)) > 0 THEN 
@@ -254,7 +255,114 @@ class Account217Controller extends Controller
             } else {
                 # code...
             }
-                 
+            
+                   
+                    // if ($value->debit_toa > 0) {
+                    //         Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.202')->whereBetween('dchdate', [$startdate, $enddate])
+                    //         ->update([
+                    //             'acc_code'         => "03",
+                    //             'account_code'     => "1102050101.217",
+                    //             'account_name'     => "บริการเฉพาะ(CR)"
+                    //         ]);
+                    // }
+                    // if ($value->debit_instument > 0 && $value->pang_debit =='1102050101.202') {
+                    //         $checkins = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.217')->count();
+                    //         if ($checkins == 0) {
+                    //             Acc_debtor::insert([
+                    //                 'hn'                 => $value->hn,
+                    //                 'an'                 => $value->an,
+                    //                 'vn'                 => $value->vn,
+                    //                 'cid'                => $value->cid,
+                    //                 'ptname'             => $value->fullname,
+                    //                 'pttype'             => $value->pttype,
+                    //                 'vstdate'            => $value->vstdate,
+                    //                 'regdate'            => $value->admdate,
+                    //                 'dchdate'            => $value->dchdate,
+                    //                 'acc_code'           => "03",
+                    //                 'account_code'       => '1102050101.217',
+                    //                 'account_name'       => 'บริการเฉพาะ(CR)',
+                    //                 'income_group'       => '02',
+                    //                 'debit'              => $value->debit_instument,
+                    //                 'debit_total'        => $value->debit_instument
+                    //             ]);
+                    //         }
+                    // }
+                    // if ($value->debit_drug > 0 && $value->pang_debit =='1102050101.202') {
+                    //         $checkindrug = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.217')->where('debit','=',$value->debit_drug)->count();
+                    //         if ($checkindrug == 0) {
+                    //             Acc_debtor::insert([
+                    //                 'hn'                 => $value->hn,
+                    //                 'an'                 => $value->an,
+                    //                 'vn'                 => $value->vn,
+                    //                 'cid'                => $value->cid,
+                    //                 'ptname'             => $value->fullname,
+                    //                 'pttype'             => $value->pttype,
+                    //                 'vstdate'            => $value->vstdate,
+                    //                 'regdate'            => $value->admdate,
+                    //                 'dchdate'            => $value->dchdate,
+                    //                 'acc_code'           => "03",
+                    //                 'account_code'       => '1102050101.217',
+                    //                 'account_name'       => 'บริการเฉพาะ(CR)',
+                    //                 'income_group'       => '03',
+                    //                 'debit'              => $value->debit_drug,
+                    //                 'debit_total'    => $value->debit_drug
+                    //             ]);
+                    //         }
+                    // }
+                    // if ($value->debit_refer > 0 && $value->pang_debit =='1102050101.202') {
+                    //     $checkinrefer = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.217')->where('debit','=',$value->debit_refer)->count();
+                    //     if ($checkinrefer == 0) {
+                    //         Acc_debtor::insert([
+                    //             'hn'                 => $value->hn,
+                    //             'an'                 => $value->an,
+                    //             'vn'                 => $value->vn,
+                    //             'cid'                => $value->cid,
+                    //             'ptname'             => $value->fullname,
+                    //             'pttype'             => $value->pttype,
+                    //             'vstdate'            => $value->vstdate,
+                    //             'regdate'            => $value->admdate,
+                    //             'dchdate'            => $value->dchdate,
+                    //             'acc_code'           => "03",
+                    //             'account_code'       => '1102050101.217',
+                    //             'account_name'       => 'บริการเฉพาะ(CR)',
+                    //             'income_group'       => '20',
+                    //             'debit'              => $value->debit_refer,
+                    //             'debit_total'        => $value->debit_refer
+                    //         ]);
+                    //     }
+                    // }
+
+                    // Acc_opitemrece::where('an', '=', $value->an)->delete();
+
+                    // $acc_opitemrece_ = DB::connection('mysql3')->select('
+                    //         SELECT a.vn,o.an,o.hn,o.vstdate,o.rxdate,a.dchdate,o.income as income_group,o.pttype,o.paidst
+                    //         ,o.icode,s.name as iname,o.qty,o.cost,o.finance_number,o.unitprice,o.discount,o.sum_price
+                    //         FROM opitemrece o
+                    //         LEFT JOIN an_stat a ON o.an = a.an
+                    //         left outer join s_drugitems s on s.icode = o.icode
+                    //         WHERE o.an ="'.$value->an.'"
+                    // ');
+                    // foreach ($acc_opitemrece_ as $key => $va2) {
+                    //     Acc_opitemrece::insert([
+                    //         'hn'                 => $va2->hn,
+                    //         'an'                 => $va2->an,
+                    //         'vn'                 => $va2->vn,
+                    //         'pttype'             => $va2->pttype,
+                    //         'paidst'             => $va2->paidst,
+                    //         'rxdate'             => $va2->rxdate,
+                    //         'vstdate'            => $va2->vstdate,
+                    //         'dchdate'            => $va2->dchdate,
+                    //         'income'             => $va2->income_group,
+                    //         'icode'              => $va2->icode,
+                    //         'name'               => $va2->iname,
+                    //         'qty'                => $va2->qty,
+                    //         'cost'               => $va2->cost,
+                    //         'finance_number'     => $va2->finance_number,
+                    //         'unitprice'          => $va2->unitprice,
+                    //         'discount'           => $va2->discount,
+                    //         'sum_price'          => $va2->sum_price,
+                    //     ]);
+                    // }
         }
         return response()->json([
             'status'    => '200'

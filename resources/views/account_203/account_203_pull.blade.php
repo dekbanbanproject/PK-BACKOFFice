@@ -120,7 +120,9 @@
                                             <th class="text-center" >hn</th>
                                             <th class="text-center" >cid</th>
                                             <th class="text-center">ptname</th>
-                                            <th class="text-center">vstdate</th>  
+                                            <th class="text-center">vstdate</th>
+                                            <th class="text-center">pdx</th>
+                                            <th class="text-center">dx0</th>  
                                             <th class="text-center">hospcode</th>  
                                             <th class="text-center">pttype</th> 
                                             <th class="text-center">spsch</th>  
@@ -146,6 +148,8 @@
                                                 <td class="text-center" width="10%">{{ $item->cid }}</td>  
                                                 <td class="p-2" >{{ $item->ptname }}</td> 
                                                 <td class="text-center" width="7%">{{ $item->vstdate }}</td>  
+                                                <td class="text-center" width="7%">{{ $item->pdx }}</td>  
+                                                <td class="text-center" width="7%">{{ $item->dx0 }}</td>  
                                                 <td class="text-center" width="7%">{{ $item->hospcode }}</td>  
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>  
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td>  

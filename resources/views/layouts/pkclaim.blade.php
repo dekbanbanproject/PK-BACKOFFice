@@ -253,6 +253,7 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('report_zero') }}">Report STM 0</a></li>
+                                <li><a href="{{ url('hpv_report') }}">Report HPV</a></li>
                                 <li><a href="javascript: void(0);" class="has-arrow">UCS</a>
                                     <ul class="sub-menu" aria-expanded="true"> 
                                         <li><a href="{{ url('walkin_report') }}">WalkIn</a></li>

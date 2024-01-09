@@ -291,7 +291,8 @@
                             <th class="text-center">รหัส</th>
                             <th class="text-center">ชื่อผัง</th>
                             <th class="text-center">pttype</th>
-                            <th class="text-center">icode</th>  
+                            <th class="text-center">icode</th> 
+                            <th class="text-center">icode ที่ยกเว้น</th>  
                             <th class="text-center">hospmain</th>
                             <th class="text-center">icd9</th> 
                         </tr>
@@ -360,7 +361,14 @@
                                                             <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" onclick="subicode_destroy({{ $itemsub->acc_setpang_type_id }})">
                                                                 ICODE - {{$itemsub->icode}}  
                                                             </button> 
-                                                        @else                                                                    
+                                                        @else                                                              
+                                                        @endif
+
+                                                        @if ($itemsub->no_icode != '')
+                                                            <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger" onclick="subicode_destroy({{ $itemsub->acc_setpang_type_id }})">
+                                                               NO ICODE - {{$itemsub->no_icode}}  
+                                                            </button> 
+                                                        @else                                                              
                                                         @endif
 
                                                         @if ($itemsub->hospmain != '')
@@ -403,6 +411,12 @@
                                 </td>
                                 <td class="text-center" width="7%">
                                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success addicodeModal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="เพิ่ม icode">
+                                        <i class="fa-solid fa-plus text-success"></i>
+                                        icode
+                                    </button>
+                                </td> 
+                                <td class="text-center" width="7%">
+                                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success addnoicodeModal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="เพิ่ม icode">
                                         <i class="fa-solid fa-plus text-success"></i>
                                         icode
                                     </button>
@@ -676,6 +690,54 @@
         </div>
     </div>
 </div>
+
+<!-- addnoicodeModal Modal -->
+<div class="modal fade" id="addnoicodeModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">เพิ่มรหัส icode ที่ยกเว้น</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="pang" class="form-label">รหัสผังบัญชี</label>
+                            <div class="input-group input-group-sm"> 
+                                <input type="text" class="form-control" id="addnopangcode" name="addnopangcode" readonly>  
+                            </div>
+                        </div>  
+                        <div class="col-md-8">
+                            <label for="pangname" class="form-label">ชื่อผังบัญชี</label>
+                            <div class="input-group input-group-sm"> 
+                                <input type="text" class="form-control" id="addnoicodepangname" name="addnoicodepangname" readonly>  
+                            </div>
+                        </div> 
+                    </div>
+    
+
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="pttype" class="form-label">icode</label>
+                            <div class="input-group input-group-sm">  
+                                <input type="text" class="form-control" id="addnoicodepang" name="addnoicodepang">  
+                            </div>
+                        </div>  
+                        
+                    </div> 
+                
+                <input type="hidden" name="addnouser_id" id="addnouser_id"> 
+                <input type="hidden" name="addnoicodeacc_setpang_id" id="addnoicodeacc_setpang_id"> 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="UpdateNoicode">
+                    <i class="pe-7s-diskette btn-icon-wrapper"></i>Save changes
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
  
 <!-- addhospmainModal Modal --> 
 <div class="modal fade" id="addhospmainModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -892,6 +954,42 @@
                     },
                 });
         });
+        $('#UpdateNoicode').click(function() { 
+                var addnopangcode = $('#addnopangcode').val(); 
+                var addnoicodepang = $('#addnoicodepang').val(); 
+                var acc_setpang_id = $('#addnoicodeacc_setpang_id').val();
+                // alert(addnoicodepang);
+                $.ajax({
+                    url: "{{ route('acc.acc_pang_addnoicodesave') }}",
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        addnoicodepang,acc_setpang_id,addnopangcode
+                    },
+                    success: function(data) {
+                        if (data.status == 200) {
+                            Swal.fire({
+                                title: 'เพิ่มข้อมูลสำเร็จ',
+                                text: "You Insert data success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result
+                                    .isConfirmed) {
+                                    console.log(
+                                        data);
+                                    window.location.reload(); 
+                                }
+                            })
+                        } else {
+
+                        }
+
+                    },
+                });
+        });
         $('#Updatehospmain').click(function() { 
                 var pang = $('#addpanghospmain').val(); 
                 var addhospmainpang = $('#addhospmainpang').val(); 
@@ -976,6 +1074,21 @@
             },
         });
     });
+    $(document).on('click', '.addnoicodeModal', function() {
+        var acc_setpang_id = $(this).val(); 
+        $('#addnoicodeModal').modal('show');
+        $.ajax({
+            type: "GET",
+            url: "{{ url('acc_pang_addicode') }}" + '/' + acc_setpang_id,
+            success: function(data) {
+                console.log(data.data_icode.acc_setpang_id); 
+                $('#addnopangcode').val(data.data_icode.pang)
+                $('#addnoicodepangname').val(data.data_icode.pangname) 
+                $('#addnoicodeacc_setpang_id').val(data.data_icode.acc_setpang_id)
+            },
+        });
+    });
+
     $(document).on('click', '.addhospmainModal', function() {
         var acc_setpang_id = $(this).val(); 
         $('#addhospmainModal').modal('show');
