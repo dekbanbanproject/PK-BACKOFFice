@@ -289,6 +289,7 @@ Route::match(['get','post'],'fdh_data_export',[App\Http\Controllers\FdhControlle
 
 // *******************Vaccein *******************
 Route::match(['get','post'],'hpv_report',[App\Http\Controllers\VaccineController::class, 'hpv_report'])->name('claim.hpv_report');//
+Route::match(['get','post'],'hpv_report_pull',[App\Http\Controllers\VaccineController::class, 'hpv_report_pull'])->name('claim.hpv_report_pull');//
 // *******************UCS *******************
 Route::match(['get','post'],'walkin',[App\Http\Controllers\DwalkinController::class, 'walkin'])->name('claim.walkin');//
 Route::match(['get','post'],'walkin_process',[App\Http\Controllers\DwalkinController::class, 'walkin_process'])->name('claim.walkin_process');//

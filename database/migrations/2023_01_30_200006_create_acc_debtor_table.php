@@ -75,6 +75,8 @@ return new class extends Migration
                 $table->string('sauntang')->nullable();//              ส่วนต่าง
                 $table->string('acc_debtor_filename')->nullable();// 
                 $table->string('acc_debtor_userid')->nullable();// 
+                $table->string('referin_no')->nullable();// 
+                $table->string('ct_sumprice')->nullable();// 
                 $table->string('pdx')->nullable();// 
                 $table->string('dx0')->nullable();// 
                 $table->longtext('cc')->nullable();// 

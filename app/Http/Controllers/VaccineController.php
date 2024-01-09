@@ -89,6 +89,65 @@ class VaccineController extends Controller
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
         if ($startdate != '') {  
+                // $hpv_report_ = DB::connection('mysql2')->select(' 
+                //         SELECT 
+                //         l1.vn,l1.hn,v.cid,v.vstdate,v.pttype,concat(p.pname,p.fname," ",p.lname) ptname 
+                //         ,ac.debit,ac.pp,ac.fs,ac.total_approve,ac.va,ac.STMdoc,ac.va
+
+                //         FROM lab_head l1
+                //         LEFT OUTER JOIN patient p on p.hn=l1.hn 
+                //         LEFT OUTER JOIN vn_stat v on v.vn = l1.vn 
+                //         LEFT OUTER JOIN pkbackoffice.acc_stm_ucs ac on ac.cid = v.cid AND ac.debit IN("420.0","250.0") 
+                //         WHERE v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
+                //         AND l1.form_name LIKE "HPV%"
+ 
+                // ');
+                // foreach ($hpv_report_ as $key => $value) {
+                //     $check = D_hpv_report::where('vn',$value->vn)->count();
+                //     if ($check > 0) {
+                //         D_hpv_report::where('vn',$value->vn)->update([ 
+                //             'debit'              => $value->debit,
+                //             'pp'                 => $value->pp,
+                //             'fs'                 => $value->fs,
+                //             'total_approve'      => $value->total_approve,
+                //             'STMdoc'             => $value->STMdoc,   
+                //             'va'                 => $value->va, 
+                //         ]);
+                //     } else {
+                //         D_hpv_report::insert([
+                //             'hn'                 => $value->hn, 
+                //             'vn'                 => $value->vn,
+                //             'cid'                => $value->cid,
+                //             'ptname'             => $value->ptname,
+                //             'pttype'             => $value->pttype,
+                //             'vstdate'            => $value->vstdate,  
+                //             'debit'              => $value->debit,
+                //             'pp'                 => $value->pp,
+                //             'fs'                 => $value->fs,
+                //             'total_approve'      => $value->total_approve,
+                //             'STMdoc'             => $value->STMdoc,   
+                //             'va'                 => $value->va, 
+                //         ]);
+                //     }
+                     
+                // } 
+                $hpv_report = DB::connection('mysql')->select('SELECT * FROM d_hpv_report WHERE vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"');
+        } else { 
+                $hpv_report = DB::connection('mysql')->select('SELECT * FROM d_hpv_report WHERE vstdate BETWEEN "'.$newDate.'" and "'.$date.'" '); 
+        } 
+       
+        return view('report_stm.hpv_report',[
+            'startdate'        => $startdate,
+            'enddate'          => $enddate, 
+            'hpv_report'       => $hpv_report, 
+        ]);
+    } 
+    public function hpv_report_pull(Request $request)
+    {
+            $startdate   = $request->startdate;
+            $enddate     = $request->enddate;
+     
+            if ($startdate != '') {  
                 $hpv_report_ = DB::connection('mysql2')->select(' 
                         SELECT 
                         l1.vn,l1.hn,v.cid,v.vstdate,v.pttype,concat(p.pname,p.fname," ",p.lname) ptname 
@@ -128,20 +187,14 @@ class VaccineController extends Controller
                             'STMdoc'             => $value->STMdoc,   
                             'va'                 => $value->va, 
                         ]);
-                    }
+                    } 
+                }  
+            } else { 
                      
-                } 
-                $hpv_report = DB::connection('mysql')->select('SELECT * FROM d_hpv_report WHERE vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"');
-        } else { 
-                $hpv_report = DB::connection('mysql')->select('SELECT * FROM d_hpv_report WHERE vstdate BETWEEN "'.$newDate.'" and "'.$date.'" '); 
-        } 
-       
-        return view('report_stm.hpv_report',[
-            'startdate'        => $startdate,
-            'enddate'          => $enddate, 
-            'hpv_report'       => $hpv_report, 
+            } 
+        return response()->json([ 
+            'status'    => '200'
         ]);
-    } 
- 
+    }
  
 }

@@ -189,7 +189,7 @@ class Account203Controller extends Controller
             $acc_debtor = DB::connection('mysql2')->select(' 
                     SELECT * FROM
                     (
-                        SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,i.dchdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,ro.icd10 as icd,h.name as hospmain
+                        SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,i.dchdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,ro.icd10 as referin_no,h.name as hospmain
                         ,"07" as acc_code,"1102050101.203" as account_code,"UC นอก CUP ในจังหวัด" as account_name,v.pdx,v.dx0
                         ,v.income,v.uc_money ,v.discount_money,v.rcpt_money,v.paid_money  
                         ,case
@@ -213,7 +213,7 @@ class Account203Controller extends Controller
                 
                         UNION
                 
-                        SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,i.dchdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,ro.icd10 as icd,h.name as hospmain
+                        SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,i.dchdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,ro.icd10 as referin_no,h.name as hospmain
                         ,"07" as acc_code,"1102050101.203" as account_code,"UC นอก CUP ในจังหวัด" as account_name,v.pdx,v.dx0
                         ,v.income,v.uc_money ,v.discount_money,v.rcpt_money,v.paid_money  
                         ,case
@@ -244,6 +244,18 @@ class Account203Controller extends Controller
                     ) As Refer 
             ');                    
             foreach ($acc_debtor as $key => $value) { 
+                    $data2_ = DB::connection('mysql2')->select('
+                        SELECT sum(sum_price) as sum_price 
+                            FROM vn_stat v  
+                            left join opitemrece op ON op.vn = v.vn
+                            left join s_drugitems s ON s.icode = op.icode
+                            WHERE v.vn="'.$value->vn.'"
+                            AND s.name LIKE "CT%"
+                            
+                    '); 
+                    foreach ($data2_ as $key => $value2) {
+                        $ct_income = $value2->sum_price;
+                    }
                            
                     $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.203')->count();
                     if ($check == 0) {
@@ -267,9 +279,11 @@ class Account203Controller extends Controller
                             'rcpt_money'         => $value->rcpt_money,
                             'debit'              => $value->uc_money, 
                             'debit_total'        => $value->toklong, 
+                            'referin_no'         => $value->referin_no, 
                             'pdx'                => $value->pdx, 
                             'dx0'                => $value->dx0, 
                             'cc'                 => $value->cc, 
+                            'ct_sumprice'        => $value->income - $ct_income,
                             'sauntang'           => ($value->uc_money) - ($value->toklong), 
                             'acc_debtor_userid'  => Auth::user()->id
                         ]);

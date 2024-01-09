@@ -155,15 +155,18 @@
                                         SELECT sum(sum_price) as sum_price 
                                             FROM vn_stat v  
                                             left join opitemrece op ON op.vn = v.vn
+                                            left join s_drugitems s ON s.icode = op.icode
                                             WHERE v.vn="'.$item->vn.'"
-                                            AND op.icode in("3009186","3009187","3009147","3009188","3010113","3009176","3009158","3009148","3009173","3009178","3009160","3009157"
-                                            ,"3009191","3009139","3009155","3009193","3009180","3009159","3009167","3009162","3009140","3010044","3009172","3009165","3009166","3009161") 
+                                            AND s.name LIKE "CT%"
+                                           
                                         '); 
                                         foreach ($data2_ as $key => $value2) {
                                             $ct_income = $value2->sum_price;
                                         }
                                         
                                     ?>
+                                     {{-- AND op.icode in("3009186","3009187","3009147","3009188","3010113","3009176","3009158","3009148","3009173","3009178","3009160","3009157"
+                                     ,"3009191","3009139","3009155","3009193","3009180","3009159","3009167","3009162","3009140","3010044","3009172","3009165","3009166","3009161")  --}}
                                     <tr height="20"> 
                                         <td class="text-font" style="text-align: center;width: 5%;">{{ $number++ }}</td>
                                         <td class="text-font text-pedding" style="text-align: center;width: 7%;" > {{ $item->cid }}</td>
@@ -201,7 +204,7 @@
                                              @else
                                              ขาว Non Urgency (รอได้) 
                                              @endif
-                                             </td>
+                                            </td>
                                     </tr>
                                         <?php
                                             $total1 = $total1 + ($item->income);

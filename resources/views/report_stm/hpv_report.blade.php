@@ -61,11 +61,11 @@
             width: 250px;
             height: 250px;
             border: 5px #ddd solid;
-            border-top: 10px #12c6fd solid;
+            border-top: 10px rgb(252, 161, 119) solid;
             border-radius: 50%;
             animation: sp-anime 0.8s infinite linear;
         }
-
+        
         @keyframes sp-anime {
             100% {
                 transform: rotate(360deg);
@@ -109,10 +109,14 @@
                         <input type="text" class="form-control cardclaim" name="enddate" placeholder="End Date" id="datepicker2"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $enddate }}" required/>  
-                            <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary cardclaim" data-style="expand-left">
-                                <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
-                                <span class="ladda-spinner"></span>
-                            </button>
+                        <button type="submit" class="ladda-button btn-pill btn btn-info cardclaim" data-style="expand-left">
+                            <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
+                            <span class="ladda-spinner"></span>
+                        </button>
+                        <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardclaim" data-style="expand-left" id="Pulldata">
+                            <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>ดึงข้อมูล</span>
+                            <span class="ladda-spinner"></span>
+                        </button> 
                
                 </div>
                 </div>
@@ -215,6 +219,60 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
+            });
+            $('#Pulldata').click(function() {
+                var startdate = $('#datepicker').val(); 
+                var enddate = $('#datepicker2').val(); 
+                Swal.fire({
+                        title: 'ต้องการดึงข้อมูลใช่ไหม ?',
+                        text: "You Warn Pull Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, pull it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+                                
+                                $.ajax({
+                                    url: "{{ route('claim.hpv_report_pull') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {
+                                        startdate,
+                                        enddate                        
+                                    },
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({
+                                                title: 'ดึงข้อมูลสำเร็จ',
+                                                text: "You Pull data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+                                        } else {
+                                            
+                                        }
+                                    },
+                                });
+                                
+                            }
+                })
             });
  
            
