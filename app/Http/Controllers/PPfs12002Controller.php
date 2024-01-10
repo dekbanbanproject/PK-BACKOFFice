@@ -177,8 +177,8 @@ class PPfs12002Controller extends Controller
                 ');    
                 // AND p.nationality="99"             
                 foreach ($data_main_ as $key => $value) {    
-                    // $check_authen = Check_authen::where('cid',$value->cid)->where('vstdate',$value->vstdate)->count();
-                    // if ($check_authen > 0) {
+                    $check_authen = Check_authen::where('cid',$value->cid)->where('vstdate',$value->vstdate)->count();
+                    if ($check_authen > 0) {
                         D_12002::insert([
                             'vn'                => $value->vn,
                             'hn'                => $value->hn,
@@ -189,9 +189,9 @@ class PPfs12002Controller extends Controller
                             'icode'             => $value->icode,
                             'sum_price'         => $value->sum_price 
                         ]);
-                    // } else {
+                    } else {
                         # code...
-                    // }   
+                    }   
                     $check = D_claim::where('vn',$value->vn)->where('nhso_adp_code','12002')->count();
                     if ($check > 0) {
                         # code...
@@ -278,7 +278,8 @@ class PPfs12002Controller extends Controller
                 LEFT OUTER JOIN rcpt_debt r on r.vn = v.vn
                 LEFT OUTER JOIN patient px on px.hn = v.hn     
                 LEFT OUTER JOIN pkbackoffice.check_authen ca on ca.cid = px.cid AND ca.vstdate = v.vstdate               
-                WHERE v.vn IN("'.$va1->vn.'")   
+                WHERE v.vn IN("'.$va1->vn.'") 
+                GROUP BY v.vn  
             ');
             // ,c.claimcode PERMITNO
             // ,ifnull(if(i.an is null,vp.claim_code or vp.auth_code,ap.claim_code),r.sss_approval_code) PERMITNO

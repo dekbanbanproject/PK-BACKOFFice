@@ -46,7 +46,7 @@
                width: 250px;
                height: 250px;
                border: 10px #ddd solid;
-               border-top: 10px #1fdab1 solid;
+               border-top: 10px #ff8897 solid;
                border-radius: 50%;
                animation: sp-anime 0.8s infinite linear;
                }
@@ -74,105 +74,81 @@
                 </div>
             </div>
         </div>
-       
+        <form action="{{ url('account_203_form') }}" method="GET">
+            @csrf
         <div class="row"> 
             <div class="col-md-4">
-                <h5 class="card-title">Detail 1102050101.307</h5>
-                <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.307</p>
+                <h5 class="card-title">Detail Refer</h5>
+                <p class="card-title-desc">รายละเอียดข้อมูล เรียกเก็บในจังหวัด</p>
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-5 text-end">
-                {{-- <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                        data-date-language="th-th" value="{{ $startdate }}" required/>
-                    <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                        data-date-language="th-th" value="{{ $enddate }}"/>  
-                </div>  --}}
+            <div class="col-md-5 text-end"> 
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' autocomplete="off"
                      data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $startdate }}"/>
                     <input type="text" class="form-control cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' autocomplete="off"
                     data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $enddate }}"/>
-                    <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left" id="Pulldata">
-                        <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>ดึงข้อมูล</span>
+                    <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left">
+                        <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                         <span class="ladda-spinner"></span>
-                    </button> 
-            
-                {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Pulldata">
-                    <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
-                    ดึงข้อมูล</button>    
-                </div> --}}
-            </div>
-            {{-- <div class="col"></div> --}}
-        </div>
-    </div>    
+                    </button>
+                </div> 
+            </div> 
+        </div> 
+    </form>    
         <div class="row">
             <div class="col-xl-12">
                 <div class="card cardacc">
-                    <div class="card-body">      
-                        <div class="row mb-2">
-                            {{-- <div class="col-md-4">                                
-                                <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail Account ผัง 1102050101.307</h4>
-                                <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
-                            </div> --}}
+                    <div class="card-body">
+                        <div class="row mb-3"> 
                             <div class="col"></div>
                             <div class="col-md-2 text-end">
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_307_stam')}}">
+                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_203_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
-                                </button>
+                                </button> --}}
                             </div>
                         </div>
                         <p class="mb-0">
                             <div class="table-responsive">
-                                <table id="example" class="table table-hover table-sm dt-responsive nowrap"
-                                style=" border-spacing: 0; width: 100%;">
+                                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap myTable"
+                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                {{-- <table id="example" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;"> --}}
                                     <thead>
                                         <tr>                                          
                                             <th width="5%" class="text-center">ลำดับ</th> 
-                                            <th width="5%" class="text-center"><input type="checkbox" class="cardacc" name="stamp" id="stamp"> </th> 
-                                            <th class="text-center" width="5%">vn</th> 
-                                            <th class="text-center">an</th>
-                                            <th class="text-center" >hn</th>
-                                            <th class="text-center" >cid</th>
-                                            <th class="text-center">ptname</th>
-                                            <th class="text-center">vstdate</th>  
-                                            <th class="text-center">dchdate</th>  
+                                            <th class="text-center" >cid</th> 
+                                            <th class="text-center" >hn</th> 
+                                            <th class="text-center">ชื่อ-นามสกุล</th>
+                                            <th class="text-center">เลขรับ</th>
+                                            <th class="text-center">โรงพยาบาล</th>
                                             <th class="text-center">pttype</th> 
-                                            <th class="text-center">spsch</th> 
-                                            {{-- <th class="text-center">income</th> --}}
-                                            <th class="text-center">ลูกหนี้</th>  
+                                            <th class="text-center">vstdate</th>
+                                            <th class="text-center">pdx</th>
+                                            <th class="text-center">dx0</th>  
+                                            {{-- <th class="text-center">hospcode</th>    --}}
+                                            <th class="text-center">ค่ารักษา</th> 
+                                            <th class="text-center">ยอดเรียกเก็บ</th>   
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php $i = 1; ?>
                                         @foreach ($acc_debtor as $item) 
-                                            <tr id="tr_{{$item->acc_debtor_id}}">                                                  
+                                            <tr id="tr_{{$item->vn}}">                                                  
                                                 <td class="text-center" width="5%">{{ $i++ }}</td>  
-                                                @if ($item->debit_total < '1')
-                                                    <td class="text-center" width="5%">
-                                                        <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
-                                                    </td> 
-                                                @else
-                                                    <td class="text-center" width="5%"><input type="checkbox" class="cardacc sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
-                                                @endif
-                                                {{-- <td class="text-center" width="5%"><input type="checkbox" class="cardacc sub_chk" data-id="{{$item->acc_debtor_id}}"> </td>  --}}
-
-                                                <td class="text-center" width="5%">{{ $item->vn }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->an }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->hn }}</td>  
                                                 <td class="text-center" width="10%">{{ $item->cid }}</td>  
+                                                <td class="text-center" width="5%">{{ $item->hn }}</td>  
                                                 <td class="p-2" >{{ $item->ptname }}</td> 
-                                                <td class="text-center" width="10%">{{ $item->vstdate }}</td>  
-                                                <td class="text-center" width="10%">{{ $item->dchdate }}</td>  
-                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td> 
-                                                
-                                                <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td> 
-                                                
-                                                {{-- <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td>  --}}
-                                                <td class="text-center" width="10%">{{ number_format($item->debit_total, 2) }}</td> 
- 
+                                                <td class="text-center" width="10%">{{ $item->referin_no }}</td> 
+                                                <td class="p-2" width="15%">{{ $item->hospname }}</td> 
+                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>   
+                                                <td class="text-center" width="7%">{{ $item->vstdate }}</td>  
+                                                <td class="text-center" width="5%">{{ $item->pdx }}</td>  
+                                                <td class="text-center" width="5%">{{ $item->dx0 }}</td>  
+                                                {{-- <td class="text-center" width="7%">{{ $item->hospcode }}</td>    --}}
+                                                <td class="text-center" width="8%">{{ number_format($item->income, 2) }}</td> 
+                                                <td class="text-center" width="8%">{{ number_format($item->debit_total, 2) }}</td>  
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -292,11 +268,9 @@
                         }) 
                     // var check = confirm("Are you want ?");  
                 }
-            });
-             
+            });             
 
             $("#spinner-div").hide(); //Request is complete so hide spinner
-
          
             $('#Pulldata').click(function() {
                 var datepicker = $('#datepicker').val(); 
@@ -315,7 +289,7 @@
                                 $("#spinner").show(); //Load button clicked show spinner 
                                 
                                 $.ajax({
-                                    url: "{{ route('acc.account_307_pulldata') }}",
+                                    url: "{{ route('acc.account_203_pulldata') }}",
                                     type: "POST",
                                     dataType: 'json',
                                     data: {

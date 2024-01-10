@@ -46,6 +46,9 @@ return new class extends Migration
                 $table->string('debit_total')->nullable();//
                 $table->string('sauntang')->nullable();// 
                 $table->longtext('cc')->nullable();// 
+                $table->string('referin_no')->nullable();//  
+                $table->string('pdx')->nullable();// 
+                $table->string('dx0')->nullable();//  
                 $table->string('max_debt_amount')->nullable();//  
                 $table->string('acc_debtor_filename')->nullable();// 
                 $table->string('stm_rep')->nullable();//  

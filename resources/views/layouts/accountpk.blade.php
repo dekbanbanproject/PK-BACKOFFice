@@ -296,7 +296,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <ul class="sub-menu" aria-expanded="true"> 
                                     <li><a href="javascript: void(0);" class="has-arrow">201-ลูกหนี้ค่ารักษา UC-OP</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_201_dash') }}">dashboard</a>
+                                            <li><a href="{{ url('account_201_dash') }}">dashboard</a></li>
                                             <li><a href="{{ url('account_201_pull') }}">ดึงลูกหนี้</a> </li>
                                             <li><a href="{{ url('account_201_detaildate') }}">ตั้งลูกหนี้</a> </li>
                                             {{-- <li><a href="{{ url('account_201_stmdate') }}">STM</a> </li> --}}
@@ -304,37 +304,36 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">202-ลูกหนี้ค่ารักษา UC-IP</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_pkucs202_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_pkucs202_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_pkucs202_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_pkucs202_pull') }}">ดึงลูกหนี้</a> </li>
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">203-ลูกหนี้ค่ารักษา UC-OP นอก CUP(ในจังหวัด)</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_203_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_203_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_203_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_203_pull') }}">ดึงลูกหนี้</a> </li>
+                                            <li><a href="{{ url('account_203_form') }}">เรียกเก็บในจังหวัด</a> </li>
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">209-ลูกหนี้ค่ารักษา OP(P&P)</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_pkucs209_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_pkucs209_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_pkucs209_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_pkucs209_pull') }}">ดึงลูกหนี้</a></li>
+                                          
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">216-ลูกหนี้ค่ารักษา UC-OP บริการเฉพาะ(CR)</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_pkucs216_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_pkucs216_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_pkucs216_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_pkucs216_pull') }}">ดึงลูกหนี้</a></li>
+                                         
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">217-ลูกหนี้ค่ารักษา UC-IP บริการเฉพาะ(CR)</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_pkucs217_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_pkucs217_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_pkucs217_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_pkucs217_pull') }}">ดึงลูกหนี้</a></li>
+                                        
                                         </ul>
                                     </li>
                                 </ul>

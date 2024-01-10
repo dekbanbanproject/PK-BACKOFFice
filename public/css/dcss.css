@@ -31,6 +31,12 @@
     border-radius: 4em 4em 4em 4em;
     box-shadow: 0 0 10px pink;
 }
+.checkboxacc{         
+    width: 25px;
+    height: 25px;  
+    border: 10px solid pink; 
+    box-shadow: 0 0 10px pinkteal; 
+}
 
 /* .checkbox{
     border: 10px solid teal;

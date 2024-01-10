@@ -298,6 +298,14 @@ Route::match(['get','post'],'walkin_exportapi',[App\Http\Controllers\DwalkinCont
 Route::match(['get','post'],'walkin_sendapi',[App\Http\Controllers\DwalkinController::class, 'walkin_sendapi'])->name('claim.walkin_sendapi');//
 Route::match(['get','post'],'walkin_report',[App\Http\Controllers\DwalkinController::class, 'walkin_report'])->name('claim.walkin_report');//
 
+// *******************CRRT *******************
+Route::match(['get','post'],'crrt',[App\Http\Controllers\CrrtController::class, 'crrt'])->name('claim.crrt');//
+Route::match(['get','post'],'crrt_process',[App\Http\Controllers\CrrtController::class, 'crrt_process'])->name('claim.crrt_process');//
+Route::match(['get','post'],'crrt_export',[App\Http\Controllers\CrrtController::class, 'crrt_export'])->name('claim.crrt_export');//
+Route::match(['get','post'],'crrt_exportapi',[App\Http\Controllers\CrrtController::class, 'crrt_exportapi'])->name('claim.crrt_exportapi');//
+Route::match(['get','post'],'crrt_sendapi',[App\Http\Controllers\CrrtController::class, 'crrt_sendapi'])->name('claim.crrt_sendapi');//
+Route::match(['get','post'],'crrt_report',[App\Http\Controllers\CrrtController::class, 'crrt_report'])->name('claim.crrt_report');//
+
 // *******************OFC *******************
 Route::match(['get','post'],'ofc_401_main',[App\Http\Controllers\Ofc401Controller::class, 'ofc_401_main'])->name('claim.ofc_401_main');//
 Route::match(['get','post'],'ofc_401',[App\Http\Controllers\Ofc401Controller::class, 'ofc_401'])->name('claim.ofc_401');//
@@ -1842,6 +1850,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_203_stam',[App\Http\Controllers\Account203Controller::class, 'account_203_stam'])->name('acc.account_203_stam');// 
     Route::match(['get','post'],'account_203_sync',[App\Http\Controllers\Account203Controller::class, 'account_203_sync'])->name('acc.account_203_sync');//
     Route::match(['get','post'],'account_203_syncall',[App\Http\Controllers\Account203Controller::class, 'account_203_syncall'])->name('acc.account_203_syncall');//
+    Route::match(['get','post'],'account_203_form',[App\Http\Controllers\Account203Controller::class, 'account_203_form'])->name('acc.account_203_form');//
 
     Route::match(['get','post'],'account_pkucs209_dash',[App\Http\Controllers\Account209Controller::class, 'account_pkucs209_dash'])->name('acc.account_pkucs209_dash');// 
     Route::match(['get','post'],'account_pkucs209_pull',[App\Http\Controllers\Account209Controller::class, 'account_pkucs209_pull'])->name('acc.account_pkucs209_pull');//

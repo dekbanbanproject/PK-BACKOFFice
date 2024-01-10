@@ -277,6 +277,7 @@
                                 <span>Claim</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('crrt') }}">CRRT</a></li>
                                 <li><a href="javascript: void(0);" class="has-arrow">UCS</a>
                                     <ul class="sub-menu" aria-expanded="true"> 
                                         <li><a href="{{ url('ucep24') }}">UCEP 24</a></li>

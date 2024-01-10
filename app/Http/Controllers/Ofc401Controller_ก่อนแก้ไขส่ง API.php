@@ -335,7 +335,7 @@ class Ofc401Controller extends Controller
                     ,"" GOVCODE
                     ,"" GOVNAME
                     
-                    ,rd.sss_approval_code PERMITNO
+                    ,r.sss_approval_code PERMITNO
                     ,"" DOCNO
                     ,"" OWNRPID 
                     ,"" OWNRNAME

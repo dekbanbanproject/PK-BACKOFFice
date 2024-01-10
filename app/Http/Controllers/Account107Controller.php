@@ -191,13 +191,13 @@ class Account107Controller extends Controller
                 ,r.rcpno,r.finance_number,r.receive_money_date,r.receive_money_staff
                 ,a.income,a.paid_money,a.discount_money,a.rcpt_money,a.remain_money
 
-                FROM hos.rcpt_arrear r  
-                LEFT OUTER JOIN hos.rcpt_print rp on r.vn = rp.vn 
-                LEFT OUTER JOIN hos.ovst o on o.vn= r.vn  
+                FROM rcpt_arrear r  
+                LEFT OUTER JOIN rcpt_print rp on r.vn = rp.vn 
+                LEFT OUTER JOIN ovst o on o.vn= r.vn  
                 LEFT OUTER JOIN an_stat a ON r.vn = a.an  
-                LEFT OUTER JOIN hos.patient p on p.hn=r.hn  
-                LEFT OUTER JOIN hos.pttype t on t.pttype = o.pttype
-                LEFT OUTER JOIN hos.pttype_eclaim e on e.code = t.pttype_eclaim_id
+                LEFT OUTER JOIN patient p on p.hn=r.hn  
+                LEFT OUTER JOIN pttype t on t.pttype = o.pttype
+                LEFT OUTER JOIN pttype_eclaim e on e.code = t.pttype_eclaim_id
                 WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                 AND r.paid ="N" AND r.pt_type="IPD"
                 GROUP BY a.an
@@ -465,7 +465,6 @@ class Account107Controller extends Controller
                 //         ->update([  
                 //             'sumtotal_amount'    => $value->s_bill
                 //     ]);
-
                     if ($value->s_bill > $deb) {
                         Acc_1102050102_107::where('an',$value->an) 
                         ->update([  
@@ -491,11 +490,11 @@ class Account107Controller extends Controller
                             Acc_1102050102_107::where('an',$value->an) 
                                 ->update([  
                                     // 'sumtotal_amount'    => $value->total_amount,
-                                    'income'    => $value->income,
+                                    'income'             => $value->income,
                                     'sumtotal_amount'    => $value->s_bill,
                                     'paid_money'         => $deb,
                                     // 'debit_total'        => $deb - $value->s_bill
-                                    'debit_total'        => $d 
+                                    'debit_total'        => $deb 
                                     // 'debit_total'        => $value->remain_money
                                 ]);
                         // }

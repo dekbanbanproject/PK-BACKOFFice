@@ -91,7 +91,7 @@
                      
                         <div class="table-responsive">
                             
-                            <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
+                            <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap myTable"
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
@@ -122,7 +122,7 @@
                                         <?php $number++; 
                                         ?>
 
-                                        <tr height="20" style="font-size: 14px;">
+                                        <tr>
                                             <td class="text-font" style="text-align: center;" width="4%">{{ $number }} </td> 
                                             <td class="text-center" width="7%">{{ $item->vstdate }}</td>
                                             <td class="text-center" width="8%">{{ $item->vn }}</td> 

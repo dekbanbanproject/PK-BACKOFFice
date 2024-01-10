@@ -87,8 +87,7 @@ date_default_timezone_set("Asia/Bangkok");
 
 
 class Account203Controller extends Controller
- { 
-    
+ {     
     public function account_203_dash(Request $request)
     { 
         $startdate = $request->startdate;
@@ -180,7 +179,6 @@ class Account203Controller extends Controller
             'acc_debtor'    =>     $acc_debtor,
         ]);
     }
-
     public function account_203_pulldata(Request $request)
     {
         $datenow = date('Y-m-d');
@@ -245,7 +243,7 @@ class Account203Controller extends Controller
             ');                    
             foreach ($acc_debtor as $key => $value) { 
                     $data2_ = DB::connection('mysql2')->select('
-                        SELECT sum(sum_price) as sum_price 
+                        SELECT count(v.vn) as Cvn 
                             FROM vn_stat v  
                             left join opitemrece op ON op.vn = v.vn
                             left join s_drugitems s ON s.icode = op.icode
@@ -254,40 +252,76 @@ class Account203Controller extends Controller
                             
                     '); 
                     foreach ($data2_ as $key => $value2) {
-                        $ct_income = $value2->sum_price;
+                        $ct_count = $value2->Cvn;
                     }
+                    if ($ct_count > 0) {
+                        $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.203')->count();
+                        if ($check == 0) {
+                            Acc_debtor::insert([
+                                'hn'                 => $value->hn,
+                                'an'                 => $value->an,
+                                'vn'                 => $value->vn,
+                                'cid'                => $value->cid,
+                                'ptname'             => $value->ptname,
+                                'pttype'             => $value->pttype,
+                                'vstdate'            => $value->vstdate,
+                                'dchdate'            => $value->dchdate,
+                                'acc_code'           => $value->acc_code,
+                                'account_code'       => $value->account_code,
+                                'account_name'       => $value->account_name, 
+                                'hospcode'           => $value->hospcode,
+                                'income'             => $value->income,
+                                'uc_money'           => $value->uc_money,
+                                'discount_money'     => $value->discount_money,
+                                'paid_money'         => $value->paid_money,
+                                'rcpt_money'         => $value->rcpt_money,
+                                'debit'              => $value->uc_money, 
+                                'debit_total'        => '100', 
+                                'referin_no'         => $value->referin_no, 
+                                'pdx'                => $value->pdx, 
+                                'dx0'                => $value->dx0, 
+                                'cc'                 => $value->cc, 
+                                'ct_sumprice'        => '100',  
+                                'sauntang'           => ($value->uc_money) - ('100'), 
+                                'acc_debtor_userid'  => Auth::user()->id
+                            ]);
+                        }
+                    } else {
+                        $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.203')->count();
+                        if ($check == 0) {
+                            Acc_debtor::insert([
+                                'hn'                 => $value->hn,
+                                'an'                 => $value->an,
+                                'vn'                 => $value->vn,
+                                'cid'                => $value->cid,
+                                'ptname'             => $value->ptname,
+                                'pttype'             => $value->pttype,
+                                'vstdate'            => $value->vstdate,
+                                'dchdate'            => $value->dchdate,
+                                'acc_code'           => $value->acc_code,
+                                'account_code'       => $value->account_code,
+                                'account_name'       => $value->account_name, 
+                                'hospcode'           => $value->hospcode,
+                                'income'             => $value->income,
+                                'uc_money'           => $value->uc_money,
+                                'discount_money'     => $value->discount_money,
+                                'paid_money'         => $value->paid_money,
+                                'rcpt_money'         => $value->rcpt_money,
+                                'debit'              => $value->uc_money, 
+                                'debit_total'        => $value->toklong, 
+                                'referin_no'         => $value->referin_no, 
+                                'pdx'                => $value->pdx, 
+                                'dx0'                => $value->dx0, 
+                                'cc'                 => $value->cc, 
+                                'ct_sumprice'        => '',  
+                                'sauntang'           => ($value->uc_money) - ($value->toklong), 
+                                'acc_debtor_userid'  => Auth::user()->id
+                            ]);
+                        }
+                    }
+                    
                            
-                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.203')->count();
-                    if ($check == 0) {
-                        Acc_debtor::insert([
-                            'hn'                 => $value->hn,
-                            'an'                 => $value->an,
-                            'vn'                 => $value->vn,
-                            'cid'                => $value->cid,
-                            'ptname'             => $value->ptname,
-                            'pttype'             => $value->pttype,
-                            'vstdate'            => $value->vstdate,
-                            'dchdate'            => $value->dchdate,
-                            'acc_code'           => $value->acc_code,
-                            'account_code'       => $value->account_code,
-                            'account_name'       => $value->account_name, 
-                            'hospcode'           => $value->hospcode,
-                            'income'             => $value->income,
-                            'uc_money'           => $value->uc_money,
-                            'discount_money'     => $value->discount_money,
-                            'paid_money'         => $value->paid_money,
-                            'rcpt_money'         => $value->rcpt_money,
-                            'debit'              => $value->uc_money, 
-                            'debit_total'        => $value->toklong, 
-                            'referin_no'         => $value->referin_no, 
-                            'pdx'                => $value->pdx, 
-                            'dx0'                => $value->dx0, 
-                            'cc'                 => $value->cc, 
-                            'ct_sumprice'        => $value->income - $ct_income,
-                            'sauntang'           => ($value->uc_money) - ($value->toklong), 
-                            'acc_debtor_userid'  => Auth::user()->id
-                        ]);
-                    }
+                    
                     
             }
             return response()->json([
@@ -331,6 +365,9 @@ class Account203Controller extends Controller
                             'hospcode'           => $value->hospcode, 
                             'cc'                 => $value->cc, 
                             'sauntang'           => $value->sauntang, 
+                            'referin_no'         => $value->referin_no, 
+                            'pdx'                => $value->pdx, 
+                            'dx0'                => $value->dx0, 
                             'acc_debtor_userid'  => $iduser
                     ]);
                 }
@@ -340,7 +377,6 @@ class Account203Controller extends Controller
             'status'    => '200'
         ]);
     }
-
     public function account_203_detail(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');
@@ -380,6 +416,47 @@ class Account203Controller extends Controller
             'enddate'       => $enddate
         ]);
     }
+    public function account_203_form(Request $request)
+    { 
+        $startdate    = $request->startdate;
+        $enddate      = $request->enddate;
+        if ($startdate != '') { 
+            $acc_debtor = DB::select(' 
+                SELECT 
+                U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.hospcode,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
+                ,U1.referin_no,U2.name as hospname,U1.pdx,U1.dx0,U1.sauntang
+                from acc_1102050101_203 U1  
+                left join hospcode U2 on U2.hospcode = U1.hospcode   
+                WHERE U1.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                GROUP BY U1.vn 
+            '); 
+        } else { 
+            $acc_debtor = DB::select(' 
+                SELECT 
+                U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.hospcode,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
+                ,U1.referin_no,U2.name as hospname,U1.pdx,U1.dx0,U1.sauntang
+                from acc_1102050101_203 U1  
+                left join hospcode U2 on U2.hospcode = U1.hospcode   
+                WHERE U1.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                GROUP BY U1.vn 
+            '); 
+        }
+        return view('account_203.account_203_form',[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'acc_debtor'      =>     $acc_debtor,
+        ]);
+    }
+
+
+
+
+
+
+
+
+
+
     public function account_307_stm(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');
