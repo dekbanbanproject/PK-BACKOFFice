@@ -499,6 +499,13 @@ class Account106Controller extends Controller
                                     'paid_money'         => $value->paid_money, 
                                     'debit_total'        => $value->paid_money - $value->s_bill
                             ]);
+                        }elseif ($value->s_bill >= $deb) {
+                            Acc_1102050102_106::where('vn',$value->vn) 
+                                ->update([   
+                                    'sumtotal_amount'    => $value->s_bill,
+                                    'paid_money'         => $value->paid_money, 
+                                    'debit_total'        => "0.00"
+                            ]);
                         
                     
                         } else {                        
