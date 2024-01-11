@@ -229,7 +229,9 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end me-2">
-                                                    <a href="{{url('account_203_detail/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                    
+                                                    {{-- <a href="{{url('account_203_detail/'.$item->months.'/'.$item->year)}}" target="_blank"> --}}
+                                                    <a href="{{url('account_203_hoscode/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover">
                                                             <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$total_countY}} Visit">
                                                                     {{ number_format($total_sumY, 2) }}
