@@ -345,6 +345,12 @@ class Account203Controller extends Controller
                 if ($check > 0) {
                 # code...
                 } else {
+                    if ($value->ct_sumprice > 0) {
+                        $ct_sumprice = 'C';
+                    } else {
+                        $ct_sumprice = 'R';
+                    }
+                    
                     Acc_1102050101_203::insert([ 
                             'hn'                 => $value->hn,
                             'an'                 => $value->an,
@@ -366,6 +372,7 @@ class Account203Controller extends Controller
                             'cc'                 => $value->cc, 
                             'sauntang'           => $value->sauntang, 
                             'referin_no'         => $value->referin_no, 
+                            'ct_sumprice'        => $ct_sumprice, 
                             'pdx'                => $value->pdx, 
                             'dx0'                => $value->dx0, 
                             'acc_debtor_userid'  => $iduser
@@ -403,7 +410,7 @@ class Account203Controller extends Controller
  
         $datashow = DB::select('
                 SELECT 
-                    U1.hospcode,U2.name as hname,month(U1.vstdate) as months,year(U1.vstdate) as years,COUNT(U1.vn) as Cvn,SUM(U1.income) as S_income,SUM(U1.uc_money) as S_uc_money
+                    U1.hospcode,U2.name as hname,month(U1.vstdate) as months,year(U1.vstdate) as years,COUNT(DISTINCT U1.vn) as Cvn,SUM(U1.income) as S_income,SUM(U1.uc_money) as S_uc_money
                     ,SUM(U1.debit) as S_debit,SUM(U1.debit_total) as S_debit_total,SUM(U1.sauntang) as S_sauntang
                 from acc_1102050101_203 U1    
                 LEFT OUTER JOIN hospcode U2 ON U2.hospcode = U1.hospcode         
@@ -417,21 +424,43 @@ class Account203Controller extends Controller
             'year'           => $year
         ]);
     }
-    public function acc_203_hcode_detail(Request $request,$hcode,$months,$year)
+    public function account_203_hcode_group(Request $request,$months,$year,$hcode)
     { 
         $data['users'] = User::get();
  
         $datashow = DB::select('
                 SELECT 
-                    U1.hospcode,U2.name as hname,month(U1.vstdate) as months,year(U1.vstdate) as years,COUNT(U1.vn) as Cvn,SUM(U1.income) as S_income,SUM(U1.uc_money) as S_uc_money
-                    ,SUM(U1.debit) as S_debit,SUM(U1.debit_total) as S_debit_total,SUM(U1.sauntang) as S_sauntang
+                    U2.name as hname,
+                    U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.hospcode,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
+                     
                 from acc_1102050101_203 U1    
                 LEFT OUTER JOIN hospcode U2 ON U2.hospcode = U1.hospcode         
-                WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
-                GROUP BY U1.hospcode 
+                WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" AND U1.hospcode = "'.$hcode.'"
+                
         ');
   
-        return view('account_203.acc_203_hcode_detail', $data, [ 
+        return view('account_203.account_203_hcode_group', $data, [ 
+            'datashow'       => $datashow,
+            'months'         => $months,
+            'year'           => $year
+        ]);
+    }
+    public function account_203_hcode_detail(Request $request,$months,$year,$hcode)
+    { 
+        $data['users'] = User::get();
+ 
+        $datashow = DB::select('
+                SELECT 
+                    U2.name as hname,
+                    U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.hospcode,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
+                     
+                from acc_1102050101_203 U1    
+                LEFT OUTER JOIN hospcode U2 ON U2.hospcode = U1.hospcode         
+                WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" AND U1.hospcode = "'.$hcode.'"
+                
+        ');
+  
+        return view('account_203.account_203_hcode_detail', $data, [ 
             'datashow'       => $datashow,
             'months'         => $months,
             'year'           => $year

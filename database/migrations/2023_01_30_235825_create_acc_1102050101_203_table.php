@@ -47,6 +47,8 @@ return new class extends Migration
                 $table->string('sauntang')->nullable();// 
                 $table->longtext('cc')->nullable();// 
                 $table->string('referin_no')->nullable();//  
+                $table->string('ct_sumprice')->nullable();// 
+                $table->enum('ct_refer', ['Y', 'N'])->default('N');
                 $table->string('pdx')->nullable();// 
                 $table->string('dx0')->nullable();//  
                 $table->string('max_debt_amount')->nullable();//  

@@ -484,7 +484,7 @@ class Account106Controller extends Controller
                 }
                 
                 // $d2 =  $deb_paid2 - $value->s_bill; 
-                if ($value->s_bill > $deb) {
+                if ($value->s_bill >= $deb) {
                         if ($value->s_bill == $deb_paid) {
                             Acc_1102050102_106::where('vn',$value->vn) 
                                 ->update([   
@@ -499,13 +499,15 @@ class Account106Controller extends Controller
                                     'paid_money'         => $value->paid_money, 
                                     'debit_total'        => $value->paid_money - $value->s_bill
                             ]);
+                        
                     
                         } else {                        
                             Acc_1102050102_106::where('vn',$value->vn) 
                                 ->update([   
                                     'sumtotal_amount'    => $value->s_bill,
                                     'paid_money'         => $value->paid_money, 
-                                    'debit_total'        => $value->s_bill - ($deb + $value->paid_money)
+                                    // 'debit_total'        => $value->s_bill - ($deb + $value->paid_money)
+                                    'debit_total'        => $value->s_bill - $deb
                             ]);
                         } 
                 } else { 
@@ -526,13 +528,25 @@ class Account106Controller extends Controller
                                 ]);
                             } 
                         } else {
-                            Acc_1102050102_106::where('vn',$value->vn) 
-                                ->update([   
-                                    'sumtotal_amount'    => $value->s_bill,
-                                    'paid_money'         => $value->paid_money,
-                                    // 'debit_total'        => $d
-                                    'debit_total'        => $deb
-                            ]);
+                            if ($value->remain_money != '') {
+                                Acc_1102050102_106::where('vn',$value->vn) 
+                                    ->update([   
+                                        'sumtotal_amount'    => $value->s_bill,
+                                        'paid_money'         => $value->paid_money,
+                                        // 'debit_total'        => $d
+                                        'debit_total'        => $value->remain_money,
+                                ]);
+                            } else {
+                                Acc_1102050102_106::where('vn',$value->vn) 
+                                    ->update([   
+                                        'sumtotal_amount'    => $value->s_bill,
+                                        'paid_money'         => $value->paid_money,
+                                        // 'debit_total'        => $d
+                                        'debit_total'        => $value->paid_money - $value->s_bill,
+                                ]);
+                            }
+                            
+                            
                         }
                      
                 } 
@@ -1005,25 +1019,25 @@ class Account106Controller extends Controller
  
         $pdf->Text(138, 55, iconv('UTF-8', 'TIS-620', '' . $org->orginfo_name)); 
  
-        $pdf->Text(138, 63, iconv('UTF-8', 'TIS-620', 'อำเภอภูเขียว  จังหวัดชัยภูมิ ๓๖๑๑๐')); 
+        $pdf->Text(138, 63, iconv('UTF-8', 'TIS-620', 'อำเภอภูเขียว จังหวัดชัยภูมิ ๓๖๑๑๐')); 
  
         $pdf->Text(105, 70, iconv('UTF-8', 'TIS-620', '' . thainumDigit($datnow_ddd).'  '. $datnow_mmm.'  '. thainumDigit($datnow_yyy) ));
         
-        $pdf->Text(23, 80, iconv('UTF-8', 'TIS-620', 'เรื่อง   ขอติดตามค่ารักษาพยาบาลค้างชำระ ครั้งที่ ' .thainumDigit($check_max)));
+        $pdf->Text(23, 80, iconv('UTF-8', 'TIS-620', 'เรื่อง ขอติดตามค่ารักษาพยาบาลค้างชำระ ครั้งที่ ' .thainumDigit($check_max)));
  
         $pdf->Text(23, 88, iconv('UTF-8', 'TIS-620', 'เรียน  '));
         $pdf->SetFont('THSarabunNew Bold', '', 16);
         $pdf->Text(34, 88, iconv('UTF-8', 'TIS-620', '' .$dataedit->ptname));
 
         $pdf->SetFont('THSarabunNew', '', 16);
-        $pdf->Text(23, 96, iconv('UTF-8', 'TIS-620', 'อ้างถึง  คำร้องขอค้างค่ารักษาพยาบาล  ลงวันที่' ));
+        $pdf->Text(23, 96, iconv('UTF-8', 'TIS-620', 'อ้างถึง คำร้องขอค้างค่ารักษาพยาบาล  ลงวันที่' ));
        
         $pdf->Text(92, 96, iconv('UTF-8', 'TIS-620', '  ' .thainumDigit($datnow_vstddd).'  ' . $datnow_vstmmm.'  ' .thainumDigit($datnow_vstyyy)));
              
         // $pdf->SetFont('THSarabunNew', '', 16);
         // $pdf->Text(32, 104, iconv('UTF-8', 'TIS-620', 'ตามที่ ท่านได้เข้ารับการรักษาพยาบาลจาก' .$org->orginfo_name.' เมื่อวันที่ ' .thainumDigit($datnow_vstddd). ' '.$datnow_vstmmm.' '.thainumDigit($datnow_vstyyy)));
  
-        $pdf->Text(46, 104, iconv('UTF-8', 'TIS-620', 'ตามที่   ท่านได้เข้ารับการรักษาพยาบาลจาก' .$org->orginfo_name ));
+        $pdf->Text(40, 104, iconv('UTF-8', 'TIS-620', 'ตามที่ ท่านได้เข้ารับการรักษาพยาบาลจาก' .$org->orginfo_name.'เมื่อวันที่'.thainumDigit($datnow_vstddd). ' '.$datnow_vstmmm.' '.thainumDigit($datnow_vstyyy) ));
 
         // $pdf->SetFont('THSarabunNew', '', 16);
         // $pdf->Text(32, 104, iconv('UTF-8', 'TIS-620', 'ตามที่ ท่านได้เข้ารับการรักษาพยาบาลจาก' .$org->orginfo_name.' เมื่อวันที่ ' .thainumDigit($datnow_vstddd). ' '.$datnow_vstmmm.' '.thainumDigit($datnow_vstyyy)));
@@ -1033,10 +1047,10 @@ class Account106Controller extends Controller
         
         // $pdf->SetFont('THSarabunNew', '', 15);
         // $pdf->Text(20, 112, iconv('UTF-8', 'TIS-620', 'มีค่ารักษาพยาบาล  เป็นจำนวนเงิน                                                                    ปรากฎว่าท่านยังไม่ได้ชำระเงิน'));
- 
-        $pdf->Text(23, 112, iconv('UTF-8', 'TIS-620','เมื่อวันที่ ' .thainumDigit($datnow_vstddd). ' '.$datnow_vstmmm.' '.thainumDigit($datnow_vstyyy).' มีค่ารักษาพยาบาล  เป็นจำนวนเงิน                                                                    '));
+        // $pdf->Text(23, 112, iconv('UTF-8', 'TIS-620','เมื่อวันที่ ' .thainumDigit($datnow_vstddd). ' '.$datnow_vstmmm.' '.thainumDigit($datnow_vstyyy).' มีค่ารักษาพยาบาล เป็นจำนวนเงิน'));
+        $pdf->Text(23, 112, iconv('UTF-8', 'TIS-620','มีค่ารักษาพยาบาล เป็นจำนวนเงิน'));
         
-        $pdf->Text(125, 112, iconv('UTF-8', 'TIS-620',  thainumDigit(number_format($dataedit->debit_total, 2)).' บาท  '.'( '.$dataedit->debit_total_thai.' ) '));   
+        $pdf->Text(78, 112, iconv('UTF-8', 'TIS-620',  thainumDigit(number_format($dataedit->debit_total, 2)).' บาท'.'  ('.$dataedit->debit_total_thai.')'));   
         
         $pdf->Text(23, 120, iconv('UTF-8', 'TIS-620', 'ปรากฎว่าท่านยังไม่ได้ชำระเงินจำนวนเงินดังกล่าวให้แก่'. $org->orginfo_name.'  จึงขอให้ท่านดำเนินการ'));
 
@@ -1046,11 +1060,11 @@ class Account106Controller extends Controller
          
         $pdf->Text(23, 136, iconv('UTF-8', 'TIS-620', 'สามารถติดต่อสอบถามได้ที่หมายเลขโทรศัพท์ตามที่แจ้งไว้ด้านล่างหนังสือฉบับนี้'));
 
-        $pdf->Text(46, 144, iconv('UTF-8', 'TIS-620', 'ทั้งนี้ หากท่านได้ชำระเงินก่อนที่ท่านจะได้รับหนังสือฉบับนี้ ทาง'. $org->orginfo_name.' '));
+        $pdf->Text(40, 144, iconv('UTF-8', 'TIS-620', 'ทั้งนี้ หากท่านได้ชำระเงินก่อนที่ท่านจะได้รับหนังสือฉบับนี้ ทาง'. $org->orginfo_name.' '));
 
         $pdf->Text(23, 152, iconv('UTF-8', 'TIS-620', 'ต้องขออภัยมา ณ โอกาสนี้ ด้วย'));
  
-        $pdf->Text(46, 160, iconv('UTF-8', 'TIS-620', 'จึงเรียนมาเพื่อโปรดทราบและดำเนินการต่อไป'));
+        $pdf->Text(40, 160, iconv('UTF-8', 'TIS-620', 'จึงเรียนมาเพื่อโปรดทราบและดำเนินการต่อไป'));
 
         $pdf->Text(97, 185, iconv('UTF-8', 'TIS-620', 'ขอแสดงความนับถือ' ));
        
@@ -1075,9 +1089,9 @@ class Account106Controller extends Controller
         $pdf->AddPage();  
         $pdf->Image('assets/images/crut.png', 15, 100, 22, 24);
         $pdf->SetFont('THSarabunNew', '', 16);
-        $pdf->Text(42, 115, iconv('UTF-8', 'TIS-620', '' . $orgpo->orginfo_name));
+        $pdf->Text(40, 115, iconv('UTF-8', 'TIS-620', '' . $orgpo->orginfo_name));
        
-        $pdf->Text(42, 122, iconv('UTF-8', 'TIS-620', 'อำเภอภูเขียว จังหวัดชัยภูมิ' ));
+        $pdf->Text(40, 122, iconv('UTF-8', 'TIS-620', 'อำเภอภูเขียว จังหวัดชัยภูมิ' ));
  
         $pdf->Text(152, 108, iconv('UTF-8', 'TIS-620', 'ชําระค่าฝากส่งเป็นรายเดือน'));
       

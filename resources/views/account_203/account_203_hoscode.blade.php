@@ -148,8 +148,8 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end me-2">
-                                                     
-                                                    <a href="{{url('account_203_hcode_detail/'.$item->months.'/'.$item->years.'/'.$item->hospcode)}}" target="_blank">
+                                                    {{-- <a href="{{url('account_203_hcode_detail/'.$item->months.'/'.$item->years.'/'.$item->hospcode)}}" target="_blank"> --}}
+                                                    <a href="{{url('account_203_hcode_group/'.$item->months.'/'.$item->years.'/'.$item->hospcode)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover">
                                                             <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$item->Cvn}} Visit">
                                                                 {{ number_format($item->S_debit_total, 2) }}

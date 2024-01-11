@@ -310,14 +310,14 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end me-4">
-                                                    <a href="{{url('account_802_stmnull_all/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                    {{-- <a href="{{url('account_802_stmnull_all/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover">
                                                             <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$count_yokma_all}} Visit">
                                                                     {{ number_format($total_yokma_all, 2) }}
                                                                     <i class="fa-brands fa-btc ms-2" style="color: rgb(10, 124, 201)"></i>
                                                             </p>
                                                         </div>
-                                                    </a>
+                                                    </a> --}}
                                                 </div>
                                             </div>
 
@@ -343,8 +343,8 @@
                                                         from acc_debtor
                                                             WHERE account_code="1102050102.802"
                                                             AND stamp = "N"
-                                                            and month(dchdate) = "'.$item->months.'"
-                                                            and year(dchdate) = "'.$item->year.'";
+                                                            and dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                                                         
                                                 ');
                                                 foreach ($datas as $key => $value) {
                                                     $count_N = $value->Can;
@@ -354,8 +354,7 @@
                                                 $datasum_ = DB::select('
                                                     SELECT sum(debit_total) as debit_total,count(an) as Cvit
                                                             from acc_1102050102_802
-                                                            WHERE month(dchdate) = "'.$item->months.'"
-                                                            and year(dchdate) = "'.$item->year.'"
+                                                            WHERE dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                                                 ');
                                                 // AND status = "N"
                                                 foreach ($datasum_ as $key => $value2) {
@@ -367,8 +366,7 @@
                                                         SELECT count(DISTINCT a.an) as Apvit ,sum(au.pricereq_all) as pricereq_all
                                                             FROM acc_1102050102_802 a
                                                             LEFT JOIN acc_stm_ofc au ON au.cid = a.cid AND au.vstdate = a.vstdate
-                                                            WHERE year(a.dchdate) = "'.$item->year.'"
-                                                            AND month(a.dchdate) = "'.$item->months.'"
+                                                            WHERE dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                                                             AND au.pricereq_all IS NOT NULL
 
                                                     ');
@@ -380,8 +378,7 @@
                                                     $sumyokma_ = DB::select('
                                                         SELECT count(DISTINCT an) as anyokma ,sum(debit_total) as debityokma
                                                                 FROM acc_1102050102_802
-                                                                WHERE year(dchdate) = "'.$item->year.'"
-                                                                AND month(dchdate) = "'.$item->months.'"
+                                                                WHERE dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                                                                 AND status ="N"
                                                     ');
                                                     foreach ($sumyokma_ as $key => $value5) {
@@ -389,20 +386,20 @@
                                                         $count_yokma = $value5->anyokma;
                                                     }
                                                     $mo = $item->months;
-                                                    $sumyokma_all_ = DB::select('
-                                                        SELECT count(DISTINCT U1.an) as anyokma ,sum(U1.debit_total) as debityokma
-                                                                FROM acc_1102050102_802 U1
-                                                                LEFT JOIN acc_stm_ofc U2 ON U2.cid = U1.cid AND U2.vstdate = U1.vstdate
-                                                                WHERE U1.status ="N"
-                                                                AND month(U1.dchdate) < "'.$mo.'"
-                                                                and year(U1.dchdate) = "'.$item->year.'"
-                                                                AND U2.repno IS NULL
-                                                    ');
+                                                    // $sumyokma_all_ = DB::select('
+                                                    //     SELECT count(DISTINCT U1.an) as anyokma ,sum(U1.debit_total) as debityokma
+                                                    //             FROM acc_1102050102_802 U1
+                                                    //             LEFT JOIN acc_stm_ofc U2 ON U2.cid = U1.cid AND U2.vstdate = U1.vstdate
+                                                    //             WHERE U1.status ="N"
+                                                    //             AND month(U1.dchdate) < "'.$mo.'"
+                                                    //             and year(U1.dchdate) = "'.$item->year.'"
+                                                    //             AND U2.repno IS NULL
+                                                    // ');
 
-                                                    foreach ($sumyokma_all_ as $key => $value6) {
-                                                        $total_yokma_all = $value6->debityokma + $total_yokma;
-                                                        $count_yokma_all = $value6->anyokma + $count_yokma;
-                                                    }
+                                                    // foreach ($sumyokma_all_ as $key => $value6) {
+                                                    //     $total_yokma_all = $value6->debityokma + $total_yokma;
+                                                    //     $count_yokma_all = $value6->anyokma + $count_yokma;
+                                                    // }
 
                                             ?>
                                             <div class="row">
@@ -516,14 +513,14 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end me-4">
-                                                    <a href="{{url('account_802_stmnull_all/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                    {{-- <a href="{{url('account_802_stmnull_all/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover">
                                                             <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$count_yokma_all}} Visit">
                                                                     {{ number_format($total_yokma_all, 2) }}
                                                                     <i class="fa-brands fa-btc ms-2" style="color: rgb(10, 124, 201)"></i>
                                                             </p>
                                                         </div>
-                                                    </a>
+                                                    </a> --}}
                                                 </div>
                                             </div>
 

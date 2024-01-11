@@ -144,19 +144,19 @@ class Account217Controller extends Controller
                 ,ip.regdate,ip.dchdate,v.vstdate,op.income as income_group
                 ,ipt.pttype,ipt.pttype_number,ipt.max_debt_amount,ipt.hospmain
                 ,ip.rw,ip.adjrw,ip.adjrw*8350 as total_adjrw_income
-                
+                 
                 ,CASE 
-                WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)))>0 THEN "03" 
+                WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))+sum(if(op.icode IN("3001412","3001417"),sum_price,0))+sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))>0 THEN "03" 
                 ELSE ec.code 
                 END as code
 
                 ,CASE 
-                WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)))>0 THEN "1102050101.217" 
+                WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))+sum(if(op.icode IN("3001412","3001417"),sum_price,0))+sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))>0 THEN "1102050101.217" 
                 ELSE ec.ar_ipd
                 END as account_code 
-
+                                
                 ,CASE 
-                WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)))>0 THEN "UC-IP บริการเฉพาะ (CR)" 
+                WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))+sum(if(op.icode IN("3001412","3001417"),sum_price,0))+sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))>0 THEN "UC-IP บริการเฉพาะ (CR)" 
                 ELSE ec.`name` 
                 END as account_name
 
@@ -171,13 +171,14 @@ class Account217Controller extends Controller
                 ,sum(if(op.income="02",sum_price,0)) as debit_instument
                 ,sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0)) as debit_drug
                 ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
-                ,sum(if(op.icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)) as debit_refer
+                ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
+                
                 
                 ,sum(if(op.income="02",sum_price,0)) +
                 sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))+
-                sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) +
-                sum(if(op.icode IN (SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)) as debit
-                                
+                sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) +              
+                sum(if(op.icode IN ("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit
+
                 from ipt ip
                 LEFT OUTER JOIN an_stat a ON ip.an = a.an
                 LEFT OUTER JOIN patient pt on pt.hn=a.hn
@@ -193,6 +194,22 @@ class Account217Controller extends Controller
                 AND op.icode NOT IN(SELECT no_icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND no_icode <> "")
                 GROUP BY ip.an;                
         ');
+        // ,CASE 
+        //         WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)))>0 THEN "03" 
+        //         ELSE ec.code 
+        //         END as code
+
+        //         ,CASE 
+        //         WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)))>0 THEN "1102050101.217" 
+        //         ELSE ec.ar_ipd
+        //         END as account_code 
+
+        //         ,CASE 
+        //         WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)))>0 THEN "UC-IP บริการเฉพาะ (CR)" 
+        //         ELSE ec.`name` 
+        //         END as account_name
+        // ,sum(if(op.icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)) as debit_refer
+        // sum(if(op.icode IN (SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)) as debit
         // AND op.icode NOT IN("3003661","3003662","3003336","3003608","3010102","3010353","3009703","3010348","3009713","3010312","3010349","3010894","1600015","1620015","3002047","3004241","3004242","3010192","3010193","3004250","3004251","3004252","3004253","3009706","1540048","3010192","3010193")
         // ,CASE 
         // WHEN sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) > 0 THEN a.income 
