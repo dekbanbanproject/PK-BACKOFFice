@@ -130,11 +130,13 @@
                                 </div>
                                 <div class="col"></div>
                                 <div class="col-md-2 text-end">
-                                    <button type="button"
-                                        class="ladda-button me-2 btn-pill btn btn-primary d-shadow Savestamp"
-                                        data-url="{{ url('account_308_stam') }}">
+                                    <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{ url('account_308_stam') }}">
                                         <i class="fa-solid fa-file-waveform me-2"></i>
                                         ตั้งลูกหนี้
+                                    </button>
+                                    <button type="button" class="ladda-button me-2 btn-pill btn btn-danger cardacc Destroystamp" data-url="{{url('account_308_destroy_all')}}">
+                                        <i class="fa-solid fa-trash-can me-2"></i>
+                                        ลบ
                                     </button>
                                 </div>
                             </div>
@@ -159,6 +161,7 @@
                                             <th class="text-center">spsch</th>
                                             <th class="text-center">income</th>
                                             <th class="text-center">ลูกหนี้</th>
+                                            <th class="text-center"><input type="checkbox" class="dcheckbox" name="destroy" id="destroy"> </th>  
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -166,15 +169,13 @@
                                         @foreach ($acc_debtor as $item)
                                             <tr id="tr_{{ $item->acc_debtor_id }}">
                                                 <td class="text-center" width="5%">{{ $i++ }}</td>
-                                                {{-- @if ($item->subinscl == '')
-                                                        <td class="text-center" width="5%">
-                                                            <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
-                                                        </td> 
-                                                    @else
-                                                        <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
-                                                    @endif --}}
-                                                <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox sub_chk"
-                                                        data-id="{{ $item->acc_debtor_id }}"> </td>
+                                                @if ($item->debit_total == '')
+                                                    <td class="text-center" width="5%"> <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> </td> 
+                                                @else
+                                                    <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
+                                                @endif
+                                                {{-- <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox sub_chk"
+                                                        data-id="{{ $item->acc_debtor_id }}"> </td> --}}
 
                                                 <td class="text-center" width="5%">{{ $item->vn }}</td>
                                                 <td class="text-center" width="5%">{{ $item->an }}</td>
@@ -182,17 +183,11 @@
                                                 <td class="text-center" width="10%">{{ $item->cid }}</td>
                                                 <td class="p-2">{{ $item->ptname }}</td>
                                                 <td class="text-center" width="10%">{{ $item->dchdate }}</td>
-                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">
-                                                    {{ $item->pttype }}</td>
-
-                                                <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">
-                                                    {{ $item->subinscl }}</td>
-
-                                                <td class="text-center" width="10%">{{ number_format($item->income, 2) }}
-                                                </td>
-                                                <td class="text-center" width="10%">
-                                                    {{ number_format($item->debit_total, 2) }}</td>
-
+                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="5%"> {{ $item->pttype }}</td> 
+                                                <td class="text-center" style="color:rgb(216, 95, 14)" width="5%"> {{ $item->subinscl }}</td> 
+                                                <td class="text-center" width="10%">{{ number_format($item->income, 2) }} </td>
+                                                <td class="text-center" width="10%"> {{ number_format($item->debit_total, 2) }}</td>
+                                                <td class="text-center" width="5%"> <input type="checkbox" class="dcheckbox sub_destroy" data-id="{{$item->acc_debtor_id}}"></td> 
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -221,6 +216,7 @@
             $('#datepicker2').datepicker({
                 format: 'yyyy-mm-dd'
             });
+
             $('#stamp').on('click', function(e) {
                 if ($(this).is(':checked', true)) {
                     $(".sub_chk").prop('checked', true);
@@ -319,9 +315,7 @@
                 }
             });
 
-
             $("#spinner-div").hide(); //Request is complete so hide spinner
-
 
             $('#Pulldata').click(function() {
                 var datepicker = $('#datepicker').val();
@@ -378,6 +372,99 @@
 
                     }
                 })
+            });
+
+            $('#destroy').on('click', function(e) {           
+                    if($(this).is(':checked',true))  
+                        {
+                            $(".sub_destroy").prop('checked', true);  
+                        } else {  
+                            $(".sub_destroy").prop('checked',false);  
+                        }  
+            }); 
+            $('.Destroystamp').on('click', function(e) {
+                // alert('oo');
+                var allValls = [];
+                $(".sub_destroy:checked").each(function () {
+                    allValls.push($(this).attr('data-id'));
+                });
+                if (allValls.length <= 0) {
+                    // alert("SSSS");
+                    Swal.fire({
+                        title: 'คุณยังไม่ได้เลือกรายการ ?',
+                        text: "กรุณาเลือกรายการก่อน",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33', 
+                        }).then((result) => {
+                        
+                        })
+                } else {
+                    Swal.fire({
+                        title: 'Are you Want Delete sure?',
+                        text: "คุณต้องการลบรายการนี้ใช่ไหม!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, Delete it.!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                var check = true;
+                                if (check == true) {
+                                    var join_selected_values = allValls.join(",");
+                                    // alert(join_selected_values);
+                                    $("#overlay").fadeIn(300);　
+                                    $("#spinner").show(); //Load button clicked show spinner 
+
+                                    $.ajax({
+                                        url:$(this).data('url'),
+                                        type: 'POST',
+                                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                                        data: 'ids='+join_selected_values,
+                                        success:function(data){ 
+                                                if (data.status == 200) {
+                                                    $(".sub_destroy:checked").each(function () {
+                                                        $(this).parents("tr").remove();
+                                                    });
+                                                    Swal.fire({
+                                                        title: 'ลบข้อมูลสำเร็จ',
+                                                        text: "You Delete data success",
+                                                        icon: 'success',
+                                                        showCancelButton: false,
+                                                        confirmButtonColor: '#06D177',
+                                                        confirmButtonText: 'เรียบร้อย'
+                                                    }).then((result) => {
+                                                        if (result
+                                                            .isConfirmed) {
+                                                            console.log(
+                                                                data);
+                                                            window.location.reload();
+                                                            $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                        }
+                                                    })
+                                                } else {
+                                                    
+                                                }
+                                                
+
+                                            // } else {
+                                            //     alert("Whoops Something went worng all"); 
+                                            // }
+                                        }
+                                    });
+                                    $.each(allValls,function (index,value) {
+                                        $('table tr').filter("[data-row-id='"+value+"']").remove();
+                                    });
+                                }
+                            }
+                        }) 
+                    // var check = confirm("Are you want ?");  
+                }
             });
 
         });

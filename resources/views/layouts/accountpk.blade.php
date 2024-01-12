@@ -901,7 +901,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
     {{-- <script type="text/javascript" src="{{ asset('acccph/js/carousel-slider.js') }}"></script> --}}
     {{-- <script type="text/javascript" src="{{ asset('disacc/js/charts/chartjs.js') }}"></script> --}}
     {{-- <script type="text/javascript" src="{{ asset('acccph/js/app.js') }}"></script> --}} 
-    <script src="{{ asset('js/ladda.js') }}"></script> 
+    {{-- <script src="{{ asset('js/ladda.js') }}"></script>  --}}
     @yield('footer')
 
 

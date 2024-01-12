@@ -486,6 +486,17 @@ class Account301Controller extends Controller
             'status'    => '200'
         ]);
     }
+    public function account_301_destroy_all(Request $request)
+    {
+        $id = $request->ids;
+        $iduser = Auth::user()->id;
+        $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
+            Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->delete();
+                   
+        return response()->json([
+            'status'    => '200'
+        ]);
+    }
     public function account_301_detail(Request $request,$startdate,$enddate)
     {
         $datenow = date('Y-m-d');

@@ -348,6 +348,14 @@ class Account304Controller extends Controller
             'status'    => '200'
         ]);
     }
+    public function account_304_destroy_all(Request $request)
+    {
+        $id = $request->ids;
+        Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->delete();               
+        return response()->json([
+            'status'    => '200'
+        ]);
+    }
 
     public function account_304_detail(Request $request,$months,$year)
     {

@@ -223,7 +223,7 @@ class Account402Controller extends Controller
         '); 
         // ,e.code as acc_code
         // ,e.ar_ipd as account_code
-// dd($acc_debtor);
+        // dd($acc_debtor);
         // AND ipt.pttype IN("O1","O2","O3","O4","O5")  
         foreach ($acc_debtor as $key => $value) {
             if ($value->debit >0) {
@@ -322,6 +322,14 @@ class Account402Controller extends Controller
                 }
 
         }
+        return response()->json([
+            'status'    => '200'
+        ]);
+    }
+    public function account_402_destroy_all(Request $request)
+    {
+        $id = $request->ids;
+        Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->delete();               
         return response()->json([
             'status'    => '200'
         ]);

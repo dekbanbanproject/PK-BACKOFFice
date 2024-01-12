@@ -234,7 +234,21 @@ class Account310Controller extends Controller
             // AND ipt.pttype IN("A7","15")
             foreach ($acc_debtor as $key => $value) { 
                 $check =  Acc_debtor::where('an', $value->an)->where('account_code','1102050101.310')->whereBetween('dchdate', [$startdate, $enddate])->count();   
-                        if ($check == 0) { 
+                        if ($check > 0) {
+                            Acc_debtor::where('an', $value->an)->where('account_code','1102050101.310')->update([ 
+                                'acc_code'           => $value->acc_code,
+                                'account_code'       => $value->account_code,
+                                'account_name'       => $value->account_name, 
+                                'income'             => $value->income,
+                                'uc_money'           => $value->uc_money,
+                                'discount_money'     => $value->discount_money,
+                                'paid_money'         => $value->cash_money,
+                                'rcpt_money'         => $value->cash_money,
+                                'debit'              => $value->debit, 
+                                'debit_total'        => $value->looknee_mun, 
+                                'acc_debtor_userid'  => Auth::user()->id
+                            ]); 
+                        } else {
                             Acc_debtor::insert([
                                 'hn'                 => $value->hn,
                                 'an'                 => $value->an,
@@ -264,7 +278,39 @@ class Account310Controller extends Controller
                                 // 'max_debt_amount'    => $value->max_debt_money,
                                 'acc_debtor_userid'  => Auth::user()->id
                             ]); 
-                        }  
+                        }
+                        
+                        // if ($check == 0) { 
+                        //     Acc_debtor::insert([
+                        //         'hn'                 => $value->hn,
+                        //         'an'                 => $value->an,
+                        //         'vn'                 => $value->vn,
+                        //         'cid'                => $value->cid,
+                        //         'ptname'             => $value->ptname,
+                        //         'pttype'             => $value->pttype,
+                        //         'vstdate'            => $value->vstdate,
+                        //         'regdate'            => $value->admdate,
+                        //         'dchdate'            => $value->dchdate,
+                        //         'acc_code'           => $value->acc_code,
+                        //         'account_code'       => $value->account_code,
+                        //         'account_name'       => $value->account_name,
+                        //         'income_group'       => $value->income_group,
+                        //         'income'             => $value->income,
+                        //         'uc_money'           => $value->uc_money,
+                        //         'discount_money'     => $value->discount_money,
+                        //         'paid_money'         => $value->cash_money,
+                        //         'rcpt_money'         => $value->cash_money,
+                        //         'debit'              => $value->debit,
+                        //         'debit_drug'         => $value->debit_drug,
+                        //         'debit_instument'    => $value->debit_instument,
+                        //         'debit_toa'          => $value->debit_toa,
+                        //         'debit_refer'        => $value->debit_refer,
+                        //         'fokliad'            => $value->fokliad,
+                        //         'debit_total'        => $value->looknee_mun,
+                        //         // 'max_debt_amount'    => $value->max_debt_money,
+                        //         'acc_debtor_userid'  => Auth::user()->id
+                        //     ]); 
+                        // }  
             }
             return response()->json([ 
                 'status'    => '200'
@@ -316,6 +362,53 @@ class Account310Controller extends Controller
                 }
 
         }
+        return response()->json([
+            'status'    => '200'
+        ]);
+    }
+
+    public function account_310_destroy_all(Request $request)
+    {
+        $id = $request->ids;
+        $iduser = Auth::user()->id;
+        $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
+            Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->delete();
+                    // ->update([ 'stamp' => 'Y' ]);
+        // foreach ($data as $key => $value) {
+                // $date = date('Y-m-d H:m:s'); 
+                // $check = Acc_1102050101_310::where('an', $value->an)->count();
+                // if ($check > 0) {
+                // # code...
+                // } else {
+                //     Acc_1102050101_310::insert([
+                //             'vn'                => $value->vn,
+                //             'hn'                => $value->hn,
+                //             'an'                => $value->an,
+                //             'cid'               => $value->cid,
+                //             'ptname'            => $value->ptname,
+                //             'vstdate'           => $value->vstdate,
+                //             'regdate'           => $value->regdate,
+                //             'dchdate'           => $value->dchdate,
+                //             'pttype'            => $value->pttype,
+                //             'pttype_nhso'       => $value->pttype_spsch,
+                //             'acc_code'          => $value->acc_code,
+                //             'account_code'      => $value->account_code,
+                //             'income'            => $value->income,
+                //             'income_group'      => $value->income_group,
+                //             'uc_money'          => $value->uc_money,
+                //             'discount_money'    => $value->discount_money,
+                //             'rcpt_money'        => $value->rcpt_money,
+                //             'debit'             => $value->debit,
+                //             'debit_drug'        => $value->debit_drug,
+                //             'debit_instument'   => $value->debit_instument,
+                //             'debit_refer'       => $value->debit_refer,
+                //             'debit_toa'         => $value->debit_toa,
+                //             'debit_total'       => $value->debit_total,
+                //             'max_debt_amount'   => $value->max_debt_amount,
+                //             'acc_debtor_userid' => $iduser
+                //     ]);
+                // } 
+        // }
         return response()->json([
             'status'    => '200'
         ]);

@@ -476,6 +476,15 @@ class Account307Controller extends Controller
         ]);
     }
 
+    public function account_307_destroy_all(Request $request)
+    {
+        $id = $request->ids;
+        Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->delete();               
+        return response()->json([
+            'status'    => '200'
+        ]);
+    }
+
     public function account_307_detail(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');
