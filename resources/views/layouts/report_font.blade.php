@@ -50,6 +50,11 @@
    <!-- select2 -->
     <link rel="stylesheet" href="{{asset('asset/js/plugins/select2/css/select2.min.css')}}">
    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+   <link rel="stylesheet" href="{{ asset('disacc/vendors/@fortawesome/fontawesome-free/css/all.min.css') }}">
+   <link rel="stylesheet" href="{{ asset('disacc/vendors/ionicons-npm/css/ionicons.css') }}">
+   <link rel="stylesheet" href="{{ asset('disacc/vendors/linearicons-master/dist/web-font/style.css') }}">
+
    <link rel="stylesheet"
    href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
 
@@ -59,16 +64,22 @@
 
    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
    <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet">
-   <link rel="stylesheet" href="{{ asset('css/dacccss.css') }}">
+   <link rel="stylesheet" href="{{ asset('css/dreport.css') }}">
 </head>
 <style>
     body{
     background:
         /* url(/pkbackoffice/public/images/bg7.jpg); */
         /* background-color:rgb(245, 240, 240); */
-        background-color:rgb(245, 240, 240);
+        /* background-color:rgb(245, 240, 240);
         background-repeat: no-repeat;
         background-attachment: fixed;
+        background-size: 100% 100%; */
+
+        background-color: rgb(245, 240, 240);
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        /* background-size: cover; */
         background-size: 100% 100%;
     }
 .Bgsidebar {
@@ -97,50 +108,48 @@
     <div id="layout-wrapper">
 
         <header id="page-topbar">
-            <div class="navbar-header shadow-lg bg-white">
-                {{-- <div class="navbar-header shadow-lg Bgheader"> --}}
+            {{-- <div class="navbar-header shadow-lg bg-white"> --}}
+              
+                <div class="navbar-header shadow" style="background-color: rgb(235, 192, 255)">
 
-                <div class="d-flex">
-                    <!-- LOGO -->
-                    <div class="navbar-brand-box">
-                        <a href="" class="logo logo-dark">
-                            <span class="logo-sm">
-                                <img src="assets/images/logo-sm.png" alt="logo-sm" height="22">
-                            </span>
-                            <span class="logo-lg">
-                                <img src="assets/images/logo-dark.png" alt="logo-dark" height="20">
-                            </span>
-                        </a>
-
-                        <a href="" class="logo logo-light">
-                            <span class="logo-sm">
-                                <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
-                            </span>
-                            <span class="logo-lg">
-                                <h4 style="color:rgb(41, 41, 41)" class="mt-4">PK-BACKOFFice</h4>
-                            </span>
-                        </a>
-                    </div>
-
-                    <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
-                        <i class="ri-menu-2-line align-middle" style="color: black"></i>
-                    </button>
-                    <?php
-                        $org = DB::connection('mysql')->select(                                                            '
-                                select * from orginfo
-                                where orginfo_id = 1                                                                                                                      ',
-                        );
-                    ?>
-                    <form class="app-search d-none d-lg-block">
-                        <div class="position-relative">
-                            @foreach ($org as $item)
-                            <h4 style="color:rgb(48, 46, 46)" class="mt-2">{{$item->orginfo_name}}</h4>
-                            @endforeach
-
+                    <div class="d-flex">
+                        <!-- LOGO -->
+                        <div class="navbar-brand-box" style="background-color: rgb(255, 255, 255)">
+                            <a href="" class="logo logo-dark">
+                                <span class="logo-sm ">
+                                    <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm" height="37">
+                                </span>
+                                <span class="logo-lg"> 
+                                    <h4 style="color: rgb(235, 192, 255)" class="mt-4">PK-BACKOFFice</h4>
+                                </span>
+                            </a>
+    
+                            <a href="" class="logo logo-light">
+                                <span class="logo-sm mt-3">
+                                    <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light"
+                                        height="40">
+                                </span>
+                                <span class="logo-lg">
+                                    <h4 style="color: rgb(235, 192, 255)" class="mt-4">PK-BACKOFFice</h4>
+                                </span>
+                            </a>
                         </div>
-                    </form>
-                </div>
-
+    
+                        <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect"
+                            id="vertical-menu-btn">
+                            <i class="ri-menu-2-line align-middle" style="color: rgb(255, 255, 255)"></i>
+                        </button>
+                        <a href="{{url('account_pk_dash')}}">
+                            <h4 style="color:rgb(255, 255, 255)" class="mt-4">Report</h4>
+                        </a>
+                       
+                        <?php
+                        $org = DB::connection('mysql')->select('   
+                                                        select * from orginfo 
+                                                        where orginfo_id = 1                                                                                                                      ');
+                        ?>
+                      
+                    </div>
 
 
                 <div class="d-flex">
@@ -230,6 +239,7 @@
                                 <li ><a href="{{ url('check_lapo') }}" >Laparoscopic appendectomy(4701)</a></li>
                                 <li ><a href="{{ url('ins_a') }}" >Colostomy OPD</a></li>
                                 <li ><a href="{{ url('ins_b') }}" >Colostomy IPD</a></li>
+                                <li ><a href="{{ url('check_imc_ipd') }}" >IMC IPD</a></li>
                             </ul>
                         </li>
                         <li>
@@ -403,8 +413,14 @@
 
     <!-- App js -->
     <script src="{{ asset('pkclaim/js/app.js') }}"></script>
-    <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
-
+    <script type="text/javascript" src="{{ asset('acccph/js/charts/apex-charts.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('acccph/js/circle-progress.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('acccph/js/demo.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('acccph/js/scrollbar.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('acccph/js/toastr.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('acccph/js/form-components/toggle-switch.js') }}"></script>
+    {{-- <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet"> --}}
+    {{-- <script src="{{ asset('js/ladda.js') }}"></script>  --}}
     {{-- <script src="{{ asset('presentation.js') }}"></script> --}}
     {{-- <script src="{{ asset('circularProgressBar.min.js') }}"></script> --}}
     @yield('footer')

@@ -993,6 +993,7 @@ class ReportFontController extends Controller
             'datashow_'     => $datashow_
         ]);
     }
+   
     public function check_knee_opd(Request $request)
     {
         $startdate = $request->startdate;
@@ -1620,45 +1621,48 @@ class ReportFontController extends Controller
         ]);
     }
 
+    public function check_imc_ipd(Request $request)
+    {
+        $startdate  = $request->startdate;
+        $enddate    = $request->enddate;
+        $icd9       = $request->icd9;
+        $datashow_  = DB::connection('mysql2')->select('
+                SELECT 
+                i.an,pt.hn,pt.cid,concat(pt.pname,pt.fname,"  ",pt.lname) as ptname,a.pttype,i.icd9,i.doctor,ol.enter_date,a.dchdate
+                ,a.income ,a.inc01,a.inc02,a.inc03,a.inc04,a.inc05,a.inc06,a.inc07,a.inc08,a.inc09,a.inc10,a.inc11,a.inc12,a.inc13,a.inc14,a.inc15,a.inc16,a.inc17
+                ,case 
+                when u2.inst is null then c.inst
+                else u2.inst
+                end as inst
+                ,case 
+                when u2.total_approve is null then c.pricereq_all
+                else u2.total_approve
+                end as total_approve
+                ,case 
+                when u2.STMdoc is null then c.STMdoc
+                else u2.STMdoc
+                end as STMdoc
+                
+                FROM iptoprt i
+                LEFT OUTER JOIN operation_list ol ON ol.an = i.an
+                LEFT OUTER JOIN an_stat a on a.an = ol.an and a.an is not null 
+                LEFT OUTER JOIN ipt ii on ii.an = i.an
+                LEFT OUTER JOIN patient pt on pt.hn = ol.hn 
+        
+                LEFT OUTER JOIN pkbackoffice.acc_stm_ucs u2 on u2.an = i.an 
+                LEFT OUTER JOIN pkbackoffice.acc_stm_ofc c on c.an = i.an 
+                WHERE i.icd9 IN("6719","6711","6712","672","6732","7021")
+                AND a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"                
+                GROUP BY i.an  
+        ');
+        // AND ol.enter_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+        return view('report_imc.check_imc_ipd',[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate ,
+            'icd9'          => $icd9 ,
+            'datashow_'     => $datashow_
+        ]);
+    }
 
-    // Check_sit_auto::where('claimcode', $claimCode)
-    // ->update([ 
-    //     'claimcode'       => $value->claimcode, 
-    //     'claimtype'       => $value->claimtype,  
-    // ]);
-    // Check_sit_auto::create([
-    //     'cid'                        => $personalId,
-    //     'fullname'                   => $patientName,
-    //     'hosname'                    => $hname,
-    //     'hcode'                      => $hmain,
-    //     'vstdate'                    => $checkdate,
-    //     'regdate'                    => $checkdate,
-    //     'claimcode'                  => $claimCode,
-    //     'claimtype'                  => $claimType,
-    //     'birthday'                   => $birthdate,
-    //     'homtel'                     => $tel,
-    //     'repcode'                    => $claimStatus,
-    //     'hncode'                     => $hnCode,
-    //     'servicerep'                 => $patientType,
-    //     'servicename'                => $claimTypeName,
-    //     'mainpttype'                 => $mainInsclWithName,
-    //     'subpttype'                  => $subInsclName,
-    //     'requestauthen'              => $sourceChannel,
-    //     'authentication'             => $claimAuthen,
-
-    // ]);
-    // Db_authen_detail::where('claimcode', $claimCode)->update([
-    //     'claimcode'       => $claimCode, 
-    //     'claimtype'       => $claimType, 
-    // ]);
-
-    // Db_authen_detail::where('vn', $value->vn)->update([ 
-    //     'an'           => $value->an,
-    //     'hn'           => $value->hn,
-    //     'cid'          => $value->cid,
-    //     'vstdate'      => $value->vstdate,
-    //     'ptname'       => $value->ptname,
-    //     'staff'        => $value->staff,
-    //     'debit'        => $value->debit,
-    // ]);
+ 
 }

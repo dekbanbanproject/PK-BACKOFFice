@@ -167,7 +167,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                         </a>
 
                         <a href="" class="logo logo-light">
-                            <span class="logo-sm">
+                            <span class="logo-sm mt-3">
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light"
                                     height="40">
                             </span>

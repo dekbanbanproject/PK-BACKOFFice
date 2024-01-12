@@ -58,13 +58,15 @@
 </head>
 <style>
     .modal-dialog {
-            max-width: 80%;
+            max-width: 50%;
         }
+
         .modal-dialog-slideout {
             min-height: 100%;
             margin: 0 0 0 auto;
             background: #fff;
         }
+
         /* .modal.fade .modal-dialog.modal-dialog-slideout {
             -webkit-transform: translate(100%, 0)scale(1);
             transform: translate(100%, 0)scale(1);

@@ -88,26 +88,62 @@
             height: 4rem;
             display: block;
         }
+        .cardreport{
+            border-radius: 3em 3em 3em 3em;
+            box-shadow: 0 0 10px rgb(235, 192, 255);
+            /* box-shadow: 0 0 10px rgb(247, 198, 176); */
+        }
 </style>
   
 <div class="tabs-animation">
 
     <div class="row text-center">
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner">
-                    
-                </div>
+        <div id="overlay">
+            <div class="cv-spinner">
+                <span class="spinner"></span>
             </div>
-        </div>  
-
+        </div> 
+    </div> 
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner"> 
+            </div>
+        </div>
     </div>
-    
+    <form action="{{ route('rep.check_icd9_ipd') }}" method="GET">
+        @csrf
+    <div class="row"> 
+        <div class="col-md-4">
+            <h5 class="card-title">อุปกรณ์อวัยวะเที่ยม ICD9 IPD</h5>
+            {{-- <p class="card-title-desc">อุปกรณ์อวัยวะเที่ยม ICD9 IPD</p> --}}
+        </div>
+        <div class="col"></div>
+        {{-- <div class="col-md-1 text-end mt-2">วันที่</div> --}}
+        <div class="col-md-6 text-end">
+            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                {{-- <label for="" class="mt-2 me-2" style="font-size: 13px;">รหัสหัตถการ</label> --}}
+                <input type="text" class="form-control cardreport" id="icd9" name="icd9" placeholder="ใส่ ICD9 ที่ต้องการค้นหา" value="{{$icd9}}" required>
+                <input type="text" class="form-control cardreport" name="startdate" id="datepicker" placeholder="Start Date"
+                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    data-date-language="th-th" value="{{ $startdate }}" required/>
+                <input type="text" class="form-control cardreport" name="enddate" placeholder="End Date" id="datepicker2"
+                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    data-date-language="th-th" value="{{ $enddate }}" required/>  
+          
+                <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                    <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
+                </button> 
+            </div> 
+
+        </div>
+    </form>
+    </div>
+
      
         <div class="row"> 
-            <div class="col-md-12"> 
-                 <div class="main-card mb-3 card">
-                    <div class="card-header">
+            <div class="col-md-12">
+                 <div class="card cardreport">
+                    {{-- <div class="card-header">
                          อุปกรณ์อวัยวะเที่ยม ICD9 IPD
                          <div class="btn-actions-pane-right">
 
@@ -131,7 +167,7 @@
                                 </form>
                                 
                             </div>
-                    </div>
+                    </div> --}}
                     <div class="card-body">
                         
  
