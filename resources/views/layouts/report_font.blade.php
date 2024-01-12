@@ -239,7 +239,7 @@
                                 <li ><a href="{{ url('check_lapo') }}" >Laparoscopic appendectomy(4701)</a></li>
                                 <li ><a href="{{ url('ins_a') }}" >Colostomy OPD</a></li>
                                 <li ><a href="{{ url('ins_b') }}" >Colostomy IPD</a></li>
-                                <li ><a href="{{ url('check_imc_ipd') }}" >IMC IPD</a></li>
+                                <li ><a href="{{ url('check_colpo_ipd') }}" >Colposcopic IPD</a></li>
                             </ul>
                         </li>
                         <li>

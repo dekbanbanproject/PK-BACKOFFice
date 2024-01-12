@@ -1621,7 +1621,7 @@ class ReportFontController extends Controller
         ]);
     }
 
-    public function check_imc_ipd(Request $request)
+    public function check_colpo_ipd(Request $request)
     {
         $startdate  = $request->startdate;
         $enddate    = $request->enddate;
@@ -1656,7 +1656,7 @@ class ReportFontController extends Controller
                 GROUP BY i.an  
         ');
         // AND ol.enter_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-        return view('report_imc.check_imc_ipd',[
+        return view('report_colposcopic.check_colpo_ipd',[
             'startdate'     => $startdate,
             'enddate'       => $enddate ,
             'icd9'          => $icd9 ,

@@ -110,7 +110,7 @@
             </div>
         </div>
     </div>
-    <form action="{{ route('rep.check_imc_ipd') }}" method="GET">
+    <form action="{{ route('rep.check_colpo_ipd') }}" method="GET">
         @csrf
     <div class="row"> 
         <div class="col-md-4">

@@ -79,7 +79,7 @@ Route::match(['get','post'],'check_knee_ipd',[App\Http\Controllers\ReportFontCon
 Route::match(['get','post'],'check_knee_opd',[App\Http\Controllers\ReportFontController::class, 'check_knee_opd'])->name('rep.check_knee_opd');// report ข้อเข่า
 Route::match(['get','post'],'check_icd9_ipd',[App\Http\Controllers\ReportFontController::class, 'check_icd9_ipd'])->name('rep.check_icd9_ipd');// report
 
-Route::match(['get','post'],'check_imc_ipd',[App\Http\Controllers\ReportFontController::class, 'check_imc_ipd'])->name('rep.check_imc_ipd');// report
+Route::match(['get','post'],'check_colpo_ipd',[App\Http\Controllers\ReportFontController::class, 'check_colpo_ipd'])->name('rep.check_colpo_ipd');// report
 
 Route::match(['get','post'],'report_ct',[App\Http\Controllers\ReportFontController::class, 'report_ct'])->name('rep.report_ct');// report
 
