@@ -109,14 +109,16 @@
                                         <td class="text-center">{{ $item2->nbillcode }}</td> 
                                         <td class="text-start" width="20%">{{ $item2->dname }}</td> 
                                         <td class="text-end">
-                                            <button  class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">                                               
+                                            <button  class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                                {{-- <a href="{{url('fs_eclaim_instu_eclaim/'.$item2->icode)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal{{$item2->icode}}"> --}}
                                                 {{ $item2->pay_rate }}
                                             </button>  
                                         </td> 
                                         <td class="text-end">{{ $item2->price }}</td> 
                                         <td class="text-end">{{ $item2->price2 }}</td> 
                                         <td class="text-end">{{ $item2->price3 }}</td> 
- 
+                                        {{-- <td class="text-start">{{ $item2->type }}</td>  --}}
+                                        {{-- <td class="text-center">{{ $item2->nhso_adp_code }}</td>   --}}
                                         
                                     </tr>
 

@@ -27,6 +27,7 @@ return new class extends Migration
                 $table->string('plan_req_no')->nullable();//              
                 $table->string('plan_reqtotal')->nullable();//   รวมเบิก
                 $table->string('plan_price_total')->nullable();//  คงเหลือ
+                $table->string('plan_strategic_id')->nullable();//   สอดคล้องกับยุทธศาสตร์
                 $table->string('department')->nullable();//              กลุ่มงาน
                 $table->string('user_id')->nullable();//         ผู้รับผิดชอบ
                 $table->string('comment')->nullable();//                 หมายเหตุ

@@ -18,7 +18,9 @@ use App\Models\Department_sub_sub;
 use App\Models\Plan_control_type;
 use App\Models\Plan_control;
 use App\Models\Plan_control_money;
+use App\Models\Plan_control_obj;
 use PDF;
+use Auth;
 use setasign\Fpdi\Fpdi;
 use App\Models\Budget_year;
 use Illuminate\Support\Facades\File;
@@ -77,6 +79,8 @@ class PlanController extends Controller
         $data['users'] = User::get();
         $data['plan_control_type'] = Plan_control_type::get();
         $data['department_sub_sub'] = Department_sub_sub::get();
+        $data['plan_strategic'] = Plan_strategic::get();
+        
         return view('plan.plan_control_add', $data);
     }
     public function plan_control_edit(Request $request,$id)
@@ -88,6 +92,7 @@ class PlanController extends Controller
         $data['plan_control'] = Plan_control::where('plan_control_id',$id)->first();
         $data['department_sub_sub'] = Department_sub_sub::get();
         $data['plan_control_type'] = Plan_control_type::get();
+        $data['plan_strategic'] = Plan_strategic::get();
         // $data['plan_control'] = DB::connection('mysql')->select('
         //     SELECT 
         //     p.plan_control_id,p.billno,p.plan_obj,p.plan_name,p.plan_reqtotal,pt.plan_control_typename,p.plan_price,p.plan_starttime,p.plan_endtime,p.`status`,s.DEPARTMENT_SUB_SUB_NAME
@@ -123,14 +128,15 @@ class PlanController extends Controller
     public function plan_control_save(Request $request)
     {
         $add = new Plan_control();
-        $add->billno            = $request->input('billno');
-        $add->plan_name         = $request->input('plan_name');
-        $add->plan_starttime    = $request->input('datepicker1');
-        $add->plan_endtime      = $request->input('datepicker2');
-        $add->plan_price        = $request->input('plan_price');
-        $add->department        = $request->input('department');
-        $add->plan_type         = $request->input('plan_type');
-        $add->user_id           = $request->input('user_id'); 
+        $add->billno                = $request->input('billno');
+        $add->plan_name             = $request->input('plan_name');
+        $add->plan_starttime        = $request->input('datepicker1');
+        $add->plan_endtime          = $request->input('datepicker2');
+        $add->plan_price            = $request->input('plan_price');
+        $add->department            = $request->input('department');
+        $add->plan_type             = $request->input('plan_type');
+        $add->user_id               = $request->input('user_id'); 
+        $add->plan_strategic_id     = $request->input('plan_strategic_id');
         $add->save();
 
         return response()->json([
@@ -141,20 +147,54 @@ class PlanController extends Controller
     {
         $id = $request->plan_control_id;
         $update = Plan_control::find($id);
-        $update->billno            = $request->input('billno');
-        $update->plan_name         = $request->input('plan_name');
-        $update->plan_starttime    = $request->input('datepicker1');
-        $update->plan_endtime      = $request->input('datepicker2');
-        $update->plan_price        = $request->input('plan_price');
-        $update->department        = $request->input('department');
-        $update->plan_type         = $request->input('plan_type');
-        $update->user_id           = $request->input('user_id'); 
+        $update->billno                = $request->input('billno');
+        $update->plan_name             = $request->input('plan_name');
+        $update->plan_starttime        = $request->input('datepicker1');
+        $update->plan_endtime          = $request->input('datepicker2');
+        $update->plan_price            = $request->input('plan_price');
+        $update->department            = $request->input('department');
+        $update->plan_type             = $request->input('plan_type');
+        $update->user_id               = $request->input('user_id'); 
+        $update->plan_strategic_id     = $request->input('plan_strategic_id');
         $update->save();
 
         return response()->json([
             'status'     => '200',
         ]);
     }
+
+    public function plan_control_destroy(Request $request, $id)
+    {
+        $del = Plan_control::find($id);
+        $del->delete();
+        return response()->json(['status' => '200']);
+    }
+
+    public function plan_control_obj_save(Request $request)
+    {
+        $iduser = Auth::user()->id;
+        $add = new Plan_control_obj();
+        $add->billno                         = $request->input('obj_plan_control_billno');
+        $add->plan_control_id                = $request->input('obj_plan_control_id');
+        $add->plan_control_obj_name          = $request->input('plan_control_obj_name');  
+        $add->user_id                        = $iduser;  
+        $add->save();
+
+        return response()->json([
+            'status'     => '200',
+        ]);
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     public function plan_control_moneyedit(Request $request,$id)
     {

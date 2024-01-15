@@ -98,47 +98,6 @@
         function TypeAdmin() {
             window.location.href = '{{ route('index') }}';
         }
-        function plan_control_destroy(plan_control_id)
-        {
-            Swal.fire({
-                title: 'ต้องการลบใช่ไหม?',
-                text: "ข้อมูลนี้จะถูกลบไปเลย !!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'ใช่, ลบเดี๋ยวนี้ !',
-                cancelButtonText: 'ไม่, ยกเลิก'
-            }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url:"{{url('plan_control_destroy')}}" +'/'+ plan_control_id,  
-                    type:'DELETE',
-                    data:{
-                        _token : $("input[name=_token]").val()
-                    },
-                    success:function(response)
-                    {          
-                        Swal.fire({
-                            title: 'ลบข้อมูล!',
-                            text: "You Delet data success",
-                            icon: 'success',
-                            showCancelButton: false,
-                            confirmButtonColor: '#06D177',
-                            // cancelButtonColor: '#d33',
-                            confirmButtonText: 'เรียบร้อย'
-                        }).then((result) => {
-                            if (result.isConfirmed) {                  
-                            $("#sid"+plan_control_id).remove();     
-                            window.location.reload(); 
-                            //   window.location = "/person/person_index"; //     
-                            }
-                        }) 
-                    }
-                })        
-                }
-            })
-        }
     </script>
     <?php
     if (Auth::check()) {
@@ -237,7 +196,7 @@
                                     <?php $i = 1; ?>
                                     @foreach ($plan_control as $va)
                                        
-                                        <tr id="sid{{ $va->plan_control_id }}">
+                                        <tr style="font-size: 13px">
                                             <td class="text-center" width="4%">{{ $i++ }}</td>
                                             <td class="text-start">{{$va->plan_name}}</td>
                                             <td class="text-center" width="8%">{{ number_format($va->plan_price, 2) }}</td>
@@ -249,37 +208,45 @@
                                                         type="button" data-bs-toggle="dropdown"
                                                         aria-expanded="false">ทำรายการ</button>
                                                     <ul class="dropdown-menu">
-                                                            <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm ojectModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="เบิกเงิน"> 
-                                                                <i class="fa-brands fa-bitcoin me-3 mb-1" style="font-size:17px;color: rgb(34, 148, 255)"></i> 
-                                                                <label for=""
-                                                                style="color: rgb(34, 148, 255);font-size:13px">เพิ่มวัตถุประสงค์/ตัวชี้วัด</label>
-                                                            </button>
-                                                            <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm MoneyModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="เบิกเงิน"> 
-                                                                <i class="fa-brands fa-bitcoin me-3 mb-1" style="font-size:17px;color: rgb(20, 199, 190)"></i> 
-                                                                <label for=""
-                                                                style="color: rgb(20, 199, 190);font-size:13px">เบิกเงิน</label>
-                                                            </button>
                                                            
-                                                        {{-- <li> <hr class="dropdown-divider"> </li>                                                         --}}
+                                                            <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm MoneyModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="เบิกเงิน"> 
+                                                                <i class="fa-brands fa-bitcoin me-2" style="font-size:17px;color: rgb(34, 148, 255)"></i> 
+                                                                <label for=""
+                                                                style="color: rgb(34, 148, 255);font-size:13px">เบิกเงิน</label>
+                                                            </button>
+                                                        <li>
+                                                            <hr class="dropdown-divider">
+                                                        </li>                                                        
                                                         <a type="button" href="{{ url('plan_control_edit/' . $va->plan_control_id) }}"
                                                             class="dropdown-item menu btn btn-outline-warning btn-sm" data-bs-toggle="tooltip"
                                                             data-bs-placement="left" title="แก้ไข">
-                                                            <i class="fa-solid fa-pen-to-square me-3 mb-1" style="color: rgb(252, 185, 0);font-size:13px"></i>
+                                                            <i class="fa-solid fa-pen-to-square me-2" style="color: rgb(252, 185, 0);font-size:13px"></i>
                                                                 <label for=""
                                                                 style="color: rgb(252, 185, 0);font-size:13px">แก้ไข</label>
                                                         </a>
-                                                        {{-- <li> <hr class="dropdown-divider"> </li> --}}
+                                                        <li>
+                                                            <hr class="dropdown-divider">
+                                                        </li>
                                                             <a class="dropdown-item menu btn btn-outline-danger btn-sm" href="javascript:void(0)"
-                                                                onclick="plan_control_destroy({{ $va->plan_control_id}})"
+                                                                onclick="bookmake_destroy({{ $va->plan_control_id}})"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left"
                                                                 data-bs-custom-class="custom-tooltip" title="ลบ">
-                                                                <i class="fa-solid fa-trash-can me-3 mb-1"></i>
+                                                                <i class="fa-solid fa-trash-can me-2 mb-1"></i>
                                                                 <label for=""
                                                                     style="color: rgb(255, 2, 2);font-size:13px">ลบ</label>
                                                             </a>
                                                     </ul>
                                                   </div>
-                                               
+                                                {{-- <a href="{{ url('plan_control_edit/' . $va->plan_control_id) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="แก้ไข"
+                                                    class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-warning">
+                                                    <i class="fa-solid fa-pen-to-square text-warning" ></i> 
+                                                </a>
+                                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-info DetailModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
+                                                    <i class="fa-brands fa-bitcoin" style="font-size:17px;color: rgb(34, 148, 255)"></i> 
+                                                </button>
+                                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger MoneyModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="right" title="เบิกเงิน"> 
+                                                    <i class="fa-brands fa-bitcoin" style="font-size:17px;color: rgb(255, 34, 89)"></i> 
+                                                </button>  --}}
                                             </td>
              
                                         </tr>
@@ -447,63 +414,6 @@
             </div>
         </div>
     </div>
-
-    <div class="modal fade" id="ojectModalModal" tabindex="-1"
-    role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-    {{-- <div class="modal-dialog modal-lg"> --}}
-        <div class="modal-dialog modal-dialog-slideout">
-        <div class="modal-content">
-            <div class="modal-header">
-                
-                <div class="row">
-                    <div class="col-md-7 text-start"><h2>เพิ่มวัตถุประสงค์/ตัวชี้วัด</h2> </div>
-                    <div class="col"></div>
-                    <div class="col-md-3 text-end">
-                       
-                    </div>
-                </div>
-            
-            </div>
-            <input id="obj_plan_control_billno" class="form-control form-control-sm" name="obj_plan_control_billno" type="hidden" >
-            <input id="obj_plan_control_id" class="form-control form-control-sm" name="obj_plan_control_id" type="text" >
-
-            <div class="modal-body">
-                <div class="row mt-3">
-                     <div class="col"></div>
-                
-                    <div class="col-md-2 text-end mt-2"> 
-                        <p for="">วัตถุประสงค์/ตัวชี้วัด</p> 
-                    </div>
-                    <div class="col-md-9 "> 
-                        <div class="form-group">
-                            <input id="plan_control_obj_name" class="form-control form-control-sm" name="plan_control_obj_name">
-                        </div>
-                    </div>
-                    <div class="col"></div>
-                  
-                </div>
-            </div>  
-
-            <div class="modal-footer">
-                <div class="col-md-12 text-end">
-                    <div class="form-group">
-                        <button type="button" id="SaveObjectBtn"
-                            class="btn-icon btn-shadow btn-dashed btn btn-outline-info me-2">
-                            {{-- <i class="fa-solid fa-floppy-disk me-2"></i> --}}
-                            <i class="pe-7s-diskette btn-icon-wrapper me-2"></i>
-                            Save
-                        </button>
-                        <button type="button"
-                            class="btn-icon btn-shadow btn-dashed btn btn-outline-danger"
-                            data-bs-dismiss="modal"><i
-                                class="fa-solid fa-xmark me-2"></i>Close</button>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
     <div class="modal fade" id="MoneyModal" tabindex="-1"
         role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
@@ -748,7 +658,9 @@
                 autoHide: true,
                 zIndex: 2048,
             });
-             
+            
+            
+
             $('select').select2();
             $('#plan_control_moneyuser_id').select2({
                 dropdownParent: $('#MoneyModal')
@@ -888,57 +800,6 @@
                             Swal.fire({
                                 title: 'เบิกเงินสำเร็จ',
                                 text: "You Request Money success",
-                                icon: 'success',
-                                showCancelButton: false,
-                                confirmButtonColor: '#06D177',
-                                confirmButtonText: 'เรียบร้อย'
-                            }).then((result) => {
-                                if (result
-                                    .isConfirmed) {
-                                    console.log(
-                                        data);
-
-                                    window.location
-                                        .reload();
-                                }
-                            })
-                        } else {
-
-                        }
-
-                    },
-                });
-            });
-
-            $(document).on('click', '.ojectModal_', function() {
-                var plan_control_id = $(this).val();
-                // $('#plan_control_moneydate').datepicker();
-                // alert(plan_control_id);
-                $('#ojectModalModal').modal('show');
-                
-                $.ajax({
-                    type: "GET",
-                    url: "{{ url('plan_control_moneyedit') }}" + '/' + plan_control_id,
-                    success: function(data) { 
-                        $('#obj_plan_control_id').val(data.data_show.plan_control_id)
-                        $('#obj_plan_control_billno').val(data.data_show.billno)
-                    },
-                });
-            });
-            $('#SaveObjectBtn').click(function() { 
-                var plan_control_obj_name    = $('#plan_control_obj_name').val();
-                var obj_plan_control_id      = $('#obj_plan_control_id').val();
-                var obj_plan_control_billno  = $('#obj_plan_control_billno').val();
-                $.ajax({
-                    url: "{{ route('p.plan_control_obj_save') }}",
-                    type: "POST",
-                    dataType: 'json',
-                    data: { obj_plan_control_id, plan_control_obj_name,obj_plan_control_billno},
-                    success: function(data) {
-                        if (data.status == 200) {
-                            Swal.fire({
-                                title: 'เพิ่มวัถุประสงค์และตัวชี้วัดสำเร็จ',
-                                text: "You Insert success",
                                 icon: 'success',
                                 showCancelButton: false,
                                 confirmButtonColor: '#06D177',

@@ -15,7 +15,7 @@
      use App\Http\Controllers\karnController;
      use Illuminate\Support\Facades\DB; 
  ?>
-  <div class="container-fluid">
+  {{-- <div class="container-fluid">
         <div class="row">
             <div class="col-xl-12">                    
                 <div class="row">                   
@@ -25,12 +25,43 @@
                     <div class="col"></div> 
                 </div>
             </div>
-        </div>
+        </div> --}}
+        <div class="tabs-animation">
+            <div class="row text-center">
+                <div id="overlay">
+                    <div class="cv-spinner">
+                        <span class="spinner"></span>
+                    </div>
+                </div> 
+            </div> 
+            <div id="preloader">
+                <div id="status">
+                    <div class="spinner"> 
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid"> 
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                            <h4 class="mb-sm-0">Detail Plan</h4>
+            
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Detail Plan</a></li>
+                                    <li class="breadcrumb-item active">Plan</li>
+                                </ol>
+                            </div>
+            
+                        </div>
+                    </div>
+                </div> 
+            </div> 
 
-        <div class="row mt-3">
+        <div class="row">
             <div class="col-xl-12">
-                <div class="card">                     
-                    <div class="card-body py-0 px-2 mt-2"> 
+                <div class="card cardplan">                     
+                    <div class="card-body p-4"> 
                         <div class="table-responsive">
                             <table class="table table-hover table-bordered table-sm myTable" style="width: 100%;" id="example"> 
                                 <thead>                                           

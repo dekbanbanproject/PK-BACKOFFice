@@ -706,6 +706,10 @@
             $('#example14').DataTable();
             $('#example15').DataTable();
             $('#example16').DataTable();
+            $('#example17').DataTable();
+            $('#example18').DataTable();
+            $('#example19').DataTable();
+            $('#example20').DataTable();
 
             $('#datepicker').datepicker({
                 format: 'yyyy-mm-dd'

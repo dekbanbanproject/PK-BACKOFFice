@@ -2420,6 +2420,13 @@ Route::middleware(['type'])->group(function(){
   Route::match(['get','post'],'plan_control_update',[App\Http\Controllers\PlanController::class, 'plan_control_update'])->name('p.plan_control_update');//
   Route::match(['get','post'],'plan_control_moneyedit/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_moneyedit'])->name('p.plan_control_moneyedit');//
   Route::match(['get','post'],'plan_control_repmoney',[App\Http\Controllers\PlanController::class, 'plan_control_repmoney'])->name('p.plan_control_repmoney');//
+  Route::delete('plan_control_destroy/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_destroy'])->name('p.plan_control_destroy');//
+
+  Route::match(['get','post'],'plan_control_obj_save',[App\Http\Controllers\PlanController::class, 'plan_control_obj_save'])->name('p.plan_control_obj_save');//
+  Route::match(['get','post'],'plan_control_obj_update',[App\Http\Controllers\PlanController::class, 'plan_control_obj_update'])->name('p.plan_control_obj_update');//
+
+  Route::match(['get','post'],'plan_control_indicators',[App\Http\Controllers\PlanController::class, 'plan_control_indicators'])->name('p.plan_control_indicators');// ตัวชี้วัด
+  Route::match(['get','post'],'plan_control_indicators_save',[App\Http\Controllers\PlanController::class, 'plan_control_indicators_save'])->name('p.plan_control_indicators_save');// ตัวชี้วัด
 
   Route::match(['get','post'],'plan_development',[App\Http\Controllers\PlanController::class, 'plan_development'])->name('p.plan_development');// แผนพัฒนาบุคลากร
   Route::match(['get','post'],'plan_procurement',[App\Http\Controllers\PlanController::class, 'plan_procurement'])->name('p.plan_procurement');// แผนจัดซื้อครุภัณฑ์

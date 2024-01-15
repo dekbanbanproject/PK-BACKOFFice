@@ -67,17 +67,41 @@ if (Auth::check()) {
 use App\Http\Controllers\PlanController; 
 $refnumber = PlanController::refnumber();
 ?>
-<div class="tabs-animation">
+   <div class="tabs-animation">
+    <div class="row text-center">
+        <div id="overlay">
+            <div class="cv-spinner">
+                <span class="spinner"></span>
+            </div>
+        </div> 
+    </div> 
     <div id="preloader">
         <div id="status">
-            <div class="spinner">
+            <div class="spinner"> 
             </div>
         </div>
     </div>
-        <div class="row mt-3 ">
+    <div class="container-fluid"> 
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0">เพิ่มทะเบียนควบคุมแผนงานโครงการ</h4>
+    
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">เพิ่มทะเบียนควบคุมแผนงานโครงการ</a></li>
+                            <li class="breadcrumb-item active">เพิ่มทะเบียน</li>
+                        </ol>
+                    </div>
+    
+                </div>
+            </div>
+        </div> 
+    </div> 
+        <div class="row">
             <div class="col-xl-12">
-                <div class="card">   
-                    <div class="card-header ">
+                <div class="card cardplan">   
+                    {{-- <div class="card-header ">
                         เพิ่มทะเบียนควบคุมแผนงานโครงการ
                         <div class="btn-actions-pane-right">
                             <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Insertdata">
@@ -85,23 +109,21 @@ $refnumber = PlanController::refnumber();
                             </button>
                             <a href="{{ url('plan_control') }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger me-2">
                                 <i class="fa-solid fa-xmark me-2"></i>
-                            Back
-                        </a>
-                        </div> 
-                       
-                    </div>   
-                    <div class="card-body py-0 px-2 mt-2"> 
-                        <div class="row mt-2">
-                            {{-- <div class="col"></div> --}}
+                                Back
+                            </a>
+                        </div>                        
+                    </div>    --}}
+                    <div class="card-body"> 
+                        <div class="row"> 
                             <div class="col-md-12">
-                                <div class="card mb-5">
                                     <div class="card-header">  
                                         <h5 class="modal-title me-3" id="editModalLabel">เพิ่มทะเบียนควบคุม</h5>  
                                         <div class="btn-actions-pane-right">   
-                                        <h6 class="mt-2 me-3"> เลขที่ {{$refnumber}}</h6> 
-                                        <input type="hidden" id="billno" name="billno" value="{{$refnumber}}">
+                                            <h6 class="mt-2 me-3"> เลขที่ {{$refnumber}}</h6>                                         
+                                            <input type="hidden" id="billno" name="billno" value="{{$refnumber}}">
+                                        </div>  
                                     </div>  
-                                    </div>                 
+
                                     <div class="card-body"> 
                                         <div class="row">
                                             <div class="col-md-12 ">
@@ -156,8 +178,18 @@ $refnumber = PlanController::refnumber();
                                             </div>
                     
                                         </div>
-                                        <div class="row mt-2"> 
-                                            <div class="col-md-8 ">
+                                        <div class="row mt-2 mb-3"> 
+                                            <div class="col-md-6">
+                                                <label for="">สอดคล้องกับยุทธศาสตร์ </label>
+                                                <div class="form-group">
+                                                    <select name="plan_strategic_id" id="plan_strategic_id" class="form-control form-control-sm" style="width: 100%"> 
+                                                        @foreach ($plan_strategic as $itemy)
+                                                        <option value="{{$itemy->plan_strategic_id}}">{{$itemy->plan_strategic_name}}</option> 
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 ">
                                                 <label for="">กลุ่มงาน </label>
                                                 <div class="form-group">
                                                     <select name="department" id="department" class="form-control form-control-sm" style="width: 100%">
@@ -172,8 +204,10 @@ $refnumber = PlanController::refnumber();
                                                     </select>
                                                 </div>
                                             </div>
+                                            
                                             <input type="hidden" id="plan_control_id" name="plan_control_id">
-                                            <div class="col-md-4 ">
+
+                                            <div class="col-md-3 ">
                                                 <label for="">ผู้รับผิดชอบ </label>
                                                 <div class="form-group">
                                                     <select name="user_id" id="user_id" class="form-control form-control-sm" style="width: 100%"> 
@@ -182,10 +216,7 @@ $refnumber = PlanController::refnumber();
                                                        <option value="{{$item3->id}}" selected>{{$item3->fname}} {{$item3->lname}}</option>
                                                        @else
                                                        <option value="{{$item3->id}}">{{$item3->fname}} {{$item3->lname}}</option>
-                                                       @endif
-                                                        
-                                                  
-                                                       
+                                                       @endif 
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -193,13 +224,22 @@ $refnumber = PlanController::refnumber();
                                         </div>
  
                                     </div>
-                                   
-                                </div>   
-                            </div> 
-                            <div class="col"></div>
+
+                                    <div class="card-footer mt-2">
+                                        <div class="btn-actions-pane-right mt-2">
+                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Insertdata">
+                                                <i class="pe-7s-diskette btn-icon-wrapper"></i>Save 
+                                            </button>
+                                            <a href="{{ url('plan_control') }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger me-2">
+                                                <i class="fa-solid fa-xmark me-2"></i>
+                                                Back
+                                            </a>
+                                        </div>
+                                    </div>
+                            </div>                           
                         </div>
                     </div>   
-                    <br>  <br> <br> <br>                  
+                                  
                 </div>
             </div>
         </div>       
@@ -234,21 +274,22 @@ $refnumber = PlanController::refnumber();
 
           
             $('#Insertdata').click(function() {
-                var plan_name    = $('#plan_name').val();
-                    var datepicker1  = $('#startdate').val();
-                    var datepicker2  = $('#enddate').val();
-                    var plan_price   = $('#plan_price').val();
-                    var department   = $('#department').val();
-                    var plan_type    = $('#plan_type').val();
-                    var user_id      = $('#user_id').val();
-                    var billno      = $('#billno').val();
-                    var plan_control_id      = $('#plan_control_id').val();
+                    var plan_name              = $('#plan_name').val();
+                    var datepicker1            = $('#startdate').val();
+                    var datepicker2            = $('#enddate').val();
+                    var plan_price             = $('#plan_price').val();
+                    var department             = $('#department').val();
+                    var plan_type              = $('#plan_type').val();
+                    var user_id                = $('#user_id').val();
+                    var billno                 = $('#billno').val();
+                    var plan_strategic_id      = $('#plan_strategic_id').val();
+                    var plan_control_id        = $('#plan_control_id').val();
                 $.ajax({
                     url: "{{ route('p.plan_control_save') }}",
                     type: "POST",
                     dataType: 'json',
                     data: {
-                        plan_name,datepicker1,datepicker2,plan_price,department,plan_type,user_id,billno,plan_control_id 
+                        plan_name,datepicker1,datepicker2,plan_price,department,plan_type,user_id,billno,plan_control_id,plan_strategic_id
                     },
                     success: function(data) {
                         if (data.status == 200) {
@@ -264,9 +305,7 @@ $refnumber = PlanController::refnumber();
                                     .isConfirmed) {
                                     console.log(
                                         data);
-                                        window.location="{{url('plan_control')}}";
-                                    // window.location
-                                    //     .reload();
+                                        window.location="{{url('plan_control')}}"; 
                                 }
                             })
                         } else {

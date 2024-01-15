@@ -44,9 +44,9 @@
     <link href="{{ asset('css/fullcalendar.css') }}" rel="stylesheet">
     {{-- <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet"> --}}
     <link href="{{ asset('css/tablecar.css') }}" rel="stylesheet">
-
+    <link rel="stylesheet" href="{{ asset('css/dplan.css') }}">
      <!-- App Css-->
-     <link href="{{ asset('pkclaim/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+     {{-- <link href="{{ asset('pkclaim/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" /> --}}
 </head>
 <style>
     body {
@@ -151,6 +151,10 @@
 
     .menu {
         font-size: 13px;
+    }
+    .myTable tbody tr{
+        font-size:13px;
+        height: 13px;
     }
 </style>
 

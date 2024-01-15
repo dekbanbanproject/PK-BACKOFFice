@@ -60,6 +60,7 @@
        <link rel="stylesheet"
            href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
        <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet">
+       <link rel="stylesheet" href="{{ asset('css/dplan.css') }}">
         </head>
         <style>
             body {
@@ -98,7 +99,7 @@
         
                 <header id="page-topbar">
                     {{-- <div class="navbar-header shadow-lg" style="background-color: rgb(252, 252, 252)"> --}}
-                        <div class="navbar-header shadow" style="background-color: rgba(247, 217, 217)">
+                        <div class="navbar-header shadow" style="background-color: rgb(250, 209, 209)">
         
                         <div class="d-flex">
                             <!-- LOGO -->
@@ -194,7 +195,7 @@
         
                 <!-- ========== Left Sidebar Start ========== -->
                 <div class="vertical-menu ">
-                    <div data-simplebar class="h-100"> 
+                    {{-- <div data-simplebar class="h-100">  --}}
                         <!--- Sidemenu -->
                         <div id="sidebar-menu">
                             <!-- Left Menu Start -->
@@ -218,10 +219,10 @@
                                         <span>Plan</span>
                                     </a>
                                     <ul class="sub-menu" aria-expanded="true">
-                                        <li><a href="{{ url('plan_project') }}">แผนโครงการ</a></li> 
-                                        <li><a href="{{ url('plan_development') }}"> แผนพัฒนาบุคลากร</a></li> 
-                                        <li><a href="{{ url('plan_procurement') }}"> แผนจัดซื้อครุภัณฑ์</a></li> 
-                                        <li><a href="{{ url('plan_maintenance') }}"> แผนบำรุงรักษา</a></li> 
+                                        {{-- <li><a href="{{ url('plan_project') }}">แผนโครงการ</a></li>  --}}
+                                        {{-- <li><a href="{{ url('plan_development') }}"> แผนพัฒนาบุคลากร</a></li>  --}}
+                                        {{-- <li><a href="{{ url('plan_procurement') }}"> แผนจัดซื้อครุภัณฑ์</a></li>  --}}
+                                        {{-- <li><a href="{{ url('plan_maintenance') }}"> แผนบำรุงรักษา</a></li>  --}}
                                         <li><a href="{{ url('plan_control') }}"> ทะเบียนควบคุมแผนโครงการ</a></li> 
                                     </ul>
                                 </li>
@@ -237,7 +238,7 @@
                                         <li><a href="{{ url('plan_strategic') }}"> ยุทธศาสตร์</a></li> 
                                     </ul>
                                 </li>
-{{--                                 
+                                    {{--                                 
                                 
                                 <li>
                                     <a href="javascript: void(0);" class="has-arrow waves-effect">  
@@ -263,7 +264,7 @@
                             </ul>
                         </div>
                         <!-- Sidebar -->
-                    </div>
+                    {{-- </div> --}}
                 </div>
                  <!-- ============================================================== -->
         <!-- Start right Content here -->

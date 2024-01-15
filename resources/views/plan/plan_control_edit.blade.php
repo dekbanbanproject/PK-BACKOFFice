@@ -68,16 +68,40 @@ use App\Http\Controllers\PlanController;
 $refnumber = PlanController::refnumber();
 ?>
 <div class="tabs-animation">
+    <div class="row text-center">
+        <div id="overlay">
+            <div class="cv-spinner">
+                <span class="spinner"></span>
+            </div>
+        </div> 
+    </div> 
     <div id="preloader">
         <div id="status">
-            <div class="spinner">
+            <div class="spinner"> 
             </div>
         </div>
     </div>
-        <div class="row mt-3 mb-5">
+    <div class="container-fluid"> 
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0">แก้ไขทะเบียนควบคุมแผนงานโครงการ</h4>
+    
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">แก้ไขทะเบียนควบคุมแผนงานโครงการ</a></li>
+                            <li class="breadcrumb-item active">เพิ่มทะเบียน</li>
+                        </ol>
+                    </div>
+    
+                </div>
+            </div>
+        </div> 
+    </div> 
+        <div class="row">
             <div class="col-xl-12">
-                <div class="card">   
-                    <div class="card-header ">
+                <div class="card cardplan">   
+                    {{-- <div class="card-header ">
                         แก้ไขทะเบียนควบคุมแผนงานโครงการ
                         <div class="btn-actions-pane-right">
                             <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Updatedata">
@@ -89,12 +113,11 @@ $refnumber = PlanController::refnumber();
                         </a>
                         </div> 
                        
-                    </div>   
-                    <div class="card-body py-0 px-2 mt-2"> 
-                        <div class="row mt-2">
-                            {{-- <div class="col"></div> --}}
-                            <div class="col-md-12">
-                                <div class="card mb-5">
+                    </div>    --}}
+                    <div class="card-body "> 
+                        <div class="row">
+                          
+                            <div class="col-md-12"> 
                                     <div class="card-header">  
                                         <h5 class="modal-title me-3" id="editModalLabel">แก้ไขทะเบียนควบคุม</h5>  
                                         <div class="btn-actions-pane-right">   
@@ -147,7 +170,7 @@ $refnumber = PlanController::refnumber();
                                                 <div class="form-group">
                                                     <select name="plan_type" id="plan_type" class="form-control form-control-sm" style="width: 100%"> 
                                                         @foreach ($plan_control_type as $item2)
-                                                        @if ($plan_control->plan_type)
+                                                        @if ($plan_control->plan_type == $item2->plan_control_type_id)
                                                         <option value="{{$item2->plan_control_type_id}}" selected>{{$item2->plan_control_typename}}</option>
                                                         @else
                                                         <option value="{{$item2->plan_control_type_id}}">{{$item2->plan_control_typename}}</option>
@@ -160,11 +183,26 @@ $refnumber = PlanController::refnumber();
                     
                                         </div>
                                         <div class="row mt-2"> 
-                                            <div class="col-md-8 ">
+                                            <div class="col-md-6">
+                                                <label for="">สอดคล้องกับยุทธศาสตร์ </label>
+                                                <div class="form-group">
+                                                    <select name="plan_strategic_id" id="plan_strategic_id" class="form-control form-control-sm" style="width: 100%"> 
+                                                        @foreach ($plan_strategic as $itemy)
+                                                        @if ($plan_control->plan_strategic_id == $itemy->plan_strategic_id)
+                                                            <option value="{{$itemy->plan_strategic_id}}" selected>{{$itemy->plan_strategic_name}}</option> 
+                                                        @else
+                                                            <option value="{{$itemy->plan_strategic_id}}">{{$itemy->plan_strategic_name}}</option> 
+                                                        @endif
+                                                        
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
                                                 <label for="">กลุ่มงาน </label>
                                                 <div class="form-group">
                                                     <select name="department" id="department" class="form-control form-control-sm" style="width: 100%">
-                                                        {{-- <option value="">=เลือก=</option> --}}
+                                                    
                                                         @foreach ($department_sub_sub as $item)
                                                         @if ($plan_control->department == $item->DEPARTMENT_SUB_SUB_ID)
                                                         <option value="{{$item->DEPARTMENT_SUB_SUB_ID}}" selected>{{$item->DEPARTMENT_SUB_SUB_NAME}}</option>
@@ -177,7 +215,7 @@ $refnumber = PlanController::refnumber();
                                                 </div>
                                             </div>
                                             <input type="hidden" id="plan_control_id" name="plan_control_id" value="{{$plan_control->plan_control_id}}">
-                                            <div class="col-md-4 ">
+                                            <div class="col-md-3">
                                                 <label for="">ผู้รับผิดชอบ </label>
                                                 <div class="form-group">
                                                     <select name="user_id" id="user_id" class="form-control form-control-sm" style="width: 100%"> 
@@ -192,112 +230,25 @@ $refnumber = PlanController::refnumber();
                                                     </select>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        {{-- <div class="row"> 
-                                            <div class="col-md-6">
-                                                <label for="ptname" class="form-label">ชื่อ-นามสกุล</label><label for="tel" class="form-label" style="color: red">*</label>
-                                                <div class="input-group input-group-sm">  
-                                                    <select class="form-control" id="ptname" name="ptname" style="width: 100%">
-                                                        @foreach ($users as $item)
-                                                        @if ($iduser == $item->id)
-                                                        <option value="{{$item->id}}" selected>{{$item->fname}} {{$item->lname}}</option>
-                                                        @else
-                                                        <option value="{{$item->id}}">{{$item->fname}} {{$item->lname}}</option>
-                                                        @endif                                            
-                                                        @endforeach
-                                                    </select>
-                                                
-                                                </div>
-                                            </div>  
-                                            <div class="col-md-2">
-                                                <label for="tel" class="form-label"> เบอร์โทร</label><label for="tel" class="form-label" style="color: red">*</label>
-                                                <div class="input-group input-group-sm">  
-                                                
-                                                        <input type="text" class="form-control" id="tel" name="tel" value="{{$plan_control->tel}}">   
-                                                    
-                                                </div>
-                                            </div> 
-                                            <div class="col-md-2">
-                                                <label for="work_order_date" class="form-label" >วันที่สั่งงาน </label><label for="tel" class="form-label" style="color: red">*</label>
-                                                <div class="input-group input-group-sm"> 
-                                                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                                    <input type="text" class="form-control" name="work_order_date" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' autocomplete="off"
-                                                    data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $datenow }}"/>
-                                                </div> 
-                                                </div>
-                                            </div> 
-                                            <div class="col-md-2">
-                                                <label for="job_request_date" class="form-label" >วันที่ขอรับงาน </label><label for="tel" class="form-label" style="color: red">*</label>
-                                                <div class="input-group input-group-sm"> 
-                                                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                                    <input type="text" class="form-control" name="job_request_date" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' autocomplete="off"
-                                                    data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $datenow }}"/> 
-                                                </div>
-                                                </div>
-                                            </div>  
-                                        </div>
-                                        <div class="row mt-2"> 
-                                            <div class="col-md-6">
-                                                <label for="department" class="form-label">หน่วยงาน</label><label for="tel" class="form-label" style="color: red">*</label>
-                                                <div class="input-group input-group-sm">  
-                                                    <select class="form-control" id="department" name="department" style="width: 100%">
-                                                        @foreach ($department_sub_sub as $item2)
-                                                        @if ($debsubsub == $item2->DEPARTMENT_SUB_SUB_ID)
-                                                        <option value="{{$item2->DEPARTMENT_SUB_SUB_ID}}" selected>{{$item2->DEPARTMENT_SUB_SUB_NAME}} </option>
-                                                        @else
-                                                        <option value="{{$item2->DEPARTMENT_SUB_SUB_ID}}"> {{$item2->DEPARTMENT_SUB_SUB_NAME}}</option>
-                                                        @endif                                            
-                                                        @endforeach
-                                                    </select>
-                                                
-                                                </div>
-                                            </div>  
-                                            <div class="col-md-6">
-                                                <label for="audiovisual_type" class="form-label" >ชนิดของงาน</label><label for="tel" class="form-label" style="color: red">*</label>
-                                                <div class="input-group input-group-sm">  
-                                                    <select class="form-control" id="audiovisual_type" name="audiovisual_type" style="width: 100%">
-                                                        @foreach ($audiovisual_type as $item3)  
-                                                        <option value="{{$item3->audiovisual_type_id}}"> {{$item3->audiovisual_typename}}</option> 
-                                                        @endforeach
-                                                    </select>
-                                                
-                                                </div>
-                                            </div>   
-                                        </div>  
-        
-                                        <div class="row mt-2"> 
-                                            <div class="col-md-10">
-                                                <label for="audiovisual_name" class="form-label" >ชื่อชิ้นงาน </label><label for="tel" class="form-label" style="color: red">*</label>
-                                                <div class="input-group input-group-sm"> 
-                                                    <input type="text" class="form-control" id="audiovisual_name" name="audiovisual_name" >  
-                                                </div>
-                                            </div>  
-                                            
-                                            <div class="col-md-2">
-                                                <label for="audiovisual_qty" class="form-label" >จำนวนชิ้นงาน</label>
-                                                <div class="input-group input-group-sm"> 
-                                                    <input type="text" class="form-control" id="audiovisual_qty" name="audiovisual_qty" >  
-                                                </div>
-                                            </div>  
                                         </div> 
-                                        <div class="row mt-2"> 
-                                            <div class="col-md-12">
-                                                <label for="audiovisual_detail" class="form-label" >รายละเอียดงาน (เช่นขนาดงาน สถานที่ )</label><label for="tel" class="form-label" style="color: red">*</label>
-                                                <div class="input-group input-group-sm"> 
-                                                    <textarea id="audiovisual_detail" name="audiovisual_detail" cols="30" rows="3" class="form-control form-control-sm" ></textarea> 
-                                                </div>
-                                            </div>  
-                                     
-                                        </div>  --}}
                                     </div>
-                                   
-                                </div>   
+                                    <div class="card-footer mt-2">
+                                        <div class="btn-actions-pane-right mt-2">
+                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Updatedata">
+                                                <i class="pe-7s-diskette btn-icon-wrapper"></i>Update 
+                                            </button>
+                                            <a href="{{ url('plan_control') }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger me-2">
+                                                <i class="fa-solid fa-xmark me-2"></i>
+                                                Back
+                                            </a>
+                                        </div>
+                                    </div>
+                               
                             </div> 
-                            <div class="col"></div>
+                             
                         </div>
                     </div> 
-                    <br>  <br> <br> <br>                  
+                                
                 </div>
             </div>
         </div>       
@@ -331,21 +282,22 @@ $refnumber = PlanController::refnumber();
   
 
             $('#Updatedata').click(function() {
-                var plan_name    = $('#plan_name').val();
-                    var datepicker1  = $('#startdate').val();
-                    var datepicker2  = $('#enddate').val();
-                    var plan_price   = $('#plan_price').val();
-                    var department   = $('#department').val();
-                    var plan_type    = $('#plan_type').val();
-                    var user_id      = $('#user_id').val();
-                    var billno      = $('#billno').val();
-                    var plan_control_id      = $('#plan_control_id').val();
+                    var plan_name              = $('#plan_name').val();
+                    var datepicker1            = $('#startdate').val();
+                    var datepicker2            = $('#enddate').val();
+                    var plan_price             = $('#plan_price').val();
+                    var department             = $('#department').val();
+                    var plan_type              = $('#plan_type').val();
+                    var user_id                = $('#user_id').val();
+                    var billno                 = $('#billno').val();
+                    var plan_strategic_id      = $('#plan_strategic_id').val();
+                    var plan_control_id        = $('#plan_control_id').val();
                 $.ajax({
                     url: "{{ route('p.plan_control_update') }}",
                     type: "POST",
                     dataType: 'json',
                     data: {
-                        plan_name,datepicker1,datepicker2,plan_price,department,plan_type,user_id,billno,plan_control_id 
+                        plan_name,datepicker1,datepicker2,plan_price,department,plan_type,user_id,billno,plan_control_id,plan_strategic_id
                     },
                     success: function(data) {
                         if (data.status == 200) {
