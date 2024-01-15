@@ -1,5 +1,5 @@
 @extends('layouts.report_font')
-@section('title', 'PK-BACKOFFice || IMC')
+@section('title', 'PK-BACKOFFice || Colposcopic')
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@200&family=Srisakdi:wght@400;700&display=swap" rel="stylesheet">
@@ -114,7 +114,7 @@
         @csrf
     <div class="row"> 
         <div class="col-md-4">
-            <h5 class="card-title">IMC IPD</h5>
+            <h5 class="card-title">Colposcopic IPD</h5>
             {{-- <p class="card-title-desc">อุปกรณ์อวัยวะเที่ยม ICD9 IPD</p> --}}
         </div>
         <div class="col"></div>

@@ -20,7 +20,8 @@ return new class extends Migration
                 $table->string('vn')->nullable();//   
                 $table->string('an')->nullable();//  
                 $table->string('hn')->nullable();//  
-                $table->string('cid')->nullable();// 
+                $table->string('cid')->nullable();//
+                $table->string('vstdate')->nullable();//  
                 $table->string('dchdate')->nullable();// 
                 $table->string('ptname')->nullable();// 
                 $table->string('pttype')->nullable();// 

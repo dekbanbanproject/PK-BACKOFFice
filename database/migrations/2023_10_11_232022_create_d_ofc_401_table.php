@@ -22,6 +22,7 @@ return new class extends Migration
                 $table->string('hn')->nullable();//  
                 $table->string('pttype')->nullable();// 
                 $table->date('vstdate')->nullable();// 
+                $table->string('ptname')->nullable();// 
                 $table->string('Apphos')->nullable();// 
                 $table->string('Appktb')->nullable();// 
                 $table->string('price_ofc')->nullable();// 

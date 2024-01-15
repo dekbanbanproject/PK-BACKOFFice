@@ -336,7 +336,7 @@ class UpstmController extends Controller
         $date = date('Y-m-d');
         $y = date('Y') + 543;
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-        $newDate = date('Y-m-d', strtotime($date . ' -3 months')); //ย้อนหลัง 3 เดือน
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
         $yearnew = date('Y')+1;
         $yearold = date('Y');
@@ -383,7 +383,7 @@ class UpstmController extends Controller
                         
                         SELECT U2.acc_1102050101_307_id as id,U2.an,U2.vn,U2.hn,U2.cid,U2.ptname,U2.vstdate,U2.dchdate,U2.pttype,U2.debit_total,U2.account_code,U2.nhso_docno,U2.recieve_no,U2.nhso_ownright_pid,U2.recieve_true,U2.difference,U2.recieve_no,U2.recieve_date,U2.recieve_user
                         from acc_1102050101_307 U2 
-                        WHERE U2.vstdate BETWEEN "'.$newDate.'" AND "'.$date.'" AND U2.nhso_docno <> "" AND U2.nhso_ownright_pid <> ""
+                        WHERE U2.vstdate BETWEEN "'.$newDate.'" AND "'.$date.'" 
 
                         UNION 
                         
@@ -398,6 +398,7 @@ class UpstmController extends Controller
                         WHERE U4.vstdate BETWEEN "'.$newDate.'" AND "'.$date.'" AND U4.nhso_docno <> "" AND U4.nhso_ownright_pid <> "" 
                 ');  
             } 
+            // AND U2.nhso_docno <> "" AND U2.nhso_ownright_pid <> ""
             // AND U2.nhso_docno <> "" AND U2.nhso_ownright_pid <> ""
             // WHERE U2.nhso_ownright_pid <> ""
             // U2.nhso_docno <> "" AND 

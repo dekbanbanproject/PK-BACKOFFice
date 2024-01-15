@@ -283,148 +283,11 @@ class Ucep24Controller extends Controller
                 D_ucep24_main::truncate();
                 D_ucep24::truncate();
                
-                // $data_opitem = DB::connection('mysql2')->select('   
-                //         SELECT a.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
-                //         ,i.dchdate,ii.pttype,p.hipdata_code
-                //         ,o.icode,n.`name` as namelist,a.vstdate,o.rxdate,a.vsttime,o.rxtime,o.income,o.qty,o.unitprice,o.sum_price
-                //         ,hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate,"",o.rxtime))) ssz
-                //         FROM ipt i
-                //         LEFT JOIN opitemrece o on i.an = o.an 
-                //         LEFT JOIN ovst a on a.an = o.an
-                //         left JOIN er_regist e on e.vn = i.vn
-                //         LEFT JOIN ipt_pttype ii on ii.an = i.an
-                //         LEFT JOIN pttype p on p.pttype = ii.pttype 
-                //         LEFT JOIN s_drugitems n on n.icode = o.icode
-                //         LEFT JOIN patient pt on pt.hn = a.hn
-                //         LEFT JOIN pttype ptt on a.pttype = ptt.pttype	                        
-                //         WHERE i.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                //         and o.an is not null
-                //         and o.paidst ="02"
-                //         and p.hipdata_code ="ucs"
-                //         and DATEDIFF(o.rxdate,a.vstdate)<="1"
-                //         and hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate," ",o.rxtime))) <="24"
-                //         and e.er_emergency_level_id  in("1","2")                       
-                //         group BY i.an,o.icode,o.rxdate
-                //         ORDER BY i.an;
-                // ');                  
-                // foreach ($data_opitem as $key => $value) {    
-                //     D_ucep24::insert([
-                //         'vn'                => $value->vn,
-                //         'hn'                => $value->hn,
-                //         'an'                => $value->an, 
-                //         'cid'               => $value->cid,
-                //         'ptname'            => $value->ptname,
-                //         'pttype'            => $value->pttype,
-                //         'hipdata_code'      => $value->hipdata_code,
-                //         'vstdate'           => $value->vstdate,
-                //         'rxdate'            => $value->rxdate,
-                //         'dchdate'           => $value->dchdate, 
-                //         'icode'             => $value->icode, 
-                //         'name'              => $value->namelist,
-                //         'qty'               => $value->qty,
-                //         'unitprice'         => $value->unitprice,
-                //         'sum_price'         => $value->sum_price, 
-                //         'user_id'           => Auth::user()->id 
-                //     ]);
-                // }
-
-                // $data_opitem_inst = DB::connection('mysql2')->select('   
-                //         SELECT a.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
-                //         ,i.dchdate,ii.pttype,p.hipdata_code
-                //         ,o.icode,n.`name` as namelist,a.vstdate,o.rxdate,a.vsttime,o.rxtime,o.income,o.qty,o.unitprice,o.sum_price
-                //         ,hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate,"",o.rxtime))) ssz
-                //         FROM ipt i
-                //         LEFT JOIN opitemrece o on i.an = o.an 
-                //         LEFT JOIN ovst a on a.an = o.an
-                //         left JOIN er_regist e on e.vn = i.vn
-                //         LEFT JOIN ipt_pttype ii on ii.an = i.an
-                //         LEFT JOIN pttype p on p.pttype = ii.pttype 
-                //         LEFT JOIN s_drugitems n on n.icode = o.icode
-                //         LEFT JOIN patient pt on pt.hn = a.hn
-                //         LEFT JOIN pttype ptt on a.pttype = ptt.pttype	                        
-                //         WHERE i.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
-                //         and o.an is not null
-                //         and o.paidst ="02"
-                //         and p.hipdata_code ="ucs" 
-                //         and e.er_emergency_level_id  in("1","2")  
-                //         and o.income IN("02","18")                    
-                //         group BY i.an,o.icode,o.rxdate
-                //         ORDER BY i.an;
-                // ');   
-                // foreach ($data_opitem_inst as $key => $value_ins) {    
-                //     $check_ins = D_ucep24::where('an',$value_ins->an)->where('icode','=','icode')->count();
-                //     if ($check_ins > 0) {
-                //         # code...
-                //     } else {
-                //         D_ucep24::insert([
-                //             'vn'                => $value_ins->vn,
-                //             'hn'                => $value_ins->hn,
-                //             'an'                => $value_ins->an, 
-                //             'cid'               => $value_ins->cid,
-                //             'ptname'            => $value_ins->ptname,
-                //             'pttype'            => $value_ins->pttype,
-                //             'hipdata_code'      => $value_ins->hipdata_code,
-                //             'vstdate'           => $value_ins->vstdate,
-                //             'rxdate'            => $value_ins->rxdate,
-                //             'dchdate'           => $value_ins->dchdate, 
-                //             'icode'             => $value_ins->icode, 
-                //             'name'              => $value_ins->namelist,
-                //             'qty'               => $value_ins->qty,
-                //             'unitprice'         => $value_ins->unitprice,
-                //             'sum_price'         => $value_ins->sum_price, 
-                //             'user_id'           => Auth::user()->id 
-                //         ]);
-                //     }
-                    
-                    
-                // }       
-
-                // $data_opitem0218 = DB::connection('mysql')->select('   
-                //         SELECT a.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
-                //         ,i.dchdate,ii.pttype,p.hipdata_code
-                //         ,o.icode,n.`name` as namelist,a.vstdate,o.rxdate,a.vsttime,o.rxtime,o.income,o.qty,o.unitprice,o.sum_price
-                //         ,hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate,"",o.rxtime))) ssz
-                //         FROM hos.ipt i
-                //         LEFT JOIN hos.opitemrece o on i.an = o.an AND o.income IN("02","18") 
-                //         LEFT JOIN hos.ovst a on a.an = o.an
-                //         left JOIN hos.er_regist e on e.vn = i.vn
-                //         LEFT JOIN hos.ipt_pttype ii on ii.an = i.an
-                //         LEFT JOIN hos.pttype p on p.pttype = ii.pttype 
-                //         LEFT JOIN hos.s_drugitems n on n.icode = o.icode
-                //         LEFT JOIN hos.patient pt on pt.hn = a.hn
-                //         LEFT JOIN hos.pttype ptt on a.pttype = ptt.pttype	                        
-                //         WHERE i.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                //         and o.an is not null
-                //         and o.paidst ="02"
-                //         and p.hipdata_code ="ucs"
-                //         AND o.qty <> 0
-                //         and e.er_emergency_level_id  in("1","2")                       
-                //         group BY i.an,o.icode,o.rxdate
-                //         ORDER BY i.an;
-                // ');                  
-                // foreach ($data_opitem0218 as $key => $va0218) {    
-                //     D_ucep24::insert([
-                //         'vn'                => $va0218->vn,
-                //         'hn'                => $va0218->hn,
-                //         'an'                => $va0218->an, 
-                //         'cid'               => $va0218->cid,
-                //         'ptname'            => $va0218->ptname,
-                //         'pttype'            => $va0218->pttype,
-                //         'hipdata_code'      => $va0218->hipdata_code,
-                //         'vstdate'           => $va0218->vstdate,
-                //         'rxdate'            => $va0218->rxdate,
-                //         'dchdate'           => $va0218->dchdate, 
-                //         'icode'             => $va0218->icode, 
-                //         'name'              => $va0218->namelist,
-                //         'qty'               => $va0218->qty,
-                //         'unitprice'         => $va0218->unitprice,
-                //         'sum_price'         => $va0218->sum_price, 
-                //         'user_id'           => Auth::user()->id 
-                //     ]); 
-                // }
-
-                $data_main_ = DB::connection('mysql2')->select('   
-                        SELECT i.vn,o.an,o.hn,pt.cid,i.pttype,CONCAT(pt.pname,pt.fname," ",pt.lname) ptname,o.vstdate,i.dchdate,p.hipdata_code,o.qty,o.sum_price,i1.icd10 as DIAG
+                $data_opitem = DB::connection('mysql2')->select('   
+                        SELECT a.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
+                        ,i.dchdate,ii.pttype,p.hipdata_code
+                        ,o.icode,n.`name` as namelist,a.vstdate,o.rxdate,a.vsttime,o.rxtime,o.income,o.qty,o.unitprice,o.sum_price
+                        ,hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate,"",o.rxtime))) ssz
                         FROM ipt i
                         LEFT JOIN opitemrece o on i.an = o.an 
                         LEFT JOIN ovst a on a.an = o.an
@@ -432,12 +295,152 @@ class Ucep24Controller extends Controller
                         LEFT JOIN ipt_pttype ii on ii.an = i.an
                         LEFT JOIN pttype p on p.pttype = ii.pttype 
                         LEFT JOIN s_drugitems n on n.icode = o.icode
-                        LEFT JOIN patient pt on pt.hn = i.hn 
-                        LEFT OUTER JOIN iptdiag i1 on i1.an= i.an
+                        LEFT JOIN patient pt on pt.hn = a.hn
+                        LEFT JOIN pttype ptt on a.pttype = ptt.pttype	                        
                         WHERE i.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                         and o.an is not null
                         and o.paidst ="02"
+                        and p.hipdata_code ="ucs"
+                        and DATEDIFF(o.rxdate,a.vstdate)<="1"
+                        and hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate," ",o.rxtime))) <="24"
+                        and e.er_emergency_level_id  in("1","2")                       
+                        group BY i.an,o.icode,o.rxdate
+                        ORDER BY i.an;
+                ');                  
+                foreach ($data_opitem as $key => $value) {    
+                    D_ucep24::insert([
+                        'vn'                => $value->vn,
+                        'hn'                => $value->hn,
+                        'an'                => $value->an, 
+                        'cid'               => $value->cid,
+                        'ptname'            => $value->ptname,
+                        'pttype'            => $value->pttype,
+                        'hipdata_code'      => $value->hipdata_code,
+                        'vstdate'           => $value->vstdate,
+                        'rxdate'            => $value->rxdate,
+                        'dchdate'           => $value->dchdate, 
+                        'icode'             => $value->icode, 
+                        'name'              => $value->namelist,
+                        'qty'               => $value->qty,
+                        'unitprice'         => $value->unitprice,
+                        'sum_price'         => $value->sum_price, 
+                        'user_id'           => Auth::user()->id 
+                    ]);
+                }
+
+                $data_opitem_inst = DB::connection('mysql2')->select('   
+                        SELECT a.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
+                        ,i.dchdate,ii.pttype,p.hipdata_code
+                        ,o.icode,n.`name` as namelist,a.vstdate,o.rxdate,a.vsttime,o.rxtime,o.income,o.qty,o.unitprice,o.sum_price
+                        ,hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate,"",o.rxtime))) ssz
+                        FROM ipt i
+                        LEFT JOIN opitemrece o on i.an = o.an 
+                        LEFT JOIN ovst a on a.an = o.an
+                        left JOIN er_regist e on e.vn = i.vn
+                        LEFT JOIN ipt_pttype ii on ii.an = i.an
+                        LEFT JOIN pttype p on p.pttype = ii.pttype 
+                        LEFT JOIN s_drugitems n on n.icode = o.icode
+                        LEFT JOIN patient pt on pt.hn = a.hn
+                        LEFT JOIN pttype ptt on a.pttype = ptt.pttype	                        
+                        WHERE i.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
+                        and o.an is not null
+                        and o.paidst ="02"
                         and p.hipdata_code ="ucs" 
+                        and e.er_emergency_level_id  in("1","2")  
+                        and o.income IN("02","18")                    
+                        group BY i.an,o.icode,o.rxdate
+                        ORDER BY i.an;
+                ');   
+                foreach ($data_opitem_inst as $key => $value_ins) {    
+                    $check_ins = D_ucep24::where('an',$value_ins->an)->where('icode','=','icode')->count();
+                    if ($check_ins > 0) {
+                        # code...
+                    } else {
+                        D_ucep24::insert([
+                            'vn'                => $value_ins->vn,
+                            'hn'                => $value_ins->hn,
+                            'an'                => $value_ins->an, 
+                            'cid'               => $value_ins->cid,
+                            'ptname'            => $value_ins->ptname,
+                            'pttype'            => $value_ins->pttype,
+                            'hipdata_code'      => $value_ins->hipdata_code,
+                            'vstdate'           => $value_ins->vstdate,
+                            'rxdate'            => $value_ins->rxdate,
+                            'dchdate'           => $value_ins->dchdate, 
+                            'icode'             => $value_ins->icode, 
+                            'name'              => $value_ins->namelist,
+                            'qty'               => $value_ins->qty,
+                            'unitprice'         => $value_ins->unitprice,
+                            'sum_price'         => $value_ins->sum_price, 
+                            'user_id'           => Auth::user()->id 
+                        ]);
+                    }
+                    
+                    
+                }       
+
+                $data_opitem0218 = DB::connection('mysql')->select('   
+                        SELECT a.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
+                        ,i.dchdate,ii.pttype,p.hipdata_code
+                        ,o.icode,n.`name` as namelist,a.vstdate,o.rxdate,a.vsttime,o.rxtime,o.income,o.qty,o.unitprice,o.sum_price
+                        ,hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate,"",o.rxtime))) ssz
+                        FROM hos.ipt i
+                        LEFT JOIN hos.opitemrece o on i.an = o.an AND o.income IN("02","18") 
+                        LEFT JOIN hos.ovst a on a.an = o.an
+                        left JOIN hos.er_regist e on e.vn = i.vn
+                        LEFT JOIN hos.ipt_pttype ii on ii.an = i.an
+                        LEFT JOIN hos.pttype p on p.pttype = ii.pttype 
+                        LEFT JOIN hos.s_drugitems n on n.icode = o.icode
+                        LEFT JOIN hos.patient pt on pt.hn = a.hn
+                        LEFT JOIN hos.pttype ptt on a.pttype = ptt.pttype	                        
+                        WHERE i.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                        and o.an is not null
+                        and o.paidst ="02"
+                        and p.hipdata_code ="ucs"
+                        AND o.qty <> 0
+                        and e.er_emergency_level_id  in("1","2")                       
+                        group BY i.an,o.icode,o.rxdate
+                        ORDER BY i.an;
+                ');                  
+                foreach ($data_opitem0218 as $key => $va0218) {    
+                    D_ucep24::insert([
+                        'vn'                => $va0218->vn,
+                        'hn'                => $va0218->hn,
+                        'an'                => $va0218->an, 
+                        'cid'               => $va0218->cid,
+                        'ptname'            => $va0218->ptname,
+                        'pttype'            => $va0218->pttype,
+                        'hipdata_code'      => $va0218->hipdata_code,
+                        'vstdate'           => $va0218->vstdate,
+                        'rxdate'            => $va0218->rxdate,
+                        'dchdate'           => $va0218->dchdate, 
+                        'icode'             => $va0218->icode, 
+                        'name'              => $va0218->namelist,
+                        'qty'               => $va0218->qty,
+                        'unitprice'         => $va0218->unitprice,
+                        'sum_price'         => $va0218->sum_price, 
+                        'user_id'           => Auth::user()->id 
+                    ]); 
+                }
+
+                $data_main_ = DB::connection('mysql')->select('   
+                    SELECT a.vn,o.an,o.hn,pt.cid,i.pttype,CONCAT(pt.pname,pt.fname," ",pt.lname) ptname,i.dchdate,ptt.hipdata_code,o.qty,o.sum_price,i1.icd10 as DIAG
+                        FROM hos.ipt i
+                        LEFT JOIN hos.opitemrece o on i.an = o.an 
+                        LEFT JOIN hos.ovst a on a.an = o.an
+                        left JOIN hos.er_regist e on e.vn = i.vn
+                        LEFT JOIN hos.ipt_pttype ii on ii.an = i.an
+                        LEFT JOIN hos.pttype p on p.pttype = ii.pttype 
+                        LEFT JOIN hos.s_drugitems n on n.icode = o.icode
+                        LEFT JOIN hos.patient pt on pt.hn = a.hn
+                        LEFT JOIN hos.pttype ptt on a.pttype = ptt.pttype 
+                        LEFT OUTER JOIN hos.iptdiag i1 on i1.an= i.an
+                        WHERE i.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                        and o.an is not null
+                        and o.paidst ="02"
+                        and p.hipdata_code ="ucs"
+                        and DATEDIFF(o.rxdate,a.vstdate)<="1"
+                        and hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate," ",o.rxtime))) <="24"
                         and e.er_emergency_level_id in("1","2")  
                         AND i1.icd10 <> "" AND o.qty <> 0                     
                         group BY i.an
@@ -449,72 +452,36 @@ class Ucep24Controller extends Controller
                         'hn'                => $value2->hn,
                         'an'                => $value2->an, 
                         'cid'               => $value2->cid,
-                        'vstdate'           => $value2->vstdate, 
                         'dchdate'           => $value2->dchdate, 
                         'ptname'            => $value2->ptname, 
                         'pttype'            => $value2->pttype, 
-                    ]); 
-                }   
-                $data_date_one = DB::connection('mysql')->select('SELECT vn,an,vstdate FROM d_ucep24_main GROUP BY an'); 
-                foreach ($data_date_one as $key => $v_opitem_one) {
-                    $opitem = DB::connection('mysql2')->select('
-                        SELECT i.vn,o.an,o.hn,pp.cid,concat(pp.pname,pp.fname," ",pp.lname) ptname,o.rxdate,o.rxtime,i.dchdate,s.icode,s.name as namelist,s.strength,s.units ,o.qty,o.unitprice,o.sum_price,o.paidst,pt.pttype,pt.hipdata_code   
-                            FROM opitemrece o  
-                            LEFT OUTER JOIN ipt i on i.an = o.an 
-                            LEFT OUTER JOIN patient pp on pp.hn = o.hn
-                            LEFT OUTER JOIN s_drugitems s on s.icode = o.icode  
-                            LEFT OUTER JOIN paidst p on p.paidst = o.paidst  
-                            LEFT OUTER JOIN pttype pt on pt.pttype = o.pttype  
-                            WHERE o.an = "'.$v_opitem_one->an.'" 
-                            AND o.rxdate = "'.$v_opitem_one->vstdate.'" 
-                            ORDER BY o.rxdate,o.rxtime
-                    ');
-                    foreach ($opitem as $key => $v_item) { 
+                    ]);
                     
-                        D_ucep24::insert([
-                            'vn'                => $v_item->vn,
-                            'hn'                => $v_item->hn,
-                            'an'                => $v_item->an, 
-                            'cid'               => $v_item->cid,
-                            'ptname'            => $v_item->ptname,
-                            'pttype'            => $v_item->pttype,
-                            'hipdata_code'      => $v_item->hipdata_code,
-                            'vstdate'           => $v_item->rxdate,
-                            'rxdate'            => $v_item->rxdate,
-                            'dchdate'           => $v_item->dchdate, 
-                            'icode'             => $v_item->icode, 
-                            'name'              => $v_item->namelist,
-                            'qty'               => $v_item->qty,
-                            'unitprice'         => $v_item->unitprice,
-                            'sum_price'         => $v_item->sum_price, 
-                            'user_id'           => Auth::user()->id 
-                        ]);
-                    } 
-                }
+                }   
 
-                // $data_total_ = DB::connection('mysql')->select('SELECT vn,an,hn,cid,ptname,pttype,hipdata_code,vstdate,dchdate,SUM(qty) as qty,SUM(sum_price) as sum_price FROM D_ucep24 WHERE qty > 0 GROUP BY an'); 
-                // foreach ($data_total_ as $key => $vatotal) {
-                //     $check_to = D_claim::where('an',$vatotal->an)->where('nhso_adp_code','=','UCEP24')->count();
-                //         if ($check_to > 0) { 
-                //         } else {
-                //             D_claim::insert([
-                //                 'vn'                => $vatotal->vn,
-                //                 'hn'                => $vatotal->hn,
-                //                 'an'                => $vatotal->an,
-                //                 'cid'               => $vatotal->cid,
-                //                 'pttype'            => $vatotal->pttype,
-                //                 'ptname'            => $vatotal->ptname,
-                //                 'dchdate'           => $vatotal->dchdate,
-                //                 'hipdata_code'      => $vatotal->hipdata_code,
-                //                 'qty'               => $vatotal->qty,
-                //                 'sum_price'         => $vatotal->sum_price,
-                //                 'type'              => 'IPD',
-                //                 'nhso_adp_code'     => 'UCEP24',
-                //                 'claimdate'         => $date, 
-                //                 'userid'            => $iduser, 
-                //             ]);
-                //         }  
-                // }
+                $data_total_ = DB::connection('mysql')->select('SELECT vn,an,hn,cid,ptname,pttype,hipdata_code,vstdate,dchdate,SUM(qty) as qty,SUM(sum_price) as sum_price FROM D_ucep24 WHERE qty > 0 GROUP BY an'); 
+                foreach ($data_total_ as $key => $vatotal) {
+                    $check_to = D_claim::where('an',$vatotal->an)->where('nhso_adp_code','=','UCEP24')->count();
+                        if ($check_to > 0) { 
+                        } else {
+                            D_claim::insert([
+                                'vn'                => $vatotal->vn,
+                                'hn'                => $vatotal->hn,
+                                'an'                => $vatotal->an,
+                                'cid'               => $vatotal->cid,
+                                'pttype'            => $vatotal->pttype,
+                                'ptname'            => $vatotal->ptname,
+                                'dchdate'           => $vatotal->dchdate,
+                                'hipdata_code'      => $vatotal->hipdata_code,
+                                'qty'               => $vatotal->qty,
+                                'sum_price'         => $vatotal->sum_price,
+                                'type'              => 'IPD',
+                                'nhso_adp_code'     => 'UCEP24',
+                                'claimdate'         => $date, 
+                                'userid'            => $iduser, 
+                            ]);
+                        }  
+                }
                         
                 
 
@@ -1311,13 +1278,13 @@ class Ucep24Controller extends Controller
 
          foreach ($data_vn_1 as $key => $va1) {
                 //D_ins OK
-                $data_ins_ = DB::connection('mysql2')->select(' 
+                $data_ins_ = DB::connection('mysql2')->select('
                     SELECT v.hn HN
                     ,if(i.an is null,p.hipdata_code,pp.hipdata_code) INSCL ,if(i.an is null,p.pcode,pp.pcode) SUBTYPE,v.cid CID
                     ,DATE_FORMAT(if(i.an is null,v.pttype_begin,ap.begin_date), "%Y%m%d") DATEIN
                     ,DATE_FORMAT(if(i.an is null,v.pttype_expire,ap.expire_date), "%Y%m%d") DATEEXP
                     ,if(i.an is null,v.hospmain,ap.hospmain) HOSPMAIN,if(i.an is null,v.hospsub,ap.hospsub) HOSPSUB,"" GOVCODE ,"" GOVNAME
-                    ,ifnull(if(i.an is null,r.sss_approval_code,ap.claim_code),ca.claimcode) PERMITNO
+                    ,ifnull(if(i.an is null,vp.claim_code or vp.auth_code,ap.claim_code),r.sss_approval_code) PERMITNO
                     ,"" DOCNO ,"" OWNRPID,"" OWNRNAME ,i.an AN ,v.vn SEQ ,"" SUBINSCL,"" RELINSCL,"2" HTYPE
                     FROM vn_stat v
                     LEFT OUTER JOIN pttype p on p.pttype = v.pttype
@@ -1326,29 +1293,11 @@ class Ucep24Controller extends Controller
                     LEFT OUTER JOIN ipt_pttype ap on ap.an = i.an
                     LEFT OUTER JOIN visit_pttype vp on vp.vn = v.vn
                     LEFT OUTER JOIN rcpt_debt r on r.vn = v.vn
-                    LEFT OUTER JOIN patient px on px.hn = v.hn     
-                    LEFT OUTER JOIN pkbackoffice.check_authen ca on ca.cid = px.cid AND ca.vstdate = v.vstdate               
-                    WHERE v.vn IN("'.$va1->vn.'")  
-                    GROUP BY v.vn 
+                    LEFT OUTER JOIN patient px on px.hn = v.hn                
+                    WHERE v.vn IN("'.$va1->vn.'")   
                 ');
-                    // SELECT v.hn HN
-                    // ,if(i.an is null,p.hipdata_code,pp.hipdata_code) INSCL ,if(i.an is null,p.pcode,pp.pcode) SUBTYPE,v.cid CID
-                    // ,DATE_FORMAT(if(i.an is null,v.pttype_begin,ap.begin_date), "%Y%m%d") DATEIN
-                    // ,DATE_FORMAT(if(i.an is null,v.pttype_expire,ap.expire_date), "%Y%m%d") DATEEXP
-                    // ,if(i.an is null,v.hospmain,ap.hospmain) HOSPMAIN,if(i.an is null,v.hospsub,ap.hospsub) HOSPSUB,"" GOVCODE ,"" GOVNAME
-                    // ,ifnull(if(i.an is null,vp.claim_code or vp.auth_code,ap.claim_code),r.sss_approval_code) PERMITNO
-                    // ,"" DOCNO ,"" OWNRPID,"" OWNRNAME ,i.an AN ,v.vn SEQ ,"" SUBINSCL,"" RELINSCL,"2" HTYPE
-                    // FROM vn_stat v
-                    // LEFT OUTER JOIN pttype p on p.pttype = v.pttype
-                    // LEFT OUTER JOIN ipt i on i.vn = v.vn 
-                    // LEFT OUTER JOIN pttype pp on pp.pttype = i.pttype
-                    // LEFT OUTER JOIN ipt_pttype ap on ap.an = i.an
-                    // LEFT OUTER JOIN visit_pttype vp on vp.vn = v.vn
-                    // LEFT OUTER JOIN rcpt_debt r on r.vn = v.vn
-                    // LEFT OUTER JOIN patient px on px.hn = v.hn                
-                    // WHERE v.vn IN("'.$va1->vn.'") 
-                    // ,c.claimcode PERMITNO
-                    // ,ifnull(if(i.an is null,vp.claim_code or vp.auth_code,ap.claim_code),r.sss_approval_code) PERMITNO
+                // ,c.claimcode PERMITNO
+                // ,ifnull(if(i.an is null,vp.claim_code or vp.auth_code,ap.claim_code),r.sss_approval_code) PERMITNO
                 foreach ($data_ins_ as $va_01) {
                     D_ins::insert([
                         'HN'                => $va_01->HN,
@@ -1927,7 +1876,7 @@ class Ucep24Controller extends Controller
                 // ->update([
                 //     'SP_ITEM' => '01'
                 // ]);
-                D_dru::where('AN',$val->an)->where('DID',$val->icode)->where('d_anaconda_id',"UCEP24")
+                D_dru::where('AN',$val->an)->where('DID',$val->icode)
                 // D_dru::where('AN',$val->an)->where('DID',$val->icode)->where('vstdate',$val->vstdate)
                 ->update([
                     'SP_ITEM'     => '01',
@@ -1951,7 +1900,7 @@ class Ucep24Controller extends Controller
             $dataucep_ = DB::connection('mysql')->select('SELECT vn,an,hn,DATE_FORMAT(vstdate,"%Y%m%d") vstdate,dchdate,icode FROM d_ucep24');
             $iduser = Auth::user()->id;
             foreach ($dataucep_ as $key => $value_up) {
-                $check = D_adp::where('AN',$value_up->an)->where('CODE','UCEP24')->where('d_anaconda_id',"UCEP24")->count();
+                $check = D_adp::where('AN',$value_up->an)->where('CODE','UCEP24')->count();
                 if ($check > 0) {
                     # code...
                 } else {
@@ -1972,9 +1921,9 @@ class Ucep24Controller extends Controller
                 }    
             }
             // icode
-            D_adp::where('SP_ITEM','=','')->where('d_anaconda_id',"UCEP24")->delete();
-            D_adp::where('QTY','=',['',null])->where('SP_ITEM','=','01')->where('d_anaconda_id',"UCEP24")->delete();
-            D_dru::where('SP_ITEM','=',null)->where('d_anaconda_id',"UCEP24")->delete();
+            D_adp::where('SP_ITEM','=','')->delete();
+            D_adp::where('QTY','=',['',null])->where('SP_ITEM','=','01')->delete();
+            D_dru::where('SP_ITEM','=','')->delete();
 
             return response()->json([
                 'status'    => '200'

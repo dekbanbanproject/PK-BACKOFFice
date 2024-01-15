@@ -159,29 +159,29 @@ class Ofc401Controller extends Controller
                 D_ofc_401::truncate(); 
                 D_dru_out::truncate();
                 $data_main_ = DB::connection('mysql2')->select(' 
-                        SELECT v.vn,o.an,v.cid,v.hn,concat(pt.pname,pt.fname," ",pt.lname) ptname
+                    SELECT v.vn,o.an,v.cid,v.hn,concat(pt.pname,pt.fname," ",pt.lname) ptname
                         ,v.vstdate,v.pttype  ,rd.sss_approval_code AS "Apphos",v.inc04 as xray
                         ,rd.amount AS price_ofc,v.income,ptt.hipdata_code 
                         ,group_concat(distinct hh.appr_code,":",hh.transaction_amount,"/") AS AppKTB 
                         ,GROUP_CONCAT(DISTINCT ov.icd10 order by ov.diagtype) AS icd10 
-                        FROM hos.vn_stat v
-                        LEFT OUTER JOIN hos.patient pt ON v.hn=pt.hn
-                        LEFT OUTER JOIN hos.ovstdiag ov ON v.vn=ov.vn
-                        LEFT OUTER JOIN hos.ovst o ON v.vn=o.vn
-                        LEFT OUTER JOIN hos.opdscreen op ON v.vn = op.vn
-                        LEFT OUTER JOIN hos.pttype ptt ON v.pttype=ptt.pttype 
-                        LEFT OUTER JOIN hos.rcpt_debt rd ON v.vn=rd.vn
-                        LEFT OUTER JOIN hos.hpc11_ktb_approval hh on hh.pid = pt.cid and hh.transaction_date = v.vstdate 
-                        LEFT OUTER JOIN hos.ipt i on i.vn = v.vn
-                        
-                        WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                        AND v.pttype in ("O1","O2","O3","O4","O5") AND rd.sss_approval_code <> ""
-                        AND v.pttype not in ("OF","FO") 
-                        
-                        AND o.an is null
-                        AND v.pdx <> ""
-                        GROUP BY v.vn; 
-                ');                 
+                        FROM vn_stat v
+                        LEFT OUTER JOIN patient pt ON v.hn=pt.hn
+                        LEFT OUTER JOIN ovstdiag ov ON v.vn=ov.vn
+                        LEFT OUTER JOIN ovst o ON v.vn=o.vn
+                        LEFT OUTER JOIN opdscreen op ON v.vn = op.vn
+                        LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype 
+                        LEFT OUTER JOIN rcpt_debt rd ON v.vn=rd.vn
+                        LEFT OUTER JOIN hpc11_ktb_approval hh on hh.pid = pt.cid and hh.transaction_date = v.vstdate 
+                        LEFT OUTER JOIN ipt i on i.vn = v.vn                        
+                    WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                    AND v.pttype in ("O1","O2","O3","O4","O5") 
+                   
+                    AND v.pttype not in ("OF","FO")                         
+                    AND o.an is null
+                    AND v.pdx <> ""
+                    GROUP BY v.vn; 
+                ');  
+                // AND rd.sss_approval_code <> ""               
                 foreach ($data_main_ as $key => $value) {    
                     D_ofc_401::insert([
                             'vn'                 => $value->vn,
@@ -189,6 +189,7 @@ class Ofc401Controller extends Controller
                             'an'                 => $value->an, 
                             'pttype'             => $value->pttype,
                             'vstdate'            => $value->vstdate,
+                            'ptname'             => $value->ptname,
                             'Apphos'             => $value->Apphos,
                             'Appktb'             => $value->AppKTB,
                             'price_ofc'          => $value->price_ofc, 
@@ -332,6 +333,8 @@ class Ofc401Controller extends Controller
             $data['data_cha'] = DB::connection('mysql')->select('SELECT * from d_cha WHERE d_anaconda_id ="OFC_401"');
             $data['data_ins'] = DB::connection('mysql')->select('SELECT * from d_ins WHERE d_anaconda_id ="OFC_401"');
             $data['data_dru'] = DB::connection('mysql')->select('SELECT * from d_dru WHERE d_anaconda_id ="OFC_401"');
+            $data['count_no'] = D_ofc_401::where('Apphos','<>','')->count();
+            $data['count_null'] = D_ofc_401::where('Apphos','=',Null)->count();
 
         return view('ofc.ofc_401',$data,[
             'startdate'     =>     $startdate,
@@ -351,8 +354,8 @@ class Ofc401Controller extends Controller
     }
     public function ofc_401_process(Request $request)
     { 
-        $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from d_ofc_401');
-        $iduser = Auth::user()->id; 
+        // $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from d_ofc_401');
+        // $iduser = Auth::user()->id; 
         D_opd::where('d_anaconda_id','=','OFC_401')->delete();
         D_orf::where('d_anaconda_id','=','OFC_401')->delete();
         D_oop::where('d_anaconda_id','=','OFC_401')->delete();
@@ -383,7 +386,9 @@ class Ofc401Controller extends Controller
         // D_cht::truncate();
         // D_cha::truncate();
         // D_ins::truncate();
-
+        $id = $request->ids;
+        $iduser = Auth::user()->id;
+        $data_vn_1 = D_ofc_401::whereIn('d_ofc_401_id',explode(",",$id))->get();
          foreach ($data_vn_1 as $key => $va1) {
                 //D_ins OK
                 $data_ins_ = DB::connection('mysql2')->select('
@@ -392,7 +397,7 @@ class Ofc401Controller extends Controller
                     ,DATE_FORMAT(if(i.an is null,v.pttype_begin,ap.begin_date), "%Y%m%d") DATEIN
                     ,DATE_FORMAT(if(i.an is null,v.pttype_expire,ap.expire_date), "%Y%m%d") DATEEXP
                     ,if(i.an is null,v.hospmain,ap.hospmain) HOSPMAIN,if(i.an is null,v.hospsub,ap.hospsub) HOSPSUB,"" GOVCODE ,"" GOVNAME
-                    ,ifnull(if(i.an is null,ca.claimcode,ap.claim_code),r.sss_approval_code) PERMITNO
+                    ,ifnull(if(i.an is null,r.sss_approval_code,ap.claim_code),ca.claimcode) PERMITNO
                     ,"" DOCNO ,"" OWNRPID,"" OWNRNAME ,i.an AN ,v.vn SEQ ,"" SUBINSCL,"" RELINSCL,"2" HTYPE
                     FROM vn_stat v
                     LEFT OUTER JOIN pttype p on p.pttype = v.pttype
@@ -866,14 +871,15 @@ class Ofc401Controller extends Controller
                  //D_dru OK
                  $data_dru_ = DB::connection('mysql2')->select('
                     SELECT vv.hcode HCODE ,v.hn HN ,v.an AN ,vv.spclty CLINIC ,vv.cid PERSON_ID ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
-                        ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,v.qty AMOUNT ,round(v.unitprice,2) DRUGPRIC
-                        ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
-                        ,oo.presc_reason DRUGREMARK ,oo.nhso_authorize_code PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
-                        ,"" TOTAL ,"" as SIGCODE ,"" as SIGTEXT ,""  PROVIDER,v.vstdate
-                        FROM opitemrece v
-                        LEFT OUTER JOIN drugitems d on d.icode = v.icode
-                        LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
-                        LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode                
+                    ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,v.qty AMOUNT ,round(v.unitprice,2) DRUGPRIC
+                    ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
+                    ,oo.presc_reason DRUGREMARK ,d.drugusage PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
+                    ,"" TOTAL ,"" as SIGCODE ,"" as SIGTEXT ,"" PROVIDER,v.vstdate
+                    FROM opitemrece v
+                    LEFT OUTER JOIN drugitems d on d.icode = v.icode
+                    LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
+                    LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode  
+                    LEFT OUTER JOIN drugitems_ned_reason dn on dn.icode = v.icode               
                     WHERE v.vn IN("'.$va1->vn.'")
                     AND d.did is not null 
                     GROUP BY v.vn,did
@@ -881,19 +887,21 @@ class Ofc401Controller extends Controller
                     UNION all
 
                     SELECT pt.hcode HCODE ,v.hn HN ,v.an AN ,v1.spclty CLINIC ,pt.cid PERSON_ID ,DATE_FORMAT((v.vstdate),"%Y%m%d") DATE_SERV
-                        ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,sum(v.qty) AMOUNT ,round(v.unitprice,2) DRUGPRIC
-                        ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
-                        ,oo.presc_reason DRUGREMARK ,oo.nhso_authorize_code PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
-                        ,"" TOTAL,"" as SIGCODE,"" as SIGTEXT,""  PROVIDER,v.vstdate
-                        FROM opitemrece v
-                        LEFT OUTER JOIN drugitems d on d.icode = v.icode
-                        LEFT OUTER JOIN patient pt  on v.hn = pt.hn
-                        INNER JOIN ipt v1 on v1.an = v.an
-                        LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode                 
+                    ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,sum(v.qty) AMOUNT ,round(v.unitprice,2) DRUGPRIC
+                    ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
+                    ,oo.presc_reason DRUGREMARK ,d.drugusage PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
+                    ,"" TOTAL,"" as SIGCODE,"" as SIGTEXT,""  PROVIDER,v.vstdate
+                    FROM opitemrece v
+                    LEFT OUTER JOIN drugitems d on d.icode = v.icode
+                    LEFT OUTER JOIN patient pt  on v.hn = pt.hn
+                    INNER JOIN ipt v1 on v1.an = v.an
+                    LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode 
+                    LEFT OUTER JOIN drugitems_ned_reason dn on dn.icode = v.icode               
                     WHERE v1.vn IN("'.$va1->vn.'")
                     AND d.did is not null AND v.qty<>"0"
                     GROUP BY v.an,d.icode,USE_STATUS;              
                 ');
+                // oo.nhso_authorize_code PA_NO
                 // ,d.sks_drug_code as SIGCODE
                 // ,d.sks_dfs_text as SIGTEXT
                 foreach ($data_dru_ as $va_14) {

@@ -157,7 +157,7 @@
                 <div class="col-md-3">                               
                     <div class="nav flex-column" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                         <div class="card p-4 card-ucs">
-                            <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL UCS IPD </h4>
+                            <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL UCS IPD 217</h4>
                             <div class="table-responsive">
                                 <table id="example" class="table table-striped table-bordered "
                                     style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -169,11 +169,11 @@
                                     <tbody>
                                         <?php $number = 0;
                                         $total1 = 0; ?>
-                                        @foreach ($ucs_ipd as $item_1)
+                                        @foreach ($ucs_217 as $item_1)
                                             <?php $number++; ?> 
                                             <tr height="20"> 
                                                 <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px"> 
-                                                    <a href="{{url('upstm_ucs_detail_ipd/'.$item_1->STMDoc)}}"> {{ $item_1->STMDoc }}</a>  
+                                                    <a href="{{url('upstm_ucs_detail_ipd217/'.$item_1->STMDoc)}}"> {{ $item_1->STMDoc }}</a>  
                                                 </td>   
                                             </tr>
                                         @endforeach 
@@ -206,7 +206,7 @@
                                                         <th class="text-center">debit_total</th>     
                                                         <th class="text-center">total_approve</th>  
                                                         {{-- <th class="text-center">debit_217</th>      --}}
-                                                        {{-- <th class="text-center">total_217</th>  --}}
+                                                        <th class="text-center">total_217</th> 
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -224,12 +224,13 @@
                                                             <td class="text-center" style="color:rgb(18, 118, 233);font-size:15px" width="10%">{{ number_format($item->debit_total, 2) }}</td>
                                                             <td class="text-center" style="color:rgb(10, 151, 85);font-size:15px" width="10%">{{ number_format($item->total_approve, 2) }}</td> 
                                                             {{-- <td class="text-center" style="color:rgb(140, 73, 248);font-size:15px" width="10%">{{ number_format($item->debit_total, 2) }}</td> --}}
-                                                            {{-- <td class="text-center" style="color:rgb(17, 112, 68);font-size:15px" width="10%">{{ number_format($item->total_217, 2) }}</td>  --}}
+                                                            <td class="text-center" style="color:rgb(35, 204, 125);font-size:15px" width="10%">{{ number_format($item->total_217, 2) }}</td> 
                                                         </tr>
                                                         <?php
                                                                 $total1 = $total1 + $item->income;
                                                                 $total2 = $total2 + $item->debit_total;
                                                                 $total3 = $total3 + $item->total_approve;  
+                                                                $total4 = $total4 + $item->total_217;  
                                                         ?> 
                                                     @endforeach                    
                                                 </tbody> 
@@ -238,6 +239,7 @@
                                                     <td class="text-center" style="background-color: rgb(233, 83, 14)"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
                                                     <td class="text-center" style="background-color: rgb(18, 118, 233)"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
                                                     <td class="text-center" style="background-color: rgb(10, 151, 85)"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td>  
+                                                    <td class="text-center" style="background-color: rgb(35, 204, 125)"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label> </td> 
                                                 </tr>  
                                             </table>
                                         </div>

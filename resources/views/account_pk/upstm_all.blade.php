@@ -202,8 +202,41 @@
                                                         </table>
                                                     </div>
                                                 </div>
+                                                <div class="card p-4 card-ucs">
+                                                    <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL UCS OPD 216</h4>
+                                                    <div class="table-responsive">
+                                                        <table id="example12" class="table table-striped table-bordered "
+                                                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-center">ลำดับ</th> 
+                                                                    <th class="text-center">STMDoc</th> 
+                                                                    <th class="text-center">total</th>
+                                
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php $number = 0;
+                                                                $total1 = 0; ?>
+                                                                @foreach ($ucs_216 as $item_216)
+                                                                    <?php $number++; ?>
+                                
+                                                                    <tr height="20">
+                                                                        <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
+                                                                        <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px">  
+                                                                            <a href="{{url('upstm_ucs_detail_opd_216/'.$item_216->STMDoc)}}"> {{ $item_216->STMDoc }}</a>  
+                                                                        </td>  
+                                                                        <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($item_216->total, 2) }}</td>
+                                                                    </tr>
+                                                                @endforeach
+                                
+                                                            </tbody> 
+                                                        </table>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="col-md-6">
+                                                
                                                 <div class="card p-4 card-ucs">
                                                     <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL UCS IPD</h4>
                                                     <div class="table-responsive">
@@ -229,6 +262,39 @@
                                                                             <a href="{{url('upstm_ucs_detail_ipd/'.$item_ip->STMDoc)}}"> {{ $item_ip->STMDoc }}</a>  
                                                                         </td>  
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($item_ip->total, 2) }}</td>
+                                                                    </tr>
+                                                                @endforeach
+                                
+                                                            </tbody> 
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                              
+
+                                                <div class="card p-4 card-ucs">
+                                                    <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL UCS IPD 217</h4>
+                                                    <div class="table-responsive">
+                                                        <table id="example13" class="table table-striped table-bordered "
+                                                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-center">ลำดับ</th> 
+                                                                    <th class="text-center">STMDoc</th> 
+                                                                    <th class="text-center">total</th> 
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php $number = 0;
+                                                                $total1 = 0; ?>
+                                                                @foreach ($ucs_217 as $item_ip217)
+                                                                    <?php $number++; ?>
+                                
+                                                                    <tr height="20">
+                                                                        <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
+                                                                        <td class="text-start" style="color:rgb(252, 53, 129);font-size:15px"> 
+                                                                            <a href="{{url('upstm_ucs_detail_ipd217/'.$item_ip217->STMDoc)}}"> {{ $item_ip217->STMDoc }}</a>  
+                                                                        </td>  
+                                                                        <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($item_ip217->total, 2) }}</td>
                                                                     </tr>
                                                                 @endforeach
                                 
