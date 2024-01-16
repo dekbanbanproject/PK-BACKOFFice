@@ -1698,6 +1698,11 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'upstm_ti_importexcel',[App\Http\Controllers\AccountPKController::class, 'upstm_ti_importexcel'])->name('acc.upstm_ti_importexcel');// ไต
 
     Route::match(['get','post'],'upstm_all',[App\Http\Controllers\AccountPKController::class, 'upstm_all'])->name('acc.upstm_all');//
+    Route::match(['get','post'],'upstm_ucs_opd',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_opd'])->name('acc.upstm_ucs_opd');//
+    Route::match(['get','post'],'upstm_ucs_ipd',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_ipd'])->name('acc.upstm_ucs_ipd');//
+    Route::match(['get','post'],'upstm_ucs_opd216',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_opd216'])->name('acc.upstm_ucs_opd216');//
+    Route::match(['get','post'],'upstm_ucs_ipd217',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_ipd217'])->name('acc.upstm_ucs_ipd217');//
+
     Route::match(['get','post'],'upstm_ucs',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs'])->name('acc.upstm_ucs');//
     Route::match(['get','post'],'upstm_ucs_excel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_excel'])->name('acc.upstm_ucs_excel');//
     Route::match(['get','post'],'upstm_ucs_sendexcel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_sendexcel'])->name('acc.upstm_ucs_sendexcel');//

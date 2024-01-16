@@ -157,7 +157,7 @@
                 <div class="col-md-3">                               
                     <div class="nav flex-column" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                         <div class="card p-4 card-ucs">
-                            <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL UCS IPD 217</h4>
+                            <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL UCS OPD 216</h4>
                             <div class="table-responsive">
                                 <table id="example" class="table table-striped table-bordered "
                                     style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -169,7 +169,7 @@
                                     <tbody>
                                         <?php $number = 0;
                                         $total1 = 0; ?>
-                                        @foreach ($ucs_217 as $item_1)
+                                        @foreach ($ucs_216 as $item_1)
                                             <?php $number++; ?> 
                                             <tr height="20"> 
                                                 <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px"> 
@@ -203,8 +203,8 @@
                                                         <th class="text-center">vstdate</th> 
                                                         <th class="text-center">ptname</th> 
                                                         <th class="text-center">income</th> 
-                                                        <th class="text-center">ลูกหนี้ที่ตั้ง</th>   
-                                                        <th class="text-center">STM 217</th>   
+                                                        <th class="text-center">ลูกหนี้ที่ตั้ง</th>  
+                                                        <th class="text-center">STM 216</th>    
                                                         <th class="text-center">total_approve</th>   
                                                         
                                                     </tr>
@@ -222,14 +222,14 @@
                                                             <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px"> {{ $item->ptname }}</td>  
                                                             <td class="text-center" style="color:rgb(233, 83, 14);font-size:15px" width="10%">{{ number_format($item->income, 2) }}</td>
                                                             <td class="text-center" style="color:rgb(18, 118, 233);font-size:15px" width="10%">{{ number_format($item->debit_total, 2) }}</td>
-                                                            <td class="text-center" style="color:rgb(35, 204, 125);font-size:15px" width="10%">{{ number_format($item->total_217, 2) }}</td> 
+                                                            <td class="text-center" style="color:rgb(35, 204, 125);font-size:15px" width="10%">{{ number_format($item->total_216, 2) }}</td> 
                                                             <td class="text-center" style="color:rgb(10, 151, 85);font-size:15px" width="10%">{{ number_format($item->total_approve, 2) }}</td>  
-                                                           
+                                                          
                                                         </tr>
                                                         <?php
                                                                 $total1 = $total1 + $item->income;
                                                                 $total2 = $total2 + $item->debit_total;
-                                                                $total3 = $total3 + $item->total_217;  
+                                                                $total3 = $total3 + $item->total_216;  
                                                                 $total4 = $total4 + $item->total_approve;  
                                                         ?> 
                                                     @endforeach                    

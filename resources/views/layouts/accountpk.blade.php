@@ -143,8 +143,8 @@ $permiss_ti = StaticController::permiss_ti($iduser);
 $permiss_rep_money = StaticController::permiss_rep_money($iduser);
 
 ?>
- <body data-sidebar="white" data-keep-enlarged="true" class="vertical-collpsed">
-{{-- <body data-topbar="dark"> --}}
+ {{-- <body data-sidebar="white" data-keep-enlarged="true" class="vertical-collpsed"> --}}
+<body data-topbar="dark">
     {{-- <body style="background-image: url('my_bg.jpg');"> --}}
     <!-- Begin page -->
     <div id="layout-wrapper">
@@ -651,7 +651,18 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <span>UP STM</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('upstm_all') }}">STM ALL</a></li>
+                                {{-- <li><a href="{{ url('upstm_all') }}">STM ALL</a></li> --}}
+                                <li><a href="javascript: void(0);" class="has-arrow">STM ALL</a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        {{-- <li><a href="{{ url('upstm_all') }}">STM ALL</a></li> --}}
+                                        <li><a href="{{ url('upstm_ucs_opd') }}">STM UCS OPD 201</a></li>
+                                        <li><a href="{{ url('upstm_ucs_ipd') }}">STM UCS IPD 202</a></li>
+                                        <li><a href="{{ url('upstm_ucs_opd216') }}">STM UCS OPD 216</a></li>
+                                        <li><a href="{{ url('upstm_ucs_ipd217') }}">STM UCS IPD 217</a></li>
+                                    </ul>
+                                </li>
+
+
                                 <li><a href="{{ url('upstm_ucs') }}">UCS(Excel-202)OK</a></li>
                                 <li><a href="{{ url('upstm_ofcexcel') }}">OFC-BKK(Excel)OK</a></li> 
                                 <li><a href="{{ url('upstm_lgoexcel') }}">LGO(Excel)OK</a></li>  

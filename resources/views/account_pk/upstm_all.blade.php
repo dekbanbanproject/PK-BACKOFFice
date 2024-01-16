@@ -192,7 +192,7 @@
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
                                                                         <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px">  
-                                                                            <a href="{{url('upstm_ucs_detail_opd/'.$item->STMDoc)}}"> {{ $item->STMDoc }}</a>  
+                                                                            <a href="{{url('upstm_ucs_detail_opd/'.$item->STMDoc)}}" target="_blank"> {{ $item->STMDoc }}</a>  
                                                                         </td>  
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($item->total, 2) }}</td>
                                                                     </tr>
@@ -224,7 +224,7 @@
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
                                                                         <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px">  
-                                                                            <a href="{{url('upstm_ucs_detail_opd_216/'.$item_216->STMDoc)}}"> {{ $item_216->STMDoc }}</a>  
+                                                                            <a href="{{url('upstm_ucs_detail_opd_216/'.$item_216->STMDoc)}}" target="_blank"> {{ $item_216->STMDoc }}</a>  
                                                                         </td>  
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($item_216->total, 2) }}</td>
                                                                     </tr>
@@ -259,7 +259,7 @@
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
                                                                         <td class="text-start" style="color:rgb(252, 53, 129);font-size:15px"> 
-                                                                            <a href="{{url('upstm_ucs_detail_ipd/'.$item_ip->STMDoc)}}"> {{ $item_ip->STMDoc }}</a>  
+                                                                            <a href="{{url('upstm_ucs_detail_ipd/'.$item_ip->STMDoc)}}" target="_blank"> {{ $item_ip->STMDoc }}</a>  
                                                                         </td>  
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($item_ip->total, 2) }}</td>
                                                                     </tr>
@@ -292,7 +292,7 @@
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
                                                                         <td class="text-start" style="color:rgb(252, 53, 129);font-size:15px"> 
-                                                                            <a href="{{url('upstm_ucs_detail_ipd217/'.$item_ip217->STMDoc)}}"> {{ $item_ip217->STMDoc }}</a>  
+                                                                            <a href="{{url('upstm_ucs_detail_ipd217/'.$item_ip217->STMDoc)}}" target="_blank"> {{ $item_ip217->STMDoc }}</a>  
                                                                         </td>  
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($item_ip217->total, 2) }}</td>
                                                                     </tr>
@@ -330,7 +330,7 @@
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
                                                                         <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px"> 
-                                                                           <a href="{{url('upstm_ofc_detail_opd/'.$item2->STMDoc)}}"> {{ $item2->STMDoc }}</a>  
+                                                                           <a href="{{url('upstm_ofc_detail_opd/'.$item2->STMDoc)}}" target="_blank"> {{ $item2->STMDoc }}</a>  
                                                                         </td> 
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($item2->total, 2) }}</td>
                                                                     </tr>
@@ -363,7 +363,7 @@
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
                                                                         <td class="text-start" style="color:rgb(252, 53, 129);font-size:15px">
-                                                                            <a href="{{url('upstm_ofc_detail_ipd/'.$item_ofcipd->STMDoc)}}"> {{ $item_ofcipd->STMDoc }}</a>
+                                                                            <a href="{{url('upstm_ofc_detail_ipd/'.$item_ofcipd->STMDoc)}}" target="_blank"> {{ $item_ofcipd->STMDoc }}</a>
                                                                         </td> 
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($item_ofcipd->total, 2) }}</td>
                                                                     </tr>
@@ -402,7 +402,7 @@
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
                                                                         <td class="text-start" style="color:rgb(107, 67, 250);font-size:15px"> 
-                                                                          <a href="{{url('upstm_lgo_detail_opd/'.$item3->STMDoc)}}"> {{ $item3->STMDoc }}</a>  
+                                                                          <a href="{{url('upstm_lgo_detail_opd/'.$item3->STMDoc)}}" target="_blank"> {{ $item3->STMDoc }}</a>  
                                                                            
                                                                         </td> 
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($item3->total, 2) }}</td>
@@ -436,7 +436,7 @@
                                                                 <tr height="20">
                                                                     <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
                                                                     <td class="text-start" style="color:rgb(252, 53, 129);font-size:15px"> 
-                                                                         <a href="{{url('upstm_lgo_detail_ipd/'.$item_lgoi->STMDoc)}}"> {{ $item_lgoi->STMDoc }}</a> 
+                                                                         <a href="{{url('upstm_lgo_detail_ipd/'.$item_lgoi->STMDoc)}}" target="_blank"> {{ $item_lgoi->STMDoc }}</a> 
                                                                     </td> 
                                                                     <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($item_lgoi->total, 2) }}</td>
                                                                 </tr>
@@ -475,7 +475,7 @@
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
                                                                         <td class="text-start" style="color:rgb(107, 67, 250);font-size:15px">
-                                                                            <a href="{{url('upstm_ucs_detail_ti/'.$itemucsti->STMDoc)}}"> {{ $itemucsti->STMDoc }}</a>
+                                                                            <a href="{{url('upstm_ucs_detail_ti/'.$itemucsti->STMDoc)}}" target="_blank"> {{ $itemucsti->STMDoc }}</a>
                                                                         </td> 
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($itemucsti->total, 2) }}</td>
                                                                     </tr>
@@ -514,7 +514,7 @@
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
                                                                         <td class="text-start" style="color:rgb(107, 67, 250);font-size:15px"> 
-                                                                            <a href="{{url('upstm_ofc_detail_ti/'.$itemofcti->STMDoc)}}"> {{ $itemofcti->STMDoc }}</a>
+                                                                            <a href="{{url('upstm_ofc_detail_ti/'.$itemofcti->STMDoc)}}" target="_blank"> {{ $itemofcti->STMDoc }}</a>
                                                                         </td> 
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($itemofcti->total, 2) }}</td>
                                                                     </tr>
@@ -547,7 +547,7 @@
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
                                                                         <td class="text-start" style="color:rgb(107, 67, 250);font-size:15px"> 
-                                                                            <a href="{{url('upstm_ofc_detail_ti_ipd/'.$itemofcti_i->STMDoc)}}"> {{ $itemofcti_i->STMDoc }}</a>
+                                                                            <a href="{{url('upstm_ofc_detail_ti_ipd/'.$itemofcti_i->STMDoc)}}" target="_blank"> {{ $itemofcti_i->STMDoc }}</a>
                                                                         </td> 
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($itemofcti_i->total, 2) }}</td>
                                                                     </tr>
@@ -586,7 +586,7 @@
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
                                                                         <td class="text-start" style="color:rgb(107, 67, 250);font-size:15px"> 
-                                                                            <a href="{{url('upstm_sss_detail_ti/'.$itemsssti->STMDoc)}}"> {{ $itemsssti->STMDoc }}</a>
+                                                                            <a href="{{url('upstm_sss_detail_ti/'.$itemsssti->STMDoc)}}" target="_blank"> {{ $itemsssti->STMDoc }}</a>
                                                                         </td> 
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($itemsssti->total, 2) }}</td>
                                                                     </tr>
@@ -626,7 +626,7 @@
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
                                                                         <td class="text-start" style="color:rgb(107, 67, 250);font-size:15px"> 
-                                                                            <a href="{{url('upstm_lgo_detail_ti/'.$lgoopdti->STMDoc)}}"> {{ $lgoopdti->STMDoc }}</a>
+                                                                            <a href="{{url('upstm_lgo_detail_ti/'.$lgoopdti->STMDoc)}}" target="_blank"> {{ $lgoopdti->STMDoc }}</a>
                                                                         </td> 
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($lgoopdti->total, 2) }}</td>
                                                                     </tr>
@@ -659,7 +659,7 @@
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
                                                                         <td class="text-start" style="color:rgb(107, 67, 250);font-size:15px">
-                                                                             <a href="{{url('upstm_lgo_detail_ti_ipd/'.$lgoipdti->STMDoc)}}"> {{ $lgoipdti->STMDoc }}</a>
+                                                                             <a href="{{url('upstm_lgo_detail_ti_ipd/'.$lgoipdti->STMDoc)}}" target="_blank"> {{ $lgoipdti->STMDoc }}</a>
                                                                         </td> 
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($lgoipdti->total, 2) }}</td>
                                                                     </tr>

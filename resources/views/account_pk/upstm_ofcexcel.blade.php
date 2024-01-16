@@ -84,7 +84,7 @@
     use Illuminate\Support\Facades\DB;
     $count_meettingroom = StaticController::count_meettingroom();
     ?>
-    <div class="container-fluid">
+    <div class="tabs-animation">
         <div id="preloader">
             <div id="status">
                 <div class="spinner">
@@ -92,9 +92,15 @@
                 </div>
             </div>
         </div>
+        <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
+                </div>
+            </div> 
+        </div>
 
-        <div class="row">
-
+        <div class="row"> 
             <div class="col"></div>
             <div class="col-xl-8 col-md-6">
                 <div class="main-card mb-3 card">
@@ -112,22 +118,33 @@
                                             type="file" required>
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     </div>
+                                </div>
                                     @if ($countc > 0)
+                                    <div class="col-md-2 mb-3 mt-5">
+                                        <select name="type" id="type" class="form-control form-control-sm">
+                                            <option value="OFC">OFC</option>
+                                            <option value="BKK">BKK</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 mb-3 mt-5">
                                         <a href="{{ url('upstm_ofcexcel_senddata') }}" class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Senddata">
                                             <i class="fa-solid fa-file-import me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="ส่งข้อมูล"></i>
                                                 ส่งข้อมูล
                                         </a>
+                                    </div>
                                     @else
+                                    <div class="col-md-2 mb-3 mt-5">
                                         <button type="submit"
                                             class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                             <i class="fa-solid fa-cloud-arrow-up me-2" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" title="UP STM"></i>
                                             UP STM
                                         </button>
+                                    </div>
                                     @endif
 
 
-                                </div>
+                                {{-- </div> --}}
                                 <div class="col"></div>
 
                             </div>

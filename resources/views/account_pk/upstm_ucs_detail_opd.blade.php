@@ -204,7 +204,7 @@
                                                         <th class="text-center">vstdate</th> 
                                                         <th class="text-center">ptname</th> 
                                                         <th class="text-center">income</th> 
-                                                        <th class="text-center">debit_total</th>     
+                                                        <th class="text-center">ลูกหนี้ที่ตั้ง 201</th>     
                                                         <th class="text-center">total_approve</th>   
                                                     </tr>
                                                 </thead>

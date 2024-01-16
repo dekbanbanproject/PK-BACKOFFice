@@ -37,6 +37,7 @@ return new class extends Migration
                 $table->string('waitdch')->nullable();// 
                 $table->string('service')->nullable();// 
                 $table->string('pricereq_all')->nullable();//   
+                $table->string('type')->nullable();//
                 $table->string('STMdoc')->nullable();//  
                 $table->enum('active', ['REP','APPROVE','CANCEL','FINISH'])->default('REP')->nullable(); 
                 $table->timestamps();

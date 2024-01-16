@@ -134,8 +134,7 @@ class Account602Controller extends Controller
                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
                     WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
                     and account_code="1102050102.602"
-                    and income <>0
-                 
+                    and income <>0 
                     order by a.vstdate desc;
             ');
         }

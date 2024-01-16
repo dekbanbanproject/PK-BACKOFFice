@@ -329,7 +329,7 @@
                                             }
                                             // ตั้งลูกหนี้
                                             $datasum_ = DB::select('
-                                                SELECT sum(nhso_ownright_pid) as nhso_ownright_pid,count(vn) as Cvit
+                                                SELECT sum(nhso_ownright_pid) as nhso_ownright_pid,count(DISTINCT vn) as Cvit
                                                         from acc_1102050102_602
                                                         WHERE vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'";
                                             ');
