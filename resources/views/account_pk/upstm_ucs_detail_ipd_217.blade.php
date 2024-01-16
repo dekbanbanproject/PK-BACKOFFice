@@ -145,7 +145,7 @@
                 </div>
                 <div class="col"></div> 
                 <div class="col-md-2 text-end">
-                    <a href="{{url('upstm_all')}}" class="ladda-button btn-pill btn btn-primary d-shadow me-2 ms-4" data-style="expand-left">
+                    <a href="{{url('upstm_ucs_ipd217')}}" class="ladda-button btn-pill btn btn-primary d-shadow me-2 ms-4" data-style="expand-left">
                         <span class="ladda-label"> <i class="far fa-arrow-alt-circle-left text-primary text-white me-2"></i>Back</span>
                         <span class="ladda-spinner"></span>
                     </a> 
@@ -163,7 +163,8 @@
                                     style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr> 
-                                            <th class="text-center">STMDoc</th>  
+                                            <th class="text-center">STMDoc</th> 
+                                            <th class="text-center">total</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -173,7 +174,8 @@
                                             <?php $number++; ?> 
                                             <tr height="20"> 
                                                 <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px"> 
-                                                    <a href="{{url('upstm_ucs_detail_ipd217/'.$item_1->STMDoc)}}"> {{ $item_1->STMDoc }}</a>  
+                                                    <a href="{{url('upstm_ucs_detail_ipd_217/'.$item_1->STMDoc)}}"> {{ $item_1->STMDoc }}</a>  
+                                                    <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($item_1->total, 2) }}</td>
                                                 </td>   
                                             </tr>
                                         @endforeach 

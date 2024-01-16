@@ -5802,6 +5802,126 @@ class AccountPKController extends Controller
             'STMDoc'        =>     $id, 
         ]);
     }
+    public function upstm_ucs_opd216(Request $request)
+    {
+        $datenow             = date('Y-m-d');
+        $startdate           = $request->startdate;
+        $enddate             = $request->enddate;
+     
+        $data['datashow']     = DB::connection('mysql')->select('
+            SELECT b.STMDoc ,SUM(b.hc_drug)+SUM(b.hc)+SUM(b.ae_drug)+SUM(b.inst)+SUM(b.dmis_money2)+SUM(b.dmis_drug) as total 
+            FROM acc_1102050101_216 a 
+            LEFT JOIN acc_stm_ucs b ON b.cid = a.cid AND b.vstdate = a.vstdate
+            WHERE b.STMDoc LIKE "STM_10978_OPU%" 
+            GROUP BY b.STMDoc ORDER BY STMDoc DESC
+        ');
+        return view('account_pk.upstm_ucs_opd216',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+        ]);
+    }
+    public function upstm_ucs_detail_opd_216(Request $request,$id)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+                SELECT a.an,a.vn,a.hn,a.vstdate,a.dchdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,b.STMdoc,b.ip_paytrue,b.total_approve
+                ,b.hc_drug+ b.hc+ b.ae_drug + b.inst + b.dmis_money2 + b.dmis_drug as total_216
+                from acc_1102050101_216 a
+                LEFT JOIN acc_stm_ucs b ON b.cid = a.cid AND b.vstdate = a.vstdate
+                where b.STMdoc = "'.$id.'" 
+                AND b.total_approve IS NOT NULL
+        ');
+        $data['ucs_216'] = DB::connection('mysql')->select('
+                SELECT b.STMDoc,SUM(b.hc_drug) + SUM(b.hc) + SUM(b.ae_drug) + SUM(b.inst) + SUM(b.dmis_money2) + SUM(b.dmis_drug) as total
+                FROM acc_1102050101_216 a
+                LEFT JOIN acc_stm_ucs b ON b.cid = a.cid AND b.vstdate = a.vstdate
+                WHERE b.STMDoc LIKE "STM_10978_OPU%" 
+                GROUP BY b.STMDoc ORDER BY b.STMDoc DESC
+        ');
+        return view('account_pk.upstm_ucs_detail_opd_216',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow, 
+            'STMDoc'        =>     $id, 
+        ]);
+    }
+    public function upstm_ucs_ipd217(Request $request)
+    {
+        $datenow             = date('Y-m-d');
+        $startdate           = $request->startdate;
+        $enddate             = $request->enddate;
+     
+        $data['datashow']     = DB::connection('mysql')->select('
+            SELECT b.STMDoc ,SUM(b.hc_drug)+SUM(b.hc)+SUM(b.ae_drug)+SUM(b.inst)+SUM(b.dmis_money2)+SUM(b.dmis_drug) as total 
+            FROM acc_1102050101_217 a 
+            LEFT JOIN acc_stm_ucs b ON b.an = a.an
+            WHERE b.STMDoc LIKE "STM_10978_IPU%" 
+            GROUP BY b.STMDoc ORDER BY STMDoc DESC
+        ');
+        return view('account_pk.upstm_ucs_ipd217',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+        ]);
+    }
+    public function upstm_ucs_detail_ipd_217(Request $request,$id)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+                SELECT a.an,a.vn,a.hn,a.vstdate,a.dchdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,b.STMdoc,b.ip_paytrue,b.total_approve
+                ,b.hc_drug+ b.hc+ b.ae_drug + b.inst + b.dmis_money2 + b.dmis_drug as total_217
+                from acc_1102050101_217 a
+                LEFT JOIN acc_stm_ucs b ON b.an = a.an  
+                where b.STMdoc = "'.$id.'" 
+                AND b.hc_drug+ b.hc+ b.ae_drug + b.inst + b.dmis_money2 + b.dmis_drug > 0
+                GROUP BY a.an
+        ');
+        $data['ucs_217'] = DB::connection('mysql')->select('
+                SELECT b.STMDoc,SUM(b.hc_drug) + SUM(b.hc) + SUM(b.ae_drug) + SUM(b.inst) + SUM(b.dmis_money2) + SUM(b.dmis_drug) as total
+                FROM acc_1102050101_217 a
+                LEFT JOIN acc_stm_ucs b ON b.an = a.an
+                WHERE b.STMDoc LIKE "STM_10978_IPU%" 
+                GROUP BY b.STMDoc ORDER BY b.STMDoc DESC
+        ');
+        return view('account_pk.upstm_ucs_detail_ipd_217',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow, 
+            'STMDoc'        =>     $id, 
+        ]);
+    }
+    public function upstm_ucs_ti(Request $request)
+    {
+        $datenow             = date('Y-m-d');
+        $startdate           = $request->startdate;
+        $enddate             = $request->enddate;
+        $data['ucs_ti']       = DB::connection('mysql')->select('SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("WEL","UCS") GROUP BY STMDoc ORDER BY STMDoc DESC');
+        $data['datashow']     = DB::connection('mysql')->select('
+            SELECT STMDoc,SUM(Total_amount) as total
+            FROM acc_1102050101_217 a 
+            LEFT JOIN acc_stm_ucs b ON b.an = a.an
+            WHERE b.STMDoc LIKE "STM_10978_IPU%" 
+            GROUP BY b.STMDoc ORDER BY STMDoc DESC
+        ');
+        return view('account_pk.upstm_ucs_ti',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+        ]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function upstm_lgo_detail_opd(Request $request,$id)
     { 
         $startdate = $request->startdate;
@@ -5862,59 +5982,8 @@ class AccountPKController extends Controller
     }
 
    
-    public function upstm_ucs_detail_ipd217(Request $request,$id)
-    { 
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        $datashow = DB::connection('mysql')->select('
-                SELECT a.an,a.vn,a.hn,a.vstdate,a.dchdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,b.STMdoc,b.ip_paytrue,b.total_approve
-                ,b.hc_drug+ b.hc+ b.ae_drug + b.inst + b.dmis_money2 + b.dmis_drug as total_217
-                from acc_1102050101_217 a
-                LEFT JOIN acc_stm_ucs b ON b.an = a.an  
-                where b.STMdoc = "'.$id.'" 
-                AND b.total_approve IS NOT NULL
-                GROUP BY a.an
-        ');
-        $data['ucs_217'] = DB::connection('mysql')->select('
-                SELECT b.STMDoc,SUM(b.hc_drug) + SUM(b.hc) + SUM(b.ae_drug) + SUM(b.inst) + SUM(b.dmis_money2) + SUM(b.dmis_drug) as total
-                FROM acc_1102050101_217 a
-                LEFT JOIN acc_stm_ucs b ON b.an = a.an
-                WHERE b.STMDoc LIKE "STM_10978_IPU%" 
-                GROUP BY a.an ORDER BY b.STMDoc DESC
-        ');
-        return view('account_pk.upstm_ucs_detail_ipd217',$data,[
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate,
-            'datashow'      =>     $datashow, 
-            'STMDoc'        =>     $id, 
-        ]);
-    }
-    public function upstm_ucs_detail_opd_216(Request $request,$id)
-    { 
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        $datashow = DB::connection('mysql')->select('
-                SELECT a.an,a.vn,a.hn,a.vstdate,a.dchdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,b.STMdoc,b.ip_paytrue,b.total_approve
-                ,b.hc_drug+ b.hc+ b.ae_drug + b.inst + b.dmis_money2 + b.dmis_drug as total_216
-                from acc_1102050101_216 a
-                LEFT JOIN acc_stm_ucs b ON b.cid = a.cid AND b.vstdate = a.vstdate
-                where b.STMdoc = "'.$id.'" 
-                AND b.total_approve IS NOT NULL
-        ');
-        $data['ucs_216'] = DB::connection('mysql')->select('
-                SELECT b.STMDoc,SUM(b.hc_drug) + SUM(b.hc) + SUM(b.ae_drug) + SUM(b.inst) + SUM(b.dmis_money2) + SUM(b.dmis_drug) as total
-                FROM acc_1102050101_216 a
-                LEFT JOIN acc_stm_ucs b ON b.cid = a.cid AND b.vstdate = a.vstdate
-                WHERE b.STMDoc LIKE "STM_10978_OPU%" 
-                GROUP BY b.STMDoc ORDER BY b.STMDoc DESC
-        ');
-        return view('account_pk.upstm_ucs_detail_opd_216',$data,[
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate,
-            'datashow'      =>     $datashow, 
-            'STMDoc'        =>     $id, 
-        ]);
-    }
+  
+   
     public function upstm_ofc_detail_opd(Request $request,$id)
     { 
         $startdate = $request->startdate;

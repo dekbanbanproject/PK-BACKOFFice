@@ -66,7 +66,57 @@
         .is-hide {
             display: none;
         }
-        
+        .bar{
+            height: 50px;
+            background-color: rgb(10, 218, 55);
+        }
+        .percent{
+            position: absolute;
+            left: 50%;
+            color: black;
+        }       
+        .card{
+            border-radius: 3em 3em 3em 3em;
+            /* box-shadow: 0 0 10px teal; */
+        }
+        .card-ucs{
+            border-radius: 3em 3em 3em 3em;
+            box-shadow: 0 0 10px rgb(3, 136, 252);
+        }
+        .card-ofc{
+            border-radius: 3em 3em 3em 3em;
+            box-shadow: 0 0 10px rgb(10, 110, 223);
+        }
+        .card-lgo{
+            border-radius: 3em 3em 3em 3em;
+            box-shadow: 0 0 10px teal;
+        }
+        .card-ucsti{
+            border-radius: 3em 3em 3em 3em;
+            box-shadow: 0 0 10px rgb(252, 144, 3);
+        }
+        .card-ofcti{
+            border-radius: 3em 3em 3em 3em;
+            box-shadow: 0 0 10px rgb(252, 3, 82);
+        }
+        .card-sssti{
+            border-radius: 3em 3em 3em 3em;
+            box-shadow: 0 0 10px rgb(94, 93, 93);
+        }
+        .card-lgoti{
+            border-radius: 3em 3em 3em 3em;
+            box-shadow: 0 0 10px teal;
+        }
+        .nav{
+         
+            border-radius: 3em 3em 20 20;
+            background-color: aliceblue;
+            /* box-shadow: 0 0 10px teal; */
+        }
+        .nav-link{
+            border-radius: 20 20 10 10;
+            box-shadow: 0 0 10px teal;
+        }
     </style>
     <?php
     use App\Http\Controllers\StaticController;
@@ -95,7 +145,7 @@
                 </div>
                 <div class="col"></div> 
                 <div class="col-md-2 text-end">
-                    <a href="{{url('upstm_ucs_opd216')}}" class="ladda-button btn-pill btn btn-primary d-shadow me-2 ms-4" data-style="expand-left">
+                    <a href="{{url('upstm_all')}}" class="ladda-button btn-pill btn btn-primary d-shadow me-2 ms-4" data-style="expand-left">
                         <span class="ladda-label"> <i class="far fa-arrow-alt-circle-left text-primary text-white me-2"></i>Back</span>
                         <span class="ladda-spinner"></span>
                     </a> 
@@ -107,25 +157,23 @@
                 <div class="col-md-3">                               
                     <div class="nav flex-column" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                         <div class="card p-4 card-ucs">
-                            <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL UCS OPD 216</h4>
+                            <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL UCS OPD </h4>
                             <div class="table-responsive">
                                 <table id="example" class="table table-striped table-bordered "
                                     style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr> 
                                             <th class="text-center">STMDoc</th>  
-                                            <th class="text-center">total</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php $number = 0;
                                         $total1 = 0; ?>
-                                        @foreach ($ucs_216 as $item_1)
+                                        @foreach ($ucs_opd as $item_1)
                                             <?php $number++; ?> 
                                             <tr height="20"> 
                                                 <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px"> 
-                                                    <a href="{{url('upstm_ucs_detail_opd_216/'.$item_1->STMDoc)}}"> {{ $item_1->STMDoc }}</a>  
-                                                    <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($item_1->total, 2) }}</td>
+                                                    <a href="{{url('upstm_ucs_detail_opd/'.$item_1->STMDoc)}}"> {{ $item_1->STMDoc }}</a>  
                                                 </td>   
                                             </tr>
                                         @endforeach 
@@ -142,23 +190,22 @@
                             <div class="row"> 
                                 <div class="col-md-12">
                                     <div class="card p-4 card-ucs">
-                                        <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL UCS IPD :::: >> {{$STMDoc}}</h4>
+                                        <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL UCS OPD :::: >> {{$STMDoc}}</h4>
                                         <div class="table-responsive">
                                             {{-- <table id="example2" class="table table-striped table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
-                                            <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
+                                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                                 <thead>
                                                     <tr>
                                                         <th class="text-center">ลำดับ</th> 
-                                                        <th class="text-center">an</th> 
+                                                        <th class="text-center">vn</th> 
                                                         <th class="text-center">hn</th>
                                                         <th class="text-center">cid</th> 
                                                         <th class="text-center">vstdate</th> 
                                                         <th class="text-center">ptname</th> 
                                                         <th class="text-center">income</th> 
-                                                        <th class="text-center">ลูกหนี้ที่ตั้ง</th>  
-                                                        <th class="text-center">STM 216</th>    
+                                                        <th class="text-center">ลูกหนี้ที่ตั้ง 201</th>     
                                                         <th class="text-center">total_approve</th>   
-                                                        
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -167,31 +214,27 @@
                                                         <?php $number++; ?>                    
                                                         <tr height="20">
                                                             <td class="text-center" width="4%">{{ $number }}</td>
-                                                            <td class="text-center" width="7%">{{ $item->an }}</td>
+                                                            <td class="text-center" width="7%">{{ $item->vn }}</td>
                                                             <td class="text-center" width="7%">{{ $item->hn }}</td>
                                                             <td class="text-center" width="7%">{{ $item->cid }}</td>
                                                             <td class="text-center" width="7%">{{ $item->vstdate }}</td>
                                                             <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px"> {{ $item->ptname }}</td>  
                                                             <td class="text-center" style="color:rgb(233, 83, 14);font-size:15px" width="10%">{{ number_format($item->income, 2) }}</td>
                                                             <td class="text-center" style="color:rgb(18, 118, 233);font-size:15px" width="10%">{{ number_format($item->debit_total, 2) }}</td>
-                                                            <td class="text-center" style="color:rgb(35, 204, 125);font-size:15px" width="10%">{{ number_format($item->total_216, 2) }}</td> 
-                                                            <td class="text-center" style="color:rgb(10, 151, 85);font-size:15px" width="10%">{{ number_format($item->total_approve, 2) }}</td>  
-                                                          
+                                                            <td class="text-center" style="color:rgb(10, 151, 85);font-size:15px" width="10%">{{ number_format($item->total_approve, 2) }}</td> 
                                                         </tr>
                                                         <?php
                                                                 $total1 = $total1 + $item->income;
                                                                 $total2 = $total2 + $item->debit_total;
-                                                                $total3 = $total3 + $item->total_216;  
-                                                                $total4 = $total4 + $item->total_approve;  
+                                                                $total3 = $total3 + $item->total_approve;  
                                                         ?> 
                                                     @endforeach                    
                                                 </tbody> 
                                                 <tr style="background-color: #f3fca1">
                                                     <td colspan="6" class="text-end" style="background-color: #ffdede"></td>
-                                                    <td class="text-center" style="background-color: rgb(233, 83, 14)"><label for="" style="color: #FFFFFF">{{ number_format($total1,2) }}</label></td>
-                                                    <td class="text-center" style="background-color: rgb(18, 118, 233)"><label for="" style="color: #FFFFFF">{{ number_format($total2,2) }}</label></td>
-                                                    <td class="text-center" style="background-color: rgb(10, 151, 85)"><label for="" style="color: #FFFFFF">{{ number_format($total3,2) }}</label> </td>  
-                                                    <td class="text-center" style="background-color: rgb(35, 204, 125)"><label for="" style="color: #FFFFFF">{{ number_format($total4,2) }}</label> </td> 
+                                                    <td class="text-center" style="background-color: rgb(233, 83, 14)"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
+                                                    <td class="text-center" style="background-color: rgb(18, 118, 233)"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
+                                                    <td class="text-center" style="background-color: rgb(10, 151, 85)"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td>  
                                                 </tr>  
                                             </table>
                                         </div>
@@ -233,7 +276,122 @@
             $('#datepicker2').datepicker({
                 format: 'yyyy-mm-dd'
             });
- 
+
+            var bar = $('.bar');
+            var percent = $('.percent');
+            $('form').ajaxForm({
+                beforeSend: function() {
+                    var percentVal = '0%';
+                    bar.width(percentVal);
+                    percent.html(percentVal);
+                },
+                uploadProgress: function(event, position, total, percentComplete) {
+                    var percentVal = percentComplete+'%';
+                    bar.width(percentVal);
+                    percent.html(percentVal);
+                },
+                complete: function(xhr) { 
+                    Swal.fire({
+                        title: 'UP STM สำเร็จ',
+                        text: "You UP STM success",
+                        icon: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#06D177',
+                        // cancelButtonColor: '#d33',
+                        confirmButtonText: 'เรียบร้อย'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location = "{{ url('upstm_ucs') }}";
+                        }
+                    })
+                }
+            })
+
+            $('#Upstm').on('submit', function(e) {
+                e.preventDefault();
+                var form = this;
+                // alert('OJJJJOL');
+                $.ajax({
+                    url: $(form).attr('action'),
+                    method: $(form).attr('method'),
+                    data: new FormData(form),
+                    processData: false,
+                    dataType: 'json',
+                    contentType: false,
+                    beforeSend: function() {
+                        $(form).find('span.error-text').text('');
+                    },
+                    success: function(data) {
+                        if (data.status == 200) {
+                            Swal.fire({
+                                title: 'Up Statment สำเร็จ',
+                                text: "You Up Statment data success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                // cancelButtonColor: '#d33',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.reload();
+                                }
+                            })
+
+                        } else {
+                            Swal.fire({
+                                title: 'UP Statment ซ้ำ',
+                                text: "You Up Statment data success",
+                                icon: 'warning',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                // cancelButtonColor: '#d33',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.reload();
+                                }
+                            })
+                        }
+                    }
+                });
+            });
+
+            //    $('#UpdateHN').click(function() {
+            //             var datepicker = $('#datepicker').val();
+            //             var datepicker2 = $('#datepicker2').val();
+
+            //             $.ajax({
+            //                 url: "{{ route('acc.upstm_hn') }}",
+            //                 type: "POST",
+            //                 dataType: 'json',
+            //                 data: {
+            //                     datepicker,datepicker2
+            //                 },
+            //                 success: function(data) {
+            //                     if (data.status == 200) {
+            //                         Swal.fire({
+            //                             title: 'อัพเดทข้อมูลสำเร็จ',
+            //                             text: "You Update data success",
+            //                             icon: 'success',
+            //                             showCancelButton: false,
+            //                             confirmButtonColor: '#06D177',
+            //                             confirmButtonText: 'เรียบร้อย'
+            //                         }).then((result) => {
+            //                             if (result
+            //                                 .isConfirmed) {
+            //                                 console.log(
+            //                                     data);
+            //                                 window.location.reload();
+            //                                 // window.location="{{ url('warehouse/warehouse_index') }}";
+            //                             }
+            //                         })
+            //                     } else {
+
+            //                     }
+
+            //                 },
+            //             });
+            //     });
 
         });
     </script>

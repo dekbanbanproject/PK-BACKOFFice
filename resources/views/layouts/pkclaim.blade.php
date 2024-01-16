@@ -405,6 +405,17 @@
                         </li>
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="fa-solid fa-chart-column text-danger"></i>
+                                <span>Document</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('inst_sss_todtan') }}">กองทุนทดแทน-ปกส.</a></li>
+                                <li><a href="{{ url('inst_sss') }}">รายการค่าอวัยวะเทียมและอุปกรณ์บำบัด-ปกส.</a></li>
+                                {{-- <li><a href="https://cs3.chi.or.th/ambtrcs/login.asp">เบิกค่ารถ Refer</a></li>  --}}
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-pen text-danger"></i>
                                 <span>OT</span>
                             </a>
@@ -445,11 +456,11 @@
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-chart-column text-danger"></i>
-                                <span>ประกันสังคม</span>
+                                <span>SSS</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('inst_sss_todtan') }}">กองทุนทดแทน-ปกส.</a></li>
-                                <li><a href="{{ url('inst_sss') }}">รายการค่าอวัยวะเทียมและอุปกรณ์บำบัด-ปกส.</a></li>
+                                {{-- <li><a href="{{ url('inst_sss_todtan') }}">กองทุนทดแทน-ปกส.</a></li> --}}
+                                {{-- <li><a href="{{ url('inst_sss') }}">รายการค่าอวัยวะเทียมและอุปกรณ์บำบัด-ปกส.</a></li> --}}
                                 <li><a href="https://cs3.chi.or.th/ambtrcs/login.asp">เบิกค่ารถ Refer</a></li>
                                 {{-- <li><a href="{{url('prb_repopd')}}">OPD</a></li> --}}
                                 {{-- <li><a href="{{url('prb_repipd')}}">IPD</a></li> --}}
@@ -516,7 +527,7 @@
 
                             </ul>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-user-tie text-danger"></i>
                                 <span>karn</span>
@@ -526,7 +537,7 @@
                                 <li><a href="{{ url('karn_main_sss') }}">LAB 07</a></li>
                                 <li><a href="{{ url('karn_sss_309') }}">ไต 309</a></li>
                             </ul>
-                        </li>
+                        </li> --}}
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-chart-column text-danger"></i>

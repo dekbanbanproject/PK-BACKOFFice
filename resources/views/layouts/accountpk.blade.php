@@ -655,10 +655,11 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <li><a href="javascript: void(0);" class="has-arrow">STM ALL</a>
                                     <ul class="sub-menu" aria-expanded="true"> 
                                         {{-- <li><a href="{{ url('upstm_all') }}">STM ALL</a></li> --}}
-                                        <li><a href="{{ url('upstm_ucs_opd') }}">STM UCS OPD 201</a></li>
-                                        <li><a href="{{ url('upstm_ucs_ipd') }}">STM UCS IPD 202</a></li>
-                                        <li><a href="{{ url('upstm_ucs_opd216') }}">STM UCS OPD 216</a></li>
-                                        <li><a href="{{ url('upstm_ucs_ipd217') }}">STM UCS IPD 217</a></li>
+                                        <li><a href="{{ url('upstm_ucs_opd') }}">UCS OPD 201</a></li>
+                                        <li><a href="{{ url('upstm_ucs_ipd') }}">UCS IPD 202</a></li>
+                                        <li><a href="{{ url('upstm_ucs_opd216') }}">UCS OPD 216</a></li>
+                                        <li><a href="{{ url('upstm_ucs_ipd217') }}">UCS IPD 217</a></li>
+                                        <li><a href="{{ url('upstm_ucs_ti') }}">UCS ไต 2166</a></li>
                                     </ul>
                                 </li>
 
