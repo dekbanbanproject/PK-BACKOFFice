@@ -206,7 +206,7 @@
                         </div>
 
                     </div> --}}
-                    <div class="card-body p-2">
+                    <div class="card-body p-3">
                         <div class="row mb-3"> 
                             <div class="col"></div>
                             <div class="col-md-2 text-end">
@@ -459,13 +459,26 @@
                     <div class="col-md-7 text-start"><h2>เพิ่มวัตถุประสงค์/ตัวชี้วัด</h2> </div>
                     <div class="col"></div>
                     <div class="col-md-3 text-end">
-                       
+                        <div class="col-md-12 text-end">
+                            <div class="form-group">
+                                <button type="button" id="SaveObjectBtn"
+                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info me-2"> 
+                                    <i class="pe-7s-diskette btn-icon-wrapper me-2"></i>
+                                    Save
+                                </button>
+                                <button type="button"
+                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-danger"
+                                    data-bs-dismiss="modal"><i
+                                        class="fa-solid fa-xmark me-2"></i>Close</button>
+        
+                            </div>
+                        </div>
                     </div>
                 </div>
             
             </div>
             <input id="obj_plan_control_billno" class="form-control form-control-sm" name="obj_plan_control_billno" type="hidden" >
-            <input id="obj_plan_control_id" class="form-control form-control-sm" name="obj_plan_control_id" type="text" >
+            <input id="obj_plan_control_id" class="form-control form-control-sm" name="obj_plan_control_id" type="hidden" >
 
             <div class="modal-body">
                 <div class="row mt-3">
@@ -485,11 +498,10 @@
             </div>  
 
             <div class="modal-footer">
-                <div class="col-md-12 text-end">
+                {{-- <div class="col-md-12 text-end">
                     <div class="form-group">
                         <button type="button" id="SaveObjectBtn"
-                            class="btn-icon btn-shadow btn-dashed btn btn-outline-info me-2">
-                            {{-- <i class="fa-solid fa-floppy-disk me-2"></i> --}}
+                            class="btn-icon btn-shadow btn-dashed btn btn-outline-info me-2"> 
                             <i class="pe-7s-diskette btn-icon-wrapper me-2"></i>
                             Save
                         </button>
@@ -499,7 +511,7 @@
                                 class="fa-solid fa-xmark me-2"></i>Close</button>
 
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
