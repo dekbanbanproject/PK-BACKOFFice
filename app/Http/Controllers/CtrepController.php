@@ -97,6 +97,7 @@ use App\Imports\ImportAcc_stm_ofcexcel_import;
 use App\Imports\ImportAcc_stm_lgoexcel_import;
 use App\Models\D_ofc_repexcel;
 use App\Models\D_ofc_rep;
+use App\Models\A_ct_scan_visit;
 use SplFileObject;
 use PHPExcel;
 use PHPExcel_IOFactory;
@@ -245,8 +246,7 @@ class CtrepController extends Controller
                 // ,case 
                 // when xh.xray_price is null then xt.xray_price
                 // else xh.xray_price
-                // end as xray_price
-            
+                // end as xray_price            
                 foreach ($data_ct_new as $key => $value_new) {   
                     $check2 = A_ct_scan::where('vn', $value_new->vn)->where('xray_list', $value_new->xray_list)->count();               
                     if ($check2 > 0) {    
@@ -291,9 +291,52 @@ class CtrepController extends Controller
                             'priority_name'       => $value_new->priority_name,  
                             'user_id'             => Auth::user()->id
                         ]); 
-                    }
-                    
+                    }                    
                 } 
+                $data_ct_visit = DB::connection('mysql2')->select('
+                    SELECT o.vn,o.an,o.hn,o.vstdate,concat(p.pname," ",p.fname," ",p.lname) as ptname,concat(s.name," ",s.strength," ",s.units) as xray_list ,o.qty,o.paidst,o.unitprice,o.sum_price
+                    FROM opitemrece o  
+                    LEFT OUTER JOIN s_drugitems s on s.icode=o.icode  
+                    LEFT OUTER JOIN patient p on p.hn=o.hn  
+                    LEFT JOIN vn_stat v on v.vn = o.vn 
+                    WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+                    AND s.name LIKE "CT%" AND (o.an="" or o.an is null)
+                    ORDER BY o.item_no
+                '); 
+                foreach ($data_ct_visit as $key => $v_visit) {
+                    $check3 = A_ct_scan_visit::where('vn', $v_visit->vn)->where('xray_list', $v_visit->xray_list)->count(); 
+                    if ($check3 > 0) {
+                        A_ct_scan_visit::where('vn', $v_visit->vn)->where('xray_list', $v_visit->xray_list)->update([
+                            'vn'                  => $v_visit->vn,
+                            'an'                  => $v_visit->an,
+                            'hn'                  => $v_visit->hn,   
+                            'vstdate'             => $v_visit->vstdate,
+                            'ptname'              => $v_visit->ptname,
+                            'xray_list'           => $v_visit->xray_list,
+                            'qty'                 => $v_visit->qty,
+                            'paidst'              => $v_visit->paidst,
+                            'unitprice'           => $v_visit->unitprice, 
+                            'sum_price'           => $v_visit->sum_price,  
+                            'user_id'             => Auth::user()->id
+                        ]); 
+                    } else {
+                        A_ct_scan_visit::insert([
+                            'vn'                  => $v_visit->vn,
+                            'an'                  => $v_visit->an,
+                            'hn'                  => $v_visit->hn,   
+                            'vstdate'             => $v_visit->vstdate,
+                            'ptname'              => $v_visit->ptname,
+                            'xray_list'           => $v_visit->xray_list,
+                            'qty'                 => $v_visit->qty,
+                            'paidst'              => $v_visit->paidst,
+                            'unitprice'           => $v_visit->unitprice, 
+                            'sum_price'           => $v_visit->sum_price,  
+                            'user_id'             => Auth::user()->id
+                        ]); 
+                    }
+                }
+               
+                
 
             return response()->json([
 

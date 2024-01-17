@@ -5708,6 +5708,7 @@ class AccountPKController extends Controller
         $data['ofc_ipd']      = DB::connection('mysql')->select('SELECT STMDoc,SUM(pricereq_all) as total FROM acc_stm_ofc WHERE STMDoc LIKE "STM_10978_IP%" GROUP BY STMDoc ORDER BY STMDoc DESC');
         $data['lgo_opd']      = DB::connection('mysql')->select('SELECT STMDoc,SUM(claim_true_af) as total FROM acc_stm_lgo WHERE STMDoc LIKE "eclaim_10978_OP%" GROUP BY STMDoc ORDER BY STMDoc DESC');
         $data['lgo_ipd']      = DB::connection('mysql')->select('SELECT STMDoc,SUM(claim_true_af) as total FROM acc_stm_lgo WHERE STMDoc LIKE "eclaim_10978_IP%" GROUP BY STMDoc ORDER BY STMDoc DESC');
+       
         $data['ucs_ti']       = DB::connection('mysql')->select('SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("WEL","UCS") GROUP BY STMDoc ORDER BY STMDoc DESC');
         $data['ofc_ti_opd']   = DB::connection('mysql')->select('SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("COC") GROUP BY STMDoc ORDER BY STMDoc DESC');
         $data['ofc_ti_ipd']   = DB::connection('mysql')->select('SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("CIC") GROUP BY STMDoc ORDER BY STMDoc DESC');
@@ -5896,21 +5897,66 @@ class AccountPKController extends Controller
         $datenow             = date('Y-m-d');
         $startdate           = $request->startdate;
         $enddate             = $request->enddate;
-        $data['ucs_ti']       = DB::connection('mysql')->select('SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("WEL","UCS") GROUP BY STMDoc ORDER BY STMDoc DESC');
-        $data['datashow']     = DB::connection('mysql')->select('
-            SELECT STMDoc,SUM(Total_amount) as total
-            FROM acc_1102050101_217 a 
-            LEFT JOIN acc_stm_ucs b ON b.an = a.an
-            WHERE b.STMDoc LIKE "STM_10978_IPU%" 
+        // $data['ucs_ti']       = DB::connection('mysql')->select('SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("WEL","UCS") GROUP BY STMDoc ORDER BY STMDoc DESC');
+        $data['ucs_ti']     = DB::connection('mysql')->select('
+            SELECT b.STMDoc,SUM(b.Total_amount) as total,SUM(b.sum_price_approve) as total2
+            FROM acc_1102050101_2166 a 
+            LEFT JOIN acc_stm_ti_total b ON b.cid = a.cid AND b.vstdate = a.vstdate
+            WHERE b.STMDoc LIKE "10978_DCKD%" AND HDflag IN("UCS","WEL")
             GROUP BY b.STMDoc ORDER BY STMDoc DESC
         ');
+        
         return view('account_pk.upstm_ucs_ti',$data,[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate, 
         ]);
     }
+    public function upstm_ucs_ti_detail(Request $request,$id)
+    {
+        $datenow             = date('Y-m-d');
+        $startdate           = $request->startdate;
+        $enddate             = $request->enddate; 
+        $data['ucs_ti']     = DB::connection('mysql')->select('
+            SELECT b.STMDoc,SUM(b.Total_amount) as total,SUM(b.sum_price_approve) as total2
+            FROM acc_1102050101_2166 a 
+            LEFT JOIN acc_stm_ti_total b ON b.cid = a.cid AND b.vstdate = a.vstdate
+            WHERE b.STMDoc LIKE "10978_DCKD%" AND HDflag IN("UCS","WEL")
+            GROUP BY b.STMDoc ORDER BY STMDoc DESC
+        ');
+        $data['datashow']     = DB::connection('mysql')->select('
+            SELECT a.vn,a.hn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,b.STMdoc,b.Total_amount
+            FROM acc_1102050101_2166 a 
+            LEFT OUTER JOIN acc_stm_ti_total b ON b.cid = a.cid AND b.vstdate = a.vstdate
+                WHERE b.STMdoc = "'.$id.'"
+               
+        ');
+        // AND b.Total_amount IS NOT NULL 
+        return view('account_pk.upstm_ucs_ti_detail',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'STMDoc'        =>     $id,  
+        ]);
+    }
 
-
+    // public function upstm_ucs_detail_ti(Request $request,$id)
+    // { 
+    //     $startdate = $request->startdate;
+    //     $enddate = $request->enddate;
+    //     $datashow = DB::connection('mysql')->select('
+    //             SELECT a.vn,a.hn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,b.STMdoc,b.Total_amount
+    //             FROM acc_1102050101_2166 a
+    //             LEFT OUTER JOIN acc_stm_ti_total b ON b.hn = a.hn AND b.vstdate = a.vstdate
+    //             WHERE b.STMdoc = "'.$id.'"
+    //             AND b.Total_amount IS NOT NULL 
+    //     ');
+    //     $data['ucs_ti'] = DB::connection('mysql')->select('SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("WEL","UCS") GROUP BY STMDoc ORDER BY STMDoc DESC');
+    //     return view('account_pk.upstm_ucs_detail_ti',$data,[
+    //         'startdate'     =>     $startdate,
+    //         'enddate'       =>     $enddate,
+    //         'datashow'      =>     $datashow, 
+    //         'STMDoc'        =>     $id, 
+    //     ]);
+    // }
 
 
 
@@ -6022,25 +6068,7 @@ class AccountPKController extends Controller
             'STMDoc'        =>     $id, 
         ]);
     }
-    public function upstm_ucs_detail_ti(Request $request,$id)
-    { 
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        $datashow = DB::connection('mysql')->select('
-                SELECT a.vn,a.hn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,b.STMdoc,b.Total_amount
-                FROM acc_1102050101_2166 a
-                LEFT OUTER JOIN acc_stm_ti_total b ON b.hn = a.hn AND b.vstdate = a.vstdate
-                WHERE b.STMdoc = "'.$id.'"
-                AND b.Total_amount IS NOT NULL 
-        ');
-        $data['ucs_ti'] = DB::connection('mysql')->select('SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("WEL","UCS") GROUP BY STMDoc ORDER BY STMDoc DESC');
-        return view('account_pk.upstm_ucs_detail_ti',$data,[
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate,
-            'datashow'      =>     $datashow, 
-            'STMDoc'        =>     $id, 
-        ]);
-    }
+   
     public function upstm_ofc_detail_ti(Request $request,$id)
     { 
         $startdate = $request->startdate;

@@ -154,7 +154,7 @@
 
      
             <div class="row">
-                <div class="col-md-3">                               
+                <div class="col-md-4">                               
                     <div class="nav flex-column" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                         <div class="card p-4 card-ucsti">
                             <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL UCS TI </h4>
@@ -163,7 +163,8 @@
                                     style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr> 
-                                            <th class="text-center">STMDoc</th>  
+                                            <th class="text-center">STMDoc</th>
+                                            <th class="text-center">total</th>   
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -173,7 +174,8 @@
                                             <?php $number++; ?> 
                                             <tr height="20"> 
                                                 <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px"> 
-                                                    <a href="{{url('upstm_ucs_detail_ti/'.$item_1->STMDoc)}}"> {{ $item_1->STMDoc }}</a>  
+                                                    <a href="{{url('upstm_ucs_ti_detail/'.$item_1->STMDoc)}}"> {{ $item_1->STMDoc }}</a>  
+                                                    <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($item_1->total, 2) }}</td>
                                                 </td>   
                                             </tr>
                                         @endforeach 
@@ -183,7 +185,7 @@
                         </div> 
                     </div>  
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-8">
                     <div class="tab-content text-muted mt-4 mt-md-0" id="v-pills-tabContent">
 
                         <div class="tab-pane fade show active" id="v-pills-ucs" role="tabpanel" aria-labelledby="v-pills-ucs-tab">
@@ -192,7 +194,7 @@
                                     <div class="card p-4 card-ucsti">
                                         <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL UCS TI :::: >> {{$STMDoc}}</h4>
                                         <div class="table-responsive">
-                                            {{-- <table id="example2" class="table table-striped table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                                           
                                                 <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
                                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                                 <thead>

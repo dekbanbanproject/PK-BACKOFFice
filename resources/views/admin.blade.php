@@ -871,7 +871,7 @@
                 </div> 
             </div> --}}
             
-             <div class="col-xl-4 col-md-4">
+            <div class="col-xl-4 col-md-4">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
                     style="background-color: rgba(23, 189, 147, 0.74)">
                     <div class="grid-menu-col">
@@ -891,6 +891,36 @@
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill"> 
                                                         <i class="fa-regular fa-heart fa-3x font-size-25" style="color: rgba(23, 189, 147, 0.74)"></i>
                                                       
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+
+            <div class="col-xl-4 col-md-4">
+                <div class="main-card mb-3 card shadow-lg rounded-pill"
+                    style="background-color: rgba(209, 180, 255, 0.74)">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover rounded-pill">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                            <a href="" target="_blank">
+                                                <h5 class="text-start mb-2">REPORT ALL</h5>
+                                            </a>
+                                        </div>
+                                        <div class="avatar ms-2">
+                                            <a href="{{ url('report_db') }}" target="_blank">
+                                                <button
+                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill"> 
+                                                        <i class="fa-solid fa-chart-line fa-3x font-size-25" style="color: rgba(209, 180, 255, 0.74)"></i> 
                                                 </button>
                                             </a>
                                         </div>

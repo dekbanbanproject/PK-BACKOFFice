@@ -1703,6 +1703,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'upstm_ucs_opd216',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_opd216'])->name('acc.upstm_ucs_opd216');//
     Route::match(['get','post'],'upstm_ucs_ipd217',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_ipd217'])->name('acc.upstm_ucs_ipd217');//
     Route::match(['get','post'],'upstm_ucs_ti',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_ti'])->name('acc.upstm_ucs_ti');//
+    Route::match(['get','post'],'upstm_ucs_ti_detail/{id}',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_ti_detail'])->name('acc.upstm_ucs_ti_detail');//
 
     Route::match(['get','post'],'upstm_ucs',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs'])->name('acc.upstm_ucs');//
     Route::match(['get','post'],'upstm_ucs_excel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_excel'])->name('acc.upstm_ucs_excel');//
@@ -2877,4 +2878,19 @@ Route::match(['get','post'],'env_vendor_save',[App\Http\Controllers\EnvControlle
 Route::match(['get','post'],'env_vendor_edit/{id}',[App\Http\Controllers\EnvController::class, 'env_env_vendor_edit'])->name('env.env_vendor_edit');//แก้ไข
 Route::match(['get','post'],'env_vendor_update',[App\Http\Controllers\EnvController::class, 'env_env_vendor_update'])->name('env.env_vendor_update');//อัพเดท
 Route::match(['get','post'],'env_vendor_destroy/{id}',[App\Http\Controllers\EnvController::class, 'env_env_vendor_destroy'])->name('env.env_vendor_destroy');//ลบข้อมูล
+
+// ************** Report ****************************
+Route::match(['get','post'],'report_db',[App\Http\Controllers\ReportNewController::class, 'report_db'])->name('re.report_db');
+Route::match(['get','post'],'report_1',[App\Http\Controllers\ReportNewController::class, 'report_1'])->name('re.report_1');
+Route::match(['get','post'],'report_2',[App\Http\Controllers\ReportNewController::class, 'report_2'])->name('re.report_2');
+Route::match(['get','post'],'report_3',[App\Http\Controllers\ReportNewController::class, 'report_3'])->name('re.report_3');
+
+
+
+
+
+
+
+
+
 });
