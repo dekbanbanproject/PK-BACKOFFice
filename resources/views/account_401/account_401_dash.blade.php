@@ -168,7 +168,7 @@
                                                         LEFT JOIN acc_stm_ofc au ON au.cid = a.cid AND au.vstdate = a.vstdate 
                                                         WHERE year(a.vstdate) = "'.$item->year.'"
                                                         AND month(a.vstdate) = "'.$item->months.'"
-                                                        AND au.pricereq_all IS NOT NULL
+                                                        AND au.pricereq_all > 0
                                                 ');                                            
                                                 foreach ($sumapprove_ as $key => $value3) {
                                                     $sum_stm = $value3->pricereq_all;
