@@ -2443,6 +2443,7 @@ Route::middleware(['type'])->group(function(){
   Route::match(['get','post'],'plan_control_repmoney',[App\Http\Controllers\PlanController::class, 'plan_control_repmoney'])->name('p.plan_control_repmoney');//
   Route::delete('plan_control_destroy/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_destroy'])->name('p.plan_control_destroy');//
 
+  Route::get('detail_plan',[App\Http\Controllers\PlanController::class, 'detail_plan'])->name('p.detail_plan');//
   Route::match(['get','post'],'plan_control_obj_save',[App\Http\Controllers\PlanController::class, 'plan_control_obj_save'])->name('p.plan_control_obj_save');//
   Route::match(['get','post'],'plan_control_obj_update',[App\Http\Controllers\PlanController::class, 'plan_control_obj_update'])->name('p.plan_control_obj_update');//
 

@@ -68,6 +68,7 @@ class PlanController extends Controller
             plan_control p
             LEFT OUTER JOIN department_sub_sub s ON s.DEPARTMENT_SUB_SUB_ID = p.department
             LEFT OUTER JOIN plan_control_type pt ON pt.plan_control_type_id = p.plan_type
+            ORDER BY p.plan_control_id DESC
         ');    
         return view('plan.plan_control', $data);
     }
@@ -185,7 +186,70 @@ class PlanController extends Controller
         ]);
     }
 
+    function detail_plan(Request $request)
+    {
+        $id = $request->get('id');
 
+        // $detail = DB::table('plan_control_obj')
+        //     ->where('WAREHOUSE_ID', '=', $id)
+        //     ->first();
+
+        $detail = Plan_control::where('plan_control_id', '=', $id)->first();
+        $output =
+        '
+                        <div class="row push" style="font-family: \'Kanit\', sans-serif;">
+                        <input type="hidden"  name="ID" value="' .
+                                $id .
+                                '"/>
+                        <div class="col-sm-10">
+                        <div class="row">
+
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                            <label >ลงวันที่ :</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group" >
+                            <h1 style="text-align: left;font-family: \'Kanit\', sans-serif; font-size:10px;font-size: 1.0rem;font-weight:normal;color:#778899;">' .
+                                $detail->plan_name .
+                                '</h1>
+                            </div>
+                        </div>
+ 
+
+                        </div>
+  
+            ';
+            $output .=
+            '
+            <table class="table-bordered table-striped table-vcenter js-dataTable-simple" style="width: 100%;">
+            <thead style="background-color: #FFEBCD;">
+                <tr height="30">
+                    <th class="text-font" style="border-color:#F0FFFF;text-align: center;border: 1px solid black;" width="5%">ลำดับ</th>
+                    <th class="text-font" style="border-color:#F0FFFF;text-align: center;border: 1px solid black;">วัตถุประสงค์ /ตัวชี้วัด</th> 
+                </tr >
+            </thead>
+            <tbody> ';
+            $detail_sub = Plan_control_obj::where('plan_control_id', '=', $id)->get();
+                    $count = 1;
+                    foreach ($detail_sub as $item) {
+                        $output .=
+                            '  
+                            <tr height="20">
+                                <td class="text-font" align="center" style="border: 1px solid black;" >'. $count .'</td>
+                                <td class="text-font text-pedding" style="border: 1px solid black;" >'.$item->plan_control_obj_name .'</td> 
+                            </tr>';    
+                        $count++;
+                    }
+            $output .=
+            ' </tbody>
+            </table> 
+            ';  
+            echo $output;
+
+            
+    }
 
 
 

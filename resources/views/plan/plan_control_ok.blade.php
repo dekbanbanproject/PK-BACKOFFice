@@ -239,43 +239,11 @@
                                        
                                         <tr id="sid{{ $va->plan_control_id }}">
                                             <td class="text-center" width="4%">{{ $i++ }}</td>
-                                            {{-- <td class="text-start">{{$va->plan_name}}</td> --}}
-                                            <td class="text-start">   
-                                                <?php 
-                                                    $data_sub_ = DB::connection('mysql')->select('
-                                                        SELECT * from plan_control_obj  
-                                                        WHERE plan_control_id = "'.$va->plan_control_id.'"'); 
-                                                ?>
-                                                  {{-- <div id="headingTwo" class="b-radius-0 card-header">  --}}
-                                                <div id="headingTwo" class="b-radius-0"> 
-                                                        <button type="button" data-bs-toggle="collapse"
-                                                            data-bs-target="#collapseOne2{{ $va->plan_control_id }}" aria-expanded="false"
-                                                            aria-controls="collapseTwo" class="text-start m-0 p-0 btn btn-link btn-block">
-                                                            <h6 style="color: rgb(66, 63, 63)">{{ $va->plan_name }} <label for="" style="color: red">วัตถุประสงค์/ตัวชี้วัด</label></h6> 
-                                                        </button> 
-                                                </div>
-                                                
-                                                <div data-parent="#accordion" id="collapseOne2{{ $va->plan_control_id }}" class="collapse">
-                                                    <div class="card-body">
-                                                        <div class="row">
-                                                            @foreach ($data_sub_ as $itemsub)
-                                                                <div class="col-md-12 mb-2">
-                                                                    @if ($itemsub->plan_control_obj_name != '')
-                                                                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" onclick="sub_destroy({{ $va->plan_control_id }})">
-                                                                            {{$itemsub->plan_control_obj_name}} 
-                                                                        </button>
-                                                                    @else                                                                    
-                                                                    @endif 
-                                                                </div> 
-                                                            @endforeach 
-                                                        </div>
-                                                    </div>
-                                                </div> 
-                                            </td> 
+                                            <td class="text-start">{{$va->plan_name}}</td>
                                             <td class="text-center" width="8%">{{ number_format($va->plan_price, 2) }}</td>
                                             <td class="text-center" width="5%">{{$va->plan_req_no}}</td>
                                             <td class="text-center" width="8%">{{ number_format($va->plan_price_total, 2) }}</td>
-                                            <td width="5%">
+                                            <td width="7%">
                                                 <div class="dropdown">
                                                     <button class="btn btn-outline-primary dropdown-toggle menu btn-sm"
                                                         type="button" data-bs-toggle="dropdown"
@@ -286,12 +254,18 @@
                                                                 <label for=""
                                                                 style="color: rgb(34, 148, 255);font-size:13px">เพิ่มวัตถุประสงค์/ตัวชี้วัด</label>
                                                             </button>
-                                                           
+                                                            {{-- <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm"  data-bs-toggle="modal" data-bs-target="#ojectModalModal{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="เพิ่มวัตถุประสงค์/ตัวชี้วัด"> 
+                                                                <i class="fa-brands fa-bitcoin me-3 mb-1" style="font-size:17px;color: rgb(34, 148, 255)"></i> 
+                                                                <label for=""
+                                                                style="color: rgb(34, 148, 255);font-size:13px">เพิ่มวัตถุประสงค์/ตัวชี้วัด</label>
+                                                            </button> --}}
                                                             <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm MoneyModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="เบิกเงิน"> 
                                                                 <i class="fa-brands fa-bitcoin me-3 mb-1" style="font-size:17px;color: rgb(20, 199, 190)"></i> 
                                                                 <label for=""
                                                                 style="color: rgb(20, 199, 190);font-size:13px">เบิกเงิน</label>
-                                                            </button> 
+                                                            </button>
+                                                           
+                                                        {{-- <li> <hr class="dropdown-divider"> </li>                                                         --}}
                                                         <a type="button" href="{{ url('plan_control_edit/' . $va->plan_control_id) }}"
                                                             class="dropdown-item menu btn btn-outline-warning btn-sm" data-bs-toggle="tooltip"
                                                             data-bs-placement="left" title="แก้ไข">
@@ -299,7 +273,7 @@
                                                                 <label for=""
                                                                 style="color: rgb(252, 185, 0);font-size:13px">แก้ไข</label>
                                                         </a>
-                                                       
+                                                        {{-- <li> <hr class="dropdown-divider"> </li> --}}
                                                             <a class="dropdown-item menu btn btn-outline-danger btn-sm" href="javascript:void(0)"
                                                                 onclick="plan_control_destroy({{ $va->plan_control_id}})"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left"
@@ -314,7 +288,91 @@
                                             </td>
              
                                         </tr>
- 
+
+                                        {{-- <div class="modal" id="ojectModalModal{{ $va->plan_control_id }}" tabindex="-1">
+                                            <div class="modal-dialog">
+                                              <div class="modal-content">
+                                                <div class="modal-header">
+                                                  <h5 class="modal-title">Modal title</h5>
+                                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <input id="billno" class="form-control form-control-sm" name="billno" type="text" value="{{ $va->billno }}">
+                                                    <input id="plan_control_id" class="form-control form-control-sm" name="plan_control_id" type="text" value="{{ $va->plan_control_id }}">
+                                                    <div class="row mt-3">                                                                    
+                                                        <div class="col-md-2 text-end mt-2"> 
+                                                            <p for="">วัตถุประสงค์/ตัวชี้วัด</p> 
+                                                        </div>
+                                                        <div class="col-md-9 "> 
+                                                            <div class="form-group">
+                                                                <input id="plan_control_obj_name" class="form-control form-control-sm" name="plan_control_obj_name" >
+                                                            </div>
+                                                        </div>
+                                                        <div class="col"></div>                  
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                  <button type="button" id="SaveObjectBtn"
+                                                            class="btn-icon btn-shadow btn-dashed btn btn-outline-info me-2"> 
+                                                            <i class="pe-7s-diskette btn-icon-wrapper me-2"></i>
+                                                            Save
+                                                        </button> 
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div> --}}
+
+                                    <!--  Modal content Update -->
+                                    {{-- <div class="modal fade" id="ojectModalModal{{ $va->plan_control_id }}" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="invenModalLabel">เพิ่มวัตถุประสงค์/ตัวชี้วัด</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <input id="billno" class="form-control form-control-sm" name="billno" type="text" value="{{ $va->billno }}">
+                                                    <input id="plan_control_id" class="form-control form-control-sm" name="plan_control_id" type="text" value="{{ $va->plan_control_id }}">
+                                                    <div class="row mt-3">                                                                    
+                                                        <div class="col-md-2 text-end mt-2"> 
+                                                            <p for="">วัตถุประสงค์/ตัวชี้วัด</p> 
+                                                        </div>
+                                                        <div class="col-md-9 "> 
+                                                            <div class="form-group">
+                                                                <input id="plan_control_obj_name" class="form-control form-control-sm" name="plan_control_obj_name" >
+                                                            </div>
+                                                        </div>
+                                                        <div class="col"></div>                  
+                                                    </div>
+
+                                                 
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <div class="col-md-12 text-end">
+                                                        <div class="form-group">
+                                                            <button type="button" id="SaveObjectBtn"
+                                                            class="btn-icon btn-shadow btn-dashed btn btn-outline-info me-2"> 
+                                                            <i class="pe-7s-diskette btn-icon-wrapper me-2"></i>
+                                                            Save
+                                                        </button>
+                                                        <button type="button"
+                                                            class="btn-icon btn-shadow btn-dashed btn btn-outline-danger"
+                                                            data-bs-dismiss="modal"><i
+                                                                class="fa-solid fa-xmark me-2"></i>Close
+                                                        </button>    
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> --}}
+
+
+
                                         <div class="modal fade" id="UpdateModal{{ $va->plan_control_id }}" tabindex="-1"
                                             role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-lg">
@@ -467,10 +525,11 @@
                                             </div>
                                         </div>
 
+
                                     @endforeach
                                 </tbody>
                             </table>
-                     
+                        {{-- </div> --}}
                     </div>
                 </div>
             </div>

@@ -91,8 +91,8 @@
          
         </style>
         
-        {{-- <body data-topbar="dark"> --}}
-            <body data-sidebar="white" data-keep-enlarged="true" class="vertical-collpsed">
+        <body data-topbar="dark">
+            {{-- <body data-sidebar="white" data-keep-enlarged="true" class="vertical-collpsed"> --}}
 
             <!-- Begin page -->
             <div id="layout-wrapper">
@@ -369,6 +369,10 @@
     @yield('footer')
 
         <script type="text/javascript">
+
+            
+
+
             $(document).ready(function() {
                 $('#example').DataTable();
                 $('#example2').DataTable();
@@ -378,6 +382,7 @@
 
                 
             });
+
          
             $(document).ready(function() {
                 $('#insert_productForm').on('submit', function(e) {
