@@ -5239,7 +5239,8 @@ class AccountPKController extends Controller
             ]);
     }
     public function upstm_ofcexcel_senddata(Request $request)
-    {
+    {        
+        // dd($type);
         try{
                 $data_ = DB::connection('mysql')->select('
                     SELECT *
@@ -5248,9 +5249,7 @@ class AccountPKController extends Controller
                     
                 ');
                 $type = $request->type;
-                // GROUP BY cid
-                // GROUP BY cid
-                // GROUP BY cid,vstdate
+                
                 foreach ($data_ as $key => $value) {
                     // $value->no != '' && $value->repno != 'REP' &&
                     if ($value->repno != 'REP' && $value->cid != '') {
@@ -5284,22 +5283,87 @@ class AccountPKController extends Controller
                                 $add->STMdoc         = $value->STMdoc;
                                 $add->type           = $type;
                                 $add->save(); 
-                            }
-
+                            } 
                     } else {
                         # code...
                     }
-                        // acc_1102050101_4022::where('cid',$value->cid)->where('vstdate',$value->vstdate)
-                        // ->update([
-                        //     'status'   => 'Y'
-                        // ]);
+                     
                 }
         } catch (Exception $e) {
             $error_code = $e->errorInfo[1];
             return back()->withErrors('There was a problem uploading the data!');
         }
-        Acc_stm_ofcexcel::truncate();
-        return redirect()->back();
+        
+        return response()->json([
+                'status'    => '200',
+            ]);
+    }
+    public function upstm_ofcexcel_sendstmdata(Request $request)
+    { 
+        try{
+                $data_ = DB::connection('mysql')->select('
+                    SELECT *
+                    FROM acc_stm_ofcexcel
+                    WHERE income <> "" AND repno <> "" 
+                '); 
+                foreach ($data_ as $key => $value) { 
+                    $check401 = Acc_1102050101_401::where('cid',$value->cid)->where('vstdate',$value->vstdate)->where('STMdoc',NULL)->count();
+                    if ($check401 > 0) {
+                        Acc_1102050101_401::where('cid',$value->cid)->where('vstdate',$value->vstdate)
+                        ->update([
+                            'stm_rep'         => $value->price_req,
+                            'stm_money'       => $value->pricereq_all,
+                            'stm_rcpno'       => $value->repno.'-'.$value->no,
+                            'STMdoc'          => $value->STMdoc,
+                        ]);
+                    } else {
+                        
+                    }                   
+                   
+                }
+        } catch (Exception $e) {
+            $error_code = $e->errorInfo[1];
+            return back()->withErrors('There was a problem uploading the data!');
+        }
+        Acc_stm_ofcexcel::truncate(); 
+            
+        return response()->json([
+                'status'    => '200',
+            ]);
+    }
+    public function upstm_ofcexcel_sendstmipddata(Request $request)
+    { 
+        try{
+                $data_ = DB::connection('mysql')->select('
+                    SELECT *
+                    FROM acc_stm_ofcexcel
+                    WHERE income <> "" AND dchdate <> "0000-00-00" 
+                '); 
+                foreach ($data_ as $key => $value) { 
+                    $check402 = Acc_1102050101_402::where('an',$value->an)->where('STMdoc',NULL)->count();
+                    if ($check402 > 0) {
+                        Acc_1102050101_402::where('an',$value->an) 
+                        ->update([
+                            'adjrw'           => $value->AdjRW,
+                            'stm_rep'         => $value->price_req,
+                            'stm_money'       => $value->pricereq_all,
+                            'stm_rcpno'       => $value->repno.'-'.$value->no,
+                            'STMdoc'          => $value->STMdoc,
+                        ]);
+                    } else {
+                        
+                    }                   
+                   
+                }
+        } catch (Exception $e) {
+            $error_code = $e->errorInfo[1];
+            return back()->withErrors('There was a problem uploading the data!');
+        }
+        Acc_stm_ofcexcel::truncate(); 
+            
+        return response()->json([
+                'status'    => '200',
+            ]);
     }
 
     public function upstm_lgoexcel(Request $request)
@@ -5707,9 +5771,9 @@ class AccountPKController extends Controller
         ');
         $data['ofc_ipd']      = DB::connection('mysql')->select('SELECT STMDoc,SUM(pricereq_all) as total FROM acc_stm_ofc WHERE STMDoc LIKE "STM_10978_IP%" GROUP BY STMDoc ORDER BY STMDoc DESC');
         $data['lgo_opd']      = DB::connection('mysql')->select('SELECT STMDoc,SUM(claim_true_af) as total FROM acc_stm_lgo WHERE STMDoc LIKE "eclaim_10978_OP%" GROUP BY STMDoc ORDER BY STMDoc DESC');
-        $data['lgo_ipd']      = DB::connection('mysql')->select('SELECT STMDoc,SUM(claim_true_af) as total FROM acc_stm_lgo WHERE STMDoc LIKE "eclaim_10978_IP%" GROUP BY STMDoc ORDER BY STMDoc DESC');
-       
+        $data['lgo_ipd']      = DB::connection('mysql')->select('SELECT STMDoc,SUM(claim_true_af) as total FROM acc_stm_lgo WHERE STMDoc LIKE "eclaim_10978_IP%" GROUP BY STMDoc ORDER BY STMDoc DESC');       
         $data['ucs_ti']       = DB::connection('mysql')->select('SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("WEL","UCS") GROUP BY STMDoc ORDER BY STMDoc DESC');
+
         $data['ofc_ti_opd']   = DB::connection('mysql')->select('SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("COC") GROUP BY STMDoc ORDER BY STMDoc DESC');
         $data['ofc_ti_ipd']   = DB::connection('mysql')->select('SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("CIC") GROUP BY STMDoc ORDER BY STMDoc DESC');
         $data['sss_ti']       = DB::connection('mysql')->select('SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("COS") GROUP BY STMDoc ORDER BY STMDoc DESC');
@@ -5938,6 +6002,74 @@ class AccountPKController extends Controller
         ]);
     }
 
+    public function upstm_ofc_opd(Request $request)
+    { 
+        $startdate       = $request->startdate;
+        $enddate         = $request->enddate;
+        $data['ofc_opd'] = DB::connection('mysql')->select('
+                SELECT STMDoc,SUM(stm_money) as total  
+                FROM acc_1102050101_401
+                GROUP BY STMDoc 
+                ORDER BY STMDoc DESC  
+        ');
+        
+        // SELECT STMDoc,SUM(pricereq_all) as total 
+        // FROM acc_stm_ofc 
+        // WHERE STMDoc LIKE "STM_10978_OP%" AND an = "-"
+        // GROUP BY STMDoc ORDER BY STMDoc DESC
+        // $data['ofc_opd'] = DB::connection('mysql')->select('SELECT STMDoc FROM acc_stm_ofc WHERE STMDoc LIKE "STM_10978_OP%" GROUP BY STMDoc ORDER BY STMDoc DESC');
+        return view('account_pk.upstm_ofc_opd',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            // 'datashow'      =>     $datashow, 
+        ]);
+    }
+    public function upstm_ofc_opd_detail(Request $request,$id)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+                SELECT a.vn,a.hn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,a.STMdoc,a.stm_money
+                FROM acc_1102050101_401 a 
+                WHERE STMdoc = "'.$id.'"  
+                AND a.stm_money IS NOT NULL 
+        ');
+        // SELECT a.vn,a.hn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,b.STMdoc,b.pricereq_all
+        // FROM acc_1102050101_401 a
+        // LEFT OUTER JOIN acc_stm_ofc b ON b.cid = a.cid AND b.vstdate = a.vstdate
+        // WHERE b.STMdoc = "'.$id.'" AND b.an = "-" 
+        // AND b.pricereq_all IS NOT NULL 
+        $data['ofc_opd'] = DB::connection('mysql')->select('
+                SELECT STMDoc,SUM(stm_money) as total  
+                FROM acc_1102050101_401
+                GROUP BY STMDoc 
+                ORDER BY STMDoc DESC  
+        ');
+        return view('account_pk.upstm_ofc_opd_detail',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow, 
+            'STMDoc'        =>     $id, 
+        ]);
+    }
+    public function upstm_ofc_ipd(Request $request)
+    { 
+        $startdate       = $request->startdate;
+        $enddate         = $request->enddate;
+        $data['ofc_opd'] = DB::connection('mysql')->select('
+                SELECT STMDoc,SUM(stm_money) as total  
+                FROM acc_1102050101_402
+                GROUP BY STMDoc 
+                ORDER BY STMDoc DESC  
+        ');
+        
+        return view('account_pk.upstm_ofc_ipd',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            // 'datashow'      =>     $datashow, 
+        ]);
+    }
+
     // public function upstm_ucs_detail_ti(Request $request,$id)
     // { 
     //     $startdate = $request->startdate;
@@ -6030,25 +6162,7 @@ class AccountPKController extends Controller
    
   
    
-    public function upstm_ofc_detail_opd(Request $request,$id)
-    { 
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        $datashow = DB::connection('mysql')->select('
-                SELECT a.vn,a.hn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,b.STMdoc,b.pricereq_all
-                FROM acc_1102050101_401 a
-                LEFT OUTER JOIN acc_stm_ofc b ON b.hn = a.hn AND b.vstdate = a.vstdate
-                WHERE b.STMdoc = "'.$id.'" 
-                AND b.pricereq_all IS NOT NULL 
-        ');
-        $data['ofc_opd'] = DB::connection('mysql')->select('SELECT STMDoc FROM acc_stm_ofc WHERE STMDoc LIKE "STM_10978_OP%" GROUP BY STMDoc ORDER BY STMDoc DESC');
-        return view('account_pk.upstm_ofc_detail_opd',$data,[
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate,
-            'datashow'      =>     $datashow, 
-            'STMDoc'        =>     $id, 
-        ]);
-    }
+   
     public function upstm_ofc_detail_ipd(Request $request,$id)
     { 
         $startdate = $request->startdate;

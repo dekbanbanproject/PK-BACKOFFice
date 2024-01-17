@@ -652,7 +652,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 {{-- <li><a href="{{ url('upstm_all') }}">STM ALL</a></li> --}}
-                                <li><a href="javascript: void(0);" class="has-arrow">STM ALL</a>
+                                <li><a href="javascript: void(0);" class="has-arrow">REPORT STM ALL</a>
                                     <ul class="sub-menu" aria-expanded="true"> 
                                         {{-- <li><a href="{{ url('upstm_all') }}">STM ALL</a></li> --}}
                                         <li><a href="{{ url('upstm_ucs_opd') }}">UCS OPD 201</a></li>
@@ -660,6 +660,10 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                         <li><a href="{{ url('upstm_ucs_opd216') }}">UCS OPD 216</a></li>
                                         <li><a href="{{ url('upstm_ucs_ipd217') }}">UCS IPD 217</a></li>
                                         <li><a href="{{ url('upstm_ucs_ti') }}">UCS ไต 2166</a></li>
+                                        <li><a href="{{ url('upstm_ofc_opd') }}">OFC OPD 401</a></li>
+                                        <li><a href="{{ url('upstm_ofc_ipd') }}">OFC IPD 402</a></li>
+                                        <li><a href="{{ url('upstm_lgo_opd') }}">LGO OPD 801</a></li>
+                                        <li><a href="{{ url('upstm_lgo_ipd') }}">LGO IPD 802</a></li>
                                     </ul>
                                 </li>
 

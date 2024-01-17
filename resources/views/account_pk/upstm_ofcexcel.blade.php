@@ -102,7 +102,7 @@
 
         <div class="row"> 
             <div class="col"></div>
-            <div class="col-xl-8 col-md-6">
+            <div class="col-xl-10 col-md-10">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
                         <form action="{{ route('acc.upstm_ofcexcel_save') }}" method="POST" enctype="multipart/form-data">
@@ -111,7 +111,7 @@
                             <div class="row">
 
                                 <div class="col"></div>
-                                <div class="col-md-6">
+                                <div class="col-md-5">
                                     <div class="mb-3 mt-3">
                                         <label for="formFileLg" class="form-label">UP STM EXCEL => UP STM => ส่งข้อมูล</label>
                                         <input class="form-control form-control-lg" id="formFileLg" name="file"
@@ -126,12 +126,32 @@
                                             <option value="BKK">BKK</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-2 mb-3 mt-5">
+                                    {{-- <div class="col-md-2 mb-3 mt-5">
                                         <a href="{{ url('upstm_ofcexcel_senddata') }}" class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Senddata">
                                             <i class="fa-solid fa-file-import me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="ส่งข้อมูล"></i>
                                                 ส่งข้อมูล
                                         </a>
+                                    </div> --}}
+                                   
+                                    <div class="col-md-4 mb-3 mt-5">
+                                        <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left" id="Senddata">
+                                            <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>บันทึกข้อมูล</span>
+                                            <span class="ladda-spinner"></span>
+                                        </button>
+                                    
+                                    
+                                        <button type="button" class="ladda-button me-2 btn-pill btn btn-success cardacc" data-style="expand-left" id="Sendstmdata">
+                                            <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>กระทบลูกหนี้ OPD</span>
+                                            <span class="ladda-spinner"></span>
+                                        </button>
+
+                                        <button type="button" class="ladda-button me-2 btn-pill btn btn-danger cardacc" data-style="expand-left" id="Sendstmipddata">
+                                            <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>กระทบลูกหนี้ IPD</span>
+                                            <span class="ladda-spinner"></span>
+                                        </button>
+
                                     </div>
+                                   
                                     @else
                                     <div class="col-md-2 mb-3 mt-5">
                                         <button type="submit"
@@ -431,6 +451,168 @@
                     });
             });
 
+            $('#Senddata').click(function() {
+                    var type = $('#type').val(); 
+                    Swal.fire({
+                        title: 'ต้องการบันทึกข้อมูลใช่ไหม ?',
+                        text: "You Warn Send Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, pull it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+
+                                $.ajax({
+                                    url: "{{ route('acc.upstm_ofcexcel_senddata') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {
+                                        type 
+                                    },
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({
+                                                title: 'บันทึกข้อมูลสำเร็จ',
+                                                text: "You Send data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+                                        } else {
+                                            
+                                        }
+                                    },
+                                });
+                                
+                            }
+                })
+            });
+
+            $('#Sendstmdata').click(function() {
+                var datepicker = $('#datepicker').val(); 
+                var datepicker2 = $('#datepicker2').val(); 
+                Swal.fire({
+                        title: 'ต้องการกระทบลูกหนี้ใช่ไหม ?',
+                        text: "You Warn Affects debtors Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, pull it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+                                
+                                $.ajax({
+                                    url: "{{ route('acc.upstm_ofcexcel_sendstmdata') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {
+                                        datepicker,
+                                        datepicker2                        
+                                    },
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({
+                                                title: 'กระทบลูกหนี้สำเร็จ',
+                                                text: "You Affects debtors data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+                                        } else {
+                                            
+                                        }
+                                    },
+                                });
+                                
+                            }
+                })
+            });
+
+            $('#Sendstmipddata').click(function() {
+                var datepicker = $('#datepicker').val(); 
+                var datepicker2 = $('#datepicker2').val(); 
+                Swal.fire({
+                        title: 'ต้องการกระทบลูกหนี้ใช่ไหม ?',
+                        text: "You Warn Affects debtors Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, pull it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+                                
+                                $.ajax({
+                                    url: "{{ route('acc.upstm_ofcexcel_sendstmipddata') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {
+                                        datepicker,
+                                        datepicker2                        
+                                    },
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({
+                                                title: 'กระทบลูกหนี้สำเร็จ',
+                                                text: "You Affects debtors data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+                                        } else {
+                                            
+                                        }
+                                    },
+                                });
+                                
+                            }
+                })
+            });
             //    $('#UpdateHN').click(function() {
             //             var datepicker = $('#datepicker').val();
             //             var datepicker2 = $('#datepicker2').val();

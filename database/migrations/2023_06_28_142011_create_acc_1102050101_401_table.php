@@ -55,6 +55,7 @@ return new class extends Migration
                 $table->enum('status', ['Y', 'N'])->default('N');
                 $table->string('comment')->nullable();// 
                 $table->date('date_req')->nullable();// 
+                $table->string('STMDoc')->nullable();// 
             });
         }
     }
