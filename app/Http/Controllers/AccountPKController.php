@@ -5317,7 +5317,13 @@ class AccountPKController extends Controller
                             'STMdoc'          => $value->STMdoc,
                         ]);
                     } else {
-                        
+                        Acc_1102050101_401::where('cid',$value->cid)->where('vstdate',$value->vstdate)
+                        ->update([
+                            'stm_rep'         => $value->price_req,
+                            'stm_money'       => $value->pricereq_all,
+                            'stm_rcpno'       => $value->repno.'-'.$value->no,
+                            'STMdoc'          => $value->STMdoc,
+                        ]);
                     }                   
                    
                 }

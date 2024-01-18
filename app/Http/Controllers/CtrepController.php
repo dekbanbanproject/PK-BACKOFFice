@@ -294,11 +294,12 @@ class CtrepController extends Controller
                     }                    
                 } 
                 $data_ct_visit = DB::connection('mysql2')->select('
-                    SELECT o.vn,o.an,o.hn,o.vstdate,concat(p.pname," ",p.fname," ",p.lname) as ptname,concat(s.name," ",s.strength," ",s.units) as xray_list ,o.qty,o.paidst,o.unitprice,o.sum_price
+                    SELECT o.vn,o.an,o.hn,o.vstdate,concat(p.pname," ",p.fname," ",p.lname) as ptname,concat(s.name," ",s.strength," ",s.units) as xray_list ,o.qty,o.paidst,o.unitprice,o.sum_price,op.cc
                     FROM opitemrece o  
                     LEFT OUTER JOIN s_drugitems s on s.icode=o.icode  
                     LEFT OUTER JOIN patient p on p.hn=o.hn  
                     LEFT JOIN vn_stat v on v.vn = o.vn 
+                    LEFT OUTER JOIN opdscreen op on op.vn = v.vn
                     WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                     AND s.name LIKE "CT%" AND (o.an="" or o.an is null)
                     ORDER BY o.item_no
@@ -317,6 +318,7 @@ class CtrepController extends Controller
                             'paidst'              => $v_visit->paidst,
                             'unitprice'           => $v_visit->unitprice, 
                             'sum_price'           => $v_visit->sum_price,  
+                            'cc'                  => $v_visit->cc,  
                             'user_id'             => Auth::user()->id
                         ]); 
                     } else {
@@ -331,6 +333,7 @@ class CtrepController extends Controller
                             'paidst'              => $v_visit->paidst,
                             'unitprice'           => $v_visit->unitprice, 
                             'sum_price'           => $v_visit->sum_price,  
+                            'cc'                  => $v_visit->cc,  
                             'user_id'             => Auth::user()->id
                         ]); 
                     }
