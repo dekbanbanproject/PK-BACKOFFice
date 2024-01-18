@@ -218,7 +218,7 @@
         <div class="vertical-menu">
             {{-- <div class="vertical-menu" style="background-color: rgb(128, 216, 209)"> --}}
             <div data-simplebar class="h-100">
-                <div data-simplebar class="h-100 nom6">
+                {{-- <div data-simplebar class="h-100 nom6"> --}}
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
                     <ul class="metismenu list-unstyled mb-5" id="side-menu">
