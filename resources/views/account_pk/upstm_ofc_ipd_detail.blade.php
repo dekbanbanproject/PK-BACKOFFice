@@ -145,7 +145,7 @@
                 </div>
                 <div class="col"></div> 
                 <div class="col-md-2 text-end">
-                    <a href="{{url('upstm_ofc_opd')}}" class="ladda-button btn-pill btn btn-primary d-shadow me-2 ms-4" data-style="expand-left">
+                    <a href="{{url('upstm_ofc_ipd')}}" class="ladda-button btn-pill btn btn-primary d-shadow me-2 ms-4" data-style="expand-left">
                         <span class="ladda-label"> <i class="far fa-arrow-alt-circle-left text-primary text-white me-2"></i>Back</span>
                         <span class="ladda-spinner"></span>
                     </a> 
@@ -156,7 +156,7 @@
             <div class="row">
                 <div class="col-md-4">    
                     <div class="card p-4 card-ofc">
-                        <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL OFC OPD </h4>
+                        <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL OFC IPD </h4>
                         <div class="table-responsive">
                             <table id="example" class="table table-striped table-bordered "
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -170,12 +170,12 @@
                                 <tbody>
                                     <?php $number = 0;
                                     $total1 = 0; ?>
-                                    @foreach ($ofc_opd as $item_1)
+                                    @foreach ($ofc_ipd as $item_1)
                                         <?php $number++; ?> 
                                         <tr height="20">
                                             <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
                                             <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px">  
-                                                <a href="{{url('upstm_ofc_opd_detail/'.$item_1->STMDoc)}}" target="_blank"> {{ $item_1->STMDoc }}</a>  
+                                                <a href="{{url('upstm_ofc_ipd_detail/'.$item_1->STMDoc)}}" target="_blank"> {{ $item_1->STMDoc }}</a>  
                                             </td>  
                                             <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($item_1->total, 2) }}</td>
                                         </tr>
@@ -189,7 +189,7 @@
             
                 <div class="col-md-8">
                     <div class="card p-4 card-ofc">
-                        <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL OFC OPD :::: >> {{$STMDoc}}</h4>
+                        <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL OFC IPD :::: >> {{$STMDoc}}</h4>
                         <div class="table-responsive">
                             
                                 <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"

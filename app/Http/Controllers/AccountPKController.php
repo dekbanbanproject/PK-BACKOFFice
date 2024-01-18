@@ -6056,17 +6056,53 @@ class AccountPKController extends Controller
     { 
         $startdate       = $request->startdate;
         $enddate         = $request->enddate;
-        $data['ofc_opd'] = DB::connection('mysql')->select('
+        $data['ofc_ipd'] = DB::connection('mysql')->select('
+                SELECT STMDoc,SUM(stm_money) as total  
+                FROM acc_1102050101_402
+                GROUP BY STMDoc 
+                ORDER BY STMDoc DESC  
+        '); 
+        return view('account_pk.upstm_ofc_ipd',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,  
+        ]);
+    }
+    public function upstm_ofc_ipd_detail(Request $request,$id)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+                SELECT a.vn,a.hn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,a.STMdoc,a.stm_money
+                FROM acc_1102050101_402 a 
+                WHERE STMdoc = "'.$id.'"  
+                AND a.stm_money IS NOT NULL 
+        '); 
+        $data['ofc_ipd'] = DB::connection('mysql')->select('
                 SELECT STMDoc,SUM(stm_money) as total  
                 FROM acc_1102050101_402
                 GROUP BY STMDoc 
                 ORDER BY STMDoc DESC  
         ');
-        
-        return view('account_pk.upstm_ofc_ipd',$data,[
+        return view('account_pk.upstm_ofc_ipd_detail',$data,[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
-            // 'datashow'      =>     $datashow, 
+            'datashow'      =>     $datashow, 
+            'STMDoc'        =>     $id, 
+        ]);
+    }
+    public function upstm_lgo_opd(Request $request)
+    { 
+        $startdate       = $request->startdate;
+        $enddate         = $request->enddate;
+        $data['lgo_opd'] = DB::connection('mysql')->select('
+                SELECT STMDoc,SUM(stm_money) as total  
+                FROM acc_1102050102_801
+                GROUP BY STMDoc 
+                ORDER BY STMDoc DESC  
+        '); 
+        return view('account_pk.upstm_lgo_opd',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,  
         ]);
     }
 
