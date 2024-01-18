@@ -6112,27 +6112,53 @@ class AccountPKController extends Controller
         ]);
     }
 
-    // public function upstm_ucs_detail_ti(Request $request,$id)
-    // { 
-    //     $startdate = $request->startdate;
-    //     $enddate = $request->enddate;
-    //     $datashow = DB::connection('mysql')->select('
-    //             SELECT a.vn,a.hn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,b.STMdoc,b.Total_amount
-    //             FROM acc_1102050101_2166 a
-    //             LEFT OUTER JOIN acc_stm_ti_total b ON b.hn = a.hn AND b.vstdate = a.vstdate
-    //             WHERE b.STMdoc = "'.$id.'"
-    //             AND b.Total_amount IS NOT NULL 
-    //     ');
-    //     $data['ucs_ti'] = DB::connection('mysql')->select('SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("WEL","UCS") GROUP BY STMDoc ORDER BY STMDoc DESC');
-    //     return view('account_pk.upstm_ucs_detail_ti',$data,[
-    //         'startdate'     =>     $startdate,
-    //         'enddate'       =>     $enddate,
-    //         'datashow'      =>     $datashow, 
-    //         'STMDoc'        =>     $id, 
-    //     ]);
-    // }
+    public function upstm_ofc_ti(Request $request)
+    {
+        $datenow             = date('Y-m-d');
+        $startdate           = $request->startdate;
+        $enddate             = $request->enddate;        
+        $data['ofc_ti']     = DB::connection('mysql')->select('
+                SELECT b.STMDoc,SUM(b.Total_amount) as total 
+                FROM acc_1102050101_4011 a 
+                LEFT JOIN acc_stm_ti_total b ON b.hn = a.hn AND b.vstdate = a.vstdate
+                WHERE b.HDflag IN("COC")
+                GROUP BY b.STMDoc 
+                ORDER BY STMDoc DESC
+        ');        
+        return view('account_pk.upstm_ofc_ti',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+        ]);
+    }
+    public function upstm_ofc_ti_detail(Request $request,$id)
+    {
+        $datenow             = date('Y-m-d');
+        $startdate           = $request->startdate;
+        $enddate             = $request->enddate; 
+        $data['ofc_ti']     = DB::connection('mysql')->select('
+                SELECT b.STMDoc,SUM(b.Total_amount) as total 
+                FROM acc_1102050101_4011 a 
+                LEFT JOIN acc_stm_ti_total b ON b.hn = a.hn AND b.vstdate = a.vstdate
+                WHERE b.HDflag IN("COC")
+                GROUP BY b.STMDoc 
+                ORDER BY STMDoc DESC
+        ');  
+        $data['datashow']     = DB::connection('mysql')->select('
+            SELECT a.vn,a.hn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit_total,b.STMdoc,b.Total_amount
+            FROM acc_1102050101_4011 a 
+            LEFT JOIN acc_stm_ti_total b ON b.hn = a.hn AND b.vstdate = a.vstdate
+            WHERE b.STMdoc = "'.$id.'" AND b.HDflag IN("COC")
+               
+        ');
+        // AND b.Total_amount IS NOT NULL 
+        return view('account_pk.upstm_ofc_ti_detail',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'STMDoc'        =>     $id,  
+        ]);
+    }
 
-
+  
 
 
 

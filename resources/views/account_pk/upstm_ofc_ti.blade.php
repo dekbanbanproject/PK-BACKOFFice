@@ -108,7 +108,7 @@
                                         <div class="row"> 
                                             <div class="col-md-6">
                                                 <div class="card p-4 card_pink">
-                                                    <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL UCS OPD 2166</h4>
+                                                    <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL OFC TI 4011</h4>
                                                     <div class="table-responsive">
                                                         <table id="example" class="table table-striped table-bordered "
                                                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -122,13 +122,13 @@
                                                             <tbody>
                                                                 <?php $number = 0;
                                                                 $total1 = 0; ?>
-                                                                @foreach ($ucs_ti as $item)
+                                                                @foreach ($ofc_ti as $item)
                                                                     <?php $number++; ?>
                                 
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
                                                                         <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px">  
-                                                                            <a href="{{url('upstm_ucs_ti_detail/'.$item->STMDoc)}}" target="_blank"> {{ $item->STMDoc }}</a>  
+                                                                            <a href="{{url('upstm_ofc_ti_detail/'.$item->STMDoc)}}" target="_blank"> {{ $item->STMDoc }}</a>  
                                                                         </td>  
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($item->total, 2) }}</td>
                                                                     </tr>
