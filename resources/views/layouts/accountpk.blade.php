@@ -251,7 +251,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
         <div class="vertical-menu">
             {{-- <div class="vertical-menu" style="background-color: rgb(128, 216, 209)"> --}}
             {{-- <div data-simplebar class="h-100"> --}}
-                {{-- <div data-simplebar class="h-100 nom6"> --}}
+                <div data-simplebar class="h-100 nom6">
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
@@ -778,7 +778,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                     </ul>
                 </div>
                 <!-- Sidebar -->
-            {{-- </div> --}}
+            </div>
         </div>
         <!-- Left Sidebar End -->
 
