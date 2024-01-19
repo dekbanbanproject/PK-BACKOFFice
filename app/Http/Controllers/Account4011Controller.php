@@ -405,7 +405,7 @@ class Account4011Controller extends Controller
                 from acc_1102050101_4011 U1
                 LEFT JOIN acc_stm_ti_total am on am.hn = U1.hn AND am.vstdate = U1.vstdate
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
-                AND am.Total_amount is not null 
+                AND am.Total_amount is not null AND am.HDflag IN("COC")
                 group by U1.vn
         ');
        
@@ -426,7 +426,7 @@ class Account4011Controller extends Controller
                 from acc_1102050101_4011 U1
                 LEFT JOIN acc_stm_ti_total am on am.hn = U1.hn AND am.vstdate = U1.vstdate
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
-                AND am.Total_amount is null 
+                AND am.Total_amount is null AND am.HDflag IN("COC")
                 GROUP BY U1.vn
         ');
        
