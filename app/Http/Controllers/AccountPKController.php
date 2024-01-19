@@ -6157,6 +6157,51 @@ class AccountPKController extends Controller
             'STMDoc'        =>     $id,  
         ]);
     }
+    public function upstm_ofc_ti_ipd(Request $request)
+    {
+        $datenow             = date('Y-m-d');
+        $startdate           = $request->startdate;
+        $enddate             = $request->enddate;        
+        $data['ofc_ti_ipd']     = DB::connection('mysql')->select('
+            SELECT b.STMDoc,SUM(b.Total_amount) as total 
+            FROM acc_1102050101_4022 a 
+            LEFT JOIN acc_stm_ti_total b ON b.hn = a.hn AND (b.vstdate BETWEEN a.vstdate AND a.dchdate)
+            WHERE b.HDflag IN("CIC")
+            GROUP BY b.STMDoc 
+            ORDER BY STMDoc DESC
+        ');        
+        return view('account_pk.upstm_ofc_ti_ipd',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+        ]);
+    }
+    public function upstm_ofc_ti_ipd_detail(Request $request,$id)
+    {
+        $datenow             = date('Y-m-d');
+        $startdate           = $request->startdate;
+        $enddate             = $request->enddate; 
+        $data['ofc_ti_ipd']     = DB::connection('mysql')->select('
+            SELECT b.STMDoc,SUM(b.Total_amount) as total 
+            FROM acc_1102050101_4022 a 
+            LEFT JOIN acc_stm_ti_total b ON b.hn = a.hn AND (b.vstdate BETWEEN a.vstdate AND a.dchdate)
+            WHERE b.HDflag IN("CIC")
+            GROUP BY b.STMDoc 
+            ORDER BY STMDoc DESC
+        ');   
+        $data['datashow']     = DB::connection('mysql')->select('
+            SELECT a.vn,a.an,a.hn,a.vstdate,a.dchdate,a.cid,a.ptname,a.pttype,a.income,a.debit_total,b.STMdoc,b.Total_amount
+            FROM acc_1102050101_4022 a 
+            LEFT JOIN acc_stm_ti_total b ON b.hn = a.hn AND (b.vstdate BETWEEN a.vstdate AND a.dchdate)
+            WHERE b.STMdoc = "'.$id.'" AND b.HDflag IN("CIC")
+               
+        ');
+        // AND b.Total_amount IS NOT NULL 
+        return view('account_pk.upstm_ofc_ti_ipd_detail',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'STMDoc'        =>     $id,  
+        ]);
+    }
 
   
 

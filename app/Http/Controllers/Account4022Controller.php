@@ -203,8 +203,7 @@ class Account4022Controller extends Controller
                 SELECT v.vn,i.an,a.hn,pt.cid
                     ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
                     ,pt.hcode,op.income as income_group
-                    ,v.vstdate  
-                    ,a.dchdate
+                    ,v.vstdate,op.rxdate,a.dchdate
                     ,ptt.pttype_eclaim_id
                     ,ipt.pttype,ptt.name as namelist
                     ,"37" as acc_code
@@ -234,7 +233,7 @@ class Account4022Controller extends Controller
                    
                     AND ipt.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.4022" AND opdipd ="IPD")
                     AND op.icode IN (SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.4022" AND icode IS NOT NULL)
-                    GROUP BY i.an
+                    GROUP BY i.an,op.rxdate 
             
         ');
         // AND op.icode ="3010058"
@@ -242,8 +241,20 @@ class Account4022Controller extends Controller
         // ,e.ar_ipd as account_code
 
         foreach ($acc_debtor as $key => $value) {
-            $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.4022')->whereBetween('dchdate', [$startdate, $enddate])->count();
-            if ($check == 0) {
+            $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.4022')->where('rxdate',$value->rxdate)->count();
+            if ($check > 0) {
+                Acc_debtor::where('an', $value->an)->where('account_code','1102050101.4022')->update([  
+                    'rxdate'             => $value->rxdate, 
+                    'income'             => $value->income,
+                    'uc_money'           => $value->uc_money,
+                    'discount_money'     => $value->discount_money,
+                    'paid_money'         => $value->paid_money,
+                    'rcpt_money'         => $value->rcpt_money,
+                    'debit'              => $value->debit, 
+                    'debit_total'        => $value->fokliad,
+                   
+                ]);  
+            } else {
                 Acc_debtor::insert([
                     'hn'                 => $value->hn,
                     'an'                 => $value->an,
@@ -253,6 +264,7 @@ class Account4022Controller extends Controller
                     'pttype'             => $value->pttype,
                     'vstdate'            => $value->vstdate,
                     'dchdate'            => $value->dchdate,
+                    'rxdate'             => $value->rxdate,
                     'acc_code'           => $value->acc_code,
                     'account_code'       => $value->account_code,
                     'account_name'       => $value->account_name,
@@ -270,14 +282,23 @@ class Account4022Controller extends Controller
                     'debit_total'        => $value->fokliad,
                     'max_debt_amount'    => $value->max_debt_money,
                     'acc_debtor_userid'  => Auth::user()->id
-                ]);
+                ]);  
             }
+            
         }
 
             return response()->json([
 
                 'status'    => '200'
             ]);
+    }
+    public function account_pkti4022_destroy_all(Request $request)
+    {
+        $id = $request->ids;
+        Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->delete();               
+        return response()->json([
+            'status'    => '200'
+        ]);
     }
     public function account_pkti4022_stam(Request $request)
     {
@@ -292,9 +313,18 @@ class Account4022Controller extends Controller
         foreach ($data as $key => $value) {
                 $date = date('Y-m-d H:m:s');
                    //  $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.4011')->where('account_code','1102050101.4011')->count();
-                $check = Acc_1102050101_4022::where('an', $value->an)->count();
+                $check = Acc_1102050101_4022::where('an', $value->an)->where('rxdate', $value->rxdate)->count();
                 if ($check > 0) {
-                # code...
+                    Acc_1102050101_4022::where('an', $value->an)->where('rxdate', $value->rxdate)->update([  
+                        'rxdate'             => $value->rxdate, 
+                        'income'             => $value->income,
+                        'uc_money'           => $value->uc_money,
+                        'discount_money'     => $value->discount_money, 
+                        'rcpt_money'         => $value->rcpt_money,
+                        'debit'              => $value->debit, 
+                        'debit_total'        => $value->debit_total,
+                       
+                    ]);  
                 } else {
                     Acc_1102050101_4022::insert([
                     'vn'                => $value->vn,
@@ -303,7 +333,7 @@ class Account4022Controller extends Controller
                     'cid'               => $value->cid,
                     'ptname'            => $value->ptname,
                     'vstdate'           => $value->vstdate,
-                    'regdate'           => $value->regdate,
+                    'rxdate'           => $value->rxdate,
                     'dchdate'           => $value->dchdate,
                     'pttype'            => $value->pttype,
                     'pttype_nhso'       => $value->pttype_spsch,
@@ -340,9 +370,9 @@ class Account4022Controller extends Controller
             SELECT *
             from acc_1102050101_4022 U1            
             WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'"
-            GROUP BY U1.an
+          
         ');
-      
+        // GROUP BY U1.an
         return view('account_4022.account_pkti4022_detail', $data, [ 
             'data'       =>     $data,
             'months'     =>     $months,
@@ -356,14 +386,14 @@ class Account4022Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,am.Total_amount ,am.STMdoc 
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.rxdate,U1.dchdate,U1.pttype,U1.debit_total,U2.Total_amount ,U2.STMdoc,U2.invno 
                 from acc_1102050101_4022 U1
-                LEFT JOIN acc_stm_ti_total am on am.hn = U1.hn AND am.vstdate = U1.vstdate
+                LEFT JOIN acc_stm_ti_total U2 on U2.hn = U1.hn AND U2.vstdate = U1.vstdate
                 WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 
-                AND am.Total_amount is not null 
-                group by U1.an
+                AND U2.Total_amount is not null AND U2.HDflag IN("CIC")
+                group by U1.an,U1.rxdate
         ');
-       
+        // group by U1.an
         return view('account_4022.account_pkti4022_stm', $data, [ 
             'data'          =>     $data,
             'months'        =>     $months,
@@ -382,9 +412,9 @@ class Account4022Controller extends Controller
                 LEFT JOIN acc_stm_ti_total am on am.hn = U1.hn AND am.vstdate = U1.vstdate
                 WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 
                 AND am.Total_amount is null
-                group by U1.an 
+               
         ');
-       
+        // group by U1.an 
         return view('account_4022.account_pkti4022_stmnull', $data, [ 
             'data'          =>     $data,
             'months'        =>     $months,
@@ -400,7 +430,7 @@ class Account4022Controller extends Controller
             SELECT *
             from acc_1102050101_4022 U1            
             WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-            GROUP BY U1.an
+            
         ');
       
         return view('account_4022.account_pkti4022_detail_date', $data, [ 
@@ -420,9 +450,9 @@ class Account4022Controller extends Controller
                 LEFT JOIN acc_stm_ti_total am on am.hn = U1.hn AND am.vstdate = U1.vstdate
                 WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 AND am.Total_amount is not null 
-                group by U1.an
+               
         ');
-       
+        // group by U1.an
         return view('account_4022.account_pkti4022_stm_date', $data, [ 
             'data'          =>  $data,
             'startdate'     =>  $startdate,
@@ -440,9 +470,9 @@ class Account4022Controller extends Controller
                 LEFT JOIN acc_stm_ti_total am on am.hn = U1.hn AND am.vstdate = U1.vstdate
                 WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 AND am.Total_amount is null 
-                group by U1.an
+               
         ');
-       
+        // group by U1.an
         return view('account_4022.account_pkti4022_stmnull_date', $data, [ 
             'data'          =>  $data,
             'startdate'     =>  $startdate,

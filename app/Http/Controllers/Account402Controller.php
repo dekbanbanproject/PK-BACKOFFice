@@ -260,10 +260,29 @@ class Account402Controller extends Controller
                         'total_adjrw_income' => $value->total_adjrw_income,
                         'acc_debtor_userid'  => Auth::user()->id
                     ]);
-                }
+                    $acc_debtor_fok = DB::connection('mysql2')->select('
+                        SELECT sum(o.sum_price) total 
+                        FROM opitemrece o  
+                        LEFT OUTER JOIN s_drugitems s on s.icode = o.icode   
+                        WHERE o.an = "'.$value->an.'" 
+                        AND s.icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.4022" AND icode IS NOT NULL)
+                    ');
+                    foreach ($acc_debtor_fok as $key => $value_fok) {
+                        $deb = Acc_debtor::where('an', $value->an)->first();
+                        $totalold = $deb->debit_total;
+                        Acc_debtor::where('an', $value->an)->update([
+                            'debit      '        => $totalold - $value_fok->total,
+                            'debit_total'        => $totalold - $value_fok->total,
+                            'fokliad'            => $value_fok->total
+                        ]);
+                    }   
+                    
+                } 
             } else {
                 # code...
             }
+
+            
             
                    
 
