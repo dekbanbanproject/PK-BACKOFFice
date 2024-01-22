@@ -19,6 +19,7 @@ use App\Models\Plan_control_type;
 use App\Models\Plan_control;
 use App\Models\Plan_control_money;
 use App\Models\Plan_control_obj;
+use App\Models\Plan_control_kpi;
 use PDF;
 use Auth;
 use setasign\Fpdi\Fpdi;
@@ -68,7 +69,7 @@ class PlanController extends Controller
             plan_control p
             LEFT OUTER JOIN department_sub_sub s ON s.DEPARTMENT_SUB_SUB_ID = p.department
             LEFT OUTER JOIN plan_control_type pt ON pt.plan_control_type_id = p.plan_type
-            ORDER BY p.plan_control_id DESC
+            ORDER BY p.plan_control_id ASC
         ');    
         return view('plan.plan_control', $data);
     }
@@ -175,15 +176,53 @@ class PlanController extends Controller
     {
         $iduser = Auth::user()->id;
         $add = new Plan_control_obj();
-        $add->billno                         = $request->input('obj_plan_control_billno');
+        $add->billno                         = $request->input('obj_billno');
         $add->plan_control_id                = $request->input('obj_plan_control_id');
         $add->plan_control_obj_name          = $request->input('plan_control_obj_name');  
         $add->user_id                        = $iduser;  
         $add->save();
-
         return response()->json([
             'status'     => '200',
         ]);
+    }
+    public function subobj_destroy(Request $request, $id)
+    {
+        $del = Plan_control_obj::find($id);
+        $del->delete();
+        return response()->json(['status' => '200']);
+    }
+    public function plan_control_kpi_save(Request $request)
+    {
+        $iduser = Auth::user()->id;
+        $add = new Plan_control_kpi();
+        $add->billno                         = $request->input('kpi_billno');
+        $add->plan_control_id                = $request->input('kpi_plan_control_id');
+        $add->plan_control_kpi_name          = $request->input('plan_control_kpi_name');  
+        $add->user_id                        = $iduser;  
+        $add->save();
+        return response()->json([
+            'status'     => '200',
+        ]);
+    }
+    public function subkpi_destroy(Request $request, $id)
+    {
+        $del = Plan_control_kpi::find($id);
+        $del->delete();
+        return response()->json(['status' => '200']);
+    }
+
+    public function plan_control_activity(Request $request,$id)
+    {
+        $data['startdate'] = $request->startdate;
+        $data['enddate'] = $request->enddate;
+        $data['com_tec'] = DB::table('com_tec')->get();
+        $data['users'] = User::get();
+        $data['plan_control'] = Plan_control::where('plan_control_id',$id)->first();
+        $data['department_sub_sub'] = Department_sub_sub::get();
+        $data['plan_control_type'] = Plan_control_type::get();
+        $data['plan_strategic'] = Plan_strategic::get();
+        
+        return view('plan.plan_control_activity', $data);
     }
 
     function detail_plan(Request $request)

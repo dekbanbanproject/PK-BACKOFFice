@@ -139,6 +139,90 @@
                 }
             })
         }
+
+        function subkpi_destroy(plan_control_id)
+        {
+            Swal.fire({
+                title: 'ต้องการลบใช่ไหม?',
+                text: "ข้อมูลนี้จะถูกลบไปเลย !!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ใช่, ลบเดี๋ยวนี้ !',
+                cancelButtonText: 'ไม่, ยกเลิก'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url:"{{url('subkpi_destroy')}}" +'/'+ plan_control_id,  
+                    type:'DELETE',
+                    data:{
+                        _token : $("input[name=_token]").val()
+                    },
+                    success:function(response)
+                    {          
+                        Swal.fire({
+                            title: 'ลบข้อมูล!',
+                            text: "You Delet data success",
+                            icon: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#06D177',
+                            // cancelButtonColor: '#d33',
+                            confirmButtonText: 'เรียบร้อย'
+                        }).then((result) => {
+                            if (result.isConfirmed) {                  
+                            $("#sid"+plan_control_id).remove();     
+                            window.location.reload(); 
+                            //   window.location = "/person/person_index"; //     
+                            }
+                        }) 
+                    }
+                })        
+                }
+            })
+        }
+
+        function subobj_destroy(plan_control_id)
+        {
+            Swal.fire({
+                title: 'ต้องการลบใช่ไหม?',
+                text: "ข้อมูลนี้จะถูกลบไปเลย !!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ใช่, ลบเดี๋ยวนี้ !',
+                cancelButtonText: 'ไม่, ยกเลิก'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url:"{{url('subobj_destroy')}}" +'/'+ plan_control_id,  
+                    type:'DELETE',
+                    data:{
+                        _token : $("input[name=_token]").val()
+                    },
+                    success:function(response)
+                    {          
+                        Swal.fire({
+                            title: 'ลบข้อมูล!',
+                            text: "You Delet data success",
+                            icon: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#06D177',
+                            // cancelButtonColor: '#d33',
+                            confirmButtonText: 'เรียบร้อย'
+                        }).then((result) => {
+                            if (result.isConfirmed) {                  
+                            $("#sid"+plan_control_id).remove();     
+                            window.location.reload(); 
+                            //   window.location = "/person/person_index"; //     
+                            }
+                        }) 
+                    }
+                })        
+                }
+            })
+        }
     </script>
     <?php
     if (Auth::check()) {
@@ -243,26 +327,37 @@
                                             <td class="text-start">   
                                                 <?php 
                                                     $data_sub_ = DB::connection('mysql')->select('
+                                                        SELECT * from plan_control_kpi  
+                                                        WHERE plan_control_id = "'.$va->plan_control_id.'"'); 
+
+                                                    $data_subobj_ = DB::connection('mysql')->select('
                                                         SELECT * from plan_control_obj  
                                                         WHERE plan_control_id = "'.$va->plan_control_id.'"'); 
                                                 ?>
                                                   {{-- <div id="headingTwo" class="b-radius-0 card-header">  --}}
                                                 <div id="headingTwo" class="b-radius-0"> 
+                                                    
                                                         <button type="button" data-bs-toggle="collapse"
                                                             data-bs-target="#collapseOne2{{ $va->plan_control_id }}" aria-expanded="false"
                                                             aria-controls="collapseTwo" class="text-start m-0 p-0 btn btn-link btn-block">
-                                                            <h6 style="color: rgb(66, 63, 63)">{{ $va->plan_name }} <label for="" style="color: red">วัตถุประสงค์/ตัวชี้วัด</label></h6> 
+                                                            <h6 style="color: rgb(66, 63, 63)">{{ $va->plan_name }} ||<label for="" style="color: red">_KPI_ </label>||</h6> 
+                                                        </button> 
+                                                        <button type="button" data-bs-toggle="collapse"
+                                                            data-bs-target="#collapseOne3{{ $va->plan_control_id }}" aria-expanded="false"
+                                                            aria-controls="collapseTree" class="text-start m-0 p-0 btn btn-link btn-block">
+                                                            <h6 style="color: rgb(66, 63, 63)"><label for="" style="color: rgb(16, 130, 236)">_วัตถุประสงค์_</label>||</h6> 
                                                         </button> 
                                                 </div>
                                                 
                                                 <div data-parent="#accordion" id="collapseOne2{{ $va->plan_control_id }}" class="collapse">
                                                     <div class="card-body">
                                                         <div class="row">
+                                                            <h6 style="color: red"> *** KPI</h6> 
                                                             @foreach ($data_sub_ as $itemsub)
                                                                 <div class="col-md-12 mb-2">
-                                                                    @if ($itemsub->plan_control_obj_name != '')
-                                                                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" onclick="sub_destroy({{ $va->plan_control_id }})">
-                                                                            {{$itemsub->plan_control_obj_name}} 
+                                                                    @if ($itemsub->plan_control_kpi_name != '')
+                                                                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-white" onclick="subkpi_destroy({{ $va->plan_control_id }})">
+                                                                           <h6 style="color: red"> {{$itemsub->plan_control_kpi_name}} </h6>
                                                                         </button>
                                                                     @else                                                                    
                                                                     @endif 
@@ -271,6 +366,24 @@
                                                         </div>
                                                     </div>
                                                 </div> 
+                                                <div data-parent="#accordion" id="collapseOne3{{ $va->plan_control_id }}" class="collapse">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <h6 style="color: rgb(16, 130, 236)"> *** วัตถุประสงค์</h6> 
+                                                            @foreach ($data_subobj_ as $sub_obj)
+                                                                <div class="col-md-12 mb-2">
+                                                                    @if ($sub_obj->plan_control_obj_name != '')
+                                                                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-white" onclick="subobj_destroy({{ $va->plan_control_id }})">
+                                                                           <h6 style="color: rgb(16, 130, 236)"> {{$sub_obj->plan_control_obj_name}} </h6>
+                                                                        </button>
+                                                                    @else                                                                    
+                                                                    @endif 
+                                                                </div> 
+                                                            @endforeach 
+                                                        </div>
+                                                    </div>
+                                                </div> 
+
                                             </td> 
                                             <td class="text-center" width="8%">{{ number_format($va->plan_price, 2) }}</td>
                                             <td class="text-center" width="5%">{{$va->plan_req_no}}</td>
@@ -281,10 +394,15 @@
                                                         type="button" data-bs-toggle="dropdown"
                                                         aria-expanded="false">ทำรายการ</button>
                                                     <ul class="dropdown-menu">
-                                                            <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm ojectModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="เพิ่มวัตถุประสงค์/ตัวชี้วัด"> 
-                                                                <i class="fa-brands fa-bitcoin me-3 mb-1" style="font-size:17px;color: rgb(34, 148, 255)"></i> 
+                                                            <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm ojectModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="วัตถุประสงค์"> 
+                                                                <i class="fa-brands fa-opera me-3 mb-1" style="font-size:17px;color: rgb(40, 177, 246)"></i> 
                                                                 <label for=""
-                                                                style="color: rgb(34, 148, 255);font-size:13px">เพิ่มวัตถุประสงค์/ตัวชี้วัด</label>
+                                                                style="color: rgb(34, 148, 255);font-size:13px">วัตถุประสงค์</label> 
+                                                            </button>
+                                                            <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm kpiModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="ตัวชี้วัด"> 
+                                                                <i class="fa-brands fa-korvue me-3 mb-1" style="font-size:17px;color: rgb(34, 148, 255)"></i>  
+                                                                <label for=""
+                                                                style="color: rgb(34, 148, 255);font-size:13px">ตัวชี้วัด KPI</label>
                                                             </button>
                                                            
                                                             <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm MoneyModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="เบิกเงิน"> 
@@ -292,13 +410,20 @@
                                                                 <label for=""
                                                                 style="color: rgb(20, 199, 190);font-size:13px">เบิกเงิน</label>
                                                             </button> 
-                                                        <a type="button" href="{{ url('plan_control_edit/' . $va->plan_control_id) }}"
-                                                            class="dropdown-item menu btn btn-outline-warning btn-sm" data-bs-toggle="tooltip"
-                                                            data-bs-placement="left" title="แก้ไข">
-                                                            <i class="fa-solid fa-pen-to-square me-3 mb-1" style="color: rgb(252, 185, 0);font-size:13px"></i>
-                                                                <label for=""
-                                                                style="color: rgb(252, 185, 0);font-size:13px">แก้ไข</label>
-                                                        </a>
+                                                            <a type="button" href="{{ url('plan_control_activity/' . $va->plan_control_id) }}"
+                                                                class="dropdown-item menu btn btn-outline-warning btn-sm" data-bs-toggle="tooltip"
+                                                                data-bs-placement="left" title="แผนงาน/กิจกรรม">
+                                                                <i class="fa-solid fa-people-robbery me-3 mb-1" style="color: rgb(211, 31, 172);font-size:13px"></i>
+                                                                    <label for=""
+                                                                    style="color: rgb(211, 31, 172);font-size:13px">แผนงาน/กิจกรรม</label> 
+                                                            </a>
+                                                            <a type="button" href="{{ url('plan_control_edit/' . $va->plan_control_id) }}"
+                                                                class="dropdown-item menu btn btn-outline-warning btn-sm" data-bs-toggle="tooltip"
+                                                                data-bs-placement="left" title="แก้ไข">
+                                                                <i class="fa-solid fa-pen-to-square me-3 mb-1" style="color: rgb(252, 185, 0);font-size:13px"></i>
+                                                                    <label for=""
+                                                                    style="color: rgb(252, 185, 0);font-size:13px">แก้ไข</label>
+                                                            </a>
                                                        
                                                             <a class="dropdown-item menu btn btn-outline-danger btn-sm" href="javascript:void(0)"
                                                                 onclick="plan_control_destroy({{ $va->plan_control_id}})"
@@ -477,23 +602,22 @@
         </div>
     </div>
 
-    <div class="modal fade" id="ojectModalModal" tabindex="-1"
+    <div class="modal fade" id="ObjModalModal" tabindex="-1"
         role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            {{-- <div class="modal-dialog modal-dialog-slideout"> --}}
+        <div class="modal-dialog modal-lg"> 
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2>เพิ่มวัตถุประสงค์/ตัวชี้วัด</h2>
+                    <h2>เพิ่มวัตถุประสงค์</h2>
                     
                 </div>
-                <input id="obj_plan_control_billno" class="form-control form-control-sm" name="obj_plan_control_billno" type="hidden" >
+                <input id="obj_billno" class="form-control form-control-sm" name="obj_billno" type="hidden" >
                 <input id="obj_plan_control_id" class="form-control form-control-sm" name="obj_plan_control_id" type="hidden" >
 
                 <div class="modal-body">
                     <div class="row mt-3">
                                     
                         <div class="col-md-2 text-end mt-2"> 
-                            <p for="">วัตถุประสงค์/ตัวชี้วัด</p> 
+                            <p for="">วัตถุประสงค์</p> 
                         </div>
                         <div class="col-md-9 "> 
                             <div class="form-group">
@@ -501,12 +625,7 @@
                             </div>
                         </div>
                         <div class="col"></div>                  
-                    </div>
-
-               
-                        <div id="details"></div>
-                 
-                    
+                    </div> 
                 </div>  
 
                 <div class="modal-footer">
@@ -522,6 +641,47 @@
                                 class="fa-solid fa-xmark me-2"></i>Close
                         </button>  
               
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="kpiModalModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg"> 
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>เพิ่มตัวชี้วัด</h2>                
+                </div>
+                <input id="kpi_billno" class="form-control form-control-sm" name="kpi_billno" type="hidden" >
+                <input id="kpi_plan_control_id" class="form-control form-control-sm" name="kpi_plan_control_id" type="hidden" >
+                <div class="modal-body">
+                    <div class="row mt-3">
+                                    
+                        <div class="col-md-2 text-end mt-2"> 
+                            <p for="">ตัวชี้วัด</p> 
+                        </div>
+                        <div class="col-md-9 "> 
+                            <div class="form-group">
+                                <input id="plan_control_kpi_name" class="form-control form-control-sm" name="plan_control_kpi_name">
+                            </div>
+                        </div>
+                        <div class="col"></div>                  
+                    </div>
+                    
+                </div>  
+                <div class="modal-footer">
+                
+                        <button type="button" id="SaveKpiBtn"
+                            class="btn-icon btn-shadow btn-dashed btn btn-outline-info me-2"> 
+                            <i class="pe-7s-diskette btn-icon-wrapper me-2"></i>
+                            Save
+                        </button>
+                        <button type="button"
+                            class="btn-icon btn-shadow btn-dashed btn btn-outline-danger"
+                            data-bs-dismiss="modal"><i
+                                class="fa-solid fa-xmark me-2"></i>Close
+                        </button>  
+            
                 </div>
             </div>
         </div>
@@ -941,40 +1101,34 @@
                 });
             });
 
-            $(document).on('click', '.ojectModal_', function() {
-                var plan_control_id = $(this).val();
-                // $('#plan_control_moneydate').datepicker();
-                // alert(plan_control_id);
-                $('#ojectModalModal').modal('show');
+            $(document).on('click', '.kpiModal_', function() {
+                var plan_control_id = $(this).val(); 
+                $('#kpiModalModal').modal('show');
                 
                 $.ajax({
                     type: "GET",
                     url: "{{ url('plan_control_moneyedit') }}" + '/' + plan_control_id,
                     success: function(data) { 
-                        $('#obj_plan_control_id').val(data.data_show.plan_control_id)
-                        $('#obj_plan_control_billno').val(data.data_show.billno)
+                        $('#kpi_plan_control_id').val(data.data_show.plan_control_id)
+                        $('#kpi_billno').val(data.data_show.billno)
                     },
                 });
             });
-            $('#SaveObjectBtn').click(function() { 
-                var plan_control_obj_name    = $('#plan_control_obj_name').val();
-                var obj_plan_control_id      = $('#obj_plan_control_id').val();
-                var obj_plan_control_billno  = $('#obj_plan_control_billno').val();
-
-                // var plan_control_obj_name    = $('#plan_control_obj_name').val();
-                // var obj_plan_control_id      = $('#plan_control_id').val();
-                // var obj_plan_control_billno  = $('#billno').val();
-                // alert(obj_plan_control_id);
+            $('#SaveKpiBtn').click(function() { 
+                var plan_control_kpi_name    = $('#plan_control_kpi_name').val();
+                var kpi_plan_control_id      = $('#kpi_plan_control_id').val();
+                var kpi_billno               = $('#kpi_billno').val();
+                // alert(kpi_billno);
                 $.ajax({
-                    url: "{{ route('p.plan_control_obj_save') }}",
+                    url: "{{ route('p.plan_control_kpi_save') }}",
                     type: "POST",
                     dataType: 'json',
-                    data: { obj_plan_control_id, plan_control_obj_name,obj_plan_control_billno},
+                    data: { kpi_plan_control_id, plan_control_kpi_name,kpi_billno},
                     success: function(data) {
                         if (data.status == 200) {
                             Swal.fire({
-                                title: 'เพิ่มวัถุประสงค์และตัวชี้วัดสำเร็จ',
-                                text: "You Insert success",
+                                title: 'เพิ่มตัวชี้วัดสำเร็จ',
+                                text: "You Insert KPI success",
                                 icon: 'success',
                                 showCancelButton: false,
                                 confirmButtonColor: '#06D177',
@@ -996,6 +1150,58 @@
                     },
                 });
             });
+
+            $(document).on('click', '.ojectModal_', function() {
+                var plan_control_id = $(this).val(); 
+                $('#ObjModalModal').modal('show');
+                
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('plan_control_moneyedit') }}" + '/' + plan_control_id,
+                    success: function(data) { 
+                        $('#obj_plan_control_id').val(data.data_show.plan_control_id)
+                        $('#obj_billno').val(data.data_show.billno)
+                    },
+                });
+            });
+            $('#SaveObjectBtn').click(function() { 
+                var plan_control_obj_name    = $('#plan_control_obj_name').val();
+                var obj_plan_control_id      = $('#obj_plan_control_id').val();
+                var obj_billno               = $('#obj_billno').val();
+                alert(obj_billno);
+                $.ajax({
+                    url: "{{ route('p.plan_control_obj_save') }}",
+                    type: "POST",
+                    dataType: 'json',
+                    data: { obj_plan_control_id, plan_control_obj_name,obj_billno},
+                    success: function(data) {
+                        if (data.status == 200) {
+                            Swal.fire({
+                                title: 'เพิ่มวัตถุประสงค์สำเร็จ',
+                                text: "You Insert Obj success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result
+                                    .isConfirmed) {
+                                    console.log(
+                                        data);
+
+                                    window.location
+                                        .reload();
+                                }
+                            })
+                        } else {
+
+                        }
+
+                    },
+                });
+            });
+
+            
 
 
         });

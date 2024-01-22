@@ -2449,10 +2449,17 @@ Route::middleware(['type'])->group(function(){
   Route::match(['get','post'],'plan_control_moneyedit/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_moneyedit'])->name('p.plan_control_moneyedit');//
   Route::match(['get','post'],'plan_control_repmoney',[App\Http\Controllers\PlanController::class, 'plan_control_repmoney'])->name('p.plan_control_repmoney');//
   Route::delete('plan_control_destroy/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_destroy'])->name('p.plan_control_destroy');//
+  Route::delete('subkpi_destroy/{id}',[App\Http\Controllers\PlanController::class, 'subkpi_destroy'])->name('p.subkpi_destroy');//
+  Route::delete('subobj_destroy/{id}',[App\Http\Controllers\PlanController::class, 'subobj_destroy'])->name('p.subobj_destroy');//
+
+  Route::match(['get','post'],'plan_control_activity/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_activity'])->name('p.plan_control_activity');//
 
   Route::get('detail_plan',[App\Http\Controllers\PlanController::class, 'detail_plan'])->name('p.detail_plan');//
   Route::match(['get','post'],'plan_control_obj_save',[App\Http\Controllers\PlanController::class, 'plan_control_obj_save'])->name('p.plan_control_obj_save');//
   Route::match(['get','post'],'plan_control_obj_update',[App\Http\Controllers\PlanController::class, 'plan_control_obj_update'])->name('p.plan_control_obj_update');//
+
+  Route::match(['get','post'],'plan_control_kpi_save',[App\Http\Controllers\PlanController::class, 'plan_control_kpi_save'])->name('p.plan_control_kpi_save');//
+  Route::match(['get','post'],'plan_control_kpi_update',[App\Http\Controllers\PlanController::class, 'plan_control_kpi_update'])->name('p.plan_control_kpi_update');//
 
   Route::match(['get','post'],'plan_control_indicators',[App\Http\Controllers\PlanController::class, 'plan_control_indicators'])->name('p.plan_control_indicators');// ตัวชี้วัด
   Route::match(['get','post'],'plan_control_indicators_save',[App\Http\Controllers\PlanController::class, 'plan_control_indicators_save'])->name('p.plan_control_indicators_save');// ตัวชี้วัด
