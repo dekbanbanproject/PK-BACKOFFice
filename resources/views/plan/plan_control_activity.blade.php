@@ -296,7 +296,7 @@ $refnumber = PlanController::refnumber();
                                                         <th rowspan="3" colspan="1" class="text-center">กลุ่มเป้าหมาย</th> 
                                                         <th rowspan="3" colspan="1" class="text-center" width="4%">จำนวน(คน) </th> 
                                                         <th colspan="12" class="text-center" style="border-color: rgb(183, 180, 180)">เป้าหมายการดำเนินงาน (1ต.ค.66 - 30 ก.ย.67)</th> 
-                                                        {{-- <th colspan="3" colspan="2" class="text-center">งบประมาณ</th>  --}}
+                                                    
                                                     </tr>
                                                     <tr style="font-size: 13px;background-color: rgb(255, 231, 226);border-color: rgb(183, 180, 180)">
                                                         <td colspan="3" style="text-align: center;border-color: rgb(183, 180, 180)">ไตรมาสที่ 1</td>
