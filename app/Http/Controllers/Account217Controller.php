@@ -244,7 +244,7 @@ class Account217Controller extends Controller
                         'pttype'             => $value->pttype,
                         'hospmain'           => $value->hospmain,
                         'vstdate'            => $value->vstdate,
-                        'regdate'            => $value->regdate,
+                        'rxdate'             => $value->regdate,
                         'dchdate'            => $value->dchdate,
                         'acc_code'           => $value->code,
                         'account_code'       => $value->account_code,

@@ -239,7 +239,7 @@ class CtrepController extends Controller
                         LEFT JOIN xray_head xt on xt.vn = x.an 
                         LEFT OUTER JOIN xray_priority y on y.xray_priority_id = xh.xray_priority_id 
                         WHERE x.request_date BETWEEN "' . $startdate . '" AND "' . $enddate . '" 
-                        AND (xi.xray_items_name LIKE "CT%") 
+                        AND (xi.xray_items_group ="3") 
 
                          
                 ');
@@ -301,7 +301,7 @@ class CtrepController extends Controller
                     LEFT JOIN vn_stat v on v.vn = o.vn 
                     LEFT OUTER JOIN opdscreen op on op.vn = v.vn
                     WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                    AND s.name LIKE "CT%" AND (o.an="" or o.an is null)
+                    AND s.income = "08" AND (o.an="" or o.an is null)
                     ORDER BY o.item_no
                 '); 
                 foreach ($data_ct_visit as $key => $v_visit) {

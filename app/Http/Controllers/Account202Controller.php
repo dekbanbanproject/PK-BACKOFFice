@@ -237,7 +237,7 @@ class Account202Controller extends Controller
                                 'ptname'             => $value->ptname,
                                 'pttype'             => $value->pttype,
                                 'vstdate'            => $value->vstdate,
-                                'regdate'            => $value->admdate,
+                                'rxdate'             => $value->admdate,
                                 'dchdate'            => $value->dchdate,
                                 'acc_code'           => $value->code,
                                 'account_code'       => $value->account_code,

@@ -227,7 +227,7 @@ class Account402Controller extends Controller
         // AND ipt.pttype IN("O1","O2","O3","O4","O5")  
         foreach ($acc_debtor as $key => $value) {
             if ($value->debit >0) {
-                // $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.402')->whereBetween('dchdate', [$startdate, $enddate])->count();
+               
                 $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.402')->count();
                 if ($check == 0) {
                     Acc_debtor::insert([
@@ -271,7 +271,7 @@ class Account402Controller extends Controller
                         $deb = Acc_debtor::where('an', $value->an)->first();
                         $totalold = $deb->debit_total;
                         Acc_debtor::where('an', $value->an)->update([
-                            'debit      '        => $totalold - $value_fok->total,
+                            'debit'              => $totalold - $value_fok->total,
                             'debit_total'        => $totalold - $value_fok->total,
                             'fokliad'            => $value_fok->total
                         ]);

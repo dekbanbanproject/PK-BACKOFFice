@@ -219,15 +219,15 @@ class Account4022Controller extends Controller
                     ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
                     ,ptt.max_debt_money
 
-                    from hos.ipt i
-                    left join hos.an_stat a on a.an=i.an
-                    LEFT JOIN hos.ipt_pttype ipt ON ipt.an = i.an
-                    left join hos.patient pt on pt.hn=a.hn
-                    LEFT JOIN hos.pttype ptt on ipt.pttype=ptt.pttype
-                    LEFT JOIN hos.pttype_eclaim e on e.code=ptt.pttype_eclaim_id
-                    LEFT JOIN hos.opitemrece op ON op.an = i.an
-                    LEFT JOIN hos.drugitems d on d.icode=op.icode
-                    LEFT JOIN hos.vn_stat v on v.vn = i.vn
+                    from ipt i
+                    left join an_stat a on a.an=i.an
+                    LEFT JOIN ipt_pttype ipt ON ipt.an = i.an
+                    left join patient pt on pt.hn=a.hn
+                    LEFT JOIN pttype ptt on ipt.pttype=ptt.pttype
+                    LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
+                    LEFT JOIN opitemrece op ON op.an = i.an
+                    LEFT JOIN drugitems d on d.icode=op.icode
+                    LEFT JOIN vn_stat v on v.vn = i.vn
 
                     WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                    

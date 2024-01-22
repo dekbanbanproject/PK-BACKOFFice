@@ -151,7 +151,7 @@
                                             <th class="text-center">debit</th>  
                                             <th class="text-center">ฟอกเลือด</th>
                                             <th class="text-center">ลูกหนี้</th>
-                                            <th class="text-center"><input type="checkbox" class="dcheckbox" name="destroy" id="destroy"> </th>  
+                                            {{-- <th class="text-center"><input type="checkbox" class="dcheckbox" name="destroy" id="destroy"> </th>   --}}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -182,7 +182,7 @@
                                                 <td class="text-center" width="10%">{{ number_format($item->debit, 2) }}</td> 
                                                 <td class="text-center" width="8%">{{ number_format($item->fokliad, 2) }}</td> 
                                                 <td class="text-center" width="10%">{{ number_format($item->debit_total, 2) }}</td> 
-                                                <td class="text-center" width="5%"> <input type="checkbox" class="dcheckbox sub_destroy" data-id="{{$item->acc_debtor_id}}"></td> 
+                                                {{-- <td class="text-center" width="5%"> <input type="checkbox" class="dcheckbox sub_destroy" data-id="{{$item->acc_debtor_id}}"></td>  --}}
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -418,18 +418,22 @@
                 })
             });
 
-            $('#destroy').on('click', function(e) {           
-                    if($(this).is(':checked',true))  
-                        {
-                            $(".sub_destroy").prop('checked', true);  
-                        } else {  
-                            $(".sub_destroy").prop('checked',false);  
-                        }  
-            }); 
+            // $('#destroy').on('click', function(e) {  
+            // $('#stamp').on('click', function(e) {          
+            //         if($(this).is(':checked',true))  
+            //             {
+            //                 // $(".sub_destroy").prop('checked', true);  
+            //                 $(".sub_chk").prop('checked', true); 
+            //             } else {  
+            //                 // $(".sub_destroy").prop('checked',false);  
+            //                 $(".sub_chk").prop('checked',false); 
+            //             }  
+            // }); 
             $('.Destroystamp').on('click', function(e) {
                 // alert('oo');
                 var allValls = [];
-                $(".sub_destroy:checked").each(function () {
+                // $(".sub_destroy:checked").each(function () {
+                $(".sub_chk:checked").each(function () {
                     allValls.push($(this).attr('data-id'));
                 });
                 if (allValls.length <= 0) {
@@ -469,7 +473,8 @@
                                         data: 'ids='+join_selected_values,
                                         success:function(data){ 
                                                 if (data.status == 200) {
-                                                    $(".sub_destroy:checked").each(function () {
+                                                    // $(".sub_destroy:checked").each(function () {
+                                                    $(".sub_chk:checked").each(function () {
                                                         $(this).parents("tr").remove();
                                                     });
                                                     Swal.fire({

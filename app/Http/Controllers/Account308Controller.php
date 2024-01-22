@@ -216,13 +216,13 @@ class Account308Controller extends Controller
                 ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
                 ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
                 from ipt ip
-                LEFT JOIN hos.an_stat a ON ip.an = a.an
+                LEFT JOIN an_stat a ON ip.an = a.an
                 LEFT JOIN patient pt on pt.hn=a.hn
                 LEFT JOIN pttype ptt on a.pttype=ptt.pttype
                 LEFT JOIN pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id
-                LEFT JOIN hos.ipt_pttype ipt ON ipt.an = a.an
-                LEFT JOIN hos.opitemrece op ON ip.an = op.an
-                LEFT JOIN hos.vn_stat v on v.vn = a.vn
+                LEFT JOIN ipt_pttype ipt ON ipt.an = a.an
+                LEFT JOIN opitemrece op ON ip.an = op.an
+                LEFT JOIN vn_stat v on v.vn = a.vn
                 WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                
                 AND ipt.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.308")
@@ -244,7 +244,7 @@ class Account308Controller extends Controller
                                 'ptname'             => $value->ptname,
                                 'pttype'             => $value->pttype,
                                 'vstdate'            => $value->vstdate,
-                                'regdate'            => $value->admdate,
+                                'rxdate'             => $value->admdate,
                                 'dchdate'            => $value->dchdate,
                                 // 'acc_code'           => $value->code,
                                 'account_code'       => $value->account_code,
