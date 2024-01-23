@@ -60,61 +60,62 @@
                }
     </style>
     
-    <div class="container-fluid">
+    <div class="tabs-animation">
+        <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
+                </div>
+            </div> 
+        </div> 
         <div id="preloader">
             <div id="status">
-                <div class="spinner">
-                    
+                <div class="spinner"> 
                 </div>
             </div>
         </div>
-       
         <div class="row"> 
+            <div class="col-md-4">
+                <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail Account ผัง 1102050101.3099</h4>
+                <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
+            </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-4 text-end">
-                {{-- <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                        data-date-language="th-th" value="{{ $startdate }}" required/>
-                    <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                        data-date-language="th-th" value="{{ $enddate }}"/>  
-                </div>  --}}
+            <div class="col-md-5 text-end">
+              
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' autocomplete="off"
+                    <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' autocomplete="off"
                      data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $startdate }}"/>
-                    <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' autocomplete="off"
+                    <input type="text" class="form-control cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' autocomplete="off"
                     data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $enddate }}"/>
-                    
-                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Pulldata">
-                    <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
-                    ดึงข้อมูล</button>    
-                  
+                    <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left" id="Pulldata">
+                        <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>ดึงข้อมูล</span>
+                        <span class="ladda-spinner"></span>
+                    </button> 
             </div>
         </div>
         </div>
          
-        <div class="row mt-3">
+        <div class="row">
             <div class="col-xl-12">
-                <div class="card">
-                    <div class="card-body shadow-lg">
-                        <div class="row mt-3 text-center">  
-                            <div id="overlay">
-                                <div class="cv-spinner">
-                                <span class="spinner"></span>
-                                </div>
-                            </div>
-                        </div> 
+                <div class="card cardacc">
+                    <div class="card-body"> 
                       
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h4 class="card-title">Detail Account ผัง 1102050101.3099</h4>
-                                <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
-                            </div>
+                        <div class="row mb-3">
+                            
                             <div class="col"></div>
                             <div class="col-md-2 text-end">
-                                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info Savestamp" data-url="{{url('account_pkti3099_stam')}}">
+                                {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info Savestamp" data-url="{{url('account_pkti3099_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
+                                </button> --}}
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_pkti3099_stam')}}">
+                                    <i class="fa-solid fa-file-waveform me-2"></i>
+                                    ตั้งลูกหนี้
+                                </button>
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-danger cardacc Destroystamp" data-url="{{url('account_3099_destroy')}}">
+                                    <i class="fa-solid fa-trash-can me-2"></i>
+                                    ลบ
                                 </button>
                             </div>
                         </div>

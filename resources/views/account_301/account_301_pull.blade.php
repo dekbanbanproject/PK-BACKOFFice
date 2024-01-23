@@ -58,13 +58,13 @@
                .is-hide{
                display:none;
                }
-               /* .inputaccs{
+               .inputaccs{
                  
                     border: none;
                     box-shadow: 0 0 10px pink;
                     border:solid 1px #80acfd;
                     border-radius: 40px;
-                }
+                }  
                 .add{
                     width: 60%;
                     height: 25px;

@@ -25,10 +25,12 @@
 .cardacc{
     border-radius: 4em 4em 4em 4em;
     box-shadow: 0 0 10px pink;
+    border:solid 1px #80acfd;
     /* box-shadow: 0 0 10px rgb(232, 187, 243); */
 }
 .inputacc{
     border-radius: 4em 4em 4em 4em;
+    border: none;
     box-shadow: 0 0 10px pink;
     border:solid 1px #80acfd;
 }

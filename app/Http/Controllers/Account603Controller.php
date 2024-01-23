@@ -580,6 +580,17 @@ class Account603Controller extends Controller
             'datashow'          =>     $datashow, 
         ]);
     }
+
+    public function account_603_destroy(Request $request)
+    {
+        $id = $request->ids; 
+        $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
+            Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->delete();
+                  
+        return response()->json([
+            'status'    => '200'
+        ]);
+    }
     // public function account_602_edit(Request $request, $id)
     // {
     //     $acc602 = Acc_1102050102_602::LEFTJOIN('acc_stm_prb','acc_stm_prb.acc_1102050102_602_sid','=','acc_1102050102_602.acc_1102050102_602_id')
