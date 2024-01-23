@@ -1,22 +1,27 @@
-.card{
-    border-radius: 3em 3em 3em 3em;
-    /* box-shadow: 0 0 10px teal; */
-}
+ 
 .card-ucs{
     border-radius: 3em 3em 3em 3em;
+    border: none;
     box-shadow: 0 0 10px rgb(14, 240, 240);
+    border:solid 1px #80acfd;
 }
 .card-ofc{
     border-radius: 3em 3em 3em 3em;
+    border: none;
     box-shadow: 0 0 10px rgb(10, 110, 223);
+    border:solid 1px #80acfd;
 }
 .card-lgo{
     border-radius: 3em 3em 3em 3em;
+    border: none;
     box-shadow: 0 0 10px teal;
+    border:solid 1px #80acfd;
 }
 .cardshadow{
     border-radius: 3em 3em 3em 3em;
+    border: none;
     box-shadow: 0 0 10px teal;
+    border:solid 1px #80acfd;
 }
 .d-shadow{
     /* border-radius: 3em 3em 3em 3em; */
@@ -46,6 +51,7 @@
 .cardclaim{
     border-radius: 4em 4em 4em 4em;
     box-shadow: 0 0 10px rgb(252, 161, 119);
+    border:solid 1px #80acfd;
     /* box-shadow: 0 0 10px rgb(247, 198, 176); */
 }
 .inputaccs{
