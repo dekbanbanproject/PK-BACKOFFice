@@ -30,6 +30,7 @@
 .inputacc{
     border-radius: 4em 4em 4em 4em;
     box-shadow: 0 0 10px pink;
+    border:solid 1px #80acfd;
 }
 .inputmedsalt{
     border-radius: 4em 4em 4em 4em;
@@ -45,6 +46,21 @@
     box-shadow: 0 0 10px rgb(252, 161, 119);
     /* box-shadow: 0 0 10px rgb(247, 198, 176); */
 }
+.inputaccs{
+    /* border-radius: 5em 5em 5em 5em; */
+    border: none;
+    box-shadow: 0 0 10px pink;
+    border:solid 1px #80acfd;
+    border-radius: 40px;
+}
+.add{
+    width: 60%;
+    height: 25px;
+    margin: 0 auto;
+    border: none; /* <-- This thing here */
+    border:solid 1px #ccc;
+    border-radius: 10px;
+}   
 
  
 .dcheckbox{         
