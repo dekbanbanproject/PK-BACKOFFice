@@ -215,7 +215,7 @@
                                             <th class="text-center">สิทธิ์</th>  
                                             <th class="text-center">spsch</th> 
                                             {{-- <th class="text-center">xray_price</th>  --}}
-                                            <th class="text-center">CXR ONLY</th> 
+                                            <th class="text-center">CXR+CT</th> 
                                             <th class="text-center">ค่าใช้จ่ายรวม</th> 
                                             <th class="text-center">สถานะ</th> 
                                             <th class="text-center">STMdoc</th> 

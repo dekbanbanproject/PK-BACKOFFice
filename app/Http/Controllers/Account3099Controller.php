@@ -109,14 +109,14 @@ class Account3099Controller extends Controller
         $end = (''.$yearnew.'-09-30'); 
 
         // $data_trimart = DB::table('acc_trimart')->limit(3)->orderBy('acc_trimart_id','desc')->get();
-        if ($acc_trimart_id == '') {
-            $data_trimart = DB::table('acc_trimart')->limit(3)->orderBy('acc_trimart_id','desc')->get();
-            $trimart = DB::table('acc_trimart')->orderBy('acc_trimart_id','desc')->get();
-        } else {
-            // $data_trimart = DB::table('acc_trimart')->whereBetween('dchdate', [$startdate, $enddate])->orderBy('acc_trimart_id','desc')->get();
-            $data_trimart = DB::table('acc_trimart')->where('acc_trimart_id','=',$acc_trimart_id)->orderBy('acc_trimart_id','desc')->get();
-            $trimart = DB::table('acc_trimart')->orderBy('acc_trimart_id','desc')->get();
-        }
+        // if ($acc_trimart_id == '') {
+        //     $data_trimart = DB::table('acc_trimart')->limit(3)->orderBy('acc_trimart_id','desc')->get();
+        //     $trimart = DB::table('acc_trimart')->orderBy('acc_trimart_id','desc')->get();
+        // } else {
+        //     // $data_trimart = DB::table('acc_trimart')->whereBetween('dchdate', [$startdate, $enddate])->orderBy('acc_trimart_id','desc')->get();
+        //     $data_trimart = DB::table('acc_trimart')->where('acc_trimart_id','=',$acc_trimart_id)->orderBy('acc_trimart_id','desc')->get();
+        //     $trimart = DB::table('acc_trimart')->orderBy('acc_trimart_id','desc')->get();
+        // }
         if ($startdate == '') {
             $datashow = DB::select('
                     SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
@@ -158,9 +158,9 @@ class Account3099Controller extends Controller
         return view('account_3099.account_pkti3099_dash',[
             'startdate'        =>  $startdate,
             'enddate'          =>  $enddate,
-            'trimart'          =>  $trimart,
-            'leave_month_year' =>  $leave_month_year,
-            'data_trimart'     =>  $data_trimart,
+            // 'trimart'          =>  $trimart,
+            // 'leave_month_year' =>  $leave_month_year,
+            // 'data_trimart'     =>  $data_trimart,
             'datashow'         =>  $datashow,
         ]);
     }

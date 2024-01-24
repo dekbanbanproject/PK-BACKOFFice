@@ -122,7 +122,12 @@ $pos = strrpos($url, '/') + 1;
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $number = 1; ?>
+                                <?php $number = 1; 
+                                    $total1 = 0;
+                                    $total2 = 0;
+                                    $total3 = 0;
+                                    $total4 = 0;
+                                ?>
                                 @foreach ($data as $item) 
 
                                     <tr height="20" style="font-size: 14px;">
@@ -142,9 +147,19 @@ $pos = strrpos($url, '/') + 1;
                                         @endif
                                         <td class="text-center" width="14%">{{ $item->STMdoc }}</td>
                                     </tr>
+                                    <?php
+                                            $total1 = $total1 + $item->debit_total;
+                                            $total2 = $total2 + $item->Total_amount; 
+                                    ?>
                                 @endforeach
 
                             </tbody>
+                            <tr style="background-color: #f3fca1">
+                                <td colspan="7" class="text-end" style="background-color: #fca1a1"></td>
+                                <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>                                
+                                <td class="text-center" style="background-color: #44E952"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label> </td> 
+                                <td colspan="1" class="text-end" style="background-color: #fca1a1"></td>
+                            </tr> 
                         </table>
                     </div>
                 </div>

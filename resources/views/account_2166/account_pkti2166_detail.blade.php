@@ -123,10 +123,10 @@ $pos = strrpos($url, '/') + 1;
                             </thead>
                             <tbody>
                                 <?php $number = 0;
-                                  $total1 = 0;
-                                $total2 = 0;
-                                $total3 = 0;
-                                $total4 = 0;
+                                    $total1 = 0;
+                                    $total2 = 0;
+                                    $total3 = 0;
+                                    $total4 = 0;
                                  ?>
                                 @foreach ($data as $item)
                                     <?php $number++; ?>
@@ -139,16 +139,17 @@ $pos = strrpos($url, '/') + 1;
                                             <td class="p-2" >{{ $item->ptname }}</td>  
                                             <td class="text-center" width="10%">{{ $item->vstdate }}</td>    
                                             <td class="text-center" width="10%">{{ $item->pttype }}</td>  
-                                            <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td> 
-                                            <td class="text-center" width="10%">{{ number_format($item->rcpt_money, 2) }}</td> 
-                                            <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>  
+                                           
+                                            <td class="text-center" style="color:rgb(73, 147, 231)" width="10%">{{ number_format($item->income, 2) }}</td> 
+                                            <td class="text-center" style="color:rgb(250, 160, 58)" width="10%">{{ number_format($item->rcpt_money, 2) }}</td> 
+                                            <td class="text-end" style="color:rgb(12, 161, 12)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>  
                                         </tr>
                                         
                                         <?php
-                                        $total1 = $total1 + $item->income;
-                                        $total2 = $total2 + $item->rcpt_money;
-                                        $total3 = $total3 + $item->debit_total; 
-                                ?>
+                                                $total1 = $total1 + $item->income;
+                                                $total2 = $total2 + $item->rcpt_money;
+                                                $total3 = $total3 + $item->debit_total; 
+                                        ?>
  
                                 @endforeach
 
