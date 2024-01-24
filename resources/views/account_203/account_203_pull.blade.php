@@ -77,7 +77,7 @@
        
         <div class="row"> 
             <div class="col-md-4">
-                <h5 class="card-title">Detail 1102050101.203</h5>
+                <h5 class="card-title" style="color:rgb(10, 151, 85)">Detail 1102050101.203</h5>
                 <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.203</p>
             </div>
             <div class="col"></div>

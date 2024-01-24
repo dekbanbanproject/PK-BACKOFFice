@@ -1821,6 +1821,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'acc_106_debt_downloadbook/{id}',[App\Http\Controllers\Account106Controller::class, 'acc_106_debt_downloadbook'])->name('acc.acc_106_debt_downloadbook');// 
     Route::match(['get','post'],'acc_106_debt_sync',[App\Http\Controllers\Account106Controller::class, 'acc_106_debt_sync'])->name('acc.acc_106_debt_sync');//  ทวงหนี้
     Route::match(['get','post'],'acc_106_debt_checksit',[App\Http\Controllers\Account106Controller::class, 'acc_106_debt_checksit'])->name('acc.acc_106_debt_checksit');// 
+    Route::match(['get','post'],'account_106_destroy',[App\Http\Controllers\Account106Controller::class, 'account_106_destroy'])->name('acc.account_106_destroy');//
 
     // ************107 IPD**********************
 
@@ -1837,6 +1838,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'acc_107_file',[App\Http\Controllers\Account107Controller::class, 'acc_107_file'])->name('acc.acc_107_file');//
     Route::match(['get','post'],'acc_107_file_updatefile',[App\Http\Controllers\Account107Controller::class, 'acc_107_file_updatefile'])->name('acc.acc_107_file_updatefile');//
     Route::match(['get','post'],'acc107destroy/{id}',[App\Http\Controllers\Account107Controller::class, 'acc107destroy'])->name('acc.acc107destroy');//
+    Route::match(['get','post'],'account_107_destroy',[App\Http\Controllers\Account107Controller::class, 'account_107_destroy'])->name('acc.account_107_destroy');//
 
     Route::match(['get','post'],'acc_107_debt',[App\Http\Controllers\Account107Controller::class, 'acc_107_debt'])->name('acc.acc_107_debt');//  ทวงหนี้
     Route::match(['get','post'],'acc_107_debt_outbook/{id}',[App\Http\Controllers\Account107Controller::class, 'acc_107_debt_outbook'])->name('acc.acc_107_debt_outbook');// 

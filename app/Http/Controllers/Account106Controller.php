@@ -1194,6 +1194,18 @@ class Account106Controller extends Controller
 
         exit;
     }
+
+
+    public function account_106_destroy(Request $request)
+    {
+        $id = $request->ids; 
+        $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
+            Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->delete();
+                  
+        return response()->json([
+            'status'    => '200'
+        ]);
+    }
     
  
 }

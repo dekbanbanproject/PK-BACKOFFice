@@ -458,23 +458,103 @@ class Account107Controller extends Controller
             foreach ($sync as $key => $value) { 
                 $total_ = Acc_1102050102_107::where('an',$value->an)->first(); 
                 $deb = $total_->debit;
+                $deb_paid = $total_->paid_money; 
                 // $d =  $deb - $value->total_amount;
-                $d =  $deb - $value->s_bill;   
+                // $d =  $deb - $value->s_bill;   
                 // dd($d);
                 // Acc_1102050102_107::where('an',$value->an) 
                 //         ->update([  
                 //             'sumtotal_amount'    => $value->s_bill
                 //     ]);
-                    if ($value->s_bill > $deb) {
-                        Acc_1102050102_107::where('an',$value->an) 
-                        ->update([  
-                            // 'sumtotal_amount'    => $value->total_amount,
-                            'income'             => $value->income,
-                            'sumtotal_amount'    => $value->s_bill,
-                            'paid_money'         => $deb,
-                            'debit_total'        => $deb
-                        ]);
+                    if ($value->s_bill >= $deb) {
+                        // Acc_1102050102_107::where('an',$value->an) 
+                        // ->update([   
+                        //     'income'             => $value->income,
+                        //     'sumtotal_amount'    => $value->s_bill,
+                        //     'paid_money'         => $deb,
+                        //     'debit_total'        => $deb
+                        // ]);
+                        if ($value->s_bill == $deb_paid) {
+                            Acc_1102050102_107::where('an',$value->an) 
+                                ->update([   
+                                    'sumtotal_amount'    => $value->s_bill,
+                                    'paid_money'         => $value->paid_money, 
+                                    'debit_total'        => "0.00"
+                            ]);
+                        }elseif ($value->s_bill < $value->paid_money) {
+                            Acc_1102050102_107::where('an',$value->an) 
+                                ->update([   
+                                    'sumtotal_amount'    => $value->s_bill,
+                                    'paid_money'         => $value->paid_money, 
+                                    'debit_total'        => $value->paid_money - $value->s_bill
+                            ]);
+                        }elseif ($value->s_bill >= $deb) {
+                            Acc_1102050102_107::where('an',$value->an) 
+                                ->update([   
+                                    'sumtotal_amount'    => $value->s_bill,
+                                    'paid_money'         => $value->paid_money, 
+                                    'debit_total'        => "0.00"
+                            ]);
+                        
+                    
+                        } else {                        
+                            Acc_1102050102_107::where('an',$value->an) 
+                                ->update([   
+                                    'sumtotal_amount'    => $value->s_bill,
+                                    'paid_money'         => $value->paid_money,  
+                                    'debit_total'        => $value->s_bill - $deb
+                            ]);
+                        } 
                     } else {
+                        if ($value->paid_money < 1) {
+                            if ($value->remain_money > 0 ) {
+                                if ($value->remain_money - $value->s_bill < 1) {
+                                    Acc_1102050102_107::where('an',$value->an) 
+                                        ->update([   
+                                            'sumtotal_amount'    => $value->s_bill,
+                                            'paid_money'         => $value->remain_money,
+                                            'debit_total'        => "0.00"
+                                    ]);
+                                } else {
+                                    Acc_1102050102_107::where('an',$value->an) 
+                                        ->update([   
+                                            'sumtotal_amount'    => $value->s_bill,
+                                            'paid_money'         => $value->remain_money,
+                                            'debit_total'        => $value->remain_money - $value->s_bill
+                                    ]);
+                                } 
+                            } else {
+                                if ( $deb > $value->paid_money) {
+                                    # code...
+                                } else {
+                                    # code...
+                                }
+                                
+                                
+                            }
+                            
+                            
+                        } else {
+                            if ($value->remain_money > 0) {
+                                Acc_1102050102_107::where('an',$value->an) 
+                                    ->update([   
+                                        'sumtotal_amount'    => $value->s_bill,
+                                        'paid_money'         => $value->paid_money,
+                                        // 'debit_total'        => $d
+                                        'debit_total'        => $value->remain_money,
+                                ]);
+                            } else {
+                                Acc_1102050102_107::where('an',$value->an) 
+                                    ->update([   
+                                        'sumtotal_amount'    => $value->s_bill,
+                                        'paid_money'         => $value->paid_money,
+                                        // 'debit_total'        => $d
+                                        'debit_total'        => $value->paid_money - $value->s_bill,
+                                ]);
+                            }
+                            
+                            
+                        }
                         // if ($value->pttype == '10') {
                         //     Acc_1102050102_107::where('an',$value->an) 
                         //         ->update([  
@@ -487,17 +567,17 @@ class Account107Controller extends Controller
                         //             // 'debit_total'        => $value->remain_money
                         //         ]);
                         // } else {
-                            Acc_1102050102_107::where('an',$value->an) 
-                                ->update([  
-                                    // 'sumtotal_amount'    => $value->total_amount,
-                                    'income'             => $value->income,
-                                    'sumtotal_amount'    => $value->s_bill,
-                                    'paid_money'         => $deb,
-                                    // 'debit_total'        => $deb - $value->s_bill
-                                    'debit_total'        => $deb 
-                                    // 'debit_total'        => $value->remain_money
-                                ]);
-                        // }
+                            // Acc_1102050102_107::where('an',$value->an) 
+                            //     ->update([  
+                            //         // 'sumtotal_amount'    => $value->total_amount,
+                            //         'income'             => $value->income,
+                            //         'sumtotal_amount'    => $value->s_bill,
+                            //         'paid_money'         => $deb,
+                            //         // 'debit_total'        => $deb - $value->s_bill
+                            //         'debit_total'        => $deb 
+                            //         // 'debit_total'        => $value->remain_money
+                            //     ]);
+                   
                         
                         
                     }
@@ -1041,6 +1121,18 @@ class Account107Controller extends Controller
         $pdf->Output();
 
         exit;
+    }
+
+
+    public function account_107_destroy(Request $request)
+    {
+        $id = $request->ids; 
+        $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
+            Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->delete();
+                  
+        return response()->json([
+            'status'    => '200'
+        ]);
     }
  
 }
