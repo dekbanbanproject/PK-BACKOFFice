@@ -35,7 +35,9 @@ return new class extends Migration
                 $table->longtext('budget_detail')->nullable();//   งบประมาณรายละเอียด
                 $table->string('budget_price')->nullable();//    งบประมาณ
                 $table->string('budget_source')->nullable();//     แหล่งงบประมาณ
+                $table->string('budget_source_name')->nullable();//     แหล่งงบประมาณ
                 $table->string('responsible_person')->nullable();//     ผู้รับผิดชอบ
+                $table->string('responsible_person_name')->nullable();//     ผู้รับผิดชอบ
                 $table->string('user_id')->nullable();//         
                 $table->timestamps();
             });    

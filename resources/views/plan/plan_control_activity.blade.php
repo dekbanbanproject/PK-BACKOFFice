@@ -108,7 +108,7 @@ $refnumber = PlanController::refnumber();
                                         <h5 class="modal-title me-3" id="editModalLabel">แผนงาน/กิจกรรมสำคัญ  {{$plan_control->plan_name}}</h5>  
                                         <div class="btn-actions-pane-right">   
                                         <h6 class="mt-2 me-3"> เลขที่ {{$plan_control->billno}}</h6> 
-                                        <input type="hidden" id="billno" name="billno" value="{{$plan_control->billno}}">
+                                       
                                     </div>  
                                     </div>                 
                                     <div class="card-body"> 
@@ -143,7 +143,7 @@ $refnumber = PlanController::refnumber();
                                             <div class="col-md-1 ">
                                                 <label for="">บาท</label>
                                                 <div class="form-group"> 
-                                                    <input id="qty" class="form-control form-control-sm" name="qty">
+                                                    <input id="budget_price" class="form-control form-control-sm" name="budget_price">
                                                 </div>
                                             </div>
                                             
@@ -252,12 +252,12 @@ $refnumber = PlanController::refnumber();
                                             </div>
 
                                             <input type="hidden" id="plan_control_id" name="plan_control_id" value="{{$plan_control->plan_control_id}}">
-                                           
+                                            <input type="hidden" id="billno" name="billno" value="{{$plan_control->billno}}">
                                         </div> 
                                     </div>
                                     <div class="card-footer mt-2">
                                         <div class="btn-actions-pane-right mt-2">
-                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Updatedata">
+                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Insertdata">
                                                 <i class="pe-7s-diskette btn-icon-wrapper"></i>เพิ่ม 
                                             </button>
                                             <a href="{{ url('plan_control') }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger me-2">
@@ -385,23 +385,36 @@ $refnumber = PlanController::refnumber();
             $("#spinner-div").hide(); //Request is complete so hide spinner
   
 
-            $('#Updatedata').click(function() {
-                    var plan_name              = $('#plan_name').val();
-                    var datepicker1            = $('#startdate').val();
-                    var datepicker2            = $('#enddate').val();
-                    var plan_price             = $('#plan_price').val();
-                    var department             = $('#department').val();
-                    var plan_type              = $('#plan_type').val();
-                    var user_id                = $('#user_id').val();
-                    var billno                 = $('#billno').val();
-                    var plan_strategic_id      = $('#plan_strategic_id').val();
-                    var plan_control_id        = $('#plan_control_id').val();
+            $('#Insertdata').click(function() {
+                    var plan_control_activity_name       = $('#plan_control_activity_name').val();
+                    var plan_control_activity_group      = $('#plan_control_activity_group').val();
+                    var qty                              = $('#qty').val();
+                    var budget_detail                    = $('#budget_detail').val();
+                    var budget_price                     = $('#budget_price').val();
+                    var budget_source                    = $('#budget_source').val();
+                    var trimart_11                       = $('#trimart_11').val();
+                    var trimart_12                       = $('#trimart_12').val();
+                    var trimart_13                       = $('#trimart_13').val();
+                    var trimart_21                       = $('#trimart_21').val();
+                    var trimart_22                       = $('#trimart_22').val();
+                    var trimart_23                       = $('#trimart_23').val();
+                    var trimart_31                       = $('#trimart_31').val();
+                    var trimart_32                       = $('#trimart_32').val();
+                    var trimart_33                       = $('#trimart_33').val();
+                    var trimart_41                       = $('#trimart_41').val();
+                    var trimart_42                       = $('#trimart_42').val();
+                    var trimart_43                       = $('#trimart_43').val();
+                    var responsible_person               = $('#responsible_person').val();
+                    var plan_control_id                  = $('#plan_control_id').val();
+                    var billno                           = $('#billno').val();
                 $.ajax({
                     url: "{{ route('p.plan_control_update') }}",
                     type: "POST",
                     dataType: 'json',
                     data: {
-                        plan_name,datepicker1,datepicker2,plan_price,department,plan_type,user_id,billno,plan_control_id,plan_strategic_id
+                        plan_control_activity_name,plan_control_activity_group,qty,budget_detail
+                        ,budget_price,budget_source,trimart_11,trimart_12,trimart_13,trimart_21,trimart_22,trimart_23
+                        ,trimart_31,trimart_32,trimart_33,trimart_41,trimart_42,trimart_43,responsible_person,plan_control_id,billno
                     },
                     success: function(data) {
                         if (data.status == 200) {
