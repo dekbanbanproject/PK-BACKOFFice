@@ -217,8 +217,9 @@
                                             <a href="{{ url('plan') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                    <i class="fa-solid fa-3x fa-clipboard font-size-25"
-                                                        style="color: rgb(248, 182, 182)"></i>
+                                                    {{-- <i class="fa-solid fa-3x fa-clipboard font-size-25"
+                                                        style="color: rgb(248, 182, 182)"></i> --}}
+                                                        <img src="{{ asset('images/plan2.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>
@@ -308,8 +309,9 @@
                                             <a href="{{ url('computer/com_staff_calenda') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                    <i class="fa-solid fa-3x fa-computer font-size-25 "
-                                                        style="color: rgb(143, 145, 144)"></i>
+                                                    {{-- <i class="fa-solid fa-3x fa-computer font-size-25 "
+                                                        style="color: rgb(143, 145, 144)"></i> --}}
+                                                        <img src="{{ asset('images/computer.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>
@@ -338,8 +340,9 @@
                                             <a href="{{ url('medical/med_calenda') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                    <i class="fa-solid fa-3x fa-notes-medical font-size-25"
-                                                        style="color: rgb(137, 134, 236)"></i>
+                                                    {{-- <i class="fa-solid fa-3x fa-notes-medical font-size-25"
+                                                        style="color: rgb(137, 134, 236)"></i> --}}
+                                                        <img src="{{ asset('images/medical.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>
@@ -518,8 +521,9 @@
                                             <a href="{{ url('account_info') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                    <i class="fa-solid fa-3x fa-money-check-dollar font-size-25"
-                                                        style="color: rgb(223, 136, 173)"></i>
+                                                    {{-- <i class="fa-solid fa-3x fa-money-check-dollar font-size-25"
+                                                        style="color: rgb(223, 136, 173)"></i> --}}
+                                                        <img src="{{ asset('images/finace.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>
@@ -548,8 +552,9 @@
                                             <a href="{{ url('account_pk_dash') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                    <i class="fa-solid fa-3x fa-file-invoice-dollar font-size-26"
-                                                        style="color: pink"></i>
+                                                    {{-- <i class="fa-solid fa-3x fa-file-invoice-dollar font-size-26"
+                                                        style="color: pink"></i> --}}
+                                                        <img src="{{ asset('images/account.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>
@@ -795,8 +800,9 @@
                                             <a href="{{ url('pkclaim_info') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                    <i class="fa-solid fa-3x fa-sack-dollar font-size-25 ms-2"
-                                                        style="color: rgb(245, 180, 150)"></i>
+                                                    {{-- <i class="fa-solid fa-3x fa-sack-dollar font-size-25 ms-2"
+                                                        style="color: rgb(245, 180, 150)"></i> --}}
+                                                        <img src="{{ asset('images/claim2.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>
@@ -920,7 +926,8 @@
                                             <a href="{{ url('report_db') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill"> 
-                                                        <i class="fa-solid fa-chart-line fa-3x font-size-25" style="color: rgba(209, 180, 255, 0.74)"></i> 
+                                                        {{-- <i class="fa-solid fa-chart-line fa-3x font-size-25" style="color: rgba(209, 180, 255, 0.74)"></i>  --}}
+                                                        <img src="{{ asset('images/report.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>
