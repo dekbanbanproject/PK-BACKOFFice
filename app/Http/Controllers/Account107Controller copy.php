@@ -451,14 +451,29 @@ class Account107Controller extends Controller
                 WHERE department ="IPD" AND a.an IN(SELECT an FROM pkbackoffice.acc_1102050102_107)
                 GROUP BY a.an 
             ');
-           
+            // ,rp.amount
+            // LEFT OUTER JOIN rcpt_arrear rp on r.vn = rp.vn 
+            // ,SUM(r.bill_amount) as s_bill 
+            // LEFT OUTER JOIN rcpt_arrear rp on rp.vn = r.vn 
             foreach ($sync as $key => $value) { 
                 $total_ = Acc_1102050102_107::where('an',$value->an)->first(); 
                 $deb = $total_->debit;
                 $deb_paid = $total_->paid_money; 
-               
+                // $d =  $deb - $value->total_amount;
+                // $d =  $deb - $value->s_bill;   
+                // dd($d);
+                // Acc_1102050102_107::where('an',$value->an) 
+                //         ->update([  
+                //             'sumtotal_amount'    => $value->s_bill
+                //     ]);
                     if ($value->s_bill >= $deb) {
-                       
+                        // Acc_1102050102_107::where('an',$value->an) 
+                        // ->update([   
+                        //     'income'             => $value->income,
+                        //     'sumtotal_amount'    => $value->s_bill,
+                        //     'paid_money'         => $deb,
+                        //     'debit_total'        => $deb
+                        // ]);
                         if ($value->s_bill == $deb_paid) {
                             Acc_1102050102_107::where('an',$value->an) 
                                 ->update([   
@@ -524,19 +539,47 @@ class Account107Controller extends Controller
                                 Acc_1102050102_107::where('an',$value->an) 
                                     ->update([   
                                         'sumtotal_amount'    => $value->s_bill,
-                                        'paid_money'         => $value->paid_money, 
+                                        'paid_money'         => $value->paid_money,
+                                        // 'debit_total'        => $d
                                         'debit_total'        => $value->remain_money,
                                 ]);
                             } else {
                                 Acc_1102050102_107::where('an',$value->an) 
                                     ->update([   
                                         'sumtotal_amount'    => $value->s_bill,
-                                        'paid_money'         => $value->paid_money, 
+                                        'paid_money'         => $value->paid_money,
+                                        // 'debit_total'        => $d
                                         'debit_total'        => $value->paid_money - $value->s_bill,
                                 ]);
-                            } 
+                            }
+                            
+                            
                         }
-                         
+                        // if ($value->pttype == '10') {
+                        //     Acc_1102050102_107::where('an',$value->an) 
+                        //         ->update([  
+                        //             // 'sumtotal_amount'    => $value->total_amount,
+                        //             'income'    => $value->income,
+                        //             'sumtotal_amount'    => $value->s_bill,
+                        //             'paid_money'         => $deb,
+                        //             // 'debit_total'        => $deb - $value->s_bill
+                        //             'debit_total'        => $d 
+                        //             // 'debit_total'        => $value->remain_money
+                        //         ]);
+                        // } else {
+                            // Acc_1102050102_107::where('an',$value->an) 
+                            //     ->update([  
+                            //         // 'sumtotal_amount'    => $value->total_amount,
+                            //         'income'             => $value->income,
+                            //         'sumtotal_amount'    => $value->s_bill,
+                            //         'paid_money'         => $deb,
+                            //         // 'debit_total'        => $deb - $value->s_bill
+                            //         'debit_total'        => $deb 
+                            //         // 'debit_total'        => $value->remain_money
+                            //     ]);
+                   
+                        
+                        
                     }
             }
             return response()->json([
@@ -737,19 +780,25 @@ class Account107Controller extends Controller
         if($this->_numbering)
             $this->_numPageNum++;
     }
+
     function startPageNums() {
         $this->_numbering=true;
         $this->_numberingFooter=true;
     }
+
     function stopPageNums() {
         $this->_numbering=false;
     }
+
     function numPageNo() {
         return $this->_numPageNum;
     }
+
     function TOC_Entry($txt, $level=0) {
         $this->_toc[]=array('t'=>$txt,'l'=>$level,'p'=>$this->numPageNo());
     }
+
+
     public function acc_107_debt_print(Request $request, $id)
     { 
         $dataedit_count = Acc_107_debt_print::where('acc_1102050102_107_id', '=', $id)->max('acc_107_debt_no');
@@ -1073,6 +1122,8 @@ class Account107Controller extends Controller
 
         exit;
     }
+
+
     public function account_107_destroy(Request $request)
     {
         $id = $request->ids; 
@@ -1082,69 +1133,6 @@ class Account107Controller extends Controller
         return response()->json([
             'status'    => '200'
         ]);
-    }
-    public function acc_107_debt_months(Request $request,$months,$year)
-    {
-        $startdate = $request->startdate;
-        $enddate = $request->enddate; 
-        $data['users'] = User::get();
-        $date = date('Y-m-d');
-        $y = date('Y') + 543;
-        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-        $newDate = date('Y-m-d', strtotime($date . ' -3 months')); //ย้อนหลัง 2 เดือน
-        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-
-      
-            $datashow = DB::connection('mysql')->select('        
-                SELECT U1.acc_1102050102_107_id,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.account_code,U1.vstdate,U1.dchdate,U1.pttype,U1.income,U1.paid_money,U1.rcpt_money,U1.debit,U1.debit_total,U2.file,U2.filename
-                ,U1.sumtotal_amount,U1.pttype_nhso
-                FROM acc_1102050102_107 U1
-                LEFT OUTER JOIN acc_doc U2 ON U2.acc_doc_pangid = U1.acc_1102050102_107_id
-                LEFT OUTER JOIN acc_debtor U3 ON U3.an = U1.an 
-                WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 
-                GROUP BY U1.an
-                ORDER BY U1.dchdate DESC
-        ');
-       
-        return view('account_107.acc_107_debt_months',[
-            'startdate'     =>  $startdate,
-            'months'        =>  $months,
-            'year'          =>  $year,
-            'datashow'      =>  $datashow,
-        ]);
-    }
-    public function acc_107_debt_syncmonths(Request $request)
-    { 
-        $months     = $request->months;
-        $year       = $request->year; 
-        // $date = date('Y-m-d');
-        // $y = date('Y') + 543;
-        // $newday = date('Y-m-d', strtotime($date . ' +1 day')); //มากกว่าหลัง 1 วัน
-
-            $sync = DB::connection('mysql2')->select('  
-                SELECT  
-                finance_number,rcpno,bill_amount
-                ,DATE(bill_date_time) as bill_date
-                ,user as staff,hn,vn as an,department,pttype,discount,book_number,bill_number,total_amount
-                FROM rcpt_print  
-                WHERE vn IN(SELECT an as vn FROM pkbackoffice.acc_1102050102_107 WHERE month(dchdate) ="'.$months.'" AND year(dchdate) ="'.$year.'")
-            ');
-           
-            // foreach ($sync as $key => $value) { 
-            //     $date = date('Y-m-d');
-            //     $newday = date('Y-m-d', strtotime($value->bill_date . ' +1 day')); //มากกว่าหลัง 1 วัน
-            //     $total_ = Acc_1102050102_107::where('an',$value->an)->first(); 
-            //     $deb = $total_->debit;
-            //     $deb_paid = $total_->paid_money;                
-            //         if ($value->s_bill >= $deb) {
-            //         } else {   
-            //         }
-            // }
-            return response()->json([
-                'status'    => '200'
-            ]);
-        
-        
     }
  
 }

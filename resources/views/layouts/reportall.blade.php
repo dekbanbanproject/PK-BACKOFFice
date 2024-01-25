@@ -235,20 +235,79 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
                         <li class="menu-title">Menu</li>
-                         
- 
+                        <li>
+                            <a href="{{ url('report_db') }}">  
+                                <i class="fa-solid fa-gauge-high text-white"></i>
+                                <span>Dashboard</span>
+                                {{-- <span style="color: white">Dashboard</span> --}}
+                            </a> 
+                        </li>  
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-invoice-dollar" style="color: rgb(150, 72, 240)"></i>
-                                <span>aaaaa</span>
+                                <span>ระบบรายงาน</span>
                             </a>
+
                             <ul class="sub-menu" aria-expanded="true"> 
-                                <li><a href="javascript: void(0);" class="has-arrow">ssssssss OP</a>
-                                    <ul class="sub-menu" aria-expanded="true"> 
-                                        <li><a href="{{ url('report_db') }}">dashboard</a> </li>
-                                        <li><a href="{{ url('report_1') }}">report_1</a> </li>
-                                        <li><a href="{{ url('report_2') }}">report_2</a> </li>
-                                        <li><a href="{{ url('report_3') }}">report_3</a> </li>
+                                <li><a href="javascript: void(0);" class="has-arrow">ตัวชี้วัดสำคัญใน (รพ.)</a>
+                                    <ul class="sub-menu" aria-expanded="true">
+                                        <li><a href="{{ url('report_hos') }}">รายงาน</a> </li>
+                                    </ul>
+                                </li>
+                                 
+                            </ul>
+                            <ul class="sub-menu" aria-expanded="true"> 
+                                <li><a href="javascript: void(0);" class="has-arrow">ตัวชี้วัดสำคัญใน (OPD)</a>
+                                    <ul class="sub-menu" aria-expanded="true">
+                                        <li><a href="{{ url('report_1') }}">รายงาน</a> </li>
+                                    </ul>
+                                </li>
+                                 
+                            </ul>
+                            <ul class="sub-menu" aria-expanded="true"> 
+                                <li><a href="javascript: void(0);" class="has-arrow">ตัวชี้วัดสำคัญใน (MED)</a>
+                                    <ul class="sub-menu" aria-expanded="true">
+                                        <li><a href="{{ url('report_1') }}">รายงาน</a> </li>
+                                    </ul>
+                                </li>
+                                 
+                            </ul>
+                            <ul class="sub-menu" aria-expanded="true"> 
+                                <li><a href="javascript: void(0);" class="has-arrow">ตัวชี้วัดสำคัญใน (SX)</a>
+                                    <ul class="sub-menu" aria-expanded="true">
+                                        <li><a href="{{ url('report_1') }}">รายงาน</a> </li>
+                                    </ul>
+                                </li>
+                                 
+                            </ul>
+                            <ul class="sub-menu" aria-expanded="true"> 
+                                <li><a href="javascript: void(0);" class="has-arrow">ตัวชี้วัดสำคัญใน (ORTHO)</a>
+                                    <ul class="sub-menu" aria-expanded="true">
+                                        <li><a href="{{ url('report_1') }}">รายงาน</a> </li>
+                                    </ul>
+                                </li>
+                                 
+                            </ul>
+                            <ul class="sub-menu" aria-expanded="true"> 
+                                <li><a href="javascript: void(0);" class="has-arrow">ตัวชี้วัดสำคัญใน (NURSE)</a>
+                                    <ul class="sub-menu" aria-expanded="true">
+                                        <li><a href="{{ url('report_1') }}">รายงาน</a> </li>
+                                    </ul>
+                                </li>
+                                 
+                            </ul>
+                            <ul class="sub-menu" aria-expanded="true"> 
+                                <li><a href="javascript: void(0);" class="has-arrow">ตัวชี้วัดสำคัญใน (NURSE)</a>
+                                    <ul class="sub-menu" aria-expanded="true">
+                                        <li><a href="{{ url('report_1') }}">รายงาน</a> </li>
+                                    </ul>
+                                </li>
+                                 
+                            </ul>
+                            <ul class="sub-menu" aria-expanded="true"> 
+                                <li><a href="javascript: void(0);" class="has-arrow">เภสัชกรรม</a>
+                                    <ul class="sub-menu" aria-expanded="true">
+                                        <li><a href="{{ url('report_1') }}">รายงาน</a> </li>
                                     </ul>
                                 </li>
                                  

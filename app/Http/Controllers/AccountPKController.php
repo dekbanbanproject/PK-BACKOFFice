@@ -6078,7 +6078,7 @@ class AccountPKController extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate;
         $datashow = DB::connection('mysql')->select('
-                SELECT a.vn,a.hn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,a.STMdoc,a.stm_money
+                SELECT a.vn,a.hn,a.vstdate,a.dchdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,a.STMdoc,a.stm_money
                 FROM acc_1102050101_402 a 
                 WHERE STMdoc = "'.$id.'"  
                 AND a.stm_money IS NOT NULL 
