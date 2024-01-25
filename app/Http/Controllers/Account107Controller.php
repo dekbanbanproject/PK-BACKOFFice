@@ -1123,14 +1123,29 @@ class Account107Controller extends Controller
 
             $sync = DB::connection('mysql2')->select('  
                 SELECT  
-                finance_number,rcpno,bill_amount
-                ,DATE(bill_date_time) as bill_date
-                ,user as staff,hn,vn as an,department,pttype,discount,book_number,bill_number,total_amount
+                    finance_number,rcpno,bill_amount,DAY(bill_date_time)+1 as days,MONTH(bill_date_time) as months
+                    ,YEAR(bill_date_time) as years,DATE(bill_date_time) as bill_date 
+                    ,concat(YEAR(bill_date_time),"-",MONTH(bill_date_time),"-",DAY(bill_date_time)+1) as check_bill
+                    ,user as staff,hn,vn as an,department,pttype,discount,book_number,bill_number,total_amount
                 FROM rcpt_print  
                 WHERE vn IN(SELECT an as vn FROM pkbackoffice.acc_1102050102_107 WHERE month(dchdate) ="'.$months.'" AND year(dchdate) ="'.$year.'")
             ');
            
-            // foreach ($sync as $key => $value) { 
+            foreach ($sync as $key => $value) { 
+                $date = date('Y-m-d');
+                $sync_update = DB::connection('mysql2')->select('  
+                    SELECT SUM(bill_amount) as bill_amount
+                    FROM rcpt_print  
+                    WHERE DATE(bill_date_time) BETWEEN "'.$value->check_bill.'" AND "'.$date.'"
+                    AND vn IN(SELECT an as vn FROM pkbackoffice.acc_1102050102_107 WHERE month(dchdate) ="'.$months.'" AND year(dchdate) ="'.$year.'")
+                ');
+                foreach ($sync_update as $key => $value2) {
+                    Acc_1102050102_107::where('an',$value->an) 
+                    ->update([   
+                        'sumtotal_amount'    => $value->total_amount, 
+                        'debit_total'        => $value2->bill_amount,
+                ]);
+                }
             //     $date = date('Y-m-d');
             //     $newday = date('Y-m-d', strtotime($value->bill_date . ' +1 day')); //มากกว่าหลัง 1 วัน
             //     $total_ = Acc_1102050102_107::where('an',$value->an)->first(); 
@@ -1139,7 +1154,7 @@ class Account107Controller extends Controller
             //         if ($value->s_bill >= $deb) {
             //         } else {   
             //         }
-            // }
+            }
             return response()->json([
                 'status'    => '200'
             ]);
