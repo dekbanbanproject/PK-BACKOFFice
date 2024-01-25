@@ -303,7 +303,9 @@ class PlanController extends Controller
         
         return view('plan.plan_control_activity_edit', $data,[
             'data_plan_control'    => $data_plan_control,
-            'data_activity'        => $data_activity
+            'data_activity'        => $data_activity,
+            'id'                   => $id,
+            'sid'                  => $sid
         ]);
     }
 

@@ -104,13 +104,8 @@ $refnumber = PlanController::refnumber();
                     <div class="card-body ">  
                         <div class="row">                          
                             <div class="col-md-12"> 
-                                    {{-- <div class="card-header">  
-                                        <h5 class="modal-title me-3" id="editModalLabel">แผนงาน/กิจกรรมสำคัญ  {{$plan_control->plan_name}}</h5>  
-                                        <div class="btn-actions-pane-right">   
-                                        <h6 class="mt-2 me-3"> เลขที่ {{$plan_control->billno}}</h6> 
-                                       
-                                    </div>  
-                                    </div>                  --}}
+                                <form action="{{ route('p.plan_control_activity_save') }}" id="Insert_data" method="POST">
+                                    @csrf
                                     <div class="card-body"> 
 
                                         <div class="row">
@@ -167,7 +162,7 @@ $refnumber = PlanController::refnumber();
                                         </div>
                                         <div class="row mt-2">                  
                                             
-                                            {{-- <div class="col-md-2">
+                                            <div class="col-md-2">
                                                 <label for="">ไตรมาสที่ 1 </label>
                                                 <div class="form-group">
                                                     <div class="form-check form-check-inline">
@@ -234,8 +229,8 @@ $refnumber = PlanController::refnumber();
                                                         <label class="form-check-label" for="trimart_43">ก.ย.</label>
                                                     </div> 
                                                 </div>
-                                            </div>  --}}
-                                            <div class="col"></div>
+                                            </div> 
+                                            {{-- <div class="col"></div> --}}
 
                                             <div class="col-md-4">
                                                 <label for="">ผู้รับผิดชอบ </label>
@@ -260,9 +255,12 @@ $refnumber = PlanController::refnumber();
                                     </div>
                                     <div class="card-footer mt-2">
                                         <div class="btn-actions-pane-right mt-2">
-                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Insertdata">
+                                            <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                                 <i class="pe-7s-diskette btn-icon-wrapper"></i>Save 
                                             </button>
+                                            {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Insertdata">
+                                                <i class="pe-7s-diskette btn-icon-wrapper"></i>Save 
+                                            </button> --}}
                                             <a href="{{ url('plan_control') }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger me-2">
                                                 <i class="fa-solid fa-xmark me-2"></i>
                                                 Back
@@ -275,17 +273,24 @@ $refnumber = PlanController::refnumber();
                 </div>
             </div>
         </div>  
+    </form>
         <div class="row">
             <div class="col-xl-12">
                 <div class="card cardplan">  
-                    <div class="card-header">  
+                    <input type="hidden" id="billno" name="billno" value="{{$plan_control->billno}}">
+                    {{--<div class="card-header">  
                         <h5 class="modal-title me-3" id="editModalLabel">แผนงาน/กิจกรรมสำคัญ  {{$plan_control->plan_name}}</h5>  
                         <div class="btn-actions-pane-right">   
                         <h6 class="mt-2 me-3"> เลขที่ {{$plan_control->billno}}</h6> 
                         <input type="hidden" id="billno" name="billno" value="{{$plan_control->billno}}">
                     </div>  
-                    </div>                 
-                    <div class="card-body">  
+                    </div>--}}
+                    <div class="card-body"> 
+                        <div class="row">
+                            <div class="col-md-8 text-start"> <h5 class="modal-title me-3" id="editModalLabel">แผนงาน/กิจกรรมสำคัญ  {{$plan_control->plan_name}}</h5>  </div>
+                            <div class="col"></div>
+                            <div class="col-md-2 text-end"> <h6 class="mt-2 me-3"> เลขที่ {{$plan_control->billno}}</h6> </div>
+                        </div> 
                         
                         <div class="table-responsive"> 
                             <table class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; width: 100%;">
@@ -506,6 +511,41 @@ $refnumber = PlanController::refnumber();
 
                     },
                 });
+            });
+
+            $('#Insert_data').on('submit',function(e){
+                    e.preventDefault();            
+                    var form = this; 
+                    $.ajax({
+                          url:$(form).attr('action'),
+                          method:$(form).attr('method'),
+                          data:new FormData(form),
+                          processData:false,
+                          dataType:'json',
+                          contentType:false,
+                          beforeSend:function(){
+                            $(form).find('span.error-text').text('');
+                          },
+                          success:function(data){
+                            if (data.status == 0 ) {
+                              
+                            } else {          
+                              Swal.fire({
+                                title: 'เพิ่มแผนงาน/กิจกรรมสำคัญสำเร็จ',
+                                text: "You Update data success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177', 
+                                confirmButtonText: 'เรียบร้อย'
+                              }).then((result) => {
+                                if (result.isConfirmed) {                  
+                                  // window.location="{{url('plan_control')}}";
+                                  window.location.reload();
+                                }
+                              })      
+                            }
+                          }
+                    });
             });
 
                               

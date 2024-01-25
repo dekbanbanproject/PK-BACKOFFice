@@ -309,7 +309,7 @@ $refnumber = PlanController::refnumber();
                                             {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Updatedata">
                                                 <i class="pe-7s-diskette btn-icon-wrapper"></i>Update 
                                             </button> --}}
-                                            <a href="{{ url('plan_control') }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger me-2">
+                                            <a href="{{ url('plan_control_activity/'.$id) }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger me-2">
                                                 <i class="fa-solid fa-xmark me-2"></i>
                                                 Back
                                             </a>
@@ -321,20 +321,18 @@ $refnumber = PlanController::refnumber();
                 </div>
             </div>
         </div>  
+    </form>
         <div class="row">
             <div class="col-xl-12">
                 <div class="card cardplan">  
-                    <div class="card-header">  
-                        <h5 class="modal-title me-3" id="editModalLabel">แผนงาน/กิจกรรมสำคัญ  
-                            <a href="{{url('plan_control_activity/'.$data_plan_control->plan_control_id)}}"> {{$data_plan_control->plan_name}}</a>
-                           
-                        </h5>  
-                        <div class="btn-actions-pane-right">   
-                        <h6 class="mt-2 me-3"> เลขที่ {{$data_plan_control->billno}}</h6> 
-                        {{-- <input type="hidden" id="billno" name="billno" value="{{$data_plan_control->billno}}"> --}}
-                    </div>  
-                    </div>                 
+                                 
                     <div class="card-body">  
+
+                        <div class="row">
+                            <div class="col-md-8 text-start"> <h5 class="modal-title me-3" id="editModalLabel">แผนงาน/กิจกรรมสำคัญ   <a href="{{url('plan_control_activity/'.$data_plan_control->plan_control_id)}}"> {{$data_plan_control->plan_name}}</a></h5>  </div>
+                            <div class="col"></div>
+                            <div class="col-md-2 text-end"> <h6 class="mt-2 me-3"> เลขที่ {{$data_plan_control->billno}}</h6> </div>
+                        </div> 
                         
                         <div class="table-responsive"> 
                             <table class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; width: 100%;">
