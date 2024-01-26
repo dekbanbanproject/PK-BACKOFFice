@@ -276,28 +276,152 @@
                 </div>
             </div> 
         </div> 
-        <div class="row">
-            <div class="col"></div>
-            <div class="col-xl-4">
-                <div class="card cardplan"> 
-                    <div class="card-body p-3">
-                        <img src="{{ asset('images/cpso.png') }}" height="100px" width="100px" class="rounded-circle me-3">
-                        {{-- <h2></h2> --}}
-                        คปสอ.ภูเขียว
+        <div class="row"> 
+            <div class="col-xl-6">
+                <div class="row"> 
+                    <div class="col"></div>
+                    <div class="col-xl-6">
+                        <a href="{{url('plan_control_sub')}}" target="_blank">
+                            <div class="card cardplan"> 
+                                <div class="card-body p-3">
+                                    <img src="{{ asset('images/cpso.png') }}" height="100px" width="100px" class="rounded-circle me-3"> 
+                                    คปสอ.ภูเขียว
+                                </div>
+                            </div>
+                        </a>
                     </div>
+                    <div class="col"></div>
                 </div>
-            </div>
-            <div class="col-xl-4">
-                <div class="card cardplan"> 
-                    <div class="card-body p-3">
-                        <img src="{{ asset('images/hos.png') }}" height="100px" width="100px" class="rounded-circle me-3"> 
-                       Hospital
-                        
+                <div class="row"> 
+                    <div class="col-xl-3">
+                        <a href="{{url('plan_control_sub/1')}}" target="_blank">
+                            <div class="card cardplan"> 
+                                <div class="card-body p-3">
+                                    <img src="{{ asset('images/cpso.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                    PP
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                </div>
+                    <div class="col-xl-3">
+                        <a href="{{url('plan_control_sub/2')}}" target="_blank">
+                            <div class="card cardplan"> 
+                                <div class="card-body p-3">
+                                    <img src="{{ asset('images/cpso.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                    UC
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-3">
+                        <a href="{{url('plan_control_sub/3')}}" target="_blank">
+                            <div class="card cardplan"> 
+                                <div class="card-body p-3">
+                                    <img src="{{ asset('images/cpso.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                    อปท
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-3">
+                        <a href="{{url('plan_control_sub/4')}}" target="_blank">
+                            <div class="card cardplan"> 
+                                <div class="card-body p-3">
+                                    <img src="{{ asset('images/cpso.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                    อื่น ๆ
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>    
             </div>
-            <div class="col"></div>
+            <div class="col-xl-6">
+                <div class="row"> 
+                    <div class="col"></div>
+                    <div class="col-xl-6">
+                        <a href="{{url('plan_control_subhos')}}" target="_blank">
+                            <div class="card cardplan"> 
+                                <div class="card-body p-3">
+                                    <img src="{{ asset('images/hos.png') }}" height="100px" width="100px" class="rounded-circle me-3"> 
+                                Hospital
+                                    
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col"></div>
+                </div>
+                <div class="row"> 
+                    <div class="col-xl-3">
+                        <a href="{{url('plan_control_subhos_pp')}}" target="_blank">
+                            <div class="card cardplan"> 
+                                <div class="card-body p-3">
+                                    <img src="{{ asset('images/hos.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                    PP
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-3">
+                        <a href="{{url('plan_control_subhos_uc')}}" target="_blank">
+                            <div class="card cardplan"> 
+                                <div class="card-body p-3">
+                                    <img src="{{ asset('images/hos.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                    UC
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-3">
+                        <a href="{{url('plan_control_subhos_lgo')}}" target="_blank">
+                            <div class="card cardplan"> 
+                                <div class="card-body p-3">
+                                    <img src="{{ asset('images/hos.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                    อปท
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-3">
+                        <a href="{{url('plan_control_subhos_orther')}}" target="_blank">
+                            <div class="card cardplan"> 
+                                <div class="card-body p-3">
+                                    <img src="{{ asset('images/hos.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                    อื่น ๆ
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                </div> 
+            </div> 
         </div>
+        {{-- <div class="row">
+            <div class="col"></div>
+            <div class="col-xl-4">
+                <a href="{{url('plan_control_sub')}}" target="_blank">
+                    <div class="card cardplan"> 
+                        <div class="card-body p-3">
+                            <img src="{{ asset('images/cpso.png') }}" height="100px" width="100px" class="rounded-circle me-3"> 
+                            คปสอ.ภูเขียว
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-xl-4">
+                <a href="{{url('plan_control_subhos')}}" target="_blank">
+                    <div class="card cardplan"> 
+                        <div class="card-body p-3">
+                            <img src="{{ asset('images/hos.png') }}" height="100px" width="100px" class="rounded-circle me-3"> 
+                        Hospital
+                            
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col"></div>
+        </div> --}}
     </div>
 
   

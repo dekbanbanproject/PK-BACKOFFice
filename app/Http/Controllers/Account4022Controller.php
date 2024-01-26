@@ -241,7 +241,8 @@ class Account4022Controller extends Controller
         // ,e.ar_ipd as account_code
 
         foreach ($acc_debtor as $key => $value) {
-            $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.4022')->where('rxdate',$value->rxdate)->count();
+            // $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.4022')->where('rxdate',$value->rxdate)->count();
+            $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.4022')->count();
             if ($check > 0) {
                 Acc_debtor::where('an', $value->an)->where('account_code','1102050101.4022')->update([  
                     'rxdate'             => $value->rxdate, 

@@ -2468,6 +2468,18 @@ Route::middleware(['type'])->group(function(){
   Route::delete('subkpi_destroy/{id}',[App\Http\Controllers\PlanController::class, 'subkpi_destroy'])->name('p.subkpi_destroy');//
   Route::delete('subobj_destroy/{id}',[App\Http\Controllers\PlanController::class, 'subobj_destroy'])->name('p.subobj_destroy');//
 
+  Route::match(['get','post'],'plan_control_sub/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_sub'])->name('p.plan_control_sub');//
+  Route::match(['get','post'],'plan_control_sub_pp',[App\Http\Controllers\PlanController::class, 'plan_control_sub_pp'])->name('p.plan_control_sub_pp');//
+  Route::match(['get','post'],'plan_control_sub_uc',[App\Http\Controllers\PlanController::class, 'plan_control_sub_uc'])->name('p.plan_control_sub_uc');//
+  Route::match(['get','post'],'plan_control_sub_lgo',[App\Http\Controllers\PlanController::class, 'plan_control_sub_lgo'])->name('p.plan_control_sub_lgo');//
+  Route::match(['get','post'],'plan_control_sub_orther',[App\Http\Controllers\PlanController::class, 'plan_control_sub_orther'])->name('p.plan_control_sub_orther');//
+
+  Route::match(['get','post'],'plan_control_subhos',[App\Http\Controllers\PlanController::class, 'plan_control_sub'])->name('p.plan_control_sub');//
+  Route::match(['get','post'],'plan_control_subhos_pp',[App\Http\Controllers\PlanController::class, 'plan_control_subhos_pp'])->name('p.plan_control_subhos_pp');//
+  Route::match(['get','post'],'plan_control_subhos_uc',[App\Http\Controllers\PlanController::class, 'plan_control_subhos_uc'])->name('p.plan_control_subhos_uc');//
+  Route::match(['get','post'],'plan_control_subhos_lgo',[App\Http\Controllers\PlanController::class, 'plan_control_subhos_lgo'])->name('p.plan_control_subhos_lgo');//
+  Route::match(['get','post'],'plan_control_subhos_orther',[App\Http\Controllers\PlanController::class, 'plan_control_subhos_orther'])->name('p.plan_control_subhos_orther');//
+
   Route::match(['get','post'],'plan_control_activity/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_activity'])->name('p.plan_control_activity');//
   Route::match(['get','post'],'plan_control_activity_save',[App\Http\Controllers\PlanController::class, 'plan_control_activity_save'])->name('p.plan_control_activity_save');//
   Route::match(['get','post'],'plan_control_activity_edit/{id}/{sid}',[App\Http\Controllers\PlanController::class, 'plan_control_activity_edit'])->name('p.plan_control_activity_edit');//

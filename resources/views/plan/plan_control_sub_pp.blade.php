@@ -342,29 +342,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        
-                        @if ($id == '1')
-                            <h4 class="mb-sm-0">ทะเบียนควบคุมแผนงานโครงการ PP</h4>
-                        @elseif ($id == '2')
-                            <h4 class="mb-sm-0">ทะเบียนควบคุมแผนงานโครงการ UC</h4>
-                        @elseif ($id == '3')
-                            <h4 class="mb-sm-0">ทะเบียนควบคุมแผนงานโครงการ อปท.</h4>
-                        @else
-                            <h4 class="mb-sm-0">ทะเบียนควบคุมแผนงานโครงการ อื่น ๆ</h4>
-                        @endif
+                        <h4 class="mb-sm-0">ทะเบียนควบคุมแผนงานโครงการ (PP)</h4>
         
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                @if ($id == '1') 
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">ทะเบียนควบคุมแผนงานโครงการ PP</a></li>
-                                @elseif ($id == '2') 
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">ทะเบียนควบคุมแผนงานโครงการ UC</a></li>
-                                @elseif ($id == '3') 
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">ทะเบียนควบคุมแผนงานโครงการ อปท.</a></li>
-                                @else 
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">ทะเบียนควบคุมแผนงานโครงการ อื่น ๆ</a></li>
-                                @endif
-                                
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">ทะเบียนควบคุมแผนงานโครงการ (PP)</a></li>
                                 <li class="breadcrumb-item active">เพิ่มทะเบียน</li>
                             </ol>
                         </div>
@@ -376,29 +358,42 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="card cardplan">
-                  
+                    {{-- <div class="card-header ">
+                        ทะเบียนควบคุมแผนงานโครงการ
+                        <div class="btn-actions-pane-right">
+                            <a href="{{ url('plan_control_add') }}"
+                                class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-info">
+                                <i class="fa-solid fa-folder-plus text-info me-2"></i>
+                                เพิ่มทะเบียน
+                            </a> 
+                        </div>
+
+                    </div> --}}
                     <div class="card-body p-3">
                         <div class="row mb-3"> 
                             <div class="col-md-7 text-start"> 
-                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 209, 163);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 209, 163)"> 
                                     ยังไม่ดำเนินการ
                                 </button>
-                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(200, 233, 248);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(200, 233, 248)"> 
                                     รออนุมัติ
                                 </button>
-                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(194, 250, 219);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(194, 250, 219)"> 
                                     อนุมัติ
                                 </button>
                             </div>
                             <div class="col"></div>
-                            <div class="col-md-2 text-end"> 
+                            <div class="col-md-2 text-end">
+                               
                                 <a href="{{ url('plan_control_add') }}" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp">
                                     <i class="fa-solid fa-folder-plus me-2"></i>
                                     เพิ่มทะเบียน
-                                </a> 
+                                </a>
+                                
                             </div>
                         </div>
-                        <div class="table-responsive">      
+                        <div class="table-responsive">                            
+                            {{-- <table id="example" class="table table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;">  --}}
                                 <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr style="font-size: 13px">
@@ -797,15 +792,15 @@
                 <div class="modal-header">
                     
                     {{-- <div class="row"> --}}
-                        {{-- <div class="col-md-12 text-start"> --}}
+                        {{-- <div class="col-md-7 text-start"> --}}
                             <h2>เบิกเงินทะเบียนควบคุมแผนงานโครงการ</h2>
                          {{-- </div> --}}
                         {{-- <div class="col"></div> --}}
-                        {{-- <div class="col-md-3 text-end">
-                            <button class="btn-icon btn-shadow btn-dashed btn btn-outline-success"> 
+                        {{-- <div class="col-md-3 text-end"> --}}
+                            {{-- <button class="btn-icon btn-shadow btn-dashed btn btn-outline-success"> 
                                 ครั้งที่  {{$maxno}} 
-                            </button>
-                        </div> --}}
+                            </button> --}}
+                        {{-- </div> --}}
                     {{-- </div> --}}
                 
                 </div>
