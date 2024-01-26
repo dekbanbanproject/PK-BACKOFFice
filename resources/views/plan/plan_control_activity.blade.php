@@ -261,7 +261,7 @@ $refnumber = PlanController::refnumber();
                                             {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Insertdata">
                                                 <i class="pe-7s-diskette btn-icon-wrapper"></i>Save 
                                             </button> --}}
-                                            <a href="{{ url('plan_control') }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger me-2">
+                                            <a href="{{ url('plan_control_sub/'.$id) }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger me-2">
                                                 <i class="fa-solid fa-xmark me-2"></i>
                                                 Back
                                             </a>

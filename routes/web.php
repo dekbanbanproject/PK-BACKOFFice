@@ -2458,7 +2458,7 @@ Route::middleware(['type'])->group(function(){
   Route::match(['get','post'],'plan_project_add',[App\Http\Controllers\PlanController::class, 'plan_project_add'])->name('p.plan_project_add');// แผนโครงการ
 
   Route::match(['get','post'],'plan_control',[App\Http\Controllers\PlanController::class, 'plan_control'])->name('p.plan_control');//
-  Route::match(['get','post'],'plan_control_add',[App\Http\Controllers\PlanController::class, 'plan_control_add'])->name('p.plan_control_add');//
+  Route::match(['get','post'],'plan_control_add/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_add'])->name('p.plan_control_add');//
   Route::match(['get','post'],'plan_control_edit/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_edit'])->name('p.plan_control_edit');//
   Route::match(['get','post'],'plan_control_save',[App\Http\Controllers\PlanController::class, 'plan_control_save'])->name('p.plan_control_save');//
   Route::match(['get','post'],'plan_control_update',[App\Http\Controllers\PlanController::class, 'plan_control_update'])->name('p.plan_control_update');//
@@ -2480,7 +2480,7 @@ Route::middleware(['type'])->group(function(){
   Route::match(['get','post'],'plan_control_subhos_lgo',[App\Http\Controllers\PlanController::class, 'plan_control_subhos_lgo'])->name('p.plan_control_subhos_lgo');//
   Route::match(['get','post'],'plan_control_subhos_orther',[App\Http\Controllers\PlanController::class, 'plan_control_subhos_orther'])->name('p.plan_control_subhos_orther');//
 
-  Route::match(['get','post'],'plan_control_activity/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_activity'])->name('p.plan_control_activity');//
+  Route::match(['get','post'],'plan_control_activity/{id}/{sid}',[App\Http\Controllers\PlanController::class, 'plan_control_activity'])->name('p.plan_control_activity');//
   Route::match(['get','post'],'plan_control_activity_save',[App\Http\Controllers\PlanController::class, 'plan_control_activity_save'])->name('p.plan_control_activity_save');//
   Route::match(['get','post'],'plan_control_activity_edit/{id}/{sid}',[App\Http\Controllers\PlanController::class, 'plan_control_activity_edit'])->name('p.plan_control_activity_edit');//
   Route::match(['get','post'],'plan_control_activity_update',[App\Http\Controllers\PlanController::class, 'plan_control_activity_update'])->name('p.plan_control_activity_update');//

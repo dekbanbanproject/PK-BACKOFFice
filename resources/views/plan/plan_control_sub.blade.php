@@ -392,7 +392,7 @@
                             </div>
                             <div class="col"></div>
                             <div class="col-md-2 text-end"> 
-                                <a href="{{ url('plan_control_add') }}" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp">
+                                <a href="{{ url('plan_control_add/'.$id) }}" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp">
                                     <i class="fa-solid fa-folder-plus me-2"></i>
                                     เพิ่มทะเบียน
                                 </a> 
@@ -512,7 +512,7 @@
                                                                     <label for=""
                                                                     style="color: rgb(20, 199, 190);font-size:13px">เบิกเงิน</label>
                                                                 </button> 
-                                                                <a type="button" href="{{ url('plan_control_activity/' . $va->plan_control_id) }}"
+                                                                <a type="button" href="{{ url('plan_control_activity/' . $id.'/'. $va->plan_control_id) }}"
                                                                     class="dropdown-item menu btn btn-outline-warning btn-sm" data-bs-toggle="tooltip"
                                                                     data-bs-placement="left" title="แผนงาน/กิจกรรม">
                                                                     <i class="fa-solid fa-people-robbery me-3 mb-1" style="color: rgb(211, 31, 172);font-size:13px"></i>

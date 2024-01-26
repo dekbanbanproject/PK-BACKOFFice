@@ -15,6 +15,7 @@ use App\Models\Plan_strategic;
 use App\Models\Plan_taget;
 use App\Models\Plan_kpi;
 use App\Models\Department_sub_sub;
+use App\Models\Departmentsub; 
 use App\Models\Plan_control_type;
 use App\Models\Plan_control;
 use App\Models\Plan_control_money;
@@ -120,17 +121,20 @@ class PlanController extends Controller
         ');    
         return view('plan.plan_control_sub_pp', $data);
     }
-    public function plan_control_add(Request $request)
+    public function plan_control_add(Request $request,$id)
     {
         $data['startdate'] = $request->startdate;
         $data['enddate'] = $request->enddate;
         $data['com_tec'] = DB::table('com_tec')->get();
         $data['users'] = User::get();
-        $data['plan_control_type'] = Plan_control_type::get();
+        $data['plan_control_type']  = Plan_control_type::get();
+        $data['department_sub']     = Departmentsub::get();
         $data['department_sub_sub'] = Department_sub_sub::get();
         $data['plan_strategic'] = Plan_strategic::get();
         
-        return view('plan.plan_control_add', $data);
+        return view('plan.plan_control_add', $data,[
+            'id'    =>  $id
+        ]);
     }
     public function plan_control_edit(Request $request,$id)
     {
@@ -139,6 +143,7 @@ class PlanController extends Controller
         $data['com_tec'] = DB::table('com_tec')->get();
         $data['users'] = User::get();
         $data['plan_control'] = Plan_control::where('plan_control_id',$id)->first();
+        $data['department_sub']     = Departmentsub::get();
         $data['department_sub_sub'] = Department_sub_sub::get();
         $data['plan_control_type'] = Plan_control_type::get();
         $data['plan_strategic'] = Plan_strategic::get();
@@ -258,7 +263,7 @@ class PlanController extends Controller
         return response()->json(['status' => '200']);
     }
 
-    public function plan_control_activity(Request $request,$id)
+    public function plan_control_activity(Request $request,$id,$sid)
     {
         $data['startdate'] = $request->startdate;
         $data['enddate'] = $request->enddate;
@@ -271,7 +276,10 @@ class PlanController extends Controller
 
         $data['plan_control_activity'] = Plan_control_activity::where('plan_control_id',$id)->get();
         
-        return view('plan.plan_control_activity', $data);
+        return view('plan.plan_control_activity', $data,[
+            'id'     =>  $id,
+            'sid'    =>  $sid
+        ]);
     }
     public function plan_control_activity_save(Request $request)
     {
