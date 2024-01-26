@@ -22,6 +22,8 @@ use App\Models\Plan_control_money;
 use App\Models\Plan_control_obj;
 use App\Models\Plan_control_kpi;
 use App\Models\Plan_control_activity;
+use App\Models\Plan_control_budget;
+use App\Models\Plan_list_budget;
 use PDF;
 use Auth;
 use setasign\Fpdi\Fpdi;
@@ -62,6 +64,8 @@ class PlanController extends Controller
         $data['users'] = User::get();
         $data['department_sub_sub'] = Department_sub_sub::get();
         $data['plan_control_type'] = Plan_control_type::get();
+        $data['plan_strategic'] = Plan_strategic::get();
+        
         // $data['plan_control'] = Plan_control::get();
         $data['plan_control'] = DB::connection('mysql')->select('
             SELECT 
@@ -92,9 +96,11 @@ class PlanController extends Controller
             plan_control p
             LEFT OUTER JOIN department_sub_sub s ON s.DEPARTMENT_SUB_SUB_ID = p.department
             LEFT OUTER JOIN plan_control_type pt ON pt.plan_control_type_id = p.plan_type
-            WHERE p.plan_type = "'.$id.'"
+           
+            WHERE p.plan_strategic_id = "'.$id.'"
             ORDER BY p.plan_control_id ASC
-        ');    
+        ');  
+        // WHERE p.plan_type = "'.$id.'"  
         return view('plan.plan_control_sub', $data,[
             'id'    =>  $id
         ]);
@@ -265,20 +271,22 @@ class PlanController extends Controller
 
     public function plan_control_activity(Request $request,$id,$sid)
     {
-        $data['startdate'] = $request->startdate;
-        $data['enddate'] = $request->enddate;
-        $data['com_tec'] = DB::table('com_tec')->get();
-        $data['users'] = User::get();
-        $data['plan_control'] = Plan_control::where('plan_control_id',$id)->first();
-        $data['department_sub_sub'] = Department_sub_sub::get();
-        $data['plan_control_type'] = Plan_control_type::get();
-        $data['plan_strategic'] = Plan_strategic::get();
-
-        $data['plan_control_activity'] = Plan_control_activity::where('plan_control_id',$id)->get();
+        $data['startdate']             = $request->startdate;
+        $data['enddate']               = $request->enddate;
+        $data['com_tec']               = DB::table('com_tec')->get();
+        $data['users']                 = User::get();
+        $data['plan_control']          = Plan_control::where('plan_control_id',$sid)->first();
+        $data['department_sub']        = Departmentsub::get();
+        $data['department_sub_sub']    = Department_sub_sub::get();
+        $data['plan_control_type']     = Plan_control_type::get();
+        $data['plan_strategic']        = Plan_strategic::get();
+        $data['plan_list_budget']      = Plan_list_budget::get();        
+        $data['plan_control_activity'] = Plan_control_activity::where('plan_control_id',$sid)->get();
+        $data['plan_list_budget']               = DB::table('plan_list_budget')->get();
         
         return view('plan.plan_control_activity', $data,[
-            'id'     =>  $id,
-            'sid'    =>  $sid
+            'id'     =>  $id,  //  ยุทธศาสตร์ plan_strategic_id
+            'sid'    =>  $sid  // plan_control_id
         ]);
     }
     public function plan_control_activity_save(Request $request)
@@ -302,12 +310,12 @@ class PlanController extends Controller
 
         $d = $request->input('responsible_person'); 
         if ($d  != '') {
-            $d_s = Department_sub_sub::where('DEPARTMENT_SUB_SUB_ID',$d)->first(); 
-            $DEPARTMENT_SUB_SUB_ID = $d_s->DEPARTMENT_SUB_SUB_ID;
-            $DEPARTMENT_SUB_SUB_NAME = $d_s->DEPARTMENT_SUB_SUB_NAME;
+            $d_s = Departmentsub::where('DEPARTMENT_SUB_ID',$d)->first(); 
+            $DEPARTMENT_SUB_ID = $d_s->DEPARTMENT_SUB_ID;
+            $DEPARTMENT_SUB_NAME = $d_s->DEPARTMENT_SUB_NAME;
         } else {
-            $DEPARTMENT_SUB_SUB_ID = '';
-            $DEPARTMENT_SUB_SUB_NAME = '';
+            $DEPARTMENT_SUB_ID = '';
+            $DEPARTMENT_SUB_NAME = '';
         }
 
         $add = new Plan_control_activity();
@@ -330,8 +338,8 @@ class PlanController extends Controller
         $add->trimart_41                    = $request->input('trimart_41');  
         $add->trimart_42                    = $request->input('trimart_42');  
         $add->trimart_43                    = $request->input('trimart_43');  
-        $add->responsible_person            = $DEPARTMENT_SUB_SUB_ID;  
-        $add->responsible_person_name       = $DEPARTMENT_SUB_SUB_NAME;
+        $add->responsible_person            = $DEPARTMENT_SUB_ID;  
+        $add->responsible_person_name       = $DEPARTMENT_SUB_NAME;
         $add->plan_control_id               = $request->input('plan_control_id'); 
         $add->billno                        = $request->input('billno'); 
         $add->user_id                       = $iduser;  
@@ -340,13 +348,13 @@ class PlanController extends Controller
             'status'     => '200',
         ]);
     }
-    public function plan_control_activity_edit(Request $request,$id,$sid)
+    public function plan_control_activity_edit(Request $request,$id,$sid,$aid)
     {
         $data['startdate'] = $request->startdate;
         $data['enddate'] = $request->enddate;
         $data['com_tec'] = DB::table('com_tec')->get();
         $data['users'] = User::get();
-       
+        $data['department_sub']     = Departmentsub::get();
         $data['department_sub_sub'] = Department_sub_sub::get();
         $data['plan_control_type'] = Plan_control_type::get();
         $data['plan_strategic'] = Plan_strategic::get();
@@ -359,7 +367,8 @@ class PlanController extends Controller
             'data_plan_control'    => $data_plan_control,
             'data_activity'        => $data_activity,
             'id'                   => $id,
-            'sid'                  => $sid
+            'sid'                  => $sid,
+            'aid'                  => $aid
         ]);
     }
 
@@ -378,12 +387,12 @@ class PlanController extends Controller
 
         $d = $request->input('responsible_person'); 
         if ($d  != '') {
-            $d_s = Department_sub_sub::where('DEPARTMENT_SUB_SUB_ID',$d)->first(); 
-            $DEPARTMENT_SUB_SUB_ID = $d_s->DEPARTMENT_SUB_SUB_ID;
-            $DEPARTMENT_SUB_SUB_NAME = $d_s->DEPARTMENT_SUB_SUB_NAME;
+            $d_s = Departmentsub::where('DEPARTMENT_SUB_ID',$d)->first(); 
+            $DEPARTMENT_SUB_ID = $d_s->DEPARTMENT_SUB_ID;
+            $DEPARTMENT_SUB_NAME = $d_s->DEPARTMENT_SUB_NAME;
         } else {
-            $DEPARTMENT_SUB_SUB_ID = '';
-            $DEPARTMENT_SUB_SUB_NAME = '';
+            $DEPARTMENT_SUB_ID = '';
+            $DEPARTMENT_SUB_NAME = '';
         }
         
         $id = $request->input('plan_control_id');  
@@ -411,8 +420,8 @@ class PlanController extends Controller
         $update->trimart_41                    = $request->input('trimart_41');  
         $update->trimart_42                    = $request->input('trimart_42');  
         $update->trimart_43                    = $request->input('trimart_43');  
-        $update->responsible_person            = $DEPARTMENT_SUB_SUB_ID;  
-        $update->responsible_person_name       = $DEPARTMENT_SUB_SUB_NAME; 
+        $update->responsible_person            = $DEPARTMENT_SUB_ID;  
+        $update->responsible_person_name       = $DEPARTMENT_SUB_NAME; 
         $update->user_id                       = $iduser;  
         $update->save();
 

@@ -1272,7 +1272,7 @@
                 var plan_control_obj_name    = $('#plan_control_obj_name').val();
                 var obj_plan_control_id      = $('#obj_plan_control_id').val();
                 var obj_billno               = $('#obj_billno').val();
-                alert(obj_billno);
+                // alert(obj_billno);
                 $.ajax({
                     url: "{{ route('p.plan_control_obj_save') }}",
                     type: "POST",

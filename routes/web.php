@@ -2482,7 +2482,7 @@ Route::middleware(['type'])->group(function(){
 
   Route::match(['get','post'],'plan_control_activity/{id}/{sid}',[App\Http\Controllers\PlanController::class, 'plan_control_activity'])->name('p.plan_control_activity');//
   Route::match(['get','post'],'plan_control_activity_save',[App\Http\Controllers\PlanController::class, 'plan_control_activity_save'])->name('p.plan_control_activity_save');//
-  Route::match(['get','post'],'plan_control_activity_edit/{id}/{sid}',[App\Http\Controllers\PlanController::class, 'plan_control_activity_edit'])->name('p.plan_control_activity_edit');//
+  Route::match(['get','post'],'plan_control_activity_edit/{id}/{sid}/{aid}',[App\Http\Controllers\PlanController::class, 'plan_control_activity_edit'])->name('p.plan_control_activity_edit');//
   Route::match(['get','post'],'plan_control_activity_update',[App\Http\Controllers\PlanController::class, 'plan_control_activity_update'])->name('p.plan_control_activity_update');//
 
   Route::get('detail_plan',[App\Http\Controllers\PlanController::class, 'detail_plan'])->name('p.detail_plan');//

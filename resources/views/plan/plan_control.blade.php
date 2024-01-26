@@ -292,7 +292,7 @@
                     </div>
                     <div class="col"></div>
                 </div>
-                <div class="row"> 
+                {{-- <div class="row"> 
                     <div class="col-xl-3">
                         <a href="{{url('plan_control_sub/1')}}" target="_blank">
                             <div class="card cardplan"> 
@@ -333,8 +333,22 @@
                             </div>
                         </a>
                     </div>
-
-                </div>    
+                </div>     --}}
+                <div class="row"> 
+                    @foreach ($plan_strategic as $item)
+                        <div class="col-xl-12">
+                            <a href="{{url('plan_control_sub/'.$item->plan_strategic_id)}}" target="_blank">
+                                <div class="card cardplan"> 
+                                    <div class="card-body p-3">
+                                        <img src="{{ asset('images/cpso.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                        {{$item->plan_strategic_name}}
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach                    
+                </div>  
+                
             </div>
             <div class="col-xl-6">
                 <div class="row"> 
@@ -353,7 +367,19 @@
                     <div class="col"></div>
                 </div>
                 <div class="row"> 
-                    <div class="col-xl-3">
+                    @foreach ($plan_strategic as $item)
+                    <div class="col-xl-12">
+                        <a href="{{url('plan_control_sub/'.$item->plan_strategic_id)}}" target="_blank">
+                            <div class="card cardplan"> 
+                                <div class="card-body p-3">
+                                    <img src="{{ asset('images/hos.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                    {{$item->plan_strategic_name}}
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach     
+                    {{-- <div class="col-xl-3">
                         <a href="{{url('plan_control_subhos_pp')}}" target="_blank">
                             <div class="card cardplan"> 
                                 <div class="card-body p-3">
@@ -392,8 +418,7 @@
                                 </div>
                             </div>
                         </a>
-                    </div>
-
+                    </div> --}}
                 </div> 
             </div> 
         </div>

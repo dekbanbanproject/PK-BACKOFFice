@@ -284,11 +284,11 @@ $refnumber = PlanController::refnumber();
                                                 <div class="form-group">
                                                     <select name="responsible_person" id="responsible_person" class="form-control form-control-sm" style="width: 100%"> 
                                                         <option value="">-เลือก-</option>                                                   
-                                                        @foreach ($department_sub_sub as $item)
-                                                        @if ($data_activity->responsible_person == $item->DEPARTMENT_SUB_SUB_ID)
-                                                        <option value="{{$item->DEPARTMENT_SUB_SUB_ID}}" selected>{{$item->DEPARTMENT_SUB_SUB_NAME}}</option>
+                                                        @foreach ($department_sub as $item)
+                                                        @if ($data_activity->responsible_person == $item->DEPARTMENT_SUB_ID)
+                                                        <option value="{{$item->DEPARTMENT_SUB_ID}}" selected>{{$item->DEPARTMENT_SUB_NAME}}</option>
                                                         @else
-                                                        <option value="{{$item->DEPARTMENT_SUB_SUB_ID}}">{{$item->DEPARTMENT_SUB_SUB_NAME}}</option>
+                                                        <option value="{{$item->DEPARTMENT_SUB_ID}}">{{$item->DEPARTMENT_SUB_NAME}}</option>
                                                         @endif
                                                             
                                                         @endforeach
@@ -309,7 +309,7 @@ $refnumber = PlanController::refnumber();
                                             {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Updatedata">
                                                 <i class="pe-7s-diskette btn-icon-wrapper"></i>Update 
                                             </button> --}}
-                                            <a href="{{ url('plan_control_activity/'.$id) }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger me-2">
+                                            <a href="{{ url('plan_control_activity/'.$id.'/'.$sid) }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger me-2">
                                                 <i class="fa-solid fa-xmark me-2"></i>
                                                 Back
                                             </a>

@@ -109,13 +109,271 @@ $refnumber = PlanController::refnumber();
                                     <div class="card-body"> 
 
                                         <div class="row">
-                                            <div class="col-md-8 ">
-                                                <label for="">ชื่อแผนงาน/กิจกรรมสำคัญ</label>
-                                                <div class="form-group">
-                                                <input id="plan_control_activity_name" class="form-control form-control-sm" name="plan_control_activity_name">
+                                            <div class="col-md-8">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <label for="">ชื่อแผนงาน/กิจกรรมสำคัญ</label>
+                                                        <div class="form-group">
+                                                        <input id="plan_control_activity_name" class="form-control form-control-sm" name="plan_control_activity_name">
+                                                        </div>
+                                                    </div>
+                                                </div> 
+                                                <div class="row">
+                                                    <div class="col-md-7">
+                                                        <label for="">กลุ่มเป้าหมาย</label>
+                                                        <div class="form-group"> 
+                                                            <select name="plan_control_activity_group" id="plan_control_activity_group" class="form-control form-control-sm" style="width: 100%"> 
+                                                                <option value="">-เลือก-</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label for="">จำนวน</label>
+                                                        <div class="form-group">
+                                                        <input id="qty" class="form-control form-control-sm" name="qty">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3"> 
+                                                        <label for="">หน่วย</label>
+                                                        <div class="form-group">
+                                                            <select name="plan_control_unit" id="plan_control_unit" class="form-control form-control-sm" style="width: 100%"> 
+                                                                <option value="">-เลือก-</option>
+                                                                {{-- @foreach ($plan_control_type as $item2)
+                                                                @if ($plan_control->plan_type == $item2->plan_control_type_id)
+                                                                <option value="{{$item2->plan_control_type_id}}" selected>{{$item2->plan_control_typename}}</option>
+                                                                @else
+                                                                <option value="{{$item2->plan_control_type_id}}">{{$item2->plan_control_typename}}</option>
+                                                                @endif                                                       
+                                                                @endforeach --}}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    {{-- <div class="col-md-5">                                              
+                                                        <br>
+                                                        <div class="form-group mt-2">
+                                                        <input id="plan_control_activity_group" class="form-control form-control-sm" name="plan_control_activity_group" placeholder="เพิ่มกลุ่มเป้าหมาย">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2"> 
+                                                        <br>
+                                                        <div class="form-group mt-2"> 
+                                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                                                <i class="fa-solid fa-plus me-2"></i>เพิ่ม 
+                                                            </button>
+                                                        </div>
+                                                    </div> --}}
+                                                </div> 
+                                                {{-- <div class="row">
+                                                    <div class="col-md-2">
+                                                        <label for="">จำนวน</label>
+                                                        <div class="form-group">
+                                                        <input id="qty" class="form-control form-control-sm" name="qty">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3"> 
+                                                        <label for="">หน่วย</label>
+                                                        <div class="form-group">
+                                                            <select name="plan_control_unit" id="plan_control_unit" class="form-control form-control-sm" style="width: 100%"> 
+                                                                <option value="">-เลือก-</option>
+                                                                @foreach ($plan_control_type as $item2)
+                                                                @if ($plan_control->plan_type == $item2->plan_control_type_id)
+                                                                <option value="{{$item2->plan_control_type_id}}" selected>{{$item2->plan_control_typename}}</option>
+                                                                @else
+                                                                <option value="{{$item2->plan_control_type_id}}">{{$item2->plan_control_typename}}</option>
+                                                                @endif                                                       
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5"> 
+                                                        <br>
+                                                        <div class="form-group mt-2">
+                                                        <input id="" class="form-control form-control-sm" name="" placeholder="เพิ่มหน่วยนับ">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2"> 
+                                                        <br>
+                                                        <div class="form-group mt-2"> 
+                                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                                                <i class="fa-solid fa-plus me-2"></i>เพิ่ม 
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>  --}}
+                                                <hr>
+                                                <div class="row mt-2">
+                                                    <div class="col-md-7">
+                                                        <label for="">รายละเอียดงบประมาณ</label>
+                                                        <div class="form-group">  
+                                                            <select name="budget_detail" id="budget_detail" class="form-control form-control-sm" style="width: 100%"> 
+                                                                <option value="">-เลือก-</option>
+                                                                @foreach ($plan_list_budget as $item_list)
+                                                                <option value="{{$item_list->plan_list_budget_id}}">{{$item_list->plan_list_budget_name}}</option>
+                                                                @endforeach
+                                                            </select> 
+                                                        </div>
+                                                    </div>
+                                                    {{-- <div class="col-md-3"> 
+                                                        <br>
+                                                        <div class="form-group mt-2">
+                                                        <input id="" class="form-control form-control-sm" name="" placeholder="เพิ่มรายละเอียดงบประมาณ">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2"> 
+                                                        <br>
+                                                        <div class="form-group mt-2"> 
+                                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                                                <i class="fa-solid fa-plus me-2"></i>เพิ่ม 
+                                                            </button>
+                                                        </div>
+                                                    </div> --}}
+                                                    <div class="col-md-2">
+                                                        <label for="">บาท</label>
+                                                        <div class="form-group"> 
+                                                            <input id="budget_price" class="form-control form-control-sm" name="budget_price">
+                                                        </div>
+                                                    </div>  
+                                                    <div class="col-md-2"> 
+                                                        <br>
+                                                        <div class="form-group mt-2"> 
+                                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                                                <i class="fa-solid fa-plus me-2"></i>เพิ่ม 
+                                                            </button>
+                                                        </div>
+                                                    </div>        
                                                 </div>
+                                                <div class="row mt-3">
+                                                    <div class="col-md-12">
+                                                        <table class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; width: 100%;">
+                                                            <tr>
+                                                                <thead>
+                                                                    <th>รายละเอียดงบประมาณ</th>
+                                                                    <th>จำนวนเงิน</th>
+                                                                </thead>
+                                                            </tr>
+                                                          <tbody>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td></td>
+                                                            </tr>
+                                                          </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
                                             </div>
-                                            <div class="col-md-3 ">
+                                            <div class="col-md-4">
+                                                <div class="row mt-2">   
+                                                    <div class="col-md-6">
+                                                        <label for="">ไตรมาสที่ 1 </label>
+                                                        <div class="form-group">
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" type="checkbox" name="trimart_11" id="trimart_11" >
+                                                                <label class="form-check-label" for="trimart_11">ต.ค.</label> 
+                                                            </div> 
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" type="checkbox" name="trimart_12" id="trimart_12">
+                                                                <label class="form-check-label" for="trimart_12">พ.ย.</label>
+                                                            </div> 
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" type="checkbox" name="trimart_13" id="trimart_13">
+                                                                <label class="form-check-label" for="trimart_13">ธ.ค.</label>
+                                                            </div> 
+                                                        </div>
+                                                    </div>  
+                                                    <div class="col-md-6">
+                                                        <label for="">ไตรมาสที่ 2 </label>
+                                                        <div class="form-group">
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" type="checkbox" name="trimart_21" id="trimart_21">
+                                                                <label class="form-check-label" for="trimart_21">ม.ค.</label>
+                                                            </div>
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" type="checkbox" name="trimart_22" id="trimart_22">
+                                                                <label class="form-check-label" for="trimart_22">ก.พ.</label>
+                                                            </div> 
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" type="checkbox" name="trimart_23" id="trimart_23">
+                                                                <label class="form-check-label" for="trimart_23">มี.ค.</label>
+                                                            </div> 
+                                                        </div>
+                                                    </div>
+                                                </div> 
+                                                <hr>
+                                                <div class="row mt-2"> 
+                                                    <div class="col-md-6">
+                                                        <label for="">ไตรมาสที่ 3 </label>
+                                                        <div class="form-group">
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" type="checkbox" name="trimart_31" id="trimart_31">
+                                                                <label class="form-check-label" for="trimart_31">เม.ย.</label>
+                                                            </div>
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" type="checkbox" name="trimart_32" id="trimart_32">
+                                                                <label class="form-check-label" for="trimart_32">พ.ค.</label>
+                                                            </div> 
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" type="checkbox" name="trimart_33" id="trimart_33">
+                                                                <label class="form-check-label" for="trimart_33">มิ.ย.</label>
+                                                            </div> 
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="">ไตรมาสที่ 4 </label>
+                                                        <div class="form-group">
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" type="checkbox" name="trimart_41" id="trimart_41">
+                                                                <label class="form-check-label" for="trimart_41">ก.ค.</label>
+                                                            </div>
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" type="checkbox" name="trimart_42" id="trimart_42">
+                                                                <label class="form-check-label" for="trimart_42">ส.ค.</label>
+                                                            </div> 
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" type="checkbox" name="trimart_43" id="trimart_43">
+                                                                <label class="form-check-label" for="trimart_43">ก.ย.</label>
+                                                            </div> 
+                                                        </div>
+                                                    </div>  
+                                                </div> 
+                                                <hr>
+                                                <div class="row mt-2">
+                                                    <div class="col-md-12">
+                                                        <label for="">ผู้รับผิดชอบ </label>
+                                                        <div class="form-group">
+                                                            <select name="responsible_person" id="responsible_person" class="form-control form-control-sm" style="width: 100%">   
+                                                                <option value="">-เลือก-</option>                                                 
+                                                                @foreach ($department_sub as $item)
+                                                                @if ($plan_control->department == $item->DEPARTMENT_SUB_ID)
+                                                                <option value="{{$item->DEPARTMENT_SUB_ID}}" selected>{{$item->DEPARTMENT_SUB_NAME}}</option>
+                                                                @else
+                                                                <option value="{{$item->DEPARTMENT_SUB_ID}}">{{$item->DEPARTMENT_SUB_NAME}}</option>
+                                                                @endif
+                                                                    
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>   
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <label for="">แหล่งงบประมาณ </label>
+                                                        <div class="form-group">
+                                                            <select name="budget_source" id="budget_source" class="form-control form-control-sm" style="width: 100%"> 
+                                                                <option value="">-เลือก-</option>
+                                                                @foreach ($plan_control_type as $item2)
+                                                                @if ($plan_control->plan_type == $item2->plan_control_type_id)
+                                                                <option value="{{$item2->plan_control_type_id}}" selected>{{$item2->plan_control_typename}}</option>
+                                                                @else
+                                                                <option value="{{$item2->plan_control_type_id}}">{{$item2->plan_control_typename}}</option>
+                                                                @endif                                                       
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>   
+                                                </div> 
+                                            </div>
+                                            {{-- <div class="col-md-3 ">
                                                 <label for="">กลุ่มเป้าหมาย</label>
                                                 <div class="form-group"> 
                                                     <input id="plan_control_activity_group" class="form-control form-control-sm" name="plan_control_activity_group">
@@ -126,43 +384,11 @@ $refnumber = PlanController::refnumber();
                                                 <div class="form-group"> 
                                                     <input id="qty" class="form-control form-control-sm" name="qty">
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </div>
-                                        <div class="row mt-2">
-                                            <div class="col-md-8 ">
-                                                <label for="">รายละเอียดงบประมาณ</label>
-                                                <div class="form-group"> 
-                                                    <input id="budget_detail" class="form-control form-control-sm" name="budget_detail">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-1 ">
-                                                <label for="">บาท</label>
-                                                <div class="form-group"> 
-                                                    <input id="budget_price" class="form-control form-control-sm" name="budget_price">
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="col-md-3 ">
-                                                <label for="">แหล่งงบประมาณ </label>
-                                                <div class="form-group">
-                                                    <select name="budget_source" id="budget_source" class="form-control form-control-sm" style="width: 100%"> 
-                                                        <option value="">-เลือก-</option>
-                                                        @foreach ($plan_control_type as $item2)
-                                                        @if ($plan_control->plan_type == $item2->plan_control_type_id)
-                                                        <option value="{{$item2->plan_control_type_id}}" selected>{{$item2->plan_control_typename}}</option>
-                                                        @else
-                                                        <option value="{{$item2->plan_control_type_id}}">{{$item2->plan_control_typename}}</option>
-                                                        @endif
-                                                       
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                    
-                                        </div>
-                                        <div class="row mt-2">                  
-                                            
-                                            <div class="col-md-2">
+                                       
+                                        <div class="row mt-2">   
+                                            {{-- <div class="col-md-2">
                                                 <label for="">ไตรมาสที่ 1 </label>
                                                 <div class="form-group">
                                                     <div class="form-check form-check-inline">
@@ -195,8 +421,8 @@ $refnumber = PlanController::refnumber();
                                                         <label class="form-check-label" for="trimart_23">มี.ค.</label>
                                                     </div> 
                                                 </div>
-                                            </div>
-                                            <div class="col-md-2">
+                                            </div> --}}
+                                            {{-- <div class="col-md-2">
                                                 <label for="">ไตรมาสที่ 3 </label>
                                                 <div class="form-group">
                                                     <div class="form-check form-check-inline">
@@ -229,29 +455,30 @@ $refnumber = PlanController::refnumber();
                                                         <label class="form-check-label" for="trimart_43">ก.ย.</label>
                                                     </div> 
                                                 </div>
-                                            </div> 
-                                            {{-- <div class="col"></div> --}}
-
-                                            <div class="col-md-4">
+                                            </div>                                          --}}
+                                            {{-- <div class="col-md-4">
                                                 <label for="">ผู้รับผิดชอบ </label>
                                                 <div class="form-group">
                                                     <select name="responsible_person" id="responsible_person" class="form-control form-control-sm" style="width: 100%">   
                                                         <option value="">-เลือก-</option>                                                 
-                                                        @foreach ($department_sub_sub as $item)
-                                                        @if ($plan_control->department == $item->DEPARTMENT_SUB_SUB_ID)
-                                                        <option value="{{$item->DEPARTMENT_SUB_SUB_ID}}" selected>{{$item->DEPARTMENT_SUB_SUB_NAME}}</option>
+                                                        @foreach ($department_sub as $item)
+                                                        @if ($plan_control->department == $item->DEPARTMENT_SUB_ID)
+                                                        <option value="{{$item->DEPARTMENT_SUB_ID}}" selected>{{$item->DEPARTMENT_SUB_NAME}}</option>
                                                         @else
-                                                        <option value="{{$item->DEPARTMENT_SUB_SUB_ID}}">{{$item->DEPARTMENT_SUB_SUB_NAME}}</option>
+                                                        <option value="{{$item->DEPARTMENT_SUB_ID}}">{{$item->DEPARTMENT_SUB_NAME}}</option>
                                                         @endif
                                                             
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                            </div>
-
-                                            <input type="hidden" id="plan_control_id" name="plan_control_id" value="{{$plan_control->plan_control_id}}">
-                                            <input type="hidden" id="billno" name="billno" value="{{$plan_control->billno}}">
+                                            </div> --}}                                           
                                         </div> 
+
+                                        <input type="hidden" id="plan_control_id" name="plan_control_id" value="{{$plan_control->plan_control_id}}">
+                                        <input type="hidden" id="billno" name="billno" value="{{$plan_control->billno}}">
+
+                                        
+
                                     </div>
                                     <div class="card-footer mt-2">
                                         <div class="btn-actions-pane-right mt-2">
@@ -334,7 +561,7 @@ $refnumber = PlanController::refnumber();
                                     <tr id="sid{{ $item_->plan_control_activity_id }}">
                                             <td class="text-center" width="4%">{{ $i++ }}</td>
                                             <td class="text-start" >
-                                                <a href="{{url('plan_control_activity_edit/'.$plan_control->plan_control_id.'/'.$item_->plan_control_activity_id)}}">
+                                                <a href="{{url('plan_control_activity_edit/'.$id.'/'.$plan_control->plan_control_id.'/'.$item_->plan_control_activity_id)}}">
                                                     {{ $item_->plan_control_activity_name }}
                                                 </a>
                                             </td>
