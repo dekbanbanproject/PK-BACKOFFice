@@ -376,7 +376,7 @@ $refnumber = PlanController::refnumber();
                                     <tr id="sid{{ $item_->plan_control_activity_id }}">
                                             <td class="text-center" width="4%">{{ $i++ }}</td>
                                             <td class="text-start" >
-                                                <a href="{{url('plan_control_activity_edit/'.$data_plan_control->plan_control_id.'/'.$item_->plan_control_activity_id)}}">
+                                                <a href="{{url('plan_control_activity_edit/'.$id.'/'.$data_plan_control->plan_control_id.'/'.$item_->plan_control_activity_id)}}">
                                                     {{ $item_->plan_control_activity_name }}
                                                 </a>
                                             </td>

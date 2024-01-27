@@ -20,6 +20,7 @@ return new class extends Migration
                 $table->string('plan_control_activity_name')->nullable();//         /แผนงาน/กิจกรรมสำคัญ
                 $table->string('plan_control_activity_group')->nullable();//        กลุ่มเป้าหมาย
                 $table->string('qty')->nullable();//  
+                $table->string('plan_control_unit')->nullable();// 
                 $table->string('trimart_11')->nullable();// ไตรมาสที่ 1
                 $table->string('trimart_12')->nullable();// ไตรมาสที่ 1
                 $table->string('trimart_13')->nullable();// ไตรมาสที่ 1
