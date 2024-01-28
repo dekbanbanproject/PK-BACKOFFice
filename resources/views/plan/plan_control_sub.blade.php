@@ -344,25 +344,25 @@
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                         
                         @if ($id == '1')
-                            <h4 class="mb-sm-0">ทะเบียนควบคุมแผนงานโครงการ PP</h4>
+                            <h4 class="mb-sm-0">ทะเบียนควบคุมแผนงานโครงการ PP&P Excellence</h4>
                         @elseif ($id == '2')
-                            <h4 class="mb-sm-0">ทะเบียนควบคุมแผนงานโครงการ UC</h4>
+                            <h4 class="mb-sm-0">ทะเบียนควบคุมแผนงานโครงการ Service Excellence</h4>
                         @elseif ($id == '3')
-                            <h4 class="mb-sm-0">ทะเบียนควบคุมแผนงานโครงการ อปท.</h4>
+                            <h4 class="mb-sm-0">ทะเบียนควบคุมแผนงานโครงการ People Excellence</h4>
                         @else
-                            <h4 class="mb-sm-0">ทะเบียนควบคุมแผนงานโครงการ อื่น ๆ</h4>
+                            <h4 class="mb-sm-0">ทะเบียนควบคุมแผนงานโครงการ Governance Excellence</h4>
                         @endif
         
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 @if ($id == '1') 
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">ทะเบียนควบคุมแผนงานโครงการ PP</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">ทะเบียนควบคุมแผนงานโครงการ PP&P Excellence</a></li>
                                 @elseif ($id == '2') 
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">ทะเบียนควบคุมแผนงานโครงการ UC</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">ทะเบียนควบคุมแผนงานโครงการ Service Excellence</a></li>
                                 @elseif ($id == '3') 
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">ทะเบียนควบคุมแผนงานโครงการ อปท.</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">ทะเบียนควบคุมแผนงานโครงการ People Excellence </a></li>
                                 @else 
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">ทะเบียนควบคุมแผนงานโครงการ อื่น ๆ</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">ทะเบียนควบคุมแผนงานโครงการ Governance Excellence</a></li>
                                 @endif
                                 
                                 <li class="breadcrumb-item active">เพิ่มทะเบียน</li>
@@ -439,6 +439,10 @@
                                                     <?php 
                                                         $data_sub_ = DB::connection('mysql')->select('SELECT * from plan_control_kpi WHERE plan_control_id = "'.$va->plan_control_id.'"'); 
                                                         $data_subobj_ = DB::connection('mysql')->select('SELECT * from plan_control_obj WHERE plan_control_id = "'.$va->plan_control_id.'"'); 
+                                                        $data_sumprice_ = DB::connection('mysql')->select('SELECT sum(budget_price) as budget_price from plan_control_activity WHERE plan_control_id = "'.$va->plan_control_id.'"'); 
+                                                        foreach ($data_sumprice_ as $key => $value_price) {
+                                                            $plan_price = $value_price->budget_price;
+                                                        }
                                                     ?>                                                   
                                                     <div id="headingTwo" class="b-radius-0">                                                         
                                                             <button type="button" data-bs-toggle="collapse"
@@ -487,7 +491,7 @@
                                                         </div>
                                                     </div> 
                                                 </td> 
-                                                <td class="text-center" width="8%">{{ number_format($va->plan_price, 2) }}</td>
+                                                <td class="text-center" width="8%">{{ number_format($plan_price, 2) }}</td>
                                                 <td class="text-center" width="5%">{{$va->plan_req_no}}</td>
                                                 <td class="text-center" width="8%">{{ number_format($va->plan_price_total, 2) }}</td>
                                                 <td width="5%">

@@ -498,6 +498,13 @@ class PlanController extends Controller
             'budget'      =>  $budget,
         ]);
     }
+    public function plan_control_activity_destroy(Request $request, $id)
+    {
+        $del = Plan_control_budget::find($id);
+        $del->delete();
+        //  return redirect()->back();
+        return response()->json(['status' => '200']);
+    }
 
     function detail_plan(Request $request)
     {

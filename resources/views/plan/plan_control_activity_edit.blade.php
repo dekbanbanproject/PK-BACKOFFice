@@ -50,6 +50,45 @@
     function TypeAdmin() {
         window.location.href = '{{ route('index') }}';
     }
+    function plan_control_activity_destroy(plan_control_budget_id) {
+            Swal.fire({
+                title: 'ต้องการลบใช่ไหม?',
+                text: "ข้อมูลนี้จะถูกลบไปเลย !!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ใช่, ลบเดี๋ยวนี้ !',
+                cancelButtonText: 'ไม่, ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ url('plan_control_activity_destroy') }}" + '/' + plan_control_budget_id,
+                        type: 'POST',
+                        data: {
+                            _token: $("input[name=_token]").val()
+                        },
+                        success: function(response) {
+                            Swal.fire({
+                                title: 'ลบข้อมูล!',
+                                text: "You Delet data success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                // cancelButtonColor: '#d33',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // $("#sid" + plan_control_budget_id).remove();
+                                    window.location.reload();
+                                    //   window.location = "/person/person_index"; //     
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
 </script>
 <?php
 if (Auth::check()) {
@@ -111,7 +150,23 @@ $refnumber = PlanController::refnumber();
                                 <form action="{{ route('p.plan_control_activity_update') }}" id="Update_data" method="POST">
                                     @csrf
                                     <div class="card-body"> 
-                                        <h4 class="card-title">แผนงาน/กิจกรรมสำคัญ</h4>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <h4 class="card-title">แผนงาน/กิจกรรมสำคัญ</h4>
+                                            </div>
+                                            <div class="col"></div>
+                                            <div class="col-md-2">
+                                                <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                                    <i class="pe-7s-diskette btn-icon-wrapper"></i>Update 
+                                                </button>
+                                               
+                                                <a href="{{ url('plan_control_activity/'.$id.'/'.$sid) }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger me-2">
+                                                    <i class="fa-solid fa-xmark me-2"></i>
+                                                    Back
+                                                </a>
+                                            </div>
+                                        </div>
+                                      
                                          <!-- Nav tabs -->
                                          <ul class="nav nav-tabs" role="tablist">
                                             <li class="nav-item">
@@ -598,7 +653,7 @@ $refnumber = PlanController::refnumber();
                                             <input type="hidden" id="billno" name="billno" value="{{$data_plan_control->billno}}">
                                         {{-- </div> 
                                     </div> --}}
-                                    <div class="card-footer mt-2">
+                                    {{-- <div class="card-footer mt-2">
                                         <div class="btn-actions-pane-right mt-2"> 
                                             <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                                 <i class="pe-7s-diskette btn-icon-wrapper"></i>Update 
@@ -609,7 +664,7 @@ $refnumber = PlanController::refnumber();
                                                 Back
                                             </a>
                                         </div>
-                                    </div>                               
+                                    </div>                                --}}
                             </div>                              
                         </div>                
                     </div>                                
@@ -624,7 +679,7 @@ $refnumber = PlanController::refnumber();
                     <div class="card-body">  
 
                         <div class="row">
-                            <div class="col-md-8 text-start"> <h5 class="modal-title me-3" id="editModalLabel">แผนงาน/กิจกรรมสำคัญ   <a href="{{url('plan_control_activity/'.$data_plan_control->plan_control_id)}}"> {{$data_plan_control->plan_name}}</a></h5>  </div>
+                            <div class="col-md-8 text-start"> <h5 class="modal-title me-3" id="editModalLabel">แผนงาน/กิจกรรมสำคัญ   <a href="{{url('plan_control_activity/'.$id.'/'.$sid)}}"> {{$data_plan_control->plan_name}}</a></h5>  </div>
                             <div class="col"></div>
                             <div class="col-md-2 text-end"> <h6 class="mt-2 me-3"> เลขที่ {{$data_plan_control->billno}}</h6> </div>
                         </div> 
@@ -750,21 +805,24 @@ $refnumber = PlanController::refnumber();
                                                 @else 
                                                 @endif
                                             </td>
-                                            <td class="text-center" width="12%">
-                                                @if ($item_->budget_detail !='')
-                                                    {{$item_->budget_detail}}
-                                                @else
-                                                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary edit_data" value="{{ $item_->plan_control_activity_id }}">
-                                                        <i class="pe-7s-plus btn-icon-wrapper"></i>Add Detail 
-                                                    </button>
-                                                    {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#DetailModal{{ $item_->plan_control_activity_id }}">
-                                                        <i class="pe-7s-plus btn-icon-wrapper"></i>Add Detail 
-                                                    </button> --}}
-                                                    {{-- <a href="{{url('plan_control_activity_edit/'.$id.'/'.$data_plan_control->plan_control_id.'/'.$item_->plan_control_activity_id)}}">
-                                                        {{ $item_->plan_control_activity_name }}
-                                                    </a> --}}
-                                                @endif 
-                                            </td>
+                                                <?php 
+                                                    $datasub = DB::select('
+                                                        SELECT * FROM plan_control_budget WHERE plan_control_activity_id = "'.$item_->plan_control_activity_id.'" 
+                                                    ');  
+                                                ?>                                              
+                                            <td class="text-start" width="15%">
+                                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary edit_data" value="{{ $item_->plan_control_activity_id }}">
+                                                    <i class="pe-7s-plus btn-icon-wrapper"></i>
+                                                </button> 
+                                                <br>
+                                                @foreach ($datasub as $item_sub) 
+                                                    <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="plan_control_activity_destroy({{ $item_sub->plan_control_budget_id }})" style="font-size:13px">
+                                                        <i class="fa-solid fa-trash-can ms-2 me-2 text-danger" style="font-size:13px"></i>
+                                                        <span> - {{$item_sub->plan_list_budget_name}}</span>
+                                                    </a>
+                                                    <br>
+                                                @endforeach                                                
+                                            </td>                                           
                                             <td class="text-end" width="4%" style="color:rgb(216, 95, 14)">{{ number_format($item_->budget_price, 2) }}</td>
                                         </tr>
 
@@ -859,7 +917,7 @@ $refnumber = PlanController::refnumber();
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label for="">บาท</label>
+                            <label for="">จำนวนเงิน(บาท)</label>
                             <div class="form-group"> 
                                 <input id="plan_control_budget_price" class="form-control form-control-sm" name="plan_control_budget_price">
                             </div>
