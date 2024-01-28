@@ -41,6 +41,11 @@
            .is-hide{
            display:none;
            }
+           .checkboxs{
+            width: 25px;
+            height: 25px;
+           }
+           
 </style>
 <script>
     function TypeAdmin() {
@@ -106,8 +111,11 @@ $refnumber = PlanController::refnumber();
                             <div class="col-md-12"> 
                                 <form action="{{ route('p.plan_control_activity_save') }}" id="Insert_data" method="POST">
                                     @csrf
-                                    <div class="card-body">                                      
-        
+                                    <div class="card-body">  
+                                        
+                                            <input type="hidden" id="plan_control_id" name="plan_control_id" value="{{$plan_control->plan_control_id}}">
+                                            <input type="hidden" id="billno" name="billno" value="{{$plan_control->billno}}">
+                                                
                                             <h4 class="card-title">แผนงาน/กิจกรรมสำคัญ</h4>
                                             {{-- <p class="card-title-desc">เพิ่มรายละเอียดแผนงาน/กิจกรรมสำคัญ</p> --}}
             
@@ -125,18 +133,13 @@ $refnumber = PlanController::refnumber();
                                                         <span class="d-none d-sm-block">ไตรมาส</span>    
                                                     </a>
                                                 </li>
-                                                <li class="nav-item">
+                                                {{-- <li class="nav-item">
                                                     <a class="nav-link" data-bs-toggle="tab" href="#messages" role="tab">
                                                         <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
                                                         <span class="d-none d-sm-block">งบประมาณ</span>    
                                                     </a>
-                                                </li>
-                                                {{-- <li class="nav-item">
-                                                    <a class="nav-link" data-bs-toggle="tab" href="#settings" role="tab">
-                                                        <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
-                                                        <span class="d-none d-sm-block">Settings</span>    
-                                                    </a>
                                                 </li> --}}
+                                               
                                             </ul>
             
                                             <!-- Tab panes -->
@@ -222,16 +225,16 @@ $refnumber = PlanController::refnumber();
                                                                 <label for="">ไตรมาสที่ 1 </label>
                                                                 <div class="form-group">
                                                                     <div class="form-check form-check-inline">
-                                                                        <input class="form-check-input" type="checkbox" name="trimart_11" id="trimart_11" >
-                                                                        <label class="form-check-label" for="trimart_11">ต.ค.</label> 
+                                                                        <input class="form-check-input checkboxs" type="checkbox" name="trimart_11" id="trimart_11" >
+                                                                        <label class="form-check-label mt-2 ms-2" for="trimart_11">ต.ค.</label> 
                                                                     </div> 
                                                                     <div class="form-check form-check-inline">
-                                                                        <input class="form-check-input" type="checkbox" name="trimart_12" id="trimart_12">
-                                                                        <label class="form-check-label" for="trimart_12">พ.ย.</label>
+                                                                        <input class="form-check-input checkboxs" type="checkbox" name="trimart_12" id="trimart_12">
+                                                                        <label class="form-check-label mt-2 ms-2" for="trimart_12">พ.ย.</label>
                                                                     </div> 
                                                                     <div class="form-check form-check-inline">
-                                                                        <input class="form-check-input" type="checkbox" name="trimart_13" id="trimart_13">
-                                                                        <label class="form-check-label" for="trimart_13">ธ.ค.</label>
+                                                                        <input class="form-check-input checkboxs" type="checkbox" name="trimart_13" id="trimart_13">
+                                                                        <label class="form-check-label mt-2 ms-2" for="trimart_13">ธ.ค.</label>
                                                                     </div> 
                                                                 </div>
                                                             </div>  
@@ -239,16 +242,16 @@ $refnumber = PlanController::refnumber();
                                                                 <label for="">ไตรมาสที่ 2 </label>
                                                                 <div class="form-group">
                                                                     <div class="form-check form-check-inline">
-                                                                        <input class="form-check-input" type="checkbox" name="trimart_21" id="trimart_21">
-                                                                        <label class="form-check-label" for="trimart_21">ม.ค.</label>
+                                                                        <input class="form-check-input checkboxs" type="checkbox" name="trimart_21" id="trimart_21">
+                                                                        <label class="form-check-label mt-2 ms-2" for="trimart_21">ม.ค.</label>
                                                                     </div>
                                                                     <div class="form-check form-check-inline">
-                                                                        <input class="form-check-input" type="checkbox" name="trimart_22" id="trimart_22">
-                                                                        <label class="form-check-label" for="trimart_22">ก.พ.</label>
+                                                                        <input class="form-check-input checkboxs" type="checkbox" name="trimart_22" id="trimart_22">
+                                                                        <label class="form-check-label mt-2 ms-2" for="trimart_22">ก.พ.</label>
                                                                     </div> 
                                                                     <div class="form-check form-check-inline">
-                                                                        <input class="form-check-input" type="checkbox" name="trimart_23" id="trimart_23">
-                                                                        <label class="form-check-label" for="trimart_23">มี.ค.</label>
+                                                                        <input class="form-check-input checkboxs" type="checkbox" name="trimart_23" id="trimart_23">
+                                                                        <label class="form-check-label mt-2 ms-2" for="trimart_23">มี.ค.</label>
                                                                     </div> 
                                                                 </div>
                                                             </div>
@@ -259,16 +262,16 @@ $refnumber = PlanController::refnumber();
                                                                 <label for="">ไตรมาสที่ 3 </label>
                                                                 <div class="form-group">
                                                                     <div class="form-check form-check-inline">
-                                                                        <input class="form-check-input" type="checkbox" name="trimart_31" id="trimart_31">
-                                                                        <label class="form-check-label" for="trimart_31">เม.ย.</label>
+                                                                        <input class="form-check-input checkboxs" type="checkbox" name="trimart_31" id="trimart_31">
+                                                                        <label class="form-check-label mt-2 ms-2" for="trimart_31">เม.ย.</label>
                                                                     </div>
                                                                     <div class="form-check form-check-inline">
-                                                                        <input class="form-check-input" type="checkbox" name="trimart_32" id="trimart_32">
-                                                                        <label class="form-check-label" for="trimart_32">พ.ค.</label>
+                                                                        <input class="form-check-input checkboxs" type="checkbox" name="trimart_32" id="trimart_32">
+                                                                        <label class="form-check-label mt-2 ms-2" for="trimart_32">พ.ค.</label>
                                                                     </div> 
                                                                     <div class="form-check form-check-inline">
-                                                                        <input class="form-check-input" type="checkbox" name="trimart_33" id="trimart_33">
-                                                                        <label class="form-check-label" for="trimart_33">มิ.ย.</label>
+                                                                        <input class="form-check-input checkboxs" type="checkbox" name="trimart_33" id="trimart_33">
+                                                                        <label class="form-check-label mt-2 ms-2" for="trimart_33">มิ.ย.</label>
                                                                     </div> 
                                                                 </div>
                                                             </div>
@@ -276,24 +279,25 @@ $refnumber = PlanController::refnumber();
                                                                 <label for="">ไตรมาสที่ 4 </label>
                                                                 <div class="form-group">
                                                                     <div class="form-check form-check-inline">
-                                                                        <input class="form-check-input" type="checkbox" name="trimart_41" id="trimart_41">
-                                                                        <label class="form-check-label" for="trimart_41">ก.ค.</label>
+                                                                        <input class="form-check-input checkboxs" type="checkbox" name="trimart_41" id="trimart_41">
+                                                                        <label class="form-check-label mt-2 ms-2" for="trimart_41">ก.ค.</label>
                                                                     </div>
                                                                     <div class="form-check form-check-inline">
-                                                                        <input class="form-check-input" type="checkbox" name="trimart_42" id="trimart_42">
-                                                                        <label class="form-check-label" for="trimart_42">ส.ค.</label>
+                                                                        <input class="form-check-input checkboxs" type="checkbox" name="trimart_42" id="trimart_42">
+                                                                        <label class="form-check-label mt-2 ms-2" for="trimart_42">ส.ค.</label>
                                                                     </div> 
                                                                     <div class="form-check form-check-inline">
-                                                                        <input class="form-check-input" type="checkbox" name="trimart_43" id="trimart_43">
-                                                                        <label class="form-check-label" for="trimart_43">ก.ย.</label>
+                                                                        <input class="form-check-input checkboxs" type="checkbox" name="trimart_43" id="trimart_43">
+                                                                        <label class="form-check-label mt-2 ms-2" for="trimart_43">ก.ย.</label>
                                                                     </div> 
                                                                 </div>
                                                             </div>  
                                                         </div> 
                                                     </p>
                                                 </div>
-                                                <div class="tab-pane" id="messages" role="tabpanel">
+                                                {{-- <div class="tab-pane" id="messages" role="tabpanel">
                                                     <p class="mb-0">
+                                                      
                                                         <div class="row mt-2">
                                                             <div class="col-md-4">
                                                                 <label for="">รายละเอียดงบประมาณ</label>
@@ -335,8 +339,7 @@ $refnumber = PlanController::refnumber();
                                                                 </div>
                                                             </div>        
                                                         </div>
-                                                        <input type="hidden" id="plan_control_id" name="plan_control_id" value="{{$plan_control->plan_control_id}}">
-                                                        <input type="hidden" id="billno" name="billno" value="{{$plan_control->billno}}">
+                                                 
                                                         <div class="row mt-3">
                                                             <div class="col-md-12">
                                                                 <table class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; width: 100%;">
@@ -359,7 +362,7 @@ $refnumber = PlanController::refnumber();
                                                             </div>
                                                         </div>
                                                     </p>
-                                                </div>
+                                                </div> --}}
                                                 {{-- <div class="tab-pane" id="settings" role="tabpanel">
                                                     <p class="mb-0">
                                                         Trust fund seitan letterpress, keytar raw denim keffiyeh etsy

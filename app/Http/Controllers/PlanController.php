@@ -273,18 +273,21 @@ class PlanController extends Controller
     {
         $data['startdate']             = $request->startdate;
         $data['enddate']               = $request->enddate;
-        $data['com_tec']               = DB::table('com_tec')->get();
-        $data['users']                 = User::get();
+     
         $data['plan_control']          = Plan_control::where('plan_control_id',$sid)->first();
+        $data['plan_control_activity'] = Plan_control_activity::where('plan_control_id',$sid)->get();
+        $data_activity = Plan_control_activity::where('plan_control_id',$sid)->first();
+        $data['plan_control_budget']   = Plan_control_budget::where('plan_control_id',$sid)->get();
+
         $data['department_sub']        = Departmentsub::get();
         $data['department_sub_sub']    = Department_sub_sub::get();
         $data['plan_control_type']     = Plan_control_type::get();
         $data['plan_strategic']        = Plan_strategic::get();
-        $data['plan_list_budget']      = Plan_list_budget::get();        
-        $data['plan_control_activity'] = Plan_control_activity::where('plan_control_id',$sid)->get();
-        $data['plan_list_budget']      = DB::table('plan_list_budget')->get();
-        $data['plan_unit']             = DB::table('plan_unit')->get();
-        $data['plan_control_budget']   = Plan_control_budget::where('plan_control_id',$sid)->get();
+        $data['plan_list_budget']      = Plan_list_budget::get();     
+        // $data['plan_list_budget']      = DB::table('plan_list_budget')->get();
+        $data['plan_unit']             = DB::table('plan_unit')->get();  
+        $data['users']                 = User::get();    
+        // $data['plan_control_activity'] = Plan_control_activity::where('plan_control_id',$sid)->where('plan_control_activity_id',$aid)->get();
 
         return view('plan.plan_control_activity', $data,[
             'id'     =>  $id,  //  ยุทธศาสตร์ plan_strategic_id
@@ -377,15 +380,22 @@ class PlanController extends Controller
             $plan_list_budget_id = '';
             $plan_list_budget_name = '';
         }
- 
+
+        $activity_id = $request->input('plan_control_activity_id'); 
+        $price_old = Plan_control_activity::where('plan_control_activity_id',$activity_id)->first();
+        
         $add2 = new Plan_control_budget();
         $add2->plan_control_id               = $request->input('plan_control_id'); 
         $add2->billno                        = $request->input('billno'); 
+        $add2->plan_control_activity_id      = $activity_id; 
         $add2->plan_list_budget_id           = $plan_list_budget_id; 
         $add2->plan_list_budget_name         = $plan_list_budget_name; 
         $add2->plan_control_budget_price     = $request->input('plan_control_budget_price'); 
         $add2->save();
 
+        $update = Plan_control_activity::find($activity_id); 
+        $update->budget_price        = $price_old->budget_price + $request->input('plan_control_budget_price'); 
+        $update->save(); 
  
         return response()->json([
             'status'     => '200',
@@ -401,11 +411,16 @@ class PlanController extends Controller
         $data['department_sub_sub'] = Department_sub_sub::get();
         $data['plan_control_type'] = Plan_control_type::get();
         $data['plan_strategic'] = Plan_strategic::get();
-
+        $data['plan_list_budget']      = Plan_list_budget::get();     
+        // $data['plan_list_budget']      = DB::table('plan_list_budget')->get();
+        $data['plan_unit']             = DB::table('plan_unit')->get(); 
         $data_plan_control = Plan_control::where('plan_control_id',$sid)->first();
         $data_activity = Plan_control_activity::where('plan_control_id',$sid)->where('plan_control_activity_id',$aid)->first();
         // $data_activity = Plan_control_activity::where('plan_control_id',$sid)->first();
         $data['plan_control_activity'] = Plan_control_activity::where('plan_control_id',$sid)->get();
+        $data['plan_control_budget']   = Plan_control_budget::where('plan_control_budget.plan_control_id',$sid)->where('plan_control_budget.plan_control_activity_id',$aid)->get();
+        // LEFTJOIN('plan_control_activity','plan_control_activity.plan_control_id','=','plan_control_budget.plan_control_id')
+        // ->where('plan_control_budget.plan_control_id',$sid)->where('plan_control_budget.plan_control_activity_id',$aid)->get();
         
         return view('plan.plan_control_activity_edit', $data,[
             'data_plan_control'    => $data_plan_control,
@@ -449,8 +464,8 @@ class PlanController extends Controller
         $update->plan_control_activity_group   = $request->input('plan_control_activity_group');
         $update->qty                           = $request->input('qty');  
         $update->plan_control_unit             = $request->input('plan_control_unit');  
-        $update->budget_detail                 = $request->input('budget_detail');  
-        $update->budget_price                  = $request->input('budget_price');  
+        // $update->budget_detail                 = $request->input('budget_detail');  
+        // $update->budget_price                  = $request->input('budget_price');  
         $update->budget_source                 = $plan_control_type_id;  
         $update->budget_source_name            = $plan_control_typename;
         $update->trimart_11                    = $request->input('trimart_11');  
@@ -469,11 +484,18 @@ class PlanController extends Controller
         $update->responsible_person_name       = $DEPARTMENT_SUB_NAME; 
         $update->user_id                       = $iduser;  
         $update->save();
-
-        
+      
+        return response()->json([
+            'status'     => '200',
+        ]);
+    }
+    public function plan_control_budget_edit(Request $request, $id)
+    {
+        $budget = Plan_control_activity::find($id);
 
         return response()->json([
             'status'     => '200',
+            'budget'      =>  $budget,
         ]);
     }
 

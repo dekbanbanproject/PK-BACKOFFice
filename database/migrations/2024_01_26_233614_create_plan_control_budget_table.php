@@ -16,6 +16,7 @@ return new class extends Migration
             Schema::connection('mysql')->create('plan_control_budget', function (Blueprint $table) { 
                 $table->bigIncrements('plan_control_budget_id');//  
                 $table->string('plan_control_id')->nullable();//   
+                $table->string('plan_control_activity_id')->nullable();//  
                 $table->string('billno')->nullable();//  
                 $table->string('plan_list_budget_id')->nullable();//รายละเอียดงบประมาณ
                 $table->string('plan_list_budget_name')->nullable();//รายละเอียดงบประมาณ 

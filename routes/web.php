@@ -2486,6 +2486,7 @@ Route::middleware(['type'])->group(function(){
   Route::match(['get','post'],'plan_control_activity_update',[App\Http\Controllers\PlanController::class, 'plan_control_activity_update'])->name('p.plan_control_activity_update');//
 
   Route::match(['get','post'],'plan_control_budget_save',[App\Http\Controllers\PlanController::class, 'plan_control_budget_save'])->name('p.plan_control_budget_save');//
+  Route::match(['get','post'],'plan_control_budget_edit/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_budget_edit'])->name('p.plan_control_budget_edit');//
 
   Route::get('detail_plan',[App\Http\Controllers\PlanController::class, 'detail_plan'])->name('p.detail_plan');//
   Route::match(['get','post'],'plan_control_obj_save',[App\Http\Controllers\PlanController::class, 'plan_control_obj_save'])->name('p.plan_control_obj_save');//
