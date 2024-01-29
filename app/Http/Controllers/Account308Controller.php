@@ -203,8 +203,7 @@ class Account308Controller extends Controller
                 ,ipt.pttype,ipt.pttype_number,"1102050101.308" as account_code,"ประกันสังคม นอกเครือข่าย" as account_name 
                 ,a.income as income ,a.uc_money,a.rcpt_money as cash_money,a.discount_money
                 ,a.income-a.rcpt_money-a.discount_money as debit
-                ,ipt.max_debt_amount  
-               
+                ,ipt.max_debt_amount 
                 ,CASE 
                 WHEN  ipt.nhso_ownright_pid <>"" THEN ipt.nhso_ownright_pid
                 ELSE a.income-a.rcpt_money-a.discount_money 
@@ -223,15 +222,15 @@ class Account308Controller extends Controller
                 LEFT JOIN ipt_pttype ipt ON ipt.an = a.an
                 LEFT JOIN opitemrece op ON ip.an = op.an
                 LEFT JOIN vn_stat v on v.vn = a.vn
-                WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-               
+                WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"               
                 AND ipt.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.308")
                 GROUP BY a.an;
             ');
             // ,ipt.nhso_ownright_pid as looknee
             // AND ipt.pttype = "14"  
             foreach ($acc_debtor as $key => $value) {
-                    $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.308')->whereBetween('dchdate', [$startdate, $enddate])->count();
+                // $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.308')->whereBetween('dchdate', [$startdate, $enddate])->count();
+                    $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.308')->count();
                     if ($check == 0) {
                         if ($value->looknee == '') {
                             

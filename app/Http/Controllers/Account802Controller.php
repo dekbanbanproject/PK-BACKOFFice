@@ -224,7 +224,7 @@ class Account802Controller extends Controller
             ');
     
             foreach ($acc_debtor as $key => $value) {
-                        $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050102.802')->whereBetween('dchdate', [$startdate, $enddate])->count();
+                        $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050102.802')->count();
                         if ($check == 0) {
                             Acc_debtor::insert([
                                 'hn'                 => $value->hn,

@@ -233,7 +233,7 @@ class Account217Controller extends Controller
         // AND op.icode IN(SELECT icode from pkbackoffice.acc_setpang_type WHERE icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217"))
         foreach ($acc_debtor as $key => $value) {
             if ($value->debit > 0) {
-                $check = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.217')->whereBetween('dchdate', [$startdate, $enddate])->count();
+                $check = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.217')->count();
                 if ($check == 0) {
                     Acc_debtor::insert([
                         'hn'                 => $value->hn,

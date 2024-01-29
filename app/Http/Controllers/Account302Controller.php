@@ -223,8 +223,11 @@ class Account302Controller extends Controller
             $acc_debtor = DB::connection('mysql2')->select('
                 SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) fullname
                 ,a.regdate as admdate,a.dchdate as dchdate,v.vstdate,op.income as income_group
-                ,ipt.pttype,ptt.max_debt_money,ec.code,ec.ar_ipd as account_code
-                ,ec.name as account_name,ifnull(ec.ar_ipd,"") pang_debit
+                ,ipt.pttype,ptt.max_debt_money
+                ,ec.code
+                ,ec.ar_ipd as account_code
+                ,ec.name as account_name
+                ,ifnull(ec.ar_ipd,"") pang_debit
                 ,a.income as income ,a.uc_money,a.rcpt_money as cash_money,a.discount_money
                 ,a.income-a.rcpt_money-a.discount_money as looknee_money
                 
@@ -246,9 +249,12 @@ class Account302Controller extends Controller
                 AND ipt.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.302")
                 GROUP BY a.an;
             ');
+            // ,ec.code
+            // ,ec.ar_ipd as account_code
+            // ,ec.name as account_name
             // AND ipt.pttype = "A7"
             foreach ($acc_debtor as $key => $value) {
-                    $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.302')->whereBetween('dchdate', [$startdate, $enddate])->count();
+                    $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.302')->count();
                     if ($check == 0) {
                         Acc_debtor::insert([
                             'hn'                 => $value->hn,

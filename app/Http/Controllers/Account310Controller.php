@@ -225,7 +225,7 @@ class Account310Controller extends Controller
                     LEFT JOIN vn_stat v on v.vn = a.vn
                     WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                     AND ipt.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.310" AND opdipd ="IPD")
-                    AND v.hospmain IN(SELECT hospmain FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.310" AND hospmain <> "")
+                    AND ipt.hospmain IN(SELECT hospmain FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.310" AND hospmain <> "")
                     and io.icd9 like "%6632%"
                 GROUP BY a.an; 
             ');
