@@ -420,6 +420,43 @@ class Account203Controller extends Controller
             'year'           => $year
         ]);
     }
+    public function account_203_hoscode_date(Request $request,$startdate,$enddate)
+    { 
+        $data['users'] = User::get(); 
+        $datashow = DB::select('
+                SELECT 
+                    U1.hospcode,U2.name as hname,month(U1.vstdate) as months,year(U1.vstdate) as years,COUNT(DISTINCT U1.vn) as Cvn,SUM(U1.income) as S_income,SUM(U1.uc_money) as S_uc_money
+                    ,SUM(U1.debit) as S_debit,SUM(U1.debit_total) as S_debit_total,SUM(U1.sauntang) as S_sauntang
+                from acc_1102050101_203 U1    
+                LEFT OUTER JOIN hospcode U2 ON U2.hospcode = U1.hospcode         
+                WHERE U1.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                GROUP BY U1.hospcode 
+        ');
+  
+        return view('account_203.account_203_hoscode_date', $data, [ 
+            'datashow'          => $datashow,
+            'startdate'         => $startdate,
+            'enddate'           => $enddate
+        ]);
+    }
+    public function account_203_hcode_group_date(Request $request,$startdate,$enddate,$hospcode)
+    { 
+        $data['users'] = User::get(); 
+        $datashow = DB::select('
+                SELECT 
+                U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.hospcode,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
+                from acc_1102050101_203 U1    
+                LEFT OUTER JOIN hospcode U2 ON U2.hospcode = U1.hospcode         
+                WHERE U1.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND U1.hospcode = "'.$hospcode.'"
+                GROUP BY U1.hospcode 
+        ');
+  
+        return view('account_203.account_203_hcode_group_date', $data, [ 
+            'datashow'          => $datashow,
+            'startdate'         => $startdate,
+            'enddate'           => $enddate
+        ]);
+    }
     public function account_203_hcode_group(Request $request,$months,$year,$hcode)
     { 
         $data['users'] = User::get();

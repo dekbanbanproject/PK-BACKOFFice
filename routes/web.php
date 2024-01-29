@@ -1878,7 +1878,9 @@ Route::middleware(['type'])->group(function(){
  
     Route::match(['get','post'],'account_203_dash',[App\Http\Controllers\Account203Controller::class, 'account_203_dash'])->name('acc.account_203_dash');//
     Route::match(['get','post'],'account_203_hoscode/{months}/{year}',[App\Http\Controllers\Account203Controller::class, 'account_203_hoscode'])->name('acc.account_203_hoscode');//
+    Route::match(['get','post'],'account_203_hoscode_date/{startdate}/{enddate}',[App\Http\Controllers\Account203Controller::class, 'account_203_hoscode_date'])->name('acc.account_203_hoscode_date');//
     Route::match(['get','post'],'account_203_hcode_group/{months}/{year}/{hcode}',[App\Http\Controllers\Account203Controller::class, 'account_203_hcode_group'])->name('acc.account_203_hcode_group');//
+    Route::match(['get','post'],'account_203_hcode_group_date/{startdate}/{enddate}/{hcode}',[App\Http\Controllers\Account203Controller::class, 'account_203_hcode_group_date'])->name('acc.account_203_hcode_group_date');//
     Route::match(['get','post'],'account_203_hcode_detail/{months}/{year}/{hcode}',[App\Http\Controllers\Account203Controller::class, 'account_203_hcode_detail'])->name('acc.account_203_hcode_detail');//
     Route::match(['get','post'],'account_203_pull',[App\Http\Controllers\Account203Controller::class, 'account_203_pull'])->name('acc.account_203_pull');//
     Route::match(['get','post'],'account_203_pull_m/{months}/{year}',[App\Http\Controllers\Account203Controller::class, 'account_203_pull_m'])->name('acc.account_203_pull_m');//
