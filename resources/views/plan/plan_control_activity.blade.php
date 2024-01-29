@@ -436,15 +436,7 @@ $refnumber = PlanController::refnumber();
                                                     </p>
                                                 </div> --}}
                                             </div>
-                
-                                     
-
-                                       
-                                                
-                                       
-                                                
-                                               
-
+                 
                                             {{-- </div> --}}
                                             {{-- <div class="col-md-4">
                                                 <div class="row mt-2">   
@@ -557,13 +549,7 @@ $refnumber = PlanController::refnumber();
                                                     </div>   
                                                 </div> 
                                             </div> --}}
-                                      
                                        
-                                       
-
-                                      
-
-                                        
 
                                     </div>
                                     {{-- <div class="card-footer">
@@ -744,7 +730,7 @@ $refnumber = PlanController::refnumber();
                                             <br>
                                         @endforeach                                                
                                     </td>                                           
-                                    <td class="text-end" width="4%" style="color:rgb(216, 95, 14)">{{ number_format($item_->budget_price, 2) }}</td>
+                                    <td class="text-end" width="4%" style="color:rgb(216, 95, 14)">{{ $item_->budget_price }}</td>
                                             {{-- <td class="text-center" width="12%">{{$item_->budget_detail}}</td> --}}
                                             {{-- <td class="text-center" width="4%">{{$item_->budget_price}}</td> --}}
                                         </tr>

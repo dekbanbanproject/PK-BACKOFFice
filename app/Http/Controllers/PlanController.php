@@ -500,6 +500,9 @@ class PlanController extends Controller
     }
     public function plan_control_activity_destroy(Request $request, $id)
     {
+        $idbud       = Plan_control_budget::where()->first();
+        $idbud_ac    = $idbud->plan_control_activity_id;
+        $idactice    = Plan_control_activity::where('plan_control_activity_id','=',$idbud_ac)->first();
         $del = Plan_control_budget::find($id);
         $del->delete();
         //  return redirect()->back();

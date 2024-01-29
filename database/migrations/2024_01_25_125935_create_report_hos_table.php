@@ -17,6 +17,7 @@ return new class extends Migration
                 $table->bigIncrements('report_hos_id');//  
                 $table->string('report_hos_name')->nullable();//   
                 $table->enum('active', ['N', 'Y'])->default('Y');  
+                $table->string('report_department_sub')->nullable();// 
                 $table->string('user_id')->nullable();//         
                 $table->timestamps();
             });    
