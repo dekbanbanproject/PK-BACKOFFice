@@ -1,27 +1,7 @@
 @extends('layouts.accountpk')
 @section('title', 'PK-BACKOFFice || ACCOUNT')
- 
 @section('content')
-    <script>
-        function TypeAdmin() {
-            window.location.href = '{{ route('index') }}';
-        }
-    </script>
-    <?php
-    if (Auth::check()) {
-        $type = Auth::user()->type;
-        $iduser = Auth::user()->id;
-    } else {
-        echo "<body onload=\"TypeAdmin()\"></body>";
-        exit();
-    }
-    $url = Request::url();
-    $pos = strrpos($url, '/') + 1;
-    $ynow = date('Y')+543;
-    $yb =  date('Y')+542;
-    ?>
-     
-     <style>
+    <style>
         #button {
             display: block;
             margin: 20px auto;
@@ -51,7 +31,7 @@
         .spinner {
             width: 250px;
             height: 250px;
-            border: 5px #ddd solid;
+            border: 10px #ddd solid;
             border-top: 10px #ff8897 solid;
             border-radius: 50%;
             animation: sp-anime 0.8s infinite linear;
@@ -59,7 +39,7 @@
 
         @keyframes sp-anime {
             100% {
-                transform: rotate(360deg);
+                transform: rotate(390deg);
             }
         }
 
@@ -68,112 +48,145 @@
         }
     </style>
 
-    <?php
-        $ynow = date('Y')+543;
-        $yb =  date('Y')+542;
-    ?>
+    <div class="tabs-animation">
 
-   <div class="tabs-animation">
-    <div class="row text-center">
-        <div id="overlay">
-            <div class="cv-spinner">
-                <span class="spinner"></span>
-            </div>
-        </div> 
-    </div> 
-    <div id="preloader">
-        <div id="status">
-            <div class="spinner"> 
+        <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
+                </div>
             </div>
         </div>
-    </div>
-       
-        <div class="row"> 
-            @foreach ($datashow as $item)   
-            <div class="col-xl-3 col-md-3">
-               
-                    <div class="card cardacc" style="background-color: rgb(235, 247, 243)"> 
-          
-                        <div class="grid-menu-col">
-                            <div class="g-0 row">
-                                <div class="col-sm-12">
-                                    <div class="d-flex text-start">
-                                        <div class="flex-grow-1 ">
-                                            
-                                            <div class="row">
-                                                <div class="col-md-3 text-start mt-4 ms-4">
-                                                    <h5 >{{$item->hospcode}}</h5>
-                                                </div>
-                                                <div class="col"></div>
-                                                <div class="col-md-7 text-end mt-2 me-2"> 
-                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง">
-                                                            <h6 class="text-end">{{$item->hname}}</h6>
-                                                        </div> 
-                                                </div>
-                                            </div>
-                                          
-                                            <div class="row">
-                                                <div class="col-md-1 text-start ms-4">
-                                                    <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle text-success"></i>
-                                                </div>
-                                                <div class="col-md-4 text-start mt-3">
-                                                    <p class="text-muted mb-0">
-                                                            Statement
-                                                    </p>
-                                                </div>
-                                                <div class="col"></div>
-                                                <div class="col-md-5 text-end me-2">
-                                                  
-                                                        <div class="widget-chart widget-chart-hover">
-                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement 10Visit">
-                                                              10
-                                                                    <i class="fa-brands fa-btc text-success ms-2"></i>
-                                                            </p>
-                                                        </div>
-                                           
-                                                </div>
-                                            </div>
- 
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner">
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Detail {{$datahos_name}}</h4>
+    
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Detail {{$datahos_name}}</a></li>
+                                <li class="breadcrumb-item active">1102050101.203</li>
+                            </ol>
                         </div>
-                     
-                   
-                </div> 
-            </div> 
-            @endforeach
-        </div>
+    
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+        </div> <!-- container-fluid -->
 
+        <div class="row">
+            <div class="col-xl-12">
+                    <div class="card cardacc"> 
+                  
+                    <div class="card-body">
+                     
+                        <div class="table-responsive">
+                            
+                            <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap myTable"
+                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">ลำดับ</th> 
+                                        <th class="text-center">vstdate</th> 
+                                        <th class="text-center">vn</th> 
+                                        <th class="text-center">hn</th>
+                                        <th class="text-center">cid</th>
+                                        <th class="text-center">ptname</th>                                       
+                                        <th class="text-center">pttype</th>  
+                                        <th class="text-center">เลขที่ใบเสร็จ</th> 
+                                        <th class="text-center">ค่ารักษา</th>
+                                        <th class="text-center">ชำระเงินเอง</th>  
+                                        <th class="text-center">ลูกหนี้ตามข้อตกลง</th> 
+                                        <th class="text-center">Hcode</th> 
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php 
+                                        $number = 0; 
+                                        $total1 = 0;
+                                        $total2 = 0;
+                                        $total3 = 0;
+                                        $total4 = 0;
+                                    ?>
+                                    @foreach ($datashow as $item)
+                                        <?php $number++; ?> 
+                                            <tr>
+                                                <td class="text-font" style="text-align: center;" width="4%">{{ $number }} </td> 
+                                                <td class="text-center" width="7%">{{ $item->vstdate }}</td>
+                                                <td class="text-center" width="8%">{{ $item->vn }}</td> 
+                                                <td class="text-center" width="5%">{{ $item->hn }}</td>
+                                                <td class="text-center" width="7%">{{ $item->cid }}</td>
+                                                <td class="p-2">{{ $item->ptname }}</td>                                            
+                                                <td class="text-center" width="5%">{{ $item->pttype }}</td>   
+                                                <td class="text-end" style="color:rgb(243, 157, 27)" width="7%"> {{ $item->nhso_ownright_pid }}</td>                                         
+                                                <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->income, 2) }}</td>  
+                                                <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->rcpt_money, 2) }}</td>  
+                                                <td class="text-end text-success"  width="7%" style="color:#44E952"> {{ $item->debit_total }}</td>   
+                                                <td class="text-center" width="5%">{{ $item->hospcode }}</td>
+                                            </tr>
+                                        <?php
+                                                $total1 = $total1 + $item->income;
+                                                $total2 = $total2 + $item->rcpt_money;
+                                                // $total3 = $total3 + ($item->income - $item->rcpt_money);
+                                                $total4 = $total4 + $item->debit_total;
+                                        ?>
+                                    @endforeach
+
+                                </tbody>
+                                <tr style="background-color: #f3fca1">
+                                    <td colspan="8" class="text-end" style="background-color: #fca1a1"></td>
+                                    <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
+                                    <td class="text-end" style="background-color: #FCA533" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
+                                    {{-- <td class="text-center" style="background-color: #44E952"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td> --}}
+                                    <td class="text-end" style="background-color: #FC7373"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td>
+                                    <td colspan="1" class="text-end" style="background-color: #fca1a1"></td>
+                                </tr>  
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
+
+
 
 @endsection
 @section('footer')
+
     <script>
         $(document).ready(function() {
-            $('#example').DataTable();
-            $('#example2').DataTable();
-            $('#p4p_work_month').select2({
-                placeholder: "--เลือก--",
-                allowClear: true
-            });
+
             $('#datepicker').datepicker({
-            format: 'yyyy-mm-dd'
+                format: 'yyyy-mm-dd'
             });
             $('#datepicker2').datepicker({
                 format: 'yyyy-mm-dd'
             });
 
-            $('#datepicker3').datepicker({
-                format: 'yyyy-mm-dd'
+            $('#example').DataTable();
+            $('#hospcode').select2({
+                placeholder: "--เลือก--",
+                allowClear: true
             });
-            $('#datepicker4').datepicker({
-                format: 'yyyy-mm-dd'
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
             });
-
         });
+        
+        
+                  
     </script>
-
 @endsection

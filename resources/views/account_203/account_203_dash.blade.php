@@ -146,8 +146,8 @@
                                                     SELECT sum(income) as debit_total,count(DISTINCT vn) as Cvit
                                                     from acc_1102050101_203
                                                     where month(vstdate) = "'.$item->months.'"
-                                                    AND year(vstdate) = "'.$item->year.'"; 
-                                                    
+                                                    AND year(vstdate) = "'.$item->year.'"
+                                                  
                                                 ');   
                                                 foreach ($datasum_ as $key => $value2) {
                                                     $sum_Y = $value2->debit_total;
@@ -333,7 +333,7 @@
                                                 </div>
                                             </div>
 
-                                            {{-- <div class="row">
+                                            <div class="row">
                                                 <div class="col-md-1 text-start ms-4">
                                                     <i class="fa-solid fa-sack-dollar align-middle text-secondary"></i>
                                                 </div>
@@ -349,9 +349,9 @@
                                                         <i class="fa-brands fa-btc text-secondary ms-2 me-2"></i>
                                                     </p> 
                                                 </div>
-                                            </div> --}}
+                                            </div>
 
-                                            {{-- <div class="row">
+                                            <div class="row">
                                                 <div class="col-md-1 text-start mt-2 ms-4">
                                                     <i class="fa-brands fa-bitcoin align-middle text-danger"></i>
                                                 </div>
@@ -362,70 +362,77 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end mt-2 me-2">
-                                                    <a href="{{url('acc_107_detail/'.$item->months.'/'.$item->year)}}" target="_blank"> 
-                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_debY}} Visit">
+                                                    <a href="{{url('account_203_detail/'.$item->months.'/'.$item->year)}}" target="_blank"> 
+                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_Y}} Visit">
                                                             {{ number_format($sum_Y, 2) }}
                                                             <i class="fa-brands fa-btc text-danger ms-2 me-2"></i>
                                                         </p> 
                                                     </a>
                                                 </div>
-                                            </div> --}}
+                                            </div>
 
-                                            {{-- <div class="row">
+                                            <div class="row">
                                                 <div class="col-md-1 text-start mt-2 ms-4">
-                                                    <i class="fa-brands fa-bitcoin align-middle text-success"></i>
+                                                    <i class="fa-brands fa-bitcoin align-middle text-info"></i>
                                                 </div>
                                                 <div class="col-md-4 text-start mt-2">
                                                     <p class="text-muted mb-0">
-                                                            รับชำระ(ชำระแล้ว)
+                                                        ลูกหนี้ตามข้อตกลง
                                                     </p>
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end mt-2 me-2">  
-                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement  Visit">
-                                                                   200
-                                                                    <i class="fa-brands fa-btc text-success ms-2 me-2"></i>
-                                                            </p> 
+                                                    <a href="{{url('account_203_hoscode/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_toklong}} Visit">
+                                                            {{ number_format($sum_toklong, 2) }}
+                                                            <i class="fa-brands fa-btc text-info ms-2 me-2"></i>
+                                                        </p>
+                                                    </a>
                                                 </div>
-                                            </div> --}}
+                                            </div>
 
-                                            {{-- <div class="row">
+                                            <div class="row">
                                                 <div class="col-md-1 text-start mt-2 ms-4">
-                                                    <i class="fa-brands fa-bitcoin align-middle" style="color: rgb(160, 12, 98)"></i>
+                                                    <i class="fa-brands fa-bitcoin align-middle text-success"></i>
                                                 </div>
-                                                <div class="col-md-4 text-start mt-2">
+                                                <div class="col-md-4 text-start text-success mt-2">
                                                     <p class="text-muted mb-0">
-                                                            ลูกหนี้คงเหลือ
+                                                        Statement
                                                     </p>
                                                 </div>
                                                 <div class="col"></div>
-                                                <div class="col-md-5 text-end mt-2 me-2">    
-                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ยกยอดไปเดือนนี้  Visit" >
-                                                            10
-                                                            <i class="fa-brands fa-btc ms-2 me-2" style="color: rgb(160, 12, 98)"></i>
-                                                            </p>                                   
+                                                <div class="col-md-5 text-end mt-2 me-2">  
+                                                    <a href="{{url('account_203_stm/'.$item->months.'/'.$item->year)}}" target="_blank">  
+                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$count_stm}} Visit">
+                                                            {{-- {{ number_format($sum_stm, 2) }}  --}}
+                                                            ยังไม่ได้เขียน
+                                                            <i class="fa-brands fa-btc text-success ms-2 me-2"></i>
+                                                        </p>    
+                                                    </a>                               
                                                 </div>
-                                            </div> --}}
+                                            </div>
+                                            
 
-                                            {{-- <div class="row mb-4">
+                                            <div class="row mb-4">
                                                 <div class="col-md-1 text-start mt-2 ms-4">
                                                     <i class="fa-brands fa-bitcoin align-middle text-primary"></i>
                                                 </div>
                                                 <div class="col-md-4 text-start mt-2">
                                                     <p class="text-muted mb-0">
-                                                            ทวงหนี้
+                                                        ยกยอดไปเดือนนี้
                                                     </p>
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end mt-2 me-2"> 
                                                     <a href="{{url('acc_107_debt_months/'.$item->months.'/'.$item->year)}}" target="_blank">          
-                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$count_Y}} Visit">
-                                                            {{ number_format($sum_debY, 2) }}
+                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$count_yokpai}} Visit">
+                                                            {{-- {{ number_format($sum_yokpai, 2) }} --}}
+                                                            ยังไม่ได้เขียน
                                                             <i class="fa-brands fa-btc text-success ms-2 me-2"></i>
                                                         </p>  
                                                     </a>                                                  
                                                 </div>
-                                            </div> --}}
+                                            </div>  
     
 
                                         </div>

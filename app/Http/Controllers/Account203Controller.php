@@ -318,11 +318,7 @@ class Account203Controller extends Controller
                                 'acc_debtor_userid'  => Auth::user()->id
                             ]);
                         }
-                    }
-                    
-                           
-                    
-                    
+                    } 
             }
             return response()->json([
 
@@ -395,7 +391,7 @@ class Account203Controller extends Controller
                 U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.hospcode,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
                 from acc_1102050101_203 U1             
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
-                GROUP BY U1.vn 
+               
         ');
   
         return view('account_203.account_203_detail', $data, [ 
@@ -427,7 +423,7 @@ class Account203Controller extends Controller
     public function account_203_hcode_group(Request $request,$months,$year,$hcode)
     { 
         $data['users'] = User::get();
- 
+        $data_hos = DB::select('SELECT name as hname from hospcode WHERE hospcode= "'.$hcode.'"');
         $datashow = DB::select('
                 SELECT 
                     U2.name as hname,
@@ -435,12 +431,15 @@ class Account203Controller extends Controller
                      
                 from acc_1102050101_203 U1    
                 LEFT OUTER JOIN hospcode U2 ON U2.hospcode = U1.hospcode         
-                WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" AND U1.hospcode = "'.$hcode.'"
-                
+                WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" AND U1.hospcode = "'.$hcode.'"                
         ');
+        foreach ($data_hos as $key => $value) {
+            $datahos_name = $value->hname;
+        }
   
         return view('account_203.account_203_hcode_group', $data, [ 
             'datashow'       => $datashow,
+            'datahos_name'   => $datahos_name,
             'months'         => $months,
             'year'           => $year
         ]);

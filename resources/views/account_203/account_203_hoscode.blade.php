@@ -116,92 +116,64 @@
                                                         </div> 
                                                 </div>
                                             </div>
-                                            {{-- <div class="row">
-                                                <div class="col-md-1 text-start ms-4">
-                                                    <i class="fa-solid fa-2x fa-sack-dollar me-2 align-middle text-secondary"></i>
-                                                </div>
-                                                <div class="col-md-4 text-start mt-3">
-                                                    <p class="text-muted mb-0"> 
-                                                        ลูกหนี้ที่ต้องตั้ง
-                                                    </p>
-                                                </div>
-                                                <div class="col"></div>
-                                                <div class="col-md-5 text-end me-2">
-                                                    <a href="" target="_blank">
-                                                        <div class="widget-chart widget-chart-hover" >
-                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ที่ต้องตั้ง {{$item->Cvn}} Visit" > 
-                                                                {{ number_format($item->S_debit_total, 2) }}
-                                                                    <i class="fa-brands fa-btc text-secondary ms-2"></i>
-                                                            </p>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div> --}}
+                                         
                                             <div class="row">
-                                                <div class="col-md-1 text-start ms-4">
-                                                    <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle text-danger"></i>
+                                                <div class="col-md-1 text-start mt-2 ms-4">
+                                                    <i class="fa-brands fa-bitcoin align-middle text-danger"></i>
                                                 </div>
-                                                <div class="col-md-4 text-start mt-3">
+                                                <div class="col-md-4 text-start mt-2">
                                                     <p class="text-muted mb-0" >
                                                         ตั้งลูกหนี้
                                                     </p>
                                                 </div>
                                                 <div class="col"></div>
-                                                <div class="col-md-5 text-end me-2">
+                                                <div class="col-md-5 text-end mt-2 me-2">
                                                     {{-- <a href="{{url('account_203_hcode_detail/'.$item->months.'/'.$item->years.'/'.$item->hospcode)}}" target="_blank"> --}}
-                                                    <a href="{{url('account_203_hcode_group/'.$item->months.'/'.$item->years.'/'.$item->hospcode)}}" target="_blank">
-                                                        <div class="widget-chart widget-chart-hover">
+                                                    <a href="{{url('account_203_hcode_group/'.$item->months.'/'.$item->years.'/'.$item->hospcode)}}" target="_blank">                                                      
                                                             <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$item->Cvn}} Visit">
                                                                 {{ number_format($item->S_debit_total, 2) }}
-                                                                    <i class="fa-brands fa-btc text-danger ms-2"></i>
-                                                            </p>
-                                                        </div>
+                                                                    <i class="fa-brands fa-btc text-danger ms-2 me-2"></i>
+                                                            </p>                                                    
                                                     </a>
                                                 </div>
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-md-1 text-start ms-4">
-                                                    <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle text-success"></i>
+                                                <div class="col-md-1 text-start mt-2 ms-4">
+                                                    <i class="fa-brands fa-bitcoin me-2 align-middle text-success"></i>
                                                 </div>
-                                                <div class="col-md-4 text-start mt-3">
+                                                <div class="col-md-4 text-start mt-2">
                                                     <p class="text-muted mb-0">
                                                             Statement
                                                     </p>
                                                 </div>
                                                 <div class="col"></div>
-                                                <div class="col-md-5 text-end me-2">
-                                                    {{-- <a href="{{url('account_203_stm/'.$item->months.'/'.$item->year)}}" target="_blank"> --}}
-                                                        <div class="widget-chart widget-chart-hover">
+                                                <div class="col-md-5 text-end mt-2 me-2">
+                                                    {{-- <a href="{{url('account_203_stm/'.$item->months.'/'.$item->year)}}" target="_blank"> --}}                                                       
                                                             <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement 10Visit">
-                                                                ยังเฮดบ่อแร้ววววว 
-                                                                    <i class="fa-brands fa-btc text-success ms-2"></i>
-                                                            </p>
-                                                        </div>
+                                                                ยังเฮดบ่อแร้วว 
+                                                                    <i class="fa-brands fa-btc text-success ms-2 me-2"></i>
+                                                            </p>                                                      
                                                     {{-- </a> --}}
                                                 </div>
                                             </div>
 
-                                            <div class="row">
-                                                <div class="col-md-1 text-start ms-4">
-                                                    <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle" style="color: rgb(160, 12, 98)"></i>
+                                            <div class="row mb-4">
+                                                <div class="col-md-1 text-start mt-2 ms-4">
+                                                    <i class="fa-brands fa-bitcoin me-2 align-middle" style="color: rgb(160, 12, 98)"></i>
                                                 </div>
-                                                <div class="col-md-4 text-start mt-3">
+                                                <div class="col-md-4 text-start mt-2">
                                                     <p class="text-muted mb-0">
                                                             ยกยอดไปเดือนนี้
                                                     </p>
                                                 </div>
                                                 <div class="col"></div>
-                                                <div class="col-md-5 text-end me-2">
-                                                    {{-- <a href="" target="_blank"> --}}
-                                                        <div class="widget-chart widget-chart-hover">
-                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement 33 Visit">
-                                                                
-                                                           ยังเฮดบ่อแร้ววววว 
-                                                                
-                                                                    <i class="fa-brands fa-btc ms-2" style="color: rgb(160, 12, 98)"></i>
-                                                            </p>
-                                                        </div>
+                                                <div class="col-md-5 text-end mt-2 me-2">
+                                                    {{-- <a href="" target="_blank"> --}}                                                       
+                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement 33 Visit">                                                                
+                                                           ยังเฮดบ่อแร้วว                                                                
+                                                                    <i class="fa-brands fa-btc ms-2 me-2" style="color: rgb(160, 12, 98)"></i>
+                                                            </p>                                                     
                                                     {{-- </a> --}}
                                                 </div>
                                             </div>
