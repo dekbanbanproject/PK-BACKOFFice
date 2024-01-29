@@ -369,7 +369,7 @@
                 <div class="row"> 
                     @foreach ($plan_strategic as $item)
                     <div class="col-xl-12">
-                        <a href="{{url('plan_control_subhos/'.$item->plan_strategic_id)}}" target="_blank">
+                        <a href="{{url('plan_control_sub/'.$item->plan_strategic_id)}}" target="_blank">
                             <div class="card cardplan"> 
                                 <div class="card-body p-3">
                                     <img src="{{ asset('images/hos.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 

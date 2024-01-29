@@ -2470,13 +2470,22 @@ Route::middleware(['type'])->group(function(){
   Route::delete('subkpi_destroy/{id}',[App\Http\Controllers\PlanController::class, 'subkpi_destroy'])->name('p.subkpi_destroy');//
   Route::delete('subobj_destroy/{id}',[App\Http\Controllers\PlanController::class, 'subobj_destroy'])->name('p.subobj_destroy');//
 
+  Route::match(['get','post'],'plan_control_subhos/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_subhos'])->name('p.plan_control_subhos');//
+  Route::match(['get','post'],'plan_control_subhos_add/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_subhos_add'])->name('p.plan_control_subhos_add');//
+  Route::match(['get','post'],'plan_control_subedit/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_subedit'])->name('p.plan_control_subedit');//
+  Route::match(['get','post'],'plan_control_subhossave',[App\Http\Controllers\PlanController::class, 'plan_control_subhossave'])->name('p.plan_control_subhossave');//
+  Route::match(['get','post'],'plan_control_subhosupdate',[App\Http\Controllers\PlanController::class, 'plan_control_subhosupdate'])->name('p.plan_control_subhosupdate');//
+
+  Route::match(['get','post'],'plan_control_ssj/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_ssj'])->name('p.plan_control_ssj');//
+  Route::match(['get','post'],'plan_control_po/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_po'])->name('p.plan_control_po');//
+
   Route::match(['get','post'],'plan_control_sub/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_sub'])->name('p.plan_control_sub');//
   Route::match(['get','post'],'plan_control_sub_pp',[App\Http\Controllers\PlanController::class, 'plan_control_sub_pp'])->name('p.plan_control_sub_pp');//
   Route::match(['get','post'],'plan_control_sub_uc',[App\Http\Controllers\PlanController::class, 'plan_control_sub_uc'])->name('p.plan_control_sub_uc');//
   Route::match(['get','post'],'plan_control_sub_lgo',[App\Http\Controllers\PlanController::class, 'plan_control_sub_lgo'])->name('p.plan_control_sub_lgo');//
   Route::match(['get','post'],'plan_control_sub_orther',[App\Http\Controllers\PlanController::class, 'plan_control_sub_orther'])->name('p.plan_control_sub_orther');//
 
-  Route::match(['get','post'],'plan_control_subhos',[App\Http\Controllers\PlanController::class, 'plan_control_sub'])->name('p.plan_control_sub');//
+ 
   Route::match(['get','post'],'plan_control_subhos_pp',[App\Http\Controllers\PlanController::class, 'plan_control_subhos_pp'])->name('p.plan_control_subhos_pp');//
   Route::match(['get','post'],'plan_control_subhos_uc',[App\Http\Controllers\PlanController::class, 'plan_control_subhos_uc'])->name('p.plan_control_subhos_uc');//
   Route::match(['get','post'],'plan_control_subhos_lgo',[App\Http\Controllers\PlanController::class, 'plan_control_subhos_lgo'])->name('p.plan_control_subhos_lgo');//

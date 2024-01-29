@@ -97,7 +97,7 @@ class PlanController extends Controller
             LEFT OUTER JOIN department_sub_sub s ON s.DEPARTMENT_SUB_SUB_ID = p.department
             LEFT OUTER JOIN plan_control_type pt ON pt.plan_control_type_id = p.plan_type
            
-            WHERE p.plan_strategic_id = "'.$id.'"
+            WHERE p.plan_strategic_id = "'.$id.'" AND p.hos_group IN("1","2")
             ORDER BY p.plan_control_id ASC
         ');  
         // WHERE p.plan_type = "'.$id.'"  
@@ -197,6 +197,7 @@ class PlanController extends Controller
         $add->plan_type             = $request->input('plan_type');
         $add->user_id               = $request->input('user_id'); 
         $add->plan_strategic_id     = $request->input('plan_strategic_id');
+        $add->hos_group             = $request->input('hos_group');
         $add->save();
 
         return response()->json([
@@ -216,6 +217,7 @@ class PlanController extends Controller
         $update->plan_type             = $request->input('plan_type');
         $update->user_id               = $request->input('user_id'); 
         $update->plan_strategic_id     = $request->input('plan_strategic_id');
+        $update->hos_group             = $request->input('hos_group');
         $update->save();
 
         return response()->json([
@@ -227,6 +229,20 @@ class PlanController extends Controller
     {
         $del = Plan_control::find($id);
         $del->delete();
+        return response()->json(['status' => '200']);
+    }
+    public function plan_control_ssj(Request $request, $id)
+    {
+        $update = Plan_control::find($id);
+        $update->status    =   'INPROGRESS_SSJ';
+        $update->save();
+        return response()->json(['status' => '200']);
+    }
+    public function plan_control_po(Request $request, $id)
+    {
+        $update = Plan_control::find($id);
+        $update->status    =   'INPROGRESS_PO';
+        $update->save();
         return response()->json(['status' => '200']);
     }
 
@@ -382,20 +398,49 @@ class PlanController extends Controller
         }
 
         $activity_id = $request->input('plan_control_activity_id'); 
-        $price_old = Plan_control_activity::where('plan_control_activity_id',$activity_id)->first();
+        $activity_priced = $request->input('plan_control_budget_price'); 
+        if ($activity_priced == '') {
+            $activity_price_new = '0';
+        } else {
+            $activity_price_new = $activity_priced;
+        }
+        // plan_control_budget_price
+        $plan_control_id = $request->plan_control_id;
         
-        $add2 = new Plan_control_budget();
-        $add2->plan_control_id               = $request->input('plan_control_id'); 
-        $add2->billno                        = $request->input('billno'); 
-        $add2->plan_control_activity_id      = $activity_id; 
-        $add2->plan_list_budget_id           = $plan_list_budget_id; 
-        $add2->plan_list_budget_name         = $plan_list_budget_name; 
-        $add2->plan_control_budget_price     = $request->input('plan_control_budget_price'); 
-        $add2->save();
+        $price_old = Plan_control_activity::where('plan_control_activity_id',$activity_id)->first();
+        $idbudget = Plan_control_budget::where('plan_control_id',$plan_control_id)->where('plan_control_activity_id',$activity_id)->where('plan_list_budget_id',$plan_list_budget_id)->first();
+        // plan_control_budget_id
+        $check = Plan_control_budget::where('plan_control_id',$plan_control_id)->where('plan_control_activity_id',$activity_id)->where('plan_list_budget_name','=',$plan_list_budget_name)->count();
+        // $check = Plan_control_budget::where('plan_list_budget_name','=',$plan_list_budget_name)->count();
+        if ($check > 0) {
+            Plan_control_budget::where('plan_control_id',$plan_control_id)->where('plan_control_activity_id',$activity_id)->where('plan_list_budget_id',$plan_list_budget_id)->update([ 
+                // Plan_control_budget::where('plan_control_activity_id',$price_old->plan_control_activity_id)->where('plan_control_id',$request->plan_control_id)->update([ 
+                'plan_control_budget_price'       => ($idbudget->plan_control_budget_price + $activity_price_new)
+            ]);
 
-        $update = Plan_control_activity::find($activity_id); 
-        $update->budget_price        = $price_old->budget_price + $request->input('plan_control_budget_price'); 
-        $update->save(); 
+            $update = Plan_control_activity::find($activity_id); 
+            $update->budget_price        = $price_old->budget_price + $activity_price_new; 
+            $update->save(); 
+        } else {
+            $add2 = new Plan_control_budget();
+            $add2->plan_control_id               = $plan_control_id; 
+            $add2->billno                        = $request->input('billno'); 
+            $add2->plan_control_activity_id      = $activity_id; 
+            $add2->plan_list_budget_id           = $plan_list_budget_id; 
+            $add2->plan_list_budget_name         = $plan_list_budget_name; 
+            $add2->plan_control_budget_price     = $activity_price_new; 
+            $add2->save();
+
+            $update = Plan_control_activity::find($activity_id); 
+            $update->budget_price        = $price_old->budget_price + $activity_price_new; 
+            $update->save(); 
+
+        }
+        
+        
+       
+
+      
  
         return response()->json([
             'status'     => '200',
@@ -500,14 +545,113 @@ class PlanController extends Controller
     }
     public function plan_control_activity_destroy(Request $request, $id)
     {
-        $idbud       = Plan_control_budget::where()->first();
+        $idbud       = Plan_control_budget::where('plan_control_budget_id','=',$id)->first();
         $idbud_ac    = $idbud->plan_control_activity_id;
+        $price_new = $idbud->plan_control_budget_price;
+
         $idactice    = Plan_control_activity::where('plan_control_activity_id','=',$idbud_ac)->first();
+        $price_old = $idactice->budget_price;
+
         $del = Plan_control_budget::find($id);
         $del->delete();
+
+        if ($price_old >= $price_new) {
+            Plan_control_activity::where('plan_control_activity_id',$idbud_ac)->update([ 
+                'budget_price'       => ($price_old - $price_new)
+            ]);
+        } else {
+            # code...
+        }
+        
+        
         //  return redirect()->back();
         return response()->json(['status' => '200']);
     }
+
+    public function plan_control_subhos(Request $request,$id)
+    {
+        $data['startdate'] = $request->startdate;
+        $data['enddate'] = $request->enddate;
+        $data['com_tec'] = DB::table('com_tec')->get();
+        $data['users'] = User::get();
+        $data['department_sub_sub'] = Department_sub_sub::get();
+        $data['plan_control_type'] = Plan_control_type::get();
+        // $data['plan_control'] = Plan_control::get();
+        $data['plan_control'] = DB::connection('mysql')->select('
+            SELECT 
+            plan_control_id,billno,plan_obj,plan_name,plan_reqtotal,pt.plan_control_typename,p.plan_price,p.plan_starttime,p.plan_endtime,p.`status`,s.DEPARTMENT_SUB_SUB_NAME
+            ,p.plan_price_total,p.plan_req_no
+            FROM
+            plan_control p
+            LEFT OUTER JOIN department_sub_sub s ON s.DEPARTMENT_SUB_SUB_ID = p.department
+            LEFT OUTER JOIN plan_control_type pt ON pt.plan_control_type_id = p.plan_type           
+            WHERE p.plan_strategic_id = "'.$id.'" AND p.hos_group IN("3")
+            ORDER BY p.plan_control_id ASC
+        ');  
+        // WHERE p.plan_type = "'.$id.'"  
+        return view('plan.plan_control_subhos', $data,[
+            'id'    =>  $id
+        ]);
+    }
+    
+    public function plan_control_subhos_add(Request $request,$id)
+    {
+        $data['startdate'] = $request->startdate;
+        $data['enddate'] = $request->enddate;
+        $data['com_tec'] = DB::table('com_tec')->get();
+        $data['users'] = User::get();
+        $data['plan_control_type']  = Plan_control_type::get();
+        $data['department_sub']     = Departmentsub::get();
+        $data['department_sub_sub'] = Department_sub_sub::get();
+        $data['plan_strategic'] = Plan_strategic::get();
+        
+        return view('plan.plan_control_subhos_add', $data,[
+            'id'    =>  $id
+        ]);
+    }
+
+    public function plan_control_subhossave(Request $request)
+    {
+        $add = new Plan_control();
+        $add->billno                = $request->input('billno');
+        $add->plan_name             = $request->input('plan_name');
+        $add->plan_starttime        = $request->input('datepicker1');
+        $add->plan_endtime          = $request->input('datepicker2');
+        $add->plan_price            = $request->input('plan_price');
+        $add->department            = $request->input('department');
+        $add->plan_type             = $request->input('plan_type');
+        $add->user_id               = $request->input('user_id'); 
+        $add->plan_strategic_id     = $request->input('plan_strategic_id');
+        $add->hos_group             = $request->input('hos_group');
+        $add->save();
+
+        return response()->json([
+            'status'     => '200',
+        ]);
+    }
+    // public function plan_control_update(Request $request)
+    // {
+    //     $id = $request->plan_control_id;
+    //     $update = Plan_control::find($id);
+    //     $update->billno                = $request->input('billno');
+    //     $update->plan_name             = $request->input('plan_name');
+    //     $update->plan_starttime        = $request->input('datepicker1');
+    //     $update->plan_endtime          = $request->input('datepicker2');
+    //     $update->plan_price            = $request->input('plan_price');
+    //     $update->department            = $request->input('department');
+    //     $update->plan_type             = $request->input('plan_type');
+    //     $update->user_id               = $request->input('user_id'); 
+    //     $update->plan_strategic_id     = $request->input('plan_strategic_id');
+    //     $update->hos_group             = $request->input('hos_group');
+    //     $update->save();
+
+    //     return response()->json([
+    //         'status'     => '200',
+    //     ]);
+    // }
+
+
+
 
     function detail_plan(Request $request)
     {
@@ -573,15 +717,6 @@ class PlanController extends Controller
 
             
     }
-
-
-
-
-
-
-
-
-
 
     public function plan_control_moneyedit(Request $request,$id)
     {

@@ -126,10 +126,22 @@ $refnumber = PlanController::refnumber();
 
                                     <div class="card-body"> 
                                         <div class="row">
-                                            <div class="col-md-12 ">
+                                            <div class="col-md-9">
                                                 <label for="">ชื่อโครงการ</label>
                                                 <div class="form-group">
                                                 <input id="plan_name" class="form-control form-control-sm" name="plan_name" >
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="">รพ./รพ.สต./สสอ.</label>
+                                                <div class="form-group">
+                                                    <select name="hos_group" id="hos_group" class="form-control form-control-sm" style="width: 100%"> 
+                                                        {{-- <option value="">-เลือก-</option> --}}
+                                                        <option value="1">-รพ.สต-</option>
+                                                        <option value="2">-สสอ.-</option>
+
+                                                        {{-- <option value="3">-รพ.-</option> --}}
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -159,7 +171,7 @@ $refnumber = PlanController::refnumber();
                                                 </div>
                                             </div>
                                             <div class="col-md-3 ">
-                                                <label for="">งบประมาณ (ใส่เฉพาะตัวเลข ไม่ใส่เครื่องหมาย ,)</label>
+                                                <label for="">งบประมาณ (ใส่เฉพาะตัวเลข)</label>
                                                 <div class="form-group">
                                                     <input id="plan_price" class="form-control form-control-sm" name="plan_price" >
                                                 </div>
@@ -286,12 +298,13 @@ $refnumber = PlanController::refnumber();
                     var billno                 = $('#billno').val();
                     var plan_strategic_id      = $('#plan_strategic_id').val();
                     var plan_control_id        = $('#plan_control_id').val();
+                    var hos_group              = $('#hos_group').val();
                 $.ajax({
                     url: "{{ route('p.plan_control_save') }}",
                     type: "POST",
                     dataType: 'json',
                     data: {
-                        plan_name,datepicker1,datepicker2,plan_price,department,plan_type,user_id,billno,plan_control_id,plan_strategic_id
+                        plan_name,datepicker1,datepicker2,plan_price,department,plan_type,user_id,billno,plan_control_id,plan_strategic_id,hos_group
                     },
                     success: function(data) {
                         if (data.status == 200) {
@@ -307,7 +320,7 @@ $refnumber = PlanController::refnumber();
                                     .isConfirmed) {
                                     console.log(
                                         data);
-                                        window.location="{{url('plan_control')}}"; 
+                                        window.location="{{url('plan_control_sub')}}"+'/'+ plan_strategic_id;
                                 }
                             })
                         } else {

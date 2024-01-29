@@ -28,10 +28,11 @@ return new class extends Migration
                 $table->string('plan_reqtotal')->nullable();//   รวมเบิก
                 $table->string('plan_price_total')->nullable();//  คงเหลือ
                 $table->string('plan_strategic_id')->nullable();//   สอดคล้องกับยุทธศาสตร์
-                $table->string('department')->nullable();//              กลุ่มงาน
+                $table->string('department')->nullable();//       กลุ่มงาน
                 $table->string('user_id')->nullable();//         ผู้รับผิดชอบ
-                $table->string('comment')->nullable();//                 หมายเหตุ
-                $table->enum('status', ['REQUEST','ACCEPT','INPROGRESS','VERIFY','FINISH','CANCEL','CONFIRM_CANCEL'])->default('REQUEST')->nullable();
+                $table->string('comment')->nullable();//           หมายเหตุ
+                $table->string('hos_group')->nullable();//   รพ /  รพสต
+                $table->enum('status', ['REQUEST','ACCEPT','INPROGRESS_SSJ','INPROGRESS_PO','VERIFY','FINISH','CANCEL','CONFIRM_CANCEL'])->default('REQUEST')->nullable();
                 $table->timestamps();
             }); 
         }

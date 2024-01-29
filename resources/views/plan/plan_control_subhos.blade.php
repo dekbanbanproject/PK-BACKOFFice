@@ -440,25 +440,25 @@
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                         
                         @if ($id == '1')
-                            <h4 class="mb-sm-0">ทะเบียนควบคุมแผนงานโครงการ PP&P Excellence</h4>
+                            <h4 class="mb-sm-0">ทะเบียนควบคุมแผนงานโครงการ Hospital PP&P Excellence</h4>
                         @elseif ($id == '2')
-                            <h4 class="mb-sm-0">ทะเบียนควบคุมแผนงานโครงการ Service Excellence</h4>
+                            <h4 class="mb-sm-0">ทะเบียนควบคุมแผนงานโครงการ Hospital Service Excellence</h4>
                         @elseif ($id == '3')
-                            <h4 class="mb-sm-0">ทะเบียนควบคุมแผนงานโครงการ People Excellence</h4>
+                            <h4 class="mb-sm-0">ทะเบียนควบคุมแผนงานโครงการ Hospital People Excellence</h4>
                         @else
-                            <h4 class="mb-sm-0">ทะเบียนควบคุมแผนงานโครงการ Governance Excellence</h4>
+                            <h4 class="mb-sm-0">ทะเบียนควบคุมแผนงานโครงการ Hospital Governance Excellence</h4>
                         @endif
         
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 @if ($id == '1') 
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">ทะเบียนควบคุมแผนงานโครงการ PP&P Excellence</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">ทะเบียนควบคุมแผนงานโครงการ Hospital PP&P Excellence</a></li>
                                 @elseif ($id == '2') 
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">ทะเบียนควบคุมแผนงานโครงการ Service Excellence</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">ทะเบียนควบคุมแผนงานโครงการ Hospital Service Excellence</a></li>
                                 @elseif ($id == '3') 
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">ทะเบียนควบคุมแผนงานโครงการ People Excellence </a></li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">ทะเบียนควบคุมแผนงานโครงการ Hospital People Excellence </a></li>
                                 @else 
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">ทะเบียนควบคุมแผนงานโครงการ Governance Excellence</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">ทะเบียนควบคุมแผนงานโครงการ Hospital Governance Excellence</a></li>
                                 @endif
                                 
                                 <li class="breadcrumb-item active">เพิ่มทะเบียน</li>
@@ -491,7 +491,7 @@
                             </div>
                             <div class="col"></div>
                             <div class="col-md-2 text-end"> 
-                                <a href="{{ url('plan_control_add/'.$id) }}" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp">
+                                <a href="{{ url('plan_control_subhos_add/'.$id) }}" class="ladda-button me-2 btn-pill btn btn-primary cardacc" target="_blank">
                                     <i class="fa-solid fa-folder-plus me-2"></i>
                                     เพิ่มทะเบียน
                                 </a> 
@@ -542,7 +542,7 @@
                                                     @endif
                                                     
                                                 </td>
-                                                <td class="text-start">   
+                                                <td class="text-start" >   
                                                     <?php 
                                                         $data_sub_ = DB::connection('mysql')->select('SELECT * from plan_control_kpi WHERE plan_control_id = "'.$va->plan_control_id.'"'); 
                                                         $data_subobj_ = DB::connection('mysql')->select('SELECT * from plan_control_obj WHERE plan_control_id = "'.$va->plan_control_id.'"'); 
@@ -607,43 +607,43 @@
                                                             type="button" data-bs-toggle="dropdown"
                                                             aria-expanded="false">ทำรายการ</button>
                                                         <ul class="dropdown-menu">
-                                                                <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm ojectModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="วัตถุประสงค์"> 
+                                                                {{-- <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm ojectModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="วัตถุประสงค์"> 
                                                                     <i class="fa-brands fa-opera me-3 mb-1" style="font-size:17px;color: rgb(40, 177, 246)"></i> 
                                                                     <label for=""
                                                                     style="color: rgb(34, 148, 255);font-size:13px">วัตถุประสงค์</label> 
-                                                                </button>
-                                                                <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm kpiModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="ตัวชี้วัด"> 
+                                                                </button> --}}
+                                                                {{-- <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm kpiModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="ตัวชี้วัด"> 
                                                                     <i class="fa-brands fa-korvue me-3 mb-1" style="font-size:17px;color: rgb(34, 148, 255)"></i>  
                                                                     <label for=""
                                                                     style="color: rgb(34, 148, 255);font-size:13px">ตัวชี้วัด KPI</label>
-                                                                </button>
+                                                                </button> --}}
                                                             
-                                                                <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm MoneyModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="เบิกเงิน"> 
+                                                                {{-- <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm MoneyModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="เบิกเงิน"> 
                                                                     <i class="fa-brands fa-bitcoin me-3 mb-1" style="font-size:17px;color: rgb(20, 199, 190)"></i> 
                                                                     <label for=""
                                                                     style="color: rgb(20, 199, 190);font-size:13px">เบิกเงิน</label>
-                                                                </button> 
-                                                                <a type="button" href="{{ url('plan_control_activity/' . $id.'/'. $va->plan_control_id) }}"
+                                                                </button>  --}}
+                                                                {{-- <a type="button" href="{{ url('plan_control_activity/' . $id.'/'. $va->plan_control_id) }}"
                                                                     class="dropdown-item menu btn btn-outline-warning btn-sm" data-bs-toggle="tooltip"
                                                                     data-bs-placement="left" title="แผนงาน/กิจกรรม">
                                                                     <i class="fa-solid fa-people-robbery me-3 mb-1" style="color: rgb(211, 31, 172);font-size:13px"></i>
                                                                         <label for=""
                                                                         style="color: rgb(211, 31, 172);font-size:13px">แผนงาน/กิจกรรม</label> 
-                                                                </a>
-                                                                <a class="dropdown-item menu btn btn-outline-info btn-sm" href="javascript:void(0)"
+                                                                </a> --}}
+                                                                {{-- <a class="dropdown-item menu btn btn-outline-info btn-sm" href="javascript:void(0)"
                                                                     onclick="plan_control_ssj({{ $va->plan_control_id}})"
                                                                     data-bs-toggle="tooltip" data-bs-placement="left"
                                                                     data-bs-custom-class="custom-tooltip" title="เสนอ สสจ. อนุมัติ">
                                                                     <i class="fa-solid fa-signature me-3 mb-1"></i>
                                                                     <label for="" style="color: rgb(7, 166, 194);font-size:13px">เสนอ สสจ. อนุมัติ</label>
-                                                                </a>
-                                                                <a class="dropdown-item menu btn btn-outline-primary btn-sm" href="javascript:void(0)"
+                                                                </a> --}}
+                                                                {{-- <a class="dropdown-item menu btn btn-outline-primary btn-sm" href="javascript:void(0)"
                                                                     onclick="plan_control_po({{ $va->plan_control_id}})"
                                                                     data-bs-toggle="tooltip" data-bs-placement="left"
                                                                     data-bs-custom-class="custom-tooltip" title="เสนอ ผอ. อนุมัติ"> 
                                                                     <i class="fa-solid fa-signature me-3 mb-1" ></i>
                                                                     <label for="" style="color: rgb(7, 110, 194);font-size:13px">เสนอ ผอ. อนุมัติ</label>
-                                                                </a>
+                                                                </a> --}}
                                                                 <a type="button" href="{{ url('plan_control_edit/' . $va->plan_control_id) }}"
                                                                     class="dropdown-item menu btn btn-outline-warning btn-sm" data-bs-toggle="tooltip"
                                                                     data-bs-placement="left" title="แก้ไข">
@@ -652,14 +652,14 @@
                                                                         style="color: rgb(252, 185, 0);font-size:13px">แก้ไข</label>
                                                                 </a>
  
-                                                                <a class="dropdown-item menu btn btn-outline-danger btn-sm" href="javascript:void(0)"
+                                                                {{-- <a class="dropdown-item menu btn btn-outline-danger btn-sm" href="javascript:void(0)"
                                                                     onclick="plan_control_destroy({{ $va->plan_control_id}})"
                                                                     data-bs-toggle="tooltip" data-bs-placement="left"
                                                                     data-bs-custom-class="custom-tooltip" title="ลบ">
                                                                     <i class="fa-solid fa-trash-can me-3 mb-1"></i>
                                                                     <label for=""
                                                                         style="color: rgb(255, 2, 2);font-size:13px">ลบ</label>
-                                                                </a>
+                                                                </a> --}}
                                                         </ul>
                                                     </div>
                                                 

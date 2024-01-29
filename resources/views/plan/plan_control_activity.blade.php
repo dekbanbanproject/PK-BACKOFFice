@@ -724,8 +724,9 @@ $refnumber = PlanController::refnumber();
                                         <br>
                                         @foreach ($datasub as $item_sub)                                           
                                                 <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="plan_control_activity_destroy({{ $item_sub->plan_control_budget_id }})" style="font-size:13px">
+                                                    
+                                                    <span> - {{$item_sub->plan_list_budget_name}} / {{$item_sub->plan_control_budget_price}}</span>
                                                     <i class="fa-solid fa-trash-can ms-2 me-2 text-danger" style="font-size:13px"></i>
-                                                    <span> - {{$item_sub->plan_list_budget_name}}</span>
                                                 </a>
                                             <br>
                                         @endforeach                                                
@@ -760,7 +761,8 @@ $refnumber = PlanController::refnumber();
                 
                 {{-- <input type="hidden" id="plan_control_id" name="plan_control_id" value="{{$data_plan_control->plan_control_id}}"> --}}
                 {{-- <input type="hidden" id="billno" name="billno" value="{{$data_plan_control->billno}}">  --}}
-                <input id="edit_plan_control_activity_id" class="form-control form-control-sm" name="edit_plan_control_activity_id" type="hidden" >
+                <input id="edit_plan_control_activity_id" class="form-control form-control-sm" name="edit_plan_control_activity_id" type="text" >
+                <input id="edit_plan_control_id" class="form-control form-control-sm" name="edit_plan_control_id" type="text" >
                 
                 <div class="modal-body">
                     <div class="row mt-2">
@@ -837,7 +839,7 @@ $refnumber = PlanController::refnumber();
                     type: "GET",
                     url: "{{ url('plan_control_budget_edit') }}" + '/' + plan_control_activity_id,
                     success: function(data) {
-                        // $('#edit_ptname').val(data.budget.ptname) 
+                        $('#edit_plan_control_id').val(data.budget.plan_control_id) 
                         $('#edit_plan_control_activity_id').val(data.budget.plan_control_activity_id)
                     },
                 });
@@ -847,7 +849,7 @@ $refnumber = PlanController::refnumber();
                     var plan_list_budget_id            = $('#plan_list_budget_id').val();
                     var plan_control_budget_price      = $('#plan_control_budget_price').val();        
                     var plan_control_activity_id       = $('#edit_plan_control_activity_id').val();
-                    var plan_control_id                = $('#plan_control_id').val();
+                    var plan_control_id                = $('#edit_plan_control_id').val();
                     var billno                         = $('#billno').val();
                     
                 $.ajax({
