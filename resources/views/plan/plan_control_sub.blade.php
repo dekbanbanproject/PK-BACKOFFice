@@ -625,7 +625,7 @@
                                                                 </button> 
                                                                 <a type="button" href="{{ url('plan_control_activity/' . $id.'/'. $va->plan_control_id) }}"
                                                                     class="dropdown-item menu btn btn-outline-warning btn-sm" data-bs-toggle="tooltip"
-                                                                    data-bs-placement="left" title="แผนงาน/กิจกรรม">
+                                                                    data-bs-placement="left" title="แผนงาน/กิจกรรม" target="_blank">
                                                                     <i class="fa-solid fa-people-robbery me-3 mb-1" style="color: rgb(211, 31, 172);font-size:13px"></i>
                                                                         <label for=""
                                                                         style="color: rgb(211, 31, 172);font-size:13px">แผนงาน/กิจกรรม</label> 

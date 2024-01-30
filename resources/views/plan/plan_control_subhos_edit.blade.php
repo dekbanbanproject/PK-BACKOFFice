@@ -330,7 +330,7 @@ $refnumber = PlanController::refnumber();
                                     .isConfirmed) {
                                     console.log(
                                         data);
-                                        window.location="{{url('plan_control_subhos') }}"+'/'+ plan_control_id;
+                                        window.location="{{url('plan_control_subhos') }}"+'/'+ plan_strategic_id;
                                     // window.location
                                     //     .reload();
                                 }

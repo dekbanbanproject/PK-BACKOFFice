@@ -761,8 +761,8 @@ $refnumber = PlanController::refnumber();
                 
                 {{-- <input type="hidden" id="plan_control_id" name="plan_control_id" value="{{$data_plan_control->plan_control_id}}"> --}}
                 {{-- <input type="hidden" id="billno" name="billno" value="{{$data_plan_control->billno}}">  --}}
-                <input id="edit_plan_control_activity_id" class="form-control form-control-sm" name="edit_plan_control_activity_id" type="text" >
-                <input id="edit_plan_control_id" class="form-control form-control-sm" name="edit_plan_control_id" type="text" >
+                <input id="edit_plan_control_activity_id" class="form-control form-control-sm" name="edit_plan_control_activity_id" type="hidden" >
+                <input id="edit_plan_control_id" class="form-control form-control-sm" name="edit_plan_control_id" type="hidden" >
                 
                 <div class="modal-body">
                     <div class="row mt-2">
