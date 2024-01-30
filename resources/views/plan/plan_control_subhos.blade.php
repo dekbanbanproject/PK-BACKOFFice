@@ -630,20 +630,20 @@
                                                                         <label for=""
                                                                         style="color: rgb(211, 31, 172);font-size:13px">แผนงาน/กิจกรรม</label> 
                                                                 </a> --}}
-                                                                {{-- <a class="dropdown-item menu btn btn-outline-info btn-sm" href="javascript:void(0)"
+                                                                <a class="dropdown-item menu btn btn-outline-info btn-sm" href="javascript:void(0)"
                                                                     onclick="plan_control_ssj({{ $va->plan_control_id}})"
                                                                     data-bs-toggle="tooltip" data-bs-placement="left"
                                                                     data-bs-custom-class="custom-tooltip" title="เสนอ สสจ. อนุมัติ">
                                                                     <i class="fa-solid fa-signature me-3 mb-1"></i>
                                                                     <label for="" style="color: rgb(7, 166, 194);font-size:13px">เสนอ สสจ. อนุมัติ</label>
-                                                                </a> --}}
-                                                                {{-- <a class="dropdown-item menu btn btn-outline-primary btn-sm" href="javascript:void(0)"
+                                                                </a>
+                                                                <a class="dropdown-item menu btn btn-outline-primary btn-sm" href="javascript:void(0)"
                                                                     onclick="plan_control_po({{ $va->plan_control_id}})"
                                                                     data-bs-toggle="tooltip" data-bs-placement="left"
                                                                     data-bs-custom-class="custom-tooltip" title="เสนอ ผอ. อนุมัติ"> 
                                                                     <i class="fa-solid fa-signature me-3 mb-1" ></i>
                                                                     <label for="" style="color: rgb(7, 110, 194);font-size:13px">เสนอ ผอ. อนุมัติ</label>
-                                                                </a> --}}
+                                                                </a>
                                                                 <a type="button" href="{{ url('plan_control_subhos_edit/' . $va->plan_control_id) }}"
                                                                     class="dropdown-item menu btn btn-outline-warning btn-sm" data-bs-toggle="tooltip"
                                                                     data-bs-placement="left" title="แก้ไข" target="_blank">
@@ -652,14 +652,14 @@
                                                                         style="color: rgb(252, 185, 0);font-size:13px">แก้ไข</label>
                                                                 </a>
  
-                                                                {{-- <a class="dropdown-item menu btn btn-outline-danger btn-sm" href="javascript:void(0)"
+                                                                <a class="dropdown-item menu btn btn-outline-danger btn-sm" href="javascript:void(0)"
                                                                     onclick="plan_control_destroy({{ $va->plan_control_id}})"
                                                                     data-bs-toggle="tooltip" data-bs-placement="left"
                                                                     data-bs-custom-class="custom-tooltip" title="ลบ">
                                                                     <i class="fa-solid fa-trash-can me-3 mb-1"></i>
                                                                     <label for=""
                                                                         style="color: rgb(255, 2, 2);font-size:13px">ลบ</label>
-                                                                </a> --}}
+                                                                </a>
                                                         </ul>
                                                     </div>
                                                 
