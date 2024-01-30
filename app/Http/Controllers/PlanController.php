@@ -629,6 +629,20 @@ class PlanController extends Controller
             'status'     => '200',
         ]);
     }
+    public function plan_control_subhos_edit(Request $request,$id)
+    {
+        $data['startdate'] = $request->startdate;
+        $data['enddate'] = $request->enddate;
+        $data['com_tec'] = DB::table('com_tec')->get();
+        $data['users'] = User::get();
+        $data['plan_control'] = Plan_control::where('plan_control_id',$id)->first();
+        $data['department_sub']     = Departmentsub::get();
+        $data['department_sub_sub'] = Department_sub_sub::get();
+        $data['plan_control_type'] = Plan_control_type::get();
+        $data['plan_strategic'] = Plan_strategic::get();
+      
+        return view('plan.plan_control_subhos_edit', $data);
+    }
     // public function plan_control_update(Request $request)
     // {
     //     $id = $request->plan_control_id;

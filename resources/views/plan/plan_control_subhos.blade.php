@@ -607,16 +607,16 @@
                                                             type="button" data-bs-toggle="dropdown"
                                                             aria-expanded="false">ทำรายการ</button>
                                                         <ul class="dropdown-menu">
-                                                                {{-- <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm ojectModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="วัตถุประสงค์"> 
+                                                                <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm ojectModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="วัตถุประสงค์"> 
                                                                     <i class="fa-brands fa-opera me-3 mb-1" style="font-size:17px;color: rgb(40, 177, 246)"></i> 
                                                                     <label for=""
                                                                     style="color: rgb(34, 148, 255);font-size:13px">วัตถุประสงค์</label> 
-                                                                </button> --}}
-                                                                {{-- <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm kpiModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="ตัวชี้วัด"> 
+                                                                </button>
+                                                                <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm kpiModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="ตัวชี้วัด"> 
                                                                     <i class="fa-brands fa-korvue me-3 mb-1" style="font-size:17px;color: rgb(34, 148, 255)"></i>  
                                                                     <label for=""
                                                                     style="color: rgb(34, 148, 255);font-size:13px">ตัวชี้วัด KPI</label>
-                                                                </button> --}}
+                                                                </button>
                                                             
                                                                 {{-- <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm MoneyModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="เบิกเงิน"> 
                                                                     <i class="fa-brands fa-bitcoin me-3 mb-1" style="font-size:17px;color: rgb(20, 199, 190)"></i> 
@@ -644,9 +644,9 @@
                                                                     <i class="fa-solid fa-signature me-3 mb-1" ></i>
                                                                     <label for="" style="color: rgb(7, 110, 194);font-size:13px">เสนอ ผอ. อนุมัติ</label>
                                                                 </a> --}}
-                                                                <a type="button" href="{{ url('plan_control_edit/' . $va->plan_control_id) }}"
+                                                                <a type="button" href="{{ url('plan_control_subhos_edit/' . $va->plan_control_id) }}"
                                                                     class="dropdown-item menu btn btn-outline-warning btn-sm" data-bs-toggle="tooltip"
-                                                                    data-bs-placement="left" title="แก้ไข">
+                                                                    data-bs-placement="left" title="แก้ไข" target="_blank">
                                                                     <i class="fa-solid fa-pen-to-square me-3 mb-1" style="color: rgb(252, 185, 0);font-size:13px"></i>
                                                                         <label for=""
                                                                         style="color: rgb(252, 185, 0);font-size:13px">แก้ไข</label>
