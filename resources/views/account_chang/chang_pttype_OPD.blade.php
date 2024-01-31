@@ -247,7 +247,7 @@
                             <div class="col-md-3">
                                 <label for="pang" class="form-label">รหัสผังบัญชี</label>
                                 <div class="input-group input-group-sm"> 
-                                    <input type="text" class="form-control" id="account_code" name="account_code" readonly>  
+                                    <input type="text" class="form-control" id="add_account_code" name="account_code" readonly>  
                                 </div>
                             </div>  
                             <div class="col-md-3">
@@ -313,14 +313,24 @@
                         <div class="row mt-2">
                             <div class="col-md-3">
                                 <label for="pang" class="form-label" style="color: red">ผังบัญชีใหม่</label>
-                                <div class="input-group input-group-sm"> 
-                                    <input type="text" class="form-control" id="account_code_new" name="account_code_new" >  
+                                <div class="input-group input-group-sm">  
+                                    <select name="account_code_new" id="account_code_new" class="form-control form-control-sm" style="width: 100%"> 
+                                        <option value="">-เลือก-</option>
+                                        @foreach ($pang as $item_p)
+                                        <option value="{{$item_p->pang}}">{{$item_p->pang}}</option>
+                                        @endforeach
+                                    </select> 
                                 </div>
                             </div>  
                             <div class="col-md-3">
                                 <label for="pangname" class="form-label" style="color: red">สิทธิ์ใหม่</label>
-                                <div class="input-group input-group-sm"> 
-                                    <input type="text" class="form-control" id="pttype_new" name="pttype_new" >  
+                                <div class="input-group input-group-sm">  
+                                    <select name="pttype_new" id="pttype_new" class="form-control form-control-sm" style="width: 100%"> 
+                                        <option value="">-เลือก-</option>
+                                        @foreach ($pttype as $item_pt)
+                                        <option value="{{$item_pt->pttype}}">{{$item_pt->pttype}}</option>
+                                        @endforeach
+                                    </select> 
                                 </div>
                             </div> 
                             <div class="col-md-3">
@@ -474,7 +484,7 @@
                     url: "{{ url('move_pang') }}" + '/' + acc_debtor_id,
                     success: function(data) {
                         console.log(data.data_pang.acc_debtor_id); 
-                        $('#account_code').val(data.data_pang.account_code)
+                        $('#add_account_code').val(data.data_pang.account_code)
                         $('#vn').val(data.data_pang.vn) 
                         $('#an').val(data.data_pang.an) 
                         $('#hn').val(data.data_pang.hn)
@@ -494,7 +504,7 @@
             });
 
             $('#Updatedata').click(function() { 
-                var account_code = $('#account_code').val(); 
+                var account_code = $('#add_account_code').val(); 
                 var vn = $('#vn').val(); 
                 var an = $('#an').val();
                 var hn = $('#hn').val();
@@ -507,6 +517,7 @@
                 var pttype_new = $('#pttype_new').val();
                 var debit_total_new = $('#debit_total_new').val();
                 var date_req = $('#date_req').val();
+                // alert(account_code_new);
                 $.ajax({
                     url: "{{ route('acc.move_pang_save') }}",
                     type: "POST",

@@ -94,11 +94,15 @@ class MoveaccountController extends Controller
         $acc_debtor = DB::select('SELECT * FROM acc_debtor  
                     WHERE hn = "' . $hn . '" 
             ');
+        $pang = DB::table('acc_setpang')->get();
+        $pttype = DB::select('SELECT * FROM pttype');
             // AND debit_total <> 0
         // acc_debtor_id,vn,an,cid,ptname,vstdate,pttype,income
         return view('account_chang.chang_pttype_OPD', [
             'acc_debtor'       => $acc_debtor,
-            'hn'               => $hn
+            'hn'               => $hn,
+            'pang'             => $pang,
+            'pttype'           => $pttype
         ]);
     }
     public function pttypeopd_destroy(Request $request, $id)
@@ -1100,6 +1104,7 @@ class MoveaccountController extends Controller
         $debit_total_new   =  $request->debit_total_new;
         $date_req          =  $request->date_req;
 
+        // dd($pang);
         if ($pang == '1102050101.201') {
             $check = Acc_1102050101_201::where('vn', $vn)->count();
             if ($check > 0) {
