@@ -54,11 +54,13 @@ return new class extends Migration
                 $table->string('stm_uc_money')->nullable();// 
                 $table->string('stm_rcpt_money')->nullable();// 
                 $table->string('stm_rcpno')->nullable();//  
+                $table->string('stm_trainid')->nullable();// 
                 $table->string('stm_rw')->nullable();// 
                 $table->string('acc_debtor_userid')->nullable();// 
                 $table->enum('status', ['Y', 'N'])->default('N');
                 $table->string('comment')->nullable();// 
                 $table->date('date_req')->nullable();// 
+                $table->string('STMdoc')->nullable();// 
                 $table->timestamps();
             });
         }

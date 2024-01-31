@@ -2956,6 +2956,10 @@ Route::match(['get','post'],'env_vendor_destroy/{id}',[App\Http\Controllers\EnvC
 Route::match(['get','post'],'report_db',[App\Http\Controllers\ReportNewController::class, 'report_db'])->name('re.report_db');
 Route::match(['get','post'],'report_hos',[App\Http\Controllers\ReportNewController::class, 'report_hos'])->name('re.report_hos');
 Route::match(['get','post'],'report_hos_new/{id}',[App\Http\Controllers\ReportNewController::class, 'report_hos_new'])->name('re.report_hos_new');
+
+Route::match(['get','post'],'report_db',[App\Http\Controllers\ReportMedController::class, 'report_db'])->name('re.report_db');
+Route::match(['get','post'],'report_med',[App\Http\Controllers\ReportMedController::class, 'report_med'])->name('re.report_med');
+Route::match(['get','post'],'report_hos_med/{id}',[App\Http\Controllers\ReportMedController::class, 'report_hos_med'])->name('re.report_hos_med');
  
  
 

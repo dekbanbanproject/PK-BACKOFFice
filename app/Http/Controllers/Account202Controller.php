@@ -173,14 +173,14 @@ class Account202Controller extends Controller
                     ,a.income as income ,a.uc_money,a.rcpt_money,a.discount_money
 
                     ,CASE 
-                    WHEN  ipt.pttype_number ="1" AND ipt.pttype IN ("31","36","39") THEN ipt.max_debt_amount 
+                    WHEN  ipt.pttype_number ="1" AND ipt.pttype IN ("31","33","36","39") THEN ipt.max_debt_amount 
                     ELSE a.income - ipt.max_debt_amount 
                     END as debit_prb
 
                     ,CASE 
-                        WHEN  ipt.pttype_number ="2" AND ipt.pttype NOT IN ("31","36","39") THEN 
-                            (a.income-a.rcpt_money-a.discount_money) -
-                            (a.income - ipt.max_debt_amount) - 
+                        WHEN  ipt.pttype_number ="2" AND ipt.pttype NOT IN ("31","33","36","39") THEN 
+                           (a.income-a.rcpt_money-a.discount_money) -
+                            
                             (sum(if(op.income="02",sum_price,0))) -
                             (sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))) -
                             (sum(if(op.icode IN ("3001412","3001417"),sum_price,0))) -
@@ -190,34 +190,33 @@ class Account202Controller extends Controller
                         (sum(if(op.income="02",sum_price,0))) -
                         (sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))) -
                         (sum(if(op.icode IN ("3001412","3001417"),sum_price,0))) -
-                        (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0))) 
+                        (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0))) +
+                        (sum(if(op.icode IN("3002895","3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002918"),sum_price,0)))
                         
                     END as debit
-                    
+                    ,sum(if(op.icode IN("3002895","3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002918"),sum_price,0)) as portex
                     ,sum(if(op.income="02",sum_price,0)) as debit_instument
                     ,sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0)) as debit_drug
                     ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
                     ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
-                    from hos.ipt ip
-                    LEFT JOIN hos.an_stat a ON ip.an = a.an
-                    LEFT JOIN hos.patient pt on pt.hn=a.hn
-                    LEFT JOIN hos.pttype ptt on a.pttype=ptt.pttype
-                    LEFT JOIN hos.pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id
-                    LEFT JOIN hos.ipt_pttype ipt ON ipt.an = a.an
-                    LEFT JOIN hos.opitemrece op ON ip.an = op.an
-                    LEFT JOIN hos.vn_stat v on v.vn = ip.vn
-                WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-              
+                    from ipt ip
+                    LEFT JOIN an_stat a ON ip.an = a.an
+                    LEFT JOIN patient pt on pt.hn=a.hn
+                    LEFT JOIN pttype ptt on a.pttype=ptt.pttype
+                    LEFT JOIN pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id
+                    LEFT JOIN ipt_pttype ipt ON ipt.an = a.an
+                    LEFT JOIN opitemrece op ON ip.an = op.an
+                    LEFT JOIN vn_stat v on v.vn = ip.vn
+                WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"              
                 AND ipt.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202" AND opdipd ="IPD")
-                AND op.icode NOT IN("3003510","3003508","3003509","3010770","3010771","3010772","3010921","3011140","3010889","3001412","3001417")
-                
+                AND op.icode NOT IN("3003510","3003508","3003509","3010770","3010771","3010772","3010921","3011140","3010889","3001412","3001417")                
                 GROUP BY a.an;
         ');
+        // (a.income - ipt.max_debt_amount) - 
         // ,sum(if(op.icode IN("1560016","1540073","1530005","1620015","1600012","1600015"),sum_price,0)) as debit_drug
         // + (sum(if(op.icode IN("3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918"),sum_price,0)))
         // ,"1540048"
         // icode IN("3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918")  289 บาท
-
         //  WHEN sum(if(op.icode IN ("3003661","3003662","3003336","3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3003608","3010102","3010353"),sum_price,0)) > 0 THEN a.income
         //  AND op.icode NOT IN("3003661","3003662","3003336","3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3003608","3010102","3010353")
         //  AND ec.ar_ipd = "1102050101.202"
@@ -225,9 +224,8 @@ class Account202Controller extends Controller
                 if ($value->debit >0) {                 
                      $check = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.202')->count();
                      if ($check == 0) {
-
-                        // if ($value->debit_instument > 0 || $value->debit_drug > 0 || $value->debit_toa > 0 || $value->debit_refer > 0) {
-                        //     # code...
+                        // if ($value->debit_instument > 0 || $value->debit_drug > 0 || $value->debit_toa > 0 || $value->debit_refer > 0) { 
+                        // if ($value->debit_toa > 0 ) {                     
                         // } else {
                             Acc_debtor::insert([
                                 'hn'                 => $value->hn,

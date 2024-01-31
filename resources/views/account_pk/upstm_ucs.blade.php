@@ -81,11 +81,17 @@
     use Illuminate\Support\Facades\DB;
     $count_meettingroom = StaticController::count_meettingroom();
     ?>
-    <div class="container-fluid">
+    <div class="tabs-animation">
+        <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
+                </div>
+            </div> 
+        </div> 
         <div id="preloader">
             <div id="status">
-                <div class="spinner">
-
+                <div class="spinner"> 
                 </div>
             </div>
         </div>
@@ -94,7 +100,7 @@
 
             <div class="col"></div>
             <div class="col-xl-8 col-md-6">
-                <div class="main-card mb-3 card">
+                <div class="card cardacc">
                     <div class="grid-menu-col">
                         <form action="{{ route('acc.upstm_ucs_excel') }}" method="POST" enctype="multipart/form-data">
                             {{-- <form action="{{ route('acc.upstm_ucs_excel') }}" method="POST" id="Upstm" enctype="multipart/form-data"> --}}
@@ -146,7 +152,7 @@
 
             <div class="col"></div>
             <div class="col-xl-8 col-md-6">
-                <div class="main-card card p-3">
+                <div class="card p-3 cardacc">
                     <div class="grid-menu-col">
 
                         <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"

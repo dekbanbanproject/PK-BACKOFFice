@@ -111,7 +111,7 @@ class ReportNewController extends Controller
             WHERE d.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
             ORDER BY s.tranid_c DESC
         '); 
-        $data['report_hos']   = DB::connection('mysql')->select('SELECT * FROM report_hos'); 
+        $data['report_hos']   = DB::connection('mysql')->select('SELECT * FROM report_hos where report_department_sub = "77"'); 
 
         return view('report_all.report_hos',$data,[
             'startdate'     =>     $startdate,
@@ -131,7 +131,9 @@ class ReportNewController extends Controller
             WHERE d.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
             ORDER BY s.tranid_c DESC
         '); 
-        $data['report_hos']   = DB::connection('mysql')->select('SELECT * FROM report_hos WHERE report_hos_id ="'.$id.'"');
+        $data['report_hos']   = DB::connection('mysql')->select('
+            SELECT * FROM report_hos WHERE report_hos_id ="'.$id.'"');
+            
         
         if ($id == '1') {
             $data['datashow']   = DB::connection('mysql2')->select('

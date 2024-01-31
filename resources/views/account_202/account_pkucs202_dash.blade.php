@@ -91,8 +91,8 @@
             @csrf
             <div class="row">
                 <div class="col-md-3 ">
-                    <h5 class="card-title">Detail 1102050101.201</h5>
-                    <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.201</p>
+                    <h5 class="card-title">Detail 1102050101.202</h5>
+                    <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.202</p>
                 </div>
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
