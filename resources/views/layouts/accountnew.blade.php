@@ -61,7 +61,7 @@
     <link rel="stylesheet"
         href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
     <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet">
-
+    <link rel="stylesheet" href="{{ asset('css/cardfinan.css') }}">
    
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/styles/github.min.css" /> --}}
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/highlight.min.js"></script> --}}
@@ -258,7 +258,18 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                     <li class="menu-title">Menu</li>
                     <li>
                         <a href="javascript: void(0);" class="has-arrow waves-effect">
-                            <i class="fa-solid fa-laptop-code text-success"></i>
+                            <i class="fa-solid fa-money-bill-transfer text-danger"></i> 
+                            <span>แผนโครงการ</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="true">
+                            <li><a href="{{ url('account_plane') }}" >เบิกเงินโครงการ</a></li>  
+                            {{-- <li><a href="{{ url('account_nopaid_ip') }}">ข้อมูลทั้งปี IPD</a></li> --}}
+                        </ul>
+                    </li>   
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            {{-- <i class="fa-solid fa-laptop-code text-success"></i> --}}
+                            <i class="fa-solid fa-file-code text-success"></i>
                             <span>Approve Code</span>
                         </a>
                         <ul class="sub-menu" aria-expanded="true">

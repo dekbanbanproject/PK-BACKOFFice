@@ -28,7 +28,20 @@
     $url = Request::url();
     $pos = strrpos($url, '/') + 1;
     ?>
-    <div class="container-fluid">
+     <div class="tabs-animation">
+        <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
+                </div>
+            </div> 
+        </div> 
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner"> 
+                </div>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-xl-12">
@@ -40,22 +53,25 @@
                         <div class="col-md-1 text-end mt-2">วันที่</div>
                         <div class="col-md-4 text-end">
                             <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                <input type="text" class="form-control inputmedsalt" name="startdate" id="datepicker" placeholder="Start Date"
                                     data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                                     data-date-language="th-th" value="{{ $startdate }}" required/>
-                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                <input type="text" class="form-control inputmedsalt" name="enddate" placeholder="End Date" id="datepicker2"
                                     data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                                     data-date-language="th-th" value="{{ $enddate }}" required/>
-                            </div>
-                        </div>
-                        <div class="col-md-2 text-start">
-                            <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary inputmedsalt" data-style="expand-left" id="Pulldata">
+                                    <span class="ladda-label"><i class="pe-7s-search btn-icon-wrapper me-2"></i>ค้นหา</span>
+                                    <span class="ladda-spinner"></span>
+                                </button> 
+                            {{-- <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                 <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
-                            </button>
+                            </button> --}}
                         </div>
+                    </div>
                         <div class="col"></div>
                 </form>
             </div>
+       
         </div>
     </div>
 
@@ -63,8 +79,8 @@
         <div class="col-xl-2"> </div>
         <div class="col-xl-8">
             <label for="">รายงานจำนวนผู้ป่วยนอก OFC  ไม่มีเลข ใน HOSxP </label>
-            <div class="card">
-                <div class="card-body py-0 px-2 mt-2">
+            <div class="card cardfinan">
+                <div class="card-body">
                     <div class="table-responsive">
                         {{-- <table id="datatable-buttons2" class="table table-striped table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
@@ -135,8 +151,8 @@
         <div class="col-xl-2"> </div>
         <div class="col-xl-8">
             <label for=""> รายงานจำนวนผู้ป่วยนอก OFC&nbsp;&nbsp;ไม่มีเลข ใน HOSxP&nbsp;&nbsp;ให้ขอ EDC 1000 บาท ทุกราย</label>
-            <div class="card">
-                <div class="card-body py-0 px-2 mt-2">
+            <div class="card cardfinan">
+                <div class="card-body">
                     <div class="table-responsive">
                         {{-- <table id="datatable-buttons2" class="table table-striped table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
@@ -205,8 +221,8 @@
         <div class="col-xl-2"> </div>
         <div class="col-xl-8">
             <label for="">  รายงานจำนวนผู้ป่วยนอก OFC ส่งเบิก ติด C    </label>
-            <div class="card">
-                <div class="card-body py-0 px-2 mt-2">
+            <div class="card cardfinan">
+                <div class="card-body">
                     <div class="table-responsive">
                             <table style="width: 100%;height:2%" id="example"
                             class="table table-hover table-striped table-bordered myTable">
