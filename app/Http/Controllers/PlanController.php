@@ -367,18 +367,14 @@ class PlanController extends Controller
         $add->user_id                       = $iduser;  
         $add->save();
 
-        $budget_detail  = $request->input('budget_detail'); 
-
-
-        $add2 = new Plan_control_budget();
-        $add->plan_control_id               = $request->input('plan_control_id'); 
-        $add->billno                        = $request->input('billno'); 
-        $add->plan_control_budget_name      = $request->input('plan_control_budget_name'); 
-        $add->plan_control_budget_price     = $request->input('plan_control_budget_price'); 
-        $add2->save();
-
-
-        
+        // $budget_detail  = $request->input('budget_detail'); 
+        // $add2 = new Plan_control_budget();
+        // $add->plan_control_id               = $request->input('plan_control_id'); 
+        // $add->billno                        = $request->input('billno'); 
+        // $add->plan_control_budget_name      = $request->input('plan_control_budget_name'); 
+        // $add->plan_control_budget_price     = $request->input('plan_control_budget_price'); 
+        // $add2->save();
+ 
         return response()->json([
             'status'     => '200',
         ]);

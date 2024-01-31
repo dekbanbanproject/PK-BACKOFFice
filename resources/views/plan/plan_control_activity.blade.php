@@ -719,7 +719,8 @@ $refnumber = PlanController::refnumber();
                                                                                     
                                     <td class="text-start" width="15%">
                                         <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary edit_data" value="{{ $item_->plan_control_activity_id }}">
-                                            <i class="pe-7s-plus btn-icon-wrapper"></i>
+                                            {{-- <i class="pe-7s-plus btn-icon-wrapper"></i> --}}
+                                            <i class="fa-solid fa-plus-minus"></i>
                                         </button> 
                                         <br>
                                         @foreach ($datasub as $item_sub)                                           
@@ -753,7 +754,7 @@ $refnumber = PlanController::refnumber();
             <div class="modal-content">
                 <div class="modal-header">                                                        
                     <div class="row">
-                        <div class="col-md-12 text-start"><h2>รายละเอียดในการเบิกงบประมาณ</h2> </div>                        
+                        <div class="col-md-12 text-start"><h2>รายละเอียดงบประมาณ</h2> </div>                        
                     </div>                                                    
                 </div>
 
