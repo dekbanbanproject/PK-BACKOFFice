@@ -71,29 +71,75 @@ class OtController extends Controller
     {
         $datestart = $request->startdate;
         $dateend = $request->enddate;
-        $iddep =  Auth::user()->dep_subsubtrueid;
-        // dd($iddep);
+        $iddep =  Auth::user()->dep_subsubtrueid; 
+        $iduser =  Auth::user()->id; 
         $reqsend = $request->ot_type_pk;
 
-        $data['ot_one'] = DB::table('ot_one')
-        ->leftjoin('users','users.id','=','ot_one.ot_one_nameid')
-        ->leftjoin('users_prefix','users_prefix.prefix_code','=','users.pname')
-        ->leftjoin('department_sub_sub','department_sub_sub.DEPARTMENT_SUB_SUB_ID','=','ot_one.dep_subsubtrueid')
-        ->where('ot_one.dep_subsubtrueid','=',$iddep)
-        ->where('users.users_group_id','=',$reqsend)
-        // ->leftjoin('department_sub_sub','department_sub_sub.DEPARTMENT_SUB_SUB_ID','=','ot_one.dep_subsubtrueid')
-        // ->where('ot_one_date','=',)->get();
-        ->whereBetween('ot_one_date', [$datestart, $dateend])->get();
+        // $data['ot_one'] = DB::table('ot_one')
+        //     ->leftjoin('users','users.id','=','ot_one.ot_one_nameid')
+        //     ->leftjoin('users_prefix','users_prefix.prefix_code','=','users.pname')
+        //     ->leftjoin('department_sub_sub','department_sub_sub.DEPARTMENT_SUB_SUB_ID','=','ot_one.dep_subsubtrueid')
+        //     ->where('ot_one.dep_subsubtrueid','=',$iddep)
+        //     ->where('users.users_group_id','=',$reqsend)
+        //     // ->leftjoin('department_sub_sub','department_sub_sub.DEPARTMENT_SUB_SUB_ID','=','ot_one.dep_subsubtrueid')
+        //     // ->where('ot_one_date','=',)->get();
+        //     ->whereBetween('ot_one_date', [$datestart, $dateend])->get();
+            
+        if ($reqsend != '') {
+            if ($reqsend == 2) {             
+                $data['ot_one'] = DB::connection('mysql')->select('
+                    select o.ot_one_id,o.ot_one_date,o.ot_one_starttime,o.ot_one_endtime
+                        ,o.ot_one_nameid,o.ot_one_fullname,o.ot_one_detail,o.ot_one_sign,o.ot_one_sign2
+                        ,o.dep_subsubtrueid,de.DEPARTMENT_SUB_SUB_NAME,u.users_group_id,up.prefix_name
+                        ,u.fname,u.lname
 
-        $data['users'] = User::get();
-        $data['leave_month'] = DB::table('leave_month')->get();
-        $data['users_group'] = DB::table('users_group')->get();
-        $data['ot_type_pk'] = DB::table('ot_type_pk')->get();
+                        from ot_one o
+                        left outer join users u on u.id = o.ot_one_nameid 
+                        left outer join users_prefix up on up.prefix_code = u.pname  
+                        left outer join department_sub_sub de on de.DEPARTMENT_SUB_SUB_ID = o.dep_subsubtrueid
+
+                        where o.dep_subsubtrueid = "'.$iddep.'" 
+                        AND u.users_group_id in("5","6","7")
+                        AND o.ot_one_date between "'.$datestart.'" AND "'.$dateend.'"          
+                ');
+            }else if($reqsend == 1) {
+                $data['ot_one'] = DB::connection('mysql')->select('
+                select o.ot_one_id,o.ot_one_date,o.ot_one_starttime,o.ot_one_endtime
+                    ,o.ot_one_nameid,o.ot_one_fullname,o.ot_one_detail,o.ot_one_sign,o.ot_one_sign2
+                    ,o.dep_subsubtrueid,de.DEPARTMENT_SUB_SUB_NAME,u.users_group_id,up.prefix_name
+                    ,u.fname,u.lname
+
+                    from ot_one o
+                    left outer join users u on u.id = o.ot_one_nameid 
+                    left outer join users_prefix up on up.prefix_code = u.pname  
+                    left outer join department_sub_sub de on de.DEPARTMENT_SUB_SUB_ID = o.dep_subsubtrueid
+
+                    where o.dep_subsubtrueid = "'.$iddep.'" 
+                    AND u.users_group_id in("1","2","3","4")
+                    AND o.ot_one_date between "'.$datestart.'" AND "'.$dateend.'"          
+            ');
+            } else {                
+            } 
+        } else {    
+            $reqsend == '';
+            $data['ot_one'] = DB::table('ot_one')
+            ->leftjoin('users','users.id','=','ot_one.ot_one_nameid')
+            ->leftjoin('users_prefix','users_prefix.prefix_code','=','users.pname')
+            ->leftjoin('department_sub_sub','department_sub_sub.DEPARTMENT_SUB_SUB_ID','=','ot_one.dep_subsubtrueid')
+            // ->where('ot_one.dep_subsubtrueid','=',$iddep)
+            ->where('users.id','=',$iduser) 
+            ->whereBetween('ot_one_date', [$datestart, $dateend])->get();
+        }
+
+        $data['users']        = User::get();
+        $data['leave_month']   = DB::table('leave_month')->get();
+        $data['users_group']   = DB::table('users_group')->get();
+        $data['ot_type_pk']    = DB::table('ot_type_pk')->get();
 
         return view('ot.otone', $data,[
-            'start' => $datestart,
-            'end' => $dateend,
-            'reqsend' => $reqsend
+            'startdate'     => $datestart,
+            'enddate'       => $dateend,
+            'reqsend'       => $reqsend
         ]);
     }
     public function otonesearch(Request $request )
@@ -152,24 +198,25 @@ class OtController extends Controller
         $strD = date('d', strtotime($dateshow));
         // dd($strD);
         return view('ot.otone', $data,[
-            'start' => $datestart,
-            'end' => $dateend,
-            'reqsend' => $reqsend
+            'startdate'     => $datestart,
+            'enddate'       => $dateend,
+            'reqsend'       => $reqsend
         ]);
     }
 
     public function otone_add(Request $request)
     {
         $iddep =  Auth::user()->dep_subsubtrueid;
-
+        $iduser = Auth::user()->id;
         $event = array();
         $otservicess = DB::table('ot_one')
         ->leftjoin('users','users.id','=','ot_one.ot_one_nameid')
         ->leftjoin('department_sub_sub','department_sub_sub.DEPARTMENT_SUB_SUB_ID','=','users.dep_subsubtrueid')
         ->where('users.dep_subsubtrueid','=',$iddep)
+        ->where('users.id','=',$iduser)
         ->get();
         $tableuser = DB::table('users')->get();
-        $iduser = Auth::user()->id;
+       
         // $coloruser =  Auth::user()->color_ot;
 
 

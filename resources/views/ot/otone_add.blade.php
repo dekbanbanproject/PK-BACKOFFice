@@ -18,17 +18,61 @@ $url = Request::url();
 $pos = strrpos($url, '/') + 1;
 
 ?>
-<style>
+{{-- <style>
     .btn {
         font-size: 15px;
     }
-
     .bgc {
         background-color: #264886;
     }
-
     .bga {
         background-color: #fbff7d;
+    }
+</style> --}}
+<style>
+    #button {
+        display: block;
+        margin: 20px auto;
+        padding: 30px 30px;
+        background-color: #eee;
+        border: solid #ccc 1px;
+        cursor: pointer;
+    }
+
+    #overlay {
+        position: fixed;
+        top: 0;
+        z-index: 100;
+        width: 100%;
+        height: 100%;
+        display: none;
+        background: rgba(0, 0, 0, 0.6);
+    }
+
+    .cv-spinner {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .spinner {
+        width: 250px;
+        height: 250px;
+        border: 10px #ddd solid;
+        border-top: 10px #d22cf3 solid;
+        border-radius: 50%;
+        animation: sp-anime 0.8s infinite linear;
+    }
+
+    @keyframes sp-anime {
+        100% {
+            transform: rotate(390deg);
+        }
+    }
+
+    .is-hide {
+        display: none;
     }
 </style>
 <?php
@@ -39,14 +83,28 @@ $refnumber = SuppliesController::refnumber();
 $count_product = StaticController::count_product();
 $count_service = StaticController::count_service();
 ?>
-    <div class="container-fluid">
+        <div class="tabs-animation">
+            <div class="row text-center">
+                <div id="overlay">
+                    <div class="cv-spinner">
+                        <span class="spinner"></span>
+                    </div>
+                </div> 
+            </div> 
+            <div id="preloader">
+                <div id="status">
+                    <div class="spinner"> 
+                    </div>
+                </div>
+            </div>
 
 
-        <div class="row mt-3">
+        <div class="row mt-2">
             <div class="col-xl-12">
-                <div class="card">
-                    <div class="card-body py-0 px-2 mt-2">
-                        <div class="card bg-info p-1 mx-0 shadow-lg">
+                <div class="card cardot">
+                    <div class="card-body">
+                        {{-- <div class="card bg-info p-1 mx-0 shadow-lg"> --}}
+                        <div class="card">
                             <div class="panel-header text-left px-3 py-2 text-white">
                                 ลงบันทึกโอที<span class="fw-3 fs-18 text-white bg-sl-r2 px-2 radius-5"> </span>
                             </div>
@@ -176,6 +234,7 @@ $count_service = StaticController::count_service();
 
                     header: {
                         left: 'prev,next today', //  prevYear nextYea
+                        // left: "BackwardButton, ForwardButton",
                         center: 'title',
                         right: 'month,agendaWeek,agendaDay',
                     },

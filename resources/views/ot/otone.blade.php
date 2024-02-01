@@ -108,127 +108,172 @@
     $y = date('Y') + 543;
     $newweek = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
     $newDate = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
+    
+    use App\Http\Controllers\StaticController;
+    use App\Models\Products_request_sub;
+    $countpermiss_ot = StaticController::countpermiss_ot($iduser);
     ?>
- <div class="tabs-animation">
-
-    <div id="preloader">
-        <div id="status">
-            <div class="spinner">
-
+    <div class="tabs-animation">
+        <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
+                </div>
+            </div> 
+        </div> 
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner"> 
+                </div>
             </div>
         </div>
-    </div>
-        {{-- <div class="row">
-            <div class="col-xl-12"> --}}
-
-        <div class="row">
-            <div class="col-xl-12">
-                <form action="{{ route('ot.otonesearch') }}" method="POST">
-                    @csrf
-                    <div class="row">
-
-                        <div class="col-md-1 text-end">วันที่</div>
-                        <div class="col-md-2 text-center">
-                            <div class="input-group" id="datepicker1">
-                                <input type="text" class="form-control" name="startdate" id="datepicker"
-                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                    data-date-language="th-th" value="{{ $start }}">
-
-                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+        
+        @if ($countpermiss_ot != 0)
+            <div class="row">
+                <div class="col-xl-12">
+                    <form action="{{ route('ot.otone') }}" method="GET">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-2 text-end mt-2">ประเภท</div>
+                            <div class="col-md-1 text-center">
+                                <div class="input-group"> 
+                                    <select id="ot_type_pk" name="ot_type_pk" class="form-control cardot" style="width: 100%"> 
+                                        @foreach ($ot_type_pk as $reqshow)
+                                            @if ($reqsend == $reqshow->ot_type_pk_id)
+                                                <option value="{{ $reqshow->ot_type_pk_id }}" selected> {{ $reqshow->ot_type_pkname }} </option>
+                                            @else
+                                                <option value="{{ $reqshow->ot_type_pk_id }}"> {{ $reqshow->ot_type_pkname }} </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-1 text-center">ถึงวันที่</div>
-                        <div class="col-md-2 text-center">
-                            <div class="input-group" id="datepicker1">
-                                <input type="text" class="form-control" name="enddate" id="datepicker2"
-                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                    data-date-language="th-th" value="{{ $end }}">
-
-                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                            </div>
-                        </div>
-                        <div class="col-md-1 text-center">ประเภท</div>
-                        <div class="col-md-2 text-center">
-                            <div class="input-group">
-                                <select id="ot_type_pk" name="ot_type_pk" class="form-select form-select-lg"
-                                    style="width: 100%">
-
-                                    @foreach ($ot_type_pk as $reqshow)
-                                        @if ($reqsend == $reqshow->ot_type_pk_id)
-                                            <option value="{{ $reqshow->ot_type_pk_id }}" selected>
-                                                {{ $reqshow->ot_type_pkname }} </option>
-                                        @else
-                                            <option value="{{ $reqshow->ot_type_pk_id }}"> {{ $reqshow->ot_type_pkname }}
-                                            </option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-1">
-                            <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                                ค้นหา
-                            </button>
-                        </div>
-
-                        <div class="col-md-2">
-                            <div class="dropdown">
-                                <button class="btn-icon btn-shadow btn-dashed btn btn-outline-primary dropdown-toggle menu"
-                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">ทำรายการ</button>
-                                <ul class="dropdown-menu text-center">
-                                    <a href="{{ url('otone_add') }}" class="btn btn-info waves-effect waves-light btn-sm"
+                            <div class="col-md-1 text-end mt-2">วันที่</div>
+                            <div class="col-md-4 text-end">
+                                <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                                    <input type="text" class="form-control cardot" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                        data-date-language="th-th" value="{{ $startdate }}" required/>
+                                    <input type="text" class="form-control cardot" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                        data-date-language="th-th" value="{{ $enddate }}"/>  
+                                        <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary cardot" data-style="expand-left">
+                                            <span class="ladda-label"><i class="fa-solid fa-magnifying-glass"></i> ค้นหา</span>
+                                            <span class="ladda-spinner"></span>
+                                        </button> 
+                                </div>
+                            </div> 
+                            <div class="col-md-4">
+                                <a href="{{ url('otone_add') }}" class="ladda-button me-2 btn-pill btn cardot" style="background-color: rgb(178, 243, 227)"
                                         target="_blank"><i class="fa-solid fa-folder-plus text-white me-2"></i>
-                                        ลงโอที
-                                    </a>
-                                    <br>
-                                    <button type="button" class="btn add_color mt-2 btn-sm"
-                                        style="background-color: blueviolet" data-bs-toggle="tooltip"
-                                        data-bs-placement="left" title="เลือกสี">
+                                        <span style="color:rgb(253, 253, 253)">ลงโอที</span>
+                                        
+                                    </a> 
+                                    <button type="button" class="ladda-button me-2 btn-pill btn cardot add_color" style="background-color: rgb(207, 168, 243)" >
                                         <i class="fa-solid fa-folder-plus text-white me-2" style="font-size:13px"></i>
                                         <span style="color:rgb(253, 253, 253)">เลือกสี</span>
-                                    </button>
-                                    <br>
+                                    </button> 
+                                    <a href="{{ url('export_otform1/' . $startdate . '/' . $enddate . '/' . $reqsend . '/' . $iddep) }}"
+                                            class="ladda-button me-2 btn-pill btn cardot" style="background-color: rgb(243, 198, 168)" target="_blank"><i
+                                                class="fa-solid fa-print text-white me-2"></i>ฟอร์ม2</a>
+                                         
+                                    <a href="{{ url('export_otform3/' . $startdate . '/' . $enddate . '/' . $reqsend . '/' . $iddep) }}"
+                                            class="ladda-button me-2 btn-pill btn cardot" style="background-color: rgb(243, 198, 168)" target="_blank"><i
+                                                class="fa-solid fa-print text-white me-2"></i>ฟอร์ม3</a>
+                                        
+                                    <a href="{{ url('export_otform4/' . $startdate . '/' . $enddate . '/' . $reqsend . '/' . $iddep) }}"
+                                            class="ladda-button me-2 btn-pill btn cardot" style="background-color: rgb(243, 198, 168)" target="_blank"><i
+                                                class="fa-solid fa-print text-white me-2"></i>ฟอร์ม4</a>
 
-                                    <a href="{{ url('export_otform1/' . $start . '/' . $end . '/' . $reqsend . '/' . $iddep) }}"
-                                        class="btn btn-warning btn-sm mt-2" target="_blank"><i
-                                            class="fa-solid fa-print text-white me-2"></i>ฟอร์ม2</a>
-                                    <br>
-                                    <a href="{{ url('export_otform3/' . $start . '/' . $end . '/' . $reqsend . '/' . $iddep) }}"
-                                        class="btn btn-warning btn-sm mt-2" target="_blank"><i
-                                            class="fa-solid fa-print text-white me-2"></i>ฟอร์ม3</a>
-                                    <br>
-                                    <a href="{{ url('export_otform4/' . $start . '/' . $end . '/' . $reqsend . '/' . $iddep) }}"
-                                        class="btn btn-warning btn-sm mt-2" target="_blank"><i
-                                            class="fa-solid fa-print text-white me-2"></i>ฟอร์ม4</a>
-                                    <br>
+                                {{-- <div class="dropdown">
+                                    <button class="btn-icon btn-shadow btn-dashed btn btn-outline-primary dropdown-toggle menu"
+                                        type="button" data-bs-toggle="dropdown" aria-expanded="false">ทำรายการ</button>
+                                    <ul class="dropdown-menu text-center">
+                                        <a href="{{ url('otone_add') }}" class="btn btn-info waves-effect waves-light btn-sm"
+                                            target="_blank"><i class="fa-solid fa-folder-plus text-white me-2"></i>
+                                            ลงโอที
+                                        </a>
+                                        <br>
+                                        <button type="button" class="btn add_color mt-2 btn-sm"
+                                            style="background-color: blueviolet" data-bs-toggle="tooltip"
+                                            data-bs-placement="left" title="เลือกสี">
+                                            <i class="fa-solid fa-folder-plus text-white me-2" style="font-size:13px"></i>
+                                            <span style="color:rgb(253, 253, 253)">เลือกสี</span>
+                                        </button>
+                                        <br> --}}
 
-                                </ul>
+                                        {{-- <a href="{{ url('export_otform1/' . $startdate . '/' . $enddate . '/' . $reqsend . '/' . $iddep) }}"
+                                            class="btn btn-warning btn-sm mt-2" target="_blank"><i
+                                                class="fa-solid fa-print text-white me-2"></i>ฟอร์ม2</a>
+                                        <br>
+                                        <a href="{{ url('export_otform3/' . $startdate . '/' . $enddate . '/' . $reqsend . '/' . $iddep) }}"
+                                            class="btn btn-warning btn-sm mt-2" target="_blank"><i
+                                                class="fa-solid fa-print text-white me-2"></i>ฟอร์ม3</a>
+                                        <br>
+                                        <a href="{{ url('export_otform4/' . $startdate . '/' . $enddate . '/' . $reqsend . '/' . $iddep) }}"
+                                            class="btn btn-warning btn-sm mt-2" target="_blank"><i
+                                                class="fa-solid fa-print text-white me-2"></i>ฟอร์ม4</a> --}}
+                                        {{-- <br> --}}
+
+                                    {{-- </ul> --}}
+                                </div>
                             </div>
-                        </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
+        @else
+            <div class="row">
+                <div class="col-xl-12">
+                    <form action="{{ route('ot.otone') }}" method="GET">
+                        @csrf
+                        <div class="row"> 
+                            <div class="col"></div>
+                            <div class="col-md-1 text-end mt-2">วันที่</div>
+                            <div class="col-md-4 text-end">
+                                <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                                    <input type="text" class="form-control cardot" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                        data-date-language="th-th" value="{{ $startdate }}" required/>
+                                    <input type="text" class="form-control cardot" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                        data-date-language="th-th" value="{{ $enddate }}"/>  
+                                        <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary cardot" data-style="expand-left">
+                                            <span class="ladda-label"><i class="fa-solid fa-magnifying-glass"></i> ค้นหา</span>
+                                            <span class="ladda-spinner"></span>
+                                        </button> 
+                                </div>
+                            </div>
+    
 
-        {{-- </div>
-        </div> --}}
+                            <div class="col-md-2">                       
+                                    <a href="{{ url('otone_add') }}" class="ladda-button me-2 btn-pill btn cardot" style="background-color: rgb(178, 243, 227)"
+                                        target="_blank"><i class="fa-solid fa-folder-plus text-white me-2"></i>
+                                        <span style="color:rgb(253, 253, 253)">ลงโอที</span>
+                                        
+                                    </a> 
+                                    <button type="button" class="ladda-button me-2 btn-pill btn cardot add_color" style="background-color: rgb(207, 168, 243)" >
+                                        <i class="fa-solid fa-folder-plus text-white me-2" style="font-size:13px"></i>
+                                        <span style="color:rgb(253, 253, 253)">เลือกสี</span>
+                                    </button> 
+                                
+                            </div>
+                    </form>
+                </div>
+            </div>
+        @endif
+      
+        
 
         <div class="row mt-3">
             <div class="col-xl-12">
-                <div class="card">
-                    <div class="card-body py-0 px-2 mt-2">
+                <div class="card cardot">
+                    <div class="card-body">
                         <div class="table-responsive">
                             {{-- <table class="table table-hover table-bordered table-sm myTable" style="width: 100%;"
                                 id="example"> --}}
                             {{-- <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
-                            <table class="align-middle mb-0 table table-borderless table-striped table-hover"
-                                id="example">
+                            <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
                                 <thead>
                                     <tr>
-                                        {{-- <th width="5%" class="text-center">ลำดับ</th> --}}
-                                        <th class="text-center" width="10%">วันที่</th>
+                                        <th width="5%" class="text-center">ลำดับ</th>
+                                        <th class="text-center" width="10%" >วันที่</th>
                                         <th class="text-center" width="15%">ชื่อ-สกุล</th>
                                         <th class="text-center" width="10%">รายมือชื่อ</th>
                                         <th class="text-center" width="10%">เวลามา</th>
@@ -255,21 +300,20 @@
                                         $totalhr = $diff->format('%R%H ชม.');
                                         
                                         ?>
-                                        <tr id="sid{{ $item->ot_one_id }}">
-                                            {{-- <td class="text-center">{{ $i++ }}</td> --}}
-                                            <td class="p-2">{{ $item->ot_one_date }}</td>
-                                            <td class="p-2">{{ $item->prefix_name }} {{ $item->fname }}
-                                                {{ $item->lname }}</td>
-                                            <td class="p-2">{{ $item->ot_one_sign }} </td>
-                                            <td class="p-2">{{ $item->ot_one_starttime }}</td>
-                                            <td class="p-2">{{ $item->ot_one_sign2 }} </td>
-                                            <td class="p-2">{{ $item->ot_one_endtime }} </td>
+                                        <tr id="sid{{ $item->ot_one_id }}" style="font-size:13px">
+                                            <td class="text-center" width="4%">{{ $i++ }}</td>
+                                            <td class="p-2" width="7%">{{ $item->ot_one_date }}</td>
+                                            <td class="p-2" width="10%">{{ $item->prefix_name }} {{ $item->fname }} {{ $item->lname }}</td>
+                                            <td class="p-2" width="7%">{{ $item->ot_one_sign }} </td>
+                                            <td class="p-2" width="7%">{{ $item->ot_one_starttime }}</td>
+                                            <td class="p-2" width="7%">{{ $item->ot_one_sign2 }} </td>
+                                            <td class="p-2" width="7%">{{ $item->ot_one_endtime }} </td>
 
-                                            <td class="p-2">{{ $tot }} </td>
+                                            <td class="p-2" width="7%">{{ $tot }} </td>
                                             <td class="p-2">{{ $item->ot_one_detail }}</td>
                                             {{-- <td class="p-2">{{ $item->DEPARTMENT_SUB_SUB_NAME }}</td>  --}}
 
-                                            <td class="text-center" width="7%">
+                                            <td class="text-center" width="5%">
                                                 <div class="dropdown">
                                                     <button class="btn btn-outline-info dropdown-toggle menu btn-sm"
                                                         type="button" data-bs-toggle="dropdown"
@@ -465,15 +509,15 @@
             $('#example2').DataTable();
             $('#example3').DataTable();
 
-            $('select').select2();
-            $('#ECLAIM_STATUS').select2({
-                dropdownParent: $('#detailclaim')
-            });
+            // $('select').select2();
+            // $('#ECLAIM_STATUS').select2({
+            //     dropdownParent: $('#detailclaim')
+            // });
 
-            $('#users_group_id').select2({
-                placeholder: "--เลือก-- ",
-                allowClear: true
-            });
+            // $('#users_group_id').select2({
+            //     placeholder: "--เลือก-- ",
+            //     allowClear: true
+            // });
 
             $('#datepicker').datepicker({
                 format: 'yyyy-mm-dd'
