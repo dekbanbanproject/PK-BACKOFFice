@@ -338,6 +338,12 @@ Route::match(['get','post'],'lgo_801_main',[App\Http\Controllers\Lgo801Controlle
 Route::match(['get','post'],'lgo_801_rep',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801_rep'])->name('claim.lgo_801_rep');//
 Route::match(['get','post'],'lgo_801_check',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801_check'])->name('claim.lgo_801_check');//
 
+Route::match(['get','post'],'home_ward',[App\Http\Controllers\HomewardController::class, 'home_ward'])->name('claim.home_ward');//
+Route::match(['get','post'],'home_ward_process',[App\Http\Controllers\HomewardController::class, 'home_ward_process'])->name('claim.home_ward_process');//
+Route::match(['get','post'],'home_ward_export',[App\Http\Controllers\HomewardController::class, 'home_ward_export'])->name('claim.home_ward_export');//
+Route::match(['get','post'],'home_ward_exportapi',[App\Http\Controllers\HomewardController::class, 'home_ward_exportapi'])->name('claim.home_ward_exportapi');//
+Route::match(['get','post'],'home_ward_sendapi',[App\Http\Controllers\HomewardController::class, 'home_ward_sendapi'])->name('claim.home_ward_sendapi');//
+
 // Route::match(['get','post'],'thalassemia_opd_process',[App\Http\Controllers\D_thalassemiaController::class, 'thalassemia_opd_process'])->name('claim.thalassemia_opd_process');//
 // Route::match(['get','post'],'thalassemia_opd_export',[App\Http\Controllers\D_thalassemiaController::class, 'thalassemia_opd_export'])->name('claim.thalassemia_opd_export');//
 

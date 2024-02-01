@@ -12,41 +12,6 @@
     }
     $url = Request::url();
     $pos = strrpos($url, '/') + 1;
-
-    use App\Http\Controllers\UsersuppliesController;
-    use App\Http\Controllers\StaticController;
-    use App\Models\Products_request_sub;
-    
-    $refnumber                = UsersuppliesController::refnumber();
-    $checkhn                  = StaticController::checkhn($iduser);
-    $checkhnshow              = StaticController::checkhnshow($iduser);
-    $count_suprephn           = StaticController::count_suprephn($iduser);
-    $count_bookrep_rong       = StaticController::count_bookrep_rong();
-    $count_bookrep_po         = StaticController::count_bookrep_po();
-    $countpesmiss_per         = StaticController::countpesmiss_per($iduser);
-    $countpesmiss_book        = StaticController::countpesmiss_book($iduser);
-    $countpesmiss_car         = StaticController::countpesmiss_car($iduser);
-    $countpesmiss_meetting    = StaticController::countpesmiss_meetting($iduser);
-    $countpesmiss_repair      = StaticController::countpesmiss_repair($iduser);
-    $countpesmiss_com         = StaticController::countpesmiss_com($iduser);
-    $countpesmiss_medical     = StaticController::countpesmiss_medical($iduser);
-    $countpesmiss_hosing      = StaticController::countpesmiss_hosing($iduser);
-    $countpesmiss_plan        = StaticController::countpesmiss_plan($iduser);
-    $countpesmiss_asset       = StaticController::countpesmiss_asset($iduser);
-    $countpesmiss_supplies    = StaticController::countpesmiss_supplies($iduser);
-    $countpesmiss_store       = StaticController::countpesmiss_store($iduser);
-    $countpesmiss_store_dug   = StaticController::countpesmiss_store_dug($iduser);
-    $countpesmiss_pay         = StaticController::countpesmiss_pay($iduser);
-    $countpesmiss_money       = StaticController::countpesmiss_money($iduser);
-    $countpesmiss_claim       = StaticController::countpesmiss_claim($iduser);
-    $countpermiss_gleave      = StaticController::countpermiss_gleave($iduser);
-    $countpermiss_ot          = StaticController::countpermiss_ot($iduser);
-    $countpermiss_medicine    = StaticController::countpermiss_medicine($iduser);
-    $countpermiss_p4p         = StaticController::countpermiss_p4p($iduser);
-    $countpermiss_time        = StaticController::countpermiss_time($iduser);
-    $countpermiss_env         = StaticController::countpermiss_env($iduser);
-    $permiss_account          = StaticController::permiss_account($iduser);
-    $permiss_report_all       = StaticController::permiss_report_all($iduser);
     
     ?>
     <style>
@@ -117,7 +82,7 @@
         </div>
 
         <div class="row">
-            @if ($countpesmiss_per != 0)   
+
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(236, 188, 198)">
                     <div class="grid-menu-col">
@@ -148,9 +113,7 @@
                     </div>
                 </div>
             </div>
-            @endif
-    
-            @if ($countpermiss_ot != 0)  
+
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(199, 181, 240)">
                     <div class="grid-menu-col">
@@ -181,9 +144,7 @@
                     </div>
                 </div>
             </div>
-            @endif
-    
-            @if ($countpermiss_time != 0)  
+
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(152, 226, 224)">
                     <div class="grid-menu-col">
@@ -214,9 +175,7 @@
                     </div>
                 </div>
             </div>
-            @endif
-    
-            @if ($countpesmiss_book != 0)  
+
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(245, 176, 250)">
                     <div class="grid-menu-col">
@@ -245,9 +204,42 @@
                     </div>
                 </div>
             </div>
-            @endif
-            
-            @if ($countpesmiss_plan != 0)  
+           
+            {{-- <div class="col-xl-2 col-md-2">
+                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(207, 248, 253)">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover rounded-pill">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                            <h5 class="text-start mb-2"> VEHICLE</h5>
+                                        </div>
+                                        <div class="avatar ">
+
+
+                                            <a>
+                                            
+                                                <button
+                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+
+                                                    <i class="fa-solid fa-3x fa-car-side font-size-25"
+                                                        style="color: rgb(152, 239, 248)"></i>
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
+
+
+
+
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(247, 217, 217)">
                     <div class="grid-menu-col">
@@ -278,9 +270,38 @@
                     </div>
                 </div>
             </div>
-            @endif
-             
-            @if ($countpesmiss_supplies != 0)  
+            
+            {{-- <div class="col-xl-2 col-md-2">
+                <div class="main-card mb-3 card shadow-lg rounded-pill"
+                    style="background-color: rgba(174, 180, 177, 0.781)">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover rounded-pill">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                            <a href="{{ url('article/article_index') }}" target="_blank">
+                                                <h5 class="text-start mb-2">ASSET</h5>
+                                            </a>
+                                        </div>
+                                        <div class="avatar ms-2">
+                                            <a href="{{ url('article/article_index') }}" target="_blank">
+                                                <button
+                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                    <i class="fa-solid fa-3x fa-building-shield font-size-25"
+                                                        style="color: rgba(131, 150, 140, 0.692)"></i>
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
+
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(255, 222, 161)">
                     <div class="grid-menu-col">
@@ -311,9 +332,7 @@
                     </div>
                 </div>
             </div>
-            @endif
-    
-            @if ($countpesmiss_com != 0)  
+
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(171, 175, 173)">
                     <div class="grid-menu-col">
@@ -344,9 +363,7 @@
                     </div>
                 </div>
             </div>
-            @endif
-    
-            @if ($countpesmiss_medical != 0)  
+
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(170, 167, 250)">
                     <div class="grid-menu-col">
@@ -377,9 +394,40 @@
                     </div>
                 </div>
             </div>
-            @endif
-    
-             @if ($countpesmiss_store != 0)  
+
+            {{-- <div class="col-xl-2 col-md-2">
+                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(190, 223, 248)">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover rounded-pill">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                            <a href="{{ url('repaire_narmal') }}" target="_blank">
+                                                <h5 class="text-start mb-2">MAINTAIN</h5>
+                                            </a>
+                                        </div>
+                                        <div class="avatar ms-2">
+                                            <a href="{{ url('repaire_narmal') }}" target="_blank">
+                                                <button
+                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                    <i class="fa-solid fa-3x fa-screwdriver-wrench font-size-25"
+                                                        style="color: rgb(140, 189, 226)"></i>
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
+
+
+
+
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(145, 220, 231)">
                     <div class="grid-menu-col">
@@ -411,9 +459,94 @@
                     </div>
                 </div>
             </div>
-            @endif
-    
-            @if ($countpesmiss_money != 0)  
+
+
+            {{-- <div class="col-xl-2 col-md-2">
+                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(141, 185, 218)">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover rounded-pill">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                                <a href="{{ url('housing/housing_dashboard') }}" target="_blank"> <h5 class="text-start mb-2">HOUSE</h5>    </a>
+                                            </div>
+                                            <div class="avatar">
+                                                <a href="{{ url('housing/housing_dashboard') }}" target="_blank"> 
+                                                            <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                                <i class="fa-solid fa-3x fa-house-chimney-user font-size-25" style="color: rgb(103, 153, 192)"></i>
+                                                            </button> 
+                                                </a>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
+
+            {{-- <div class="col-xl-2 col-md-2">
+                <div class="main-card mb-3 card">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                                <h5 class="text-start mb-2">คลังยา</h5>
+                                            </div>
+                                            <div class="avatar-sm me-2">
+                                                <a href="{{ url('') }}" target="_blank">
+                                                    <span class="avatar-title bg-white text-primary rounded-3">
+                                                        <p style="font-size: 10px;">
+                                                            <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+                                                                <i class="fa-solid fa-3x fa-prescription font-size-25 mt-3" style="color: rgb(63, 128, 128)"></i>
+                                                            </button>
+                                                        </p>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-2 col-md-2">
+                <div class="main-card mb-3 card">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                                <h5 class="text-start mb-2">จ่ายกลาง</h5>
+                                            </div>
+                                            <div class="avatar-sm me-2">
+                                                <a href="{{ url('') }}" target="_blank">
+                                                    <span class="avatar-title bg-white text-primary rounded-3">
+                                                        <p style="font-size: 10px;">
+                                                            <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+                                                                <i class="fa-solid fa-3x fa-person-booth font-size-25 mt-3" style="color: rgb(187, 115, 115)"></i>
+                                                            </button>
+                                                        </p>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
+
+
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(252, 177, 210)">
                     <div class="grid-menu-col">
@@ -444,9 +577,7 @@
                     </div>
                 </div>
             </div>
-            @endif
-    
-            @if ($permiss_account != 0)  
+
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-2 card shadow-lg rounded-pill" style="background-color: pink">
                     <div class="grid-menu-col">
@@ -477,9 +608,9 @@
                     </div>
                 </div>
             </div>
-            @endif
-    
-            @if ($countpermiss_p4p != 0)  
+
+
+
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
                     style="background-color: rgba(235, 104, 247, 0.781)">
@@ -511,9 +642,37 @@
                     </div>
                 </div>
             </div>
-            @endif
-     
-            @if ($countpermiss_env != 0)  
+
+            {{-- <div class="col-xl-2 col-md-2">
+                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(125, 148, 252)">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover rounded-pill">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                            <a href="{{ url('audiovisual_admin') }}" target="_blank">
+                                                <h5 class="text-start mb-2">งานโสต</h5>
+                                            </a>
+                                        </div>
+                                        <div class="avatar">
+                                            <a href="{{ url('audiovisual_admin') }}" target="_blank">
+                                                <button
+                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                    <i class="fa-solid fa-3x fa-camera-retro font-size-25"
+                                                        style="color: rgb(123, 146, 250)"></i>
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
+
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(93, 218, 114)">
                     <div class="grid-menu-col">
@@ -545,9 +704,40 @@
                     </div>
                 </div>
             </div>
-            @endif
-      
-            {{-- @if ($countpesmiss_per != 0)   --}}
+
+            {{-- <div class="col-xl-2 col-md-2">
+                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(243, 212, 155)">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover rounded-pill">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                            <a href="{{ url('dental') }}" target="_blank">
+                                                <h5 class="text-start mb-2">DENTAL</h5>
+                                            </a>
+                                        </div>
+                                        <div class="avatar">
+                                            <a href="{{ url('dental') }}" target="_blank">
+                                                <button
+                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                    <i class="fa-solid fa-3x fa-tooth font-size-25"
+                                                        style="color: rgb(241, 188, 90)"></i>
+                                                </button>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
+
+
+
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(209, 180, 255)">
                     <div class="grid-menu-col">
@@ -578,12 +768,10 @@
                     </div>
                 </div>
             </div>
-            {{-- @endif --}}
-    
-            {{-- @if ($countpesmiss_per != 0)   --}}
+
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
-                    style="background-color: rgba(106, 218, 190, 0.884)">
+                    style="background-color: rgba(30, 187, 148, 0.74)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
                             <div class="col-sm-12">
@@ -613,9 +801,36 @@
                     </div>
                 </div>
             </div>
-            {{-- @endif --}}
-     
-            @if ($countpesmiss_claim != 0)  
+
+
+            {{-- <div class="col-xl-2 col-md-2">
+                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(209, 178, 250)">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover rounded-pill">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                                <a href="{{ url('meetting/meettingroom_dashboard') }}" target="_blank"> <h5 class="text-start mb-2">MEETING-ROOM</h5>      </a>
+                                            </div>
+                                            <div class="avatar">
+                                                <a href="{{ url('meetting/meettingroom_dashboard') }}" target="_blank"> 
+                                                            <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                                 <i class="fa-solid fa-3x fa-house-laptop font-size-25" style="color: rgb(184, 147, 226)"></i>
+                                                            </button> 
+                                                </a>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
+
+           
+
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(247, 198, 176)">
                     <div class="grid-menu-col">
@@ -646,9 +861,70 @@
                     </div>
                 </div>
             </div>
-            @endif
-     
-            {{-- @if ($countpesmiss_per != 0)   --}}
+
+            {{-- <div class="col-xl-2 col-md-2">
+                <div class="main-card mb-3 card shadow-lg rounded-pill"
+                    style="background-color: rgba(255, 255, 255, 0.452)">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover rounded-pill">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                            <a href="" target="_blank">
+                                                <h5 class="text-start mb-2">LEAVE SYSTEM</h5>
+                                            </a>
+                                        </div>
+                                        <div class="avatar ms-2">
+                                            <a>
+                                                <button
+                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                    <i class="fa-solid fa-3x fa-hospital-user font-size-25"
+                                                        style="color: rgba(240, 161, 204, 0.945)"></i>
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
+
+
+            {{-- <div class="col-xl-2 col-md-2">
+                <div class="main-card mb-3 card shadow-lg rounded-pill"
+                    style="background-color: rgba(243, 151, 247, 0.74)">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover rounded-pill">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                            <a href="" target="_blank">
+                                                <h5 class="text-start mb-2">DASHBOARD</h5>
+                                            </a>
+                                        </div>
+                                        <div class="avatar ms-2">
+                                            <a>
+                                                <button
+                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                    <i class="fa-solid fa-3x fa-chart-line font-size-25"
+                                                        style="color: rgba(243, 151, 247, 0.74)"></i>
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div> --}}
+            
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
                     style="background-color: rgba(23, 189, 147, 0.74)">
@@ -679,9 +955,7 @@
                     </div>
                 </div> 
             </div>
-            {{-- @endif --}}
-    
-            @if ($permiss_report_all != 0)  
+
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
                     style="background-color: rgba(209, 180, 255, 0.74)">
@@ -712,7 +986,8 @@
                     </div>
                 </div> 
             </div>
-            @endif
+
+        </div>
 
 
     </div>

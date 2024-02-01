@@ -281,106 +281,160 @@
                                 </div>
                             </div>
                         @else
-                        {{-- <div class="grid-menu-col">
-                            <div class="g-0 row">
-                                <div class="col-sm-12">
-                                    <div class="d-flex text-start">
-                                        <div class="flex-grow-1 ">
-                                            <?php
-                                                $y = $item->year;
-                                                $ynew = $y + 543;
-                                                // ลูกหนี้ทั้งหมด
-                                                $datas = DB::select('
-                                                    SELECT count(DISTINCT an) as Can
-                                                        ,SUM(debit_total) as sumdebit
-                                                        from acc_debtor
-                                                        WHERE account_code="1102050102.107"
-                                                        AND stamp = "N"
-                                                        AND dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"  
-                                                ');
-                                                foreach ($datas as $key => $value) {
-                                                    $count_N = $value->Can;
-                                                    $sum_N = $value->sumdebit;
-                                                }
-                                                // ตั้งลูกหนี้
-                                                $datasum_ = DB::select('
-                                                    SELECT sum(debit_total) as debit_total,count(DISTINCT an) as Cvit
-                                                    from acc_1102050102_107
-                                                    where dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"   
-                                                    
-                                                ');   
-                                                foreach ($datasum_ as $key => $value2) {
-                                                    $sum_Y = $value2->debit_total;
-                                                    $count_Y = $value2->Cvit;
-                                                }
-                                            ?>
-                                            <div class="row">
-                                                <div class="col-md-5 text-start mt-4 ms-4">
-                                                    <h5 > {{$item->MONTH_NAME}} {{$ynew}}</h5>
-                                                </div>
-                                                <div class="col"></div>
-                                                <div class="col-md-5 text-end mt-2 me-2">
-                                                   
-                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง">
-                                                            <h6 class="text-end">{{$count_N}} Visit</h6>
-                                                        </div>
+                            <div class="grid-menu-col">
+                                <div class="g-0 row">
+                                    <div class="col-sm-12">
+                                        <div class="d-flex text-start">
+                                            <div class="flex-grow-1 ">
+                                                <?php
+                                                    $y = $item->year;
+                                                    $ynew = $y + 543;
+                                                    // ลูกหนี้ทั้งหมด
+                                                    $datas = DB::select('
+                                                        SELECT count(DISTINCT an) as Can
+                                                            ,SUM(debit_total) as sumdebit
+                                                            from acc_debtor
+                                                            WHERE account_code="1102050102.107"
+                                                            AND stamp = "N"
+                                                            AND dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"  
+                                                    ');
+                                                    foreach ($datas as $key => $value) {
+                                                        $count_NN = $value->Can;
+                                                        $sum_NN = $value->sumdebit;
+                                                    }
+                                                    // ตั้งลูกหนี้
+                                                    $datasum_ = DB::select('
+                                                        SELECT sum(debit_total) as debit_total,count(DISTINCT an) as Cvit
+                                                        from acc_1102050102_107
+                                                        where dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"   
+                                                        
+                                                    ');   
+                                                    foreach ($datasum_ as $key => $value2) {
+                                                        $sum_Y = $value2->debit_total;
+                                                        $count_Y = $value2->Cvit;
+                                                    }
+                                                ?>
+                                                
+
                                             
+                                                <div class="row">
+                                                    <div class="col-md-5 text-start mt-4 ms-4">
+                                                        <h5 > {{$item->MONTH_NAME}} {{$ynew}}</h5>
+                                                    </div>
+                                                    <div class="col"></div>
+                                                    <div class="col-md-5 text-end mt-2 me-2"> 
+                                                            <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง {{$count_NN}}">
+                                                                <h6 class="text-end">{{$count_NN}} Visit</h6>
+                                                            </div> 
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="row">
-                                                <div class="col-md-1 text-start ms-4">
-                                                    <i class="fa-solid fa-2x fa-sack-dollar me-2 align-middle text-secondary"></i>
+                                                <div class="row">
+                                                    <div class="col-md-1 text-start ms-4">
+                                                        <i class="fa-solid fa-sack-dollar align-middle text-secondary"></i>
+                                                    </div>
+                                                    <div class="col-md-4 text-start">
+                                                        <p class="text-muted mb-0"> 
+                                                            ลูกหนี้ที่ต้องตั้ง
+                                                        </p>
+                                                    </div>
+                                                    <div class="col"></div>
+                                                    <div class="col-md-5 text-end me-2">  
+                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ที่ต้องตั้ง {{$count_NN}} Visit" >
+                                                            {{ number_format($sum_NN, 2) }}
+                                                            <i class="fa-brands fa-btc text-secondary ms-2 me-2"></i>
+                                                        </p> 
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-4 text-start mt-3">
-                                                    <p class="text-muted mb-0"> 
-                                                        ลูกหนี้ที่ต้องตั้ง
-                                                    </p>
-                                                </div>
-                                                <div class="col"></div>
-                                                <div class="col-md-5 text-end me-2">
-                                                 
-                                                        <div class="widget-chart widget-chart-hover" >
-                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ที่ต้องตั้ง {{$count_N}} Visit" >
-                                                                    {{ number_format($sum_N, 2) }}
-                                                                    <i class="fa-brands fa-btc text-secondary ms-2"></i>
-                                                            </p>
-                                                        </div>
-                                               
-                                                </div>
-                                            </div>
 
-                                            <div class="row">
-                                                <div class="col-md-1 text-start ms-4">
-                                                    <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle text-danger"></i>
-                                                </div>
-                                                <div class="col-md-4 text-start mt-3">
-                                                    <p class="text-muted mb-0" >
-                                                        ตั้งลูกหนี้
-                                                    </p>
-                                                </div>
-                                                <div class="col"></div>
-                                                <div class="col-md-5 text-end me-2">
-                                                    <a href="{{url('acc_107_detail_date/'.$startdate.'/'.$enddate)}}" target="_blank">
-                                                        <div class="widget-chart widget-chart-hover">
+                                                <div class="row">
+                                                    <div class="col-md-1 text-start mt-2 ms-4">
+                                                        <i class="fa-brands fa-bitcoin align-middle text-danger"></i>
+                                                    </div>
+                                                    <div class="col-md-4 text-start mt-2">
+                                                        <p class="text-muted mb-0" >
+                                                            ตั้งลูกหนี้
+                                                        </p>
+                                                    </div>
+                                                    <div class="col"></div>
+                                                    <div class="col-md-5 text-end mt-2 me-2">
+                                                        <a href="{{url('acc_107_detail_date/'.$startdate.'/'.$enddate)}}" target="_blank">
                                                             <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_Y}} Visit">
-                                                                    {{ number_format($sum_Y, 2) }}
-                                                                    <i class="fa-brands fa-btc text-danger ms-2"></i>
-                                                            </p>
-                                                        </div>
-                                                    </a>
+                                                                {{ number_format($sum_Y, 2) }}
+                                                                <i class="fa-brands fa-btc text-danger ms-2 me-2"></i>
+                                                            </p> 
+                                                        </a>
+                                                    </div>
                                                 </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-1 text-start mt-2 ms-4">
+                                                        <i class="fa-brands fa-bitcoin align-middle text-success"></i>
+                                                    </div>
+                                                    <div class="col-md-4 text-start mt-2">
+                                                        <p class="text-muted mb-0">
+                                                                รับชำระ(ชำระแล้ว)
+                                                        </p>
+                                                    </div>
+                                                    <div class="col"></div>
+                                                    <div class="col-md-5 text-end mt-2 me-2">  
+                                                                <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement  Visit">
+                                                                    ยังบ่อทันเฮด
+                                                                        <i class="fa-brands fa-btc text-success ms-2 me-2"></i>
+                                                                </p> 
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-1 text-start mt-2 ms-4">
+                                                        <i class="fa-brands fa-bitcoin align-middle" style="color: rgb(160, 12, 98)"></i>
+                                                    </div>
+                                                    <div class="col-md-4 text-start mt-2">
+                                                        <p class="text-muted mb-0">
+                                                                ลูกหนี้คงเหลือ
+                                                        </p>
+                                                    </div>
+                                                    <div class="col"></div>
+                                                    <div class="col-md-5 text-end mt-2 me-2">                                                         
+                                            
+                                                                <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ยกยอดไปเดือนนี้  Visit" >
+                                                                ยังบ่อทันเฮด
+                                                                <i class="fa-brands fa-btc ms-2 me-2" style="color: rgb(160, 12, 98)"></i>
+                                                                </p>
+                                                                                                        
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-4">
+                                                    <div class="col-md-1 text-start mt-2 ms-4">
+                                                        <i class="fa-brands fa-bitcoin align-middle text-primary"></i>
+                                                    </div>
+                                                    <div class="col-md-4 text-start mt-2">
+                                                        <p class="text-muted mb-0">
+                                                                ทวงหนี้
+                                                        </p>
+                                                    </div>
+                                                    <div class="col"></div>
+                                                    <div class="col-md-5 text-end mt-2 me-2"> 
+                                                        <a href="{{url('acc_107_debt_months/'.$item->months.'/'.$item->year)}}" target="_blank">          
+                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$count_Y}} Visit">
+                                                                {{ number_format($sum_Y, 2) }}
+                                                                <i class="fa-brands fa-btc text-success ms-2 me-2"></i>
+                                                            </p>  
+                                                        </a>                                                  
+                                                    </div>
+                                                </div>
+
+
+                                            
+
+                                        
+
                                             </div>
-
-                                         
-
-                                    
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div> --}}
 
                         @endif
                     </div>

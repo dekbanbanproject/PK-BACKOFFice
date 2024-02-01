@@ -73,7 +73,7 @@ return new class extends Migration
             $table->string('permiss_env')->nullable();
             $table->string('permiss_account')->nullable();
             $table->string('permiss_dental')->nullable();
-
+            $table->string('permiss_report_all')->nullable();
             $table->string('permiss_setting_account')->nullable();  //การบัญชี
             $table->string('permiss_setting_upstm')->nullable();  //UP STM
             $table->string('permiss_setting_env')->nullable();

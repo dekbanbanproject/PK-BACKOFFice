@@ -178,6 +178,11 @@ class StaticController extends Controller
     $paycount =  User::where('id','=',$iduser)->where('permiss_money','=','on')->count();   
     return $paycount;
   }
+  public static function permiss_report_all($iduser)
+  {
+    $reportcount =  User::where('id','=',$iduser)->where('permiss_report_all','=','on')->count();   
+    return $reportcount;
+  }
   public static function countpesmiss_claim($iduser)
   {
     $claimcount =  User::where('id','=',$iduser)->where('permiss_claim','=','on')->count();   
