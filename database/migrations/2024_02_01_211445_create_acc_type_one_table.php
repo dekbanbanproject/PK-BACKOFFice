@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        
-        if (!Schema::hasTable('plan_control_sub'))
+       
+        if (!Schema::hasTable('acc_type_one'))
         {
-            Schema::connection('mysql')->create('plan_control_sub', function (Blueprint $table) { 
-                $table->bigIncrements('plan_control_sub_id');//  
+            Schema::connection('mysql')->create('acc_type_one', function (Blueprint $table) { 
+                $table->bigIncrements('acc_type_one_id');//  
                 $table->string('plan_control_id')->nullable();//   
                 $table->string('plan_sub_name')->nullable();//         / 
                 $table->string('plan_sub_price')->nullable();//   
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('plan_control_sub');
+        Schema::dropIfExists('acc_type_one');
     }
 };

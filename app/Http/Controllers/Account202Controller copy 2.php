@@ -152,10 +152,6 @@ class Account202Controller extends Controller
          $startdate = $request->datepicker;
          $enddate = $request->datepicker2;
          // Acc_opitemrece::truncate();
-         $count_pttype = DB::connection('mysql2')->select(' 
-            
-
-         ');
          $acc_debtor = DB::connection('mysql2')->select(' 
                     SELECT ip.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
                     ,a.regdate as admdate,a.dchdate as dchdate,v.vstdate,op.income as income_group
@@ -216,8 +212,15 @@ class Account202Controller extends Controller
                               
                 GROUP BY a.an;
         ');
-
- 
+        // AND op.icode NOT IN("3003510","3003508","3003509","3010770","3010771","3010772","3010921","3011140","3010889") 
+        // (a.income - ipt.max_debt_amount) - 
+        // ,sum(if(op.icode IN("1560016","1540073","1530005","1620015","1600012","1600015"),sum_price,0)) as debit_drug
+        // + (sum(if(op.icode IN("3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918"),sum_price,0)))
+        // ,"1540048"
+        // icode IN("3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918")  289 บาท
+        //  WHEN sum(if(op.icode IN ("3003661","3003662","3003336","3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3003608","3010102","3010353"),sum_price,0)) > 0 THEN a.income
+        //  AND op.icode NOT IN("3003661","3003662","3003336","3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3003608","3010102","3010353")
+        //  AND ec.ar_ipd = "1102050101.202"
          foreach ($acc_debtor as $key => $value) {
 
                 if ($value->debit >0) {                 
