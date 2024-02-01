@@ -88,8 +88,7 @@
                 <div class="card cardacc">
                     {{-- <div class="card-header"> 
                        รายละเอียดตั้งลูกหนี้ผัง 1102050101.202
-                        <div class="btn-actions-pane-right">
-                           
+                        <div class="btn-actions-pane-right">                           
                         </div>
                     </div> --}}
                     <div class="card-body">  
