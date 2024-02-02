@@ -106,23 +106,26 @@ $pos = strrpos($url, '/') + 1;
                     <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                     ค้นหา
                 </button>  
+
             </form>
+
                 <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success cardacc ProcessChoi" data-url="{{url('ofc_401_process')}}">
                     <i class="fa-solid fa-spinner text-success me-2"></i>
                     ประมวลผล
                 </button>                  
-                    <a href="{{url('ofc_401_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
-                        <i class="fa-solid fa-file-export text-danger me-2"></i>
-                        Export Txt
-                    </a>                   
-                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger" id="ExportdataAPI">
-                        <i class="fa-solid fa-upload text-danger me-2"></i>
-                        Export Api
-                    </button>
-                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="SenddataAPI">
-                        <i class="fa-solid fa-upload text-primary me-2"></i>
-                        ส่ง New Eclaim
-                    </button>
+                <a href="{{url('ofc_401_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                    <i class="fa-solid fa-file-export text-danger me-2"></i>
+                    Export Txt
+                </a>                   
+                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger" id="ExportdataAPI">
+                    <i class="fa-solid fa-upload text-danger me-2"></i>
+                    Export Api
+                </button>
+                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="SenddataAPI">
+                    <i class="fa-solid fa-upload text-primary me-2"></i>
+                    ส่ง New Eclaim
+                </button>
+
             </div> 
         </div>          
     </div>
@@ -236,11 +239,11 @@ $pos = strrpos($url, '/') + 1;
                                         <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
                                         <span class="d-none d-sm-block">DRU</span>    
                                     </a>
-                                </li>
-                                
+                                </li>                                
                             </ul>
                             <!-- Tab panes -->
                             <div class="tab-content p-3 text-muted">
+
                                 <div class="tab-pane active" id="Main" role="tabpanel">
                                     <p class="mb-0">
                                         <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -794,7 +797,7 @@ $pos = strrpos($url, '/') + 1;
                                         </table>
                                     </p>
                                 </div> 
-                                 <div class="tab-pane" id="ADP" role="tabpanel">
+                                <div class="tab-pane" id="ADP" role="tabpanel">
                                     <p class="mb-0">
                                         <table id="example16" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                             <thead>
@@ -917,20 +920,16 @@ $pos = strrpos($url, '/') + 1;
                                     </p>
                                 </div>
 
-
                             </div>
+
                         </div>
-                    </div>
-                   
-                   
+                    </div> 
                 </div>
             </div>
         </div>
-
     </div>
 </div>
  
-
 @endsection
 @section('footer')
 
@@ -949,6 +948,7 @@ $pos = strrpos($url, '/') + 1;
             placeholder: "--เลือก--",
             allowClear: true
         });
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1064,6 +1064,7 @@ $pos = strrpos($url, '/') + 1;
                             }
                 })
         });
+
         $('#ExportdataAPI').click(function() {
                 var datepicker = $('#datepicker').val(); 
                 var datepicker2 = $('#datepicker2').val(); 
@@ -1127,82 +1128,82 @@ $pos = strrpos($url, '/') + 1;
                         $(".choisub_chk").prop('checked',false);  
                     }  
         }); 
+
         $('.ProcessChoi').on('click', function(e) {
-                // alert('oo');
-                var allValls = [];
-                $(".choisub_chk:checked").each(function () {
-                    allValls.push($(this).attr('data-id'));
-                });
-                if (allValls.length <= 0) {
-                    // alert("SSSS");
-                    Swal.fire({
-                        title: 'คุณยังไม่ได้เลือกรายการ ?',
-                        text: "กรุณาเลือกรายการก่อน",
+            //alert('oo');
+            var allValls = [];
+            $(".choisub_chk:checked").each(function () {
+                allValls.push($(this).attr('data-id'));
+            });
+            if (allValls.length <= 0) {
+                // alert("SSSS");
+                Swal.fire({
+                    title: 'คุณยังไม่ได้เลือกรายการ ?',
+                    text: "กรุณาเลือกรายการก่อน",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33', 
+                    }).then((result) => {
+                    
+                    })
+            } else {
+                Swal.fire({
+                        title: 'Are you sure Choose in Box?',
+                        text: "คุณต้องการประมวลผลตามที่เลือกใช่ไหม!",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33', 
-                        }).then((result) => {
-                        
-                        })
-                } else {
-                    Swal.fire({
-                            title: 'Are you sure Choose in Box?',
-                            text: "คุณต้องการประมวลผลตามที่เลือกใช่ไหม!",
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'Yes, Choose it.!'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            var check = true;
-                            if (check == true) {
-                                var join_selected_values = allValls.join(","); 
-                                $("#overlay").fadeIn(300);　
-                                $("#spinner").show(); //Load button clicked show spinner 
-                                $.ajax({
-                                    url:$(this).data('url'),
-                                    type: 'POST',
-                                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                                    data: 'ids='+join_selected_values,
-                                    success:function(data){ 
-                                            if (data.status == 200) {
-                                                $(".sub_chk:checked").each(function () {
-                                                    $(this).parents("tr").remove();
-                                                });
-                                                Swal.fire({
-                                                    title: 'ประมวลผลสำเร็จ',
-                                                    text: "You Process data success",
-                                                    icon: 'success',
-                                                    showCancelButton: false,
-                                                    confirmButtonColor: '#06D177',
-                                                    confirmButtonText: 'เรียบร้อย'
-                                                }).then((result) => {
-                                                    if (result
-                                                        .isConfirmed) {
-                                                        console.log(
-                                                            data);
-                                                        window.location.reload();
-                                                        $('#spinner').hide();//Request is complete so hide spinner
-                                                    setTimeout(function(){
-                                                        $("#overlay").fadeOut(300);
-                                                    },500);
-                                                    }
-                                                })
-                                            } else {                                                    
-                                            } 
-                                    }
-                                });
-                                $.each(allValls,function (index,value) {
-                                    $('table tr').filter("[data-row-id='"+value+"']").remove();
-                                });
-                            }
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, Choose it.!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var check = true;
+                        if (check == true) {
+                            var join_selected_values = allValls.join(","); 
+                            $("#overlay").fadeIn(300);　
+                            $("#spinner").show(); //Load button clicked show spinner 
+                            $.ajax({
+                                url:$(this).data('url'),
+                                type: 'POST',
+                                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                                data: 'ids='+join_selected_values,
+                                success:function(data){ 
+                                        if (data.status == 200) {
+                                            $(".sub_chk:checked").each(function () {
+                                                $(this).parents("tr").remove();
+                                            });
+                                            Swal.fire({
+                                                title: 'ประมวลผลสำเร็จ',
+                                                text: "You Process data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                setTimeout(function(){
+                                                    $("#overlay").fadeOut(300);
+                                                },500);
+                                                }
+                                            })
+                                        } else {                                                    
+                                        } 
+                                }
+                            });
+                            $.each(allValls,function (index,value) {
+                                $('table tr').filter("[data-row-id='"+value+"']").remove();
+                            });
                         }
-                    }) 
-                    
-                }
-            });
+                    }
+                })                     
+            }
+        });
         
     });
 </script>

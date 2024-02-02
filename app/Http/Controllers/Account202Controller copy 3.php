@@ -152,10 +152,15 @@ class Account202Controller extends Controller
          $startdate = $request->datepicker;
          $enddate = $request->datepicker2;
          // Acc_opitemrece::truncate();
-         
+         $count_pttype = DB::connection('mysql2')->select(' 
+            
+
+         ');
          $acc_debtor = DB::connection('mysql2')->select(' 
-                    SELECT ip.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname,a.regdate as admdate,a.dchdate as dchdate,v.vstdate,op.income as income_group
-                    ,ipt.pttype,ipt.pttype_number,ipt.max_debt_amount ,ip.rw,ip.adjrw,ip.adjrw*8350 as total_adjrw_income ,ipt.nhso_ownright_pid ,a.income as income ,a.uc_money,a.rcpt_money,a.discount_money
+                    SELECT ip.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
+                    ,a.regdate as admdate,a.dchdate as dchdate,v.vstdate,op.income as income_group
+                    ,ipt.pttype,ipt.pttype_number,ipt.max_debt_amount
+                    ,ip.rw,ip.adjrw,ip.adjrw*8350 as total_adjrw_income
                     ,CASE 
                     WHEN  ipt.pttype_number ="2" THEN "01" 
                     ELSE ec.code
@@ -167,25 +172,35 @@ class Account202Controller extends Controller
                     ,CASE 
                     WHEN  ipt.pttype_number ="2" THEN "UC ใน CUP" 
                     ELSE ec.name
-                    END as account_name	 
+                    END as account_name	
+                    ,ipt.nhso_ownright_pid
+                    ,a.income as income ,a.uc_money,a.rcpt_money,a.discount_money
 
                     ,CASE 
                     WHEN  ipt.pttype_number ="1" AND ipt.pttype IN ("31","33","36","39") THEN ipt.max_debt_amount 
                     ELSE a.income - ipt.max_debt_amount 
-                    END as debit_prb 
+                    END as debit_prb
 
-                    ,(a.income-a.rcpt_money-a.discount_money)-
-                    (sum(if(op.income="02",sum_price,0))) -
-                    (sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))) -
-                    (sum(if(op.icode IN("3001412","3001417"),sum_price,0))) -
-                    (sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0))) +
-                    (sum(if(op.icode IN("3002895","3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002918"),sum_price,0)))  
-                    as debit
+                    ,CASE 
+                        WHEN  ipt.pttype_number ="2" AND ipt.pttype NOT IN ("31","33","36","39") THEN 
+                           (a.income-a.rcpt_money-a.discount_money) -                            
+                            (sum(if(op.income="02",sum_price,0))) -
+                            (sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))) -
+                            (sum(if(op.icode IN ("3003510","3003508","3003509","3010770","3010771","3010772","3010921","3011140","3010889","3001412","3001417"),sum_price,0))) -
+                            (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)))                   
+                    ELSE 
+                        (a.income-a.rcpt_money-a.discount_money)-
+                        (sum(if(op.income="02",sum_price,0))) -
+                        (sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))) -
+                        (sum(if(op.icode IN ("3003510","3003508","3003509","3010770","3010771","3010772","3010921","3011140","3010889","3001412","3001417"),sum_price,0))) -
+                        (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0))) +
+                        (sum(if(op.icode IN("3002895","3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002918"),sum_price,0)))                        
+                    END as debit
 
                     ,sum(if(op.icode IN("3002895","3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002918"),sum_price,0)) as portex
                     ,sum(if(op.income="02",sum_price,0)) as debit_instument
                     ,sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0)) as debit_drug
-                    ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
+                    ,sum(if(op.icode IN ("3003510","3003508","3003509","3010770","3010771","3010772","3010921","3011140","3010889","3001412","3001417"),sum_price,0)) as debit_toa
                     ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
 
                     from ipt ip
@@ -197,80 +212,62 @@ class Account202Controller extends Controller
                     LEFT JOIN opitemrece op ON ip.an = op.an
                     LEFT JOIN vn_stat v on v.vn = ip.vn
                 WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"              
-                AND ipt.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202" AND opdipd ="IPD")                              
+                AND ipt.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202" AND opdipd ="IPD")
+                              
                 GROUP BY a.an;
         ');
-        // ,CASE 
-        //                 WHEN  ipt.pttype_number ="2" AND ipt.pttype NOT IN ("31","33","36","39") THEN 
-        //                    (a.income-a.rcpt_money-a.discount_money) -                            
-        //                     (sum(if(op.income="02",sum_price,0))) -
-        //                     (sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))) -
-        //                     (sum(if(op.icode IN ("3003510","3003508","3003509","3010770","3010771","3010772","3010921","3011140","3010889","3001412","3001417"),sum_price,0))) -
-        //                     (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)))                   
-        //             ELSE 
-        //                 (a.income-a.rcpt_money-a.discount_money)-
-        //                 (sum(if(op.income="02",sum_price,0))) -
-        //                 (sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))) -
-        //                 (sum(if(op.icode IN ("3003510","3003508","3003509","3010770","3010771","3010772","3010921","3011140","3010889","3001412","3001417"),sum_price,0))) -
-        //                 (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0))) +
-        //                 (sum(if(op.icode IN("3002895","3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002918"),sum_price,0)))                        
-        //             END as debit
+
  
          foreach ($acc_debtor as $key => $value) {
-            // $count_pttype = DB::connection('mysql2')->select('SELECT COUNT(an) as C_an FROM  ipt_pttype WHERE an = "'.$value->an.'" ');
-            $count_pttype = DB::connection('mysql2')->table('ipt_pttype')->where('an', $value->an)->count();
-            // dd($count_pttype);
-            if ($count_pttype > 1) {
-                # code...
-            } else { 
+
                 if ($value->debit >0) {                 
-                        $check = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.202')->count();
-                        if ($check == 0) {
-                            // if ($value->debit_instument > 0 || $value->debit_drug > 0 || $value->debit_toa > 0 || $value->debit_refer > 0) {
-                            if ($value->debit_toa > 0 ) {                     
-                            } else {
-                                Acc_debtor::insert([
-                                    'hn'                 => $value->hn,
-                                    'an'                 => $value->an,
-                                    'vn'                 => $value->vn,
-                                    'cid'                => $value->cid,
-                                    'ptname'             => $value->ptname,
-                                    'pttype'             => $value->pttype,
-                                    'vstdate'            => $value->vstdate,
-                                    'rxdate'             => $value->admdate,
-                                    'dchdate'            => $value->dchdate,
-                                    'acc_code'           => $value->code,
-                                    'account_code'       => $value->account_code,
-                                    'account_name'       => $value->account_name, 
-                                    'income'             => $value->income,
-                                    'uc_money'           => $value->uc_money,
-                                    'discount_money'     => $value->discount_money, 
-                                    'rcpt_money'         => $value->rcpt_money,
-                                    'debit'              => $value->debit,
-                                    'debit_drug'         => $value->debit_drug,
-                                    'debit_instument'    => $value->debit_instument,
-                                    'debit_toa'          => $value->debit_toa,
-                                    'debit_refer'        => $value->debit_refer,
-                                    'debit_total'        => $value->debit,                           
-                                    'max_debt_amount'    => $value->max_debt_amount,
-                                    'rw'                 => $value->rw,
-                                    'adjrw'              => $value->adjrw,
-                                    'total_adjrw_income' => $value->total_adjrw_income,
-                                //  'sauntang'           => $value->total_adjrw_income,
-                                    'acc_debtor_userid'  => Auth::user()->id
-                                ]);
-                            }                                                
-                        }
-                } else { 
+                     $check = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.202')->count();
+                     if ($check == 0) {
+                        // if ($value->debit_instument > 0 || $value->debit_drug > 0 || $value->debit_toa > 0 || $value->debit_refer > 0) {
+                        if ($value->debit_toa > 0 ) {                     
+                        } else {
+                            Acc_debtor::insert([
+                                'hn'                 => $value->hn,
+                                'an'                 => $value->an,
+                                'vn'                 => $value->vn,
+                                'cid'                => $value->cid,
+                                'ptname'             => $value->ptname,
+                                'pttype'             => $value->pttype,
+                                'vstdate'            => $value->vstdate,
+                                'rxdate'             => $value->admdate,
+                                'dchdate'            => $value->dchdate,
+                                'acc_code'           => $value->code,
+                                'account_code'       => $value->account_code,
+                                'account_name'       => $value->account_name, 
+                                'income'             => $value->income,
+                                'uc_money'           => $value->uc_money,
+                                'discount_money'     => $value->discount_money, 
+                                'rcpt_money'         => $value->rcpt_money,
+                                'debit'              => $value->debit,
+                                'debit_drug'         => $value->debit_drug,
+                                'debit_instument'    => $value->debit_instument,
+                                'debit_toa'          => $value->debit_toa,
+                                'debit_refer'        => $value->debit_refer,
+                                'debit_total'        => $value->debit,                           
+                                'max_debt_amount'    => $value->max_debt_amount,
+                                'rw'                 => $value->rw,
+                                'adjrw'              => $value->adjrw,
+                                'total_adjrw_income' => $value->total_adjrw_income,
+                               //  'sauntang'           => $value->total_adjrw_income,
+                                'acc_debtor_userid'  => Auth::user()->id
+                            ]);
+                        }                                                
+                     }
+                } else {
+            
                 }
-            }
                     
          }
  
-        return response()->json([
-
-            'status'    => '200'
-        ]);
+             return response()->json([
+ 
+                 'status'    => '200'
+             ]);
      }
      public function account_pkucs202_dash(Request $request)
      {
