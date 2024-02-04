@@ -18,7 +18,7 @@ return new class extends Migration
             Schema::connection('mysql')->create('plan_control', function (Blueprint $table) { 
                 $table->bigIncrements('plan_control_id');//  
                 $table->string('billno')->nullable();//   
-                $table->string('plan_name')->nullable();//         แผนงาน/โครงการ
+                $table->longtext('plan_name')->nullable();//         แผนงาน/โครงการ
                 $table->string('plan_obj')->nullable();//          วัตถุประสงค์ /ตัวชี้วัด
                 $table->string('plan_type')->nullable();//         แหล่งงบประมาณ
                 $table->date('plan_starttime')->nullable();//     ระยะเวลา 

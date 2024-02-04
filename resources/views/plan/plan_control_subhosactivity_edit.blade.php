@@ -45,6 +45,54 @@
             width: 25px;
             height: 25px;
            }
+           #request{
+                    width: 40px;
+                    height: 40px;
+                    background-color: rgb(248, 209, 163);
+                    border-radius: 100%;
+                    margin: 0% auto;
+                    -webkit-animation: pulse 2s infinite ease-in-out;
+                    -o-animation: pulse 3s infinite ease-in-out;
+                    -ms-animation: pulse 5s infinite ease-in-out;
+                    -moz-animation: pulse 7s infinite ease-in-out;
+                    animation: pulse 2s infinite ease-in-out;
+            }
+            #accept{
+                    width: 40px;
+                    height: 40px;
+                    background-color: rgb(200, 233, 248);
+                    border-radius: 100%;
+                    margin: 0% auto;
+                    -webkit-animation: pulse 2s infinite ease-in-out;
+                    -o-animation: pulse 3s infinite ease-in-out;
+                    -ms-animation: pulse 5s infinite ease-in-out;
+                    -moz-animation: pulse 7s infinite ease-in-out;
+                    animation: pulse 2s infinite ease-in-out;
+            }
+            #acceptpo{
+                    width: 40px;
+                    height: 40px;
+                    background-color: rgb(209, 200, 248);
+                    border-radius: 100%;
+                    margin: 0% auto;
+                    -webkit-animation: pulse 2s infinite ease-in-out;
+                    -o-animation: pulse 3s infinite ease-in-out;
+                    -ms-animation: pulse 5s infinite ease-in-out;
+                    -moz-animation: pulse 7s infinite ease-in-out;
+                    animation: pulse 2s infinite ease-in-out;
+            }
+            #finish{
+                    width: 40px;
+                    height: 40px;
+                    background-color: rgb(194, 250, 219);
+                    border-radius: 100%;
+                    margin: 0% auto;
+                    -webkit-animation: pulse 2s infinite ease-in-out;
+                    -o-animation: pulse 3s infinite ease-in-out;
+                    -ms-animation: pulse 5s infinite ease-in-out;
+                    -moz-animation: pulse 7s infinite ease-in-out;
+                    animation: pulse 2s infinite ease-in-out;
+            }
 </style>
 <script>
     function TypeAdmin() {
@@ -88,7 +136,90 @@
                     })
                 }
             })
-        }
+    }
+    function plan_control_activ_ssj(plan_control_activity_id)
+    {
+        Swal.fire({
+            title: 'ต้องการเสนอ สสจ.ใช่ไหม?',
+            text: "ข้อมูลนี้จะถูกเสนอ สสจ. !!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'ใช่, ส่งเดี๋ยวนี้ !',
+            cancelButtonText: 'ไม่, ยกเลิก'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url:"{{url('plan_control_activ_ssj')}}" +'/'+ plan_control_activity_id,  
+                type:'POST',
+                data:{
+                    _token : $("input[name=_token]").val()
+                },
+                success:function(response)
+                {          
+                    Swal.fire({
+                        title: 'เสนอ สสจ. สำเร็จ !',
+                        text: "You Send data success",
+                        icon: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#06D177',
+                        // cancelButtonColor: '#d33',
+                        confirmButtonText: 'เรียบร้อย'
+                    }).then((result) => {
+                        if (result.isConfirmed) {                  
+                        $("#sid"+plan_control_activity_id).remove();     
+                        window.location.reload(); 
+                        //   window.location = "/person/person_index"; //     
+                        }
+                    }) 
+                }
+            })        
+            }
+        })
+    }
+
+    function plan_control_activ_po(plan_control_activity_id)
+    {
+        Swal.fire({
+            title: 'ต้องการเสนอ ผอ.ใช่ไหม?',
+            text: "ข้อมูลนี้จะถูกเสนอ ผอ. !!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'ใช่, ส่งเดี๋ยวนี้ !',
+            cancelButtonText: 'ไม่, ยกเลิก'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url:"{{url('plan_control_activ_po')}}" +'/'+ plan_control_activity_id,  
+                type:'POST',
+                data:{
+                    _token : $("input[name=_token]").val()
+                },
+                success:function(response)
+                {          
+                    Swal.fire({
+                        title: 'เสนอ ผอ. สำเร็จ !',
+                        text: "You Send data success",
+                        icon: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#06D177',
+                        // cancelButtonColor: '#d33',
+                        confirmButtonText: 'เรียบร้อย'
+                    }).then((result) => {
+                        if (result.isConfirmed) {                  
+                        $("#sid"+plan_control_activity_id).remove();     
+                        window.location.reload(); 
+                        //   window.location = "/person/person_index"; //     
+                        }
+                    }) 
+                }
+            })        
+            }
+        })
+    }
 </script>
 <?php
 if (Auth::check()) {
@@ -160,7 +291,7 @@ $refnumber = PlanController::refnumber();
                                                     <i class="pe-7s-diskette btn-icon-wrapper"></i>Update 
                                                 </button>
                                                
-                                                <a href="{{ url('plan_control_activity/'.$id.'/'.$sid) }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger me-2">
+                                                <a href="{{ url('plan_control_subhosactivity/'.$id.'/'.$sid) }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger me-2">
                                                     <i class="fa-solid fa-xmark me-2"></i>
                                                     Back
                                                 </a>
@@ -182,12 +313,7 @@ $refnumber = PlanController::refnumber();
                                                     <span class="d-none d-sm-block">ไตรมาส</span>    
                                                 </a>
                                             </li>
-                                            {{-- <li class="nav-item">
-                                                <a class="nav-link" data-bs-toggle="tab" href="#messages" role="tab">
-                                                    <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
-                                                    <span class="d-none d-sm-block">งบประมาณ</span>    
-                                                </a>
-                                            </li>                                            --}}
+                                           
                                         </ul>
                                         <div class="tab-content p-3 text-muted">
                                             <div class="tab-pane active" id="detail" role="tabpanel">
@@ -392,280 +518,14 @@ $refnumber = PlanController::refnumber();
                                                     </div> 
                                                 </p>
                                             </div>
-                                            {{-- <div class="tab-pane" id="messages" role="tabpanel">
-                                                <p class="mb-0">
-                                                  
-                                                    <div class="row mt-2">
-                                                        <div class="col-md-4">
-                                                            <label for="">รายละเอียดงบประมาณ</label>
-                                                            <div class="form-group">  
-                                                                <select name="plan_list_budget_id" id="plan_list_budget_id" class="form-control form-control-sm" style="width: 100%"> 
-                                                                    <option value="">-เลือก-</option>
-                                                                    @foreach ($plan_list_budget as $item_list)
-                                                                    <option value="{{$item_list->plan_list_budget_id}}">{{$item_list->plan_list_budget_name}}</option>
-                                                                    @endforeach
-                                                                </select> 
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <label for="">ถ้าไม่มีรายละเอียดงบประมาณให้เพิ่ม</label>
-                                                            <div class="form-group"> 
-                                                                <input id="PLAN_LIST" class="form-control form-control-sm" name="PLAN_LIST">
-                                                            </div>
-                                                        </div>  
-                                                        <div class="col-md-1"> 
-                                                            <br>
-                                                            <div class="form-group mt-2"> 
-                                                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Adddata_Sub">
-                                                                    <i class="fa-solid fa-plus me-2"></i>เพิ่ม 
-                                                                </button>
-                                                            </div>
-                                                        </div>   
-                                                        <div class="col-md-2">
-                                                            <label for="">บาท</label>
-                                                            <div class="form-group"> 
-                                                                <input id="plan_control_budget_price_new" class="form-control form-control-sm" name="plan_control_budget_price_new">
-                                                            </div>
-                                                        </div>  
-                                                        <div class="col-md-2"> 
-                                                            <br>
-                                                            <div class="form-group mt-2"> 
-                                                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Insertdata_Sub">
-                                                                    <i class="pe-7s-diskette btn-icon-wrapper me-2"></i>Save 
-                                                                </button>
-                                                            </div>
-                                                        </div>        
-                                                    </div>
-                                             
-                                                    <div class="row mt-3">
-                                                        <div class="col-md-12">
-                                                            <table class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; width: 100%;">
-                                                                <tr>
-                                                                    <thead>
-                                                                        <th class="text-center">รายละเอียดงบประมาณ</th>
-                                                                        <th class="text-center">จำนวนเงิน</th>
-                                                                    </thead>
-                                                                </tr>
-                                                              <tbody>
-                                                                @foreach ($plan_control_budget as $item_su)
-                                                                <tr>
-                                                                    <td class="text-start" >{{$item_su->plan_list_budget_name}}</td>
-                                                                    <td class="text-center" width="20%">{{$item_su->plan_control_budget_price}}</td>
-                                                                </tr>
-                                                                @endforeach
-                                                                
-                                                              </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </p>
-                                            </div> --}}
+                                            
                                           
                                         </div>
-
-                                        {{-- <div class="row">
-                                            <div class="col-md-8 ">
-                                                <label for="">ชื่อแผนงาน/กิจกรรมสำคัญ</label>
-                                                <div class="form-group">
-                                                <input id="plan_control_activity_name" class="form-control form-control-sm" name="plan_control_activity_name" value="{{$data_activity->plan_control_activity_name}}">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3 ">
-                                                <label for="">กลุ่มเป้าหมาย</label>
-                                                <div class="form-group"> 
-                                                    <input id="plan_control_activity_group" class="form-control form-control-sm" name="plan_control_activity_group" value="{{$data_activity->plan_control_activity_group}}">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-1">
-                                                <label for="">จำนวน(คน) </label>
-                                                <div class="form-group"> 
-                                                    <input id="qty" class="form-control form-control-sm" name="qty" value="{{$data_activity->qty}}">
-                                                </div>
-                                            </div>
-                                        </div> --}}
-                                        {{-- <div class="row mt-2">
-                                            <div class="col-md-8 ">
-                                                <label for="">รายละเอียดงบประมาณ</label>
-                                                <div class="form-group"> 
-                                                    <input id="budget_detail" class="form-control form-control-sm" name="budget_detail" value="{{$data_activity->budget_detail}}">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-1 ">
-                                                <label for="">บาท</label>
-                                                <div class="form-group"> 
-                                                    <input id="budget_price" class="form-control form-control-sm" name="budget_price" value="{{$data_activity->budget_price}}">
-                                                </div>
-                                            </div>                                            
-                                            <div class="col-md-3 ">
-                                                <label for="">แหล่งงบประมาณ </label>
-                                                <div class="form-group">
-                                                    <select name="budget_source" id="budget_source" class="form-control form-control-sm" style="width: 100%"> 
-                                                        <option value="">-เลือก-</option>
-                                                        @foreach ($plan_control_type as $item2)
-                                                        @if ($data_activity->budget_source == $item2->plan_control_type_id)
-                                                        <option value="{{$item2->plan_control_type_id}}" selected>{{$item2->plan_control_typename}}</option>
-                                                        @else
-                                                        <option value="{{$item2->plan_control_type_id}}">{{$item2->plan_control_typename}}</option>
-                                                        @endif
-                                                       
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>                    
-                                        </div> --}}
-                                        {{-- <div class="row mt-2">   --}}
-                                           
-                                            {{-- <div class="col-md-2">
-                                                <label for="">ไตรมาสที่ 1 </label>
-                                                <div class="form-group">
-                                                    <div class="form-check form-check-inline"> 
-                                                        @if ($data_activity->trimart_11 == 'on')
-                                                        <input class="form-check-input" type="checkbox" id="trimart_11" name="trimart_11" checked/>
-                                                        @else
-                                                        <input class="form-check-input" type="checkbox" id="trimart_11" name="trimart_11"/>
-                                                        @endif
-                                                        <label class="form-check-label" for="trimart_11">ต.ค.</label> 
-                                                    </div> 
-                                                    <div class="form-check form-check-inline"> 
-                                                        @if ($data_activity->trimart_12 == 'on')
-                                                        <input class="form-check-input" type="checkbox" id="trimart_12" name="trimart_12" checked/>
-                                                        @else
-                                                        <input class="form-check-input" type="checkbox" id="trimart_12" name="trimart_12"/>
-                                                        @endif
-                                                        <label class="form-check-label" for="trimart_12">พ.ย.</label>
-                                                    </div> 
-                                                    <div class="form-check form-check-inline"> 
-                                                        @if ($data_activity->trimart_13 == 'on')
-                                                        <input class="form-check-input" type="checkbox" id="trimart_13" name="trimart_13" checked/>
-                                                        @else
-                                                        <input class="form-check-input" type="checkbox" id="trimart_13" name="trimart_13"/>
-                                                        @endif
-                                                        <label class="form-check-label" for="trimart_13">ธ.ค.</label>
-                                                    </div> 
-                                                </div>
-                                            </div>  
-                                            <div class="col-md-2">
-                                                <label for="">ไตรมาสที่ 2 </label>
-                                                <div class="form-group">
-                                                    <div class="form-check form-check-inline"> 
-                                                        @if ($data_activity->trimart_21 == 'on')
-                                                        <input class="form-check-input" type="checkbox" id="trimart_21" name="trimart_21" checked/>
-                                                        @else
-                                                        <input class="form-check-input" type="checkbox" id="trimart_21" name="trimart_21"/>
-                                                        @endif
-                                                        <label class="form-check-label" for="trimart_21">ม.ค.</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline"> 
-                                                        @if ($data_activity->trimart_22 == 'on')
-                                                        <input class="form-check-input" type="checkbox" id="trimart_22" name="trimart_22" checked/>
-                                                        @else
-                                                        <input class="form-check-input" type="checkbox" id="trimart_22" name="trimart_22"/>
-                                                        @endif
-                                                        <label class="form-check-label" for="trimart_22">ก.พ.</label>
-                                                    </div> 
-                                                    <div class="form-check form-check-inline"> 
-                                                        @if ($data_activity->trimart_23 == 'on')
-                                                        <input class="form-check-input" type="checkbox" id="trimart_23" name="trimart_23" checked/>
-                                                        @else
-                                                        <input class="form-check-input" type="checkbox" id="trimart_23" name="trimart_23"/>
-                                                        @endif
-                                                        <label class="form-check-label" for="trimart_23">มี.ค.</label>
-                                                    </div> 
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <label for="">ไตรมาสที่ 3 </label>
-                                                <div class="form-group">
-                                                    <div class="form-check form-check-inline"> 
-                                                        @if ($data_activity->trimart_31 == 'on')
-                                                        <input class="form-check-input" type="checkbox" id="trimart_31" name="trimart_31" checked/>
-                                                        @else
-                                                        <input class="form-check-input" type="checkbox" id="trimart_31" name="trimart_31"/>
-                                                        @endif
-                                                        <label class="form-check-label" for="trimart_31">เม.ย.</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline"> 
-                                                        @if ($data_activity->trimart_32 == 'on')
-                                                        <input class="form-check-input" type="checkbox" id="trimart_32" name="trimart_32" checked/>
-                                                        @else
-                                                        <input class="form-check-input" type="checkbox" id="trimart_32" name="trimart_32"/>
-                                                        @endif
-                                                        <label class="form-check-label" for="trimart_32">พ.ค.</label>
-                                                    </div> 
-                                                    <div class="form-check form-check-inline"> 
-                                                        @if ($data_activity->trimart_33 == 'on')
-                                                        <input class="form-check-input" type="checkbox" id="trimart_33" name="trimart_33" checked/>
-                                                        @else
-                                                        <input class="form-check-input" type="checkbox" id="trimart_33" name="trimart_33"/>
-                                                        @endif
-                                                        <label class="form-check-label" for="trimart_33">มิ.ย.</label>
-                                                    </div> 
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <label for="">ไตรมาสที่ 4 </label>
-                                                <div class="form-group">
-                                                    <div class="form-check form-check-inline"> 
-                                                        @if ($data_activity->trimart_41 == 'on')
-                                                        <input class="form-check-input" type="checkbox" id="trimart_41" name="trimart_41" checked/>
-                                                        @else
-                                                        <input class="form-check-input" type="checkbox" id="trimart_41" name="trimart_41"/>
-                                                        @endif
-                                                        <label class="form-check-label" for="trimart_41">ก.ค.</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline"> 
-                                                        @if ($data_activity->trimart_42 == 'on')
-                                                        <input class="form-check-input" type="checkbox" id="trimart_42" name="trimart_42" checked/>
-                                                        @else
-                                                        <input class="form-check-input" type="checkbox" id="trimart_42" name="trimart_42"/>
-                                                        @endif
-                                                        <label class="form-check-label" for="trimart_42">ส.ค.</label>
-                                                    </div> 
-                                                    <div class="form-check form-check-inline"> 
-                                                        @if ($data_activity->trimart_43 == 'on')
-                                                        <input class="form-check-input" type="checkbox" id="trimart_43" name="trimart_43" checked/>
-                                                        @else
-                                                        <input class="form-check-input" type="checkbox" id="trimart_43" name="trimart_43"/>
-                                                        @endif
-                                                        <label class="form-check-label" for="trimart_43">ก.ย.</label>
-                                                    </div> 
-                                                </div>
-                                            </div>  --}}
-                                             
-                                            {{-- <div class="col-md-4">
-                                                <label for="">ผู้รับผิดชอบ </label>
-                                                <div class="form-group">
-                                                    <select name="responsible_person" id="responsible_person" class="form-control form-control-sm" style="width: 100%"> 
-                                                        <option value="">-เลือก-</option>                                                   
-                                                        @foreach ($department_sub as $item)
-                                                        @if ($data_activity->responsible_person == $item->DEPARTMENT_SUB_ID)
-                                                        <option value="{{$item->DEPARTMENT_SUB_ID}}" selected>{{$item->DEPARTMENT_SUB_NAME}}</option>
-                                                        @else
-                                                        <option value="{{$item->DEPARTMENT_SUB_ID}}">{{$item->DEPARTMENT_SUB_NAME}}</option>
-                                                        @endif
-                                                            
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div> --}}
-
+ 
                                             <input type="hidden" id="plan_control_activity_id" class="form-control form-control-sm" name="plan_control_activity_id" value="{{$data_activity->plan_control_activity_id}}">
                                             <input type="hidden" id="plan_control_id" name="plan_control_id" value="{{$data_plan_control->plan_control_id}}">
                                             <input type="hidden" id="billno" name="billno" value="{{$data_plan_control->billno}}">
-                                        {{-- </div> 
-                                    </div> --}}
-                                    {{-- <div class="card-footer mt-2">
-                                        <div class="btn-actions-pane-right mt-2"> 
-                                            <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                                <i class="pe-7s-diskette btn-icon-wrapper"></i>Update 
-                                            </button>
-                                           
-                                            <a href="{{ url('plan_control_activity/'.$id.'/'.$sid) }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger me-2">
-                                                <i class="fa-solid fa-xmark me-2"></i>
-                                                Back
-                                            </a>
-                                        </div>
-                                    </div>                                --}}
+                                     
                             </div>                              
                         </div>                
                     </div>                                
@@ -679,10 +539,23 @@ $refnumber = PlanController::refnumber();
                                  
                     <div class="card-body">  
 
-                        <div class="row">
-                            <div class="col-md-8 text-start"> <h5 class="modal-title me-3" id="editModalLabel">แผนงาน/กิจกรรมสำคัญ   <a href="{{url('plan_control_activity/'.$id.'/'.$sid)}}"> {{$data_plan_control->plan_name}}</a></h5>  </div>
-                            <div class="col"></div>
-                            <div class="col-md-2 text-end"> <h6 class="mt-2 me-3"> เลขที่ {{$data_plan_control->billno}}</h6> </div>
+                        <div class="row mb-2">
+                            <div class="col-md-8 text-start"> <h5 class="modal-title me-3" id="editModalLabel">กิจกรรม/กลยุทธ์   <a href="{{url('plan_control_subhosactivity/'.$id.'/'.$sid)}}"> {{$data_plan_control->plan_name}}  เลขที่ {{$data_plan_control->billno}}</a></h5>  </div>
+                            {{-- <div class="col"></div> --}}
+                            <div class="col-md-4 text-end">  
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 209, 163);border-radius: 3em 3em 3em 3em"> 
+                                    ยังไม่ดำเนินการ
+                                </button>
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(200, 233, 248);border-radius: 3em 3em 3em 3em"> 
+                                    รอ สสจ.อนุมัติ
+                                </button>
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em"> 
+                                    รอ ผอ. อนุมัติ
+                                </button>
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(194, 250, 219);border-radius: 3em 3em 3em 3em"> 
+                                    อนุมัติ
+                                </button>
+                            </div>
                         </div> 
                         
                         <div class="table-responsive"> 
@@ -690,7 +563,7 @@ $refnumber = PlanController::refnumber();
                                 <thead >
                                     <tr style="font-size: 13px;background-color: rgb(255, 231, 226);border-color: rgb(183, 180, 180)">
                                         <th rowspan="3" colspan="1" class="text-center" width="4%" style="border-color: rgb(183, 180, 180)">ลำดับ</th>
-                                        <th rowspan="3" colspan="1" class="text-center" style="border-color: rgb(183, 180, 180)"> แผนงาน/กิจกรรมสำคัญ</th> 
+                                        <th rowspan="3" colspan="1" class="text-center" style="border-color: rgb(183, 180, 180)"> กิจกรรม/กลยุทธ์</th> 
                                         <th rowspan="3" colspan="1" class="text-center" style="border-color: rgb(183, 180, 180)">กลุ่มเป้าหมาย</th> 
                                         <th rowspan="3" colspan="1" class="text-center" width="4%" style="border-color: rgb(183, 180, 180)">จำนวน<br>(คน) </th> 
                                         <th colspan="12" class="text-center" style="border-color: rgb(183, 180, 180)">เป้าหมายการดำเนินงาน (1ต.ค.66 - 30 ก.ย.67)</th>  
@@ -727,7 +600,7 @@ $refnumber = PlanController::refnumber();
                                     <tr id="sid{{ $item_->plan_control_activity_id }}">
                                             <td class="text-center" width="4%">{{ $i++ }}</td>
                                             <td class="text-start" >
-                                                <a href="{{url('plan_control_activity_edit/'.$id.'/'.$data_plan_control->plan_control_id.'/'.$item_->plan_control_activity_id)}}">
+                                                <a href="{{url('plan_control_subhosactivity_edit/'.$id.'/'.$data_plan_control->plan_control_id.'/'.$item_->plan_control_activity_id)}}">
                                                     {{ $item_->plan_control_activity_name }}
                                                 </a>
                                             </td>
@@ -812,10 +685,64 @@ $refnumber = PlanController::refnumber();
                                                     ');  
                                                 ?>                                              
                                             <td class="text-start" width="15%">
-                                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary edit_data" value="{{ $item_->plan_control_activity_id }}">
+                                                {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary edit_data" value="{{ $item_->plan_control_activity_id }}">
                                                     <i class="pe-7s-plus btn-icon-wrapper"></i>
                                                 </button> 
-                                                <br>
+                                                <br> --}}
+                                                <div class="dropdown">
+                                                    <button class="btn btn-outline-primary dropdown-toggle menu btn-sm"
+                                                        type="button" data-bs-toggle="dropdown"
+                                                        aria-expanded="false">ทำรายการ</button>
+                                                    <ul class="dropdown-menu">
+                                                            <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm ojectModal_"  value="{{$item_->plan_control_activity_id}}" data-bs-toggle="tooltip" data-bs-placement="left" title="วัตถุประสงค์"> 
+                                                                <i class="fa-brands fa-opera me-3 mb-1" style="font-size:17px;color: rgb(40, 177, 246)"></i> 
+                                                                <label for=""
+                                                                style="color: rgb(34, 148, 255);font-size:13px">วัตถุประสงค์</label> 
+                                                            </button>
+                                                            {{-- <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm kpiModal_"  value="{{$item_->plan_control_activity_id}}" data-bs-toggle="tooltip" data-bs-placement="left" title="ตัวชี้วัด"> 
+                                                                <i class="fa-brands fa-korvue me-3 mb-1" style="font-size:17px;color: rgb(34, 148, 255)"></i>  
+                                                                <label for=""
+                                                                style="color: rgb(34, 148, 255);font-size:13px">ตัวชี้วัด KPI</label>
+                                                            </button> --}}
+                                                         
+                                                            <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm edit_data"  value="{{ $item_->plan_control_activity_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="วัตถุประสงค์"> 
+                                                                <i class="fa-solid fa-plus-minus me-3 mb-1" style="font-size:17px;color: rgb(40, 177, 246)"></i> 
+                                                                <label for=""
+                                                                style="color: rgb(34, 148, 255);font-size:13px">เพิ่มรายละเอียด</label> 
+                                                            </button> 
+                                                        
+                                                            <a class="dropdown-item menu btn btn-outline-info btn-sm" href="javascript:void(0)"
+                                                                onclick="plan_control_activ_ssj({{  $item_->plan_control_activity_id}})"
+                                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                data-bs-custom-class="custom-tooltip" title="เสนอ สสจ. อนุมัติ">
+                                                                <i class="fa-solid fa-signature me-3 mb-1"></i>
+                                                                <label for="" style="color: rgb(7, 166, 194);font-size:13px">เสนอ สสจ. อนุมัติ</label>
+                                                            </a>
+                                                            <a class="dropdown-item menu btn btn-outline-primary btn-sm" href="javascript:void(0)"
+                                                                onclick="plan_control_activ_po({{  $item_->plan_control_activity_id}})"
+                                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                data-bs-custom-class="custom-tooltip" title="เสนอ ผอ. อนุมัติ"> 
+                                                                <i class="fa-solid fa-signature me-3 mb-1" ></i>
+                                                                <label for="" style="color: rgb(7, 110, 194);font-size:13px">เสนอ ผอ. อนุมัติ</label>
+                                                            </a>
+                                                            <a type="button" href="{{url('plan_control_subhosactivity_edit/'.$id.'/'.$sid.'/'.$item_->plan_control_activity_id)}}"
+                                                                class="dropdown-item menu btn btn-outline-warning btn-sm" data-bs-toggle="tooltip"
+                                                                data-bs-placement="left" title="แก้ไข" target="_blank">
+                                                                <i class="fa-solid fa-pen-to-square me-3 mb-1" style="color: rgb(252, 185, 0);font-size:13px"></i>
+                                                                    <label for=""
+                                                                    style="color: rgb(252, 185, 0);font-size:13px">แก้ไข</label>
+                                                            </a>
+
+                                                            <a class="dropdown-item menu btn btn-outline-danger btn-sm" href="javascript:void(0)"
+                                                                onclick="plan_control_destroy({{  $item_->plan_control_activity_id}})"
+                                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                data-bs-custom-class="custom-tooltip" title="ลบ">
+                                                                <i class="fa-solid fa-trash-can me-3 mb-1"></i>
+                                                                <label for=""
+                                                                    style="color: rgb(255, 2, 2);font-size:13px">ลบ</label>
+                                                            </a>
+                                                    </ul>
+                                                </div>
                                                 @foreach ($datasub as $item_sub) 
                                                     <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="plan_control_activity_destroy({{ $item_sub->plan_control_budget_id }})" style="font-size:13px">
                                                         <span> - {{$item_sub->plan_list_budget_name}} / {{$item_sub->plan_control_budget_price}}</span>
@@ -888,6 +815,49 @@ $refnumber = PlanController::refnumber();
         </div>  
                     
     </div> 
+
+    <div class="modal fade" id="ObjModalModal" tabindex="-1"
+    role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg"> 
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>เพิ่มวัตถุประสงค์</h2> 
+            </div>
+         
+            <input id="plan_control_activity_id" class="form-control form-control-sm" name="plan_control_activity_id" type="hidden" >
+
+            <div class="modal-body">
+                <div class="row mt-3">
+                                
+                    <div class="col-md-2 text-end mt-2"> 
+                        <p for="">วัตถุประสงค์</p> 
+                    </div>
+                    <div class="col-md-9 "> 
+                        <div class="form-group">
+                            <input id="plan_control_objactivity_name" class="form-control form-control-sm" name="plan_control_objactivity_name">
+                        </div>
+                    </div>
+                    <div class="col"></div>                  
+                </div> 
+            </div>  
+
+            <div class="modal-footer">
+               
+                    <button type="button" id="SaveObjectBtn"
+                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info me-2"> 
+                        <i class="pe-7s-diskette btn-icon-wrapper me-2"></i>
+                        Save
+                    </button>
+                    <button type="button"
+                        class="btn-icon btn-shadow btn-dashed btn btn-outline-danger"
+                        data-bs-dismiss="modal"><i
+                            class="fa-solid fa-xmark me-2"></i>Close
+                    </button>  
+          
+            </div>
+        </div>
+    </div>
+</div>
 
     <div class="modal fade" id="DetailModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg"> 
@@ -968,159 +938,211 @@ $refnumber = PlanController::refnumber();
                 });
               
                 $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
- 
-            $("#spinner-div").hide(); //Request is complete so hide spinner
-  
-            $(document).on('click', '.edit_data', function() {
-                var plan_control_activity_id = $(this).val();
-                $('#DetailModal').modal('show');
-                $.ajax({
-                    type: "GET",
-                    url: "{{ url('plan_control_budget_edit') }}" + '/' + plan_control_activity_id,
-                    success: function(data) {
-                        $('#edit_plan_control_id').val(data.budget.plan_control_id) 
-                        $('#edit_plan_control_activity_id').val(data.budget.plan_control_activity_id)
-                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
                 });
-            });
-
-            $('#SaveDetailBtn').click(function() {
-                    var plan_list_budget_id            = $('#plan_list_budget_id').val();
-                    var plan_control_budget_price      = $('#plan_control_budget_price').val();        
-                    var plan_control_activity_id       = $('#edit_plan_control_activity_id').val();
-                    var plan_control_id                = $('#edit_plan_control_id').val();
-                    var billno                         = $('#billno').val();
-                    
-                $.ajax({
-                    url: "{{ route('p.plan_control_budget_save') }}",
-                    type: "POST",
-                    dataType: 'json',
-                    data: {
-                        plan_list_budget_id,plan_control_activity_id,billno,plan_control_id,plan_control_budget_price
-                    },
-                    success: function(data) {
-                        if (data.status == 200) {
-                            Swal.fire({
-                                title: 'เพิ่มรายละเอียดการใช้งบประมาณสำเร็จ',
-                                text: "You Insert data success",
-                                icon: 'success',
-                                showCancelButton: false,
-                                confirmButtonColor: '#06D177',
-                                confirmButtonText: 'เรียบร้อย'
-                            }).then((result) => {
-                                if (result
-                                    .isConfirmed) {
-                                    console.log(
-                                        data);
-                                        // window.location="{{url('plan_control')}}";
-                                    window.location.reload();
-                                }
-                            })
-                        } else {
-
-                        }
-
-                    },
-                });
-            });
-
-            $('#Updatedata').click(function() {
-                    var plan_control_activity_name       = $('#plan_control_activity_name').val();
-                    var plan_control_activity_group      = $('#plan_control_activity_group').val();
-                    var qty                              = $('#qty').val();
-                    var budget_detail                    = $('#budget_detail').val();
-                    var budget_price                     = $('#budget_price').val();
-                    var budget_source                    = $('#budget_source').val();
-                    var trimart_11                       = $('#trimart_11').val();
-                    var trimart_12                       = $('#trimart_12').val();
-                    var trimart_13                       = $('#trimart_13').val();
-                    var trimart_21                       = $('#trimart_21').val();
-                    var trimart_22                       = $('#trimart_22').val();
-                    var trimart_23                       = $('#trimart_23').val();
-                    var trimart_31                       = $('#trimart_31').val();
-                    var trimart_32                       = $('#trimart_32').val();
-                    var trimart_33                       = $('#trimart_33').val();
-                    var trimart_41                       = $('#trimart_41').val();
-                    var trimart_42                       = $('#trimart_42').val();
-                    var trimart_43                       = $('#trimart_43').val();
-                    var responsible_person               = $('#responsible_person').val();
-                    var plan_control_id                  = $('#plan_control_id').val();
-                    var billno                           = $('#billno').val();
-                    var plan_control_activity_id         = $('#plan_control_activity_id').val();
-                    
-                $.ajax({
-                    url: "{{ route('p.plan_control_activity_update') }}",
-                    type: "POST",
-                    dataType: 'json',
-                    data: {
-                        plan_control_activity_name,plan_control_activity_group,qty,budget_detail
-                        ,budget_price,budget_source,trimart_11,trimart_12,trimart_13,trimart_21,trimart_22,trimart_23
-                        ,trimart_31,trimart_32,trimart_33,trimart_41,trimart_42,trimart_43,responsible_person,plan_control_id,billno,plan_control_activity_id
-                    },
-                    success: function(data) {
-                        if (data.status == 200) {
-                            Swal.fire({
-                                title: 'แก้ไขแผนงาน/กิจกรรมสำคัญสำเร็จ',
-                                text: "You Update data success",
-                                icon: 'success',
-                                showCancelButton: false,
-                                confirmButtonColor: '#06D177',
-                                confirmButtonText: 'เรียบร้อย'
-                            }).then((result) => {
-                                if (result
-                                    .isConfirmed) {
-                                    console.log(
-                                        data);
-                                        // window.location="{{url('plan_control')}}";
-                                    window.location.reload();
-                                }
-                            })
-                        } else {
-
-                        }
-
-                    },
-                });
-            });
-
-            $('#Update_data').on('submit',function(e){
-                    e.preventDefault();            
-                    var form = this; 
+    
+                $("#spinner-div").hide(); //Request is complete so hide spinner
+    
+                $(document).on('click', '.edit_data', function() {
+                    var plan_control_activity_id = $(this).val();
+                    $('#DetailModal').modal('show');
                     $.ajax({
-                          url:$(form).attr('action'),
-                          method:$(form).attr('method'),
-                          data:new FormData(form),
-                          processData:false,
-                          dataType:'json',
-                          contentType:false,
-                          beforeSend:function(){
-                            $(form).find('span.error-text').text('');
-                          },
-                          success:function(data){
-                            if (data.status == 0 ) {
-                              
-                            } else {          
-                              Swal.fire({
-                                title: 'แก้ไขแผนงาน/กิจกรรมสำคัญสำเร็จ',
-                                text: "You Update data success",
-                                icon: 'success',
-                                showCancelButton: false,
-                                confirmButtonColor: '#06D177', 
-                                confirmButtonText: 'เรียบร้อย'
-                              }).then((result) => {
-                                if (result.isConfirmed) {                  
-                                  window.location="{{url('plan_control')}}";
-                                //   window.location.reload();
-                                }
-                              })      
-                            }
-                          }
+                        type: "GET",
+                        url: "{{ url('plan_control_budget_edit') }}" + '/' + plan_control_activity_id,
+                        success: function(data) {
+                            $('#edit_plan_control_id').val(data.budget.plan_control_id) 
+                            $('#edit_plan_control_activity_id').val(data.budget.plan_control_activity_id)
+                        },
                     });
-            });
+                });
+
+                $('#SaveDetailBtn').click(function() {
+                        var plan_list_budget_id            = $('#plan_list_budget_id').val();
+                        var plan_control_budget_price      = $('#plan_control_budget_price').val();        
+                        var plan_control_activity_id       = $('#edit_plan_control_activity_id').val();
+                        var plan_control_id                = $('#edit_plan_control_id').val();
+                        var billno                         = $('#billno').val();
+                        
+                    $.ajax({
+                        url: "{{ route('p.plan_control_budget_save') }}",
+                        type: "POST",
+                        dataType: 'json',
+                        data: {
+                            plan_list_budget_id,plan_control_activity_id,billno,plan_control_id,plan_control_budget_price
+                        },
+                        success: function(data) {
+                            if (data.status == 200) {
+                                Swal.fire({
+                                    title: 'เพิ่มรายละเอียดการใช้งบประมาณสำเร็จ',
+                                    text: "You Insert data success",
+                                    icon: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#06D177',
+                                    confirmButtonText: 'เรียบร้อย'
+                                }).then((result) => {
+                                    if (result
+                                        .isConfirmed) {
+                                        console.log(
+                                            data);
+                                            // window.location="{{url('plan_control')}}";
+                                        window.location.reload();
+                                    }
+                                })
+                            } else {
+
+                            }
+
+                        },
+                    });
+                });
+
+                $('#Updatedata').click(function() {
+                        var plan_control_activity_name       = $('#plan_control_activity_name').val();
+                        var plan_control_activity_group      = $('#plan_control_activity_group').val();
+                        var qty                              = $('#qty').val();
+                        var budget_detail                    = $('#budget_detail').val();
+                        var budget_price                     = $('#budget_price').val();
+                        var budget_source                    = $('#budget_source').val();
+                        var trimart_11                       = $('#trimart_11').val();
+                        var trimart_12                       = $('#trimart_12').val();
+                        var trimart_13                       = $('#trimart_13').val();
+                        var trimart_21                       = $('#trimart_21').val();
+                        var trimart_22                       = $('#trimart_22').val();
+                        var trimart_23                       = $('#trimart_23').val();
+                        var trimart_31                       = $('#trimart_31').val();
+                        var trimart_32                       = $('#trimart_32').val();
+                        var trimart_33                       = $('#trimart_33').val();
+                        var trimart_41                       = $('#trimart_41').val();
+                        var trimart_42                       = $('#trimart_42').val();
+                        var trimart_43                       = $('#trimart_43').val();
+                        var responsible_person               = $('#responsible_person').val();
+                        var plan_control_id                  = $('#plan_control_id').val();
+                        var billno                           = $('#billno').val();
+                        var plan_control_activity_id         = $('#plan_control_activity_id').val();
+                        
+                    $.ajax({
+                        url: "{{ route('p.plan_control_activity_update') }}",
+                        type: "POST",
+                        dataType: 'json',
+                        data: {
+                            plan_control_activity_name,plan_control_activity_group,qty,budget_detail
+                            ,budget_price,budget_source,trimart_11,trimart_12,trimart_13,trimart_21,trimart_22,trimart_23
+                            ,trimart_31,trimart_32,trimart_33,trimart_41,trimart_42,trimart_43,responsible_person,plan_control_id,billno,plan_control_activity_id
+                        },
+                        success: function(data) {
+                            if (data.status == 200) {
+                                Swal.fire({
+                                    title: 'แก้ไขแผนงาน/กิจกรรมสำคัญสำเร็จ',
+                                    text: "You Update data success",
+                                    icon: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#06D177',
+                                    confirmButtonText: 'เรียบร้อย'
+                                }).then((result) => {
+                                    if (result
+                                        .isConfirmed) {
+                                        console.log(
+                                            data);
+                                            // window.location="{{url('plan_control')}}";
+                                        window.location.reload();
+                                    }
+                                })
+                            } else {
+
+                            }
+
+                        },
+                    });
+                });
+
+                $('#Update_data').on('submit',function(e){
+                        e.preventDefault();            
+                        var form = this; 
+                        $.ajax({
+                            url:$(form).attr('action'),
+                            method:$(form).attr('method'),
+                            data:new FormData(form),
+                            processData:false,
+                            dataType:'json',
+                            contentType:false,
+                            beforeSend:function(){
+                                $(form).find('span.error-text').text('');
+                            },
+                            success:function(data){
+                                if (data.status == 0 ) {
+                                
+                                } else {          
+                                Swal.fire({
+                                    title: 'แก้ไขแผนงาน/กิจกรรมสำคัญสำเร็จ',
+                                    text: "You Update data success",
+                                    icon: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#06D177', 
+                                    confirmButtonText: 'เรียบร้อย'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {                  
+                                    // window.location="{{url('plan_control')}}";
+                                      window.location.reload();
+                                    }
+                                })      
+                                }
+                            }
+                        });
+                });
+
+                $(document).on('click', '.ojectModal_', function() {
+                    var plan_control_activity_id = $(this).val(); 
+                    $('#ObjModalModal').modal('show');
+                    // 
+                    // plan_control_moneyedit
+                    $.ajax({
+                        type: "GET",
+                        url: "{{ url('plan_control_activ_edit') }}" + '/' + plan_control_activity_id,
+                        success: function(data) { 
+                            $('#plan_control_activity_id').val(data.data_show.plan_control_activity_id)
+                            // $('#obj_billno').val(data.data_show.billno)
+                        },
+                    });
+                });
+                $('#SaveObjectBtn').click(function() { 
+                    var plan_control_objactivity_name    = $('#plan_control_objactivity_name').val();
+                    var plan_control_activity_id         = $('#plan_control_activity_id').val();
+                    // var obj_billno                    = $('#obj_billno').val();
+                    // alert(obj_billno);
+                    $.ajax({
+                        url: "{{ route('p.plan_control_activobj_save') }}",
+                        type: "POST",
+                        dataType: 'json',
+                        data: { plan_control_activity_id, plan_control_objactivity_name},
+                        success: function(data) {
+                            if (data.status == 200) {
+                                Swal.fire({
+                                    title: 'เพิ่มวัตถุประสงค์สำเร็จ',
+                                    text: "You Insert Obj success",
+                                    icon: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#06D177',
+                                    confirmButtonText: 'เรียบร้อย'
+                                }).then((result) => {
+                                    if (result
+                                        .isConfirmed) {
+                                        console.log(
+                                            data);
+
+                                        window.location
+                                            .reload();
+                                    }
+                                })
+                            } else {
+
+                            }
+
+                        },
+                    });
+                });
+
 
                               
             });

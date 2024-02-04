@@ -91,8 +91,8 @@
          
         </style>
         
-        <body data-topbar="dark">
-            {{-- <body data-sidebar="white" data-keep-enlarged="true" class="vertical-collpsed"> --}}
+        {{-- <body data-topbar="dark"> --}}
+            <body data-sidebar="white" data-keep-enlarged="true" class="vertical-collpsed">
 
             <!-- Begin page -->
             <div id="layout-wrapper">

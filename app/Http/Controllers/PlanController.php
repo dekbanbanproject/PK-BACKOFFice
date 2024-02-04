@@ -24,6 +24,8 @@ use App\Models\Plan_control_kpi;
 use App\Models\Plan_control_activity;
 use App\Models\Plan_control_budget;
 use App\Models\Plan_list_budget;
+use App\Models\Plan_control_objactivity;
+use App\Models\Plan_control_activity_sub;
 use PDF;
 use Auth;
 use setasign\Fpdi\Fpdi;
@@ -246,6 +248,21 @@ class PlanController extends Controller
         return response()->json(['status' => '200']);
     }
 
+    public function plan_control_activ_ssj(Request $request, $id)
+    {
+        $update = Plan_control_activity::find($id);
+        $update->status    =   'INPROGRESS_SSJ';
+        $update->save();
+        return response()->json(['status' => '200']);
+    }
+    public function plan_control_activ_po(Request $request, $id)
+    {
+        $update = Plan_control_activity::find($id);
+        $update->status    =   'INPROGRESS_PO';
+        $update->save();
+        return response()->json(['status' => '200']);
+    }
+
     public function plan_control_obj_save(Request $request)
     {
         $iduser = Auth::user()->id;
@@ -306,6 +323,31 @@ class PlanController extends Controller
         // $data['plan_control_activity'] = Plan_control_activity::where('plan_control_id',$sid)->where('plan_control_activity_id',$aid)->get();
 
         return view('plan.plan_control_activity', $data,[
+            'id'     =>  $id,  //  ยุทธศาสตร์ plan_strategic_id
+            'sid'    =>  $sid  // plan_control_id
+        ]);
+    }
+    public function plan_control_subhosactivity(Request $request,$id,$sid)
+    {
+        $data['startdate']             = $request->startdate;
+        $data['enddate']               = $request->enddate;
+     
+        $data['plan_control']          = Plan_control::where('plan_control_id',$sid)->first();
+        $data['plan_control_activity'] = Plan_control_activity::where('plan_control_id',$sid)->get();
+        $data_activity = Plan_control_activity::where('plan_control_id',$sid)->first();
+        $data['plan_control_budget']   = Plan_control_budget::where('plan_control_id',$sid)->get();
+
+        $data['department_sub']        = Departmentsub::get();
+        $data['department_sub_sub']    = Department_sub_sub::get();
+        $data['plan_control_type']     = Plan_control_type::get();
+        $data['plan_strategic']        = Plan_strategic::get();
+        $data['plan_list_budget']      = Plan_list_budget::get();     
+        // $data['plan_list_budget']      = DB::table('plan_list_budget')->get();
+        $data['plan_unit']             = DB::table('plan_unit')->get();  
+        $data['users']                 = User::get();    
+        // $data['plan_control_activity'] = Plan_control_activity::where('plan_control_id',$sid)->where('plan_control_activity_id',$aid)->get();
+
+        return view('plan.plan_control_subhosactivity', $data,[
             'id'     =>  $id,  //  ยุทธศาสตร์ plan_strategic_id
             'sid'    =>  $sid  // plan_control_id
         ]);
@@ -471,7 +513,6 @@ class PlanController extends Controller
             'aid'                  => $aid
         ]);
     }
-
     public function plan_control_activity_update(Request $request)
     {
         $iduser = Auth::user()->id;
@@ -530,6 +571,36 @@ class PlanController extends Controller
             'status'     => '200',
         ]);
     }
+    public function plan_control_subhosactivity_edit(Request $request,$id,$sid,$aid)
+    {
+        $data['startdate'] = $request->startdate;
+        $data['enddate'] = $request->enddate;
+        $data['com_tec'] = DB::table('com_tec')->get();
+        $data['users'] = User::get();
+        $data['department_sub']     = Departmentsub::get();
+        $data['department_sub_sub'] = Department_sub_sub::get();
+        $data['plan_control_type'] = Plan_control_type::get();
+        $data['plan_strategic'] = Plan_strategic::get();
+        $data['plan_list_budget']      = Plan_list_budget::get();     
+        // $data['plan_list_budget']      = DB::table('plan_list_budget')->get();
+        $data['plan_unit']             = DB::table('plan_unit')->get(); 
+        $data_plan_control = Plan_control::where('plan_control_id',$sid)->first();
+        $data_activity = Plan_control_activity::where('plan_control_id',$sid)->where('plan_control_activity_id',$aid)->first();
+        // $data_activity = Plan_control_activity::where('plan_control_id',$sid)->first();
+        $data['plan_control_activity'] = Plan_control_activity::where('plan_control_id',$sid)->get();
+        $data['plan_control_budget']   = Plan_control_budget::where('plan_control_budget.plan_control_id',$sid)->where('plan_control_budget.plan_control_activity_id',$aid)->get();
+        // LEFTJOIN('plan_control_activity','plan_control_activity.plan_control_id','=','plan_control_budget.plan_control_id')
+        // ->where('plan_control_budget.plan_control_id',$sid)->where('plan_control_budget.plan_control_activity_id',$aid)->get();
+        
+        return view('plan.plan_control_subhosactivity_edit', $data,[
+            'data_plan_control'    => $data_plan_control,
+            'data_activity'        => $data_activity,
+            'id'                   => $id,
+            'sid'                  => $sid,
+            'aid'                  => $aid
+        ]);
+    }
+
     public function plan_control_budget_edit(Request $request, $id)
     {
         $budget = Plan_control_activity::find($id);
@@ -594,15 +665,17 @@ class PlanController extends Controller
     {
         $data['startdate'] = $request->startdate;
         $data['enddate'] = $request->enddate;
-        $data['com_tec'] = DB::table('com_tec')->get();
+        $data_budget_year = DB::table('budget_year')->where('active','True')->first();
         $data['users'] = User::get();
         $data['plan_control_type']  = Plan_control_type::get();
         $data['department_sub']     = Departmentsub::get();
         $data['department_sub_sub'] = Department_sub_sub::get();
         $data['plan_strategic'] = Plan_strategic::get();
+       
         
         return view('plan.plan_control_subhos_add', $data,[
-            'id'    =>  $id
+            'id'                    =>  $id,
+            'data_budget_year'      =>  $data_budget_year
         ]);
     }
 
@@ -639,29 +712,153 @@ class PlanController extends Controller
       
         return view('plan.plan_control_subhos_edit', $data);
     }
-    // public function plan_control_update(Request $request)
-    // {
-    //     $id = $request->plan_control_id;
-    //     $update = Plan_control::find($id);
-    //     $update->billno                = $request->input('billno');
-    //     $update->plan_name             = $request->input('plan_name');
-    //     $update->plan_starttime        = $request->input('datepicker1');
-    //     $update->plan_endtime          = $request->input('datepicker2');
-    //     $update->plan_price            = $request->input('plan_price');
-    //     $update->department            = $request->input('department');
-    //     $update->plan_type             = $request->input('plan_type');
-    //     $update->user_id               = $request->input('user_id'); 
-    //     $update->plan_strategic_id     = $request->input('plan_strategic_id');
-    //     $update->hos_group             = $request->input('hos_group');
-    //     $update->save();
+    public function plan_control_activ_edit(Request $request,$id)
+    { 
+        $data_show = Plan_control_activity::where('plan_control_activity_id',$id)->first();
+        
+        return response()->json([
+            'status'               => '200', 
+            'data_show'            =>  $data_show,
+        ]);
+    }
+    public function plan_control_activobj_save(Request $request)
+    {
+        $iduser = Auth::user()->id;
+       
+        $add = new Plan_control_objactivity();
+        $add->plan_control_objactivity_name    = $request->input('plan_control_objactivity_name'); 
+        $add->plan_control_activity_id               = $request->input('plan_control_activity_id');  
+        $add->user_id                       = $iduser;  
+        $add->save();
+ 
+        return response()->json([
+            'status'     => '200',
+        ]);
+    }
+    public function plan_control_subhosactivity_subsave(Request $request)
+    {
+        $iduser = Auth::user()->id; 
 
-    //     return response()->json([
-    //         'status'     => '200',
-    //     ]);
-    // }
+        $b = $request->input('sub_budget_source'); 
+        if ($b  != '') {
+            $b_s = Plan_control_type::where('plan_control_type_id',$b)->first(); 
+            $plan_control_type_id = $b_s->plan_control_type_id;
+            $plan_control_typename = $b_s->plan_control_typename;
+        } else {
+            $plan_control_type_id = '';
+            $plan_control_typename = '';
+        }
 
+        $d = $request->input('sub_responsible_person'); 
+        if ($d  != '') {
+            $d_s = Departmentsub::where('DEPARTMENT_SUB_ID',$d)->first(); 
+            $DEPARTMENT_SUB_ID = $d_s->DEPARTMENT_SUB_ID;
+            $DEPARTMENT_SUB_NAME = $d_s->DEPARTMENT_SUB_NAME;
+        } else {
+            $DEPARTMENT_SUB_ID = '';
+            $DEPARTMENT_SUB_NAME = '';
+        }
+        // sub_plan_control_id
+        // sub_plan_control_activity_id
 
+        $add = new Plan_control_activity_sub();
+        $add->plan_control_activity_sub_name    = $request->input('plan_control_activity_sub_name');
+        $add->plan_control_activity_group       = $request->input('sub_plan_control_activity_group');
+        $add->qty                               = $request->input('sub_qty');  
+        $add->plan_control_unit                 = $request->input('sub_plan_control_unit');   
+        $add->budget_source                     = $plan_control_type_id;  
+        $add->budget_source_name                = $plan_control_typename;
+        $add->trimart_11                        = $request->input('subtrimart_11');  
+        $add->trimart_12                        = $request->input('subtrimart_12');  
+        $add->trimart_13                        = $request->input('subtrimart_13');  
+        $add->trimart_21                        = $request->input('subtrimart_21');  
+        $add->trimart_22                        = $request->input('subtrimart_22');  
+        $add->trimart_23                        = $request->input('subtrimart_23');  
+        $add->trimart_31                        = $request->input('subtrimart_31');  
+        $add->trimart_32                        = $request->input('subtrimart_32');  
+        $add->trimart_33                        = $request->input('subtrimart_33');  
+        $add->trimart_41                        = $request->input('subtrimart_41');  
+        $add->trimart_42                        = $request->input('subtrimart_42');  
+        $add->trimart_43                        = $request->input('subtrimart_43');  
+        $add->responsible_person                = $DEPARTMENT_SUB_ID;  
+        $add->responsible_person_name           = $DEPARTMENT_SUB_NAME;
+        $add->plan_control_id                   = $request->input('sub_plan_control_id'); 
+        $add->plan_control_activity_id          = $request->input('sub_plan_control_activity_id'); 
+        $add->user_id                           = $iduser;  
+        $add->save();
+ 
+        return response()->json([
+            'status'     => '200',
+        ]);
+    }
+    public function plan_control_subhosactivity_sub_edit(Request $request, $id)
+    {
+        $budget = Plan_control_activity_sub::find($id);
 
+        return response()->json([
+            'status'     => '200',
+            'budget'      =>  $budget,
+        ]);
+    }
+    public function plan_control_subhosactivity_subupdate(Request $request)
+    {
+        $iduser = Auth::user()->id;
+    
+        $b = $request->input('plan_list_budget_id'); 
+        if ($b  != '') {
+            $b_s = DB::table('plan_list_budget')->where('plan_list_budget_id',$b)->first(); 
+            $plan_list_budget_id = $b_s->plan_list_budget_id;
+            $plan_list_budget_name = $b_s->plan_list_budget_name;
+        } else {
+            $plan_list_budget_id = '';
+            $plan_list_budget_name = '';
+        }
+
+        $activity_id = $request->input('plan_control_activity_id'); 
+        $activity_priced = $request->input('plan_control_budget_price'); 
+        if ($activity_priced == '') {
+            $activity_price_new = '0';
+        } else {
+            $activity_price_new = $activity_priced;
+        }
+        // plan_control_budget_price
+        $plan_control_id = $request->plan_control_id;
+        
+        $price_old = Plan_control_activity::where('plan_control_activity_id',$activity_id)->first();
+        $idbudget = Plan_control_budget::where('plan_control_id',$plan_control_id)->where('plan_control_activity_id',$activity_id)->where('plan_list_budget_id',$plan_list_budget_id)->first();
+        // plan_control_budget_id
+        $check = Plan_control_budget::where('plan_control_id',$plan_control_id)->where('plan_control_activity_id',$activity_id)->where('plan_list_budget_name','=',$plan_list_budget_name)->count();
+        // $check = Plan_control_budget::where('plan_list_budget_name','=',$plan_list_budget_name)->count();
+        if ($check > 0) {
+            Plan_control_budget::where('plan_control_id',$plan_control_id)->where('plan_control_activity_id',$activity_id)->where('plan_list_budget_id',$plan_list_budget_id)->update([ 
+                // Plan_control_budget::where('plan_control_activity_id',$price_old->plan_control_activity_id)->where('plan_control_id',$request->plan_control_id)->update([ 
+                'plan_control_budget_price'       => ($idbudget->plan_control_budget_price + $activity_price_new)
+            ]);
+
+            $update = Plan_control_activity::find($activity_id); 
+            $update->budget_price        = $price_old->budget_price + $activity_price_new; 
+            $update->save(); 
+        } else {
+            $add2 = new Plan_control_budget();
+            $add2->plan_control_id                  = $plan_control_id; 
+            $add2->plan_control_activity_id         = $activity_id; 
+            $add2->plan_control_activity_sub_id     = $request->input('plan_control_activity_sub_id');  
+            $add2->plan_list_budget_id              = $plan_list_budget_id; 
+            $add2->plan_list_budget_name            = $plan_list_budget_name; 
+            $add2->plan_control_budget_price        = $activity_price_new; 
+            $add2->save();
+
+            $update = Plan_control_activity::find($activity_id); 
+            $update->budget_price        = $price_old->budget_price + $activity_price_new; 
+            $update->save(); 
+
+        }
+         
+ 
+        return response()->json([
+            'status'     => '200',
+        ]);
+    }
 
     function detail_plan(Request $request)
     {

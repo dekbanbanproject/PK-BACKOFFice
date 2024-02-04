@@ -2486,9 +2486,22 @@ Route::middleware(['type'])->group(function(){
   Route::match(['get','post'],'plan_control_subedit/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_subedit'])->name('p.plan_control_subedit');//
   Route::match(['get','post'],'plan_control_subhossave',[App\Http\Controllers\PlanController::class, 'plan_control_subhossave'])->name('p.plan_control_subhossave');//
   Route::match(['get','post'],'plan_control_subhosupdate',[App\Http\Controllers\PlanController::class, 'plan_control_subhosupdate'])->name('p.plan_control_subhosupdate');//
+  Route::match(['get','post'],'plan_control_subhosactivity/{id}/{sid}',[App\Http\Controllers\PlanController::class, 'plan_control_subhosactivity'])->name('p.plan_control_subhosactivity');//
+  Route::match(['get','post'],'plan_control_subhosactivity_edit/{id}/{sid}/{aid}',[App\Http\Controllers\PlanController::class, 'plan_control_subhosactivity_edit'])->name('p.plan_control_subhosactivity_edit');//
+
+  Route::match(['get','post'],'plan_control_subhosactivity_sub/{sid}/{aid}',[App\Http\Controllers\PlanController::class, 'plan_control_subhosactivity_sub'])->name('p.plan_control_subhosactivity_sub');//
+  Route::match(['get','post'],'plan_control_subhosactivity_subsave',[App\Http\Controllers\PlanController::class, 'plan_control_subhosactivity_subsave'])->name('p.plan_control_subhosactivity_subsave');//
+  Route::match(['get','post'],'plan_control_subhosactivity_sub_edit/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_subhosactivity_sub_edit'])->name('p.plan_control_subhosactivity_sub_edit');//
+  Route::match(['get','post'],'plan_control_subhosactivity_subupdate',[App\Http\Controllers\PlanController::class, 'plan_control_subhosactivity_subupdate'])->name('p.plan_control_subhosactivity_subupdate');//
 
   Route::match(['get','post'],'plan_control_ssj/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_ssj'])->name('p.plan_control_ssj');//
   Route::match(['get','post'],'plan_control_po/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_po'])->name('p.plan_control_po');//
+
+  Route::match(['get','post'],'plan_control_activ_ssj/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_activ_ssj'])->name('p.plan_control_activ_ssj');//
+  Route::match(['get','post'],'plan_control_activ_po/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_activ_po'])->name('p.plan_control_activ_po');//
+  Route::match(['get','post'],'plan_control_activ_edit/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_activ_edit'])->name('p.plan_control_activ_edit');//
+  Route::match(['get','post'],'plan_control_activobj_save',[App\Http\Controllers\PlanController::class, 'plan_control_activobj_save'])->name('p.plan_control_activobj_save');//
+  Route::match(['get','post'],'plan_control_activobj_update',[App\Http\Controllers\PlanController::class, 'plan_control_activobj_update'])->name('p.plan_control_activobj_update');//
 
   Route::match(['get','post'],'plan_control_sub/{id}',[App\Http\Controllers\PlanController::class, 'plan_control_sub'])->name('p.plan_control_sub');//
   Route::match(['get','post'],'plan_control_sub_pp',[App\Http\Controllers\PlanController::class, 'plan_control_sub_pp'])->name('p.plan_control_sub_pp');//

@@ -21,7 +21,7 @@ return new class extends Migration
                 $table->string('plan_sub_price')->nullable();//   
                 $table->date('plan_sub_starttime')->nullable();//     ระยะเวลา 
                 $table->date('plan_sub_endtime')->nullable();//       ระยะเวลา  
-                $table->string('plan_sub_price')->nullable();//       งบประมาณ  
+                
                 $table->string('department')->nullable();//       กลุ่มงาน
                 $table->string('hos_group')->nullable();//   รพ /  รพสต
                 $table->string('user_id')->nullable();//         

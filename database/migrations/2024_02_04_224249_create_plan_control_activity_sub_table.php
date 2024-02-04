@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     { 
-        if (!Schema::hasTable('plan_control_activity'))
+        if (!Schema::hasTable('plan_control_activity_sub'))
         {
-            Schema::connection('mysql')->create('plan_control_activity', function (Blueprint $table) { 
-                $table->bigIncrements('plan_control_activity_id');//  
+            Schema::connection('mysql')->create('plan_control_activity_sub', function (Blueprint $table) { 
+                $table->bigIncrements('plan_control_activity_sub_id');//  
                 $table->string('plan_control_id')->nullable();//   
-                $table->string('billno')->nullable();//   
-                $table->string('plan_control_activity_name')->nullable();//         /แผนงาน/กิจกรรมสำคัญ
-                $table->string('plan_control_activity_group')->nullable();//        กลุ่มเป้าหมาย
+                $table->string('plan_control_activity_id')->nullable();//   กิจกรรม/กลยุทธ์
+                
+                $table->string('plan_control_activity_sub_name')->nullable();//         /แผนงานp่อย/กิจกรรมสำคัญย่อย
+                $table->string('plan_control_activity_group')->nullable();//        กลุ่มเป้าหมายย่อย
                 $table->string('qty')->nullable();//  
                 $table->string('plan_control_unit')->nullable();// 
                 $table->string('trimart_11')->nullable();// ไตรมาสที่ 1
@@ -51,6 +52,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('plan_control_activity');
+        Schema::dropIfExists('plan_control_activity_sub');
     }
 };

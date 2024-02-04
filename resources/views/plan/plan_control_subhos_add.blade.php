@@ -148,11 +148,10 @@ $refnumber = PlanController::refnumber();
                                             <div class="col-md-3 ">
                                                 <label for="">ระยะเวลา วันที่</label>
                                                 <div class="form-group"> 
-                                                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
-                                                        data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                                                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                                                         <input type="text" class="form-control" name="startdate" id="startdate" placeholder="Start Date"
                                                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                                            autocomplete="off" data-date-language="th-th" value="{{ $datenow }}" required />
+                                                            autocomplete="off" data-date-language="th-th" value="{{ $data_budget_year->date_begin }}" required />
                                                         
                                                     </div>
                                                 </div>
@@ -165,14 +164,14 @@ $refnumber = PlanController::refnumber();
                                                        
                                                         <input type="text" class="form-control" name="enddate" placeholder="End Date" id="enddate"
                                                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                                            autocomplete="off" data-date-language="th-th" value="{{ $datenow }}" /> 
+                                                            autocomplete="off" data-date-language="th-th" value="{{ $data_budget_year->date_end }}" /> 
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-3 ">
                                                 <label for="">งบประมาณ (ใส่เฉพาะตัวเลข)</label>
                                                 <div class="form-group">
-                                                    <input id="plan_price" class="form-control form-control-sm" name="plan_price" >
+                                                    <input id="plan_price" class="form-control form-control-sm" name="plan_price" readonly>
                                                 </div>
                                             </div>
                                             <div class="col-md-3 ">
@@ -197,7 +196,12 @@ $refnumber = PlanController::refnumber();
                                                 <div class="form-group">
                                                     <select name="plan_strategic_id" id="plan_strategic_id" class="form-control form-control-sm" style="width: 100%"> 
                                                         @foreach ($plan_strategic as $itemy)
+                                                        @if ($id == $itemy->plan_strategic_id)
+                                                        <option value="{{$itemy->plan_strategic_id}}" selected>{{$itemy->plan_strategic_name}}</option> 
+                                                        @else
                                                         <option value="{{$itemy->plan_strategic_id}}">{{$itemy->plan_strategic_name}}</option> 
+                                                        @endif
+                                                       
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -218,7 +222,7 @@ $refnumber = PlanController::refnumber();
                                                 </div>
                                             </div>
                                             
-                                            <input type="hidden" id="plan_control_id" name="plan_control_id">
+                                            <input type="hidden" id="plan_control_id" name="plan_control_id" value="{{$id}}">
 
                                             <div class="col-md-3 ">
                                                 <label for="">ผู้รับผิดชอบ </label>
