@@ -255,7 +255,7 @@ class AccountController extends Controller
                 where v.vstdate between "' . $startdate . '" AND "' . $enddate . '"
                 and v.pttype in("o1","o2","o3","o4","o5") 
         
-                and v.uc_money > 1
+                and v.uc_money > 0
 
                 and (rr.sss_approval_code is null or rr.sss_approval_code ="") 
               
@@ -370,7 +370,7 @@ class AccountController extends Controller
                 e.age_y
                
                 from vn_stat e
-                left outer join ovst o on o.vn = e.vn
+          
                 left outer join patient p on p.hn = e.hn
                 left outer join rcpt_print r on r.vn =e.vn
                 left outer join opdscreen oo on oo.vn =e.vn
@@ -379,7 +379,7 @@ class AccountController extends Controller
               
                 where month(e.vstdate) = "' . $months . '" AND year(e.vstdate) = "' . $year . '"
                 and e.pttype in("o1","o2","o3","o4","o5")
-                and (o.an ="" or o.an is null)
+              
                 and e.uc_money > 0
                 and (rr.sss_approval_code is null or rr.sss_approval_code =" ")
                
@@ -387,6 +387,8 @@ class AccountController extends Controller
                 group by rr.vn 
                  
         ');
+        // and (o.an ="" or o.an is null)
+        // left outer join ovst o on o.vn = e.vn
         // left outer join eclaimdb.m_registerdata m on m.opdseq = e.vn and m.status in("0","1","4")
         // and o.an =""
         // and o.an is null
