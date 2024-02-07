@@ -247,11 +247,11 @@ class AccountController extends Controller
 
         $datashow = DB::connection('mysql10')->select('
                 select year(v.vstdate) as monyear ,month(v.vstdate) as months ,count(distinct v.vn) as vn 
-                from hos.vn_stat v
-                left outer join hos.ipt i on i.vn = v.vn
-                LEFT JOIN hos.patient p on p.hn = v.hn
-                left outer join hos.rcpt_print r on r.vn =v.vn
-                inner join hos.rcpt_debt rr on rr.vn = v.vn 
+                from vn_stat v
+             
+                LEFT JOIN patient p on p.hn = v.hn
+                left outer join rcpt_print r on r.vn =v.vn
+                inner join rcpt_debt rr on rr.vn = v.vn 
                 where v.vstdate between "' . $startdate . '" AND "' . $enddate . '"
                 and v.pttype in("o1","o2","o3","o4","o5") 
         
@@ -264,7 +264,7 @@ class AccountController extends Controller
             
         ');
         
-
+        // left outer join ipt i on i.vn = v.vn
         // select year(a.vstdate) as monyear
         // ,month(a.vstdate) as months
         // ,count(distinct a.vn) as vn
@@ -298,17 +298,17 @@ class AccountController extends Controller
         // and a.uc_money > 1
         // group by year(a.vstdate),month(a.vstdate)
         // and (rr.sss_approval_code is null or rr.sss_approval_code ="")
-        $datashow2 = DB::connection('mysql2')->select('
+        $datashow2 = DB::connection('mysql10')->select('
                 select year(a.vstdate) as monyear
                 ,month(a.vstdate) as months
                 ,count(distinct a.vn) as vn
                 ,sum(rr.sss_approval_code is null) as no_appprove
 
-                from hos.vn_stat a
-                left outer join hos.ipt o on o.vn = a.vn
-                LEFT JOIN hos.patient p on p.hn = a.hn
-                left outer join hos.rcpt_debt rr on rr.vn = a.vn
-                left outer join hos.ktb_edc_transaction k on k.vn = a.vn
+                from vn_stat a
+                left outer join ipt o on o.vn = a.vn
+                LEFT JOIN patient p on p.hn = a.hn
+                left outer join rcpt_debt rr on rr.vn = a.vn
+                left outer join ktb_edc_transaction k on k.vn = a.vn
                 where a.vstdate between "' . $startdate . '" AND "' . $enddate . '"
                 and a.pttype in("of")
                 and (o.an ="" or o.an is null)
@@ -357,10 +357,10 @@ class AccountController extends Controller
             'enddateadmit'  => $enddateadmit,
         ]);
     }
-    public function account_info_vn(Request $request, $startdate, $enddate)
+    public function account_info_vn(Request $request, $year, $months)
     {
         $datashow = DB::connection('mysql10')->select('
-            select e.hn,p.cid,e.pdx,e.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname
+            select e.vn,e.hn,p.cid,e.pdx,e.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname
                 ,e.uc_money,e.paid_money,r.rcpno,format(e.income,2) as hincome,
                 format(rr.amount,2) as rramont,
                 group_concat(distinct k.amount) as edc,
@@ -369,15 +369,15 @@ class AccountController extends Controller
                 group_concat(distinct k.approval_code,":",k.amount,"/") as appktb,
                 e.age_y
                
-                from hos.vn_stat e
-                left outer join hos.ovst o on o.vn = e.vn
-                left outer join hos.patient p on p.hn = e.hn
-                left outer join hos.rcpt_print r on r.vn =e.vn
-                left outer join hos.opdscreen oo on oo.vn =e.vn
-                left outer join hos.rcpt_debt rr on rr.vn = e.vn
-                left outer join hos.ktb_edc_transaction k on k.vn = e.vn
-                left outer join eclaimdb.m_registerdata m on m.opdseq = e.vn and m.status in("0","1","4")
-                where e.vstdate between "' . $startdate . '" AND "' . $enddate . '"
+                from vn_stat e
+                left outer join ovst o on o.vn = e.vn
+                left outer join patient p on p.hn = e.hn
+                left outer join rcpt_print r on r.vn =e.vn
+                left outer join opdscreen oo on oo.vn =e.vn
+                left outer join rcpt_debt rr on rr.vn = e.vn
+                left outer join ktb_edc_transaction k on k.vn = e.vn
+              
+                where month(e.vstdate) = "' . $months . '" AND year(e.vstdate) = "' . $year . '"
                 and e.pttype in("o1","o2","o3","o4","o5")
                 and (o.an ="" or o.an is null)
                 and e.uc_money > 0
@@ -387,7 +387,7 @@ class AccountController extends Controller
                 group by rr.vn 
                  
         ');
-
+        // left outer join eclaimdb.m_registerdata m on m.opdseq = e.vn and m.status in("0","1","4")
         // and o.an =""
         // and o.an is null
 
@@ -395,8 +395,8 @@ class AccountController extends Controller
 
         return view('account.account_info_vn', [
             'datashow'   =>  $datashow,
-            'startdate'  =>  $startdate,
-            'enddate'    =>  $enddate,
+            'year'       =>  $year,
+            'months'     =>  $months,
         ]);
     }
     public function account_info_vnall(Request $request, $year, $months, $startdate, $enddate)

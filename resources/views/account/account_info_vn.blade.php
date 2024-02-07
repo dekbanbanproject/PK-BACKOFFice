@@ -40,6 +40,7 @@
                             <thead>
                                 <tr>
                                     <th width="5%" class="text-center">ลำดับ</th>
+                                    <th class="text-center">vn</th>
                                     <th class="text-center">HN</th>
                                     <th class="text-center">CID</th>
                                     <th class="text-center">PDX</th>
@@ -62,9 +63,10 @@
                                 @foreach ($datashow as $item2)
                                         <tr>
                                             <td>{{$i++ }}</td>
+                                            <td class="text-center">{{$item2->vn }}</td>
                                             <td class="text-center">{{$item2->hn }}</td>
                                             <td class="text-center">
-                                                <a href="{{url('account_info_vnstmx/'.$item2->cid.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item2->cid}}</a>
+                                                <a href="{{url('account_info_vnstmx/'.$item2->cid.'/'.$year.'/'.$months)}}" target="_blank">{{ $item2->cid}}</a>
                                             </td>
                                             <td class="text-center">{{$item2->pdx }}</td>
                                             <td class="text-center">{{$item2->vstdate }}</td>
