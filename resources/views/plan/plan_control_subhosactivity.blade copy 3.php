@@ -814,32 +814,163 @@ $refnumber = PlanController::refnumber();
                                                     
                                                 @endif
                                             </td>
-                                            <td class="text-start" width="15%">
+                                            <td class="text-start" >
                                                 <a href="{{url('plan_control_subhosactivity_edit/'.$id.'/'.$plan_control->plan_control_id.'/'.$item_->plan_control_activity_id)}}">
-                                                    {{ $item_->plan_control_activity_name }}  
-                                                </a> 
+                                                    {{ $item_->plan_control_activity_name }} 
+                                                </a>
+                                                {{-- <a href="{{url('plan_control_subhosactivity_sub/'.$plan_control->plan_control_id.'/'.$item_->plan_control_activity_id)}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em">
+                                                   กิจกรรมย่อย
+                                                </a> --}}
                                                 <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary btn-sm ActivitysubModal_"  value="{{$item_->plan_control_activity_id}}" style="background-color: rgb(243, 207, 213);border-radius: 3em 3em 3em 3em"> 
                                                     <label for="" style="color: rgb(255, 97, 34);font-size:13px">กิจกรรมย่อย</label> 
                                                 </button>
-                                                   
-                                               
-                                                    @foreach ($datasubsub as $item_subsub)  
-                                                    
-                                                            <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="plan_control_activity_subdestroy({{ $item_subsub->plan_control_activity_sub_id }})" style="font-size:13px">                                                            
-                                                                <span> {{$item_subsub->plan_control_activity_sub_name}}</span>
-                                                                <i class="fa-solid fa-trash-can ms-2 me-2 text-danger" style="font-size:13px"></i>
-                                                                {{$datasubsub_count}}
-                                                            </a>                                               
-                                                    @endforeach 
-                                      
+
+                                                @foreach ($datasubsub as $item_subsub)                                           
+                                                        <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="plan_control_activity_subdestroy({{ $item_subsub->plan_control_activity_sub_id }})" style="font-size:13px">                                                            
+                                                            <span> {{$item_subsub->plan_control_activity_sub_name}}</span>
+                                                            <i class="fa-solid fa-trash-can ms-2 me-2 text-danger" style="font-size:13px"></i>
+                                                            {{$datasubsub_count}}
+                                                        </a>                                               
+                                                @endforeach 
+                                                
                                             </td>
-                                          
-                                                    <td class="text-start" width="10%">
-                                                        {{ $item_->plan_control_activity_group }}<br>
-                                                        @foreach ($datasubsub as $item_subsub)  
-                                                        <span> {{$item_subsub->plan_control_activity_group}}</span><>
-                                                        @endforeach 
+                                            @if ($datasubsub_count > 0)
+                                                @foreach ($datasubsub as $item_ss) 
+                                                    <td class="text-start" width="10%">{{ $item_ss->plan_control_activity_group }}</td>
+                                                    <td class="text-center" width="3%">{{ $item_ss->qty }}</td>
+                                                    <td class="text-center" width="2%">
+                                                        @if ($item_ss->trimart_11 == 'on')
+                                                            <img src="{{ asset('images/true.png') }}" height="30px" width="30px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                                        @else 
+                                                        @endif 
                                                     </td>
+                                                    <td class="text-center" width="2%">
+                                                        @if ($item_ss->trimart_12 == 'on')
+                                                            <img src="{{ asset('images/true.png') }}" height="30px" width="30px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                                        @else 
+                                                        @endif 
+                                                    </td>
+                                                    <td class="text-center" width="2%">
+                                                        @if ($item_ss->trimart_13 == 'on')
+                                                            <img src="{{ asset('images/true.png') }}" height="30px" width="30px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                                        @else 
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center" width="2%">
+                                                        @if ($item_ss->trimart_21 == 'on')
+                                                            <img src="{{ asset('images/true.png') }}" height="30px" width="30px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                                        @else 
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center" width="2%">
+                                                        @if ($item_ss->trimart_22 == 'on')
+                                                            <img src="{{ asset('images/true.png') }}" height="30px" width="30px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                                        @else 
+                                                        @endif
+                                                    </td>                                        
+                                                    <td class="text-center" width="2%">
+                                                        @if ($item_ss->trimart_23 == 'on')
+                                                            <img src="{{ asset('images/true.png') }}" height="30px" width="30px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                                        @else 
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center" width="2%">
+                                                        @if ($item_ss->trimart_31 == 'on')
+                                                            <img src="{{ asset('images/true.png') }}" height="30px" width="30px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                                        @else 
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center" width="2%">
+                                                        @if ($item_ss->trimart_32 == 'on')
+                                                            <img src="{{ asset('images/true.png') }}" height="30px" width="30px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                                        @else 
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center" width="2%">
+                                                        @if ($item_ss->trimart_33 == 'on')
+                                                            <img src="{{ asset('images/true.png') }}" height="30px" width="30px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                                        @else 
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center" width="2%">
+                                                        @if ($item_ss->trimart_41 == 'on')
+                                                        <img src="{{ asset('images/true.png') }}" height="30px" width="30px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                                        @else 
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center" width="2%">
+                                                        @if ($item_ss->trimart_42 == 'on')
+                                                        <img src="{{ asset('images/true.png') }}" height="30px" width="30px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                                        @else 
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center" width="2%">
+                                                        @if ($item_ss->trimart_43 == 'on')
+                                                        <img src="{{ asset('images/true.png') }}" height="30px" width="30px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                                        @else 
+                                                        @endif
+                                                    </td>                                                                                    
+                                                    <td class="text-start" width="15%">  
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-outline-primary dropdown-toggle menu btn-sm"
+                                                                type="button" data-bs-toggle="dropdown"
+                                                                aria-expanded="false">ทำรายการ</button>
+                                                            <ul class="dropdown-menu">
+                                                                    {{-- <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm ojectModal_"  value="{{$item_ss->plan_control_activity_id}}" data-bs-toggle="tooltip" data-bs-placement="left" title="วัตถุประสงค์"> 
+                                                                        <i class="fa-brands fa-opera me-3 mb-1" style="font-size:17px;color: rgb(40, 177, 246)"></i> 
+                                                                        <label for=""
+                                                                        style="color: rgb(34, 148, 255);font-size:13px">วัตถุประสงค์</label> 
+                                                                    </button>  --}}
+                                                                    <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm edit_data_sub"  value="{{ $item_ss->plan_control_activity_sub_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="วัตถุประสงค์"> 
+                                                                        <i class="fa-solid fa-plus-minus me-3 mb-1" style="font-size:17px;color: rgb(40, 177, 246)"></i> 
+                                                                        <label for=""
+                                                                        style="color: rgb(34, 148, 255);font-size:13px">เพิ่มรายละเอียด</label> 
+                                                                    </button> 
+                                                                
+                                                                    {{-- <a class="dropdown-item menu btn btn-outline-info btn-sm" href="javascript:void(0)"
+                                                                        onclick="plan_control_activ_ssj({{  $item_ss->plan_control_activity_id}})"
+                                                                        data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                        data-bs-custom-class="custom-tooltip" title="เสนอ สสจ. อนุมัติ">
+                                                                        <i class="fa-solid fa-signature me-3 mb-1"></i>
+                                                                        <label for="" style="color: rgb(7, 166, 194);font-size:13px">เสนอ สสจ. อนุมัติ</label>
+                                                                    </a>
+                                                                    <a class="dropdown-item menu btn btn-outline-primary btn-sm" href="javascript:void(0)"
+                                                                        onclick="plan_control_activ_po({{  $item_ss->plan_control_activity_id}})"
+                                                                        data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                        data-bs-custom-class="custom-tooltip" title="เสนอ ผอ. อนุมัติ"> 
+                                                                        <i class="fa-solid fa-signature me-3 mb-1" ></i>
+                                                                        <label for="" style="color: rgb(7, 110, 194);font-size:13px">เสนอ ผอ. อนุมัติ</label>
+                                                                    </a>
+                                                                    <a type="button" href="{{url('plan_control_subhosactivity_edit/'.$id.'/'.$plan_control->plan_control_id.'/'.$item_ss->plan_control_activity_id)}}"
+                                                                        class="dropdown-item menu btn btn-outline-warning btn-sm" data-bs-toggle="tooltip"
+                                                                        data-bs-placement="left" title="แก้ไข" target="_blank">
+                                                                        <i class="fa-solid fa-pen-to-square me-3 mb-1" style="color: rgb(252, 185, 0);font-size:13px"></i>
+                                                                            <label for=""
+                                                                            style="color: rgb(252, 185, 0);font-size:13px">แก้ไข</label>
+                                                                    </a>
+
+                                                                    <a class="dropdown-item menu btn btn-outline-danger btn-sm" href="javascript:void(0)"
+                                                                        onclick="plan_control_destroy({{  $item_ss->plan_control_activity_id}})"
+                                                                        data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                        data-bs-custom-class="custom-tooltip" title="ลบ">
+                                                                        <i class="fa-solid fa-trash-can me-3 mb-1"></i>
+                                                                        <label for=""
+                                                                            style="color: rgb(255, 2, 2);font-size:13px">ลบ</label>
+                                                                    </a> --}}
+                                                            </ul>
+                                                        </div>  
+                                                                                                 
+                                                        {{-- @foreach ($datasubsub_price as $item_subsubprice)                                           
+                                                                <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="plan_control_activity_destroy({{ $item_subsubprice->plan_control_budget_id }})" style="font-size:13px">                                                            
+                                                                    <span> - {{$item_subsubprice->plan_list_budget_name}} / {{$item_subsubprice->plan_control_budget_price}}</span>
+                                                                    <i class="fa-solid fa-trash-can ms-2 me-2 text-danger" style="font-size:13px"></i>
+                                                                </a>                                               
+                                                        @endforeach  --}}
+                                                    </td>                                           
+                                                    <td class="text-end" width="4%" style="color:rgb(216, 95, 14)">{{ $item_ss->budget_price }}</td>  
+                                                @endforeach
+                                            @else                                             
+                                                    {{-- <td class="text-start" width="10%">{{ $item_->plan_control_activity_group }}</td>
                                                     <td class="text-center" width="3%">{{ $item_->qty }}</td>
                                                     <td class="text-center" width="2%">
                                                         @if ($item_->trimart_11 == 'on')
@@ -975,8 +1106,8 @@ $refnumber = PlanController::refnumber();
                                                                 </a>                                               
                                                         @endforeach 
                                                     </td>                                           
-                                                    <td class="text-end" width="4%" style="color:rgb(216, 95, 14)">{{ $item_->budget_price }}</td>  
-                                            
+                                                    <td class="text-end" width="4%" style="color:rgb(216, 95, 14)">{{ $item_->budget_price }}</td>   --}}
+                                            @endif                                        
                                         </tr>
 
                                     @endforeach
