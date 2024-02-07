@@ -26,6 +26,8 @@ return new class extends Migration
                 $table->string('Apphos')->nullable();// 
                 $table->string('Appktb')->nullable();// 
                 $table->string('price_ofc')->nullable();// 
+                $table->string('icd10')->nullable();// 
+                $table->string('pdx')->nullable();// 
                 $table->timestamps();
             }); 
         }

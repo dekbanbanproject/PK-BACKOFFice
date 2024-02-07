@@ -256,6 +256,8 @@ $pos = strrpos($url, '/') + 1;
                                                     <th class="text-center">ptname</th>  
                                                     <th class="text-center">pttype</th> 
                                                     <th class="text-center">vstdate</th> 
+                                                    <th class="text-center">icd10</th> 
+                                                    <th class="text-center">pdx</th> 
                                                     <th class="text-center">
                                                         <span class="bg-success badge me-2">{{ $count_no }}</span> 
                                                         Approve Code
@@ -283,6 +285,8 @@ $pos = strrpos($url, '/') + 1;
                                                     <td class="text-start">{{ $item1->ptname }}</td>  
                                                     <td class="text-center" width="10%">{{ $item1->pttype }}</td> 
                                                     <td class="text-center" width="10%">{{ $item1->vstdate }}</td> 
+                                                    <td class="text-center" width="5%">{{ $item1->icd10 }}</td>
+                                                    <td class="text-center" width="5%">{{ $item1->pdx }}</td>
                                                     <td class="text-center" width="15%">
                                                         @if ($item1->Apphos != NULL)
                                                             <span class="bg-success badge me-2">{{ $item1->Apphos }}</span> 

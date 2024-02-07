@@ -163,7 +163,7 @@ class Ofc401Controller extends Controller
                         ,v.vstdate,v.pttype  ,rd.sss_approval_code AS "Apphos",v.inc04 as xray
                         ,rd.amount AS price_ofc,v.income,ptt.hipdata_code 
                         ,group_concat(distinct hh.appr_code,":",hh.transaction_amount,"/") AS AppKTB 
-                        ,GROUP_CONCAT(DISTINCT ov.icd10 order by ov.diagtype) AS icd10 
+                        ,GROUP_CONCAT(DISTINCT ov.icd10 order by ov.diagtype) AS icd10,v.pdx
                         FROM vn_stat v
                         LEFT OUTER JOIN patient pt ON v.hn=pt.hn
                         LEFT OUTER JOIN ovstdiag ov ON v.vn=ov.vn
@@ -179,7 +179,7 @@ class Ofc401Controller extends Controller
                     AND v.pttype not in ("OF","FO")                         
                     AND o.an is null
                     AND v.pdx <> ""
-                    GROUP BY v.vn; 
+                    GROUP BY v.vn 
                 ');  
                 // AND rd.sss_approval_code <> ""               
                 foreach ($data_main_ as $key => $value) {    
@@ -193,6 +193,8 @@ class Ofc401Controller extends Controller
                             'Apphos'             => $value->Apphos,
                             'Appktb'             => $value->AppKTB,
                             'price_ofc'          => $value->price_ofc, 
+                            'icd10'              => $value->icd10,
+                            'pdx'                => $value->pdx,
                         ]);
                     $check = D_claim::where('vn',$value->vn)->count();
                     if ($check > 0) {
