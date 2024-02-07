@@ -271,13 +271,13 @@ $pos = strrpos($url, '/') + 1;
                     
                                                 <tr id="tr_{{$item1->d_ofc_401_id}}">
                                                     <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td>
-                                                    @if ($item1->price_ofc == '')
+                                                    {{-- @if ($item1->price_ofc == '')
                                                         <td class="text-center" width="5%">
                                                             <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
                                                         </td> 
-                                                    @else
+                                                    @else --}}
                                                         <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox choisub_chk" data-id="{{$item1->d_ofc_401_id}}"> </td> 
-                                                    @endif
+                                                    {{-- @endif --}}
                                                     <td class="text-center" width="10%">  {{ $item1->vn }}  </td>
                                                     <td class="text-center" width="10%">{{ $item1->hn }}</td>
                                                     <td class="text-start">{{ $item1->ptname }}</td>  
