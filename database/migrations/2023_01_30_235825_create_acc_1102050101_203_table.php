@@ -47,6 +47,7 @@ return new class extends Migration
                 $table->string('sauntang')->nullable();// 
                 $table->longtext('cc')->nullable();// 
                 $table->string('referin_no')->nullable();//  
+                $table->string('ct_price')->nullable();//
                 $table->string('ct_sumprice')->nullable();// 
                 $table->enum('ct_refer', ['Y', 'N'])->default('N');
                 $table->string('pdx')->nullable();// 
@@ -70,6 +71,7 @@ return new class extends Migration
                 $table->string('recieve_user')->nullable();//ผู้ลง
                 $table->string('comment')->nullable();// 
                 $table->date('date_req')->nullable();// 
+                $table->string('STMdoc')->nullable();// 
                 $table->timestamps();
             });
         }
