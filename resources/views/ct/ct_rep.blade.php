@@ -403,12 +403,12 @@
                                                                                 @if ($vv->total_price_check == '')
                                                                                 <div class="col-md-1 text-center">{{ $vv->total_price_check }}</div> 
                                                                                 @else
-                                                                                <div class="col-md-1 text-center">{{ number_format($vv->total_price_check, 2) }}</div> 
+                                                                                <div class="col-md-1 text-center">{{ $vv->total_price_check }}</div> 
                                                                                 @endif
                                                                                 @if ($vv->total_opaque_price == '')
                                                                                 <div class="col-md-1 text-center">{{ $vv->total_opaque_price }}</div> 
                                                                                 @else
-                                                                                <div class="col-md-1 text-center">{{ number_format($vv->total_opaque_price, 2) }}</div> 
+                                                                                <div class="col-md-1 text-center">{{ $vv->total_opaque_price }}</div> 
                                                                                 @endif 
                                                                                 @if ($vv->sumprice == '')
                                                                                 <div class="col-md-1 text-center">{{ $vv->sumprice }}</div> 
@@ -423,7 +423,7 @@
                                                                                 @if ($vv->remain == '')
                                                                                 <div class="col-md-1 text-center">{{ $vv->remain }}</div> 
                                                                                 @else
-                                                                                <div class="col-md-1 text-center">{{ number_format($vv->remain, 2) }}</div> 
+                                                                                <div class="col-md-1 text-center">{{ $vv->remain }}</div> 
                                                                                 @endif                                                                 
                                                                                 
                                                                             </div>

@@ -206,9 +206,9 @@ background-repeat: no-repeat;
                                     </a>
                                 </li> --}}
                                 <li>
-                                    <a href="{{ url('ct_rep_pay') }}">  
+                                    <a href="{{ url('ct_report') }}">  
                                         <i class="fa-regular fa-heart text-success"></i>
-                                        <span>CT Pay Report</span>
+                                        <span>CT Report</span>
                                     </a>
                                 </li>
                                 <li>
