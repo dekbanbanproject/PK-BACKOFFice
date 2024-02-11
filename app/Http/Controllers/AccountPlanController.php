@@ -98,7 +98,15 @@ class AccountPlanController extends Controller
             'id'    =>  $id  // plan_control_id
         ]);
     }
-     // Plan_control_money
+    public function account_plane_payedit(Request $request,$id)
+    { 
+        $data_show = Plan_control_activity::where('plan_control_activity_id',$id)->first();
+       
+        return response()->json([
+            'status'               => '200', 
+            'data_show'            =>  $data_show,
+        ]);
+    }
      public function account_plane_pay(Request $request)
      { 
          $maxno_ = Plan_control_money::where('plan_control_id',$request->input('update_plan_control_id'))->max('plan_control_money_no');
@@ -124,11 +132,8 @@ class AccountPlanController extends Controller
                  'plan_reqtotal'      =>  ($check_price->plan_reqtotal) + ($request->input('plan_control_moneyprice')),
                  'plan_price_total'   =>  ($check_price->plan_price) - (($check_price->plan_reqtotal) + ($request->input('plan_control_moneyprice')))
              ]);
-         } else {
-              
-         }
-         
- 
+         } else {              
+         }         
          return response()->json([
              'status'     => '200',
          ]);

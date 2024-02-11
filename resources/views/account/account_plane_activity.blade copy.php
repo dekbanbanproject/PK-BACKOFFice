@@ -284,19 +284,19 @@ $refnumber = PlanController::refnumber();
                    
                     <div class="card-body"> 
                         <div class="row mb-2">
-                            <div class="col-md-8 text-start"> <h5 class="modal-title me-2" id="editModalLabel">กิจกรรม/กลยุทธ์  {{$plan_control->plan_name}} เลขที่ {{$plan_control->billno}}</h5>  </div>
+                            <div class="col-md-8 text-start"> <h5 class="modal-title me-3" id="editModalLabel">กิจกรรม/กลยุทธ์  {{$plan_control->plan_name}} เลขที่ {{$plan_control->billno}}</h5>  </div>
                             {{-- <div class="col"></div> --}}
                             <div class="col-md-4 text-end">
-                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 209, 163);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 209, 163);border-radius: 3em 3em 3em 3em"> 
                                     ยังไม่ดำเนินการ
                                 </button>
-                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(200, 233, 248);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(200, 233, 248);border-radius: 3em 3em 3em 3em"> 
                                     รอ สสจ.อนุมัติ
                                 </button>
-                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em"> 
                                     รอ ผอ. อนุมัติ
                                 </button>
-                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(194, 250, 219);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(194, 250, 219);border-radius: 3em 3em 3em 3em"> 
                                     อนุมัติ
                                 </button>
                                 {{-- <h6 class="mt-2 me-3"> เลขที่ {{$plan_control->billno}}</h6> --}}
@@ -313,18 +313,16 @@ $refnumber = PlanController::refnumber();
                                         <th rowspan="3" colspan="1" class="text-center" style="border-color: rgb(183, 180, 180)"> กิจกรรม/กลยุทธ์</th> 
                                         <th rowspan="3" colspan="1" class="text-center" style="border-color: rgb(183, 180, 180)">กลุ่มเป้าหมาย</th> 
                                         <th rowspan="3" colspan="1" class="text-center" width="4%" style="border-color: rgb(183, 180, 180)">จำนวน<br>(คน) </th> 
-                                        {{-- <th colspan="12" class="text-center" style="border-color: rgb(183, 180, 180)">เป้าหมายการดำเนินงาน (1ต.ค.66 - 30 ก.ย.67)</th>   --}}
-                                        <th colspan="2" rowspan="1" style="text-align: center;">งบประมาณ</th>  
-                                        <th rowspan="1" style="text-align: center;">เบิก</th> 
-                                        <th rowspan="1" style="text-align: center;">คงเหลือ</th> 
+                                        <th colspan="12" class="text-center" style="border-color: rgb(183, 180, 180)">เป้าหมายการดำเนินงาน (1ต.ค.66 - 30 ก.ย.67)</th>  
+                                        <th colspan="2" rowspan="2" style="text-align: center;">งบประมาณ</th>  
                                     </tr>
-                                    {{-- <tr style="font-size: 13px;background-color: rgb(255, 231, 226);border-color: rgb(183, 180, 180)">
+                                    <tr style="font-size: 13px;background-color: rgb(255, 231, 226);border-color: rgb(183, 180, 180)">
                                         <td colspan="3" style="text-align: center;border-color: rgb(183, 180, 180)">ไตรมาสที่ 1</td>
                                         <td colspan="3" style="text-align: center;border-color: rgb(183, 180, 180)">ไตรมาสที่ 2</td>
                                         <td colspan="3" style="text-align: center;border-color: rgb(183, 180, 180)">ไตรมาสที่ 3</td>       
                                         <td colspan="3" style="text-align: center;border-color: rgb(183, 180, 180)">ไตรมาสที่ 4</td>    
-                                    </tr> --}}
-                                    {{-- <tr style="font-size: 13px;background-color: rgb(255, 231, 226);border-color: rgb(183, 180, 180)">
+                                    </tr>
+                                    <tr style="font-size: 13px;background-color: rgb(255, 231, 226);border-color: rgb(183, 180, 180)">
                                         <td style="text-align: center;border-color: rgb(183, 180, 180)"">ต.ค</td>
                                         <td style="text-align: center;border-color: rgb(183, 180, 180)"">พ.ย.</td>
                                         <td style="text-align: center;border-color: rgb(183, 180, 180)"">ธ.ค.</td>                                          
@@ -340,7 +338,7 @@ $refnumber = PlanController::refnumber();
                                 
                                         <td style="text-align: center;border-color: rgb(183, 180, 180)"">รายละเอียด</td>
                                         <td style="text-align: center;border-color: rgb(183, 180, 180)"">รวม(บาท)</td> 
-                                    </tr>  --}}
+                                    </tr> 
                                 </thead>
                                 <tbody style="font-size: 13px;border-color: rgb(183, 180, 180)">
                                     <?php $i = 1; ?>
@@ -389,7 +387,11 @@ $refnumber = PlanController::refnumber();
                                             <td class="text-start" >
                                                
                                                     {{ $item_->plan_control_activity_name }} 
-                                         
+                                        
+                                               
+                                                {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary btn-sm ActivitysubModal_"  value="{{$item_->plan_control_activity_id}}" style="background-color: rgb(243, 207, 213);border-radius: 3em 3em 3em 3em"> 
+                                                    <label for="" style="color: rgb(255, 97, 34);font-size:13px">กิจกรรมย่อย</label> 
+                                                </button> --}}
 
                                                 @foreach ($datasubsub as $item_subsub)                                           
                                                         <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="plan_control_activity_subdestroy({{ $item_subsub->plan_control_activity_sub_id }})" style="font-size:13px">                                                            
@@ -402,10 +404,90 @@ $refnumber = PlanController::refnumber();
                                             </td>
                                                                                   
                                             <td class="text-start" width="10%">{{ $item_->plan_control_activity_group }}</td>
-                                            <td class="text-center" width="5%">{{ $item_->qty }}</td>
-                                                                                                                             
+                                            <td class="text-center" width="3%">{{ $item_->qty }}</td>
+                                            <td class="text-center" width="2%">
+                                                @if ($item_->trimart_11 == 'on')
+                                                    <img src="{{ asset('images/true.png') }}" height="30px" width="30px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                                @else 
+                                                @endif 
+                                            </td>
+                                            <td class="text-center" width="2%">
+                                                @if ($item_->trimart_12 == 'on')
+                                                    <img src="{{ asset('images/true.png') }}" height="30px" width="30px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                                @else 
+                                                @endif 
+                                            </td>
+                                            <td class="text-center" width="2%">
+                                                @if ($item_->trimart_13 == 'on')
+                                                    <img src="{{ asset('images/true.png') }}" height="30px" width="30px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                                @else 
+                                                @endif
+                                            </td>
+                                            <td class="text-center" width="2%">
+                                                @if ($item_->trimart_21 == 'on')
+                                                    <img src="{{ asset('images/true.png') }}" height="30px" width="30px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                                @else 
+                                                @endif
+                                            </td>
+                                            <td class="text-center" width="2%">
+                                                @if ($item_->trimart_22 == 'on')
+                                                    <img src="{{ asset('images/true.png') }}" height="30px" width="30px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                                @else 
+                                                @endif
+                                            </td>                                        
+                                            <td class="text-center" width="2%">
+                                                @if ($item_->trimart_23 == 'on')
+                                                    <img src="{{ asset('images/true.png') }}" height="30px" width="30px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                                @else 
+                                                @endif
+                                            </td>
+                                            <td class="text-center" width="2%">
+                                                @if ($item_->trimart_31 == 'on')
+                                                    <img src="{{ asset('images/true.png') }}" height="30px" width="30px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                                @else 
+                                                @endif
+                                            </td>
+                                            <td class="text-center" width="2%">
+                                                @if ($item_->trimart_32 == 'on')
+                                                    <img src="{{ asset('images/true.png') }}" height="30px" width="30px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                                @else 
+                                                @endif
+                                            </td>
+                                            <td class="text-center" width="2%">
+                                                @if ($item_->trimart_33 == 'on')
+                                                    <img src="{{ asset('images/true.png') }}" height="30px" width="30px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                                @else 
+                                                @endif
+                                            </td>
+                                            <td class="text-center" width="2%">
+                                                @if ($item_->trimart_41 == 'on')
+                                                <img src="{{ asset('images/true.png') }}" height="30px" width="30px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                                @else 
+                                                @endif
+                                            </td>
+                                            <td class="text-center" width="2%">
+                                                @if ($item_->trimart_42 == 'on')
+                                                <img src="{{ asset('images/true.png') }}" height="30px" width="30px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                                @else 
+                                                @endif
+                                            </td>
+                                            <td class="text-center" width="2%">
+                                                @if ($item_->trimart_43 == 'on')
+                                                <img src="{{ asset('images/true.png') }}" height="30px" width="30px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                                @else 
+                                                @endif
+                                            </td>                                                                                    
                                             <td class="text-start" width="15%">  
-                                                 
+                                                {{-- <div class="dropdown">
+                                                    <button class="btn btn-outline-primary dropdown-toggle menu btn-sm"
+                                                        type="button" data-bs-toggle="dropdown"
+                                                        aria-expanded="false">ทำรายการ</button>
+                                                    <ul class="dropdown-menu"> --}}
+                                                        {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary btn-sm MoneyModal_"  value="{{ $item_->plan_control_activity_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="เบิกเงิน"> 
+                                                            <i class="fa-brands fa-bitcoin me-3" style="font-size:17px;color: rgb(20, 199, 190)"></i> 
+                                                            <label for=""
+                                                            style="color: rgb(20, 199, 190);font-size:13px">เบิกเงิน</label>
+                                                        </button> --}}
                                                         @if ($item_->budget_price == '')
                                                             
                                                         @else
@@ -414,19 +496,24 @@ $refnumber = PlanController::refnumber();
                                                         </button>
                                                         <br>  
                                                         @endif
-                                                   
-                                                @foreach ($datasub as $item_sub)                                           
-                                                        
                                                        
+                                                    {{-- </ul>
+                                                </div>                                            --}}
+                                                @foreach ($datasub as $item_sub)                                           
+                                                        {{-- <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="plan_control_activity_destroy({{ $item_sub->plan_control_budget_id }})" style="font-size:13px">                                                            
+                                                            <span> - {{$item_sub->plan_list_budget_name}} / {{$item_sub->plan_control_budget_price}}</span>
+                                                            <i class="fa-solid fa-trash-can ms-2 me-2 text-danger" style="font-size:13px"></i>
+                                                        </a>    --}}
+                                                       
+                                                        {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary MoneyModal_ac" value="{{ $item_->plan_control_activity_id }}" style="background-color: rgb(222, 200, 248);border-radius: 3em 3em 3em 3em">  --}}
                                                             <span> - {{$item_sub->plan_list_budget_name}} / {{$item_sub->plan_control_budget_price}}</span> 
- 
+                                                        {{-- </button> --}}
                                                         
                                                         <br>                                           
                                                 @endforeach 
                                             </td>                                           
                                             <td class="text-end" width="4%" style="color:rgb(216, 95, 14)">{{ $item_->budget_price }}</td>  
-                                            <td class="text-end" width="4%" style="color:rgb(5, 127, 95)">{{ $item_->budget_price }}</td> 
-                                            <td class="text-end" width="4%" style="color:rgb(13, 101, 188)">{{ $item_->budget_price }}</td>                                
+                                                                             
                                         </tr>
 
                                     @endforeach
@@ -448,8 +535,8 @@ $refnumber = PlanController::refnumber();
             <div class="modal-header"> 
                         <h2>เบิกเงินทะเบียนควบคุมแผนงานโครงการ</h2> 
             </div>
-            <input id="editplan_control_id" class="form-control form-control-sm" name="editplan_control_id" type="text" >
-            <input id="editplan_control_activity_id" class="form-control form-control-sm" name="editplan_control_activity_id" type="text" >
+            <input id="plan_control_money_no" class="form-control form-control-sm" name="plan_control_money_no" type="text" >
+            <input id="update_plan_control_id" class="form-control form-control-sm" name="update_plan_control_id" type="text" >
 
             <div class="modal-body">
                 <div class="row mt-5">
@@ -496,11 +583,15 @@ $refnumber = PlanController::refnumber();
                     <div class="col-md-2 text-end"> <p for="">รายการเบิก </p> </div>
                     <div class="col-md-4"> 
                         <div class="form-group">
-                            <select name="plan_list_budget_id" id="plan_list_budget_id"
+                            <select name="plan_control_moneyuser_id" id="plan_control_moneyuser_id"
                                 class="form-control"
                                 style="width: 100%">
-                                @foreach ($plan_list_budget as $item_bud)  
-                                    <option value="{{ $item_bud->plan_list_budget_id }}"> {{ $item_bud->plan_list_budget_name }} </option> 
+                                @foreach ($users as $item3)
+                                @if ($iduser == $item3->id)
+                                    <option value="{{ $item3->id }}" selected> {{ $item3->fname }} {{ $item3->lname }} </option>
+                                @else
+                                    <option value="{{ $item3->id }}"> {{ $item3->fname }} {{ $item3->lname }} </option>
+                                @endif 
                                 @endforeach
                             </select>
                         </div>
@@ -530,11 +621,11 @@ $refnumber = PlanController::refnumber();
             <div class="modal-footer">
                 <div class="col-md-12 text-end">
                     <div class="form-group">
-                        {{-- <button type="button" id="SaveMoneyBtn"
+                        <button type="button" id="SaveMoneyBtn"
                             class="btn-icon btn-shadow btn-dashed btn btn-outline-info me-2"> 
                             <i class="pe-7s-diskette btn-icon-wrapper me-2"></i>
                             Save
-                        </button> --}}
+                        </button>
                         <button type="button"
                             class="btn-icon btn-shadow btn-dashed btn btn-outline-danger"
                             data-bs-dismiss="modal"><i
@@ -935,10 +1026,7 @@ $refnumber = PlanController::refnumber();
                     $('#plan_control_moneyuser_id').select2({
                         dropdownParent: $('#MoneyModal')
                     });
-                    $('#plan_list_budget_id').select2({
-                        dropdownParent: $('#MoneyModal')
-                    });
-                    
+
                     $('[data-toggle="datepicker"]').datepicker({ 
                         autoHide: true,
                         zIndex: 2048,
@@ -1079,17 +1167,17 @@ $refnumber = PlanController::refnumber();
                     });
 
                     $(document).on('click', '.MoneyModal_', function() {
-                        var plan_control_activity_id = $(this).val();
+                        var plan_control_id = $(this).val();
                         $('#plan_control_moneydate').datepicker();
-                        // alert(plan_control_activity_id);
+                        // alert(plan_control_id);
                         $('#MoneyModal').modal('show');
                         
                         $.ajax({
                             type: "GET",
-                            url: "{{ url('account_plane_payedit') }}" + '/' + plan_control_activity_id,
+                            url: "{{ url('plan_control_moneyedit') }}" + '/' + plan_control_id,
                             success: function(data) { 
-                                $('#editplan_control_activity_id').val(data.data_show.plan_control_activity_id)
-                                $('#editplan_control_id').val(data.data_show.plan_control_id)
+                                $('#update_plan_control_id').val(data.data_show.plan_control_id)
+                                $('#data_sub_count').val(data.data_show.plan_control_money_no)
                             },
                         });
                     });
