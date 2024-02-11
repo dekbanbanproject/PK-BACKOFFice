@@ -44,33 +44,7 @@ date_default_timezone_set("Asia/Bangkok");
 
 class AccountController extends Controller
 {
-    public function account_plane(Request $request)
-    {
-        $startdate                  = $request->startdate;
-        $enddate                    = $request->enddate;
-        $data['com_tec']            = DB::table('com_tec')->get();
-        $data['users']              = User::get();
-        $data['department_sub_sub'] = Department_sub_sub::get();
-        $data['plan_control_type']  = Plan_control_type::get();
-        $data['plan_strategic']     = Plan_strategic::get();
-        
-        // $data['plan_control'] = Plan_control::get();
-        $data['plan_control'] = DB::connection('mysql')->select('
-            SELECT 
-            plan_control_id,billno,plan_obj,plan_name,plan_reqtotal,pt.plan_control_typename,p.plan_price,p.plan_starttime,p.plan_endtime,p.`status`,s.DEPARTMENT_SUB_SUB_NAME
-            ,p.plan_price_total,p.plan_req_no
-            FROM
-            plan_control p
-            LEFT OUTER JOIN department_sub_sub s ON s.DEPARTMENT_SUB_SUB_ID = p.department
-            LEFT OUTER JOIN plan_control_type pt ON pt.plan_control_type_id = p.plan_type
-            ORDER BY p.plan_control_id ASC
-        ');    
- 
-        return view('account.account_plane',$data, [ 
-            'startdate'  =>  $startdate,
-            'enddate'    =>  $enddate,
-        ]);
-    }
+     
     public function checksit_admit(Request $request)
     {
         $datenow = date('Y-m-d');

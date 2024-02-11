@@ -2417,7 +2417,7 @@ Route::middleware(['type'])->group(function(){
 
 
   // **************************** บัญชี ***********************
-  Route::match(['get','post'],'account_plane',[App\Http\Controllers\AccountController::class, 'account_plane'])->name('acc.account_plane');//
+  Route::match(['get','post'],'account_plane',[App\Http\Controllers\AccountPlanController::class, 'account_plane'])->name('acc.account_plane');//
 
 
 

@@ -57,8 +57,8 @@
        <link rel="stylesheet" href="{{ asset('disacc/vendors/@fortawesome/fontawesome-free/css/all.min.css') }}">
        <link rel="stylesheet" href="{{ asset('disacc/vendors/ionicons-npm/css/ionicons.css') }}">
        <link rel="stylesheet" href="{{ asset('disacc/vendors/linearicons-master/dist/web-font/style.css') }}">
-       <link rel="stylesheet"
-           href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
+       {{-- <link rel="stylesheet"
+           href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}"> --}}
        <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet">
        <link rel="stylesheet" href="{{ asset('css/dplan.css') }}">
         </head>
