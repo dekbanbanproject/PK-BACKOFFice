@@ -185,8 +185,8 @@
                             <h5 class="card-title">Detail Project plan control register</h5>
                             <p class="card-title-desc">ทะเบียนควบคุมแผนงานโครงการ</p>
                         </div>
-                        <div class="col"></div>
-                        <div class="col-md-2">
+                        {{-- <div class="col"></div> --}}
+                        <div class="col-md-3">
                             <select name="departmentsub" id="departmentsub" class="form-control inputmedsalt" style="width: 100%" required>
                                 <option value="">--กลุ่มงาน--</option>
                                 @foreach ($department_sub as $item_s)
