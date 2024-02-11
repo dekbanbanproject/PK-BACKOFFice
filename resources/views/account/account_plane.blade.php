@@ -140,7 +140,10 @@
                         <div class="col"></div>
                         <div class="col-md-2">
                             <select name="departmentsub" id="departmentsub" class="form-control form-control-sm inputmedsalt" style="width: 100%">
-
+                                <option value="">--กลุ่มงาน--</option>
+                                @foreach ($department_sub as $item_s)
+                                    <option value="{{$item_s->DEPARTMENT_SUB_ID}}">{{$item_s->DEPARTMENT_SUB_NAME}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-md-1 text-end mt-2">วันที่</div>
@@ -169,20 +172,7 @@
             <div class="col-xl-12">
                 <div class="card cardfinan">
                     <div class="card-body"> 
-                      
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                {{-- <h4 class="card-title">Detail Account ผัง 1102050101.217</h4>
-                                <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p> --}}
-                            </div>
-                            <div class="col"></div>
-                            <div class="col-md-2 text-end">
-                                
-                            </div>
-                        </div>
-
-                         
-
+                       
 
                     </div>
                 </div>
