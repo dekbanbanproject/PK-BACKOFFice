@@ -48,6 +48,7 @@ class AccountPlanController extends Controller
     {
         $startdate                  = $request->startdate;
         $enddate                    = $request->enddate;
+        $departmentsub              = $request->departmentsub;
         $data['com_tec']            = DB::table('com_tec')->get();
         $data['users']              = User::get();
         $data['department_sub']     = Departmentsub::get();
@@ -64,14 +65,74 @@ class AccountPlanController extends Controller
             plan_control p
             LEFT OUTER JOIN department_sub_sub s ON s.DEPARTMENT_SUB_SUB_ID = p.department
             LEFT OUTER JOIN plan_control_type pt ON pt.plan_control_type_id = p.plan_type
+            WHERE p.department = "'.$departmentsub.'" AND p.plan_starttime BETWEEN "'.$startdate.'" AND "'.$enddate.'"
             ORDER BY p.plan_control_id ASC
         ');    
  
         return view('account.account_plane',$data, [ 
-            'startdate'  =>  $startdate,
-            'enddate'    =>  $enddate,
+            'startdate'        =>  $startdate,
+            'enddate'          =>  $enddate,
+            'departmentsub'    =>  $departmentsub,
         ]);
     }
+
+    public function account_plane_activity(Request $request,$id)
+    {
+        $data['startdate']             = $request->startdate;
+        $data['enddate']               = $request->enddate;
+     
+        $data['plan_control']          = Plan_control::where('plan_control_id',$id)->first();
+        $data['plan_control_activity'] = Plan_control_activity::where('plan_control_id',$id)->get();
+        $data_activity                 = Plan_control_activity::where('plan_control_id',$id)->first();
+        $data['plan_control_budget']   = Plan_control_budget::where('plan_control_id',$id)->get();
+
+        $data['department_sub']        = Departmentsub::get();
+        $data['department_sub_sub']    = Department_sub_sub::get();
+        $data['plan_control_type']     = Plan_control_type::get();
+        $data['plan_strategic']        = Plan_strategic::get();
+        $data['plan_list_budget']      = Plan_list_budget::get();  
+        $data['plan_unit']             = DB::table('plan_unit')->get();  
+        $data['users']                 = User::get();    
+        
+        return view('account.account_plane_activity', $data,[ 
+            'id'    =>  $id  // plan_control_id
+        ]);
+    }
+     // Plan_control_money
+     public function account_plane_pay(Request $request)
+     { 
+         $maxno_ = Plan_control_money::where('plan_control_id',$request->input('update_plan_control_id'))->max('plan_control_money_no');
+         $maxno = $maxno_+1;
+         $add = new Plan_control_money();
+         $add->plan_control_id                = $request->input('update_plan_control_id'); 
+         $add->plan_control_money_no          = $maxno;
+         $add->plan_control_moneydate         = $request->input('plan_control_moneydate');
+         $add->plan_control_moneyprice        = $request->input('plan_control_moneyprice');
+         $add->plan_control_moneyuser_id      = $request->input('plan_control_moneyuser_id');
+         $add->plan_control_moneycomment      = $request->input('plan_control_moneycomment'); 
+         $add->save();
+ 
+         $planid = $request->input('update_plan_control_id');
+         $check_price = Plan_control::where('plan_control_id',$planid)->first();
+         // $maxno_ = Plan_control::where('plan_control_id',$request->input('update_plan_control_id'))->max('plan_control_money_no');
+ 
+         $check = Plan_control::where('plan_control_id',$planid)->count();
+         // dd($request->plan_price);
+         if ($check > 0) {
+             Plan_control::where('plan_control_id',$planid)->update([
+                 'plan_req_no'        =>  ($check_price->plan_req_no) + 1,
+                 'plan_reqtotal'      =>  ($check_price->plan_reqtotal) + ($request->input('plan_control_moneyprice')),
+                 'plan_price_total'   =>  ($check_price->plan_price) - (($check_price->plan_reqtotal) + ($request->input('plan_control_moneyprice')))
+             ]);
+         } else {
+              
+         }
+         
+ 
+         return response()->json([
+             'status'     => '200',
+         ]);
+     }
     
 
 

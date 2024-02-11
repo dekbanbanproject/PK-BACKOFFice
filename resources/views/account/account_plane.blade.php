@@ -92,6 +92,54 @@
         .datepicker {
             z-index: 2051 !important;
         }
+        #request{
+                    width: 40px;
+                    height: 40px;
+                    background-color: rgb(248, 209, 163);
+                    border-radius: 100%;
+                    margin: 0% auto;
+                    -webkit-animation: pulse 3s infinite ease-in-out;
+                    -o-animation: pulse 3s infinite ease-in-out;
+                    -ms-animation: pulse 3s infinite ease-in-out;
+                    -moz-animation: pulse 3s infinite ease-in-out;
+                    animation: pulse 3s infinite ease-in-out;
+            }
+            #accept{
+                    width: 40px;
+                    height: 40px;
+                    background-color: rgb(200, 233, 248);
+                    border-radius: 100%;
+                    margin: 0% auto;
+                    -webkit-animation: pulse 3s infinite ease-in-out;
+                    -o-animation: pulse 3s infinite ease-in-out;
+                    -ms-animation: pulse 3s infinite ease-in-out;
+                    -moz-animation: pulse 3s infinite ease-in-out;
+                    animation: pulse 3s infinite ease-in-out;
+            }
+            #acceptpo{
+                    width: 40px;
+                    height: 40px;
+                    background-color: rgb(209, 200, 248);
+                    border-radius: 100%;
+                    margin: 0% auto;
+                    -webkit-animation: pulse 3s infinite ease-in-out;
+                    -o-animation: pulse 3s infinite ease-in-out;
+                    -ms-animation: pulse 3s infinite ease-in-out;
+                    -moz-animation: pulse 3s infinite ease-in-out;
+                    animation: pulse 3s infinite ease-in-out;
+            }
+            #finish{
+                    width: 40px;
+                    height: 40px;
+                    background-color: rgb(194, 250, 219);
+                    border-radius: 100%;
+                    margin: 0% auto;
+                    -webkit-animation: pulse 3s infinite ease-in-out;
+                    -o-animation: pulse 3s infinite ease-in-out;
+                    -ms-animation: pulse 3s infinite ease-in-out;
+                    -moz-animation: pulse 3s infinite ease-in-out;
+                    animation: pulse 3s infinite ease-in-out;
+            }
 
     </style>
     <script>
@@ -139,20 +187,25 @@
                         </div>
                         <div class="col"></div>
                         <div class="col-md-2">
-                            <select name="departmentsub" id="departmentsub" class="form-control form-control-sm inputmedsalt" style="width: 100%">
+                            <select name="departmentsub" id="departmentsub" class="form-control inputmedsalt" style="width: 100%" required>
                                 <option value="">--กลุ่มงาน--</option>
                                 @foreach ($department_sub as $item_s)
+                                @if ($departmentsub == $item_s->DEPARTMENT_SUB_ID )
+                                    <option value="{{$item_s->DEPARTMENT_SUB_ID}}" selected>{{$item_s->DEPARTMENT_SUB_NAME}}</option>
+                                @else
                                     <option value="{{$item_s->DEPARTMENT_SUB_ID}}">{{$item_s->DEPARTMENT_SUB_NAME}}</option>
+                                @endif
+                                   
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-md-1 text-end mt-2">วันที่</div>
                         <div class="col-md-4 text-end">
                             <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                <input type="text" class="form-control inputmedsalt" name="startdate" id="datepicker" placeholder="Start Date"
+                                <input type="text" class="form-control inputmedsalt" name="startdate" id="startdate" placeholder="Start Date"
                                     data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                                     data-date-language="th-th" value="{{ $startdate }}" required/>
-                                <input type="text" class="form-control inputmedsalt" name="enddate" placeholder="End Date" id="datepicker2"
+                                <input type="text" class="form-control inputmedsalt" name="enddate" placeholder="End Date" id="enddate"
                                     data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                                     data-date-language="th-th" value="{{ $enddate }}" required/>
                                 <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary inputmedsalt" data-style="expand-left" id="Pulldata">
@@ -172,6 +225,167 @@
             <div class="col-xl-12">
                 <div class="card cardfinan">
                     <div class="card-body"> 
+
+                        <div class="row mb-3"> 
+                            <div class="col-md-7 text-start"> 
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 209, 163);border-radius: 3em 3em 3em 3em"> 
+                                    ยังไม่ดำเนินการ
+                                </button>
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(200, 233, 248);border-radius: 3em 3em 3em 3em"> 
+                                    รอ สสจ.อนุมัติ
+                                </button>
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em"> 
+                                    รอ ผอ. อนุมัติ
+                                </button>
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(194, 250, 219);border-radius: 3em 3em 3em 3em"> 
+                                    อนุมัติ
+                                </button>
+                            </div>
+                            <div class="col"></div>
+                            <div class="col-md-2 text-end"> 
+                                {{-- <a href="{{ url('plan_control_subhos_add/'.$id) }}" class="ladda-button me-2 btn-pill btn btn-primary cardacc" target="_blank">
+                                    <i class="fa-solid fa-folder-plus me-2"></i>
+                                    เพิ่มทะเบียน
+                                </a>  --}}
+                            </div>
+                        </div>
+
+                        <table id="example" class="table table-striped table-bordered myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr style="font-size: 13px">
+                                    <th width="5%" class="text-center">ลำดับ</th>
+                                    <th class="text-center">สถานะ</th> 
+                                    <th class="text-center"> แผนงาน/โครงการ</th> 
+                                    <th class="text-center">งบประมาณ</th> 
+                                    <th class="text-center">เบิก</th> 
+                                    <th class="text-center">คงเหลือ</th> 
+                                    <th width="10%" class="text-center">จัดการ</th> 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $i = 1; ?>
+                                @foreach ($plan_control as $va)
+                                
+                                    <tr id="sid{{ $va->plan_control_id }}">
+                                        <td class="text-center" width="4%">{{ $i++ }}</td>
+                                        <td width="5%">
+                                            @if ($va->status == 'REQUEST')
+                                                <div id="request"> 
+                                                    <span class="badge badge badge-secondary"></span>
+                                                </div>
+                                            {{-- @elseif ($va->status == 'ACCEPT')
+                                                <div id="accept"> 
+                                                    <span class="badge badge badge-secondary"></span>
+                                                </div> --}}
+                                            @elseif ($va->status == 'INPROGRESS_SSJ')
+                                                <div id="accept"> 
+                                                    <span class="badge badge badge-secondary"></span>
+                                                </div>
+                                            @elseif ($va->status == 'INPROGRESS_PO')
+                                                <div id="acceptpo"> 
+                                                    <span class="badge badge badge-secondary"></span>
+                                                </div>
+                                            @elseif ($va->status == 'FINISH')
+                                                <div id="finish"> 
+                                                    <span class="badge badge badge-secondary"></span>
+                                                </div>
+                                            @else
+                                                
+                                            @endif
+                                            
+                                        </td>
+                                        <td class="text-start" >   
+                                            <?php 
+                                                $data_sub_ = DB::connection('mysql')->select('SELECT * from plan_control_kpi WHERE plan_control_id = "'.$va->plan_control_id.'"'); 
+                                                $data_subobj_ = DB::connection('mysql')->select('SELECT * from plan_control_obj WHERE plan_control_id = "'.$va->plan_control_id.'"'); 
+                                                $data_sumprice_ = DB::connection('mysql')->select('SELECT sum(budget_price) as budget_price from plan_control_activity WHERE plan_control_id = "'.$va->plan_control_id.'"'); 
+                                                foreach ($data_sumprice_ as $key => $value_price) {
+                                                    $plan_price = $value_price->budget_price;
+                                                }
+                                            ?>  
+                                            <div id="headingTwo" class="b-radius-0">                                                         
+                                                    <button type="button" data-bs-toggle="collapse"
+                                                        data-bs-target="#collapseOne2{{ $va->plan_control_id }}" aria-expanded="false"
+                                                        aria-controls="collapseTwo" class="text-start m-0 p-0 btn btn-link btn-block">
+                                                        <h6 style="color: rgb(66, 63, 63)">{{ $va->plan_name }}</h6> 
+                                                    </button>  
+                                            </div>                                                     
+                                            {{-- <div id="headingTwo" class="b-radius-0">                                                         
+                                                    <button type="button" data-bs-toggle="collapse"
+                                                        data-bs-target="#collapseOne2{{ $va->plan_control_id }}" aria-expanded="false"
+                                                        aria-controls="collapseTwo" class="text-start m-0 p-0 btn btn-link btn-block">
+                                                        <h6 style="color: rgb(66, 63, 63)">{{ $va->plan_name }} ||<label for="" style="color: red">_KPI_ </label>||</h6> 
+                                                    </button> 
+                                                    <button type="button" data-bs-toggle="collapse"
+                                                        data-bs-target="#collapseOne3{{ $va->plan_control_id }}" aria-expanded="false"
+                                                        aria-controls="collapseTree" class="text-start m-0 p-0 btn btn-link btn-block">
+                                                        <h6 style="color: rgb(66, 63, 63)"><label for="" style="color: rgb(16, 130, 236)">_วัตถุประสงค์_</label>||</h6> 
+                                                    </button> 
+                                            </div>                                                     --}}
+                                            {{-- <div data-parent="#accordion" id="collapseOne2{{ $va->plan_control_id }}" class="collapse">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <h6 style="color: red"> *** KPI</h6> 
+                                                        @foreach ($data_sub_ as $itemsub)
+                                                            <div class="col-md-12 mb-2">
+                                                                @if ($itemsub->plan_control_kpi_name != '')
+                                                                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-white" onclick="subkpi_destroy({{ $va->plan_control_id }})">
+                                                                    <h6 style="color: red"> {{$itemsub->plan_control_kpi_name}} </h6>
+                                                                    </button>
+                                                                @else                                                                    
+                                                                @endif 
+                                                            </div> 
+                                                        @endforeach 
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                            <div data-parent="#accordion" id="collapseOne3{{ $va->plan_control_id }}" class="collapse">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <h6 style="color: rgb(16, 130, 236)"> *** วัตถุประสงค์</h6> 
+                                                        @foreach ($data_subobj_ as $sub_obj)
+                                                            <div class="col-md-12 mb-2">
+                                                                @if ($sub_obj->plan_control_obj_name != '')
+                                                                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-white" onclick="subobj_destroy({{ $va->plan_control_id }})">
+                                                                    <h6 style="color: rgb(16, 130, 236)"> {{$sub_obj->plan_control_obj_name}} </h6>
+                                                                    </button>
+                                                                @else                                                                    
+                                                                @endif 
+                                                            </div> 
+                                                        @endforeach 
+                                                    </div>
+                                                </div>
+                                            </div>  --}}
+                                        </td> 
+                                        <td class="text-center" width="8%">{{ number_format($plan_price, 2) }}</td>
+                                        <td class="text-center" width="5%">{{$va->plan_req_no}}</td>
+                                        <td class="text-center" width="8%">{{ number_format($va->plan_price_total, 2) }}</td>
+                                        <td width="5%">
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-primary dropdown-toggle menu btn-sm"
+                                                    type="button" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">ทำรายการ</button>
+                                                <ul class="dropdown-menu">
+                                                        {{-- <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm MoneyModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="เบิกเงิน"> 
+                                                            <i class="fa-brands fa-bitcoin me-3 mb-1" style="font-size:17px;color: rgb(20, 199, 190)"></i> 
+                                                            <label for=""
+                                                            style="color: rgb(20, 199, 190);font-size:13px">เบิกเงิน</label>
+                                                        </button>  --}}
+                                                        <a type="button" href="{{ url('account_plane_activity/'.$va->plan_control_id) }}"
+                                                            class="dropdown-item menu btn btn-outline-warning btn-sm" data-bs-toggle="tooltip"
+                                                            data-bs-placement="left" title="กิจกรรม/เบิกเงิน" target="_blank">
+                                                            <i class="fa-solid fa-people-robbery me-3 mb-1" style="color: rgb(211, 31, 172);font-size:13px"></i>
+                                                                <label for=""
+                                                                style="color: rgb(211, 31, 172);font-size:13px">กิจกรรม/เบิกเงิน</label> 
+                                                        </a>
+                                                </ul>
+                                            </div>
+                                        </td>        
+                                    </tr>
+ 
+                                @endforeach
+                            </tbody>
+                        </table>
                        
 
                     </div>
@@ -186,16 +400,7 @@
 @endsection
 @section('footer')
     <script>
-        function details(id){
-                $.ajax({
-                        url:"{{route('p.detail_plan')}}",
-                        method:"GET",
-                        data:{id:id},
-                        success:function(result){
-                            $('#details').html(result); 
-                        } 
-                }) 
-            }
+     
         $(document).ready(function() {
             $('#example').DataTable();
             $('#example2').DataTable();
@@ -205,6 +410,12 @@
                 format: 'yyyy-mm-dd'
             });
             $('#enddate').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+            $('#datepicker1').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+            $('#datepicker2').datepicker({
                 format: 'yyyy-mm-dd'
             });
            

@@ -2418,8 +2418,8 @@ Route::middleware(['type'])->group(function(){
 
   // **************************** บัญชี ***********************
   Route::match(['get','post'],'account_plane',[App\Http\Controllers\AccountPlanController::class, 'account_plane'])->name('acc.account_plane');//
-
-
+  Route::match(['get','post'],'account_plane_activity/{id}',[App\Http\Controllers\AccountPlanController::class, 'account_plane_activity'])->name('acc.account_plane_activity');//
+  Route::match(['get','post'],'account_plane_pay',[App\Http\Controllers\AccountPlanController::class, 'account_plane_pay'])->name('acc.account_plane_pay');//
 
   Route::match(['get','post'],'account_info',[App\Http\Controllers\AccountController::class, 'account_info'])->name('acc.account_info');//
   Route::match(['get','post'],'account_info_vn/{year}/{months}',[App\Http\Controllers\AccountController::class, 'account_info_vn'])->name('acc.account_info_vn');//
