@@ -125,12 +125,12 @@
                                             <th class="text-center">ptname</th>
                                             <th class="text-center">vstdate</th>
                                             <th class="text-center">pdx</th>
-                                            <th class="text-center">dx0</th>  
-                                            <th class="text-center">CT</th> 
+                                            <th class="text-center">dx0</th> 
                                             <th class="text-center">hospcode</th>  
                                             <th class="text-center">pttype</th> 
                                             <th class="text-center">spsch</th>  
                                             <th class="text-center">ลูกหนี้</th> 
+                                            <th class="text-center">ลูกหนี้CT</th>                                            
                                             <th class="text-center">ลูกหนี้ตามข้อตกลง</th>  
                                             <th class="text-center">ส่วนต่าง</th>  
                                         </tr>
@@ -153,21 +153,21 @@
                                                 <td class="p-2" >{{ $item->ptname }}</td> 
                                                 <td class="text-center" width="7%">{{ $item->vstdate }}</td>  
                                                 <td class="text-center" width="7%">{{ $item->pdx }}</td>  
-                                                <td class="text-center" width="7%">{{ $item->dx0 }}</td>  
-                                                
+                                                <td class="text-center" width="7%">{{ $item->dx0 }}</td>                                                  
+                                                <td class="text-center" width="7%">{{ $item->hospcode }}</td>  
+                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>  
+                                                <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td>  
+                                                <td class="text-center" width="10%">{{ number_format($item->uc_money, 2) }}</td> 
                                                 @if ($item->ct_sumprice > '0')
                                                     <td class="text-center" width="5%"> 
-                                                        <span class="bg-success badge me-2">Y</span> 
+                                                        <span class="bg-success badge me-2">{{ $item->ct_price }}</span> 
                                                     </td> 
                                                 @else
                                                     <td class="text-center" width="5%">  
                                                         <span class="bg-danger badge me-2">N</span> 
                                                     </td> 
                                                 @endif
-                                                <td class="text-center" width="7%">{{ $item->hospcode }}</td>  
-                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>  
-                                                <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td>  
-                                                <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td> 
+                                               
                                                 <td class="text-center" width="10%">{{ number_format($item->debit_total, 2) }}</td> 
                                                 <td class="text-center" width="10%">{{ number_format($item->sauntang, 2) }}</td> 
                                             </tr>
