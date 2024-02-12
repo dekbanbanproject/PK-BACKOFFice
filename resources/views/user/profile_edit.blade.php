@@ -55,14 +55,14 @@
     $pos = strrpos($url, '/') + 1;
     ?>
 <br>
-    <div class="container mt-3">
+    <div class="container">
         <div class="row ">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header ">
                         {{-- <div class="d-flex">
                             <div class=""> --}}
-                        <label for="">แก้ไขข้อมูลบุคลากร</label>
+                        <label for="">แก้ไขข้อมูล Profile</label>
                         {{-- </div> --}}
                         {{-- <div class="ms-auto">
 

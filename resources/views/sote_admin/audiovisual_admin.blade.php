@@ -421,16 +421,27 @@
                                                             <div class="col-md-8 text-start"> <label for="" style="color: gray"> {{$item->audiovisual_detail}}</label>  </div> 
                                                         </div>
                                                     </div>
+                                                {{-- <form action="{{ route('user.audiovisual_admin_save') }}" method="POST" > --}}
+                                                    <form action="{{ route('user.audiovisual_admin_save') }}" method="POST">
+                                                        @csrf
+                                                    {{-- id="AcceptdataForm" id="AcceptdataForm"--}}
                                                     <input type="hidden" id="audiovisual_id" name="audiovisual_id" value="{{$item->audiovisual_id}}">
                                                     <div class="modal-footer">
-                                                        <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Acceptdata">
+                                                        <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                                             <i class="pe-7s-diskette btn-icon-wrapper"></i>Accept
                                                         </button>
+                                                        {{-- id="Acceptdata" --}}
+                                                        {{-- <button type="button" id="updateBtn"
+                                                        class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-primary">
+                                                        <i class="fa-solid fa-floppy-disk me-2"></i>
+                                                        Accept
+                                                    </button> --}}
                                                         <button type="button"
-                                                            class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary">
-                                                            <i class="fa-solid fa-xmark me-2"></i>Close
-                                                        </button>
+                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-danger"
+                                                        data-bs-dismiss="modal"><i
+                                                            class="fa-solid fa-xmark me-2"></i>Close</button>
                                                     </div>
+                                                </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -510,44 +521,43 @@
             });
             $("#spinner-div").hide(); //Request is complete so hide spinner
 
-            $('#Acceptdata').click(function() {
-
+            $('#updateBtn').click(function() {                
                 var audiovisual_id = $('#audiovisual_id').val(); 
-                        alert(audiovisual_id);
-                        $.ajax({
-                            url: "{{ route('user.audiovisual_admin_save') }}",
-                            type: "POST",
-                            dataType: 'json',
-                            data: {
-                                audiovisual_id 
-                            },
-                            success: function(data) {
-                                if (data.status == 200) {
-                                    // alert('gggggg');
-                                    Swal.fire({
-                                        title: 'รับงานสำเร็จ',
-                                        text: "You Accept data success",
-                                        icon: 'success',
-                                        showCancelButton: false,
-                                        confirmButtonColor: '#06D177',
-                                        confirmButtonText: 'เรียบร้อย'
-                                    }).then((result) => {
-                                        if (result
-                                            .isConfirmed) {
-                                            console.log(
-                                                data);
+                alert(audiovisual_id);
+                $.ajax({
+                    url: "{{ route('user.audiovisual_admin_save') }}",
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        audiovisual_id 
+                    },
+                    success: function(data) {
+                        if (data.status == 200) {
+                            // alert('gggggg');
+                            Swal.fire({
+                                title: 'รับงานสำเร็จ',
+                                text: "You Accept data success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result
+                                    .isConfirmed) {
+                                    console.log(
+                                        data);
 
-                                            window.location
-                                                .reload();
-                                        }
-                                    })
-                                } else {
-
+                                    window.location
+                                        .reload();
                                 }
+                            })
+                        } else {
 
-                            },
-                        });
+                        }
+
+                    },
                 });
+            });
 
             $(document).on('click', '.edit_data', function() {
                 var audiovisual_id = $(this).val();
@@ -626,6 +636,7 @@
                 });
             });
 
+            
         });
     </script>
 

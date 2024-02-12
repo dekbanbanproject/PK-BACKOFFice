@@ -183,6 +183,11 @@ class StaticController extends Controller
     $reportcount =  User::where('id','=',$iduser)->where('permiss_report_all','=','on')->count();   
     return $reportcount;
   }
+  public static function permiss_sot($iduser)
+  {
+    $permiss_sotcount =  User::where('id','=',$iduser)->where('permiss_sot','=','on')->count();   
+    return $permiss_sotcount;
+  }
   public static function countpesmiss_claim($iduser)
   {
     $claimcount =  User::where('id','=',$iduser)->where('permiss_claim','=','on')->count();   

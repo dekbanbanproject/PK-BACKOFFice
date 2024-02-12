@@ -490,6 +490,21 @@ $pos = strrpos($url, '/') + 1;
                             </div>
                         </div>
 
+                        <div class="col-4 col-md-3 col-xl-3">
+                            <div class="card">
+                                <div class="card-body shadow-lg"> 
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-camera-retro" style="color: rgb(9, 169, 197)"></i>                                     
+                                        <input class="form-check-input" type="checkbox" id="permiss_sot"
+                                            name="permiss_sot"/>
+                                        <label class="form-check-label" for="permiss_sot">งานโสต</label> 
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
                     </div>
                 </div>
             </div>

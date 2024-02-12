@@ -86,7 +86,8 @@ public function permiss_save(Request $request)
         $update->permiss_ofc = $request->input('permiss_ofc'); 
         $update->permiss_lgo = $request->input('permiss_lgo'); 
         $update->permiss_prb = $request->input('permiss_prb'); 
-        $update->permiss_ti = $request->input('permiss_ti'); 
+        $update->permiss_ti  = $request->input('permiss_ti'); 
+        $update->permiss_sot = $request->input('permiss_sot'); 
         $update->save(); 
 
         // dd($request->id);

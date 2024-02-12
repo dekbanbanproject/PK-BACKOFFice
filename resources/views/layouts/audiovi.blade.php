@@ -423,9 +423,44 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
 
         });
 
-        $(document).ready(function() {
+        $('#AcceptdataForm').on('submit',function(e){
+                e.preventDefault();
+                var form = this;
+                $.ajax({
+                  url:$(form).attr('action'),
+                  method:$(form).attr('method'),
+                  data:new FormData(form),
+                  processData:false,
+                  dataType:'json',
+                  contentType:false,
+                  beforeSend:function(){
+                    $(form).find('span.error-text').text('');
+                  },
+                  success:function(data){
+                    if (data.status == 200 ) {
+                        Swal.fire({
+                        title: 'รับงานสำเร็จ',
+                        text: "You Recieve success",
+                        icon: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#06D177',
+                        // cancelButtonColor: '#d33',
+                        confirmButtonText: 'เรียบร้อย'
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                        //   window.location="{{url('audiovisual_admin')}}";
+                        window.location
+                                        .reload();
+                        }
+                      })
+                    } else {
+                      
+                    }
+                  }
+                });
+            });
 
-        });
+      
     </script>
 
 </body>

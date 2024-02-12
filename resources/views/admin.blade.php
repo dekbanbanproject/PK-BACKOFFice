@@ -47,7 +47,8 @@
     $countpermiss_env         = StaticController::countpermiss_env($iduser);
     $permiss_account          = StaticController::permiss_account($iduser);
     $permiss_report_all       = StaticController::permiss_report_all($iduser);
-    
+    $permiss_sot              = StaticController::permiss_sot($iduser);
+
     ?>
     <style>
         #button{
@@ -702,6 +703,40 @@
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill"> 
                                                         {{-- <i class="fa-solid fa-chart-line fa-3x font-size-25" style="color: rgba(209, 180, 255, 0.74)"></i>  --}}
                                                         <img src="{{ asset('images/report.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            @endif
+
+            
+            @if ($permiss_sot != 0) 
+            <div class="col-xl-3 col-md-3">
+                <div class="main-card mb-3 card shadow-lg rounded-pill"
+                    style="background-color: rgba(125, 148, 252, 0.74)">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover rounded-pill">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                            <a href="" target="_blank">
+                                                <h5 class="text-start mb-2">งานโสต</h5>
+                                            </a>
+                                        </div>
+                                        <div class="avatar ms-2">
+                                            <a href="{{ url('audiovisual_admin') }}" target="_blank">
+                                                <button
+                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill"> 
+                                                        
+                                                        <img src="{{ asset('images/camerasot.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>

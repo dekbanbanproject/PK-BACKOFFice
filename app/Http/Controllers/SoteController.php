@@ -235,14 +235,15 @@ class SoteController extends Controller
     public function audiovisual_admin_save(Request $request)
     {
         $id = $request->audiovisual_id;
+        // dd($id);
         $update = Audiovisual::find($id);
 
         $update->audiovisual_status        = 'ACCEPTING';
         $update->save();
-
-        return response()->json([
-            'status'     => '200',
-        ]);
+        return redirect()->route('user.audiovisual_admin');
+        // return response()->json([
+        //     'status'     => '200',
+        // ]);
     }
     public function audiovisual_admin_cancel(Request $request, $id)
     {
@@ -276,6 +277,7 @@ class SoteController extends Controller
         $update->audiovisual_status        = 'VERIFY';
         $update->save();
 
+        // return redirect()->route('user.audiovisual_admin');
         return response()->json([
             'status'     => '200',
         ]);

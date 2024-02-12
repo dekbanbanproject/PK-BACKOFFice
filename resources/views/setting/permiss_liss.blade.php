@@ -749,6 +749,25 @@ $permiss_account = StaticController::permiss_account($iduser);
                             </div>
                         </div>
 
+                        <div class="col-4 col-md-3 col-xl-3">
+                            <div class="card">
+                                <div class="card-body shadow-lg"> 
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-camera-retro" style="color: rgb(9, 169, 197)"></i> 
+                                        @if ($dataedits->permiss_sot == 'on') 
+                                            <input class="form-check-input" type="checkbox" id="permiss_sot" name="permiss_sot" checked/>
+                                        @else
+                                            <input class="form-check-input" type="checkbox" id="permiss_sot" name="permiss_sot"/>
+                                        @endif
+                                            <label class="form-check-label" for="permiss_sot">งานโสต</label>                                     
+                                        
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
 
 
                     </div>
