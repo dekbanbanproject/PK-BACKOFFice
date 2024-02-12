@@ -399,46 +399,17 @@ class Account502Controller extends Controller
             'enddate'       =>  $enddate
         ]);
     }
-    // public function account_402_stm_date(Request $request,$startdate,$enddate)
-    // {
-    //     $datenow = date('Y-m-d'); 
-    //     $data['users'] = User::get();
-
-    //     $data = DB::select('
-    //         SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc  
-    //             from acc_1102050101_402 U1
-    //             LEFT JOIN acc_stm_ofc U2 on U2.an = U1.an 
-    //             WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-    //             AND U2.pricereq_all  is not null 
-    //             group by U1.an
-    //     ');
-       
-    //     return view('account_402.account_402_stm_date', $data, [ 
-    //         'data'          =>  $data,
-    //         'startdate'     =>  $startdate,
-    //         'enddate'       =>  $enddate
-    //     ]);
-    // }
-    // public function account_402_stmnull_date(Request $request,$startdate,$enddate)
-    // {
-    //     $datenow = date('Y-m-d'); 
-    //     $data['users'] = User::get();
-
-    //     $data = DB::select('
-    //         SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.income,U1.rcpt_money,U1.debit_total,U2.pricereq_all 
-    //             from acc_1102050101_402 U1
-    //             LEFT JOIN acc_stm_ofc U2 on U2.an = U1.an 
-    //             WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-    //             AND U2.pricereq_all is null 
-    //             group by U1.an
-    //     ');
-       
-    //     return view('account_402.account_402_stmnull_date', $data, [ 
-    //         'data'          =>  $data,
-    //         'startdate'     =>  $startdate,
-    //         'enddate'       =>  $enddate
-    //     ]);
-    // }
+    public function account_502_destroy(Request $request)
+    {
+        $id = $request->ids;
+        // $iduser = Auth::user()->id;
+        // $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
+        Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->delete();
+               
+        return response()->json([
+            'status'    => '200'
+        ]);
+    }
    
  
 

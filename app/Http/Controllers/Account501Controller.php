@@ -423,6 +423,17 @@ class Account501Controller extends Controller
         ]);
     }
    
+    public function account_501_destroy(Request $request)
+    {
+        $id = $request->ids;
+        // $iduser = Auth::user()->id;
+        // $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
+        Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->delete();
+               
+        return response()->json([
+            'status'    => '200'
+        ]);
+    }
  
 
  }
