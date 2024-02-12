@@ -343,6 +343,17 @@ class Account503Controller extends Controller
             'enddate'       =>     $enddate
         ]);
     }
+    public function account_503_destroy(Request $request)
+    {
+        $id = $request->ids;
+        // $iduser = Auth::user()->id;
+        // $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
+        Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->delete();
+               
+        return response()->json([
+            'status'    => '200'
+        ]);
+    }
     
  
 

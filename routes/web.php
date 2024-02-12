@@ -2098,6 +2098,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_503_detail_date/{startdate}/{enddate}',[App\Http\Controllers\Account503Controller::class, 'account_503_detail_date'])->name('acc.account_503_detail_date');//
     Route::match(['get','post'],'account_503_stm_date/{startdate}/{enddate}',[App\Http\Controllers\Account503Controller::class, 'account_503_stm_date'])->name('acc.account_503_stm_date');//
     Route::match(['get','post'],'account_503_stmnull_date/{startdate}/{enddate}',[App\Http\Controllers\Account503Controller::class, 'account_503_stmnull_date'])->name('acc.account_503_stmnull_date');//
+    Route::match(['get','post'],'account_503_destroy',[App\Http\Controllers\Account503Controller::class, 'account_503_destroy'])->name('acc.account_503_destroy');//
 
     Route::match(['get','post'],'account_504_dash',[App\Http\Controllers\Account504Controller::class, 'account_504_dash'])->name('acc.account_504_dash');//  
     Route::match(['get','post'],'account_504_pull',[App\Http\Controllers\Account504Controller::class, 'account_504_pull'])->name('acc.account_504_pull');//
@@ -2109,6 +2110,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_504_detail_date/{startdate}/{enddate}',[App\Http\Controllers\Account504Controller::class, 'account_504_detail_date'])->name('acc.account_504_detail_date');//
     Route::match(['get','post'],'account_504_stm_date/{startdate}/{enddate}',[App\Http\Controllers\Account504Controller::class, 'account_504_stm_date'])->name('acc.account_504_stm_date');//
     Route::match(['get','post'],'account_504_stmnull_date/{startdate}/{enddate}',[App\Http\Controllers\Account504Controller::class, 'account_504_stmnull_date'])->name('acc.account_504_stmnull_date');//
+    Route::match(['get','post'],'account_504_destroy',[App\Http\Controllers\Account504Controller::class, 'account_504_destroy'])->name('acc.account_504_destroy');//
 
     Route::match(['get','post'],'account_602_dash',[App\Http\Controllers\Account602Controller::class, 'account_602_dash'])->name('acc.account_602_dash');//
     Route::match(['get','post'],'account_602_pull',[App\Http\Controllers\Account602Controller::class, 'account_602_pull'])->name('acc.account_602_pull');//

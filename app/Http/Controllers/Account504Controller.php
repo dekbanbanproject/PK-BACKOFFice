@@ -355,6 +355,18 @@ class Account504Controller extends Controller
             'enddate'       =>  $enddate
         ]);
     }
+    public function account_504_destroy(Request $request)
+    {
+        $id = $request->ids;
+        // $iduser = Auth::user()->id;
+        // $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
+        Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->delete();
+               
+        return response()->json([
+            'status'    => '200'
+        ]);
+    }
+   
     
  
 

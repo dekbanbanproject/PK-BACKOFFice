@@ -265,99 +265,99 @@ class Account203Controller extends Controller
                         foreach ($data3_ as $key => $value3) {
                             $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.203')->count();
                             if ($check > 0) {
-                                if ($value3->icode == '3009147') {
-                                    // CT Brain without contrast study 1200
-                                    Acc_debtor::insert([
-                                        'hn'                 => $value->hn,
-                                        'an'                 => $value->an,
-                                        'vn'                 => $value->vn,
-                                        'cid'                => $value->cid,
-                                        'ptname'             => $value->ptname,
-                                        'pttype'             => $value->pttype,
-                                        'vstdate'            => $value->vstdate,
-                                        'dchdate'            => $value->dchdate,
-                                        'acc_code'           => $value->acc_code,
-                                        'account_code'       => $value->account_code,
-                                        'account_name'       => $value->account_name, 
-                                        'hospcode'           => $value->hospcode,
-                                        'income'             => $value->income,
-                                        'uc_money'           => $value->uc_money,
-                                        'discount_money'     => $value->discount_money,
-                                        'paid_money'         => $value->paid_money,
-                                        'rcpt_money'         => $value->rcpt_money,
-                                        'debit'              => $value->uc_money, 
-                                        'debit_total'        => '100', 
-                                        'referin_no'         => $value->referin_no, 
-                                        'pdx'                => $value->pdx, 
-                                        'dx0'                => $value->dx0, 
-                                        'cc'                 => $value->cc, 
-                                        'ct_price'           => '1200', 
-                                        'ct_sumprice'        => '100',  
-                                        'sauntang'           => ($value->uc_money)- ('1200')- ('100'), 
-                                        'acc_debtor_userid'  => Auth::user()->id
-                                    ]);
-                                    // CT Brain with contrast study 3300
-                                }elseif ($value3->icode == '3009148') {
-                                    Acc_debtor::insert([
-                                        'hn'                 => $value->hn,
-                                        'an'                 => $value->an,
-                                        'vn'                 => $value->vn,
-                                        'cid'                => $value->cid,
-                                        'ptname'             => $value->ptname,
-                                        'pttype'             => $value->pttype,
-                                        'vstdate'            => $value->vstdate,
-                                        'dchdate'            => $value->dchdate,
-                                        'acc_code'           => $value->acc_code,
-                                        'account_code'       => $value->account_code,
-                                        'account_name'       => $value->account_name, 
-                                        'hospcode'           => $value->hospcode,
-                                        'income'             => $value->income,
-                                        'uc_money'           => $value->uc_money,
-                                        'discount_money'     => $value->discount_money,
-                                        'paid_money'         => $value->paid_money,
-                                        'rcpt_money'         => $value->rcpt_money,
-                                        'debit'              => $value->uc_money, 
-                                        'debit_total'        => '100', 
-                                        'referin_no'         => $value->referin_no, 
-                                        'pdx'                => $value->pdx, 
-                                        'dx0'                => $value->dx0, 
-                                        'cc'                 => $value->cc, 
-                                        'ct_price'           => '3300', 
-                                        'ct_sumprice'        => '100',  
-                                        'sauntang'           => ($value->uc_money)- ('3300')- ('100'), 
-                                        'acc_debtor_userid'  => Auth::user()->id
-                                    ]);  
-                                } else {
-                                    Acc_debtor::insert([
-                                        'hn'                 => $value->hn,
-                                        'an'                 => $value->an,
-                                        'vn'                 => $value->vn,
-                                        'cid'                => $value->cid,
-                                        'ptname'             => $value->ptname,
-                                        'pttype'             => $value->pttype,
-                                        'vstdate'            => $value->vstdate,
-                                        'dchdate'            => $value->dchdate,
-                                        'acc_code'           => $value->acc_code,
-                                        'account_code'       => $value->account_code,
-                                        'account_name'       => $value->account_name, 
-                                        'hospcode'           => $value->hospcode,
-                                        'income'             => $value->income,
-                                        'uc_money'           => $value->uc_money,
-                                        'discount_money'     => $value->discount_money,
-                                        'paid_money'         => $value->paid_money,
-                                        'rcpt_money'         => $value->rcpt_money,
-                                        'debit'              => $value->uc_money, 
-                                        'debit_total'        => '100', 
-                                        'referin_no'         => $value->referin_no, 
-                                        'pdx'                => $value->pdx, 
-                                        'dx0'                => $value->dx0, 
-                                        'cc'                 => $value->cc, 
-                                        'ct_price'           => '2500', 
-                                        'ct_sumprice'        => '100',  
-                                        'sauntang'           => ($value->uc_money)- ('2500')- ('100'), 
-                                        'acc_debtor_userid'  => Auth::user()->id
-                                    ]);
-                                }
+                                // if ($value3->icode == '3009147') {
+                                //     // CT Brain without contrast study 1200
+                                //     Acc_debtor::insert([
+                                //         'hn'                 => $value->hn,
+                                //         'an'                 => $value->an,
+                                //         'vn'                 => $value->vn,
+                                //         'cid'                => $value->cid,
+                                //         'ptname'             => $value->ptname,
+                                //         'pttype'             => $value->pttype,
+                                //         'vstdate'            => $value->vstdate,
+                                //         'dchdate'            => $value->dchdate,
+                                //         'acc_code'           => $value->acc_code,
+                                //         'account_code'       => $value->account_code,
+                                //         'account_name'       => $value->account_name, 
+                                //         'hospcode'           => $value->hospcode,
+                                //         'income'             => $value->income,
+                                //         'uc_money'           => $value->uc_money,
+                                //         'discount_money'     => $value->discount_money,
+                                //         'paid_money'         => $value->paid_money,
+                                //         'rcpt_money'         => $value->rcpt_money,
+                                //         'debit'              => $value->uc_money, 
+                                //         'debit_total'        => '100', 
+                                //         'referin_no'         => $value->referin_no, 
+                                //         'pdx'                => $value->pdx, 
+                                //         'dx0'                => $value->dx0, 
+                                //         'cc'                 => $value->cc, 
+                                //         'ct_price'           => '1200', 
+                                //         'ct_sumprice'        => '100',  
+                                //         'sauntang'           => ($value->uc_money)- ('1200')- ('100'), 
+                                //         'acc_debtor_userid'  => Auth::user()->id
+                                //     ]);
+                                //     // CT Brain with contrast study 3300
+                                // }elseif ($value3->icode == '3009148') {
+                                //     Acc_debtor::insert([
+                                //         'hn'                 => $value->hn,
+                                //         'an'                 => $value->an,
+                                //         'vn'                 => $value->vn,
+                                //         'cid'                => $value->cid,
+                                //         'ptname'             => $value->ptname,
+                                //         'pttype'             => $value->pttype,
+                                //         'vstdate'            => $value->vstdate,
+                                //         'dchdate'            => $value->dchdate,
+                                //         'acc_code'           => $value->acc_code,
+                                //         'account_code'       => $value->account_code,
+                                //         'account_name'       => $value->account_name, 
+                                //         'hospcode'           => $value->hospcode,
+                                //         'income'             => $value->income,
+                                //         'uc_money'           => $value->uc_money,
+                                //         'discount_money'     => $value->discount_money,
+                                //         'paid_money'         => $value->paid_money,
+                                //         'rcpt_money'         => $value->rcpt_money,
+                                //         'debit'              => $value->uc_money, 
+                                //         'debit_total'        => '100', 
+                                //         'referin_no'         => $value->referin_no, 
+                                //         'pdx'                => $value->pdx, 
+                                //         'dx0'                => $value->dx0, 
+                                //         'cc'                 => $value->cc, 
+                                //         'ct_price'           => '3300', 
+                                //         'ct_sumprice'        => '100',  
+                                //         'sauntang'           => ($value->uc_money)- ('3300')- ('100'), 
+                                //         'acc_debtor_userid'  => Auth::user()->id
+                                //     ]);  
+                                // } else {
+                                //     Acc_debtor::insert([
+                                //         'hn'                 => $value->hn,
+                                //         'an'                 => $value->an,
+                                //         'vn'                 => $value->vn,
+                                //         'cid'                => $value->cid,
+                                //         'ptname'             => $value->ptname,
+                                //         'pttype'             => $value->pttype,
+                                //         'vstdate'            => $value->vstdate,
+                                //         'dchdate'            => $value->dchdate,
+                                //         'acc_code'           => $value->acc_code,
+                                //         'account_code'       => $value->account_code,
+                                //         'account_name'       => $value->account_name, 
+                                //         'hospcode'           => $value->hospcode,
+                                //         'income'             => $value->income,
+                                //         'uc_money'           => $value->uc_money,
+                                //         'discount_money'     => $value->discount_money,
+                                //         'paid_money'         => $value->paid_money,
+                                //         'rcpt_money'         => $value->rcpt_money,
+                                //         'debit'              => $value->uc_money, 
+                                //         'debit_total'        => '100', 
+                                //         'referin_no'         => $value->referin_no, 
+                                //         'pdx'                => $value->pdx, 
+                                //         'dx0'                => $value->dx0, 
+                                //         'cc'                 => $value->cc, 
+                                //         'ct_price'           => '2500', 
+                                //         'ct_sumprice'        => '100',  
+                                //         'sauntang'           => ($value->uc_money)- ('2500')- ('100'), 
+                                //         'acc_debtor_userid'  => Auth::user()->id
+                                //     ]);
+                                // }
                                 
                                 // Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.203')->update([  
                                 //     'ct_price'           => $ctprice,  
@@ -593,8 +593,8 @@ class Account203Controller extends Controller
         $data['users'] = User::get();
  
         $data = DB::select('
-                SELECT 
-                U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.hospcode,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
+                SELECT U1.ct_price,U1.uc_money 
+                ,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.hospcode,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
                 from acc_1102050101_203 U1             
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
                
