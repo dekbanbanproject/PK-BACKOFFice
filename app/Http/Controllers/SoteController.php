@@ -244,6 +244,7 @@ class SoteController extends Controller
         // return response()->json([
         //     'status'     => '200',
         // ]);
+        // return redirect()->back();
     }
     public function audiovisual_admin_cancel(Request $request, $id)
     {
