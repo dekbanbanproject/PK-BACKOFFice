@@ -2958,7 +2958,9 @@ Route::match(['get','post'],'report_db',[App\Http\Controllers\ReportMedControlle
 Route::match(['get','post'],'report_med',[App\Http\Controllers\ReportMedController::class, 'report_med'])->name('re.report_med');
 Route::match(['get','post'],'report_hos_med/{id}',[App\Http\Controllers\ReportMedController::class, 'report_hos_med'])->name('re.report_hos_med');
  
- 
-
+// ************** TB ****************************
+Route::match(['get','post'],'tb_main',[App\Http\Controllers\TbController::class, 'tb_main'])->name('re.tb_main');
+Route::match(['get','post'],'tb_main_pull',[App\Http\Controllers\TbController::class, 'tb_main_pull'])->name('re.tb_main_pull');
+Route::match(['get','post'],'tb_main_detail/{id}',[App\Http\Controllers\TbController::class, 'tb_main_detail'])->name('re.tb_main_detail');
 
 });
