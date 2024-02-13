@@ -86,7 +86,11 @@ return new class extends Migration
             $table->string('permiss_setting_warehouse')->nullable(); 
             $table->string('permiss_rep_money')->nullable(); //ใบเสร็จรับเงิน
             $table->string('permiss_sot')->nullable();
-            
+            $table->string('permiss_clinic_tb')->nullable();
+            $table->string('permiss_medicine_salt')->nullable();
+            $table->string('pesmiss_ct')->nullable();
+
+
             $table->string('store_id')->nullable();
             $table->string('member_id')->nullable();
             $table->string('img')->nullable();
