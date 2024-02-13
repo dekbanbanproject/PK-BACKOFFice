@@ -113,29 +113,7 @@
 
         <form action="{{ url('tb_main') }}" method="GET">
             @csrf
-               
-                    {{-- @if ($d_tb_count < 0)
-                        <div class="row mb-5"> 
-                            <div class="col-md-3">
-                                <h5 class="card-title" style="color:rgba(93, 199, 241)">Clinic TB</h5>
-                                <p class="card-title-desc">บริการคัดกรองและค้นหาวัณโรคในกลุ่มเสี่ยง</p>
-                            </div>
-                            <div class="col"></div>
-                            <div class="col-md-1 text-end mt-2">วันที่</div>
-                            <div class="col-md-4 text-end ">
-                                <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                                    <input type="text" class="form-control cardtb" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                                        data-date-language="th-th" value="{{ $startdate }}" required/>
-                                    <input type="text" class="form-control cardtb" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                                        data-date-language="th-th" value="{{ $enddate }}"/>                     
-                                    <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary cardtb mb-5"> 
-                                        <i class="fa-solid fa-magnifying-glass text-primary me-2"></i>ค้นหา
-                                    </button>    
-                                </div>  
-                            </div>
-                        </div>
-                         
-                    @else --}}
+                
                         <div class="row"> 
                             <div class="col-md-3">
                                 <h5 class="card-title" style="color:rgba(93, 199, 241)">Clinic TB</h5>
@@ -159,9 +137,7 @@
                                 </div>  
                             </div>
                         </div>
-                    {{-- @endif --}}
-                    
-
+                  
                
         </form>
         <div class="row">
