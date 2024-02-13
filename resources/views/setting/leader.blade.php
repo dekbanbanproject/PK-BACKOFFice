@@ -73,7 +73,7 @@
     //  $countleader = StaticController::countleader();
  
   ?>
-<div class="container-fluid" style="width: 97%" >
+<div class="container-fluid">
           
         <div class="row">
             <div class="col-md-12 mt-2">
@@ -117,7 +117,8 @@
                           <hr>       
                       </form>
                     <div class="table-responsive"> 
-                          <table class="table table-hover table-bordered table-sm myTable" style="width: 100%;" id="example">
+                      <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                          {{-- <table class="table table-hover table-bordered table-sm myTable" style="width: 100%;" id="example"> --}}
                           <thead>
                               <tr height="10px">
                                   <th width="5%" class="text-center">ลำดับ</th>  

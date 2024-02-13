@@ -68,7 +68,7 @@
   $url = Request::url();
   $pos = strrpos($url, '/') + 1;
   ?>
-<div class="container-fluid" style="width: 97%">
+<div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-12">   
               <div class="card"> 

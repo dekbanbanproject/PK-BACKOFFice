@@ -63,13 +63,14 @@ $pos = strrpos($url, '/') + 1;
 ?>
 
 @section('content')
-    <div class="container-fluid" style="width: 97%">
+    <div class="container-fluid">
         <div class="card ">
 
             <div class="row p-3">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="table-responsive">
-                        <table class="table table-hover table-bordered table-sm myTable" style="width: 100%;" id="example">
+                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        {{-- <table class="table table-hover table-bordered table-sm myTable" style="width: 100%;" id="example"> --}}
                             <thead>
                                 <tr height="10px">
                                     <th width="5%" class="text-center">ลำดับ</th>
@@ -101,7 +102,7 @@ $pos = strrpos($url, '/') + 1;
                     </div>
 
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-8">
 
                     <div class="row me-1 mb-1 ms-1">
 
