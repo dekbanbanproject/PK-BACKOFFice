@@ -2628,40 +2628,7 @@ Route::match(['get','post'],'report_type',[App\Http\Controllers\PersonController
 Route::match(['get','post'],'report_dep',[App\Http\Controllers\PersonController::class, 'report_dep'])->name('re.report_dep');//
 
 //  *************************** PT *******************************************************
-
-// Route::match(['get','post'],'restore',[App\Http\Controllers\PtController::class, 'restore'])->name('pt.restore');//
-// Route::match(['get','post'],'kayapap_vs/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_vs'])->name('pt.kayapap_vs');//
-// Route::match(['get','post'],'kayapap_vs_sub/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_vs_sub'])->name('pt.kayapap_vs_sub');//
-// Route::match(['get','post'],'kayapap_vs_spsch/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_vs_spsch'])->name('pt.kayapap_vs_spsch');//
-// Route::match(['get','post'],'kayapap_vs_nokey/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_vs_nokey'])->name('pt.kayapap_vs_nokey');//
-
-// Route::match(['get','post'],'kayapap_Keyspsch/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_Keyspsch'])->name('pt.kayapap_Keyspsch');//
-
-// Route::match(['get','post'],'kayapap_hoocojmokvs/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_hoocojmokvs'])->name('pt.kayapap_hoocojmokvs');//
-// Route::match(['get','post'],'kayapap_tavs/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_tavs'])->name('pt.kayapap_tavs');//
-// Route::match(['get','post'],'kayapap_tavs_subvn/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_tavs_subvn'])->name('pt.kayapap_tavs_subvn');//
-// Route::match(['get','post'],'kayapap_tavs_subspsch/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_tavs_subspsch'])->name('pt.kayapap_tavs_subspsch');//
-// Route::match(['get','post'],'kayapap_tavs_subnokey/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_tavs_subnokey'])->name('pt.kayapap_tavs_subnokey');//
-
-
-// // Route::match(['get','post'],'kayapap_jitvs/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_jitvs'])->name('pt.kayapap_jitvs');//
-// // Route::match(['get','post'],'kayapap_jitvs_vn/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_jitvs_vn'])->name('pt.kayapap_jitvs_vn');//
-// // Route::match(['get','post'],'kayapap_jitvs_spsch/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_jitvs_spsch'])->name('pt.kayapap_jitvs_spsch');//
-// // Route::match(['get','post'],'kayapap_jitvs_nokey/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_jitvs_nokey'])->name('pt.kayapap_jitvs_nokey');//
-
-// Route::match(['get','post'],'kayapap_kratoonvs/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_kratoonvs'])->name('pt.kayapap_kratoonvs');//
-// Route::match(['get','post'],'kayapap_kratoonvs_sub/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_kratoonvs_sub'])->name('pt.kayapap_kratoonvs_sub');//
-// Route::match(['get','post'],'kayapap_kratoonvs_spsch/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_kratoonvs_spsch'])->name('pt.kayapap_kratoonvs_spsch');//
-// Route::match(['get','post'],'kayapap_kratoonvs_nokey/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_kratoonvs_nokey'])->name('pt.kayapap_kratoonvs_nokey');//
-
-// Route::match(['get','post'],'kayapap_hoocojmokvs_vs/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_hoocojmokvs_vs'])->name('pt.kayapap_hoocojmokvs_vs');//
-// Route::match(['get','post'],'kayapap_hoocojmokvs_spsch/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_hoocojmokvs_spsch'])->name('pt.kayapap_hoocojmokvs_spsch');//
-// Route::match(['get','post'],'kayapap_hoocojmokvs_nokey/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_hoocojmokvs_nokey'])->name('pt.kayapap_hoocojmokvs_nokey');//
-
-// Route::match(['get','post'],'equipment',[App\Http\Controllers\PtController::class, 'equipment'])->name('pt.equipment');//
-// Route::match(['get','post'],'equipment_vn/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'equipment_vn'])->name('pt.equipment_vn');//
-// Route::match(['get','post'],'equipment_spsch/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'equipment_spsch'])->name('pt.equipment_spsch');//
-// Route::match(['get','post'],'equipment_nokey/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'equipment_nokey'])->name('pt.equipment_nokey');//
+ 
 Route::match(['get','post'],'ct_rep',[App\Http\Controllers\CtrepController::class, 'ct_rep'])->name('ct.ct_rep');//
 Route::match(['get','post'],'ct_rep_pull',[App\Http\Controllers\CtrepController::class, 'ct_rep_pull'])->name('ct.ct_rep_pull');//
 Route::match(['get','post'],'ct_rep_ipd',[App\Http\Controllers\CtrepController::class, 'ct_rep_ipd'])->name('ct.ct_rep_ipd');//
