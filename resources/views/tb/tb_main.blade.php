@@ -131,7 +131,7 @@
                                         <i class="fa-solid fa-magnifying-glass text-primary me-2"></i>ค้นหา
                                     </button>  
                                     <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left" id="Pulldata">
-                                        <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>ดึงข้อมูล</span>
+                                        <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>ประมวลผล</span>
                                         <span class="ladda-spinner"></span>
                                     </button>   
                                 </div>  
