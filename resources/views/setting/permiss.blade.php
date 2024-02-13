@@ -420,6 +420,59 @@ $pos = strrpos($url, '/') + 1;
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-4 col-md-3 col-xl-3">
+                            <div class="card">
+                                <div class="card-body shadow-lg"> 
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-house-medical-circle-check" style="color: rgb(9, 169, 197)"></i>                                     
+                                        <input class="form-check-input" type="checkbox" id="permiss_clinic_tb"
+                                            name="permiss_clinic_tb"/>
+                                        <label class="form-check-label" for="permiss_clinic_tb">Clinic TB</label> 
+                                    </div> 
+                                </div>
+                            </div> 
+                        </div>
+
+                        <div class="col-4 col-md-3 col-xl-3">
+                            <div class="card">
+                                <div class="card-body shadow-lg"> 
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-camera-retro" style="color: rgb(9, 169, 197)"></i>                                     
+                                        <input class="form-check-input" type="checkbox" id="permiss_sot"
+                                            name="permiss_sot"/>
+                                        <label class="form-check-label" for="permiss_sot">งานโสต</label> 
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-4 col-md-3 col-xl-3">
+                            <div class="card">
+                                <div class="card-body shadow-lg"> 
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-square-person-confined" style="color: rgb(9, 169, 197)"></i>                                     
+                                        <input class="form-check-input" type="checkbox" id="permiss_medicine_salt"
+                                            name="permiss_medicine_salt"/>
+                                        <label class="form-check-label" for="permiss_medicine_salt">แพทย์แผนไทย</label> 
+                                    </div> 
+                                </div>
+                            </div> 
+                        </div>
+
+                        <div class="col-4 col-md-3 col-xl-3">
+                            <div class="card">
+                                <div class="card-body shadow-lg"> 
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-regular fa-heart" style="color: rgb(9, 169, 197)"></i>                                     
+                                        <input class="form-check-input" type="checkbox" id="pesmiss_ct" name="pesmiss_ct"/>
+                                        <label class="form-check-label" for="pesmiss_ct">CT</label> 
+                                    </div> 
+                                </div>
+                            </div> 
+                        </div>
+
+
                         <div class="col-4 col-md-3 col-xl-3">
                             <div class="card">
                                 <div class="card-body shadow-lg"> 
@@ -491,18 +544,7 @@ $pos = strrpos($url, '/') + 1;
                             </div>
                         </div>
 
-                        <div class="col-4 col-md-3 col-xl-3">
-                            <div class="card">
-                                <div class="card-body shadow-lg"> 
-                                    <div class="form-check mt-2"> 
-                                        <i class="fa-solid fa-camera-retro" style="color: rgb(9, 169, 197)"></i>                                     
-                                        <input class="form-check-input" type="checkbox" id="permiss_sot"
-                                            name="permiss_sot"/>
-                                        <label class="form-check-label" for="permiss_sot">งานโสต</label> 
-                                    </div> 
-                                </div>
-                            </div>
-                        </div>
+                       
 
                         
 

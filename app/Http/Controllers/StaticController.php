@@ -188,6 +188,21 @@ class StaticController extends Controller
     $permiss_sotcount =  User::where('id','=',$iduser)->where('permiss_sot','=','on')->count();   
     return $permiss_sotcount;
   }
+  public static function permiss_clinic_tb($iduser)
+  {
+    $permiss_clinic_tbcount =  User::where('id','=',$iduser)->where('permiss_clinic_tb','=','on')->count();   
+    return $permiss_clinic_tbcount;
+  }
+  public static function permiss_medicine_salt($iduser)
+  {
+    $permiss_medicine_saltcount =  User::where('id','=',$iduser)->where('permiss_medicine_salt','=','on')->count();   
+    return $permiss_medicine_saltcount;
+  }
+  public static function pesmiss_ct($iduser)
+  {
+    $pesmiss_ctcount =  User::where('id','=',$iduser)->where('pesmiss_ct','=','on')->count();   
+    return $pesmiss_ctcount;
+  }
   public static function countpesmiss_claim($iduser)
   {
     $claimcount =  User::where('id','=',$iduser)->where('permiss_claim','=','on')->count();   

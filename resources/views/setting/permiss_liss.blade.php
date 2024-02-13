@@ -647,6 +647,74 @@ $permiss_account = StaticController::permiss_account($iduser);
                             <div class="card">
                                 <div class="card-body shadow-lg"> 
                                     <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-house-medical-circle-check" style="color: rgb(9, 169, 197)"></i>   
+                                        @if ($dataedits->permiss_clinic_tb == 'on') 
+                                                                          
+                                        <input class="form-check-input" type="checkbox" id="permiss_clinic_tb" name="permiss_clinic_tb" checked/>
+                                        @else
+                                        <input class="form-check-input" type="checkbox" id="permiss_clinic_tb" name="permiss_clinic_tb"/>
+                                        @endif
+                                        <label class="form-check-label" for="permiss_clinic_tb">Clinic TB</label> 
+                                    </div> 
+                                </div>
+                            </div> 
+                        </div>
+
+                        <div class="col-4 col-md-3 col-xl-3">
+                            <div class="card">
+                                <div class="card-body shadow-lg"> 
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-camera-retro" style="color: rgb(9, 169, 197)"></i> 
+                                        @if ($dataedits->permiss_sot == 'on') 
+                                            <input class="form-check-input" type="checkbox" id="permiss_sot" name="permiss_sot" checked/>
+                                        @else
+                                            <input class="form-check-input" type="checkbox" id="permiss_sot" name="permiss_sot"/>
+                                        @endif
+                                            <label class="form-check-label" for="permiss_sot">งานโสต</label>                                     
+                                        
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-4 col-md-3 col-xl-3">
+                            <div class="card">
+                                <div class="card-body shadow-lg"> 
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-square-person-confined" style="color: rgb(9, 169, 197)"></i> 
+                                        @if ($dataedits->permiss_medicine_salt == 'on') 
+                                            <input class="form-check-input" type="checkbox" id="permiss_medicine_salt" name="permiss_medicine_salt" checked/>
+                                        @else
+                                            <input class="form-check-input" type="checkbox" id="permiss_medicine_salt" name="permiss_medicine_salt"/>
+                                        @endif
+                                            <label class="form-check-label" for="permiss_medicine_salt">แพทย์แผนไทย</label>                                     
+                                        
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-4 col-md-3 col-xl-3">
+                            <div class="card">
+                                <div class="card-body shadow-lg"> 
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-regular fa-heart" style="color: rgb(9, 169, 197)"></i> 
+                                        @if ($dataedits->pesmiss_ct == 'on') 
+                                            <input class="form-check-input" type="checkbox" id="pesmiss_ct" name="pesmiss_ct" checked/>
+                                        @else
+                                            <input class="form-check-input" type="checkbox" id="pesmiss_ct" name="pesmiss_ct"/>
+                                        @endif
+                                            <label class="form-check-label" for="pesmiss_ct">CT</label>                                     
+                                        
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-4 col-md-3 col-xl-3">
+                            <div class="card">
+                                <div class="card-body shadow-lg"> 
+                                    <div class="form-check mt-2"> 
                                         <i class="fa-solid fa-file-invoice-dollar" style="color: rgb(109, 105, 107)"></i>  
                                             @if ($dataedits->permiss_account == 'on') 
                                             <input class="form-check-input" type="checkbox" id="permiss_account" name="permiss_account" checked/>
@@ -750,22 +818,7 @@ $permiss_account = StaticController::permiss_account($iduser);
                             </div>
                         </div>
 
-                        <div class="col-4 col-md-3 col-xl-3">
-                            <div class="card">
-                                <div class="card-body shadow-lg"> 
-                                    <div class="form-check mt-2"> 
-                                        <i class="fa-solid fa-camera-retro" style="color: rgb(9, 169, 197)"></i> 
-                                        @if ($dataedits->permiss_sot == 'on') 
-                                            <input class="form-check-input" type="checkbox" id="permiss_sot" name="permiss_sot" checked/>
-                                        @else
-                                            <input class="form-check-input" type="checkbox" id="permiss_sot" name="permiss_sot"/>
-                                        @endif
-                                            <label class="form-check-label" for="permiss_sot">งานโสต</label>                                     
-                                        
-                                    </div> 
-                                </div>
-                            </div>
-                        </div>
+                        
 
                         
 

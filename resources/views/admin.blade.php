@@ -48,7 +48,10 @@
     $permiss_account          = StaticController::permiss_account($iduser);
     $permiss_report_all       = StaticController::permiss_report_all($iduser);
     $permiss_sot              = StaticController::permiss_sot($iduser);
-
+    $permiss_clinic_tb        = StaticController::permiss_clinic_tb($iduser);
+    $permiss_medicine_salt    = StaticController::permiss_medicine_salt($iduser);
+    $pesmiss_ct               = StaticController::pesmiss_ct($iduser);
+    
     ?>
     <style>
         #button{
@@ -581,7 +584,7 @@
             </div>
             {{-- @endif --}}
     
-            {{-- @if ($countpesmiss_per != 0)   --}}
+            @if ($permiss_medicine_salt != 0)  
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
                     style="background-color: rgba(106, 218, 190, 0.884)">
@@ -614,7 +617,7 @@
                     </div>
                 </div>
             </div>
-            {{-- @endif --}}
+            @endif
      
             @if ($countpesmiss_claim != 0)  
             <div class="col-xl-3 col-md-3">
@@ -649,7 +652,7 @@
             </div>
             @endif
      
-            {{-- @if ($countpesmiss_per != 0)   --}}
+            @if ($pesmiss_ct != 0)  
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
                     style="background-color: rgba(23, 189, 147, 0.74)">
@@ -680,7 +683,7 @@
                     </div>
                 </div> 
             </div>
-            {{-- @endif --}}
+            @endif
     
             @if ($permiss_report_all != 0)  
             <div class="col-xl-3 col-md-3">
@@ -749,7 +752,7 @@
             </div>
             @endif
 
-
+            @if ($permiss_clinic_tb != 0) 
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
                     style="background-color: rgba(93, 199, 241, 0.74)">
@@ -779,7 +782,7 @@
                     </div>
                 </div> 
             </div>
-
+            @endif
 
     </div>
 
