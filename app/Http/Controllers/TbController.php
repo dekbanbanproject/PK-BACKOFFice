@@ -85,7 +85,7 @@ class TbController extends Controller
         $date = date('Y-m-d');
         $y = date('Y') + 543;
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-        $newDate = date('Y-m-d', strtotime($date . ' -6 months')); //ย้อนหลัง 5 เดือน
+        $newDate = date('Y-m-d', strtotime($date . ' -2 months')); //ย้อนหลัง 2 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
       
         $yearnew = date('Y')+1;
@@ -121,56 +121,91 @@ class TbController extends Controller
             if ($startdate == '') {
             # code...
             } else {
-                $data_tb    = DB::connection('mysql2')->select(' 
-                            SELECT "01" as group_code,"ผู้สัมผัสผู้ป่วยวัณโรคปอด" as group_screen ,v.vn,o.vn as ovn,v.hn,v.cid,v.vstdate,v.pdx,v.pttype,o.icode,n.name as nname,v.income,v.inc04,CONCAT(p.pname ,p.fname," ",p.lname) as ptname
+                $data_tb    = DB::connection('mysql2')->select('  
+                                SELECT "01" as group_code,"ผู้สัมผัสผู้ป่วยวัณโรคปอด" as group_screen ,v.vn,o.vn as ovn,v.hn,v.cid,v.vstdate,v.pdx,v.pttype,o.icode,n.name as nname,v.income,v.inc04,CONCAT(p.pname ,p.fname," ",p.lname) as ptname
+                                ,v.age_y,CONCAT(p.addrpart ," หมู่ ",p.moopart," ",t.full_name," ",te.PostCodeMain) as address
                                 FROM vn_stat v 
                                 LEFT JOIN patient p ON p.hn = v.hn
                                 LEFT JOIN opitemrece o ON o.vn = v.vn AND o.icode IN("3001180","3002625","3002626","3002627","3010136","3010593","3010950")
                                 LEFT JOIN nondrugitems n ON n.icode = o.icode
+                                LEFT JOIN thaiaddress t ON t.tmbpart = p.tmbpart AND t.amppart = p.amppart AND t.chwpart = p.chwpart
+                                LEFT JOIN thaiaddress_eng te ON te.TambonID = concat(p.chwpart,p.amppart,p.tmbpart)
                                 WHERE v.pttype = "P1"
                                 AND v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                                 AND o.icode = "3010950"
 
                                 UNION
-
                                 SELECT "02" as group_code,"ผู้ต้องขัง ผู้อาศัยในสถานคุ้มครองและพัฒนาคนพิการ/สถานคุ้มครองคนไร้ที่พึ่ง" as group_screen,v.vn,o.vn as ovn,v.hn,v.cid,v.vstdate,v.pdx,v.pttype,o.icode,n.name as nname,v.income,v.inc04,CONCAT(p.pname ,p.fname," ",p.lname) as ptname
-                                
+                                ,v.age_y,CONCAT(p.addrpart ," หมู่ ",p.moopart," ",t.full_name," ",te.PostCodeMain) as address
                                 FROM vn_stat v 
                                 LEFT JOIN patient p ON p.hn = v.hn
                                 LEFT JOIN opitemrece o ON o.vn = v.vn AND o.icode IN("3001180","3002625","3002626","3002627","3010136","3010593")
                                 LEFT JOIN nondrugitems n ON n.icode = o.icode
+                                LEFT JOIN thaiaddress t ON t.tmbpart = p.tmbpart AND t.amppart = p.amppart AND t.chwpart = p.chwpart
+                                LEFT JOIN thaiaddress_eng te ON te.TambonID = concat(p.chwpart,p.amppart,p.tmbpart)
                                 WHERE v.pttype = "91"
-                                AND v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
+                                AND v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
 
                                 UNION
+                                SELECT "04" as group_code,"HBA1C>7" as group_screen,v.vn,o.vn as ovn,v.hn,v.cid,v.vstdate,v.pdx,v.pttype,o.icode,n.name as nname,v.income,v.inc04,CONCAT(p.pname ,p.fname," ",p.lname) as ptname
+                                ,v.age_y,CONCAT(p.addrpart ," หมู่ ",p.moopart," ",t.full_name," ",p.po_code) as address
+                                FROM vn_stat v 
+                                LEFT JOIN patient p ON p.hn = v.hn
+                                LEFT JOIN lab_head l ON l.vn = v.vn
+                                LEFT JOIN lab_order la ON la.lab_order_number = l.lab_order_number 
+                                LEFT JOIN opitemrece o ON o.vn = v.vn AND o.icode IN("3001180","3002625","3002626","3002627","3010136","3010593")
+                                LEFT JOIN nondrugitems n ON n.icode = o.icode
+                                LEFT JOIN thaiaddress t ON t.tmbpart = p.tmbpart AND t.amppart = p.amppart AND t.chwpart = p.chwpart 
+                                WHERE v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
+                                AND v.pdx BETWEEN "E100" AND "E149" AND la.lab_items_code ="123" AND la.lab_order_result >= "7"
 
-                                SELECT "05" as group_code,"ผู้สูงอายุมากว่าหรือเท่ากับ 65 ปี ที่สูบบุหรี่หรือมีโรค COPD หรือ DM ร่วมด้วย" as group_screen,v.vn,o.vn as ovn,v.hn,v.cid,v.vstdate,v.pdx,v.pttype,o.icode,n.name as nname,v.income,v.inc04,CONCAT(p.pname ,p.fname," ",p.lname) as ptname
-                                
+                                UNION
+                                SELECT "04" as group_code,"โรคไตวายเรื้อรัง" as group_screen,v.vn,o.vn as ovn,v.hn,v.cid,v.vstdate,v.pdx,v.pttype,o.icode,n.name as nname,v.income,v.inc04,CONCAT(p.pname ,p.fname," ",p.lname) as ptname
+                                ,v.age_y
+                                ,CONCAT(p.addrpart ," หมู่ ",p.moopart," ",t.full_name," ",p.po_code) as address
                                 FROM vn_stat v 
                                 LEFT JOIN patient p ON p.hn = v.hn
                                 LEFT JOIN opitemrece o ON o.vn = v.vn AND o.icode IN("3001180","3002625","3002626","3002627","3010136","3010593")
                                 LEFT JOIN nondrugitems n ON n.icode = o.icode
+                                LEFT JOIN thaiaddress t ON t.tmbpart = p.tmbpart AND t.amppart = p.amppart AND t.chwpart = p.chwpart 
+                                WHERE v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                                AND v.pdx = "N185"
+
+
+                                UNION
+                                SELECT "05" as group_code,"ผู้สูงอายุมากว่าหรือเท่ากับ 65 ปี ที่สูบบุหรี่หรือมีโรค COPD หรือ DM ร่วมด้วย" as group_screen,v.vn,o.vn as ovn,v.hn,v.cid,v.vstdate,v.pdx,v.pttype,o.icode,n.name as nname,v.income,v.inc04,CONCAT(p.pname ,p.fname," ",p.lname) as ptname
+                                ,v.age_y,CONCAT(p.addrpart ," หมู่ ",p.moopart," ",t.full_name," ",te.PostCodeMain) as address
+                                FROM vn_stat v 
+                                LEFT JOIN patient p ON p.hn = v.hn
+                                LEFT JOIN opitemrece o ON o.vn = v.vn AND o.icode IN("3001180","3002625","3002626","3002627","3010136","3010593")
+                                LEFT JOIN nondrugitems n ON n.icode = o.icode
+                                LEFT JOIN thaiaddress t ON t.tmbpart = p.tmbpart AND t.amppart = p.amppart AND t.chwpart = p.chwpart
+                                LEFT JOIN thaiaddress_eng te ON te.TambonID = concat(p.chwpart,p.amppart,p.tmbpart)
                                 WHERE v.age_y >= "65"
                                 AND v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                                 AND (v.pdx BETWEEN "J440" AND "J449" OR v.pdx BETWEEN "E100" AND "E149")
 
                                 UNION
                                 SELECT "06" as group_code,"ผู้ใช้สารเสพติด ติดสุราเรื้อรัง" as group_screen,v.vn,o.vn as ovn,v.hn,v.cid,v.vstdate,v.pdx,v.pttype,o.icode,n.name as nname,v.income,v.inc04,CONCAT(p.pname ,p.fname," ",p.lname) as ptname
-                                
+                                ,v.age_y,CONCAT(p.addrpart ," หมู่ ",p.moopart," ",t.full_name," ",te.PostCodeMain) as address
                                 FROM vn_stat v  
                                 LEFT JOIN patient p ON p.hn = v.hn
                                 LEFT JOIN opitemrece o ON o.vn = v.vn AND o.icode IN("3001180","3002625","3002626","3002627","3010136","3010593")
                                 LEFT JOIN nondrugitems n ON n.icode = o.icode
+                                LEFT JOIN thaiaddress t ON t.tmbpart = p.tmbpart AND t.amppart = p.amppart AND t.chwpart = p.chwpart
+                                LEFT JOIN thaiaddress_eng te ON te.TambonID = concat(p.chwpart,p.amppart,p.tmbpart)
                                 WHERE v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                                 AND (v.pdx BETWEEN "Z720" AND "Z722" OR v.pdx BETWEEN "F100" AND "F109" OR v.pdx BETWEEN "F110" AND "F199") 
 
                                 UNION
                                 SELECT "07" as group_code,"บุคลากรสาธารณสุข" as group_screen,v.vn,o.vn as ovn,v.hn,v.cid,v.vstdate,v.pdx,v.pttype,o.icode,n.name as nname,v.income,v.inc04,CONCAT(p.pname ,p.fname," ",p.lname) as ptname
-                                
+                                ,v.age_y,CONCAT(p.addrpart ," หมู่ ",p.moopart," ",t.full_name," ",te.PostCodeMain) as address
                                 FROM vn_stat v  
                                 LEFT JOIN patient p ON p.hn = v.hn
                                 LEFT JOIN opitemrece o ON o.vn = v.vn AND o.icode IN("3001180","3002625","3002626","3002627","3010136","3010593")
                                 LEFT JOIN nondrugitems n ON n.icode = o.icode
+                                LEFT JOIN thaiaddress t ON t.tmbpart = p.tmbpart AND t.amppart = p.amppart AND t.chwpart = p.chwpart
+                                LEFT JOIN thaiaddress_eng te ON te.TambonID = concat(p.chwpart,p.amppart,p.tmbpart)
                                 LEFT OUTER JOIN ovst ov on ov.vn = v.vn
                                 WHERE v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                                 AND ov.main_dep = "078"
@@ -196,6 +231,8 @@ class TbController extends Controller
                             'nname'               => $value->nname,
                             'income'              => $value->income,
                             'inc04'               => $value->inc04, 
+                            'age'                 => $value->age_y, 
+                            'address'             => $value->address, 
                             'user_id'             => Auth::user()->id
                         ]);
                     } 

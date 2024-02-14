@@ -150,8 +150,8 @@
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td> 
                                                 <td class="text-center" width="7%">{{ $item->cid }}</td> 
                                                 <td class="text-start">{{ $item->ptname }}</td>  
-                                                <td class="text-center" width="5%"></td> 
-                                                <td class="text-start" width="15%"></td>
+                                                <td class="text-center" width="5%">{{ $item->age }}</td> 
+                                                <td class="text-start" width="15%">{{ $item->address }}</td>
                                                 <td class="text-center" width="5%">{{ $item->vstdate }}</td>  
                                                 <td class="text-center" width="5%">{{ $item->pdx }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->pttype }}</td> 
