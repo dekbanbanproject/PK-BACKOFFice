@@ -66,7 +66,7 @@
                                             <td class="text-center">{{$item2->vn }}</td>
                                             <td class="text-center">{{$item2->hn }}</td>
                                             <td class="text-center">
-                                                <a href="{{url('account_info_vnstmx/'.$item2->cid.'/'.$year.'/'.$months)}}" target="_blank">{{ $item2->cid}}</a>
+                                                <a href="{{url('account_info_vnstmx/'.$item2->cid.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item2->cid}}</a>
                                             </td>
                                             <td class="text-center">{{$item2->pdx }}</td>
                                             <td class="text-center">{{$item2->vstdate }}</td>

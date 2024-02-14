@@ -107,62 +107,62 @@
                                         @if ($item2->months == '1')
                                             <td width="15%" class="text-center">มกราคม</td>
                                             <td class="text-center">
-                                                <a href="{{url('account_info_vn/'.$item2->monyear.'/'.$item2->months)}}" target="_blank">{{ $item2->vn}}</a>
+                                                <a href="{{url('account_info_vn/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item2->vn}}</a>
                                             </td>
                                         @elseif ($item2->months == '2')
                                             <td width="15%" class="text-center">กุมภาพันธ์</td>
                                             <td class="text-center">
-                                                <a href="{{url('account_info_vn/'.$item2->monyear.'/'.$item2->months)}}" target="_blank">{{ $item2->vn}}</a>
+                                                <a href="{{url('account_info_vn/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item2->vn}}</a>
                                             </td>
                                         @elseif ($item2->months == '3')
                                             <td width="15%" class="text-center">มีนาคม</td>
                                             <td class="text-center">
-                                                <a href="{{url('account_info_vn/'.$item2->monyear.'/'.$item2->months)}}" target="_blank">{{ $item2->vn}}</a>
+                                                <a href="{{url('account_info_vn/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item2->vn}}</a>
                                             </td>
                                         @elseif ($item2->months == '4')
                                             <td width="15%" class="text-center">เมษายน</td>
                                             <td class="text-center">
-                                                <a href="{{url('account_info_vn/'.$item2->monyear.'/'.$item2->months)}}" target="_blank">{{ $item2->vn}}</a>
+                                                <a href="{{url('account_info_vn/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item2->vn}}</a>
                                             </td>
                                         @elseif ($item2->months == '5')
                                             <td width="15%" class="text-center">พฤษภาคม</td>
                                             <td class="text-center">
-                                                <a href="{{url('account_info_vn/'.$item2->monyear.'/'.$item2->months)}}" target="_blank">{{ $item2->vn}}</a>
+                                                <a href="{{url('account_info_vn/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item2->vn}}</a>
                                             </td>
                                         @elseif ($item2->months == '6')
                                             <td width="15%" class="text-center">มิถุนายน</td>
                                             <td class="text-center">
-                                                <a href="{{url('account_info_vn/'.$item2->monyear.'/'.$item2->months)}}" target="_blank">{{ $item2->vn}}</a>
+                                                <a href="{{url('account_info_vn/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item2->vn}}</a>
                                             </td>
                                         @elseif ($item2->months == '7')
                                             <td width="15%" class="text-center">กรกฎาคม</td>
                                             <td class="text-center">
-                                                <a href="{{url('account_info_vn/'.$item2->monyear.'/'.$item2->months)}}" target="_blank">{{ $item2->vn}}</a>
+                                                <a href="{{url('account_info_vn/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item2->vn}}</a>
                                             </td>
                                         @elseif ($item2->months == '8')
                                             <td width="15%" class="text-center">สิงหาคม</td>
                                             <td class="text-center">
-                                                <a href="{{url('account_info_vn/'.$item2->monyear.'/'.$item2->months)}}" target="_blank">{{ $item2->vn}}</a>
+                                                <a href="{{url('account_info_vn/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item2->vn}}</a>
                                             </td>
                                         @elseif ($item2->months == '9')
                                             <td width="15%" class="text-center">กันยายน</td>
                                             <td class="text-center">
-                                                <a href="{{url('account_info_vn/'.$item2->monyear.'/'.$item2->months)}}" target="_blank">{{ $item2->vn}}</a>
+                                                <a href="{{url('account_info_vn/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item2->vn}}</a>
                                             </td>
                                         @elseif ($item2->months == '10')
                                             <td width="15%" class="text-center">ตุลาคม</td>
                                             <td class="text-center">
-                                                <a href="{{url('account_info_vn/'.$item2->monyear.'/'.$item2->months)}}" target="_blank">{{ $item2->vn}}</a>
+                                                <a href="{{url('account_info_vn/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item2->vn}}</a>
                                             </td>
                                         @elseif ($item2->months == '11')
                                             <td width="15%" class="text-center">พฤษจิกายน</td>
                                             <td class="text-center">
-                                                <a href="{{url('account_info_vn/'.$item2->monyear.'/'.$item2->months)}}" target="_blank">{{ $item2->vn}}</a>
+                                                <a href="{{url('account_info_vn/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item2->vn}}</a>
                                             </td>
                                         @else
                                             <td width="15%" class="text-center">ธันวาคม</td>
                                             <td class="text-center">
-                                                <a href="{{url('account_info_vn/'.$item2->monyear.'/'.$item2->months)}}" target="_blank">{{ $item2->vn}}</a>
+                                                <a href="{{url('account_info_vn/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item2->vn}}</a>
                                             </td>
                                         @endif
                                             {{-- <td class="text-center">

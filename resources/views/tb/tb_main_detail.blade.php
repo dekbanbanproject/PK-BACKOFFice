@@ -119,8 +119,9 @@
             <div class="col-xl-12"> 
                     <div class="card cardtb">                 
                             <div class="table-responsive p-4">
-                                <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                               
+                                {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                                    <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap myTable"
+                                    style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     {{-- <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">  --}}
                                     <thead>
                                         <tr>                                          
@@ -129,6 +130,8 @@
                                             <th class="text-center">hn</th>
                                             <th class="text-center">cid</th>
                                             <th class="text-center">ptname</th>
+                                            <th class="text-center">age</th>
+                                            <th class="text-center">address</th>
                                             <th class="text-center">vstdate</th> 
                                             <th class="text-center">pdx</th> 
                                             <th class="text-center">pttype</th>
@@ -147,11 +150,13 @@
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td> 
                                                 <td class="text-center" width="7%">{{ $item->cid }}</td> 
                                                 <td class="text-start">{{ $item->ptname }}</td>  
-                                                <td class="text-center" width="7%">{{ $item->vstdate }}</td>  
+                                                <td class="text-center" width="5%"></td> 
+                                                <td class="text-start" width="15%"></td>
+                                                <td class="text-center" width="5%">{{ $item->vstdate }}</td>  
                                                 <td class="text-center" width="5%">{{ $item->pdx }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->pttype }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->icode }}</td> 
-                                                <td class="text-center" width="10%">{{ $item->nname }}</td> 
+                                                <td class="text-center" width="7%">{{ $item->nname }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->income }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->inc04 }}</td>  
                                             </tr>

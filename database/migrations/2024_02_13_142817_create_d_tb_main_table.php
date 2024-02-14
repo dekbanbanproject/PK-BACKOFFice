@@ -21,6 +21,8 @@ return new class extends Migration
                 $table->string('ovn')->nullable();// 
                 $table->string('hn')->nullable();//  
                 $table->string('cid')->nullable();//   
+                $table->string('age')->nullable();//  
+                $table->text('address')->nullable();//  
                 $table->date('vstdate')->nullable();// 
                 $table->string('ptname')->nullable();// 
                 $table->string('pdx')->nullable();// 

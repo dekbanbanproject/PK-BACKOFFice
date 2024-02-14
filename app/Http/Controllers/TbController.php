@@ -172,7 +172,7 @@ class TbController extends Controller
                                 LEFT JOIN opitemrece o ON o.vn = v.vn AND o.icode IN("3001180","3002625","3002626","3002627","3010136","3010593")
                                 LEFT JOIN nondrugitems n ON n.icode = o.icode
                                 LEFT OUTER JOIN ovst ov on ov.vn = v.vn
-                                WHERE v.vstdate BETWEEN "2023-10-01" AND "2024-02-13" 
+                                WHERE v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                                 AND ov.main_dep = "078"
                                 AND p.cid in (SELECT HR_CID FROM patient_hrd)                      
                 ');
