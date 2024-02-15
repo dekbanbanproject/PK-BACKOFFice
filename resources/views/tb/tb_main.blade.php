@@ -140,56 +140,55 @@
                   
                
         </form>
-        <div class="row">
+        <div class="row mb-4">
             @foreach ($d_tb_main as $item)
-
-            @if ($item->group_code == '02')
-                <div class="col-xl-4 mt-5">    
-                        <a href="{{url('tb_main_detail/'.$item->group_code)}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
-                            <img  src="{{ asset('images/pir.png') }}" height="120px" width="100px" class="rounded-circle me-4 mt-3 mb-3"> <br>
-                            <h2 class="card-title" style="color:rgb(9, 134, 184)">{{$item->group_screen}}</h2>
-                            <span class="tb_count"><h1 style="color:rgb(247, 102, 182)">{{$item->Cvn}} / {{$item->CXR}} คน</h1></span>
-                        </a> 
-                </div>
-            @elseif ($item->group_code == '05')
-                <div class="col-xl-4 mt-5">    
-                        <a href="{{url('tb_main_detail/'.$item->group_code)}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
-                            <img  src="{{ asset('images/patients.png') }}" height="100px" width="120px" class="rounded-circle me-4 mt-3 mb-3"> <br>
-                            <h2 class="card-title" style="color:rgb(9, 134, 184)">{{$item->group_screen}}</h2>
-                            <span class="tb_count"><h1 style="color:rgb(247, 102, 182)">{{$item->Cvn}} / {{$item->CXR}} คน</h1></span>
-                        </a> 
-                </div>
-            @elseif ($item->group_code == '06')
-                <div class="col-xl-4 mt-5">    
-                        <a href="{{url('tb_main_detail/'.$item->group_code)}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
-                            <img  src="{{ asset('images/narcotics.png') }}" height="100px" width="100px" class="rounded-circle me-4 mt-3 mb-3"> <br>
-                            <h2 class="card-title" style="color:rgb(9, 134, 184)">{{$item->group_screen}}</h2>
-                            <span class="tb_count"><h1 style="color:rgb(247, 102, 182)">{{$item->Cvn}} / {{$item->CXR}} คน</h1></span>
-                        </a> 
-                </div>
-            @elseif ($item->group_code == '07')
-                <div class="col-xl-4 mt-5">    
-                        <a href="{{url('tb_main_detail/'.$item->group_code)}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
-                            <img  src="{{ asset('images/sasuk.png') }}" height="120px" width="100px" class="rounded-circle me-4 mt-3 mb-3"> <br>
-                            <h2 class="card-title" style="color:rgb(9, 134, 184)">{{$item->group_screen}}</h2>
-                            <span class="tb_count"><h1 style="color:rgb(247, 102, 182)">{{$item->Cvn}} / {{$item->CXR}} คน</h1></span>
-                        </a> 
-                </div>
-            @else
-                <div class="col-xl-4 mt-5">    
-                        <a href="{{url('tb_main_detail/'.$item->group_code)}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
-                            <img  src="{{ asset('images/protective.png') }}" height="100px" width="100px" class="rounded-circle me-4 mt-3 mb-3"> <br>
-                            <h2 class="card-title" style="color:rgb(9, 134, 184)">{{$item->group_screen}}</h2>
-                            <span class="tb_count"><h1 style="color:rgb(247, 102, 182)">{{$item->Cvn}} / {{$item->CXR}} คน</h1></span>
-                        </a> 
-                </div>
-            @endif
+                    @if ($item->group_code == '02')
+                        <div class="col-xl-4 mt-4">    
+                                <a href="{{url('tb_main_detail/'.$item->group_code)}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
+                                    <img  src="{{ asset('images/pir.png') }}" height="120px" width="100px" class="rounded-circle me-4 mt-3 mb-3"> <br>
+                                    <h2 class="card-title" style="color:rgb(9, 134, 184)">{{$item->group_screen}}</h2>
+                                    <span class="tb_count"><h1 style="color:rgb(247, 102, 182)">{{$item->Cvn}} / {{$item->CXR}} คน</h1></span>
+                                </a> 
+                        </div>
+                    @elseif ($item->group_code == '05')
+                        <div class="col-xl-4 mt-4">    
+                                <a href="{{url('tb_main_detail/'.$item->group_code)}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
+                                    <img  src="{{ asset('images/patients.png') }}" height="100px" width="120px" class="rounded-circle me-4 mt-3 mb-3"> <br>
+                                    <h2 class="card-title" style="color:rgb(9, 134, 184)">{{$item->group_screen}}</h2>
+                                    <span class="tb_count"><h1 style="color:rgb(247, 102, 182)">{{$item->Cvn}} / {{$item->CXR}} คน</h1></span>
+                                </a> 
+                        </div>
+                    @elseif ($item->group_code == '06')
+                        <div class="col-xl-4 mt-4">    
+                                <a href="{{url('tb_main_detail/'.$item->group_code)}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
+                                    <img  src="{{ asset('images/narcotics.png') }}" height="100px" width="100px" class="rounded-circle me-4 mt-3 mb-3"> <br>
+                                    <h2 class="card-title" style="color:rgb(9, 134, 184)">{{$item->group_screen}}</h2>
+                                    <span class="tb_count"><h1 style="color:rgb(247, 102, 182)">{{$item->Cvn}} / {{$item->CXR}} คน</h1></span>
+                                </a> 
+                        </div>
+                    @elseif ($item->group_code == '07')
+                        <div class="col-xl-4 mt-4">    
+                                <a href="{{url('tb_main_detail/'.$item->group_code)}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
+                                    <img  src="{{ asset('images/sasuk.png') }}" height="120px" width="100px" class="rounded-circle me-4 mt-3 mb-3"> <br>
+                                    <h2 class="card-title" style="color:rgb(9, 134, 184)">{{$item->group_screen}}</h2>
+                                    <span class="tb_count"><h1 style="color:rgb(247, 102, 182)">{{$item->Cvn}} / {{$item->CXR}} คน</h1></span>
+                                </a> 
+                        </div>
+                    @else
+                        <div class="col-xl-4 mt-4">    
+                                <a href="{{url('tb_main_detail/'.$item->group_code)}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
+                                    <img  src="{{ asset('images/protective.png') }}" height="100px" width="100px" class="rounded-circle me-4 mt-3 mb-3"> <br>
+                                    <h2 class="card-title" style="color:rgb(9, 134, 184)">{{$item->group_screen}}</h2>
+                                    <span class="tb_count"><h1 style="color:rgb(247, 102, 182)">{{$item->Cvn}} / {{$item->CXR}} คน</h1></span>
+                                </a> 
+                        </div>
+                    @endif
                
                    
                
             @endforeach 
         </div>
-   
+    </div>
 
 @endsection
 @section('footer')

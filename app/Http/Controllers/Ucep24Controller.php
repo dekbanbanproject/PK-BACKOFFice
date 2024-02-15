@@ -102,20 +102,20 @@ class Ucep24Controller extends Controller
                 $data = DB::connection('mysql')->select('SELECT * from acc_ucep24 group by an');  
 
             } else {
-                $data_ = DB::connection('mysql')->select('   
+                $data_ = DB::connection('mysql2')->select('   
                         SELECT a.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
                         ,i.dchdate,ii.pttype
                         ,o.icode,n.`name` as namelist,a.vstdate,o.rxdate,a.vsttime,o.rxtime,o.income,o.qty,o.unitprice,o.sum_price
                         ,hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate,"",o.rxtime))) ssz
-                        FROM hos.ipt i
-                        LEFT JOIN hos.opitemrece o on i.an = o.an 
-                        LEFT JOIN hos.ovst a on a.an = o.an
-                        left JOIN hos.er_regist e on e.vn = i.vn
-                        LEFT JOIN hos.ipt_pttype ii on ii.an = i.an
-                        LEFT JOIN hos.pttype p on p.pttype = ii.pttype 
-                        LEFT JOIN hos.s_drugitems n on n.icode = o.icode
-                        LEFT JOIN hos.patient pt on pt.hn = a.hn
-                        LEFT JOIN hos.pttype ptt on a.pttype = ptt.pttype	
+                        FROM ipt i
+                        LEFT JOIN opitemrece o on i.an = o.an 
+                        LEFT JOIN ovst a on a.an = o.an
+                        left JOIN er_regist e on e.vn = i.vn
+                        LEFT JOIN ipt_pttype ii on ii.an = i.an
+                        LEFT JOIN pttype p on p.pttype = ii.pttype 
+                        LEFT JOIN s_drugitems n on n.icode = o.icode
+                        LEFT JOIN patient pt on pt.hn = a.hn
+                        LEFT JOIN pttype ptt on a.pttype = ptt.pttype	
                         
                         WHERE i.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                         and o.an is not null
@@ -123,8 +123,7 @@ class Ucep24Controller extends Controller
                         and p.hipdata_code ="ucs"
                         and DATEDIFF(o.rxdate,a.vstdate)<="1"
                         and hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate," ",o.rxtime))) <="24"
-                        and e.er_emergency_type  in("1","2","5")
-                       
+                        and e.er_emergency_type  in("1","2","5")                       
                         group BY i.an,o.icode,o.rxdate
                         ORDER BY i.an;
                 '); 

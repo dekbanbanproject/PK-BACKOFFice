@@ -46,7 +46,7 @@ use App\Models\Acc_stm_lgo;
 use App\Models\Acc_stm_lgoexcel;
 use App\Models\Check_sit_auto;
 use App\Models\Acc_stm_ucs_excel;
-
+use App\Models\Acc_ucep24;
 use PDF;
 use setasign\Fpdi\Fpdi;
 use App\Models\Budget_year;
@@ -151,7 +151,35 @@ class Account202Controller extends Controller
          $datenow = date('Y-m-d');
          $startdate = $request->datepicker;
          $enddate = $request->datepicker2;
-         // Acc_opitemrece::truncate();
+          
+        $data_ = DB::connection('mysql2')->select('   
+                        SELECT i.vn,i.an,o.sum_price 
+                        FROM ipt i
+                        LEFT JOIN opitemrece o on i.an = o.an 
+                        LEFT JOIN ovst a on a.an = o.an
+                        left JOIN er_regist e on e.vn = i.vn
+                        LEFT JOIN ipt_pttype ii on ii.an = i.an
+                        LEFT JOIN pttype p on p.pttype = ii.pttype 
+                        LEFT JOIN s_drugitems n on n.icode = o.icode
+                        LEFT JOIN patient pt on pt.hn = a.hn 
+                        WHERE i.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                        and o.an is not null
+                        and o.paidst ="02"
+                        and p.hipdata_code ="ucs"
+                        and DATEDIFF(o.rxdate,a.vstdate)<="1"
+                        and hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate," ",o.rxtime))) <="24"
+                        and e.er_emergency_type  in("1","2","5")                       
+                        group BY i.an,o.icode,o.rxdate
+                        ORDER BY i.an;
+        '); 
+        Acc_ucep24::truncate();
+                foreach ($data_ as $key => $value5) {    
+                    Acc_ucep24::insert([
+                        'vn'                => $value5->vn, 
+                        'an'                => $value5->an, 
+                        'sum_price'         => $value5->sum_price, 
+                    ]);
+                }
          
          $acc_debtor = DB::connection('mysql2')->select(' 
                     SELECT ip.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname,a.regdate as admdate,a.dchdate as dchdate,v.vstdate,op.income as income_group
@@ -174,7 +202,7 @@ class Account202Controller extends Controller
                     ELSE a.income -IFNULL(ipt.max_debt_amount,"0") 
                     END as debit_prb 
 
-                    ,(a.income-a.rcpt_money-a.discount_money--IFNULL(ipt.max_debt_amount,"0"))-
+                    ,(a.income-a.rcpt_money-a.discount_money-IFNULL(ipt.max_debt_amount,"0"))-
                     (sum(if(op.income="02",sum_price,0))) -
                     (sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))) -
                     (sum(if(op.icode IN("3001412","3001417"),sum_price,0))) -
@@ -187,6 +215,28 @@ class Account202Controller extends Controller
                     ,sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0)) as debit_drug
                     ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
                     ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
+
+                    ,(
+                        SELECT SUM(o.sum_price) as ucepprice
+                                FROM ipt i
+                                LEFT JOIN opitemrece o on i.an = o.an 
+                                LEFT JOIN ovst a on a.an = o.an
+                                left JOIN er_regist e on e.vn = i.vn
+                                LEFT JOIN ipt_pttype ii on ii.an = i.an
+                                LEFT JOIN pttype p on p.pttype = ii.pttype 
+                                LEFT JOIN s_drugitems n on n.icode = o.icode
+                                LEFT JOIN patient pt on pt.hn = a.hn 
+                                WHERE i.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+                                AND i.an = ip.an
+                                AND o.income NOT IN ("02")
+                                AND op.icode NOT IN ("3002895","3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002918","1560016","1540073","1530005","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070")
+                                AND o.an is not null
+                                AND o.paidst ="02"
+                                AND p.hipdata_code ="ucs"
+                                AND DATEDIFF(o.rxdate,a.vstdate)<="1"
+                                AND hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate," ",o.rxtime))) <="24"
+                                AND e.er_emergency_type in("1","2","5")     
+                    ) as debit_ucep
 
                     from ipt ip
                     LEFT JOIN an_stat a ON ip.an = a.an
@@ -248,7 +298,8 @@ class Account202Controller extends Controller
                                     'debit_instument'    => $value->debit_instument,
                                     'debit_toa'          => $value->debit_toa,
                                     'debit_refer'        => $value->debit_refer,
-                                    'debit_total'        => $value->debit,                           
+                                    'debit_total'        => $value->debit,   
+                                    'debit_ucep'         => $value->debit_ucep,                         
                                     'max_debt_amount'    => $value->max_debt_amount,
                                     'rw'                 => $value->rw,
                                     'adjrw'              => $value->adjrw,
@@ -282,12 +333,12 @@ class Account202Controller extends Controller
                                     'debit_instument'    => $value->debit_instument,
                                     'debit_toa'          => $value->debit_toa,
                                     'debit_refer'        => $value->debit_refer,
-                                    'debit_total'        => $value->debit,                           
+                                    'debit_total'        => $value->debit-$value->debit_drug-$value->debit_instument-$value->debit_toa-$value->debit_refer-$value->debit_ucep,  
+                                    'debit_ucep'         => $value->debit_ucep,                                                             
                                     'max_debt_amount'    => $value->max_debt_amount,
                                     'rw'                 => $value->rw,
                                     'adjrw'              => $value->adjrw,
-                                    'total_adjrw_income' => $value->total_adjrw_income,
-                                //  'sauntang'           => $value->total_adjrw_income,
+                                    'total_adjrw_income' => $value->total_adjrw_income, 
                                     'acc_debtor_userid'  => Auth::user()->id
                                 ]);
                             }   
@@ -297,8 +348,7 @@ class Account202Controller extends Controller
             } else { 
                 if ($value->debit >0) {                 
                         $check = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.202')->count();
-                        if ($check == 0) {
-                            // if ($value->debit_instument > 0 || $value->debit_drug > 0 || $value->debit_toa > 0 || $value->debit_refer > 0) {
+                        if ($check == 0) { 
                             if ($value->debit_toa > 0 ) {                     
                             } else {
                                 Acc_debtor::insert([
@@ -323,12 +373,12 @@ class Account202Controller extends Controller
                                     'debit_instument'    => $value->debit_instument,
                                     'debit_toa'          => $value->debit_toa,
                                     'debit_refer'        => $value->debit_refer,
-                                    'debit_total'        => $value->debit,                           
+                                    'debit_total'        => $value->debit-$value->debit_drug-$value->debit_instument-$value->debit_toa-$value->debit_refer-$value->debit_ucep,  
+                                    'debit_ucep'         => $value->debit_ucep,                          
                                     'max_debt_amount'    => $value->max_debt_amount,
                                     'rw'                 => $value->rw,
                                     'adjrw'              => $value->adjrw,
-                                    'total_adjrw_income' => $value->total_adjrw_income,
-                                //  'sauntang'           => $value->total_adjrw_income,
+                                    'total_adjrw_income' => $value->total_adjrw_income, 
                                     'acc_debtor_userid'  => Auth::user()->id
                                 ]);
                             }                                                

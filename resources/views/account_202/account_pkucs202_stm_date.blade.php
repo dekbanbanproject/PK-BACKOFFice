@@ -1,6 +1,24 @@
 @extends('layouts.accountpk')
 @section('title', 'PK-BACKOFFice || ACCOUNT')
 @section('content')
+<script>
+    function TypeAdmin() {
+        window.location.href = '{{ route('index') }}';
+    }
+</script>
+<?php
+if (Auth::check()) {
+    $type = Auth::user()->type;
+    $iduser = Auth::user()->id;
+} else {
+    echo "<body onload=\"TypeAdmin()\"></body>";
+    exit();
+}
+$url = Request::url();
+$pos = strrpos($url, '/') + 1;
+$ynow = date('Y')+543;
+$yb =  date('Y')+542;
+?>
     <style>
         #button {
             display: block;
@@ -112,9 +130,9 @@
                                     <th class="text-center">dchdate</th>  
                                     {{-- <th class="text-center">income</th>  --}}
                                     <th class="text-center">ลูกหนี้</th> 
-                                    {{-- <th class="text-center">Stm 217</th>  --}}
                                     <th class="text-center">ส่วนต่าง</th> 
                                     <th class="text-center">Stm 202</th> 
+                                    <th class="text-center">Stm 217</th> 
                                     <th class="text-center">ยอดชดเชยทั้งสิ้น</th>  
                                     <th class="text-center">STMdoc</th> 
                                 </tr>
@@ -144,6 +162,7 @@
                                         
 
                                         <td class="text-end" style="color:rgb(184, 12, 169)" width="7%">{{ number_format(($item->debit_total-$item->ip_paytrue),2)}}</td> 
+                                        <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($item->ip_paytrue,2)}}</td> 
                                         <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($item->ip_paytrue,2)}}</td> 
                                         <td class="text-end" style="color:rgb(9, 196, 180)" width="8%">{{ number_format($item->total_approve,2)}}</td>  
                                         <td class="p-2" width="10%">{{ $item->STMdoc }}</td>  
