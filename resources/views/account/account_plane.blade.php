@@ -351,8 +351,7 @@
                                            
                                         </td> 
                                         <td class="text-center" width="10%">{{ number_format($plan_price, 2) }}</td>
-                                        <td class="text-center" width="8%">{{number_format($datapay, 2)}}</td>
-                                        
+                                        <td class="text-center" width="8%">{{number_format($datapay, 2)}}</td>                                        
                                         <td class="text-center" width="8%">{{ number_format(($plan_price)-($datapay), 2) }}</td>
                                         <td width="5%">
                                             <div class="dropdown">

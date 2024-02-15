@@ -146,10 +146,10 @@
                     -moz-animation: pulse 3s infinite ease-in-out;
                     animation: pulse 3s infinite ease-in-out;
             }
-            #accept{
+            #acceptssj{
                     width: 40px;
                     height: 40px;
-                    background-color: rgb(200, 233, 248);
+                    background-color: rgb(248, 200, 234);
                     border-radius: 100%;
                     margin: 0% auto;
                     -webkit-animation: pulse 3s infinite ease-in-out;
@@ -173,7 +173,19 @@
             #finish{
                     width: 40px;
                     height: 40px;
-                    background-color: rgb(194, 250, 219);
+                    background-color: rgb(194, 250, 241);
+                    border-radius: 100%;
+                    margin: 0% auto;
+                    -webkit-animation: pulse 3s infinite ease-in-out;
+                    -o-animation: pulse 3s infinite ease-in-out;
+                    -ms-animation: pulse 3s infinite ease-in-out;
+                    -moz-animation: pulse 3s infinite ease-in-out;
+                    animation: pulse 3s infinite ease-in-out;
+            }
+            #success{
+                    width: 40px;
+                    height: 40px;
+                    background-color: rgb(138, 247, 174);
                     border-radius: 100%;
                     margin: 0% auto;
                     -webkit-animation: pulse 3s infinite ease-in-out;
@@ -476,17 +488,20 @@
                     <div class="card-body p-3">
                         <div class="row mb-3"> 
                             <div class="col-md-7 text-start"> 
-                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 209, 163);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 209, 163);border-radius: 3em 3em 3em 3em"> 
                                     ยังไม่ดำเนินการ
                                 </button>
-                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(200, 233, 248);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 200, 234);border-radius: 3em 3em 3em 3em"> 
                                     รอ สสจ.อนุมัติ
                                 </button>
-                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em"> 
                                     รอ ผอ. อนุมัติ
                                 </button>
-                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(194, 250, 219);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(194, 250, 241);border-radius: 3em 3em 3em 3em"> 
                                     อนุมัติ
+                                </button>
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(138, 247, 174);border-radius: 3em 3em 3em 3em"> 
+                                    SUCCESS
                                 </button>
                             </div>
                             <div class="col"></div>
@@ -526,7 +541,7 @@
                                                             <span class="badge badge badge-secondary"></span>
                                                         </div> --}}
                                                     @elseif ($va->status == 'INPROGRESS_SSJ')
-                                                        <div id="accept"> 
+                                                        <div id="acceptssj"> 
                                                             <span class="badge badge badge-secondary"></span>
                                                         </div>
                                                     @elseif ($va->status == 'INPROGRESS_PO')
@@ -538,7 +553,9 @@
                                                             <span class="badge badge badge-secondary"></span>
                                                         </div>
                                                     @else
-                                                        
+                                                    <div id="success"> 
+                                                        <span class="badge badge badge-secondary"></span>
+                                                    </div>
                                                     @endif
                                                     
                                                 </td>
@@ -549,6 +566,13 @@
                                                         $data_sumprice_ = DB::connection('mysql')->select('SELECT sum(budget_price) as budget_price from plan_control_activity WHERE plan_control_id = "'.$va->plan_control_id.'"'); 
                                                         foreach ($data_sumprice_ as $key => $value_price) {
                                                             $plan_price = $value_price->budget_price;
+                                                        }
+                                                        $datapay_ = DB::select('
+                                                            SELECT SUM(sum_total) as total FROM plan_control_budget_pay 
+                                                            WHERE plan_control_id = "'.$va->plan_control_id.'" 
+                                                        ');
+                                                        foreach ($datapay_ as $key => $value_pay) {
+                                                            $datapay     = $value_pay->total;
                                                         }
                                                     ?>                                                   
                                                     <div id="headingTwo" class="b-radius-0">                                                         
@@ -598,9 +622,11 @@
                                                         </div>
                                                     </div> 
                                                 </td> 
-                                                <td class="text-center" width="8%">{{ number_format($plan_price, 2) }}</td>
-                                                <td class="text-center" width="5%">{{$va->plan_req_no}}</td>
-                                                <td class="text-center" width="8%">{{ number_format($va->plan_price_total, 2) }}</td>
+                                                <td class="text-center" width="10%">{{ number_format($plan_price, 2) }}</td>
+                                                <td class="text-center" width="8%">{{number_format($datapay, 2)}}</td>                                        
+                                                <td class="text-center" width="8%">{{ number_format(($plan_price)-($datapay), 2) }}</td>
+
+                                                 
                                                 <td width="5%">
                                                     <div class="dropdown">
                                                         <button class="btn btn-outline-primary dropdown-toggle menu btn-sm"

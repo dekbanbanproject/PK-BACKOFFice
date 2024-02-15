@@ -51,23 +51,23 @@
                     background-color: rgb(248, 209, 163);
                     border-radius: 100%;
                     margin: 0% auto;
-                    -webkit-animation: pulse 2s infinite ease-in-out;
+                    -webkit-animation: pulse 3s infinite ease-in-out;
                     -o-animation: pulse 3s infinite ease-in-out;
-                    -ms-animation: pulse 5s infinite ease-in-out;
-                    -moz-animation: pulse 7s infinite ease-in-out;
-                    animation: pulse 2s infinite ease-in-out;
+                    -ms-animation: pulse 3s infinite ease-in-out;
+                    -moz-animation: pulse 3s infinite ease-in-out;
+                    animation: pulse 3s infinite ease-in-out;
             }
-            #accept{
+            #acceptssj{
                     width: 40px;
                     height: 40px;
-                    background-color: rgb(200, 233, 248);
+                    background-color: rgb(248, 200, 234);
                     border-radius: 100%;
                     margin: 0% auto;
-                    -webkit-animation: pulse 2s infinite ease-in-out;
+                    -webkit-animation: pulse 3s infinite ease-in-out;
                     -o-animation: pulse 3s infinite ease-in-out;
-                    -ms-animation: pulse 5s infinite ease-in-out;
-                    -moz-animation: pulse 7s infinite ease-in-out;
-                    animation: pulse 2s infinite ease-in-out;
+                    -ms-animation: pulse 3s infinite ease-in-out;
+                    -moz-animation: pulse 3s infinite ease-in-out;
+                    animation: pulse 3s infinite ease-in-out;
             }
             #acceptpo{
                     width: 40px;
@@ -75,23 +75,35 @@
                     background-color: rgb(209, 200, 248);
                     border-radius: 100%;
                     margin: 0% auto;
-                    -webkit-animation: pulse 2s infinite ease-in-out;
+                    -webkit-animation: pulse 3s infinite ease-in-out;
                     -o-animation: pulse 3s infinite ease-in-out;
-                    -ms-animation: pulse 5s infinite ease-in-out;
-                    -moz-animation: pulse 7s infinite ease-in-out;
-                    animation: pulse 2s infinite ease-in-out;
+                    -ms-animation: pulse 3s infinite ease-in-out;
+                    -moz-animation: pulse 3s infinite ease-in-out;
+                    animation: pulse 3s infinite ease-in-out;
             }
             #finish{
                     width: 40px;
                     height: 40px;
-                    background-color: rgb(194, 250, 219);
+                    background-color: rgb(194, 250, 241);
                     border-radius: 100%;
                     margin: 0% auto;
-                    -webkit-animation: pulse 2s infinite ease-in-out;
+                    -webkit-animation: pulse 3s infinite ease-in-out;
                     -o-animation: pulse 3s infinite ease-in-out;
-                    -ms-animation: pulse 5s infinite ease-in-out;
-                    -moz-animation: pulse 7s infinite ease-in-out;
-                    animation: pulse 2s infinite ease-in-out;
+                    -ms-animation: pulse 3s infinite ease-in-out;
+                    -moz-animation: pulse 3s infinite ease-in-out;
+                    animation: pulse 3s infinite ease-in-out;
+            }
+            #success{
+                    width: 40px;
+                    height: 40px;
+                    background-color: rgb(138, 247, 174);
+                    border-radius: 100%;
+                    margin: 0% auto;
+                    -webkit-animation: pulse 3s infinite ease-in-out;
+                    -o-animation: pulse 3s infinite ease-in-out;
+                    -ms-animation: pulse 3s infinite ease-in-out;
+                    -moz-animation: pulse 3s infinite ease-in-out;
+                    animation: pulse 3s infinite ease-in-out;
             }
            
 </style>
@@ -488,212 +500,14 @@ $refnumber = PlanController::refnumber();
                                                         </div> 
                                                     </p>
                                                 </div>
-                                                {{-- <div class="tab-pane" id="messages" role="tabpanel">
-                                                    <p class="mb-0">
-                                                      
-                                                        <div class="row mt-2">
-                                                            <div class="col-md-4">
-                                                                <label for="">รายละเอียดงบประมาณ</label>
-                                                                <div class="form-group">  
-                                                                    <select name="plan_list_budget_id" id="plan_list_budget_id" class="form-control form-control-sm" style="width: 100%"> 
-                                                                        <option value="">-เลือก-</option>
-                                                                        @foreach ($plan_list_budget as $item_list)
-                                                                        <option value="{{$item_list->plan_list_budget_id}}">{{$item_list->plan_list_budget_name}}</option>
-                                                                        @endforeach
-                                                                    </select> 
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <label for="">ถ้าไม่มีรายละเอียดงบประมาณให้เพิ่ม</label>
-                                                                <div class="form-group"> 
-                                                                    <input id="PLAN_LIST" class="form-control form-control-sm" name="PLAN_LIST">
-                                                                </div>
-                                                            </div>  
-                                                            <div class="col-md-1"> 
-                                                                <br>
-                                                                <div class="form-group mt-2"> 
-                                                                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Adddata_Sub">
-                                                                        <i class="fa-solid fa-plus me-2"></i>เพิ่ม 
-                                                                    </button>
-                                                                </div>
-                                                            </div>   
-                                                            <div class="col-md-2">
-                                                                <label for="">บาท</label>
-                                                                <div class="form-group"> 
-                                                                    <input id="plan_control_budget_price_new" class="form-control form-control-sm" name="plan_control_budget_price_new">
-                                                                </div>
-                                                            </div>  
-                                                            <div class="col-md-2"> 
-                                                                <br>
-                                                                <div class="form-group mt-2"> 
-                                                                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Insertdata_Sub">
-                                                                        <i class="pe-7s-diskette btn-icon-wrapper me-2"></i>Save 
-                                                                    </button>
-                                                                </div>
-                                                            </div>        
-                                                        </div>
-                                                 
-                                                        <div class="row mt-3">
-                                                            <div class="col-md-12">
-                                                                <table class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; width: 100%;">
-                                                                    <tr>
-                                                                        <thead>
-                                                                            <th class="text-center">รายละเอียดงบประมาณ</th>
-                                                                            <th class="text-center">จำนวนเงิน</th>
-                                                                        </thead>
-                                                                    </tr>
-                                                                  <tbody>
-                                                                    @foreach ($plan_control_budget as $item_su)
-                                                                    <tr>
-                                                                        <td class="text-start" >{{$item_su->plan_list_budget_name}}</td>
-                                                                        <td class="text-center" width="20%">{{$item_su->plan_control_budget_price}}</td>
-                                                                    </tr>
-                                                                    @endforeach
-                                                                    
-                                                                  </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </p>
-                                                </div> --}}
-                                                {{-- <div class="tab-pane" id="settings" role="tabpanel">
-                                                    <p class="mb-0">
-                                                        Trust fund seitan letterpress, keytar raw denim keffiyeh etsy
-                                                        art party before they sold out master cleanse gluten-free squid
-                                                        scenester freegan cosby sweater. Fanny pack portland seitan DIY,
-                                                        art party locavore wolf cliche high life echo park Austin. Cred
-                                                        vinyl keffiyeh DIY salvia PBR, banh mi before they sold out
-                                                        farm-to-table VHS.
-                                                    </p>
-                                                </div> --}}
+                                               
                                             </div>
                  
-                                            {{-- </div> --}}
-                                            {{-- <div class="col-md-4">
-                                                <div class="row mt-2">   
-                                                    <div class="col-md-6">
-                                                        <label for="">ไตรมาสที่ 1 </label>
-                                                        <div class="form-group">
-                                                            <div class="form-check form-check-inline">
-                                                                <input class="form-check-input" type="checkbox" name="trimart_11" id="trimart_11" >
-                                                                <label class="form-check-label" for="trimart_11">ต.ค.</label> 
-                                                            </div> 
-                                                            <div class="form-check form-check-inline">
-                                                                <input class="form-check-input" type="checkbox" name="trimart_12" id="trimart_12">
-                                                                <label class="form-check-label" for="trimart_12">พ.ย.</label>
-                                                            </div> 
-                                                            <div class="form-check form-check-inline">
-                                                                <input class="form-check-input" type="checkbox" name="trimart_13" id="trimart_13">
-                                                                <label class="form-check-label" for="trimart_13">ธ.ค.</label>
-                                                            </div> 
-                                                        </div>
-                                                    </div>  
-                                                    <div class="col-md-6">
-                                                        <label for="">ไตรมาสที่ 2 </label>
-                                                        <div class="form-group">
-                                                            <div class="form-check form-check-inline">
-                                                                <input class="form-check-input" type="checkbox" name="trimart_21" id="trimart_21">
-                                                                <label class="form-check-label" for="trimart_21">ม.ค.</label>
-                                                            </div>
-                                                            <div class="form-check form-check-inline">
-                                                                <input class="form-check-input" type="checkbox" name="trimart_22" id="trimart_22">
-                                                                <label class="form-check-label" for="trimart_22">ก.พ.</label>
-                                                            </div> 
-                                                            <div class="form-check form-check-inline">
-                                                                <input class="form-check-input" type="checkbox" name="trimart_23" id="trimart_23">
-                                                                <label class="form-check-label" for="trimart_23">มี.ค.</label>
-                                                            </div> 
-                                                        </div>
-                                                    </div>
-                                                </div> 
-                                                <hr>
-                                                <div class="row mt-2"> 
-                                                    <div class="col-md-6">
-                                                        <label for="">ไตรมาสที่ 3 </label>
-                                                        <div class="form-group">
-                                                            <div class="form-check form-check-inline">
-                                                                <input class="form-check-input" type="checkbox" name="trimart_31" id="trimart_31">
-                                                                <label class="form-check-label" for="trimart_31">เม.ย.</label>
-                                                            </div>
-                                                            <div class="form-check form-check-inline">
-                                                                <input class="form-check-input" type="checkbox" name="trimart_32" id="trimart_32">
-                                                                <label class="form-check-label" for="trimart_32">พ.ค.</label>
-                                                            </div> 
-                                                            <div class="form-check form-check-inline">
-                                                                <input class="form-check-input" type="checkbox" name="trimart_33" id="trimart_33">
-                                                                <label class="form-check-label" for="trimart_33">มิ.ย.</label>
-                                                            </div> 
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label for="">ไตรมาสที่ 4 </label>
-                                                        <div class="form-group">
-                                                            <div class="form-check form-check-inline">
-                                                                <input class="form-check-input" type="checkbox" name="trimart_41" id="trimart_41">
-                                                                <label class="form-check-label" for="trimart_41">ก.ค.</label>
-                                                            </div>
-                                                            <div class="form-check form-check-inline">
-                                                                <input class="form-check-input" type="checkbox" name="trimart_42" id="trimart_42">
-                                                                <label class="form-check-label" for="trimart_42">ส.ค.</label>
-                                                            </div> 
-                                                            <div class="form-check form-check-inline">
-                                                                <input class="form-check-input" type="checkbox" name="trimart_43" id="trimart_43">
-                                                                <label class="form-check-label" for="trimart_43">ก.ย.</label>
-                                                            </div> 
-                                                        </div>
-                                                    </div>  
-                                                </div> 
-                                                <hr>
-                                                <div class="row mt-2">
-                                                    <div class="col-md-12">
-                                                        <label for="">ผู้รับผิดชอบ </label>
-                                                        <div class="form-group">
-                                                            <select name="responsible_person" id="responsible_person" class="form-control form-control-sm" style="width: 100%">   
-                                                                <option value="">-เลือก-</option>                                                 
-                                                                @foreach ($department_sub as $item)
-                                                                @if ($plan_control->department == $item->DEPARTMENT_SUB_ID)
-                                                                <option value="{{$item->DEPARTMENT_SUB_ID}}" selected>{{$item->DEPARTMENT_SUB_NAME}}</option>
-                                                                @else
-                                                                <option value="{{$item->DEPARTMENT_SUB_ID}}">{{$item->DEPARTMENT_SUB_NAME}}</option>
-                                                                @endif
-                                                                    
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>   
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <label for="">แหล่งงบประมาณ </label>
-                                                        <div class="form-group">
-                                                            <select name="budget_source" id="budget_source" class="form-control form-control-sm" style="width: 100%"> 
-                                                                <option value="">-เลือก-</option>
-                                                                @foreach ($plan_control_type as $item2)
-                                                                @if ($plan_control->plan_type == $item2->plan_control_type_id)
-                                                                <option value="{{$item2->plan_control_type_id}}" selected>{{$item2->plan_control_typename}}</option>
-                                                                @else
-                                                                <option value="{{$item2->plan_control_type_id}}">{{$item2->plan_control_typename}}</option>
-                                                                @endif                                                       
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>   
-                                                </div> 
-                                            </div> --}}
+                                            
                                        
 
                                     </div>
-                                    {{-- <div class="card-footer">
-                                        <div class="btn-actions-pane-right">
-                                            <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                                <i class="pe-7s-diskette btn-icon-wrapper"></i>Save 
-                                            </button> 
-                                            <a href="{{ url('plan_control_sub/'.$id) }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger me-2">
-                                                <i class="fa-solid fa-xmark me-2"></i>
-                                                Back
-                                            </a>
-                                        </div>
-                                    </div>                                --}}
+                                  
                             </div>                              
                         </div>                
                     </div>                                
@@ -705,36 +519,33 @@ $refnumber = PlanController::refnumber();
             <div class="col-xl-12">
                 <div class="card cardplan">  
                     <input type="hidden" id="billno" name="billno" value="{{$plan_control->billno}}">
-                    {{--<div class="card-header">  
-                        <h5 class="modal-title me-3" id="editModalLabel">แผนงาน/กิจกรรมสำคัญ  {{$plan_control->plan_name}}</h5>  
-                        <div class="btn-actions-pane-right">   
-                        <h6 class="mt-2 me-3"> เลขที่ {{$plan_control->billno}}</h6> 
-                        <input type="hidden" id="billno" name="billno" value="{{$plan_control->billno}}">
-                    </div>  
-                    </div>--}}
+                 
                     <div class="card-body"> 
                         <div class="row mb-2">
                             <div class="col-md-8 text-start"> <h5 class="modal-title me-3" id="editModalLabel">กิจกรรม/กลยุทธ์  {{$plan_control->plan_name}} เลขที่ {{$plan_control->billno}}</h5>  </div>
                             {{-- <div class="col"></div> --}}
                             <div class="col-md-4 text-end">
-                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 209, 163);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 209, 163);border-radius: 3em 3em 3em 3em"> 
                                     ยังไม่ดำเนินการ
                                 </button>
-                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(200, 233, 248);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 200, 234);border-radius: 3em 3em 3em 3em"> 
                                     รอ สสจ.อนุมัติ
                                 </button>
-                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em"> 
                                     รอ ผอ. อนุมัติ
                                 </button>
-                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(194, 250, 219);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(194, 250, 241);border-radius: 3em 3em 3em 3em"> 
                                     อนุมัติ
+                                </button>
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(138, 247, 174);border-radius: 3em 3em 3em 3em"> 
+                                    SUCCESS
                                 </button>
                                 {{-- <h6 class="mt-2 me-3"> เลขที่ {{$plan_control->billno}}</h6> --}}
                             </div>
                             {{-- <div class="col-md-2 text-end"> <h6 class="mt-2 me-3"> เลขที่ {{$plan_control->billno}}</h6> </div> --}}
                         </div> 
                         
-                        <div class="table-responsive"> 
+                        {{-- <div class="table-responsive">  --}}
                             <table class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; width: 100%;">
                                 <thead >
                                     <tr style="font-size: 13px;background-color: rgb(255, 231, 226);border-color: rgb(183, 180, 180)">
@@ -789,6 +600,13 @@ $refnumber = PlanController::refnumber();
                                         foreach ($datasubsub_count_ as $key => $value_c) {
                                             $datasubsub_count = $value_c->Csub;
                                         }
+                                        $datapay_ = DB::select('
+                                            SELECT SUM(sum_total) as total FROM plan_control_budget_pay 
+                                            WHERE plan_control_activity_id = "'.$item_->plan_control_activity_id.'" AND plan_control_id = "'.$plan_control->plan_control_id.'" 
+                                        ');
+                                        foreach ($datapay_ as $key => $value_pay) {
+                                            $datapay     = $value_pay->total;
+                                        }
                                     ?>                                                          
                                     
                                     <tr id="sid{{ $item_->plan_control_activity_id }}">
@@ -799,7 +617,7 @@ $refnumber = PlanController::refnumber();
                                                         <span class="badge badge badge-secondary"></span>
                                                     </div> 
                                                 @elseif ($item_->status == 'INPROGRESS_SSJ')
-                                                    <div id="accept"> 
+                                                    <div id="acceptssj"> 
                                                         <span class="badge badge badge-secondary"></span>
                                                     </div>
                                                 @elseif ($item_->status == 'INPROGRESS_PO')
@@ -811,27 +629,45 @@ $refnumber = PlanController::refnumber();
                                                         <span class="badge badge badge-secondary"></span>
                                                     </div>
                                                 @else
-                                                    
+                                                <div id="success"> 
+                                                    <span class="badge badge badge-secondary"></span>
+                                                </div>
                                                 @endif
                                             </td>
                                             <td class="text-start" >
-                                                <a href="{{url('plan_control_subhosactivity_edit/'.$id.'/'.$plan_control->plan_control_id.'/'.$item_->plan_control_activity_id)}}">
+
+                                                {{ $item_->plan_control_activity_name }}   
+                                                
+                                               
+                                           
+
+
+                                                {{-- <a href="{{url('plan_control_subhosactivity_edit/'.$id.'/'.$plan_control->plan_control_id.'/'.$item_->plan_control_activity_id)}}">
                                                     {{ $item_->plan_control_activity_name }} 
-                                                </a>
+                                                </a> --}}
                                                 {{-- <a href="{{url('plan_control_subhosactivity_sub/'.$plan_control->plan_control_id.'/'.$item_->plan_control_activity_id)}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em">
                                                    กิจกรรมย่อย
                                                 </a> --}}
-                                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary btn-sm ActivitysubModal_"  value="{{$item_->plan_control_activity_id}}" style="background-color: rgb(243, 207, 213);border-radius: 3em 3em 3em 3em"> 
-                                                    <label for="" style="color: rgb(255, 97, 34);font-size:13px">กิจกรรมย่อย</label> 
-                                                </button>
+                                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary ActivitysubModal_"  value="{{$item_->plan_control_activity_id}}" style="background-color: rgb(243, 207, 213);border-radius: 3em 3em 3em 3em"> 
+                                                    เพิ่มกิจกรรมย่อย
+                                                </button> <br> 
+                                                {{-- @if ($datasubsub_count > '0')
+                                                    <span class="text-danger"> กิจกรรมย่อย</span>   <br> 
+                                                @else
+                                                    
+                                                @endif --}}
+                                                @foreach ($datasubsub as $item_subsub)    
+                                                <span class="text-danger">กิจกรรมย่อย</span><span class="text-primary"> {{$item_subsub->plan_control_activity_sub_name}}</span>   <br>  
+                                                @endforeach 
 
-                                                @foreach ($datasubsub as $item_subsub)                                           
+
+                                                {{-- @foreach ($datasubsub as $item_subsub)                                           
                                                         <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="plan_control_activity_subdestroy({{ $item_subsub->plan_control_activity_sub_id }})" style="font-size:13px">                                                            
                                                             <span> {{$item_subsub->plan_control_activity_sub_name}}</span>
                                                             <i class="fa-solid fa-trash-can ms-2 me-2 text-danger" style="font-size:13px"></i>
                                                             {{$datasubsub_count}}
                                                         </a>                                               
-                                                @endforeach 
+                                                @endforeach  --}}
                                                 
                                             </td>
                                                                                   
@@ -915,11 +751,11 @@ $refnumber = PlanController::refnumber();
                                                         type="button" data-bs-toggle="dropdown"
                                                         aria-expanded="false">ทำรายการ</button>
                                                     <ul class="dropdown-menu">
-                                                            <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm ojectModal_"  value="{{$item_->plan_control_activity_id}}" data-bs-toggle="tooltip" data-bs-placement="left" title="วัตถุประสงค์"> 
+                                                            {{-- <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm ojectModal_"  value="{{$item_->plan_control_activity_id}}" data-bs-toggle="tooltip" data-bs-placement="left" title="วัตถุประสงค์"> 
                                                                 <i class="fa-brands fa-opera me-3 mb-1" style="font-size:17px;color: rgb(40, 177, 246)"></i> 
                                                                 <label for=""
                                                                 style="color: rgb(34, 148, 255);font-size:13px">วัตถุประสงค์</label> 
-                                                            </button>
+                                                            </button> --}}
                                                             {{-- <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm kpiModal_"  value="{{$item_->plan_control_activity_id}}" data-bs-toggle="tooltip" data-bs-placement="left" title="ตัวชี้วัด"> 
                                                                 <i class="fa-brands fa-korvue me-3 mb-1" style="font-size:17px;color: rgb(34, 148, 255)"></i>  
                                                                 <label for=""
@@ -978,7 +814,7 @@ $refnumber = PlanController::refnumber();
                                     @endforeach
                                 </tbody>
                             </table>
-                        </div>
+                        {{-- </div> --}}
                             
                     </div>   
                 </div>
@@ -1050,12 +886,12 @@ $refnumber = PlanController::refnumber();
                                         <span class="d-none d-sm-block">รายละเอียด</span>    
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                {{-- <li class="nav-item">
                                     <a class="nav-link" data-bs-toggle="tab" href="#trimart_sub" role="tab">
                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
                                         <span class="d-none d-sm-block">ไตรมาส</span>    
                                     </a>
-                                </li>
+                                </li> --}}
                            
                             </ul>
 
@@ -1071,7 +907,7 @@ $refnumber = PlanController::refnumber();
                                                 </div>
                                             </div>
                                         </div> 
-                                        <div class="row">
+                                        {{-- <div class="row">
                                             <div class="col-md-7">
                                                 <label for="">กลุ่มเป้าหมาย</label>
                                                 <div class="form-group"> 
@@ -1099,8 +935,8 @@ $refnumber = PlanController::refnumber();
                                                 </div>
                                             </div>
                                            
-                                        </div> 
-                                        <div class="row">
+                                        </div>  --}}
+                                        {{-- <div class="row">
                                             <div class="col-md-6">
                                                 <label for="">ผู้รับผิดชอบ </label>
                                                 <div class="form-group">
@@ -1132,7 +968,7 @@ $refnumber = PlanController::refnumber();
                                                     </select>
                                                 </div>
                                             </div>   
-                                        </div> 
+                                        </div>  --}}
                                     </p>
                                 </div>
                                 <div class="tab-pane" id="trimart_sub" role="tabpanel">

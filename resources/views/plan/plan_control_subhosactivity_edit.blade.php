@@ -51,23 +51,23 @@
                     background-color: rgb(248, 209, 163);
                     border-radius: 100%;
                     margin: 0% auto;
-                    -webkit-animation: pulse 2s infinite ease-in-out;
+                    -webkit-animation: pulse 3s infinite ease-in-out;
                     -o-animation: pulse 3s infinite ease-in-out;
-                    -ms-animation: pulse 5s infinite ease-in-out;
-                    -moz-animation: pulse 7s infinite ease-in-out;
-                    animation: pulse 2s infinite ease-in-out;
+                    -ms-animation: pulse 3s infinite ease-in-out;
+                    -moz-animation: pulse 3s infinite ease-in-out;
+                    animation: pulse 3s infinite ease-in-out;
             }
-            #accept{
+            #acceptssj{
                     width: 40px;
                     height: 40px;
-                    background-color: rgb(200, 233, 248);
+                    background-color: rgb(248, 200, 234);
                     border-radius: 100%;
                     margin: 0% auto;
-                    -webkit-animation: pulse 2s infinite ease-in-out;
+                    -webkit-animation: pulse 3s infinite ease-in-out;
                     -o-animation: pulse 3s infinite ease-in-out;
-                    -ms-animation: pulse 5s infinite ease-in-out;
-                    -moz-animation: pulse 7s infinite ease-in-out;
-                    animation: pulse 2s infinite ease-in-out;
+                    -ms-animation: pulse 3s infinite ease-in-out;
+                    -moz-animation: pulse 3s infinite ease-in-out;
+                    animation: pulse 3s infinite ease-in-out;
             }
             #acceptpo{
                     width: 40px;
@@ -75,23 +75,35 @@
                     background-color: rgb(209, 200, 248);
                     border-radius: 100%;
                     margin: 0% auto;
-                    -webkit-animation: pulse 2s infinite ease-in-out;
+                    -webkit-animation: pulse 3s infinite ease-in-out;
                     -o-animation: pulse 3s infinite ease-in-out;
-                    -ms-animation: pulse 5s infinite ease-in-out;
-                    -moz-animation: pulse 7s infinite ease-in-out;
-                    animation: pulse 2s infinite ease-in-out;
+                    -ms-animation: pulse 3s infinite ease-in-out;
+                    -moz-animation: pulse 3s infinite ease-in-out;
+                    animation: pulse 3s infinite ease-in-out;
             }
             #finish{
                     width: 40px;
                     height: 40px;
-                    background-color: rgb(194, 250, 219);
+                    background-color: rgb(194, 250, 241);
                     border-radius: 100%;
                     margin: 0% auto;
-                    -webkit-animation: pulse 2s infinite ease-in-out;
+                    -webkit-animation: pulse 3s infinite ease-in-out;
                     -o-animation: pulse 3s infinite ease-in-out;
-                    -ms-animation: pulse 5s infinite ease-in-out;
-                    -moz-animation: pulse 7s infinite ease-in-out;
-                    animation: pulse 2s infinite ease-in-out;
+                    -ms-animation: pulse 3s infinite ease-in-out;
+                    -moz-animation: pulse 3s infinite ease-in-out;
+                    animation: pulse 3s infinite ease-in-out;
+            }
+            #success{
+                    width: 40px;
+                    height: 40px;
+                    background-color: rgb(138, 247, 174);
+                    border-radius: 100%;
+                    margin: 0% auto;
+                    -webkit-animation: pulse 3s infinite ease-in-out;
+                    -o-animation: pulse 3s infinite ease-in-out;
+                    -ms-animation: pulse 3s infinite ease-in-out;
+                    -moz-animation: pulse 3s infinite ease-in-out;
+                    animation: pulse 3s infinite ease-in-out;
             }
 </style>
 <script>
@@ -543,17 +555,20 @@ $refnumber = PlanController::refnumber();
                             <div class="col-md-8 text-start"> <h5 class="modal-title me-3" id="editModalLabel">กิจกรรม/กลยุทธ์   <a href="{{url('plan_control_subhosactivity/'.$id.'/'.$sid)}}"> {{$data_plan_control->plan_name}}  เลขที่ {{$data_plan_control->billno}}</a></h5>  </div>
                             {{-- <div class="col"></div> --}}
                             <div class="col-md-4 text-end">  
-                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 209, 163);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 209, 163);border-radius: 3em 3em 3em 3em"> 
                                     ยังไม่ดำเนินการ
                                 </button>
-                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(200, 233, 248);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 200, 234);border-radius: 3em 3em 3em 3em"> 
                                     รอ สสจ.อนุมัติ
                                 </button>
-                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em"> 
                                     รอ ผอ. อนุมัติ
                                 </button>
-                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(194, 250, 219);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(194, 250, 241);border-radius: 3em 3em 3em 3em"> 
                                     อนุมัติ
+                                </button>
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(138, 247, 174);border-radius: 3em 3em 3em 3em"> 
+                                    SUCCESS
                                 </button>
                             </div>
                         </div> 
@@ -563,6 +578,7 @@ $refnumber = PlanController::refnumber();
                                 <thead >
                                     <tr style="font-size: 13px;background-color: rgb(255, 231, 226);border-color: rgb(183, 180, 180)">
                                         <th rowspan="3" colspan="1" class="text-center" width="4%" style="border-color: rgb(183, 180, 180)">ลำดับ</th>
+                                        <th rowspan="3" colspan="1" class="text-center" width="4%" style="border-color: rgb(183, 180, 180)">สถานะ</th>
                                         <th rowspan="3" colspan="1" class="text-center" style="border-color: rgb(183, 180, 180)"> กิจกรรม/กลยุทธ์</th> 
                                         <th rowspan="3" colspan="1" class="text-center" style="border-color: rgb(183, 180, 180)">กลุ่มเป้าหมาย</th> 
                                         <th rowspan="3" colspan="1" class="text-center" width="4%" style="border-color: rgb(183, 180, 180)">จำนวน<br>(คน) </th> 
@@ -599,6 +615,29 @@ $refnumber = PlanController::refnumber();
                                     
                                     <tr id="sid{{ $item_->plan_control_activity_id }}">
                                             <td class="text-center" width="4%">{{ $i++ }}</td>
+                                            <td class="text-center" width="4%">
+                                                @if ($item_->status == 'REQUEST')
+                                                    <div id="request"> 
+                                                        <span class="badge badge badge-secondary"></span>
+                                                    </div> 
+                                                @elseif ($item_->status == 'INPROGRESS_SSJ')
+                                                    <div id="acceptssj"> 
+                                                        <span class="badge badge badge-secondary"></span>
+                                                    </div>
+                                                @elseif ($item_->status == 'INPROGRESS_PO')
+                                                    <div id="acceptpo"> 
+                                                        <span class="badge badge badge-secondary"></span>
+                                                    </div>
+                                                @elseif ($item_->status == 'FINISH')
+                                                    <div id="finish"> 
+                                                        <span class="badge badge badge-secondary"></span>
+                                                    </div>
+                                                @else
+                                                <div id="success"> 
+                                                    <span class="badge badge badge-secondary"></span>
+                                                </div>
+                                                @endif
+                                            </td>
                                             <td class="text-start" >
                                                 <a href="{{url('plan_control_subhosactivity_edit/'.$id.'/'.$data_plan_control->plan_control_id.'/'.$item_->plan_control_activity_id)}}">
                                                     {{ $item_->plan_control_activity_name }}
