@@ -92,7 +92,7 @@
         .datepicker {
             z-index: 2051 !important;
         }
-        #request{
+            #request{
                     width: 40px;
                     height: 40px;
                     background-color: rgb(248, 209, 163);
@@ -104,10 +104,10 @@
                     -moz-animation: pulse 3s infinite ease-in-out;
                     animation: pulse 3s infinite ease-in-out;
             }
-            #accept{
+            #acceptssj{
                     width: 40px;
                     height: 40px;
-                    background-color: rgb(200, 233, 248);
+                    background-color: rgb(248, 200, 234);
                     border-radius: 100%;
                     margin: 0% auto;
                     -webkit-animation: pulse 3s infinite ease-in-out;
@@ -131,7 +131,19 @@
             #finish{
                     width: 40px;
                     height: 40px;
-                    background-color: rgb(194, 250, 219);
+                    background-color: rgb(194, 250, 241);
+                    border-radius: 100%;
+                    margin: 0% auto;
+                    -webkit-animation: pulse 3s infinite ease-in-out;
+                    -o-animation: pulse 3s infinite ease-in-out;
+                    -ms-animation: pulse 3s infinite ease-in-out;
+                    -moz-animation: pulse 3s infinite ease-in-out;
+                    animation: pulse 3s infinite ease-in-out;
+            }
+            #success{
+                    width: 40px;
+                    height: 40px;
+                    background-color: rgb(138, 247, 174);
                     border-radius: 100%;
                     margin: 0% auto;
                     -webkit-animation: pulse 3s infinite ease-in-out;
@@ -159,7 +171,8 @@
     }
     $url = Request::url();
     $pos = strrpos($url, '/') + 1;
- 
+    $datenow = date("Y-m-d");
+    $y = date('Y') + 543;
     ?>
     <div class="tabs-animation">
         <div class="row text-center">
@@ -194,14 +207,23 @@
                                     <option value="{{$item_s->DEPARTMENT_SUB_ID}}" selected>{{$item_s->DEPARTMENT_SUB_NAME}}</option>
                                 @else
                                     <option value="{{$item_s->DEPARTMENT_SUB_ID}}">{{$item_s->DEPARTMENT_SUB_NAME}}</option>
-                                @endif
-                                   
+                                @endif                                   
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-1 text-end mt-2">วันที่</div>
-                        <div class="col-md-4 text-end">
-                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                        {{-- <div class="col-md-1 text-end mt-2">วันที่</div> --}}
+                        <div class="col-md-2 text-end">
+                            <select name="budget_year" id="budget_year" class="form-control inputmedsalt" style="width: 100%">
+                                @foreach ($budget_yearget as $item_y)
+                                @if ($budget_year == $item_y->leave_year_id )
+                                    <option value="{{$item_y->leave_year_id}}" selected>{{$item_y->leave_year_name}}</option>
+                                @else
+                                    <option value="{{$item_y->leave_year_id}}">{{$item_y->leave_year_name}}</option>
+                                @endif                                   
+                                @endforeach
+                            </select>
+                           
+                            {{-- <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                                 <input type="text" class="form-control inputmedsalt" name="startdate" id="startdate" placeholder="Start Date"
                                     data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                                     data-date-language="th-th" value="{{ $startdate }}" required/>
@@ -211,11 +233,15 @@
                                 <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary inputmedsalt" data-style="expand-left" id="Pulldata">
                                     <span class="ladda-label"><i class="pe-7s-search btn-icon-wrapper me-2"></i>ค้นหา</span>
                                     <span class="ladda-spinner"></span>
-                                </button> 
-                          
+                                </button>  
+                            </div> --}}
                         </div>
-                    </div>
-                        
+                        <div class="col-md-1 text-start">
+                            <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary inputmedsalt" data-style="expand-left" id="Pulldata">
+                                <span class="ladda-label"><i class="pe-7s-search btn-icon-wrapper me-2"></i>ค้นหา</span>
+                                <span class="ladda-spinner"></span>
+                            </button> 
+                        </div>
                 </form>
             
        
@@ -228,17 +254,20 @@
 
                         <div class="row mb-3"> 
                             <div class="col-md-7 text-start"> 
-                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 209, 163);border-radius: 3em 3em 3em 3em"> 
+                                 <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 209, 163);border-radius: 3em 3em 3em 3em"> 
                                     ยังไม่ดำเนินการ
                                 </button>
-                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(200, 233, 248);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 200, 234);border-radius: 3em 3em 3em 3em"> 
                                     รอ สสจ.อนุมัติ
                                 </button>
-                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em"> 
                                     รอ ผอ. อนุมัติ
                                 </button>
-                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(194, 250, 219);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(194, 250, 241);border-radius: 3em 3em 3em 3em"> 
                                     อนุมัติ
+                                </button>
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(138, 247, 174);border-radius: 3em 3em 3em 3em"> 
+                                    SUCCESS
                                 </button>
                             </div>
                             <div class="col"></div>
@@ -278,7 +307,7 @@
                                                     <span class="badge badge badge-secondary"></span>
                                                 </div> --}}
                                             @elseif ($va->status == 'INPROGRESS_SSJ')
-                                                <div id="accept"> 
+                                                <div id="acceptssj"> 
                                                     <span class="badge badge badge-secondary"></span>
                                                 </div>
                                             @elseif ($va->status == 'INPROGRESS_PO')
@@ -290,7 +319,9 @@
                                                     <span class="badge badge badge-secondary"></span>
                                                 </div>
                                             @else
-                                                
+                                            <div id="success"> 
+                                                <span class="badge badge badge-secondary"></span>
+                                            </div>
                                             @endif
                                             
                                         </td>
@@ -302,6 +333,13 @@
                                                 foreach ($data_sumprice_ as $key => $value_price) {
                                                     $plan_price = $value_price->budget_price;
                                                 }
+                                                $datapay_ = DB::select('
+                                                    SELECT SUM(sum_total) as total FROM plan_control_budget_pay 
+                                                    WHERE plan_control_id = "'.$va->plan_control_id.'" 
+                                                ');
+                                                foreach ($datapay_ as $key => $value_pay) {
+                                                    $datapay     = $value_pay->total;
+                                                }
                                             ?>  
                                             <div id="headingTwo" class="b-radius-0">                                                         
                                                     <button type="button" data-bs-toggle="collapse"
@@ -310,67 +348,19 @@
                                                         <h6 style="color: rgb(66, 63, 63)">{{ $va->plan_name }}</h6> 
                                                     </button>  
                                             </div>                                                     
-                                            {{-- <div id="headingTwo" class="b-radius-0">                                                         
-                                                    <button type="button" data-bs-toggle="collapse"
-                                                        data-bs-target="#collapseOne2{{ $va->plan_control_id }}" aria-expanded="false"
-                                                        aria-controls="collapseTwo" class="text-start m-0 p-0 btn btn-link btn-block">
-                                                        <h6 style="color: rgb(66, 63, 63)">{{ $va->plan_name }} ||<label for="" style="color: red">_KPI_ </label>||</h6> 
-                                                    </button> 
-                                                    <button type="button" data-bs-toggle="collapse"
-                                                        data-bs-target="#collapseOne3{{ $va->plan_control_id }}" aria-expanded="false"
-                                                        aria-controls="collapseTree" class="text-start m-0 p-0 btn btn-link btn-block">
-                                                        <h6 style="color: rgb(66, 63, 63)"><label for="" style="color: rgb(16, 130, 236)">_วัตถุประสงค์_</label>||</h6> 
-                                                    </button> 
-                                            </div>                                                     --}}
-                                            {{-- <div data-parent="#accordion" id="collapseOne2{{ $va->plan_control_id }}" class="collapse">
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <h6 style="color: red"> *** KPI</h6> 
-                                                        @foreach ($data_sub_ as $itemsub)
-                                                            <div class="col-md-12 mb-2">
-                                                                @if ($itemsub->plan_control_kpi_name != '')
-                                                                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-white" onclick="subkpi_destroy({{ $va->plan_control_id }})">
-                                                                    <h6 style="color: red"> {{$itemsub->plan_control_kpi_name}} </h6>
-                                                                    </button>
-                                                                @else                                                                    
-                                                                @endif 
-                                                            </div> 
-                                                        @endforeach 
-                                                    </div>
-                                                </div>
-                                            </div> 
-                                            <div data-parent="#accordion" id="collapseOne3{{ $va->plan_control_id }}" class="collapse">
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <h6 style="color: rgb(16, 130, 236)"> *** วัตถุประสงค์</h6> 
-                                                        @foreach ($data_subobj_ as $sub_obj)
-                                                            <div class="col-md-12 mb-2">
-                                                                @if ($sub_obj->plan_control_obj_name != '')
-                                                                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-white" onclick="subobj_destroy({{ $va->plan_control_id }})">
-                                                                    <h6 style="color: rgb(16, 130, 236)"> {{$sub_obj->plan_control_obj_name}} </h6>
-                                                                    </button>
-                                                                @else                                                                    
-                                                                @endif 
-                                                            </div> 
-                                                        @endforeach 
-                                                    </div>
-                                                </div>
-                                            </div>  --}}
+                                           
                                         </td> 
-                                        <td class="text-center" width="8%">{{ number_format($plan_price, 2) }}</td>
-                                        <td class="text-center" width="5%">{{$va->plan_req_no}}</td>
-                                        <td class="text-center" width="8%">{{ number_format($va->plan_price_total, 2) }}</td>
+                                        <td class="text-center" width="10%">{{ number_format($plan_price, 2) }}</td>
+                                        <td class="text-center" width="8%">{{number_format($datapay, 2)}}</td>
+                                        
+                                        <td class="text-center" width="8%">{{ number_format(($plan_price)-($datapay), 2) }}</td>
                                         <td width="5%">
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-primary dropdown-toggle menu btn-sm"
                                                     type="button" data-bs-toggle="dropdown"
                                                     aria-expanded="false">ทำรายการ</button>
                                                 <ul class="dropdown-menu">
-                                                        {{-- <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm MoneyModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="เบิกเงิน"> 
-                                                            <i class="fa-brands fa-bitcoin me-3 mb-1" style="font-size:17px;color: rgb(20, 199, 190)"></i> 
-                                                            <label for=""
-                                                            style="color: rgb(20, 199, 190);font-size:13px">เบิกเงิน</label>
-                                                        </button>  --}}
+                                                      
                                                         <a type="button" href="{{ url('account_plane_activity/'.$va->plan_control_id) }}"
                                                             class="dropdown-item menu btn btn-outline-warning btn-sm" data-bs-toggle="tooltip"
                                                             data-bs-placement="left" title="กิจกรรม/เบิกเงิน" target="_blank">

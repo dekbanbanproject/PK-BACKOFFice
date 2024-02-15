@@ -48,29 +48,29 @@
            .datepicker {
             z-index: 2051 !important;
         }
-           #request{
+            #request{
                     width: 40px;
                     height: 40px;
                     background-color: rgb(248, 209, 163);
                     border-radius: 100%;
                     margin: 0% auto;
-                    -webkit-animation: pulse 2s infinite ease-in-out;
+                    -webkit-animation: pulse 3s infinite ease-in-out;
                     -o-animation: pulse 3s infinite ease-in-out;
-                    -ms-animation: pulse 5s infinite ease-in-out;
-                    -moz-animation: pulse 7s infinite ease-in-out;
-                    animation: pulse 2s infinite ease-in-out;
+                    -ms-animation: pulse 3s infinite ease-in-out;
+                    -moz-animation: pulse 3s infinite ease-in-out;
+                    animation: pulse 3s infinite ease-in-out;
             }
-            #accept{
+            #acceptssj{
                     width: 40px;
                     height: 40px;
-                    background-color: rgb(200, 233, 248);
+                    background-color: rgb(248, 200, 234);
                     border-radius: 100%;
                     margin: 0% auto;
-                    -webkit-animation: pulse 2s infinite ease-in-out;
+                    -webkit-animation: pulse 3s infinite ease-in-out;
                     -o-animation: pulse 3s infinite ease-in-out;
-                    -ms-animation: pulse 5s infinite ease-in-out;
-                    -moz-animation: pulse 7s infinite ease-in-out;
-                    animation: pulse 2s infinite ease-in-out;
+                    -ms-animation: pulse 3s infinite ease-in-out;
+                    -moz-animation: pulse 3s infinite ease-in-out;
+                    animation: pulse 3s infinite ease-in-out;
             }
             #acceptpo{
                     width: 40px;
@@ -78,23 +78,35 @@
                     background-color: rgb(209, 200, 248);
                     border-radius: 100%;
                     margin: 0% auto;
-                    -webkit-animation: pulse 2s infinite ease-in-out;
+                    -webkit-animation: pulse 3s infinite ease-in-out;
                     -o-animation: pulse 3s infinite ease-in-out;
-                    -ms-animation: pulse 5s infinite ease-in-out;
-                    -moz-animation: pulse 7s infinite ease-in-out;
-                    animation: pulse 2s infinite ease-in-out;
+                    -ms-animation: pulse 3s infinite ease-in-out;
+                    -moz-animation: pulse 3s infinite ease-in-out;
+                    animation: pulse 3s infinite ease-in-out;
             }
             #finish{
                     width: 40px;
                     height: 40px;
-                    background-color: rgb(194, 250, 219);
+                    background-color: rgb(194, 250, 241);
                     border-radius: 100%;
                     margin: 0% auto;
-                    -webkit-animation: pulse 2s infinite ease-in-out;
+                    -webkit-animation: pulse 3s infinite ease-in-out;
                     -o-animation: pulse 3s infinite ease-in-out;
-                    -ms-animation: pulse 5s infinite ease-in-out;
-                    -moz-animation: pulse 7s infinite ease-in-out;
-                    animation: pulse 2s infinite ease-in-out;
+                    -ms-animation: pulse 3s infinite ease-in-out;
+                    -moz-animation: pulse 3s infinite ease-in-out;
+                    animation: pulse 3s infinite ease-in-out;
+            }
+            #success{
+                    width: 40px;
+                    height: 40px;
+                    background-color: rgb(138, 247, 174);
+                    border-radius: 100%;
+                    margin: 0% auto;
+                    -webkit-animation: pulse 3s infinite ease-in-out;
+                    -o-animation: pulse 3s infinite ease-in-out;
+                    -ms-animation: pulse 3s infinite ease-in-out;
+                    -moz-animation: pulse 3s infinite ease-in-out;
+                    animation: pulse 3s infinite ease-in-out;
             }
            
 </style>
@@ -290,14 +302,17 @@ $refnumber = PlanController::refnumber();
                                 <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 209, 163);border-radius: 3em 3em 3em 3em"> 
                                     ยังไม่ดำเนินการ
                                 </button>
-                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(200, 233, 248);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 200, 234);border-radius: 3em 3em 3em 3em"> 
                                     รอ สสจ.อนุมัติ
                                 </button>
                                 <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em"> 
                                     รอ ผอ. อนุมัติ
                                 </button>
-                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(194, 250, 219);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(194, 250, 241);border-radius: 3em 3em 3em 3em"> 
                                     อนุมัติ
+                                </button>
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(138, 247, 174);border-radius: 3em 3em 3em 3em"> 
+                                    SUCCESS
                                 </button>
                                 {{-- <h6 class="mt-2 me-3"> เลขที่ {{$plan_control->billno}}</h6> --}}
                             </div>
@@ -318,29 +333,7 @@ $refnumber = PlanController::refnumber();
                                         <th rowspan="1" style="text-align: center;">เบิก</th> 
                                         <th rowspan="1" style="text-align: center;">คงเหลือ</th> 
                                     </tr>
-                                    {{-- <tr style="font-size: 13px;background-color: rgb(255, 231, 226);border-color: rgb(183, 180, 180)">
-                                        <td colspan="3" style="text-align: center;border-color: rgb(183, 180, 180)">ไตรมาสที่ 1</td>
-                                        <td colspan="3" style="text-align: center;border-color: rgb(183, 180, 180)">ไตรมาสที่ 2</td>
-                                        <td colspan="3" style="text-align: center;border-color: rgb(183, 180, 180)">ไตรมาสที่ 3</td>       
-                                        <td colspan="3" style="text-align: center;border-color: rgb(183, 180, 180)">ไตรมาสที่ 4</td>    
-                                    </tr> --}}
-                                    {{-- <tr style="font-size: 13px;background-color: rgb(255, 231, 226);border-color: rgb(183, 180, 180)">
-                                        <td style="text-align: center;border-color: rgb(183, 180, 180)"">ต.ค</td>
-                                        <td style="text-align: center;border-color: rgb(183, 180, 180)"">พ.ย.</td>
-                                        <td style="text-align: center;border-color: rgb(183, 180, 180)"">ธ.ค.</td>                                          
-                                        <td style="text-align: center;border-color: rgb(183, 180, 180)"">ม.ค.</td>
-                                        <td style="text-align: center;border-color: rgb(183, 180, 180)"">ก.พ.</td>
-                                        <td style="text-align: center;border-color: rgb(183, 180, 180)"">มี.ค.</td>                                         
-                                        <td style="text-align: center;border-color: rgb(183, 180, 180)"">เม.ย.</td>
-                                        <td style="text-align: center;border-color: rgb(183, 180, 180)"">พ.ค.</td>
-                                        <td style="text-align: center;border-color: rgb(183, 180, 180)"">มิ.ย.</td>                                          
-                                        <td style="text-align: center;border-color: rgb(183, 180, 180)"">ก.ค.</td>
-                                        <td style="text-align: center;border-color: rgb(183, 180, 180)"">ส.ค.</td>
-                                        <td style="text-align: center;border-color: rgb(183, 180, 180)"">ก.ย.</td>  
-                                
-                                        <td style="text-align: center;border-color: rgb(183, 180, 180)"">รายละเอียด</td>
-                                        <td style="text-align: center;border-color: rgb(183, 180, 180)"">รวม(บาท)</td> 
-                                    </tr>  --}}
+                                   
                                 </thead>
                                 <tbody style="font-size: 13px;border-color: rgb(183, 180, 180)">
                                     <?php $i = 1; ?>
@@ -360,6 +353,13 @@ $refnumber = PlanController::refnumber();
                                         ');  
                                         foreach ($datasubsub_count_ as $key => $value_c) {
                                             $datasubsub_count = $value_c->Csub;
+                                        }
+                                        $datapay_ = DB::select('
+                                            SELECT SUM(sum_total) as total FROM plan_control_budget_pay 
+                                            WHERE plan_control_activity_id = "'.$item_->plan_control_activity_id.'" AND plan_control_id = "'.$plan_control->plan_control_id.'" 
+                                        ');
+                                        foreach ($datapay_ as $key => $value_pay) {
+                                            $datapay     = $value_pay->total;
                                         }
                                     ?>                                                          
                                     
@@ -383,22 +383,22 @@ $refnumber = PlanController::refnumber();
                                                         <span class="badge badge badge-secondary"></span>
                                                     </div>
                                                 @else
-                                                    
+                                                <div id="success"> 
+                                                    <span class="badge badge badge-secondary"></span>
+                                                </div>
                                                 @endif
                                             </td>
-                                            <td class="text-start" >
-                                               
-                                                    {{ $item_->plan_control_activity_name }} 
-                                         
-
-                                                @foreach ($datasubsub as $item_subsub)                                           
-                                                        <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="plan_control_activity_subdestroy({{ $item_subsub->plan_control_activity_sub_id }})" style="font-size:13px">                                                            
-                                                            <span> {{$item_subsub->plan_control_activity_sub_name}}</span>
-                                                            <i class="fa-solid fa-trash-can ms-2 me-2 text-danger" style="font-size:13px"></i>
-                                                            {{$datasubsub_count}}
-                                                        </a>                                               
-                                                @endforeach 
-                                                
+                                            <td class="text-start" > 
+                                                    {{ $item_->plan_control_activity_name }} <br>  
+                                                    @if ($datasubsub_count > '0')
+                                                        <span class="text-danger"> กิจกรรมย่อย</span>   <br> 
+                                                    @else
+                                                        
+                                                    @endif
+                                                   
+                                                    @foreach ($datasubsub as $item_subsub)    
+                                                                =><span class="text-primary"> {{$item_subsub->plan_control_activity_sub_name}}</span>   <br>  
+                                                    @endforeach 
                                             </td>
                                                                                   
                                             <td class="text-start" width="10%">{{ $item_->plan_control_activity_group }}</td>
@@ -406,28 +406,23 @@ $refnumber = PlanController::refnumber();
                                                                                                                              
                                             <td class="text-start" width="15%">  
                                                  
-                                                        @if ($item_->budget_price == '')
-                                                            
-                                                        @else
+                                                    @if ($item_->budget_price == '')
+                                                        
+                                                    @else
                                                         <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary MoneyModal_" value="{{ $item_->plan_control_activity_id }}" style="background-color: rgb(200, 233, 248);border-radius: 3em 3em 3em 3em"> 
                                                             เบิกเงิน
                                                         </button>
-                                                        <br>  
-                                                        @endif
+                                                    <br>  
+                                                    @endif
                                                    
-                                                @foreach ($datasub as $item_sub)                                           
-                                                        
-                                                       
-                                                            <span> - {{$item_sub->plan_list_budget_name}} / {{$item_sub->plan_control_budget_price}}</span> 
- 
-                                                        
-                                                        <br>                                           
-                                                @endforeach 
+                                                    @foreach ($datasub as $item_sub)   
+                                                                <span> - {{$item_sub->plan_list_budget_name}} / {{$item_sub->plan_control_budget_price}}</span> <br>                                           
+                                                    @endforeach 
                                             </td>                                           
                                             <td class="text-end" width="4%" style="color:rgb(216, 95, 14)">{{ $item_->budget_price }}</td>  
-                                            <td class="text-end" width="4%" style="color:rgb(5, 127, 95)">{{ $item_->budget_price }}</td> 
-                                            <td class="text-end" width="4%" style="color:rgb(13, 101, 188)">{{ $item_->budget_price }}</td>                                
-                                        </tr>
+                                            <td class="text-end" width="4%" style="color:rgb(5, 127, 95)">{{ number_format($datapay, 2) }}</td> 
+                                            <td class="text-end" width="6%" style="color:rgb(13, 101, 188)">{{ number_format(($item_->budget_price)-($datapay) , 2)}}</td>                                
+                                        </tr> 
 
                                     @endforeach
                                 </tbody>
@@ -442,30 +437,30 @@ $refnumber = PlanController::refnumber();
 
     <div class="modal fade" id="MoneyModal" tabindex="-1"
     role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
         {{-- <div class="modal-dialog modal-dialog-slideout"> --}}
         <div class="modal-content">
             <div class="modal-header"> 
                         <h2>เบิกเงินทะเบียนควบคุมแผนงานโครงการ</h2> 
             </div>
-            <input id="editplan_control_id" class="form-control form-control-sm" name="editplan_control_id" type="text" >
-            <input id="editplan_control_activity_id" class="form-control form-control-sm" name="editplan_control_activity_id" type="text" >
+            <input id="editplan_control_id" class="form-control form-control-sm" name="editplan_control_id" type="hidden" >
+            <input id="editplan_control_activity_id" class="form-control form-control-sm" name="editplan_control_activity_id" type="hidden" >
 
             <div class="modal-body">
-                <div class="row mt-5">
+                <div class="row ">
                     <div class="col-md-2 text-end mt-2"> 
                         <p for="">วันที่</p>
                          
                     </div>
                     <div class="col-md-3"> 
-                        <input type="text" id="plan_control_moneydate" class="form-control" data-toggle="datepicker" data-date-format="yyyy-mm-dd" data-date-autoclose="true" data-provide="datepicker" data-date-language="th-th" autocomplete="off" value="{{ $datenow }}">
+                        <input type="text" id="editplan_control_budget_paydate" class="form-control" data-toggle="datepicker" data-date-format="yyyy-mm-dd" data-date-autoclose="true" data-provide="datepicker" data-date-language="th-th" autocomplete="off" value="{{ $datenow }}">
        
                     </div>
                     <div class="col-md-1 text-start"><i class="fa-solid fa-calendar-days mt-2"></i> </div>
                     <div class="col-md-2 text-end"> <p for="">ผู้เบิก </p> </div>
                     <div class="col-md-4"> 
                         <div class="form-group">
-                            <select name="plan_control_moneyuser_id" id="plan_control_moneyuser_id"
+                            <select name="user_id" id="edituser_id"
                                 class="form-control"
                                 style="width: 100%">
                                 @foreach ($users as $item3)
@@ -478,17 +473,7 @@ $refnumber = PlanController::refnumber();
                             </select>
                         </div>
                     </div>
-                    {{-- <div class="col-md-2 text-end mt-2"> 
-                        <p for="">ยอดเบิก</p>                         
-                    </div>
-                    <div class="col-md-3 "> 
-                        <div class="form-group">
-                            <input id="plan_control_moneyprice"
-                                class="form-control form-control-sm"
-                                name="plan_control_moneyprice">
-                        </div>
-                    </div>
-                    <div class="col-md-1 text-start mt-2"> <p for="">บาท</p> </div>   --}}
+                    
 
                 </div>
 
@@ -496,13 +481,14 @@ $refnumber = PlanController::refnumber();
                     <div class="col-md-2 text-end"> <p for="">รายการเบิก </p> </div>
                     <div class="col-md-4"> 
                         <div class="form-group">
-                            <select name="plan_list_budget_id" id="plan_list_budget_id"
+                            <input id="editplan_list_budget_name" class="form-control form-control-sm" name="editplan_list_budget_name" value="เบิกทั้งหมด" readonly>
+                            {{-- <select name="plan_list_budget_id" id="plan_list_budget_id"
                                 class="form-control"
                                 style="width: 100%">
                                 @foreach ($plan_list_budget as $item_bud)  
                                     <option value="{{ $item_bud->plan_list_budget_id }}"> {{ $item_bud->plan_list_budget_name }} </option> 
                                 @endforeach
-                            </select>
+                            </select> --}}
                         </div>
                     </div>
                     <div class="col-md-2 text-end mt-2"> 
@@ -510,9 +496,7 @@ $refnumber = PlanController::refnumber();
                     </div>
                     <div class="col-md-3 "> 
                         <div class="form-group">
-                            <input id="plan_control_moneyprice"
-                                class="form-control form-control-sm"
-                                name="plan_control_moneyprice">
+                            <input id="editsum_total" class="form-control form-control-sm" name="editsum_total" readonly>
                         </div>
                     </div>
                     <div class="col-md-1 text-start mt-2"> <p for="">บาท</p> </div> 
@@ -521,7 +505,7 @@ $refnumber = PlanController::refnumber();
                  <div class="row mt-2">
                     <div class="col-md-2 text-end"> <p for="">หมายเหตุ </p> </div>
                     <div class="col-md-10"> 
-                        <textarea name="plan_control_moneycomment" id="plan_control_moneycomment" class="form-control form-control-sm" rows="4"></textarea>
+                        <textarea name="detail" id="editdetail" class="form-control form-control-sm" rows="2"></textarea>
                     </div>
                 </div>
               
@@ -530,11 +514,11 @@ $refnumber = PlanController::refnumber();
             <div class="modal-footer">
                 <div class="col-md-12 text-end">
                     <div class="form-group">
-                        {{-- <button type="button" id="SaveMoneyBtn"
+                        <button type="button" id="SaveMoneyBtn"
                             class="btn-icon btn-shadow btn-dashed btn btn-outline-info me-2"> 
                             <i class="pe-7s-diskette btn-icon-wrapper me-2"></i>
                             Save
-                        </button> --}}
+                        </button>
                         <button type="button"
                             class="btn-icon btn-shadow btn-dashed btn btn-outline-danger"
                             data-bs-dismiss="modal"><i
@@ -1090,30 +1074,24 @@ $refnumber = PlanController::refnumber();
                             success: function(data) { 
                                 $('#editplan_control_activity_id').val(data.data_show.plan_control_activity_id)
                                 $('#editplan_control_id').val(data.data_show.plan_control_id)
+                                $('#editsum_total').val(data.sum_total)
                             },
                         });
                     });
 
                     $('#SaveMoneyBtn').click(function() {
-                        var plan_control_money_no = $('#plan_control_money_no').val();
-                        var plan_control_moneydate = $('#plan_control_moneydate').val();
-                        var plan_control_moneyprice = $('#plan_control_moneyprice').val();
-                        var plan_control_moneyuser_id = $('#plan_control_moneyuser_id').val();
-                        var plan_control_moneycomment = $('#plan_control_moneycomment').val();
-                        var update_plan_control_id = $('#update_plan_control_id').val();
+                        var detail                     = $('#editdetail').val();
+                        var sum_total                  = $('#editsum_total').val();
+                        var plan_list_budget_name      = $('#editplan_list_budget_name').val();
+                        var user_id                    = $('#edituser_id').val();
+                        var plan_control_activity_id   = $('#editplan_control_activity_id').val();
+                        var plan_control_id            = $('#editplan_control_id').val();
                         
                         $.ajax({
-                            url: "{{ route('acc.account_plane_pay') }}",
+                            url: "{{ route('acc.account_plane_paysave') }}",
                             type: "POST",
                             dataType: 'json',
-                            data: {
-                                plan_control_money_no,
-                                plan_control_moneydate,
-                                plan_control_moneyprice,
-                                plan_control_moneyuser_id,
-                                plan_control_moneycomment ,
-                                update_plan_control_id
-                            },
+                            data: {detail,sum_total,plan_list_budget_name, user_id, plan_control_activity_id , plan_control_id},
                             success: function(data) {
                                 if (data.status == 200) {
                                     Swal.fire({

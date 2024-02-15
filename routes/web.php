@@ -2425,6 +2425,7 @@ Route::middleware(['type'])->group(function(){
   Route::match(['get','post'],'account_plane_activity/{id}',[App\Http\Controllers\AccountPlanController::class, 'account_plane_activity'])->name('acc.account_plane_activity');//
   Route::match(['get','post'],'account_plane_pay',[App\Http\Controllers\AccountPlanController::class, 'account_plane_pay'])->name('acc.account_plane_pay');//
   Route::match(['get','post'],'account_plane_payedit/{id}',[App\Http\Controllers\AccountPlanController::class, 'account_plane_payedit'])->name('acc.account_plane_payedit');//
+  Route::match(['get','post'],'account_plane_paysave',[App\Http\Controllers\AccountPlanController::class, 'account_plane_paysave'])->name('acc.account_plane_paysave');//
 
   Route::match(['get','post'],'account_info',[App\Http\Controllers\AccountController::class, 'account_info'])->name('acc.account_info');//
   Route::match(['get','post'],'account_info_vn/{startdate}/{enddate}',[App\Http\Controllers\AccountController::class, 'account_info_vn'])->name('acc.account_info_vn');//
