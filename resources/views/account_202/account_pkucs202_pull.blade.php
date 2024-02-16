@@ -136,25 +136,23 @@
                                 <table id="example" class="table table-hover table-sm dt-responsive nowrap"
                                 style=" border-spacing: 0; width: 100%;">
                                     <thead>
-                                        <tr>
-                                          
+                                        <tr>                                          
                                             <th width="5%" class="text-center">ลำดับ</th> 
-                                            <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox" name="stamp" id="stamp"> </th> 
-                                            {{-- <th class="text-center" width="5%">vn</th>  --}}
+                                            <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox" name="stamp" id="stamp"> </th>   
                                             <th class="text-center">an</th>
-                                            <th class="text-center" >hn</th>
-                                            {{-- <th class="text-center" >cid</th> --}}
+                                            <th class="text-center" >hn</th> 
                                             <th class="text-center">ptname</th>
                                             <th class="text-center">dchdate</th>  
                                             <th class="text-center">pttype</th> 
                                             <th class="text-center">spsch</th> 
                                             <th class="text-center">adjrw</th>
                                             <th class="text-center">income</th>
-                                            <th class="text-center">ลูกหนี้</th>  
+                                            <th class="text-center">ลูกหนี้/202</th>  
                                             <th class="text-center">ins</th>
                                             <th class="text-center">drug</th>
                                             <th class="text-center">เลนส์</th>
                                             <th class="text-center">refer</th>
+                                            <th class="text-center">ucep217</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -168,17 +166,12 @@
                                                     </td> 
                                                 @else
                                                     <td class="text-center" width="5%"><input type="checkbox" class="sub_chk dcheckbox" data-id="{{$item->acc_debtor_id}}"> </td> 
-                                                @endif
-                                                {{-- <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td>  --}}
-
-                                                {{-- <td class="text-center" width="5%">{{ $item->vn }}</td>  --}}
+                                                @endif                                                
                                                 <td class="text-center" width="5%">{{ $item->an }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->hn }}</td>  
-                                                {{-- <td class="text-center" width="10%">{{ $item->cid }}</td>   --}}
+                                                <td class="text-center" width="5%">{{ $item->hn }}</td>   
                                                 <td class="p-2" >{{ $item->ptname }}</td> 
                                                 <td class="text-center" width="7%">{{ $item->dchdate }}</td>   
-                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td> 
-                                                
+                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>  
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->adjrw }}</td> 
                                                 <td class="text-center" width="7%">{{ number_format($item->income, 2) }}</td> 
@@ -186,8 +179,8 @@
                                                 <td class="text-end" width="7%">{{ number_format($item->debit_instument, 2) }}</td> 
                                                 <td class="text-end" width="7%">{{ number_format($item->debit_drug, 2) }}</td> 
                                                 <td class="text-end" width="7%">{{ number_format($item->debit_toa, 2) }}</td> 
-                                                <td class="text-end" width="7%">{{ number_format($item->debit_refer, 2) }}</td> 
- 
+                                                <td class="text-end" width="7%">{{ number_format($item->debit_refer, 2) }}</td>  
+                                                <td class="text-end" width="7%">{{ number_format($item->debit_ucep, 2) }}</td> 
                                             </tr>
                                         @endforeach
                                     </tbody>

@@ -1018,16 +1018,16 @@ class AutoController extends Controller
     // ***************** Checksit_hos   // ดึงข้อมูลมาไว้เช็คสิทธิ์ เอาทุกสิทธิ์ ***************************
     public function pull_Checksit_hosauto(Request $request)
     {           
-        $data_sits = DB::connection('mysql3')->select('
+        $data_sits = DB::connection('mysql2')->select('
                 SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,p.pname,p.fname,concat(p.pname,p.fname," ",p.lname) as ptname,op.name as staffname,p.hometel
                 ,pt.nhso_code,o.hospmain,o.hospsub,p.birthday
                 ,o.staff,op.name as sname
                 ,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
-                FROM hos.ovst o
-                LEFT JOIN hos.vn_stat v on v.vn = o.vn
-                LEFT JOIN hos.patient p on p.hn=o.hn
-                LEFT JOIN hos.pttype pt on pt.pttype=o.pttype
-                LEFT JOIN hos.opduser op on op.loginname = o.staff
+                FROM ovst o
+                LEFT JOIN vn_stat v on v.vn = o.vn
+                LEFT JOIN patient p on p.hn=o.hn
+                LEFT JOIN pttype pt on pt.pttype=o.pttype
+                LEFT JOIN opduser op on op.loginname = o.staff
                 WHERE o.vstdate = CURDATE() 
                 AND p.nationality = "99" 
                 group by o.vn
