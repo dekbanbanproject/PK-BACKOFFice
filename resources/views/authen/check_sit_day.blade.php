@@ -59,14 +59,27 @@
                     <div class="card-header">
                         Report check sit
                         <div class="btn-actions-pane-right">
-                            <div role="group" class="btn-group-sm btn-group">
-
+                            <form action="{{ route('claim.check_sit_day') }}" method="POST">
+                                @csrf
+                                    <div role="group" class="btn-group-sm btn-group">
+                                        <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                                        data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                        <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                            data-date-language="th-th" value="{{ $start }}" />
+                                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                            data-date-language="th-th" value="{{ $end }}" />
+                                            <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                                <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
+                                            </button>
+                                    </div>
                                 {{-- <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" id="Checksitbtn">
                                     <i class="pe-7s-check btn-icon-wrapper"></i>ตรวจสอบสิทธิ์
                                 </button>  --}}
-                                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                     <i class="pe-7s-science btn-icon-wrapper"></i>Token
-                                </button>
+                                </button> --}}
                                 {{-- <a href="{{url('check_sit_daypullauto')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" target="_blank">
                                     <i class="pe-7s-check btn-icon-wrapper"></i>ดึงข้อมูล Auto
                                 </a> --}}
@@ -74,11 +87,12 @@
                                     <i class="pe-7s-check btn-icon-wrapper"></i>Checksit Auto
                                 </a> --}}
                             </div>
+                        </form>
                         </div>
                     </div>
                     <div class="card-body">
 
-                        <form action="{{ route('claim.check_sit_day') }}" method="POST">
+                        {{-- <form action="{{ route('claim.check_sit_day') }}" method="POST">
                             @csrf
                             <div class="row mt-3">
                                 <div class="col"></div>
@@ -92,40 +106,16 @@
                                         <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
                                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                                             data-date-language="th-th" value="{{ $end }}" />
+                                            <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                                <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
+                                            </button>
                                     </div>
                                 </div>
-
-                                {{-- <div class="col-md-1 text-end">วันที่</div>
-                                <div class="col-md-2 text-center">
-                                    <div class="input-group" id="datepicker1">
-                                        <input type="text" class="form-control" name="startdate" id="datepicker"  data-date-container='#datepicker1'
-                                            data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                            value="{{ $start }}">
-                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-1 text-center">ถึงวันที่</div>
-                                <div class="col-md-2 text-center">
-                                    <div class="input-group" id="datepicker1">
-                                        <input type="text" class="form-control" name="enddate" id="datepicker2" data-date-container='#datepicker1'
-                                            data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                            value="{{ $end }}">
-                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                    </div>
-                                </div> --}}
-
-
-
-                                <div class="col-md-1">
-                                    <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                        <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
-                                    </button>
-
-                                </div>
+ 
                                  <div class="col"></div>
                             </div>
 
-                        </form>
+                        </form> --}}
                         <div class="table-responsive mt-3">
                             <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -141,13 +131,15 @@
                                         <th>vstdate</th>
                                         <th>fullname</th>
                                         <th>pttype Hos</th>
-                                        <th>hmain Hos</th>
-                                        <th>hsub Hos</th>
                                         <th>pttype สปสช</th>
+                                        <th>hmain Hos</th>
+                                        <th>hsub Hos</th>                                        
                                         <th>hmainสปสช</th>
                                         <th>hsubสปสช</th> 
                                         <th>staff</th>
                                         <th>main_dep</th>
+                                        <th>pdx</th>
+                                        <th>CC</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -170,14 +162,16 @@
                                             <td>{{ $item->vstdate }}</td>
                                             <td>{{ $item->fullname }}</td>
                                             <td style="background-color: rgb(255, 255, 255)">{{ $item->pttype }}</td>
+                                            <td style="background-color: rgb(255, 255, 255)">{{ $item->subinscl }}</td>
                                             <td >{{ $item->hospmain }}</td>
                                             <td>{{ $item->hospsub }}</td>
-                                            <td style="background-color: rgb(255, 255, 255)">{{ $item->subinscl }}</td>
+                                         
                                             <td>{{ $item->hmain }}</td>
-                                            <td>{{ $item->hsub }}</td>
- 
+                                            <td>{{ $item->hsub }}</td> 
                                             <td>{{ $item->staff }}</td>
                                             <td>{{ $item->department }}</td>
+                                            <td>{{ $item->pdx }}</td>
+                                            <td>{{ $item->cc }}</td>
                                         </tr>
                                     @elseif( $item->pttype != $item->subinscl )
 
@@ -198,18 +192,21 @@
                                                     {{ $item->pttype }}
                                                 </button>
                                             </td>
-                                            <td style="background-color: rgb(155, 253, 240)">{{ $item->hospmain }}</td>
-                                            <td>{{ $item->hospsub }}</td>
                                             <td >
                                                 <button type="button" class="btn btn-icon btn-shadow btn-dashed btn-outline-warning" data-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=" {{$item->subinscl_name}}">
                                                     {{ $item->subinscl }}
                                                 </button>
                                             </td>
+                                            <td style="background-color: rgb(155, 253, 240)">{{ $item->hospmain }}</td>
+                                            <td>{{ $item->hospsub }}</td>
+                                           
                                             <td style="background-color: rgb(188, 229, 253)">{{ $item->hmain }}</td>
                                             <td>{{ $item->hsub }}</td>
                                           
                                             <td>{{ $item->staff }}</td>
                                             <td>{{ $item->department }}</td>
+                                            <td>{{ $item->pdx }}</td>
+                                            <td>{{ $item->cc }}</td>
                                         </tr>
                                     @else
                                         <tr style="background-color: rgb(255, 255, 255)">
@@ -222,15 +219,15 @@
                                             <td>{{ $item->fullname }}</td>
 
                                             <td style="background-color: rgb(255, 255, 255)">{{ $item->pttype }}</td>
-                                            <td style="background-color: rgb(155, 253, 240)">{{ $item->hospmain }}</td>
-                                            <td>{{ $item->hospsub }}</td>
-
                                             <td style="background-color: rgb(255, 255, 255)">{{ $item->subinscl }}</td>
+                                            <td style="background-color: rgb(155, 253, 240)">{{ $item->hospmain }}</td>
+                                            <td>{{ $item->hospsub }}</td> 
                                             <td style="background-color: rgb(188, 229, 253)">{{ $item->hmain }}</td>
-                                            <td>{{ $item->hsub }}</td>
-                                           
+                                            <td>{{ $item->hsub }}</td>                                           
                                             <td>{{ $item->staff }}</td>
                                             <td>{{ $item->department }}</td>
+                                            <td>{{ $item->pdx }}</td>
+                                            <td>{{ $item->cc }}</td>
                                         </tr>
                                     @endif
 

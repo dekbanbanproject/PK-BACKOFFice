@@ -213,7 +213,7 @@ class ChecksitController extends Controller
         $dateend = $request->enddate;
  
             $data_sit = DB::connection('mysql')->select('
-                SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,k.department
+                SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,k.department,c.pdx,c.cc
                 FROM check_sit_auto c
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
 

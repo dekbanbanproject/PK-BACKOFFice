@@ -28,9 +28,10 @@ return new class extends Migration
                 $table->date('dchdate')->nullable();// 
                 $table->string('hospmain')->nullable();// 
                 $table->string('hospsub')->nullable();// 
-
                 $table->string('pttype')->nullable();// 
                 $table->string('fullname')->nullable();// 
+                $table->string('pdx')->nullable();// 
+                $table->text('cc')->nullable();// 
                 $table->string('staff')->nullable();// 
                 $table->string('staff_name')->nullable();// 
                 $table->string('fokliad')->nullable();// 
