@@ -889,6 +889,7 @@ return array(
     'App\\Models\\Plan_control_activity' => $baseDir . '/app/Models/Plan_control_activity.php',
     'App\\Models\\Plan_control_activity_sub' => $baseDir . '/app/Models/Plan_control_activity_sub.php',
     'App\\Models\\Plan_control_budget' => $baseDir . '/app/Models/Plan_control_budget.php',
+    'App\\Models\\Plan_control_budget_pay' => $baseDir . '/app/Models/Plan_control_budget_pay.php',
     'App\\Models\\Plan_control_kpi' => $baseDir . '/app/Models/Plan_control_kpi.php',
     'App\\Models\\Plan_control_money' => $baseDir . '/app/Models/Plan_control_money.php',
     'App\\Models\\Plan_control_obj' => $baseDir . '/app/Models/Plan_control_obj.php',

@@ -150,92 +150,255 @@ class Account202Controller extends Controller
      }
      public function account_pkucs202_pulldata(Request $request)
      {
-         $date              = date('Y-m-d H:i:s');
-         $startdate         = $request->datepicker;
-         $enddate           = $request->datepicker2;
-        //  $now_timestamp     = strtotime(date('Y-m-d H:i:s'));
-        //  $now_timestamp     = strtotime(date('2023-09-25 18:19:00'));
-        //  $diff_timestamp    = $now_timestamp - strtotime($date);
-        //  if ($diff_timestamp < (86400 * 24)) {
-        //      $data_ = DB::connection('mysql2')->select('   
-        //                 SELECT SUM(op.sum_price) as sum_price
-        //                 FROM ipt i
-        //                 LEFT JOIN opitemrece op on i.an = op.an  
-        //                 WHERE i.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"                        
-        //     '); 
-        //  } else {
-        //     # code...
-        //  }        
-
-        // dd($diff_timestamp);
+         $datenow = date('Y-m-d');
+         $startdate = $request->datepicker;
+         $enddate = $request->datepicker2;
+          
         $data_ = DB::connection('mysql2')->select('   
-                        SELECT i.vn,i.an,o.vstdate,i.dchdate,op.rxdate,op.rxtime
+                        SELECT i.vn,i.an,o.sum_price 
                         FROM ipt i
-                        LEFT JOIN opitemrece op on i.an = op.an 
-                        LEFT JOIN ovst o on o.an = op.an
+                        LEFT JOIN opitemrece o on i.an = o.an 
+                        LEFT JOIN ovst a on a.an = o.an
                         left JOIN er_regist e on e.vn = i.vn
                         LEFT JOIN ipt_pttype ii on ii.an = i.an
-                        LEFT JOIN pttype p on p.pttype = ii.pttype
+                        LEFT JOIN pttype p on p.pttype = ii.pttype 
+                        LEFT JOIN s_drugitems n on n.icode = o.icode
+                        LEFT JOIN patient pt on pt.hn = a.hn 
                         WHERE i.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                        and op.an is not null
-                        and op.paidst ="02"
-                        and p.hipdata_code ="ucs"                       
-                        and e.er_emergency_level_id in("1","2")                       
-                        group BY i.an
-                        ORDER BY op.rxdate,op.rxtime ASC;
+                        and o.an is not null
+                        and o.paidst ="02"
+                        and p.hipdata_code ="ucs"
+                        and DATEDIFF(o.rxdate,a.vstdate)<="1"
+                        and hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate," ",o.rxtime))) <="24"
+                        and e.er_emergency_type  in("1","2","5")                       
+                        group BY i.an,o.icode,o.rxdate
+                        ORDER BY i.an;
         '); 
-        Acc_ucep_24::truncate();
-        foreach ($data_ as $key => $val) {    
-            Acc_ucep_24::insert([
-                'vn'                => $val->vn, 
-                'an'                => $val->an, 
-                'vstdate'           => $val->vstdate, 
-                'dchdate'           => $val->dchdate, 
-                'rxdate'            => $val->rxdate, 
-                'rxtime'            => $val->rxtime, 
-            ]);
-        }
+        Acc_ucep24::truncate();
+                foreach ($data_ as $key => $value5) {    
+                    Acc_ucep24::insert([
+                        'vn'                => $value5->vn, 
+                        'an'                => $value5->an, 
+                        'sum_price'         => $value5->sum_price, 
+                    ]);
+                }
+         
+         $acc_debtor = DB::connection('mysql2')->select(' 
+                    SELECT ip.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname,a.regdate as admdate,a.dchdate as dchdate,v.vstdate,op.income as income_group
+                    ,ipt.pttype,ipt.pttype_number,ipt.max_debt_amount ,ip.rw,ip.adjrw,ip.adjrw*8350 as total_adjrw_income ,ipt.nhso_ownright_pid ,a.income as income ,a.uc_money,a.rcpt_money,a.discount_money
+                    ,CASE 
+                    WHEN  ipt.pttype_number ="2" THEN "01" 
+                    ELSE ec.code
+                    END as code
+                    ,CASE 
+                    WHEN  ipt.pttype_number ="2" THEN "1102050101.202" 
+                    ELSE ec.ar_ipd
+                    END as account_code	
+                    ,CASE 
+                    WHEN  ipt.pttype_number ="2" THEN "UC ใน CUP" 
+                    ELSE ec.name
+                    END as account_name	 
 
-        $data_2 = DB::connection('mysql')->select('SELECT an,dchdate,rxdate,rxtime FROM acc_ucep_24');
-        foreach ($data_2 as $key => $val2) {   
-            // $newweek = date('Y-m-d', strtotime($date . ' -1 week'));  
-            $d1 = $val2->rxdate;
-            $t1 = $val2->rxtime;
-            $old_time2          = strtotime($t1);
-            $now_timestamp     = strtotime(date($d1.''.$t1));
-            $last_timestamp    = date('Y-m-d',strtotime($val2->dchdate));       
-            // $diff_timestamp    = $now_timestamp - strtotime($val2->dchdate);
-            // $old_time          = strtotime(date($d1.''.$t1));
-            $last_time         = strtotime($val2->dchdate);
-            $old_time          = strtotime($val2->rxdate);
-            $diff_timestamp    = $last_time - $old_time;
-            $dt = date('Y-m-d',strtotime($diff_timestamp));                //"2023-10-01" 
-            $dtt = date('Y-m-d',$diff_timestamp); 
-            // $dt24 = date($last_time,strtotime($diff_timestamp));  
-            $hours = floor($diff_timestamp/(60*60));    
-            // $old_timestamp2     = strtotime(date("2023-09-25"));
-            // $now_timestamp2     = strtotime(date("'.$val2->dchdate.'"));
-            // dd($hours);
-            // dd($diff_timestamp);
-            // if ($diff_timestamp < (86400 * 24)) {
-                $data_3 = DB::connection('mysql2')->select('   
-                           SELECT i.an,i.dchdate,op.vstdate,(select SUM(sum_price) from opitemrece where an = "'.$val2->an.'" and rxdate ="'.$val2->rxdate.'") as sum_price
-                           FROM opitemrece op  
-                            LEFT JOIN ovst o on o.an = op.an
-                            LEFT JOIN ipt i on i.an = o.an
-                            WHERE op.an = "'.$val2->an.'"
-                            AND DATEDIFF(i.dchdate,op.vstdate)<="1"
-                            AND hour(TIMEDIFF(concat(op.vstdate," ",o.vsttime),concat(op.rxdate," ",op.rxtime))) <="24"
-                            GROUP BY op.an 
-               '); 
-               foreach($data_3 as $key => $val3) {
-                    Acc_ucep_24::where('an',$val3->an)->update(['sum_price' => $val3->sum_price]);
-               }
-            // } else {
-            //    # code...
-            // }            
-        }
-        
+                    ,CASE 
+                    WHEN  ipt.pttype_number ="1" AND ipt.pttype IN ("31","33","36","39") THEN ipt.max_debt_amount 
+                    ELSE a.income -IFNULL(ipt.max_debt_amount,"0") 
+                    END as debit_prb 
+
+                    ,(a.income-a.rcpt_money-a.discount_money-IFNULL(ipt.max_debt_amount,"0"))-
+                    (sum(if(op.income="02",sum_price,0))) -
+                    (sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))) -
+                    (sum(if(op.icode IN("3001412","3001417"),sum_price,0))) -
+                    (sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0))) +
+                    (sum(if(op.icode IN("3002895","3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002918"),sum_price,0)))  
+                    as debit
+
+                    ,sum(if(op.icode IN("3002895","3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002918"),sum_price,0)) as portex
+                    ,sum(if(op.income="02",sum_price,0)) as debit_instument
+                    ,sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0)) as debit_drug
+                    ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
+                    ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
+
+                    ,(
+                        SELECT SUM(o.sum_price) as ucepprice
+                                FROM ipt i
+                                LEFT JOIN opitemrece o on i.an = o.an 
+                                LEFT JOIN ovst a on a.an = o.an
+                                left JOIN er_regist e on e.vn = i.vn
+                                LEFT JOIN ipt_pttype ii on ii.an = i.an
+                                LEFT JOIN pttype p on p.pttype = ii.pttype 
+                                LEFT JOIN s_drugitems n on n.icode = o.icode
+                                LEFT JOIN patient pt on pt.hn = a.hn 
+                                WHERE i.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+                                AND i.an = ip.an
+                                AND o.income NOT IN ("02")
+                                AND op.icode NOT IN ("3002895","3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002918","1560016","1540073","1530005","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070")
+                                AND o.an is not null
+                                AND o.paidst ="02"
+                                AND p.hipdata_code ="ucs"
+                                AND DATEDIFF(o.rxdate,a.vstdate)<="1"
+                                AND hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate," ",o.rxtime))) <="24"
+                                AND e.er_emergency_type in("1","2","5")     
+                    ) as debit_ucep
+
+                    from ipt ip
+                    LEFT JOIN an_stat a ON ip.an = a.an
+                    LEFT JOIN patient pt on pt.hn=a.hn
+                    LEFT JOIN pttype ptt on a.pttype=ptt.pttype
+                    LEFT JOIN pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id
+                    LEFT JOIN ipt_pttype ipt ON ipt.an = a.an
+                    LEFT JOIN opitemrece op ON ip.an = op.an
+                    LEFT JOIN vn_stat v on v.vn = ip.vn
+                WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"              
+                AND ipt.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202" AND opdipd ="IPD")                              
+                GROUP BY a.an;
+        ');
+        // ,CASE 
+        //                 WHEN  ipt.pttype_number ="2" AND ipt.pttype NOT IN ("31","33","36","39") THEN 
+        //                    (a.income-a.rcpt_money-a.discount_money) -                            
+        //                     (sum(if(op.income="02",sum_price,0))) -
+        //                     (sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))) -
+        //                     (sum(if(op.icode IN ("3003510","3003508","3003509","3010770","3010771","3010772","3010921","3011140","3010889","3001412","3001417"),sum_price,0))) -
+        //                     (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)))                   
+        //             ELSE 
+        //                 (a.income-a.rcpt_money-a.discount_money)-
+        //                 (sum(if(op.income="02",sum_price,0))) -
+        //                 (sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))) -
+        //                 (sum(if(op.icode IN ("3003510","3003508","3003509","3010770","3010771","3010772","3010921","3011140","3010889","3001412","3001417"),sum_price,0))) -
+        //                 (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0))) +
+        //                 (sum(if(op.icode IN("3002895","3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002918"),sum_price,0)))                        
+        //             END as debit
+ 
+         foreach ($acc_debtor as $key => $value) {
+            // $count_pttype = DB::connection('mysql2')->select('SELECT COUNT(an) as C_an FROM  ipt_pttype WHERE an = "'.$value->an.'" ');
+            $count_pttype = DB::connection('mysql2')->table('ipt_pttype')->where('an', $value->an)->count();
+            $total_ = $value->debit-$value->debit_drug-$value->debit_instument-$value->debit_toa-$value->debit_refer-$value->debit_ucep;
+            // dd($count_pttype);
+            if ($count_pttype > 1) {
+                $check = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.202')->count();
+                    if ($check == 0) {
+                        if ($value->pttype_number == '2') {
+                            if ($value->debit_toa > 0 ) {                     
+                            } else {
+                                if ($value->debit < '1') {                                    
+                                } else {
+                                    Acc_debtor::insert([
+                                        'hn'                 => $value->hn,
+                                        'an'                 => $value->an,
+                                        'vn'                 => $value->vn,
+                                        'cid'                => $value->cid,
+                                        'ptname'             => $value->ptname,
+                                        'pttype'             => $value->pttype,
+                                        'vstdate'            => $value->vstdate,
+                                        'rxdate'             => $value->admdate,
+                                        'dchdate'            => $value->dchdate,
+                                        'acc_code'           => $value->code,
+                                        'account_code'       => $value->account_code,
+                                        'account_name'       => $value->account_name, 
+                                        'income'             => $value->income,
+                                        'uc_money'           => $value->uc_money,
+                                        'discount_money'     => $value->discount_money, 
+                                        'rcpt_money'         => $value->rcpt_money,
+                                        'debit'              => $value->debit,
+                                        'debit_drug'         => $value->debit_drug,
+                                        'debit_instument'    => $value->debit_instument,
+                                        'debit_toa'          => $value->debit_toa,
+                                        'debit_refer'        => $value->debit_refer,
+                                        'debit_total'        => $value->debit,   
+                                        'debit_ucep'         => $value->debit_ucep,                         
+                                        'max_debt_amount'    => $value->max_debt_amount,
+                                        'rw'                 => $value->rw,
+                                        'adjrw'              => $value->adjrw,
+                                        'total_adjrw_income' => $value->total_adjrw_income, 
+                                        'acc_debtor_userid'  => Auth::user()->id
+                                    ]);
+                                }
+                            }   
+                        } else {
+                            if ($value->debit_toa > 0 ) {                     
+                            } else {
+                                if ($total_ < '1') {                                     
+                                } else {
+                                    Acc_debtor::insert([
+                                        'hn'                 => $value->hn,
+                                        'an'                 => $value->an,
+                                        'vn'                 => $value->vn,
+                                        'cid'                => $value->cid,
+                                        'ptname'             => $value->ptname,
+                                        'pttype'             => $value->pttype,
+                                        'vstdate'            => $value->vstdate,
+                                        'rxdate'             => $value->admdate,
+                                        'dchdate'            => $value->dchdate,
+                                        'acc_code'           => $value->code,
+                                        'account_code'       => $value->account_code,
+                                        'account_name'       => $value->account_name, 
+                                        'income'             => $value->income,
+                                        'uc_money'           => $value->uc_money,
+                                        'discount_money'     => $value->discount_money, 
+                                        'rcpt_money'         => $value->rcpt_money,
+                                        'debit'              => $value->debit,
+                                        'debit_drug'         => $value->debit_drug,
+                                        'debit_instument'    => $value->debit_instument,
+                                        'debit_toa'          => $value->debit_toa,
+                                        'debit_refer'        => $value->debit_refer,
+                                        'debit_total'        => $value->debit-$value->debit_drug-$value->debit_instument-$value->debit_toa-$value->debit_refer-$value->debit_ucep,  
+                                        'debit_ucep'         => $value->debit_ucep,                                                             
+                                        'max_debt_amount'    => $value->max_debt_amount,
+                                        'rw'                 => $value->rw,
+                                        'adjrw'              => $value->adjrw,
+                                        'total_adjrw_income' => $value->total_adjrw_income, 
+                                        'acc_debtor_userid'  => Auth::user()->id
+                                    ]);
+                                }
+                            }   
+                        }
+                    }
+                
+            } else { 
+                if ($value->debit >0) {                 
+                        $check = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.202')->count();
+                        if ($check == '0') { 
+                            if ($value->debit_toa > '0' ) {                     
+                            } else {
+                                if ($total_ < '1') {                                    
+                                } else {
+                                    Acc_debtor::insert([
+                                        'hn'                 => $value->hn,
+                                        'an'                 => $value->an,
+                                        'vn'                 => $value->vn,
+                                        'cid'                => $value->cid,
+                                        'ptname'             => $value->ptname,
+                                        'pttype'             => $value->pttype,
+                                        'vstdate'            => $value->vstdate,
+                                        'rxdate'             => $value->admdate,
+                                        'dchdate'            => $value->dchdate,
+                                        'acc_code'           => $value->code,
+                                        'account_code'       => $value->account_code,
+                                        'account_name'       => $value->account_name, 
+                                        'income'             => $value->income,
+                                        'uc_money'           => $value->uc_money,
+                                        'discount_money'     => $value->discount_money, 
+                                        'rcpt_money'         => $value->rcpt_money,
+                                        'debit'              => $value->debit,
+                                        'debit_drug'         => $value->debit_drug,
+                                        'debit_instument'    => $value->debit_instument,
+                                        'debit_toa'          => $value->debit_toa,
+                                        'debit_refer'        => $value->debit_refer,
+                                        'debit_total'        => $value->debit-$value->debit_drug-$value->debit_instument-$value->debit_toa-$value->debit_refer-$value->debit_ucep,  
+                                        'debit_ucep'         => $value->debit_ucep,                          
+                                        'max_debt_amount'    => $value->max_debt_amount,
+                                        'rw'                 => $value->rw,
+                                        'adjrw'              => $value->adjrw,
+                                        'total_adjrw_income' => $value->total_adjrw_income, 
+                                        'acc_debtor_userid'  => Auth::user()->id
+                                    ]);
+                                }
+                            }                                                
+                        }
+                } else { 
+                }
+            }
+                    
+         }
  
         return response()->json([
 

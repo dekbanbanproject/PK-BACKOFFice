@@ -1589,6 +1589,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Models\\Plan_control_activity' => __DIR__ . '/../..' . '/app/Models/Plan_control_activity.php',
         'App\\Models\\Plan_control_activity_sub' => __DIR__ . '/../..' . '/app/Models/Plan_control_activity_sub.php',
         'App\\Models\\Plan_control_budget' => __DIR__ . '/../..' . '/app/Models/Plan_control_budget.php',
+        'App\\Models\\Plan_control_budget_pay' => __DIR__ . '/../..' . '/app/Models/Plan_control_budget_pay.php',
         'App\\Models\\Plan_control_kpi' => __DIR__ . '/../..' . '/app/Models/Plan_control_kpi.php',
         'App\\Models\\Plan_control_money' => __DIR__ . '/../..' . '/app/Models/Plan_control_money.php',
         'App\\Models\\Plan_control_obj' => __DIR__ . '/../..' . '/app/Models/Plan_control_obj.php',

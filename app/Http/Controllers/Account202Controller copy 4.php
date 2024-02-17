@@ -180,7 +180,7 @@ class Account202Controller extends Controller
                         and op.an is not null
                         and op.paidst ="02"
                         and p.hipdata_code ="ucs"                       
-                        and e.er_emergency_level_id in("1","2")                       
+                        and e.er_emergency_type  in("1","2")                       
                         group BY i.an
                         ORDER BY op.rxdate,op.rxtime ASC;
         '); 
@@ -215,6 +215,7 @@ class Account202Controller extends Controller
             $hours = floor($diff_timestamp/(60*60));    
             // $old_timestamp2     = strtotime(date("2023-09-25"));
             // $now_timestamp2     = strtotime(date("'.$val2->dchdate.'"));
+
             // dd($hours);
             // dd($diff_timestamp);
             // if ($diff_timestamp < (86400 * 24)) {
