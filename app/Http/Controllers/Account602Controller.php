@@ -202,20 +202,19 @@ class Account602Controller extends Controller
                 ,ptt.max_debt_money,vp.max_debt_amount 
                
                 ,CASE 
-                WHEN v.income-v.discount_money-v.rcpt_money < 30000 THEN v.income-v.discount_money-v.rcpt_money 
-                    WHEN  vp.pttype_number ="1" AND vp.pttype IN ("31","36","37","38","39")  THEN vp.max_debt_amount 
-                    
-                    ELSE v.income-v.discount_money-v.rcpt_money  
-                    END as debit
+                    WHEN v.income-v.discount_money-v.rcpt_money < 30000 THEN v.income-v.discount_money-v.rcpt_money 
+                    WHEN  vp.pttype_number ="1" AND vp.pttype IN ("31","36","37","38","39")  THEN vp.max_debt_amount                     
+                ELSE v.income-v.discount_money-v.rcpt_money  
+                END as debit
 
-            from hos.vn_stat v
-            LEFT OUTER JOIN hos.ovst o on v.vn=o.vn
-            LEFT OUTER JOIN hos.patient pt on pt.hn=v.hn
-            LEFT OUTER JOIN hos.visit_pttype vp on vp.vn = v.vn
-            LEFT OUTER JOIN hos.pttype ptt on v.pttype=ptt.pttype
-            LEFT OUTER JOIN hos.pttype_eclaim e on e.code=ptt.pttype_eclaim_id
-            LEFT OUTER JOIN hos.opitemrece op ON op.vn = o.vn
-            LEFT OUTER JOIN hos.s_drugitems d on d.icode = op.icode 
+            from vn_stat v
+            LEFT OUTER JOIN ovst o on v.vn=o.vn
+            LEFT OUTER JOIN patient pt on pt.hn=v.hn
+            LEFT OUTER JOIN visit_pttype vp on vp.vn = v.vn
+            LEFT OUTER JOIN pttype ptt on v.pttype=ptt.pttype
+            LEFT OUTER JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
+            LEFT OUTER JOIN opitemrece op ON op.vn = o.vn
+            LEFT OUTER JOIN s_drugitems d on d.icode = op.icode 
             WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"        
             AND vp.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050102.602" AND opdipd ="OPD")
             AND v.income-v.discount_money-v.rcpt_money <> 0
@@ -224,7 +223,8 @@ class Account602Controller extends Controller
         ');
         // ,v.income-v.discount_money-v.rcpt_money as debit
         foreach ($acc_debtor as $key => $value) {
-                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050102.602')->whereBetween('vstdate', [$startdate, $enddate])->count();
+            // $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050102.602')->whereBetween('vstdate', [$startdate, $enddate])->count();
+                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050102.602')->count();
                     if ($check == 0) {
                         Acc_debtor::insert([
                             'hn'                 => $value->hn,
