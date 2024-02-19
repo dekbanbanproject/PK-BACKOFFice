@@ -2541,7 +2541,12 @@ Route::middleware(['type'])->group(function(){
   Route::match(['get','post'],'plan_control_indicators_save',[App\Http\Controllers\PlanController::class, 'plan_control_indicators_save'])->name('p.plan_control_indicators_save');// ตัวชี้วัด
 
   Route::match(['get','post'],'plan_development',[App\Http\Controllers\PlanController::class, 'plan_development'])->name('p.plan_development');// แผนพัฒนาบุคลากร
+
+
   Route::match(['get','post'],'plan_procurement',[App\Http\Controllers\PlanController::class, 'plan_procurement'])->name('p.plan_procurement');// แผนจัดซื้อครุภัณฑ์
+  Route::match(['get','post'],'plan_procurement_save',[App\Http\Controllers\PlanController::class, 'plan_procurement_save'])->name('p.plan_procurement_save');// แผนจัดซื้อครุภัณฑ์
+
+
   Route::match(['get','post'],'plan_maintenance',[App\Http\Controllers\PlanController::class, 'plan_maintenance'])->name('p.plan_maintenance');// แผนบำรุงรักษา
   Route::match(['get','post'],'plan_type',[App\Http\Controllers\PlanController::class, 'plan_type'])->name('p.plan_type');// ประเภทแผนงาน
 

@@ -994,17 +994,122 @@ class PlanController extends Controller
         return view('plan.plan_development', $data);
     }
     public function plan_procurement(Request $request)
-    {
-        $data['com_tec'] = DB::table('com_tec')->get();
+    { 
         $data['users'] = User::get();
+        $data['department_sub']        = Departmentsub::get();
+        $data['department_sub_sub']    = Department_sub_sub::get();
+        $data['plan_control_type']     = Plan_control_type::get();
+        $data['plan_strategic']        = Plan_strategic::get();
+        $data['plan_list_budget']      = Plan_list_budget::get();    
+        $data['plan_unit']             = DB::table('plan_unit')->get();  
+        $data['users']                 = User::get();  
 
         return view('plan.plan_procurement', $data);
+    }
+    public function plan_procurement_save(Request $request)
+    {
+        $iduser = Auth::user()->id; 
+
+        $b = $request->input('budget_source'); 
+        if ($b  != '') {
+            $b_s = Plan_control_type::where('plan_control_type_id',$b)->first(); 
+            $plan_control_type_id = $b_s->plan_control_type_id;
+            $plan_control_typename = $b_s->plan_control_typename;
+        } else {
+            $plan_control_type_id = '';
+            $plan_control_typename = '';
+        }
+
+        $d = $request->input('responsible_person'); 
+        if ($d  != '') {
+            $d_s = Departmentsub::where('DEPARTMENT_SUB_ID',$d)->first(); 
+            $DEPARTMENT_SUB_ID = $d_s->DEPARTMENT_SUB_ID;
+            $DEPARTMENT_SUB_NAME = $d_s->DEPARTMENT_SUB_NAME;
+        } else {
+            $DEPARTMENT_SUB_ID = '';
+            $DEPARTMENT_SUB_NAME = '';
+        }
+        // $p = $request->input('plan_control_id'); 
+        // if ($p  != '') {
+        //     $p_s = Plan_control::where('plan_control_id',$p)->first(); 
+        //     $plan_control_id = $p_s->plan_control_id;
+        //     $billno          = $p_s->billno;
+        // } else {
+        //     $plan_control_id = '';
+        //     $billno          = '';
+        // }
+         // $maxid    = DB::table('plan_control')->max('plan_control_id');
+         $year = date('Y');
+         $maxnumber = DB::table('plan_control')->max('plan_control_id');
+         if ($maxnumber != '' ||  $maxnumber != null) {
+             $refmax = DB::table('plan_control')->where('plan_control_id', '=', $maxnumber)->first();
+             if ($refmax->billno != '' ||  $refmax->billno != null) {
+                 $maxref = substr($refmax->billno, -4) + 1;
+             } else {
+                 $maxref = 1;
+             }
+             $ref = str_pad($maxref, 5, "0", STR_PAD_LEFT);
+         } else {
+             $ref = '00001';
+         }
+         $ye = date('Y') + 543;
+         $y = substr($ye, -2);
+         $billno = 'PL' . '-' . $ref;
+         $maxid    =  $maxnumber + 1;
+
+       
+        $add = new Plan_control();
+        $add->billno                = $billno;
+        $add->plan_name             = $request->input('plan_control_activity_name');
+        // $add->plan_starttime        = $request->input('datepicker1');
+        // $add->plan_endtime          = $request->input('datepicker2');
+        // $add->plan_price            = $request->input('plan_price');
+        $add->department            = $DEPARTMENT_SUB_ID;
+        $add->plan_type             = $plan_control_type_id;
+        $add->user_id               = $iduser; 
+        $add->plan_strategic_id     = $request->input('plan_strategic_id');
+        $add->hos_group             = '3';
+        $add->save();
+
+       
+
+        $add = new Plan_control_activity();
+        $add->plan_control_activity_name    = $request->input('plan_control_activity_name');
+        $add->plan_control_activity_group   = $request->input('plan_control_activity_group');
+        $add->qty                           = $request->input('qty');  
+        $add->plan_control_unit             = $request->input('plan_control_unit');  
+        $add->budget_detail                 = $request->input('budget_detail');  
+        $add->budget_price                  = $request->input('budget_price');  
+        $add->budget_source                 = $plan_control_type_id;  
+        $add->budget_source_name            = $plan_control_typename;
+        $add->trimart_11                    = $request->input('trimart_11');  
+        $add->trimart_12                    = $request->input('trimart_12');  
+        $add->trimart_13                    = $request->input('trimart_13');  
+        $add->trimart_21                    = $request->input('trimart_21');  
+        $add->trimart_22                    = $request->input('trimart_22');  
+        $add->trimart_23                    = $request->input('trimart_23');  
+        $add->trimart_31                    = $request->input('trimart_31');  
+        $add->trimart_32                    = $request->input('trimart_32');  
+        $add->trimart_33                    = $request->input('trimart_33');  
+        $add->trimart_41                    = $request->input('trimart_41');  
+        $add->trimart_42                    = $request->input('trimart_42');  
+        $add->trimart_43                    = $request->input('trimart_43');  
+        $add->responsible_person            = $DEPARTMENT_SUB_ID;  
+        $add->responsible_person_name       = $DEPARTMENT_SUB_NAME;
+        $add->plan_control_id               = $maxid; 
+        $add->billno                        = $billno; 
+        $add->user_id                       = $iduser;  
+        $add->save();
+ 
+        return response()->json([
+            'status'     => '200',
+        ]);
     }
 
 
 
 
-    
+
     public function plan_maintenance(Request $request)
     {
         $data['com_tec'] = DB::table('com_tec')->get();

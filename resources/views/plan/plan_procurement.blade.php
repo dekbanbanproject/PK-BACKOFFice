@@ -171,17 +171,12 @@ if (Auth::check()) {
                         <div class="card-body ">  
                             <div class="row">  
                                 <div class="col-md-12">         
-                                        {{-- <form action="{{ route('p.plan_control_activity_save') }}" id="Insert_data" method="POST">
+                                        <form action="{{ route('p.plan_procurement_save') }}" id="Insert_articleplan" method="POST">
                                         @csrf
-                                        --}}
-                         
-                            
-                                        {{-- <input type="hidden" id="plan_control_id" name="plan_control_id" value="{{$plan_control->plan_control_id}}"> --}}
-                                        {{-- <input type="hidden" id="billno" name="billno" value="{{$plan_control->billno}}"> --}}
-                                            
+                                        
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <h4 class="card-title">กิจกรรม/กลยุทธ์</h4>
+                                                <h4 class="card-title">แผนจัดซื้อพัสดุ-ครุภัณฑ์</h4>
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-2">
@@ -195,9 +190,7 @@ if (Auth::check()) {
                                             
                                             </div>
                                         </div>
-                                        {{-- <h4 class="card-title">แผนงาน/กิจกรรมสำคัญ</h4> --}}
-                                        {{-- <p class="card-title-desc">เพิ่มรายละเอียดแผนงาน/กิจกรรมสำคัญ</p> --}}
-
+                                       
                                         <!-- Nav tabs -->
                                         <ul class="nav nav-tabs" role="tablist">
                                             <li class="nav-item">
@@ -227,7 +220,7 @@ if (Auth::check()) {
                                                         </div>
                                                     </div> 
                                                     <div class="row">
-                                                        <div class="col-md-7">
+                                                        <div class="col-md-8">
                                                             <label for="">กลุ่มเป้าหมาย</label>
                                                             <div class="form-group"> 
                                                             
@@ -240,47 +233,62 @@ if (Auth::check()) {
                                                             <input id="qty" class="form-control form-control-sm" name="qty">
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-3"> 
+                                                        <div class="col-md-2"> 
                                                             <label for="">หน่วย</label>
                                                             <div class="form-group">
                                                                 <select name="plan_control_unit" id="plan_control_unit" class="form-control form-control-sm" style="width: 100%"> 
                                                                     <option value="">-เลือก-</option>
-                                                                    {{-- @foreach ($plan_unit as $item_u)                                                       
+                                                                    @foreach ($plan_unit as $item_u)                                                       
                                                                     <option value="{{$item_u->plan_unit_id}}">{{$item_u->plan_unit_name}}</option>                                                                                                        
-                                                                    @endforeach --}}
+                                                                    @endforeach
                                                                 </select>
                                                             </div>
                                                         </div>
                                                     
                                                     </div> 
                                                     <div class="row">
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-8">
+                                                            <label for="">ยุทธศาสตร์ </label>
+                                                            <div class="form-group">
+                                                                <select name="plan_strategic_id" id="plan_strategic_id" class="form-control form-control-sm" style="width: 100%">   
+                                                                    <option value="">-เลือก-</option>                                                 
+                                                                    @foreach ($plan_strategic as $item_st)
+                                                                    {{-- @if ($plan_control->department == $item->DEPARTMENT_SUB_ID) --}}
+                                                                    {{-- <option value="{{$item->DEPARTMENT_SUB_ID}}" selected>{{$item->DEPARTMENT_SUB_NAME}}</option> --}}
+                                                                    {{-- @else --}}
+                                                                    <option value="{{$item_st->plan_strategic_id}}">{{$item_st->plan_strategic_name}}</option>
+                                                                    {{-- @endif  --}}
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
                                                             <label for="">ผู้รับผิดชอบ </label>
                                                             <div class="form-group">
                                                                 <select name="responsible_person" id="responsible_person" class="form-control form-control-sm" style="width: 100%">   
                                                                     <option value="">-เลือก-</option>                                                 
-                                                                    {{-- @foreach ($department_sub as $item)
-                                                                    @if ($plan_control->department == $item->DEPARTMENT_SUB_ID)
-                                                                    <option value="{{$item->DEPARTMENT_SUB_ID}}" selected>{{$item->DEPARTMENT_SUB_NAME}}</option>
-                                                                    @else
+                                                                    @foreach ($department_sub as $item)
+                                                                    {{-- @if ($plan_control->department == $item->DEPARTMENT_SUB_ID) --}}
+                                                                    {{-- <option value="{{$item->DEPARTMENT_SUB_ID}}" selected>{{$item->DEPARTMENT_SUB_NAME}}</option> --}}
+                                                                    {{-- @else --}}
                                                                     <option value="{{$item->DEPARTMENT_SUB_ID}}">{{$item->DEPARTMENT_SUB_NAME}}</option>
-                                                                    @endif                                                                
-                                                                    @endforeach --}}
+                                                                    {{-- @endif                                                                 --}}
+                                                                    @endforeach
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-2">
                                                             <label for="">แหล่งงบประมาณ </label>
                                                             <div class="form-group">
                                                                 <select name="budget_source" id="budget_source" class="form-control form-control-sm" style="width: 100%"> 
                                                                     <option value="">-เลือก-</option>
-                                                                    {{-- @foreach ($plan_control_type as $item2)
-                                                                    @if ($plan_control->plan_type == $item2->plan_control_type_id)
-                                                                    <option value="{{$item2->plan_control_type_id}}" selected>{{$item2->plan_control_typename}}</option>
-                                                                    @else
+                                                                    @foreach ($plan_control_type as $item2)
+                                                                    {{-- @if ($plan_control->plan_type == $item2->plan_control_type_id) --}}
+                                                                    {{-- <option value="{{$item2->plan_control_type_id}}" selected>{{$item2->plan_control_typename}}</option> --}}
+                                                                    {{-- @else --}}
                                                                     <option value="{{$item2->plan_control_type_id}}">{{$item2->plan_control_typename}}</option>
-                                                                    @endif                                                       
-                                                                    @endforeach --}}
+                                                                    {{-- @endif                                                        --}}
+                                                                    @endforeach
                                                                 </select>
                                                             </div>
                                                         </div>   
@@ -531,6 +539,41 @@ if (Auth::check()) {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
+
+                $('#Insert_articleplan').on('submit',function(e){
+                            e.preventDefault();            
+                            var form = this; 
+                            $.ajax({
+                                url:$(form).attr('action'),
+                                method:$(form).attr('method'),
+                                data:new FormData(form),
+                                processData:false,
+                                dataType:'json',
+                                contentType:false,
+                                beforeSend:function(){
+                                    $(form).find('span.error-text').text('');
+                                },
+                                success:function(data){
+                                    if (data.status == 0 ) {
+                                    
+                                    } else {          
+                                    Swal.fire({
+                                        title: 'เพิ่มแผนจัดซื้อพัสดุ-ครุภัณฑ์สำเร็จ',
+                                        text: "You Insert data success",
+                                        icon: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonColor: '#06D177', 
+                                        confirmButtonText: 'เรียบร้อย'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {                  
+                                        // window.location="{{url('plan_control')}}";
+                                        window.location.reload();
+                                        }
+                                    })      
+                                    }
+                                }
+                            });
+                    });
 
                               
             });
