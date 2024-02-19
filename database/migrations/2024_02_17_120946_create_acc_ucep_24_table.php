@@ -17,13 +17,21 @@ return new class extends Migration
                 $table->bigIncrements('acc_ucep_24_id');//  
                 $table->string('vn')->nullable();//    
                 $table->string('an')->nullable();//   
-                $table->Date('vstdate')->nullable();//       
+                $table->Date('vstdate')->nullable();//     
+                $table->Time('vsttime')->nullable();//   
                 $table->Date('dchdate')->nullable();//          
                 $table->Date('rxdate')->nullable();//           
                 $table->Time('rxtime')->nullable();//   
-                $table->decimal('sum_price',12,2)->nullable();//   
+                $table->decimal('sum_price_ipd',12,2)->nullable();//   
+                $table->decimal('sum_price_ucep_all',12,2)->nullable();//  
+                $table->decimal('sum_price_ucep_normal',12,2)->nullable();//   
+                $table->decimal('sum_price_ucep_cr',12,2)->nullable();//  
+                $table->decimal('sum_price_ucep_normal2',12,2)->nullable();//   
+                $table->decimal('sum_price_ucep_cr2',12,2)->nullable();// 
+                $table->decimal('sum_price_ipd_202',12,2)->nullable();// 
                 $table->timestamps();
             }); 
+ 
         }
     }
 
