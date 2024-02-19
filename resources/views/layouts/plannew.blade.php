@@ -91,8 +91,8 @@
          
         </style>
         
-        {{-- <body data-topbar="dark"> --}}
-            <body data-sidebar="white" data-keep-enlarged="true" class="vertical-collpsed">
+        <body data-topbar="dark">
+            {{-- <body data-sidebar="white" data-keep-enlarged="true" class="vertical-collpsed"> --}}
 
             <!-- Begin page -->
             <div id="layout-wrapper">
@@ -221,7 +221,7 @@
                                     <ul class="sub-menu" aria-expanded="true">
                                         {{-- <li><a href="{{ url('plan_project') }}">แผนโครงการ</a></li>  --}}
                                         {{-- <li><a href="{{ url('plan_development') }}"> แผนพัฒนาบุคลากร</a></li>  --}}
-                                        {{-- <li><a href="{{ url('plan_procurement') }}"> แผนจัดซื้อครุภัณฑ์</a></li>  --}}
+                                        <li><a href="{{ url('plan_procurement') }}"> แผนจัดซื้อพัสดุ-ครุภัณฑ์</a></li> 
                                         {{-- <li><a href="{{ url('plan_maintenance') }}"> แผนบำรุงรักษา</a></li>  --}}
                                         <li><a href="{{ url('plan_control') }}"> ทะเบียนควบคุมแผนโครงการ</a></li> 
                                     </ul>

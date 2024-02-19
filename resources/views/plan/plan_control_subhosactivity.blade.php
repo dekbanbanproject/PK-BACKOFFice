@@ -272,7 +272,7 @@ $refnumber = PlanController::refnumber();
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">กิจกรรม/กลยุทธ์</h4>
+                    <h4 class="mb-sm-0">กิจกรรม/กลยุทธ์  {{$plan_control->plan_name}} เลขที่ {{$plan_control->billno}}</h4>
     
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
@@ -285,6 +285,7 @@ $refnumber = PlanController::refnumber();
             </div>
         </div> 
     </div> 
+    <div data-parent="#accordion" id="collapseOne2" class="collapse">
         <div class="row">
             <div class="col-xl-12">
                 <div class="card cardplan">    
@@ -293,6 +294,7 @@ $refnumber = PlanController::refnumber();
                             <div class="col-md-12"> 
                                 <form action="{{ route('p.plan_control_activity_save') }}" id="Insert_data" method="POST">
                                     @csrf
+                                    
                                     <div class="card-body">  
                                         
                                             <input type="hidden" id="plan_control_id" name="plan_control_id" value="{{$plan_control->plan_control_id}}">
@@ -501,11 +503,7 @@ $refnumber = PlanController::refnumber();
                                                     </p>
                                                 </div>
                                                
-                                            </div>
-                 
-                                            
-                                       
-
+                                            </div> 
                                     </div>
                                   
                             </div>                              
@@ -515,6 +513,7 @@ $refnumber = PlanController::refnumber();
             </div>
         </div>  
     </form>
+</div>  
         <div class="row">
             <div class="col-xl-12">
                 <div class="card cardplan">  
@@ -522,9 +521,8 @@ $refnumber = PlanController::refnumber();
                  
                     <div class="card-body"> 
                         <div class="row mb-2">
-                            <div class="col-md-8 text-start"> <h5 class="modal-title me-3" id="editModalLabel">กิจกรรม/กลยุทธ์  {{$plan_control->plan_name}} เลขที่ {{$plan_control->billno}}</h5>  </div>
-                            {{-- <div class="col"></div> --}}
-                            <div class="col-md-4 text-end">
+                            <div class="col-md-8 text-start"> 
+                                {{-- <h5 class="modal-title me-3" id="editModalLabel">กิจกรรม/กลยุทธ์  {{$plan_control->plan_name}} เลขที่ {{$plan_control->billno}}</h5>  --}}
                                 <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 209, 163);border-radius: 3em 3em 3em 3em"> 
                                     ยังไม่ดำเนินการ
                                 </button>
@@ -540,6 +538,14 @@ $refnumber = PlanController::refnumber();
                                 <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(138, 247, 174);border-radius: 3em 3em 3em 3em"> 
                                     SUCCESS
                                 </button>
+                             </div>
+                            {{-- <div class="col"></div> --}}
+                            <div class="col-md-4 text-end">
+                                <div id="headingTwo" class="b-radius-0">   
+                                    <button type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne2" aria-expanded="false" aria-controls="collapseTwo" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(176, 205, 243);border-radius: 3em 3em 3em 3em"> 
+                                        เพิ่มกิจกรรม/กลยุทธ์
+                                    </button>  
+                                </div>
                                 {{-- <h6 class="mt-2 me-3"> เลขที่ {{$plan_control->billno}}</h6> --}}
                             </div>
                             {{-- <div class="col-md-2 text-end"> <h6 class="mt-2 me-3"> เลขที่ {{$plan_control->billno}}</h6> </div> --}}

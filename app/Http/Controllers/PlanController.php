@@ -1000,6 +1000,11 @@ class PlanController extends Controller
 
         return view('plan.plan_procurement', $data);
     }
+
+
+
+
+    
     public function plan_maintenance(Request $request)
     {
         $data['com_tec'] = DB::table('com_tec')->get();
