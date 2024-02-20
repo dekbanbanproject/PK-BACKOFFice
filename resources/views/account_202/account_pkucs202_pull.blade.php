@@ -104,8 +104,7 @@
             </div>                
             </div>
             {{-- <div class="col"></div> --}}
-        </div>
-            
+        </div>            
         {{-- </form> --}}
      
         <div class="row ">
@@ -142,6 +141,7 @@
                                             <th class="text-center">an</th>
                                             <th class="text-center" >hn</th> 
                                             <th class="text-center">ptname</th>
+                                            <th class="text-center">rxdate</th> 
                                             <th class="text-center">dchdate</th>  
                                             <th class="text-center">pttype</th> 
                                             <th class="text-center">spsch</th> 
@@ -171,6 +171,7 @@
                                                 <td class="text-center" width="5%">{{ $item->an }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>   
                                                 <td class="p-2" >{{ $item->ptname }}</td> 
+                                                <td class="text-center" width="7%">{{ $item->rxdate }}</td> 
                                                 <td class="text-center" width="7%">{{ $item->dchdate }}</td>   
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>  
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td> 
@@ -189,12 +190,11 @@
                                 </table>
                             </div>
                         </p>
+
                     </div>
                 </div>
             </div>
-        </div>
-
-       
+        </div> 
     </div>
     </div>
   
