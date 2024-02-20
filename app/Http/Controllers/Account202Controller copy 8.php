@@ -153,7 +153,7 @@ class Account202Controller extends Controller
          $date              = date('Y-m-d H:i:s');
          $startdate         = $request->datepicker;
          $enddate           = $request->datepicker2; 
-        $data_main = DB::connection('mysql2')->select('
+         $data_main = DB::connection('mysql2')->select('
                 SELECT o.an,a.vn,o.rxdate,o.rxtime,a.vstdate,a.vsttime,i.dchdate
                 FROM opitemrece o
                 LEFT JOIN ipt i on i.an = o.an
@@ -166,14 +166,24 @@ class Account202Controller extends Controller
                 AND DATEDIFF(o.rxdate,a.vstdate)<="1"
                 AND TIMEDIFF(o.rxtime,a.vsttime)<="24" 
                 AND e.er_emergency_level_id IN("1","2")
-                AND o.income NOT IN("02")
                 GROUP BY o.an 
-        ');
-        Acc_ucep_24::truncate();
-        foreach ($data_main as $key => $val) {   
-                $data_ = DB::connection('mysql2')->select('    
-                        SELECT o.an,a.vn,o.rxdate,o.rxtime,a.vstdate,a.vsttime,i.dchdate
-                        ,(
+         ');
+             Acc_ucep_24::truncate();
+            foreach ($data_main as $key => $val) {   
+                    $data_ = DB::connection('mysql2')->select('    
+                            SELECT o.an,a.vn,o.rxdate,o.rxtime,a.vstdate,a.vsttime,i.dchdate
+                            ,(
+                                    SELECT SUM(o.sum_price) sum_price
+                                    FROM opitemrece o
+                                    LEFT JOIN ipt i on i.an = o.an
+                                    LEFT JOIN ovst a on a.an = o.an
+                                    left JOIN er_regist e on e.vn = i.vn 
+                                    LEFT JOIN pttype p on p.pttype = i.pttype 
+                                    WHERE o.an = "'.$val->an.'" 
+                                    AND o.an is not null  
+                                    AND p.hipdata_code ="ucs" 
+                            ) as sum_price_ipd
+                            ,(
                                 SELECT SUM(o.sum_price) sum_price
                                 FROM opitemrece o
                                 LEFT JOIN ipt i on i.an = o.an
@@ -182,11 +192,42 @@ class Account202Controller extends Controller
                                 LEFT JOIN pttype p on p.pttype = i.pttype 
                                 WHERE o.an = "'.$val->an.'" 
                                 AND o.an is not null  
-                                AND p.hipdata_code ="ucs" 
-                                AND o.income NOT IN("02")
-                        ) as sum_price_ipd
-                        ,(
-                            SELECT SUM(o.sum_price) sum_price
+                                AND p.hipdata_code ="ucs"
+                                AND DATEDIFF(o.rxdate,a.vstdate)<="1"
+                                AND TIMEDIFF(o.rxtime,a.vsttime)<="24" 
+                                AND e.er_emergency_level_id IN("1","2")
+                            ) as sum_price_ucep_all
+                            ,(
+                                    SELECT SUM(o.sum_price) sum_price
+                                    FROM opitemrece o
+                                    LEFT JOIN ipt i on i.an = o.an
+                                    LEFT JOIN ovst a on a.an = o.an
+                                    left JOIN er_regist e on e.vn = i.vn 
+                                    LEFT JOIN pttype p on p.pttype = i.pttype 
+                                    WHERE o.an = "'.$val->an.'" 
+                                    AND (o.income IN("02") OR icode IN("1560016","1540073","1530005","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"))
+                                    AND o.an is not null  
+                                    AND p.hipdata_code ="ucs"
+                                    AND DATEDIFF(o.rxdate,a.vstdate)<="1"
+                                    AND TIMEDIFF(o.rxtime,a.vsttime)<="24" 
+                                    AND e.er_emergency_level_id IN("1","2")
+                            ) as sum_price_ucep_cr
+                            ,(
+                                    SELECT SUM(o.sum_price) sum_price
+                                    FROM opitemrece o
+                                    LEFT JOIN ipt i on i.an = o.an
+                                    LEFT JOIN ovst a on a.an = o.an
+                                    left JOIN er_regist e on e.vn = i.vn 
+                                    LEFT JOIN pttype p on p.pttype = i.pttype 
+                                    WHERE o.an = "'.$val->an.'" 
+                                    AND o.income NOT IN("02") AND o.icode NOT IN("1560016","1540073","1530005","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070")
+                                    AND o.an is not null  
+                                    AND p.hipdata_code ="ucs"
+                                    AND DATEDIFF(o.rxdate,a.vstdate)<="1"
+                                    AND TIMEDIFF(o.rxtime,a.vsttime)<="24" 
+                                    AND e.er_emergency_level_id IN("1","2")
+                            ) as sum_price_ucep_normal                           
+
                             FROM opitemrece o
                             LEFT JOIN ipt i on i.an = o.an
                             LEFT JOIN ovst a on a.an = o.an
@@ -198,125 +239,78 @@ class Account202Controller extends Controller
                             AND DATEDIFF(o.rxdate,a.vstdate)<="1"
                             AND TIMEDIFF(o.rxtime,a.vsttime)<="24" 
                             AND e.er_emergency_level_id IN("1","2")
-                            AND o.income NOT IN("02")
-                        ) as sum_price_ucep_all
-                        ,(
-                                SELECT SUM(o.sum_price) sum_price
-                                FROM opitemrece o
-                                LEFT JOIN ipt i on i.an = o.an
-                                LEFT JOIN ovst a on a.an = o.an
-                                left JOIN er_regist e on e.vn = i.vn 
-                                LEFT JOIN pttype p on p.pttype = i.pttype 
-                                WHERE o.an = "'.$val->an.'" 
-                                AND (o.income IN("02") OR icode IN("1560016","1540073","1530005","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"))
-                                AND o.an is not null  
-                                AND p.hipdata_code ="ucs"
-                                AND DATEDIFF(o.rxdate,a.vstdate)<="1"
-                                AND TIMEDIFF(o.rxtime,a.vsttime)<="24" 
-                                AND e.er_emergency_level_id IN("1","2")
-                                AND o.income NOT IN("02")
-                        ) as sum_price_ucep_cr
-                        ,(
-                                SELECT SUM(o.sum_price) sum_price
-                                FROM opitemrece o
-                                LEFT JOIN ipt i on i.an = o.an
-                                LEFT JOIN ovst a on a.an = o.an
-                                left JOIN er_regist e on e.vn = i.vn 
-                                LEFT JOIN pttype p on p.pttype = i.pttype 
-                                WHERE o.an = "'.$val->an.'" 
-                                AND o.income NOT IN("02") AND o.icode NOT IN("1560016","1540073","1530005","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070")
-                                AND o.an is not null  
-                                AND p.hipdata_code ="ucs"
-                                AND DATEDIFF(o.rxdate,a.vstdate)<="1"
-                                AND TIMEDIFF(o.rxtime,a.vsttime)<="24" 
-                                AND e.er_emergency_level_id IN("1","2")
-                                AND o.income NOT IN("02")
-                        ) as sum_price_ucep_normal                           
+                            AND p.pttype NOT IN ("31","33","36","39")
+                            GROUP BY o.an  
+                    ');             
+                    foreach ($data_ as $key => $val2) {    
+                        Acc_ucep_24::insert([
+                                'vn'                        => $val2->vn, 
+                                'an'                        => $val2->an, 
+                                'vstdate'                   => $val2->vstdate, 
+                                'vsttime'                   => $val2->vsttime, 
+                                'dchdate'                   => $val2->dchdate, 
+                                'rxdate'                    => $val2->rxdate, 
+                                'rxtime'                    => $val2->rxtime, 
+                                'sum_price_ipd'             => $val2->sum_price_ipd, 
+                                'sum_price_ucep_all'        => $val2->sum_price_ucep_all, 
+                                'sum_price_ucep_cr'         => $val2->sum_price_ucep_cr,  
+                                'sum_price_ucep_normal'     => $val2->sum_price_ucep_normal,  
+                                'sum_price_ipd_202'         => $val2->sum_price_ipd - $val2->sum_price_ucep_all,
+                        ]);
+                    }
+                    // $data_more = DB::connection('mysql2')->select('    
+                    //         SELECT o.an                             
+                    //         ,(
+                    //                 SELECT SUM(o.sum_price) sum_price
+                    //                 FROM opitemrece o
+                    //                 LEFT JOIN ipt i on i.an = o.an
+                    //                 LEFT JOIN ovst a on a.an = o.an
+                    //                 left JOIN er_regist e on e.vn = i.vn 
+                    //                 LEFT JOIN pttype p on p.pttype = i.pttype 
+                    //                 WHERE o.an = "'.$val->an.'" 
+                    //                 AND (o.income IN("02") OR icode IN("1560016","1540073","1530005","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"))
+                    //                 AND o.an is not null  
+                    //                 AND p.hipdata_code ="ucs"
+                    //                 AND DATEDIFF(o.rxdate,a.vstdate)>="1"
+                    //                 AND TIMEDIFF(o.rxtime,a.vsttime)>="24" 
+                    //                 AND e.er_emergency_level_id IN("1","2")
+                    //         ) as sum_price_ucep_cr2
+                    //         ,(
+                    //                 SELECT SUM(o.sum_price) sum_price
+                    //                 FROM opitemrece o
+                    //                 LEFT JOIN ipt i on i.an = o.an
+                    //                 LEFT JOIN ovst a on a.an = o.an
+                    //                 left JOIN er_regist e on e.vn = i.vn 
+                    //                 LEFT JOIN pttype p on p.pttype = i.pttype 
+                    //                 WHERE o.an = "'.$val->an.'" 
+                    //                 AND o.income NOT IN("02") AND o.icode NOT IN("1560016","1540073","1530005","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070")
+                    //                 AND o.an is not null  
+                    //                 AND p.hipdata_code ="ucs"
+                    //                 AND DATEDIFF(o.rxdate,a.vstdate)>="1"
+                    //                 AND TIMEDIFF(o.rxtime,a.vsttime)>="24" 
+                    //                 AND e.er_emergency_level_id IN("1","2")
+                    //         ) as sum_price_ucep_normal2                          
 
-                        FROM opitemrece o
-                        LEFT JOIN ipt i on i.an = o.an
-                        LEFT JOIN ovst a on a.an = o.an
-                        left JOIN er_regist e on e.vn = i.vn 
-                        LEFT JOIN pttype p on p.pttype = i.pttype 
-                        WHERE o.an = "'.$val->an.'" 
-                        AND o.an is not null  
-                        AND p.hipdata_code ="ucs"
-                        AND DATEDIFF(o.rxdate,a.vstdate)<="1"
-                        AND TIMEDIFF(o.rxtime,a.vsttime)<="24" 
-                        AND e.er_emergency_level_id IN("1","2")
-                        AND p.pttype NOT IN ("31","33","36","39")
-                        AND o.income NOT IN("02")
-                        GROUP BY o.an  
-                ');             
-                foreach ($data_ as $key => $val2) {    
-                    Acc_ucep_24::insert([
-                            'vn'                        => $val2->vn, 
-                            'an'                        => $val2->an, 
-                            'vstdate'                   => $val2->vstdate, 
-                            'vsttime'                   => $val2->vsttime, 
-                            'dchdate'                   => $val2->dchdate, 
-                            'rxdate'                    => $val2->rxdate, 
-                            'rxtime'                    => $val2->rxtime, 
-                            'sum_price_ipd'             => $val2->sum_price_ipd, 
-                            'sum_price_ucep_all'        => $val2->sum_price_ucep_all, 
-                            'sum_price_ucep_cr'         => $val2->sum_price_ucep_cr,  
-                            'sum_price_ucep_normal'     => $val2->sum_price_ucep_normal,  
-                            'sum_price_ipd_202'         => $val2->sum_price_ipd - $val2->sum_price_ucep_all,
-                    ]);
-                }
-                // $data_more = DB::connection('mysql2')->select('    
-                //         SELECT o.an                             
-                //         ,(
-                //                 SELECT SUM(o.sum_price) sum_price
-                //                 FROM opitemrece o
-                //                 LEFT JOIN ipt i on i.an = o.an
-                //                 LEFT JOIN ovst a on a.an = o.an
-                //                 left JOIN er_regist e on e.vn = i.vn 
-                //                 LEFT JOIN pttype p on p.pttype = i.pttype 
-                //                 WHERE o.an = "'.$val->an.'" 
-                //                 AND (o.income IN("02") OR icode IN("1560016","1540073","1530005","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"))
-                //                 AND o.an is not null  
-                //                 AND p.hipdata_code ="ucs"
-                //                 AND DATEDIFF(o.rxdate,a.vstdate)>="1"
-                //                 AND TIMEDIFF(o.rxtime,a.vsttime)>="24" 
-                //                 AND e.er_emergency_level_id IN("1","2")
-                //         ) as sum_price_ucep_cr2
-                //         ,(
-                //                 SELECT SUM(o.sum_price) sum_price
-                //                 FROM opitemrece o
-                //                 LEFT JOIN ipt i on i.an = o.an
-                //                 LEFT JOIN ovst a on a.an = o.an
-                //                 left JOIN er_regist e on e.vn = i.vn 
-                //                 LEFT JOIN pttype p on p.pttype = i.pttype 
-                //                 WHERE o.an = "'.$val->an.'" 
-                //                 AND o.income NOT IN("02") AND o.icode NOT IN("1560016","1540073","1530005","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070")
-                //                 AND o.an is not null  
-                //                 AND p.hipdata_code ="ucs"
-                //                 AND DATEDIFF(o.rxdate,a.vstdate)>="1"
-                //                 AND TIMEDIFF(o.rxtime,a.vsttime)>="24" 
-                //                 AND e.er_emergency_level_id IN("1","2")
-                //         ) as sum_price_ucep_normal2                          
-
-                //         FROM opitemrece o
-                //         LEFT JOIN ipt i on i.an = o.an
-                //         LEFT JOIN ovst a on a.an = o.an
-                //         left JOIN er_regist e on e.vn = i.vn 
-                //         LEFT JOIN pttype p on p.pttype = i.pttype 
-                //         WHERE o.an = "'.$val->an.'" 
-                //         AND o.an is not null  
-                //         AND p.hipdata_code ="ucs"
-                //         AND DATEDIFF(o.rxdate,a.vstdate)>="1"
-                //         AND TIMEDIFF(o.rxtime,a.vsttime)>="24" 
-                //         AND e.er_emergency_level_id IN("1","2")
-                //         GROUP BY o.an  
-                // ');  
-                // foreach ($data_more as $key => $val_up) {
-                //     Acc_ucep_24::where('an',$val_up->an)->update([  
-                //         'sum_price_ucep_cr2'         => $val_up->sum_price_ucep_cr2,  
-                //         'sum_price_ucep_normal2'     => $val_up->sum_price_ucep_normal2,  
-                // ]);
-                // }   
-        }
+                    //         FROM opitemrece o
+                    //         LEFT JOIN ipt i on i.an = o.an
+                    //         LEFT JOIN ovst a on a.an = o.an
+                    //         left JOIN er_regist e on e.vn = i.vn 
+                    //         LEFT JOIN pttype p on p.pttype = i.pttype 
+                    //         WHERE o.an = "'.$val->an.'" 
+                    //         AND o.an is not null  
+                    //         AND p.hipdata_code ="ucs"
+                    //         AND DATEDIFF(o.rxdate,a.vstdate)>="1"
+                    //         AND TIMEDIFF(o.rxtime,a.vsttime)>="24" 
+                    //         AND e.er_emergency_level_id IN("1","2")
+                    //         GROUP BY o.an  
+                    // ');  
+                    // foreach ($data_more as $key => $val_up) {
+                    //     Acc_ucep_24::where('an',$val_up->an)->update([  
+                    //         'sum_price_ucep_cr2'         => $val_up->sum_price_ucep_cr2,  
+                    //         'sum_price_ucep_normal2'     => $val_up->sum_price_ucep_normal2,  
+                    // ]);
+                    // }   
+            }
              
         $acc_debtor = DB::connection('mysql2')->select(' 
                     SELECT ip.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname,a.regdate as admdate,a.dchdate,v.vstdate,op.income as income_group
@@ -495,9 +489,9 @@ class Account202Controller extends Controller
          }
          $acc_ucep = DB::connection('mysql')->select('SELECT an,sum_price_ipd,sum_price_ucep_all FROM acc_ucep_24');
          foreach ($acc_ucep as $key => $val_up) {
-            $count_u = Acc_debtor::where('account_code', '1102050101.202')->where('an', $val_up->an)->count();
+            $count_u = Acc_debtor::where('an', $val_up->an)->count();
             if ($count_u > 0) {
-                Acc_debtor::where('an',$val_up->an)->where('account_code', '1102050101.202')->update([  
+                Acc_debtor::where('an',$val_up->an)->update([  
                     'debit_total'    => $val_up->sum_price_ipd - $val_up->sum_price_ucep_all,
                     'debit_ucep'     => $val_up->sum_price_ucep_all,     
                 ]);
@@ -506,19 +500,19 @@ class Account202Controller extends Controller
             }
            
          }
-        $acc_norget = DB::connection('mysql')->select('
-            SELECT an,debit,debit_instument,debit_drug,debit_toa,debit_refer,debit_ucep 
-            FROM acc_debtor 
-            WHERE dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '" 
-            AND account_code = "1102050101.202"
-            AND (debit_ucep IS NULL OR debit_ucep = "")
-        ');
-        foreach ($acc_norget as $key => $value_get) {   
-                    Acc_debtor::where('an',$value_get->an)->where('account_code', '1102050101.202')->update([  
-                        'debit_total'    => (($value_get->debit - $value_get->debit_instument) - ($value_get->debit_drug - $value_get->debit_toa)) - ($value_get->debit_refer),
-                        'debit_cr'       => ($value_get->debit_instument + $value_get->debit_drug) + ($value_get->debit_toa + $value_get->debit_refer),     
-                    ]); 
-        }        
+        // $acc_norget = DB::connection('mysql')->select('
+        //     SELECT an,debit,debit_instument,debit_drug,debit_toa,debit_refer,debit_ucep 
+        //     FROM acc_debtor 
+        //     WHERE dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '" 
+        //     AND account_code = "1102050101.202"
+        //     AND (debit_ucep IS NULL OR debit_ucep = "")
+        // ');
+        // foreach ($acc_norget as $key => $value_get) {   
+        //             Acc_debtor::where('an',$value_get->an)->update([  
+        //                 'debit_total'    => ($value_get->debit - $value_get->debit_instument) - ($value_get->debit_drug) - ($value_get->debit_toa) - ($value_get->debit_refer),
+        //                 'debit_cr'       => $value_get->debit_instument + $value_get->debit_drug + $value_get->debit_toa + $value_get->debit_refer,     
+        //             ]); 
+        // }        
  
         return response()->json([
 

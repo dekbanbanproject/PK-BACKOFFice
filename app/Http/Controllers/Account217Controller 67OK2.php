@@ -172,22 +172,6 @@ class Account217Controller extends Controller
                 ,sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0)) as debit_drug
                 ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
                 ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
-
-                ,(SELECT 
-                    SUM(opp.sum_price) sum_price  
-                    FROM opitemrece opp
-                    LEFT JOIN ipt i2 on i2.an = opp.an
-                    LEFT JOIN ovst a2 on a2.an = opp.an
-                    left JOIN er_regist e2 on e2.vn = i2.vn 
-                    LEFT JOIN pttype p2 on p2.pttype = i2.pttype 
-                    WHERE i2.an = ip.an
-                    AND opp.an is not null  
-                    AND p2.hipdata_code ="ucs"
-                    AND DATEDIFF(opp.rxdate,a2.vstdate)<="1"
-                    AND TIMEDIFF(opp.rxtime,a2.vsttime)<="24" 
-                    AND e2.er_emergency_level_id IN("1","2")  
-                    AND opp.income NOT IN("02")
-                ) as debit_ucep
                 
                 
                 ,sum(if(op.income="02",sum_price,0)) +
@@ -208,8 +192,7 @@ class Account217Controller extends Controller
                 AND ipt.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202")                
                 AND NOT(s.name like "CT%" OR s.name like "Portex tube%") 
                 AND op.icode NOT IN(SELECT no_icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND no_icode <> "")
-                GROUP BY ip.an
-                HAVING debit <> "0"             
+                GROUP BY ip.an;                
         ');
         // ,CASE 
         //         WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)))>0 THEN "03" 
@@ -279,7 +262,6 @@ class Account217Controller extends Controller
                             'debit_toa'          => $value->debit_toa,
                             'debit_refer'        => $value->debit_refer,
                             'debit_total'        => $value->uc_money,
-                            'debit_ucep'         => $value->debit_ucep,
                             'max_debt_amount'    => $value->max_debt_amount,
                             'rw'                 => $value->rw,
                             'adjrw'              => $value->adjrw,
@@ -312,8 +294,7 @@ class Account217Controller extends Controller
                             'debit_instument'    => $value->debit_instument,
                             'debit_toa'          => $value->debit_toa,
                             'debit_refer'        => $value->debit_refer,
-                            'debit_total'        => $value->debit + $value->debit_ucep,
-                            'debit_ucep'         => $value->debit_ucep,
+                            'debit_total'        => $value->debit,
                             'max_debt_amount'    => $value->max_debt_amount,
                             'rw'                 => $value->rw,
                             'adjrw'              => $value->adjrw,
@@ -475,7 +456,6 @@ class Account217Controller extends Controller
                 'rcpt_money'         => $value->rcpt_money,
                 'debit'              => $value->debit,
                 'debit_total'        => $value->debit_total,
-                'debit_ucep'         => $value->debit_ucep,
                 'acc_debtor_userid'  => $value->acc_debtor_userid
             ]);
         }
@@ -671,7 +651,8 @@ class Account217Controller extends Controller
                     and year(a.dchdate) = "'.$year.'"
                     AND au.ip_paytrue IS NULL
                     GROUP BY a.an
-        ');
+
+            ');
         return view('account_217.account_pkucs217_stmnull_all', $data, [
             'startdate'         =>     $startdate,
             'enddate'           =>     $enddate,

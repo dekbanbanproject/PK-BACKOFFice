@@ -147,6 +147,7 @@ $yb = date('Y') + 542;
                                             <th class="text-center">spsch</th>  
                                             <th class="text-center">income</th> 
                                             <th class="text-center">ลูกหนี้</th> 
+                                            <th class="text-center">ucep</th>
                                             <th class="text-center">ins</th> 
                                             <th class="text-center">drug</th> 
                                             <th class="text-center">เลนส์</th> 
@@ -174,6 +175,7 @@ $yb = date('Y') + 542;
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td>  
                                                 <td class="text-end" style="color:rgb(119, 39, 247)" width="5%">{{ number_format($item->income, 2) }}</td> 
                                                 <td class="text-end" style="color:rgb(247, 81, 39)" width="7%">{{ number_format($item->debit_total, 2) }}</td> 
+                                                <td class="text-end" width="7%">{{ number_format($item->debit_ucep, 2) }}</td> 
                                                 <td class="text-end" width="5%">{{ number_format($item->debit_instument, 2) }}</td> 
                                                 <td class="text-end" width="5%">{{ number_format($item->debit_drug, 2) }}</td> 
                                                 <td class="text-end" width="5%">{{ number_format($item->debit_toa, 2) }}</td> 
