@@ -1003,6 +1003,20 @@ class PlanController extends Controller
         $data['plan_list_budget']      = Plan_list_budget::get();    
         $data['plan_unit']             = DB::table('plan_unit')->get();  
         $data['users']                 = User::get();  
+        // $data['plan_control_activity'] = Plan_control_activity::where('plan_group','1')->get();
+        $data['plan_control_activity'] = DB::connection('mysql')->select('
+            SELECT 
+            p.plan_control_id,p.billno,plan_obj,plan_name,plan_reqtotal,pt.plan_control_typename,p.plan_price,p.plan_starttime,p.plan_endtime,p.`status`,s.DEPARTMENT_SUB_SUB_NAME
+            ,p.plan_price_total,p.plan_req_no,pp.*,pp.plan_control_activity_name
+            FROM
+            plan_control p
+            LEFT OUTER JOIN plan_control_activity pp ON pp.plan_control_id = p.plan_control_id
+            LEFT OUTER JOIN department_sub_sub s ON s.DEPARTMENT_SUB_SUB_ID = p.department
+            LEFT OUTER JOIN plan_control_type pt ON pt.plan_control_type_id = p.plan_type
+            WHERE p.plan_group ="1"
+            GROUP BY p.plan_control_id
+            ORDER BY p.plan_control_id ASC
+        ');    
 
         return view('plan.plan_procurement', $data);
     }
@@ -1069,6 +1083,7 @@ class PlanController extends Controller
         $add->user_id               = $iduser; 
         $add->plan_strategic_id     = $request->input('plan_strategic_id');
         $add->hos_group             = '3';
+        $add->plan_group            = '1';
         $add->save();
 
        

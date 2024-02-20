@@ -32,6 +32,7 @@ return new class extends Migration
                 $table->string('user_id')->nullable();//         ผู้รับผิดชอบ
                 $table->string('comment')->nullable();//           หมายเหตุ
                 $table->string('hos_group')->nullable();//   รพ /  รพสต
+                $table->string('plan_group')->nullable();//  ประเภทแผนเช่นครุภัณฑ์ บุคลากร
                 $table->enum('status', ['REQUEST','ACCEPT','INPROGRESS_SSJ','INPROGRESS_PO','VERIFY','FINISH','CANCEL','CONFIRM_CANCEL','SUCCESS'])->default('REQUEST')->nullable();
                 $table->timestamps();
             }); 
