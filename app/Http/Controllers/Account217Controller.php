@@ -147,16 +147,64 @@ class Account217Controller extends Controller
                  
                 ,CASE 
                 WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))+sum(if(op.icode IN("3001412","3001417"),sum_price,0))+sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))>0 THEN "03" 
+                WHEN 
+                    (SELECT 
+                        SUM(opp.sum_price) sum_price  
+                        FROM opitemrece opp
+                        LEFT JOIN ipt i2 on i2.an = opp.an
+                        LEFT JOIN ovst a2 on a2.an = opp.an
+                        left JOIN er_regist e2 on e2.vn = i2.vn 
+                        LEFT JOIN pttype p2 on p2.pttype = i2.pttype 
+                        WHERE i2.an = ip.an
+                        AND opp.an is not null  
+                        AND p2.hipdata_code ="ucs"
+                        AND DATEDIFF(opp.rxdate,a2.vstdate)<="1"
+                        AND TIMEDIFF(opp.rxtime,a2.vsttime)<="24" 
+                        AND e2.er_emergency_level_id IN("1","2")  
+                        AND opp.income NOT IN("02")
+                    ) > 0 THEN "03" 
                 ELSE ec.code 
                 END as code
 
                 ,CASE 
                 WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))+sum(if(op.icode IN("3001412","3001417"),sum_price,0))+sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))>0 THEN "1102050101.217" 
+                WHEN 
+                    (SELECT 
+                        SUM(opp.sum_price) sum_price  
+                        FROM opitemrece opp
+                        LEFT JOIN ipt i2 on i2.an = opp.an
+                        LEFT JOIN ovst a2 on a2.an = opp.an
+                        left JOIN er_regist e2 on e2.vn = i2.vn 
+                        LEFT JOIN pttype p2 on p2.pttype = i2.pttype 
+                        WHERE i2.an = ip.an
+                        AND opp.an is not null  
+                        AND p2.hipdata_code ="ucs"
+                        AND DATEDIFF(opp.rxdate,a2.vstdate)<="1"
+                        AND TIMEDIFF(opp.rxtime,a2.vsttime)<="24" 
+                        AND e2.er_emergency_level_id IN("1","2")  
+                        AND opp.income NOT IN("02")
+                    ) > 0 THEN "1102050101.217" 
                 ELSE ec.ar_ipd
                 END as account_code 
                                 
                 ,CASE 
                 WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))+sum(if(op.icode IN("3001412","3001417"),sum_price,0))+sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))>0 THEN "UC-IP บริการเฉพาะ (CR)" 
+                WHEN 
+                    (SELECT 
+                        SUM(opp.sum_price) sum_price  
+                        FROM opitemrece opp
+                        LEFT JOIN ipt i2 on i2.an = opp.an
+                        LEFT JOIN ovst a2 on a2.an = opp.an
+                        left JOIN er_regist e2 on e2.vn = i2.vn 
+                        LEFT JOIN pttype p2 on p2.pttype = i2.pttype 
+                        WHERE i2.an = ip.an
+                        AND opp.an is not null  
+                        AND p2.hipdata_code ="ucs"
+                        AND DATEDIFF(opp.rxdate,a2.vstdate)<="1"
+                        AND TIMEDIFF(opp.rxtime,a2.vsttime)<="24" 
+                        AND e2.er_emergency_level_id IN("1","2")  
+                        AND opp.income NOT IN("02")
+                    ) > 0 THEN "UC-IP บริการเฉพาะ (CR)" 
                 ELSE ec.`name` 
                 END as account_name
 
@@ -187,8 +235,7 @@ class Account217Controller extends Controller
                     AND TIMEDIFF(opp.rxtime,a2.vsttime)<="24" 
                     AND e2.er_emergency_level_id IN("1","2")  
                     AND opp.income NOT IN("02")
-                ) as debit_ucep
-                
+                ) as debit_ucep                
                 
                 ,sum(if(op.income="02",sum_price,0)) +
                 sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))+
@@ -209,8 +256,9 @@ class Account217Controller extends Controller
                 AND NOT(s.name like "CT%" OR s.name like "Portex tube%") 
                 AND op.icode NOT IN(SELECT no_icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND no_icode <> "")
                 GROUP BY ip.an
-                HAVING debit <> "0"             
+                            
         ');
+        // HAVING debit <> "0" 
         // ,CASE 
         //         WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)))>0 THEN "03" 
         //         ELSE ec.code 
@@ -249,10 +297,83 @@ class Account217Controller extends Controller
         // AND op.icode NOT IN("3003661","3003662","3010272","3003663","3002896","3002897","3002898","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3009702","3010348")
         // AND op.icode IN(SELECT icode from pkbackoffice.acc_setpang_type WHERE icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217"))
         foreach ($acc_debtor as $key => $value) {
-            if ($value->debit > 0) {
+            if ($value->debit > '0' ) {
                 $check = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.217')->count();
-                if ($check == 0) {
+                if ($check == '0') {
                     if ($value->debit_toa > 0) {   
+                        Acc_debtor::insert([
+                            'hn'                 => $value->hn,
+                            'an'                 => $value->an,
+                            'vn'                 => $value->vn,
+                            'cid'                => $value->cid,
+                            'ptname'             => $value->ptname,
+                            'pttype'             => $value->pttype,
+                            'hospmain'           => $value->hospmain,
+                            'vstdate'            => $value->vstdate,
+                            'rxdate'             => $value->regdate,
+                            'dchdate'            => $value->dchdate,
+                            'acc_code'           => $value->code,
+                            'account_code'       => $value->account_code,
+                            'account_name'       => $value->account_name,
+                            'income_group'       => $value->income_group,
+                            'income'             => $value->income,
+                            'uc_money'           => $value->uc_money,
+                            'discount_money'     => $value->discount_money,
+                            // 'paid_money'         => $value->cash_money,
+                            'rcpt_money'         => $value->rcpt_money,
+                            'debit'              => $value->debit,
+                            'debit_drug'         => $value->debit_drug,
+                            'debit_instument'    => $value->debit_instument,
+                            'debit_toa'          => $value->debit_toa,
+                            'debit_refer'        => $value->debit_refer,
+                            'debit_total'        => $value->uc_money,
+                            'debit_ucep'         => $value->debit_ucep,
+                            'max_debt_amount'    => $value->max_debt_amount,
+                            'rw'                 => $value->rw,
+                            'adjrw'              => $value->adjrw,
+                            'total_adjrw_income' => $value->total_adjrw_income,
+                            'acc_debtor_userid'  => Auth::user()->id
+                        ]);                  
+                    } else {
+                        Acc_debtor::insert([
+                            'hn'                 => $value->hn,
+                            'an'                 => $value->an,
+                            'vn'                 => $value->vn,
+                            'cid'                => $value->cid,
+                            'ptname'             => $value->ptname,
+                            'pttype'             => $value->pttype,
+                            'hospmain'           => $value->hospmain,
+                            'vstdate'            => $value->vstdate,
+                            'rxdate'             => $value->regdate,
+                            'dchdate'            => $value->dchdate,
+                            'acc_code'           => $value->code,
+                            'account_code'       => $value->account_code,
+                            'account_name'       => $value->account_name,
+                            'income_group'       => $value->income_group,
+                            'income'             => $value->income,
+                            'uc_money'           => $value->uc_money,
+                            'discount_money'     => $value->discount_money,
+                            // 'paid_money'         => $value->cash_money,
+                            'rcpt_money'         => $value->rcpt_money,
+                            'debit'              => $value->debit,
+                            'debit_drug'         => $value->debit_drug,
+                            'debit_instument'    => $value->debit_instument,
+                            'debit_toa'          => $value->debit_toa,
+                            'debit_refer'        => $value->debit_refer,
+                            'debit_total'        => $value->debit + $value->debit_ucep,
+                            'debit_ucep'         => $value->debit_ucep,
+                            'max_debt_amount'    => $value->max_debt_amount,
+                            'rw'                 => $value->rw,
+                            'adjrw'              => $value->adjrw,
+                            'total_adjrw_income' => $value->total_adjrw_income,
+                            'acc_debtor_userid'  => Auth::user()->id
+                        ]);
+                    }
+                }
+            }else if ($value->debit == '0' || $value->debit_ucep > '0') {
+                $check = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.217')->count();
+                if ($check == '0') {
+                    if ($value->debit_toa > '0') {   
                         Acc_debtor::insert([
                             'hn'                 => $value->hn,
                             'an'                 => $value->an,
@@ -509,14 +630,11 @@ class Account217Controller extends Controller
         //         FROM acc_opitemrece ao
         //         LEFT JOIN acc_1102050101_217_stam a On ao.an = a.an
         //         WHERE income ="02"
-
         //         union
-
         //         SELECT ao.an,ao.vn,ao.hn,ao.vstdate,ao.pttype,ao.paidst,ao.finance_number,ao.income,ao.icode,ao.name as dname,ao.qty,ao.unitprice,ao.cost,ao.discount,ao.sum_price
         //         FROM acc_opitemrece ao
         //         LEFT JOIN acc_1102050101_217_stam a On ao.an = a.an
         //         WHERE icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015","3001412","3001417","3010829","3010726")
-
         //         ) as tmp
 
         // ');
