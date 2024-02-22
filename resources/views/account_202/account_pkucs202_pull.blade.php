@@ -147,6 +147,7 @@
                                             <th class="text-center">spsch</th> 
                                             <th class="text-center">adjrw</th>
                                             <th class="text-center">income</th>
+                                            <th class="text-center">ชำระเงินสด</th>
                                             <th class="text-center">ucep</th>
                                             <th class="text-center">ลูกหนี้/202</th>  
                                             {{-- <th class="text-center">ins</th> --}}
@@ -177,6 +178,7 @@
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->adjrw }}</td> 
                                                 <td class="text-center" width="7%">{{ number_format($item->income, 2) }}</td> 
+                                                <td class="text-end" width="7%">{{ number_format($item->rcpt_money, 2) }}</td> 
                                                 <td class="text-end" width="7%">{{ number_format($item->debit_ucep, 2) }}</td> 
                                                 <td class="text-end" width="7%">{{ number_format($item->debit_total, 2) }}</td> 
                                                 {{-- <td class="text-end" width="7%">{{ number_format($item->debit_instument, 2) }}</td>  --}}

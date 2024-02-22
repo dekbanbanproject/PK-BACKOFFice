@@ -333,7 +333,7 @@ class Account202Controller extends Controller
 
                     ,CASE  
 					WHEN  ipt.pttype_number ="2" THEN a.income - a.rcpt_money - a.discount_money - ipt.max_debt_amount
-                    ELSE a.income - a.rcpt_money - a.discount_money - (sum(if(op.income="02",sum_price,0)))
+                    ELSE a.income - a.rcpt_money - a.discount_money  
                     END as debit                   
 
                     ,sum(if(op.icode IN("3002895","3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002918"),sum_price,0)) as portex
@@ -352,8 +352,13 @@ class Account202Controller extends Controller
                     LEFT JOIN vn_stat v on v.vn = ip.vn
                 WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"              
                 AND ipt.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202" AND opdipd ="IPD" AND pttype <>"")                              
-                GROUP BY a.an;
+                GROUP BY a.an
         '); 
+        // ,CASE  
+        // WHEN  ipt.pttype_number ="2" THEN a.income - a.rcpt_money - a.discount_money - ipt.max_debt_amount
+        // ELSE a.income - a.rcpt_money - a.discount_money - (sum(if(op.income="02",sum_price,0)))
+        // END as debit 
+
         // ,a.income-a.rcpt_money-a.discount_money as debit
         // ,a.income-a.rcpt_money-a.discount_money-IFNULL(ipt.max_debt_amount,"0") as debit
          foreach ($acc_debtor as $key => $value) {

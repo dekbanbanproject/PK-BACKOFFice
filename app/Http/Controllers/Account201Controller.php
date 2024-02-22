@@ -211,14 +211,14 @@ class Account201Controller extends Controller
                 ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
                 ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
                 ,v.income-v.discount_money-v.rcpt_money as debit
-                FROM hos.vn_stat v
-                LEFT OUTER JOIN hos.ovst o on v.vn=o.vn
-                LEFT OUTER JOIN hos.patient pt on pt.hn=v.hn
-                LEFT OUTER JOIN hos.visit_pttype vp on vp.vn = v.vn
-                LEFT OUTER JOIN hos.pttype ptt on v.pttype=ptt.pttype
-                LEFT OUTER JOIN hos.pttype_eclaim e on e.code=ptt.pttype_eclaim_id
-                LEFT OUTER JOIN hos.opitemrece op ON op.vn = o.vn
-                LEFT OUTER JOIN hos.s_drugitems d on d.icode = op.icode 
+                FROM vn_stat v
+                LEFT OUTER JOIN ovst o on v.vn=o.vn
+                LEFT OUTER JOIN patient pt on pt.hn=v.hn
+                LEFT OUTER JOIN visit_pttype vp on vp.vn = v.vn
+                LEFT OUTER JOIN pttype ptt on v.pttype=ptt.pttype
+                LEFT OUTER JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
+                LEFT OUTER JOIN opitemrece op ON op.vn = o.vn
+                LEFT OUTER JOIN s_drugitems d on d.icode = op.icode 
                 WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"    
                 AND vp.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202" AND opdipd ="OPD")
                 AND (o.an="" or o.an is null)
@@ -227,7 +227,7 @@ class Account201Controller extends Controller
         ');
 
         foreach ($acc_debtor as $key => $value) {
-                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.201')->whereBetween('vstdate', [$startdate, $enddate])->count();
+                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.201')->count();
                     if ($check == 0) {
                         if ($value->debit > 0) { 
                         
