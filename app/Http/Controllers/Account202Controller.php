@@ -859,7 +859,7 @@ class Account202Controller extends Controller
                      left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
                      WHERE a.dchdate between "'.$start.'" and "'.$end.'"
                      and account_code="1102050101.202" 
-                     group by month(a.dchdate) order by a.dchdate desc limit 3;
+                     group by month(a.dchdate) order by a.dchdate desc limit 4;
              ');
              // and stamp = "N"
          } else {
@@ -1113,10 +1113,10 @@ class Account202Controller extends Controller
              WHERE a.dchdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" 
             
              AND s.ip_paytrue > "0.00"
-            GROUP BY a.an
+            
          ');
         //  AND s.rep IS NOT NULL
- 
+        // GROUP BY a.an
          return view('account_202.account_pkucs202_stm_date', $data, [
              'startdate'         =>     $startdate,
              'enddate'           =>     $enddate,
@@ -1186,8 +1186,9 @@ class Account202Controller extends Controller
             LEFT JOIN acc_stm_ucs au ON au.an = a.an
             WHERE a.dchdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"   
             AND au.ip_paytrue <= "0.00"
-            GROUP BY a.an
+          
              ');
+            //  GROUP BY a.an
             //  WHERE status ="N" AND a.dchdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"  
  
          return view('account_202.account_pkucs202_stmnull_date', $data, [

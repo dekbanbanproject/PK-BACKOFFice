@@ -824,15 +824,16 @@ class Account217Controller extends Controller
         $datashow = DB::select(' 
             SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,s.dmis_money2
             ,a.income_group,s.inst,s.hc,s.hc_drug,s.ae,s.ae_drug,s.STMdoc,a.debit_total,s.ip_paytrue as STM202
-            ,s.inst+s.hc+s.hc_drug+s.ae_drug+s.dmis_money2+s.dmis_drug as stm217
+            ,s.inst + s.hc + s.hc_drug + s.ae+ s.ae_drug + s.dmis_money2 + s.dmis_drug as stm217
             ,s.total_approve STM_TOTAL
             from acc_1102050101_217 a
             LEFT JOIN acc_stm_ucs s ON s.an = a.an
-            WHERE a.dchdate BETWEEN "'.$startdate.'" and  "'.$enddate.'"
-            
-            AND (s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> 0 OR s.hc_drug + s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> "") 
+            WHERE a.dchdate BETWEEN "'.$startdate.'" and  "'.$enddate.'"            
+            AND s.hc_drug + s.hc + s.ae + s.ae_drug + s.inst + s.dmis_money2 + s.dmis_drug > "0.00" 
             group by a.an
         ');
+        // group by a.an
+        // AND (s.hc_drug+ s.hc+ s.ae + s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug > "0.00" OR s.hc_drug + s.hc+ s.ae + s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> "") 
         // AND s.rep IS NOT NULL
         // AND (s.hc_drug >0 or s.hc >0 or s.ae >0 or s.ae_drug >0 or s.inst >0 or s.dmis_money2 >0 or s.dmis_drug >0)
         // $sum_money_ = DB::connection('mysql')->select('
@@ -858,9 +859,7 @@ class Account217Controller extends Controller
             return view('account_217.account_pkucs217_stm_date', $data, [
                 'startdate'         =>     $startdate,
                 'enddate'           =>     $enddate,
-                'datashow'          =>     $datashow, 
-                // 'sum_debit_total'   =>     $sum_debit_total,
-                // 'sum_stm_total'     =>     $sum_stm_total
+                'datashow'          =>     $datashow,  
             ]);
     }
     public function account_pkucs217_stmnull_date(Request $request,$startdate,$enddate)
@@ -870,17 +869,16 @@ class Account217Controller extends Controller
 
         $data = DB::select('
                 SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,s.dmis_money2,s.total_approve,a.income_group,s.inst,s.ip_paytrue
-                ,s.inst + s.hc + s.hc_drug + s.ae_drug + s.dmis_money2 + s.dmis_drug as stm217
+                ,s.inst + s.hc + s.hc_drug + s.ae+ s.ae_drug + s.dmis_money2 + s.dmis_drug as stm217
                 from acc_1102050101_217 a
                 LEFT JOIN acc_stm_ucs s ON s.an = a.an
                 WHERE a.status ="N"
                 AND a.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-             
-                AND (s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug = 0 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug is null)
-                group by a.an
+                AND s.hc_drug + s.hc + s.ae + s.ae_drug + s.inst + s.dmis_money2 + s.dmis_drug <= "0.00"  
         ');
-       
-
+        // group by a.an
+        // AND (s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug = 0 OR s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug is null)
+        // group by a.an
         return view('account_217.account_pkucs217_stmnull_date', $data, [
             'startdate'         =>     $startdate,
             'enddate'           =>     $enddate,

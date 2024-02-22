@@ -2276,7 +2276,7 @@ class AccountPKController extends Controller
         ');
       
         $data['ucs_ipd'] = DB::connection('mysql')->select('
-            SELECT STMDoc,sum(b.ip_paytrue) as total  
+            SELECT b.STMDoc,sum(b.ip_paytrue) as total  
                 FROM acc_1102050101_202 a
                 LEFT JOIN acc_stm_ucs b ON b.an = a.an  
                 WHERE b.STMDoc LIKE "STM_10978_IPU%"  

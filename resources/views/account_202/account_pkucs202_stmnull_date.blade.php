@@ -118,7 +118,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $number = 0; $total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;?>
+                                <?php $number = 0; $total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;?>
                                 @foreach ($data as $item)
                                     <?php $number++; ?>
                                     <tr height="20" style="font-size: 14px;">
@@ -148,8 +148,10 @@
                                                 </td>  --}}
                                     </tr>
                                         <?php
-                                            $total1 = $total1 + ($item->debit_total-$item->inst); 
+                                        // $total1 = $total1 + ($item->debit_total-$item->inst); 
+                                            $total1 = $total1 + $item->debit_total; 
                                             $total2 = $total2 + $item->ip_paytrue;
+                                            $total5 = $total5 + ($item->debit_total - $item->ip_paytrue);
                                             $total3 = $total3 + ($item->debit_total-($item->inst+$item->hc+$item->hc_drug+$item->ae+$item->ae_drug));
                                             $total4 = $total4 + $item->total_approve;
                                         ?>
@@ -233,13 +235,15 @@
                                 @endforeach  
                                
                             </tbody>
-                                        {{-- <tr style="background-color: #f3fca1">
-                                            <td colspan="8" class="text-end" style="background-color: #ff9d9d"></td>
-                                            <td class="text-end" style="background-color: #ace5fc">{{ number_format($sum_debit_total,2)}}</td>
-                                            <td class="text-end" style="background-color: #f3d1be">{{ number_format($sum_stm_total,2)}}</td>
-                                            <td class="text-end" style="background-color: #e09be9">{{ number_format($total1,2)}}</td>  
-                                            <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total3,2)}}</td>   
-                                        </tr>   --}}
+                            <tr style="background-color: #f3fca1">
+                                <td colspan="9" class="text-end" style="background-color: #ff9d9d"></td>
+                                <td class="text-end" style="background-color: #ace5fc">{{ number_format($total1,2)}}</td> 
+                                <td class="text-end" style="background-color: #e09be9">{{ number_format($total2,2)}}</td> 
+                                <td class="text-end" style="background-color: #e09be9">{{ number_format($total5,2)}}</td> 
+                                <td class="text-end" style="background-color: #f5a382">{{ number_format($total3,2)}}</td> 
+                                <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total4,2)}}</td>  
+                                {{-- <td class="text-end" style="background-color: #ff9d9d"></td>  --}}
+                            </tr>  
                         </table>
                     </div>
                     </div>

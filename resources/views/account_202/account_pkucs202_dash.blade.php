@@ -162,7 +162,7 @@
                                                             WHERE year(a.dchdate) = "'.$item->year.'"
                                                             AND month(a.dchdate) = "'.$item->months.'"
                                                             AND au.ip_paytrue > "0.00"
- 
+                                                             
                                                     ');
                                                     // AND au.ip_paytrue IS NOT NULL
                                                     foreach ($sumapprove_ as $key => $value3) {
@@ -189,9 +189,10 @@
                                                                 FROM acc_1102050101_202 U1
                                                                 LEFT JOIN acc_stm_ucs U2 ON U2.an = U1.an
                                                                 WHERE year(U1.dchdate) = "'.$item->year.'" AND month(U1.dchdate) = "'.$item->months.'"
-                                                                AND (U2.rep IS NULL OR U2.ip_paytrue < "1")
-                                                                
+                                                             
+                                                                AND U2.ip_paytrue <= "0.00"
                                                     ');
+                                                    // AND (U2.rep IS NULL OR U2.ip_paytrue < "1")
                                                     // AND U2.ip_paytrue = "0.00"
                                                     // AND U2.rep IS NULL
                                                     // AND month(U1.dchdate) < "'.$mo.'"
