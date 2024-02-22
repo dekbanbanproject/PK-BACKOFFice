@@ -1175,11 +1175,12 @@ class Account202Controller extends Controller
          $data['users'] = User::get();
  
             $data = DB::connection('mysql')->select('
-            SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group,au.inst,au.ip_paytrue,a.adjrw,a.total_adjrw_income
+            SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group
+            ,au.hc,au.hc_drug,au.ae,au.ae_drug,au.inst,au.ip_paytrue,au.STMdoc,a.adjrw,a.total_adjrw_income
             from acc_1102050101_202 a
             LEFT JOIN acc_stm_ucs au ON au.an = a.an
             WHERE a.dchdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"   
-            AND au.rep IS NULL
+            AND au.ip_paytrue <= "0.00"
             GROUP BY a.an
              ');
             //  WHERE status ="N" AND a.dchdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"  
@@ -1198,19 +1199,16 @@ class Account202Controller extends Controller
          // dd($id);
          $data['users'] = User::get();
          $mototal = $months + 1;
-         $datashow = DB::connection('mysql')->select('
+         $datashow = DB::connection('mysql')->select(' 
  
- 
-                 SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group,au.inst,au.ip_paytrue,au.STMdoc,a.adjrw,a.total_adjrw_income
-                     from acc_1102050101_202 a
-                     LEFT JOIN acc_stm_ucs au ON au.an = a.an
-                     WHERE month(a.dchdate) < "'.$mototal.'"
-                     and year(a.dchdate) = "'.$year.'"
-                     AND au.ip_paytrue IS NULL
-                     GROUP BY a.an
- 
- 
- 
+                 SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group
+                 ,au.hc,au.hc_drug,au.ae,au.ae_drug,au.inst,au.ip_paytrue ,au.STMdoc,a.adjrw,a.total_adjrw_income
+                from acc_1102050101_202 a
+                LEFT JOIN acc_stm_ucs au ON au.an = a.an
+                WHERE month(a.dchdate) < "'.$mototal.'"
+                and year(a.dchdate) = "'.$year.'"
+                AND (au.ip_paytrue IS NULL OR au.ip_paytrue <= "0.00")
+                GROUP BY a.an  
              ');
          return view('account_202.account_pkucs202_stmnull_all', $data, [
              'startdate'         =>     $startdate,

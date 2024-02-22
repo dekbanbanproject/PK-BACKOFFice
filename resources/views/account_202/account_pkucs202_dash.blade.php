@@ -382,13 +382,15 @@
                                                         FROM acc_1102050101_202 a
                                                         LEFT JOIN acc_stm_ucs au ON au.an = a.an
                                                         WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
-                                                        AND au.ip_paytrue IS NOT NULL
+                                                        AND au.ip_paytrue > "0.00"
 
                                                 ');
                                                 foreach ($sumapprove_ as $key => $value3) {
                                                     $amountpay = $value3->ip_paytrue;
                                                     $stm_count = $value3->Apvit;
                                                 }
+                                                // AND au.ip_paytrue IS NOT NULL
+                                                // > "0.00"
                                                 // สีส้ม ยกยอดไป
                                                 // $sumyokma_ = DB::select('
                                                 //     SELECT count(DISTINCT an) as anyokma ,sum(debit_total) as debityokma
@@ -407,7 +409,7 @@
                                                             FROM acc_1102050101_202 U1
                                                             LEFT JOIN acc_stm_ucs U2 ON U2.an = U1.an
                                                             WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
-                                                            AND U2.rep IS NULL
+                                                            AND U2.ip_paytrue <= "0.00"
                                                 ');
 
                                                 foreach ($sumyokma_all_ as $key => $value6) {
