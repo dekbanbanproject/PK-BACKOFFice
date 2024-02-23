@@ -1209,7 +1209,7 @@ class PPfs12001Controller extends Controller
             $g20 = $value7->TOTAL;
             $g21 = $value7->SIGCODE;
             $g22 = $value7->SIGTEXT;  
-            $g23 = $value7->SIGTEXT;      
+            $g23 = $value7->PROVIDER;      
             $strText7="\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g16."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22."|".$g23;
             $ansitxt_pat7 = iconv('UTF-8', 'TIS-620', $strText7);
             fwrite($objFopen_opd7, $ansitxt_pat7);

@@ -88,8 +88,11 @@
                                         <tr height="20" >
                                             <td class="text-center" width="4%">{{ $number}}</td>
                                             <td class="text-center" width="8%">{{ $item->api_neweclaim_user }}</td>
-                                            <td class="text-center" width="8%">{{ $item->api_neweclaim_pass }}</td>
-                                            <td class="p-2">{{ $item->api_neweclaim_token }}</td>
+                                            <td class="text-center" width="8%">
+                                                <input type="password" class="form-control form-control-sm" value="{{ $item->api_neweclaim_pass }}">
+                                                {{-- {{ $item->api_neweclaim_pass }} --}}
+                                            </td>
+                                            <td class="p-2" style="font-size: 11px;">{{ $item->api_neweclaim_token }}</td>
                                         </tr>
 
                                 @endforeach

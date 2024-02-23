@@ -60,7 +60,9 @@
                     -moz-animation: pulse 3s infinite ease-in-out;
                     animation: pulse 3s infinite ease-in-out;
             }
-            #acceptssj{
+            /* #acceptssj{ */
+                /* อยู่ระหว่างดำเนินการ */
+            #accept{
                     width: 40px;
                     height: 40px;
                     background-color: rgb(248, 200, 234);
@@ -72,7 +74,9 @@
                     -moz-animation: pulse 3s infinite ease-in-out;
                     animation: pulse 3s infinite ease-in-out;
             }
-            #acceptpo{
+            /* #acceptpo{ */
+                /* ดำเนินการ */
+            #verify{
                     width: 40px;
                     height: 40px;
                     background-color: rgb(209, 200, 248);
@@ -303,14 +307,14 @@ $refnumber = PlanController::refnumber();
                                     ยังไม่ดำเนินการ
                                 </button>
                                 <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 200, 234);border-radius: 3em 3em 3em 3em"> 
-                                    รอ สสจ.อนุมัติ
-                                </button>
-                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em"> 
-                                    รอ ผอ. อนุมัติ
+                                    อยู่ระหว่างดำเนินการ
                                 </button>
                                 <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(194, 250, 241);border-radius: 3em 3em 3em 3em"> 
                                     อนุมัติ
                                 </button>
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em"> 
+                                    ดำเนินการ
+                                </button>                               
                                 <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(138, 247, 174);border-radius: 3em 3em 3em 3em"> 
                                     SUCCESS
                                 </button>
@@ -329,7 +333,8 @@ $refnumber = PlanController::refnumber();
                                         <th rowspan="3" colspan="1" class="text-center" style="border-color: rgb(183, 180, 180)">กลุ่มเป้าหมาย</th> 
                                         <th rowspan="3" colspan="1" class="text-center" width="4%" style="border-color: rgb(183, 180, 180)">จำนวน<br>(คน) </th> 
                                         {{-- <th colspan="12" class="text-center" style="border-color: rgb(183, 180, 180)">เป้าหมายการดำเนินงาน (1ต.ค.66 - 30 ก.ย.67)</th>   --}}
-                                        <th colspan="2" rowspan="1" style="text-align: center;">งบประมาณ</th>  
+                                        <th colspan="1" rowspan="1" style="text-align: center;">งบประมาณ</th>
+                                        <th rowspan="1" style="text-align: center;">งบที่ตั้ง</th>   
                                         <th rowspan="1" style="text-align: center;">เบิก</th> 
                                         <th rowspan="1" style="text-align: center;">คงเหลือ</th> 
                                     </tr>
@@ -370,22 +375,22 @@ $refnumber = PlanController::refnumber();
                                                     <div id="request"> 
                                                         <span class="badge badge badge-secondary"></span>
                                                     </div> 
-                                                @elseif ($item_->status == 'INPROGRESS_SSJ')
+                                                @elseif ($item_->status == 'ACCEPT')
                                                     <div id="accept"> 
                                                         <span class="badge badge badge-secondary"></span>
                                                     </div>
-                                                @elseif ($item_->status == 'INPROGRESS_PO')
-                                                    <div id="acceptpo"> 
+                                                @elseif ($item_->status == 'VERIFY')
+                                                    <div id="verify"> 
                                                         <span class="badge badge badge-secondary"></span>
                                                     </div>
-                                                @elseif ($item_->status == 'FINISH')
+                                                @elseif ($item_->status == 'FINISH') 
                                                     <div id="finish"> 
                                                         <span class="badge badge badge-secondary"></span>
                                                     </div>
                                                 @else
-                                                <div id="success"> 
-                                                    <span class="badge badge badge-secondary"></span>
-                                                </div>
+                                                    <div id="success"> 
+                                                        <span class="badge badge badge-secondary"></span>
+                                                    </div>
                                                 @endif
                                             </td>
                                             <td class="text-start" > 
