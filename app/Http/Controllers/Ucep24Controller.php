@@ -115,18 +115,21 @@ class Ucep24Controller extends Controller
                         LEFT JOIN pttype p on p.pttype = ii.pttype 
                         LEFT JOIN s_drugitems n on n.icode = o.icode
                         LEFT JOIN patient pt on pt.hn = a.hn
-                        LEFT JOIN pttype ptt on a.pttype = ptt.pttype	
-                        
+                        LEFT JOIN pttype ptt on a.pttype = ptt.pttype	                        
                         WHERE i.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                         and o.an is not null
                         and o.paidst ="02"
-                        and p.hipdata_code ="ucs"
-                        and DATEDIFF(o.rxdate,a.vstdate)<="1"
-                        and hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate," ",o.rxtime))) <="24"
-                        and e.er_emergency_type  in("1","2","5")                       
+                        and p.hipdata_code ="ucs"    
+                        AND DATEDIFF(o.rxdate,a.vstdate)<="1"
+                        AND TIMEDIFF(o.rxtime,a.vsttime)<="24" 
+                        AND e.er_emergency_level_id IN("1","2")
+
                         group BY i.an,o.icode,o.rxdate
                         ORDER BY i.an;
                 '); 
+                // and DATEDIFF(o.rxdate,a.vstdate)<="1"
+                // and hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate," ",o.rxtime))) <="24"
+                // and e.er_emergency_type in("1","2")  
                 // and n.nhso_adp_code in(SELECT code from hshooterdb.h_ucep24)
                 Acc_ucep24::truncate();
                 foreach ($data_ as $key => $value) {    
@@ -2186,7 +2189,7 @@ class Ucep24Controller extends Controller
         //dru.txt
         $file_d_dru = "Export/".$folder."/DRU.txt";
         $objFopen_opd7 = fopen($file_d_dru, 'w');
-        $opd_head7 = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGTYPE|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
+        $opd_head7 = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGTYPE|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER|SP_ITEM';
         fwrite($objFopen_opd7, $opd_head7);
         $dru = DB::connection('mysql')->select('
             SELECT * from d_dru where d_anaconda_id = "UCEP24"
@@ -2214,8 +2217,9 @@ class Ucep24Controller extends Controller
             $g20 = $value7->TOTAL;
             $g21 = $value7->SIGCODE;
             $g22 = $value7->SIGTEXT;  
-            $g23 = $value7->PROVIDER;      
-            $strText7="\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g16."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22."|".$g23;
+            $g23 = $value7->PROVIDER;    
+            $g24 = $value7->SP_ITEM;    
+            $strText7="\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g16."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22."|".$g23."|".$g24;
             $ansitxt_pat7 = iconv('UTF-8', 'TIS-620', $strText7);
             fwrite($objFopen_opd7, $ansitxt_pat7);
         }

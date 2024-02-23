@@ -85,7 +85,7 @@ class TbController extends Controller
         $date = date('Y-m-d');
         $y = date('Y') + 543;
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-        $newDate = date('Y-m-d', strtotime($date . ' -2 months')); //ย้อนหลัง 2 เดือน
+        $newDate = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
       
         $yearnew = date('Y')+1;
@@ -96,7 +96,7 @@ class TbController extends Controller
         if ($startdate == '') {
             $data['d_tb_main']  = DB::connection('mysql')->select('
                 SELECT group_code,group_screen,COUNT(DISTINCT vn) as Cvn,COUNT(DISTINCT ovn) as CXR 
-                FROM d_tb_main WHERE vstdate BETWEEN "'.$newyear.'" AND "'.$date.'" 
+                FROM d_tb_main WHERE vstdate BETWEEN "'.$newDate.'" AND "'.$date.'" 
                 GROUP BY group_screen
             ');
         } else {
@@ -248,7 +248,7 @@ class TbController extends Controller
         $startdate            = $request->startdate;
         $enddate              = $request->enddate;
         $data['users']        = User::get(); 
-        $data['d_tb_main']    = DB::connection('mysql')->select('SELECT * FROM d_tb_main WHERE group_code ="'.$id.'" ORDER BY vstdate ASC');
+        $data['d_tb_main']    = DB::connection('mysql')->select('SELECT vn,hn,cid,ptname,age,address as address2,vstdate,pdx,pttype,icode,nname,income,inc04 FROM d_tb_main WHERE group_code ="'.$id.'" ORDER BY vstdate ASC');
         $data_d_tb_main_name    = DB::connection('mysql')->select('SELECT group_screen FROM d_tb_main WHERE group_code ="'.$id.'" LIMIT 1');
         foreach ($data_d_tb_main_name as $key => $value) {
             $main_name = $value->group_screen;

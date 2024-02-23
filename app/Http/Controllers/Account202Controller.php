@@ -100,14 +100,16 @@ class Account202Controller extends Controller
          if ($startdate == '') {
              // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
              $acc_debtor = DB::select('
-                 SELECT a.*,c.subinscl from acc_debtor a
-                 left join checksit_hos c on c.an = a.an
+                 SELECT a.* from acc_debtor a
+               
                  WHERE account_code="1102050101.202"
                  AND stamp = "N"
                  group by a.an
                  order by vstdate desc;
  
              ');
+            //  left join checksit_hos c on c.an = a.an
+
              // left outer join check_sit_auto c on c.hn = a.hn and c.vstdate = a.vstdate
              // left outer join check_sit_auto c on c.hn = a.hn and c.vstdate = a.vstdate
              // AND a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
@@ -121,11 +123,8 @@ class Account202Controller extends Controller
          } else {
              $acc_debtor = DB::select('
                  SELECT 
-                 a.acc_debtor_id,a.an,a.vn,a.hn,a.cid,a.ptname,a.pttype,a.dchdate,a.income,a.debit_total,a.debit_instument,a.debit_drug,a.debit_toa,a.debit_refer,a.debit_ucep
-                 ,c.subinscl
-                
-                 from acc_debtor a
-               
+                 a.acc_debtor_id,a.an,a.vn,a.hn,a.cid,a.ptname,a.pttype,a.dchdate,a.income,a.debit_total,a.debit_instument,a.debit_drug,a.debit_toa,a.debit_refer,a.debit_ucep  
+                 from acc_debtor a               
                  left join check_sit_auto c on c.an = a.an
                  WHERE a.account_code="1102050101.202" and a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                  AND a.stamp = "N"
@@ -133,6 +132,7 @@ class Account202Controller extends Controller
                  order by a.dchdate desc;
                  
              ');
+            //  ,c.subinscl
             //  left join checksit_hos c on c.an = a.an
             //  a.*,c.subinscl  
             //  left outer join check_sit_auto c on c.hn = a.hn and c.vstdate = a.vstdate
@@ -372,8 +372,8 @@ class Account202Controller extends Controller
                         if ($value->pttype_number == '2') {
                             if ($value->debit_toa > 0 ) {                     
                             } else {
-                                if ($value->debit < '1') {                                    
-                                } else { 
+                                if ($value->debit > 0) {                                   
+                               
                                     if ($value->debit_prb > $value->debit) {
                                         # code...
                                     } else { 
@@ -408,16 +408,14 @@ class Account202Controller extends Controller
                                             'total_adjrw_income' => $value->total_adjrw_income, 
                                             'acc_debtor_userid'  => Auth::user()->id
                                         ]);
-                                    }
+                                    } 
                                 }
                             }   
                         } else {
                             if ($value->debit_toa > 0 ) {                     
                             } else {
                                    
-                                if ($value->debit < '1') {                                     
-                                } else {
-                                    
+                                if ($value->debit > 0) {                                       
                                     Acc_debtor::insert([
                                         'hn'                 => $value->hn,
                                         'an'                 => $value->an,
@@ -454,7 +452,7 @@ class Account202Controller extends Controller
                         }
                     }                
             } else { 
-                if ($value->debit >0) {                 
+                if ($value->debit > 0) {                 
                         $check22 = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.202')->count();
                         if ($check22 == '0') { 
                             if ($value->debit_toa > '0' ) {                     
@@ -494,7 +492,6 @@ class Account202Controller extends Controller
                                 }
                             }                                                
                         }
-                } else { 
                 }
             }       
          }
@@ -505,9 +502,7 @@ class Account202Controller extends Controller
                 Acc_debtor::where('an',$val_up->an)->where('account_code', '1102050101.202')->update([  
                     'debit_total'    => $val_up->sum_price_ipd - $val_up->sum_price_ucep_all,
                     'debit_ucep'     => $val_up->sum_price_ucep_all,     
-                ]);
-            } else {
-                
+                ]);  
             }
            
          }
@@ -523,7 +518,9 @@ class Account202Controller extends Controller
                         'debit_total'    => (($value_get->debit - $value_get->debit_instument) - ($value_get->debit_drug - $value_get->debit_toa)) - ($value_get->debit_refer),
                         'debit_cr'       => ($value_get->debit_instument + $value_get->debit_drug) + ($value_get->debit_toa + $value_get->debit_refer),     
                     ]); 
-        }        
+                    Acc_debtor::where('an',$value_get->an)->where('debit_total', '<', 0)->delete(); 
+        }   
+        // $deleted = DB::table('users')->where('votes', '>', 100)->delete();           
  
         return response()->json([
 
@@ -697,11 +694,10 @@ class Account202Controller extends Controller
             if ($count_pttype > 1) {
                 $check = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.202')->count();
                     if ($check == 0) {
-                        if ($value->pttype_number == '2') {
+                        if ($value->pttype_number == 2) {
                             if ($value->debit_toa > 0 ) {                     
                             } else {
-                                if ($value->debit < '1') {                                    
-                                } else {
+                                if ($value->debit > 0) {    
                                     Acc_debtor::insert([
                                         'hn'                 => $value->hn,
                                         'an'                 => $value->an,
@@ -732,50 +728,57 @@ class Account202Controller extends Controller
                                         'total_adjrw_income' => $value->total_adjrw_income, 
                                         'acc_debtor_userid'  => Auth::user()->id
                                     ]);
+                                } else {
+                                    
                                 }
                             }   
                         } else {
                             if ($value->debit_toa > 0 ) {                     
                             } else {
-                                if ($total_ < '1') {                                     
+                                if ($total_ < 1) {   
+
                                 } else {
-                                    Acc_debtor::insert([
-                                        'hn'                 => $value->hn,
-                                        'an'                 => $value->an,
-                                        'vn'                 => $value->vn,
-                                        'cid'                => $value->cid,
-                                        'ptname'             => $value->ptname,
-                                        'pttype'             => $value->pttype,
-                                        'vstdate'            => $value->vstdate,
-                                        'rxdate'             => $value->admdate,
-                                        'dchdate'            => $value->dchdate,
-                                        'acc_code'           => $value->code,
-                                        'account_code'       => $value->account_code,
-                                        'account_name'       => $value->account_name, 
-                                        'income'             => $value->income,
-                                        'uc_money'           => $value->uc_money,
-                                        'discount_money'     => $value->discount_money, 
-                                        'rcpt_money'         => $value->rcpt_money,
-                                        'debit'              => $value->debit,
-                                        'debit_drug'         => $value->debit_drug,
-                                        'debit_instument'    => $value->debit_instument,
-                                        'debit_toa'          => $value->debit_toa,
-                                        'debit_refer'        => $value->debit_refer,
-                                        'debit_total'        => $value->debit-$value->debit_drug-$value->debit_instument-$value->debit_toa-$value->debit_refer-$value->debit_ucep,  
-                                        'debit_ucep'         => $value->debit_ucep,                                                             
-                                        'max_debt_amount'    => $value->max_debt_amount,
-                                        'rw'                 => $value->rw,
-                                        'adjrw'              => $value->adjrw,
-                                        'total_adjrw_income' => $value->total_adjrw_income, 
-                                        'acc_debtor_userid'  => Auth::user()->id
-                                    ]);
+                                    if ($value->debit > 0) {    
+                                        Acc_debtor::insert([
+                                            'hn'                 => $value->hn,
+                                            'an'                 => $value->an,
+                                            'vn'                 => $value->vn,
+                                            'cid'                => $value->cid,
+                                            'ptname'             => $value->ptname,
+                                            'pttype'             => $value->pttype,
+                                            'vstdate'            => $value->vstdate,
+                                            'rxdate'             => $value->admdate,
+                                            'dchdate'            => $value->dchdate,
+                                            'acc_code'           => $value->code,
+                                            'account_code'       => $value->account_code,
+                                            'account_name'       => $value->account_name, 
+                                            'income'             => $value->income,
+                                            'uc_money'           => $value->uc_money,
+                                            'discount_money'     => $value->discount_money, 
+                                            'rcpt_money'         => $value->rcpt_money,
+                                            'debit'              => $value->debit,
+                                            'debit_drug'         => $value->debit_drug,
+                                            'debit_instument'    => $value->debit_instument,
+                                            'debit_toa'          => $value->debit_toa,
+                                            'debit_refer'        => $value->debit_refer,
+                                            'debit_total'        => $value->debit-$value->debit_drug-$value->debit_instument-$value->debit_toa-$value->debit_refer-$value->debit_ucep,  
+                                            'debit_ucep'         => $value->debit_ucep,                                                             
+                                            'max_debt_amount'    => $value->max_debt_amount,
+                                            'rw'                 => $value->rw,
+                                            'adjrw'              => $value->adjrw,
+                                            'total_adjrw_income' => $value->total_adjrw_income, 
+                                            'acc_debtor_userid'  => Auth::user()->id
+                                        ]);
+                                    } else {
+                                       
+                                    }
                                 }
                             }   
                         }
                     }
                 
             } else { 
-                if ($value->debit >0) {                 
+                if ($value->debit > 0) {                 
                         $check = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.202')->count();
                         if ($check == '0') { 
                             if ($value->debit_toa > '0' ) {                     
@@ -816,6 +819,7 @@ class Account202Controller extends Controller
                             }                                                
                         }
                 } else { 
+
                 }
             }
                     
