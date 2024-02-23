@@ -55,70 +55,33 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                 <div class="main-card mb-3 card">
+                 <div class="card cardreport">
                     <div class="card-header">
                         รายงานคนไข้ที่มาใช้บริการ ไม่ได้ขอ Authen
-                        <div class="btn-actions-pane-right"> 
-
-                                {{-- <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" id="Checksitbtn">
-                                    <i class="pe-7s-check btn-icon-wrapper"></i>ตรวจสอบสิทธิ์
-                                </button>  --}}
-                                {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                    <i class="pe-7s-science btn-icon-wrapper"></i>Token
-                                </button> --}}
-                                {{-- <a href="{{url('check_sit_daypullauto')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" target="_blank">
-                                    <i class="pe-7s-check btn-icon-wrapper"></i>ดึงข้อมูล Auto
-                                </a> --}}
-                                {{-- <a href="{{url('check_sit_daysitauto')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning" target="_blank">
-                                    <i class="pe-7s-check btn-icon-wrapper"></i>Checksit Auto
-                                </a> --}}
-                         
+                        <div class="btn-actions-pane-right">  
+                            <form action="{{ route('claim.check_authen_day') }}" method="POST">
+                                @csrf
+                                <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                                        data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                        <input type="text" class="form-control cardreport" name="startdate" id="datepicker" placeholder="Start Date"
+                                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                            data-date-language="th-th" value="{{ $start }}" autocomplete="off" required/>
+                                        <input type="text" class="form-control cardreport" name="enddate" placeholder="End Date" id="datepicker2"
+                                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                            data-date-language="th-th" value="{{ $end }}" autocomplete="off"/>  
+                                        <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                            <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
+                                        </button>
+                               
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <div class="card-body">
-
-                        <form action="{{ route('claim.check_authen_day') }}" method="POST">
-                            @csrf
-                            <div class="row mt-2">
-                                <div class="col"></div>
-                                <div class="col-md-2">
-                                    <select name="authen" id="authen" class="form-control">
-                                        <option value="" class="text-center">--Choose--</option>
-                                        @if ($authen == 'ALL')
-                                        <option value="ALL" class="text-center" selected>ทั้งหมด</option>
-                                        @else
-                                        <option value="ALL" class="text-center">ทั้งหมด</option>
-                                        @endif
-                                        
-                                    </select>
-                                </div>
-                                <div class="col-md-1 text-end">วันที่</div>
-                                <div class="col-md-4 text-center">
-                                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
-                                        data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                        <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
-                                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                            data-date-language="th-th" value="{{ $start }}" />
-                                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
-                                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                            data-date-language="th-th" value="{{ $end }}" />
-                                    </div>
-                                </div> 
-                                <div class="col-md-1">
-                                    <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                        <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
-                                    </button>
-
-                                </div>
-                                 {{-- <div class="col"></div> --}}
-                            </div>
-
-                        </form>
-                        <div class="table-responsive mt-3">
+                    <div class="card-body"> 
+                        {{-- <div class="table-responsive"> --}}
                             <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                            {{-- <table class="align-middle mb-0 table table-borderless" id="example"> --}}
-                                {{-- <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example"> --}}
+                           
                                 <thead>
                                     <tr>
                                         <th>ลำดับ</th>
@@ -128,12 +91,8 @@
                                         <th>tel</th>
                                         <th>vstdate</th>
                                         <th>fullname</th>
-                                        <th>pttype Hos</th>
-                                        {{-- <th>hmain Hos</th> --}}
-                                      
-                                        <th>pttype สปสช</th>
-                                        {{-- <th>hmainสปสช</th> --}}
-                                       
+                                        <th>pttype Hos</th> 
+                                        <th>pttype สปสช</th> 
                                         <th>claimcode</th>
                                         <th>staff</th>
                                         <th>main_dep</th>
@@ -141,15 +100,7 @@
                                 </thead>
                                 <tbody>
                                     <?php $ia = 1; ?>
-                                    @foreach ($data_sit as $item)
-                                    <?php
-                                            // $data_ = DB::connection('mysql7')->select('
-                                            //     SELECT * FROM check_sit_auto
-                                            //    where subinscl = "'.$item->pttype.'"
-                                            // ');
-                                            // $data_c = DB::connection('mysql7')->table('check_sit_auto')->where('subinscl','=',$item->pttype)->count();
-                                    ?>
-                         
+                                    @foreach ($data_sit as $item) 
                                         <tr style="background-color: rgb(255, 255, 255)">
                                             <td>{{ $ia++ }}</td>
                                             <td>{{ $item->vn }}</td>
@@ -158,10 +109,8 @@
                                             <td>{{ $item->hometel }}</td>
                                             <td>{{ $item->vstdate }}</td>
                                             <td>{{ $item->fullname }}</td>
-                                            <td>{{ $item->pttype }}</td>
-                                            {{-- <td>{{ $item->hospmain }}</td>  --}}
-                                            <td>{{ $item->subinscl }}</td>
-                                            {{-- <td>{{ $item->hmain }}</td>                                           --}}
+                                            <td>{{ $item->pttype }}</td> 
+                                            <td>{{ $item->subinscl }}</td> 
                                                 @if ($item->claimcode == '') 
                                                     <td style="background-color: rgb(250, 139, 139)">{{ $item->claimcode }}</td>
                                                 @else 
@@ -176,7 +125,7 @@
 
                                 </tbody>
                             </table>
-                        </div>
+                        {{-- </div> --}}
 
                     </div>
                 </div>

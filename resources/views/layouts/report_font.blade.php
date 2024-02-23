@@ -65,6 +65,7 @@
    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
    <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet">
    <link rel="stylesheet" href="{{ asset('css/dreport.css') }}">
+   
 </head>
 <style>
     body{

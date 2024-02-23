@@ -1,5 +1,5 @@
 @extends('layouts.accountnew')
-@section('title', 'PK-BACKOFFice || Account')
+@section('title', 'PK-BACKOFFice || ACCOUNT')
 @section('content')
     <style>
         #button {
@@ -92,7 +92,7 @@
         .datepicker {
             z-index: 2051 !important;
         }
-            #request{
+        #request{
                     width: 40px;
                     height: 40px;
                     background-color: rgb(248, 209, 163);
@@ -104,7 +104,9 @@
                     -moz-animation: pulse 3s infinite ease-in-out;
                     animation: pulse 3s infinite ease-in-out;
             }
-            #acceptssj{
+            /* #acceptssj{ */
+                /* อยู่ระหว่างดำเนินการ */
+            #accept{
                     width: 40px;
                     height: 40px;
                     background-color: rgb(248, 200, 234);
@@ -116,7 +118,9 @@
                     -moz-animation: pulse 3s infinite ease-in-out;
                     animation: pulse 3s infinite ease-in-out;
             }
-            #acceptpo{
+            /* #acceptpo{ */
+                /* ดำเนินการ */
+            #verify{
                     width: 40px;
                     height: 40px;
                     background-color: rgb(209, 200, 248);
@@ -254,18 +258,18 @@
 
                         <div class="row mb-3"> 
                             <div class="col-md-7 text-start"> 
-                                 <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 209, 163);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 209, 163);border-radius: 3em 3em 3em 3em"> 
                                     ยังไม่ดำเนินการ
                                 </button>
                                 <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 200, 234);border-radius: 3em 3em 3em 3em"> 
-                                    รอ สสจ.อนุมัติ
-                                </button>
-                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em"> 
-                                    รอ ผอ. อนุมัติ
+                                    อยู่ระหว่างดำเนินการ
                                 </button>
                                 <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(194, 250, 241);border-radius: 3em 3em 3em 3em"> 
                                     อนุมัติ
                                 </button>
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em"> 
+                                    ดำเนินการ
+                                </button>                               
                                 <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(138, 247, 174);border-radius: 3em 3em 3em 3em"> 
                                     SUCCESS
                                 </button>
@@ -293,49 +297,45 @@
                             </thead>
                             <tbody>
                                 <?php $i = 1; ?>
-                                @foreach ($plan_control as $va)
+                                @foreach ($plan_control as $item_)
                                 
-                                    <tr id="sid{{ $va->plan_control_id }}">
+                                    <tr id="sid{{ $item_->plan_control_id }}">
                                         <td class="text-center" width="4%">{{ $i++ }}</td>
                                         <td width="5%">
-                                            @if ($va->status == 'REQUEST')
-                                                <div id="request"> 
-                                                    <span class="badge badge badge-secondary"></span>
-                                                </div>
-                                            {{-- @elseif ($va->status == 'ACCEPT')
-                                                <div id="accept"> 
-                                                    <span class="badge badge badge-secondary"></span>
-                                                </div> --}}
-                                            @elseif ($va->status == 'INPROGRESS_SSJ')
-                                                <div id="acceptssj"> 
-                                                    <span class="badge badge badge-secondary"></span>
-                                                </div>
-                                            @elseif ($va->status == 'INPROGRESS_PO')
-                                                <div id="acceptpo"> 
-                                                    <span class="badge badge badge-secondary"></span>
-                                                </div>
-                                            @elseif ($va->status == 'FINISH')
-                                                <div id="finish"> 
-                                                    <span class="badge badge badge-secondary"></span>
-                                                </div>
-                                            @else
-                                            <div id="success"> 
-                                                <span class="badge badge badge-secondary"></span>
-                                            </div>
-                                            @endif
+                                            @if ($item_->status == 'REQUEST')
+                                                    <div id="request"> 
+                                                        <span class="badge badge badge-secondary"></span>
+                                                    </div> 
+                                                @elseif ($item_->status == 'ACCEPT')
+                                                    <div id="accept"> 
+                                                        <span class="badge badge badge-secondary"></span>
+                                                    </div>
+                                                @elseif ($item_->status == 'VERIFY')
+                                                    <div id="verify"> 
+                                                        <span class="badge badge badge-secondary"></span>
+                                                    </div>
+                                                @elseif ($item_->status == 'FINISH') 
+                                                    <div id="finish"> 
+                                                        <span class="badge badge badge-secondary"></span>
+                                                    </div>
+                                                @else
+                                                    <div id="success"> 
+                                                        <span class="badge badge badge-secondary"></span>
+                                                    </div>
+                                                @endif
                                             
                                         </td>
                                         <td class="text-start" >   
                                             <?php 
-                                                $data_sub_ = DB::connection('mysql')->select('SELECT * from plan_control_kpi WHERE plan_control_id = "'.$va->plan_control_id.'"'); 
-                                                $data_subobj_ = DB::connection('mysql')->select('SELECT * from plan_control_obj WHERE plan_control_id = "'.$va->plan_control_id.'"'); 
-                                                $data_sumprice_ = DB::connection('mysql')->select('SELECT sum(budget_price) as budget_price from plan_control_activity WHERE plan_control_id = "'.$va->plan_control_id.'"'); 
+                                                $data_sub_ = DB::connection('mysql')->select('SELECT * from plan_control_kpi WHERE plan_control_id = "'.$item_->plan_control_id.'"'); 
+                                                $data_subobj_ = DB::connection('mysql')->select('SELECT * from plan_control_obj WHERE plan_control_id = "'.$item_->plan_control_id.'"'); 
+                                                $data_sumprice_ = DB::connection('mysql')->select('SELECT sum(budget_price) as budget_price from plan_control_activity WHERE plan_control_id = "'.$item_->plan_control_id.'"'); 
                                                 foreach ($data_sumprice_ as $key => $value_price) {
                                                     $plan_price = $value_price->budget_price;
                                                 }
                                                 $datapay_ = DB::select('
                                                     SELECT SUM(sum_total) as total FROM plan_control_budget_pay 
-                                                    WHERE plan_control_id = "'.$va->plan_control_id.'" 
+                                                    WHERE plan_control_id = "'.$item_->plan_control_id.'" 
                                                 ');
                                                 foreach ($datapay_ as $key => $value_pay) {
                                                     $datapay     = $value_pay->total;
@@ -343,16 +343,16 @@
                                             ?>  
                                             <div id="headingTwo" class="b-radius-0">                                                         
                                                     <button type="button" data-bs-toggle="collapse"
-                                                        data-bs-target="#collapseOne2{{ $va->plan_control_id }}" aria-expanded="false"
+                                                        data-bs-target="#collapseOne2{{ $item_->plan_control_id }}" aria-expanded="false"
                                                         aria-controls="collapseTwo" class="text-start m-0 p-0 btn btn-link btn-block">
-                                                        <h6 style="color: rgb(66, 63, 63)">{{ $va->plan_name }}</h6> 
+                                                        <h6 style="color: rgb(66, 63, 63)">{{ $item_->plan_name }}</h6> 
                                                     </button>  
                                             </div>                                                     
                                            
                                         </td> 
                                         <td class="text-center" width="10%">{{ number_format($plan_price, 2) }}</td>
                                         <td class="text-center" width="8%">{{number_format($datapay, 2)}}</td>                                        
-                                        <td class="text-center" width="8%">{{ number_format(($plan_price)-($datapay), 2) }}</td>
+                                        <td class="text-center" width="8%">{{ number_format(($item_->plan_price)-($datapay), 2) }}</td>
                                         <td width="5%">
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-primary dropdown-toggle menu btn-sm"
@@ -360,7 +360,7 @@
                                                     aria-expanded="false">ทำรายการ</button>
                                                 <ul class="dropdown-menu">
                                                       
-                                                        <a type="button" href="{{ url('account_plane_activity/'.$va->plan_control_id) }}"
+                                                        <a type="button" href="{{ url('account_plane_activity/'.$item_->plan_control_id) }}"
                                                             class="dropdown-item menu btn btn-outline-warning btn-sm" data-bs-toggle="tooltip"
                                                             data-bs-placement="left" title="กิจกรรม/เบิกเงิน" target="_blank">
                                                             <i class="fa-solid fa-people-robbery me-3 mb-1" style="color: rgb(211, 31, 172);font-size:13px"></i>

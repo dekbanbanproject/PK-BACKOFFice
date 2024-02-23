@@ -55,7 +55,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                 <div class="main-card mb-3 card">
+                 <div class="card cardreport">
                     <div class="card-header">
                         Report check Authen
                         <div class="btn-actions-pane-right">
@@ -69,7 +69,7 @@
                     </div>
                     <div class="card-body">
 
-                        <div class="table-responsive mt-3">
+                        <div class="table-responsive">
                             <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>

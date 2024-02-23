@@ -71,26 +71,57 @@ class AccountPlanController extends Controller
             $enddate         = $data_year->date_end;
         }
         
+        if ($departmentsub != '') {
+            $plan_control = DB::connection('mysql')->select('
+                SELECT 
+                plan_control_id,billno,plan_obj,plan_name,plan_reqtotal,pt.plan_control_typename,p.plan_price,p.plan_starttime,p.plan_endtime,p.`status`,s.DEPARTMENT_SUB_SUB_NAME
+                ,p.plan_price_total,p.plan_req_no
+                FROM
+                plan_control p
+                LEFT OUTER JOIN department_sub_sub s ON s.DEPARTMENT_SUB_SUB_ID = p.department
+                LEFT OUTER JOIN plan_control_type pt ON pt.plan_control_type_id = p.plan_type
+                WHERE p.department = "'.$departmentsub.'" 
+                AND p.plan_starttime BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                ORDER BY p.plan_control_id ASC
+            ');    
+            foreach ($plan_control as $key => $value) {
+                $datapay_ = DB::select('
+                    SELECT SUM(sum_total) as total FROM plan_control_budget_pay 
+                    WHERE plan_control_id = "'.$value->plan_control_id.'" 
+                ');
+                foreach ($datapay_ as $key => $value_pay) { 
+                    Plan_control::where('plan_control_id',$value->plan_control_id)->update(
+                    ['plan_price'    => $value_pay->total]  
+                    );
+                }
+            }
+        } else {
+            $plan_control = DB::connection('mysql')->select('
+                SELECT 
+                plan_control_id,billno,plan_obj,plan_name,plan_reqtotal,pt.plan_control_typename,p.plan_price,p.plan_starttime,p.plan_endtime,p.`status`,s.DEPARTMENT_SUB_SUB_NAME
+                ,p.plan_price_total,p.plan_req_no
+                FROM
+                plan_control p
+                LEFT OUTER JOIN department_sub_sub s ON s.DEPARTMENT_SUB_SUB_ID = p.department
+                LEFT OUTER JOIN plan_control_type pt ON pt.plan_control_type_id = p.plan_type
+                WHERE p.department = "'.$departmentsub.'" 
+                AND p.plan_starttime BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                ORDER BY p.plan_control_id ASC
+            ');
+        }
         
-        // $data['plan_control'] = Plan_control::get();
-        $data['plan_control'] = DB::connection('mysql')->select('
-            SELECT 
-            plan_control_id,billno,plan_obj,plan_name,plan_reqtotal,pt.plan_control_typename,p.plan_price,p.plan_starttime,p.plan_endtime,p.`status`,s.DEPARTMENT_SUB_SUB_NAME
-            ,p.plan_price_total,p.plan_req_no
-            FROM
-            plan_control p
-            LEFT OUTER JOIN department_sub_sub s ON s.DEPARTMENT_SUB_SUB_ID = p.department
-            LEFT OUTER JOIN plan_control_type pt ON pt.plan_control_type_id = p.plan_type
-            WHERE p.department = "'.$departmentsub.'" 
-            AND p.plan_starttime BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-            ORDER BY p.plan_control_id ASC
-        ');    
+        
+        
+       
+        
+    
         // AND p.plan_starttime BETWEEN "'.$startdate.'" AND "'.$enddate.'"
         return view('account.account_plane',$data, [ 
             'startdate'        =>  $startdate,
             'enddate'          =>  $enddate,
             'departmentsub'    =>  $departmentsub,
-            'budget_year'      =>  $budget_year_
+            'budget_year'      =>  $budget_year_,
+            'plan_control'     =>  $plan_control
         ]);
     }
 
@@ -139,8 +170,8 @@ class AccountPlanController extends Controller
         $add->detail                         = $request->input('detail'); 
         $add->save();
        
-        Plan_control::where('plan_control_id',$plan_control_id)->update(['status' => 'SUCCESS']);
-        Plan_control_activity::where('plan_control_activity_id',$plan_control_activity_id)->update(['status' => 'SUCCESS']);
+        Plan_control::where('plan_control_id',$plan_control_id)->update(['status' => 'VERIFY']);
+        Plan_control_activity::where('plan_control_activity_id',$plan_control_activity_id)->update(['status' => 'VERIFY']);
         return response()->json([
             'status'               => '200',  
         ]);
