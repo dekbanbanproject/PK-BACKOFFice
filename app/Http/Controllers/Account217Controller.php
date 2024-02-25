@@ -484,7 +484,7 @@ class Account217Controller extends Controller
                     left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
                     WHERE a.dchdate between "'.$start.'" and "'.$end.'"
                     and account_code="1102050101.217"
-                    group by month(a.dchdate) order by a.dchdate desc limit 3;
+                    group by month(a.dchdate) order by a.dchdate desc limit 7;
             ');
             // and stamp = "N"
         } else {
