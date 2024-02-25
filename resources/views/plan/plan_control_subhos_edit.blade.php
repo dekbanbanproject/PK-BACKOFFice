@@ -124,33 +124,44 @@ $refnumber = PlanController::refnumber();
                                         <h6 class="mt-2 me-3"> เลขที่ {{$plan_control->billno}}</h6> 
                                         <input type="hidden" id="billno" name="billno" value="{{$plan_control->billno}}">
                                     </div>  
-                                    </div>                 
+                                    </div>  
+                                    <input type="hidden" id="hos_group" name="hos_group" value="3">               
                                     <div class="card-body"> 
                                         <div class="row">
-                                            <div class="col-md-9 ">
+                                            <div class="col-md-11">
                                                 <label for="">ชื่อโครงการ</label>
                                                 <div class="form-group">
                                                 <input id="plan_name" class="form-control form-control-sm" name="plan_name" value="{{$plan_control->plan_name}}">
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-1">
+                                                <label for="">ปีงบประมาณ</label>
+                                                <div class="form-group">
+                                                    <select name="plan_year" id="plan_year" class="form-control form-control-sm" style="width: 100%">                                                        
+                                                    
+                                                        @foreach ($budget_year as $item_y)
+                                                        @if ($plan_control->plan_year == $item_y->leave_year_id)
+                                                            <option value="{{$item_y->leave_year_id}}" selected>{{$item_y->leave_year_id}}</option>
+                                                        @else
+                                                            <option value="{{$item_y->leave_year_id}}">{{$item_y->leave_year_id}}</option>
+                                                        @endif                                                            
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            {{-- <div class="col-md-3">
                                                 <label for="">รพ./รพ.สต./สสอ.</label>
                                                 <div class="form-group">
                                                     <select name="hos_group" id="hos_group" class="form-control form-control-sm" style="width: 100%">  
                                                         @if ($plan_control->hos_group == 3)
-                                                            <option value="3" selected>-รพ.-</option>
-                                                            {{-- <option value="3">-สสอ.-</option>  --}}
-                                                        @else
-                                                            {{-- <option value="1">-รพ.สต-</option> --}}
-                                                            {{-- <option value="2" selected>-สสอ.-</option>  --}}
-                                                        @endif
-                                                        
-                                                       
+                                                            <option value="3" selected>-รพ.-</option>                                                            
+                                                        @else                                                       
+                                                        @endif     
                                                     </select>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </div>
-                                        <div class="row mt-2">
+                                        {{-- <div class="row mt-2">
                                             <div class="col-md-3 ">
                                                 <label for="">ระยะเวลา วันที่</label>
                                                 <div class="form-group"> 
@@ -197,7 +208,7 @@ $refnumber = PlanController::refnumber();
                                                 </div>
                                             </div>
                     
-                                        </div>
+                                        </div> --}}
                                         <div class="row mt-2"> 
                                             <div class="col-md-6">
                                                 <label for="">สอดคล้องกับยุทธศาสตร์ </label>
@@ -231,7 +242,7 @@ $refnumber = PlanController::refnumber();
                                                 </div>
                                             </div>
                                             <input type="hidden" id="plan_control_id" name="plan_control_id" value="{{$plan_control->plan_control_id}}">
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <label for="">ผู้รับผิดชอบ </label>
                                                 <div class="form-group">
                                                     <select name="user_id" id="user_id" class="form-control form-control-sm" style="width: 100%"> 
@@ -246,6 +257,22 @@ $refnumber = PlanController::refnumber();
                                                     </select>
                                                 </div>
                                             </div>
+                                            <div class="col-md-1">
+                                                <label for="">แหล่งงบ </label>
+                                                <div class="form-group">
+                                                    <select name="plan_type" id="plan_type" class="form-control form-control-sm" style="width: 100%"> 
+                                                        @foreach ($plan_control_type as $item2)
+                                                        @if ($plan_control->plan_type == $item2->plan_control_type_id)
+                                                        <option value="{{$item2->plan_control_type_id}}" selected>{{$item2->plan_control_typename}}</option>
+                                                        @else
+                                                        <option value="{{$item2->plan_control_type_id}}">{{$item2->plan_control_typename}}</option>
+                                                        @endif
+                                                       
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+
                                         </div> 
                                     </div>
                                     <div class="card-footer mt-2">
@@ -309,12 +336,13 @@ $refnumber = PlanController::refnumber();
                     var plan_strategic_id      = $('#plan_strategic_id').val();
                     var plan_control_id        = $('#plan_control_id').val();
                     var hos_group              = $('#hos_group').val();
+                    var plan_year              = $('#plan_year').val();
                 $.ajax({
-                    url: "{{ route('p.plan_control_update') }}",
+                    url: "{{ route('p.plan_control_subhosupdate') }}",
                     type: "POST",
                     dataType: 'json',
                     data: {
-                        plan_name,datepicker1,datepicker2,plan_price,department,plan_type,user_id,billno,plan_control_id,plan_strategic_id,hos_group
+                        plan_name,datepicker1,datepicker2,plan_price,department,plan_type,user_id,billno,plan_control_id,plan_strategic_id,hos_group,plan_year
                     },
                     success: function(data) {
                         if (data.status == 200) {

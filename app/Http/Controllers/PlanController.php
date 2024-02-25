@@ -671,11 +671,12 @@ class PlanController extends Controller
         $data['department_sub']     = Departmentsub::get();
         $data['department_sub_sub'] = Department_sub_sub::get();
         $data['plan_strategic'] = Plan_strategic::get();
-       
+        $budget_year = DB::table('budget_year')->where('active','True')->get();
         
         return view('plan.plan_control_subhos_add', $data,[
-            'id'                    =>  $id,
-            'data_budget_year'      =>  $data_budget_year
+            'id'                    => $id,
+            'data_budget_year'      => $data_budget_year,
+            'budget_year'           => $budget_year
         ]);
     }
 
@@ -692,6 +693,7 @@ class PlanController extends Controller
         $add->user_id               = $request->input('user_id'); 
         $add->plan_strategic_id     = $request->input('plan_strategic_id');
         $add->hos_group             = $request->input('hos_group');
+        $add->plan_year             = $request->input('plan_year');
         $add->save();
 
         return response()->json([
@@ -709,8 +711,32 @@ class PlanController extends Controller
         $data['department_sub_sub'] = Department_sub_sub::get();
         $data['plan_control_type'] = Plan_control_type::get();
         $data['plan_strategic'] = Plan_strategic::get();
-      
-        return view('plan.plan_control_subhos_edit', $data);
+        $budget_year = DB::table('budget_year')->where('active','True')->get();
+
+        return view('plan.plan_control_subhos_edit', $data,[
+            'budget_year'           => $budget_year
+        ]);
+    }
+    public function plan_control_subhosupdate(Request $request)
+    {
+        $id = $request->plan_control_id;
+        $update = Plan_control::find($id);
+        $update->billno                = $request->input('billno');
+        $update->plan_name             = $request->input('plan_name');
+        $update->plan_starttime        = $request->input('datepicker1');
+        $update->plan_endtime          = $request->input('datepicker2');
+        $update->plan_price            = $request->input('plan_price');
+        $update->department            = $request->input('department');
+        $update->plan_type             = $request->input('plan_type');
+        $update->user_id               = $request->input('user_id'); 
+        $update->plan_strategic_id     = $request->input('plan_strategic_id');
+        $update->hos_group             = $request->input('hos_group');
+        $update->plan_year             = $request->input('plan_year');
+        $update->save();
+
+        return response()->json([
+            'status'     => '200',
+        ]);
     }
     public function plan_control_activ_edit(Request $request,$id)
     { 

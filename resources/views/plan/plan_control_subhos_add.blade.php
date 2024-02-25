@@ -139,7 +139,10 @@ $refnumber = PlanController::refnumber();
                                                 <label for="">ปีงบประมาณ</label>
                                                 <div class="form-group">
                                                     <select name="plan_year" id="plan_year" class="form-control form-control-sm" style="width: 100%">                                                        
-                                                        <option value="">-เลือก-</option>
+                                                        {{-- <option value="">-เลือก-</option> --}}
+                                                        @foreach ($budget_year as $item_y)
+                                                            <option value="{{$item_y->leave_year_id}}">{{$item_y->leave_year_id}}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </div>
@@ -318,12 +321,13 @@ $refnumber = PlanController::refnumber();
                     var plan_strategic_id      = $('#plan_strategic_id').val();
                     var plan_control_id        = $('#plan_control_id').val();
                     var hos_group              = $('#hos_group').val();
+                    var plan_year              = $('#plan_year').val();
                 $.ajax({
                     url: "{{ route('p.plan_control_subhossave') }}",
                     type: "POST",
                     dataType: 'json',
                     data: {
-                        plan_name,datepicker1,datepicker2,plan_price,department,plan_type,user_id,billno,plan_control_id,plan_strategic_id,hos_group
+                        plan_name,datepicker1,datepicker2,plan_price,department,plan_type,user_id,billno,plan_control_id,plan_strategic_id,hos_group,plan_year
                     },
                     success: function(data) {
                         if (data.status == 200) {
