@@ -146,7 +146,9 @@
                     -moz-animation: pulse 3s infinite ease-in-out;
                     animation: pulse 3s infinite ease-in-out;
             }
-            #acceptssj{
+            /* #acceptssj{ */
+                /* อยู่ระหว่างดำเนินการ */
+            #accept{
                     width: 40px;
                     height: 40px;
                     background-color: rgb(248, 200, 234);
@@ -158,7 +160,9 @@
                     -moz-animation: pulse 3s infinite ease-in-out;
                     animation: pulse 3s infinite ease-in-out;
             }
-            #acceptpo{
+            /* #acceptpo{ */
+                /* ดำเนินการ */
+            #verify{
                     width: 40px;
                     height: 40px;
                     background-color: rgb(209, 200, 248);
@@ -492,14 +496,14 @@
                                     ยังไม่ดำเนินการ
                                 </button>
                                 <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 200, 234);border-radius: 3em 3em 3em 3em"> 
-                                    รอ สสจ.อนุมัติ
-                                </button>
-                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em"> 
-                                    รอ ผอ. อนุมัติ
+                                    อยู่ระหว่างดำเนินการ
                                 </button>
                                 <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(194, 250, 241);border-radius: 3em 3em 3em 3em"> 
                                     อนุมัติ
                                 </button>
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em"> 
+                                    ดำเนินการ
+                                </button>                               
                                 <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(138, 247, 174);border-radius: 3em 3em 3em 3em"> 
                                     SUCCESS
                                 </button>
@@ -535,27 +539,23 @@
                                                     @if ($va->status == 'REQUEST')
                                                         <div id="request"> 
                                                             <span class="badge badge badge-secondary"></span>
-                                                        </div>
-                                                    {{-- @elseif ($va->status == 'ACCEPT')
+                                                        </div> 
+                                                    @elseif ($va->status == 'ACCEPT')
                                                         <div id="accept"> 
                                                             <span class="badge badge badge-secondary"></span>
-                                                        </div> --}}
-                                                    @elseif ($va->status == 'INPROGRESS_SSJ')
-                                                        <div id="acceptssj"> 
+                                                        </div>
+                                                    @elseif ($va->status == 'VERIFY')
+                                                        <div id="verify"> 
                                                             <span class="badge badge badge-secondary"></span>
                                                         </div>
-                                                    @elseif ($va->status == 'INPROGRESS_PO')
-                                                        <div id="acceptpo"> 
-                                                            <span class="badge badge badge-secondary"></span>
-                                                        </div>
-                                                    @elseif ($va->status == 'FINISH')
+                                                    @elseif ($va->status == 'FINISH') 
                                                         <div id="finish"> 
                                                             <span class="badge badge badge-secondary"></span>
                                                         </div>
                                                     @else
-                                                    <div id="success"> 
-                                                        <span class="badge badge badge-secondary"></span>
-                                                    </div>
+                                                        <div id="success"> 
+                                                            <span class="badge badge badge-secondary"></span>
+                                                        </div>
                                                     @endif
                                                     
                                                 </td>
@@ -656,13 +656,13 @@
                                                                         <label for=""
                                                                         style="color: rgb(211, 31, 172);font-size:13px">แผนงาน/กิจกรรม</label> 
                                                                 </a>
-                                                                <a class="dropdown-item menu btn btn-outline-info btn-sm" href="javascript:void(0)"
+                                                                {{-- <a class="dropdown-item menu btn btn-outline-info btn-sm" href="javascript:void(0)"
                                                                     onclick="plan_control_ssj({{ $va->plan_control_id}})"
                                                                     data-bs-toggle="tooltip" data-bs-placement="left"
                                                                     data-bs-custom-class="custom-tooltip" title="เสนอ สสจ. อนุมัติ">
                                                                     <i class="fa-solid fa-signature me-3 mb-1"></i>
                                                                     <label for="" style="color: rgb(7, 166, 194);font-size:13px">เสนอ สสจ. อนุมัติ</label>
-                                                                </a>
+                                                                </a> --}}
                                                                 <a class="dropdown-item menu btn btn-outline-primary btn-sm" href="javascript:void(0)"
                                                                     onclick="plan_control_po({{ $va->plan_control_id}})"
                                                                     data-bs-toggle="tooltip" data-bs-placement="left"
