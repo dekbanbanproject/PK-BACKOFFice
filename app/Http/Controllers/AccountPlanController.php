@@ -81,9 +81,10 @@ class AccountPlanController extends Controller
                 LEFT OUTER JOIN department_sub_sub s ON s.DEPARTMENT_SUB_SUB_ID = p.department
                 LEFT OUTER JOIN plan_control_type pt ON pt.plan_control_type_id = p.plan_type
                 WHERE p.department = "'.$departmentsub.'" 
-                AND p.plan_starttime BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                AND p.plan_year = "'.$budget_year_.'" 
                 ORDER BY p.plan_control_id ASC
-            ');    
+            ');   
+            // AND p.plan_starttime BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
             foreach ($plan_control as $key => $value) {
                 $datapay_ = DB::select('
                     SELECT SUM(sum_total) as total FROM plan_control_budget_pay 
@@ -105,11 +106,11 @@ class AccountPlanController extends Controller
                 LEFT OUTER JOIN department_sub_sub s ON s.DEPARTMENT_SUB_SUB_ID = p.department
                 LEFT OUTER JOIN plan_control_type pt ON pt.plan_control_type_id = p.plan_type
                 WHERE p.department = "'.$departmentsub.'" 
-                AND p.plan_starttime BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                AND p.plan_year = "'.$budget_year_.'" 
                 ORDER BY p.plan_control_id ASC
             ');
         }
-        
+        // AND p.plan_starttime BETWEEN "'.$startdate.'" AND "'.$enddate.'"
         
         
        

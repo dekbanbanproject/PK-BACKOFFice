@@ -247,12 +247,12 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="tab-pane active" id="Main" role="tabpanel">
                                     <p class="mb-0">
                                         {{-- id="example"  --}}
-                                        <table class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                             <thead>
                                                 <tr style="font-size: 13px">
                                                     <th class="text-center">ลำดับ</th>
                                                     <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox" name="stampchoi" id="stampchoi"> </th> 
-                                                    <th class="text-center">vn</th>
+                                                    <th class="text-center">cid</th>
                                                     <th class="text-center">hn</th>
                                                     <th class="text-center">ptname</th>  
                                                     <th class="text-center">pttype</th> 
@@ -281,7 +281,7 @@ $pos = strrpos($url, '/') + 1;
                                                     @else --}}
                                                         <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox choisub_chk" data-id="{{$item1->d_ofc_401_id}}"> </td> 
                                                     {{-- @endif --}}
-                                                    <td class="text-center" width="7%">  {{ $item1->vn }}  </td>
+                                                    <td class="text-center" width="7%">  {{ $item1->cid }}  </td>
                                                     <td class="text-center" width="8%">{{ $item1->hn }}</td>
                                                     <td class="text-start">{{ $item1->ptname }}</td>  
                                                     <td class="text-center" width="5%">{{ $item1->pttype }}</td> 
