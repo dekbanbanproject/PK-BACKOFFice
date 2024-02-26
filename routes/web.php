@@ -269,6 +269,7 @@ Route::match(['get','post'],'uprep_sss_309edit/{id}',[App\Http\Controllers\Upstm
 Route::match(['get','post'],'uprep_sss_309_update',[App\Http\Controllers\UpstmController::class, 'uprep_sss_309_update'])->name('acc.uprep_sss_309_update');//
 
 Route::match(['get','post'],'uprep_sss_all',[App\Http\Controllers\UpstmController::class, 'uprep_sss_all'])->name('acc.uprep_sss_all');//
+Route::match(['get','post'],'uprep_sss_syncall',[App\Http\Controllers\UpstmController::class, 'uprep_sss_syncall'])->name('acc.uprep_sss_syncall');//
 // Route::match(['get','post'],'uprep_sss_alledit/{id}',[App\Http\Controllers\UpstmController::class, 'uprep_sss_alledit'])->name('acc.uprep_sss_alledit');//
 Route::match(['get','post'],'uprep_sss_alledit/{pang}/{id}',[App\Http\Controllers\UpstmController::class, 'uprep_sss_alledit'])->name('acc.uprep_sss_alledit');//
 Route::match(['get','post'],'uprep_sss_alleditpage/{account}/{id}',[App\Http\Controllers\UpstmController::class, 'uprep_sss_alleditpage'])->name('acc.uprep_sss_alleditpage');//

@@ -123,13 +123,13 @@
         <form action="{{ url('uprep_sss_all') }}" method="GET">
             @csrf
             <div class="row"> 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <h5 class="card-title">Detail SSS</h5>
                     <p class="card-title-desc">ลงใบเสร็จรับเงินรายตัว ประกันสังคม</p>
                 </div>
                 <div class="col"></div>
                 <div class="col-md-2 text-end mt-2">วันที่</div>
-                <div class="col-md-4 text-end">
+                <div class="col-md-5 text-end">
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                         <input type="text" class="form-control inputacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
                             data-date-language="th-th" value="{{ $startdate }}" required/>
@@ -139,11 +139,14 @@
                         <i class="fa-solid fa-magnifying-glass text-primary me-2"></i>
                         ค้นหาข้อมูล
                     </button>    --}}
-                    <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left">
+                    <button type="submit" class="ladda-button btn-pill btn btn-primary cardacc" data-style="expand-left">
                         <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                         <span class="ladda-spinner"></span>
                     </button>  
-                    
+                    <button type="button" class="ladda-button btn-pill btn btn-danger cardacc PulldataAll" >
+                        <i class="fa-solid fa-arrows-rotate text-white me-2"></i>
+                        Sync Data All 
+                    </button>
                 </div>
                 </div>
             </div>
@@ -168,7 +171,7 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th> 
-                                    <th class="text-center" >vn</th>
+                                    {{-- <th class="text-center" >vn</th> --}}
                                     <th class="text-center">an</th> 
                                     <th class="text-center" >hn</th>
                                     <th class="text-center" >cid</th>
@@ -191,7 +194,7 @@
                                    
                                         <tr height="20" style="font-size: 14px;">
                                             <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td>  
-                                            <td class="text-center" width="7%">{{ $item->vn }}</td> 
+                                            {{-- <td class="text-center" width="7%">{{ $item->vn }}</td>  --}}
                                             <td class="text-center" width="7%">{{ $item->an }}</td> 
                                             <td class="text-center" width="5%">{{ $item->hn }}</td>   
                                             <td class="text-center" width="10%">{{ $item->cid }}</td>  
@@ -383,14 +386,16 @@
                     type: "GET",
                     url: "{{ url('uprep_sss_alledit') }}" + '/' + id,
                     success: function(data) {
-                        
+
+                        $('#editrecieve_true').val(data.data_show.nhso_ownright_pid)
                         $('#editdebit_total').val(data.data_show.debit_total)
-                        $('#editrecieve_true').val(data.data_show.recieve_true)
+                        // $('#editrecieve_true').val(data.data_show.recieve_true)
                         $('#editdifference').val(data.data_show.difference)
                         $('#editrecieve_no').val(data.data_show.recieve_no)
                         $('#editrecieve_date').val(data.data_show.recieve_date)
                         $('#editid').val(data.id)
                         $('#editaccount_code').val(data.data_show.account_code)
+                        // editrecieve_no
                     },
                 });
             });
@@ -475,77 +480,77 @@
                     });
             }); 
 
-            // $('.PulldataAll').click(function() {  
-            //     var startdate = $('#startdate').val();
-            //     var enddate = $('#enddate').val();
-            //     // alert(startdate);
-            //     Swal.fire({
-            //             title: 'ต้องการซิ้งค์ข้อมูลใช่ไหม ?',
-            //             text: "You Sync Data!",
-            //             icon: 'warning',
-            //             showCancelButton: true,
-            //             confirmButtonColor: '#3085d6',
-            //             cancelButtonColor: '#d33',
-            //             confirmButtonText: 'Yes, Sync it!'
-            //             }).then((result) => {
-            //                 if (result.isConfirmed) {
-            //                     $("#overlay").fadeIn(300);　
-            //                     $("#spinner").show();  
+            $('.PulldataAll').click(function() {  
+                var startdate = $('#startdate').val();
+                var enddate = $('#enddate').val();
+                // alert(startdate);
+                Swal.fire({
+                        title: 'ต้องการซิ้งค์ข้อมูลใช่ไหม ?',
+                        text: "You Sync Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, Sync it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show();  
                                 
-            //                     $.ajax({
-            //                         url: "{{ url('account_304_syncall') }}",
-            //                         type: "POST",
-            //                         dataType: 'json',
-            //                         data: {startdate,enddate},
-            //                         success: function(data) {
-            //                             if (data.status == 200) { 
-            //                                 Swal.fire({
-            //                                     title: 'ซิ้งค์ข้อมูลสำเร็จ',
-            //                                     text: "You Sync data success",
-            //                                     icon: 'success',
-            //                                     showCancelButton: false,
-            //                                     confirmButtonColor: '#06D177',
-            //                                     confirmButtonText: 'เรียบร้อย'
-            //                                 }).then((result) => {
-            //                                     if (result
-            //                                         .isConfirmed) {
-            //                                         console.log(
-            //                                             data);
-            //                                         window.location.reload();
-            //                                         $('#spinner').hide();//Request is complete so hide spinner
-            //                                             setTimeout(function(){
-            //                                                 $("#overlay").fadeOut(300);
-            //                                             },500);
-            //                                     }
-            //                                 })
+                                $.ajax({
+                                    url: "{{ url('uprep_sss_syncall') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {startdate,enddate},
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({
+                                                title: 'ซิ้งค์ข้อมูลสำเร็จ',
+                                                text: "You Sync data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
 
-            //                             } else if (data.status == 100) { 
-            //                                 Swal.fire({
-            //                                     title: 'ยังไม่ได้ลงเลขที่หนังสือ',
-            //                                     text: "Please enter the number of the book.",
-            //                                     icon: 'warning',
-            //                                     showCancelButton: false,
-            //                                     confirmButtonColor: '#06D177',
-            //                                     confirmButtonText: 'เรียบร้อย'
-            //                                 }).then((result) => {
-            //                                     if (result
-            //                                         .isConfirmed) {
-            //                                         console.log(
-            //                                             data);
-            //                                         window.location.reload();
+                                        } else if (data.status == 100) { 
+                                            Swal.fire({
+                                                title: 'ยังไม่ได้ลงเลขที่หนังสือ',
+                                                text: "Please enter the number of the book.",
+                                                icon: 'warning',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
                                                    
-            //                                     }
-            //                                 })
+                                                }
+                                            })
                                             
-            //                             } else {
+                                        } else {
                                             
-            //                             }
-            //                         },
-            //                     });
+                                        }
+                                    },
+                                });
                                 
-            //                 }
-            //     })
-            // });
+                            }
+                })
+            });
 
 
             
