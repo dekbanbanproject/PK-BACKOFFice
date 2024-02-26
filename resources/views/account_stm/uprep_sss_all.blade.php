@@ -143,10 +143,10 @@
                         <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                         <span class="ladda-spinner"></span>
                     </button>  
-                    <button type="button" class="ladda-button btn-pill btn btn-danger cardacc PulldataAll" >
+                    {{-- <button type="button" class="ladda-button btn-pill btn btn-danger cardacc PulldataAll" >
                         <i class="fa-solid fa-arrows-rotate text-white me-2"></i>
                         Sync Data All 
-                    </button>
+                    </button> --}}
                 </div>
                 </div>
             </div>
