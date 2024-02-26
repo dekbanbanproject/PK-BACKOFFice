@@ -187,6 +187,7 @@ class Ofc401Controller extends Controller
                             'vn'                 => $value->vn,
                             'hn'                 => $value->hn,
                             'an'                 => $value->an, 
+                            'cid'                => $value->cid,
                             'pttype'             => $value->pttype,
                             'vstdate'            => $value->vstdate,
                             'ptname'             => $value->ptname,
