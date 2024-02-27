@@ -685,7 +685,7 @@ class SssController extends Controller
                                 left join patient p on p.hn = v.hn
                                 WHERE o.vstdate between "'.$startdate.'" AND "'.$enddate.'"
                                 and o.income="02" 
-                                and o.pttype="a7"
+                                and v.pttype="a7"
                                 and n.billcode  not in (select `CODE` from eclaimdb.l_instrumentitem where `CODE`= l.`CODE`)
                                 and n.billcode like "8%"
                                 and n.billcode not in ("8608","8307")
@@ -712,7 +712,7 @@ class SssController extends Controller
                                 WHERE v.dchdate between "'.$startdate.'" AND "'.$enddate.'"
                                 
                                 and o.income="02" 
-                                and o.pttype="a7"
+                                and v.pttype="a7"
                                 and n.billcode not in (select `CODE` from eclaimdb.l_instrumentitem where `CODE`= l.`CODE`)
                                 and n.billcode like "8%"
                                 and n.billcode not in("8608","8628","8361","8543","8152","8660")

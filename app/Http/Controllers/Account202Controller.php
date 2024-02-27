@@ -1136,14 +1136,12 @@ class Account202Controller extends Controller
          $data['users'] = User::get();
  
             $data = DB::connection('mysql')->select('
-            SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group,au.inst,au.ip_paytrue,a.adjrw,a.total_adjrw_income
-            from acc_1102050101_202 a
-            LEFT JOIN acc_stm_ucs au ON au.an = a.an
-            WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
-            
-            AND (au.rep IS NULL OR au.ip_paytrue < "1")
-            GROUP BY a.an
- 
+                SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group,au.inst,au.ip_paytrue,a.adjrw,a.total_adjrw_income
+                from acc_1102050101_202 a
+                LEFT JOIN acc_stm_ucs au ON au.an = a.an
+                WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"            
+                AND (au.rep IS NULL OR au.ip_paytrue < "1")
+                GROUP BY a.an 
              ');
             //  AND au.rep IS NULL 
              // SELECT vn,an,hn,cid,ptname,dchdate,income_group,debit_total

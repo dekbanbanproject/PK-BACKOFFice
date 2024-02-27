@@ -358,6 +358,28 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                             <li><a href="{{ url('account_301_detail_date') }}">ลูกหนี้</a> </li>
                                         </ul>
                                     </li>
+                                    <li><a href="javascript: void(0);" class="has-arrow">3011-OP-อุปกรณ์เบิกเอกสาร</a>
+                                        <ul class="sub-menu" aria-expanded="true"> 
+                                            <li><a href="{{ url('account_3011_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_3011_pull') }}">ดึงลูกหนี้</a> </li>
+                                            <li><a href="{{ url('account_3011_detail_date') }}">ลูกหนี้</a> </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="javascript: void(0);" class="has-arrow">3012-อุปกรณ์เบิก New-Eclaim</a>
+                                        <ul class="sub-menu" aria-expanded="true"> 
+                                            <li><a href="{{ url('account_3012_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_3012_pull') }}">ดึงลูกหนี้</a> </li>
+                                            <li><a href="{{ url('account_3012_detail_date') }}">ลูกหนี้</a> </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="javascript: void(0);" class="has-arrow">3013-OP-CT</a>
+                                        <ul class="sub-menu" aria-expanded="true"> 
+                                            <li><a href="{{ url('account_3013_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_3013_pull') }}">ดึงลูกหนี้</a> </li>
+                                            <li><a href="{{ url('account_3013_detail_date') }}">ลูกหนี้</a> </li>
+                                        </ul>
+                                    </li>
+                                   
                                     <li><a href="javascript: void(0);" class="has-arrow">302-IPเครือข่าย</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_302_dash') }}">dashboard</a></li>
