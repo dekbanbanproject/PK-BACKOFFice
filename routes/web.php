@@ -1870,6 +1870,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_201_destroy',[App\Http\Controllers\Account201Controller::class, 'account_201_destroy'])->name('acc.account_201_destroy');//
 
     Route::match(['get','post'],'account_pkucs202_pull',[App\Http\Controllers\Account202Controller::class, 'account_pkucs202_pull'])->name('acc.account_pkucs202_pull');//
+    Route::match(['get','post'],'account_pkucs202_processdata',[App\Http\Controllers\Account202Controller::class, 'account_pkucs202_processdata'])->name('acc.account_pkucs202_processdata');//
     Route::match(['get','post'],'account_pkucs202_pulldata',[App\Http\Controllers\Account202Controller::class, 'account_pkucs202_pulldata'])->name('acc.account_pkucs202_pulldata');//
     Route::match(['get','post'],'account_pkucs202_dash',[App\Http\Controllers\Account202Controller::class, 'account_pkucs202_dash'])->name('acc.account_pkucs202_dash');//
     Route::match(['get','post'],'account_pkucs202/{months}/{year}',[App\Http\Controllers\Account202Controller::class, 'account_pkucs202'])->name('acc.account_pkucs202');//

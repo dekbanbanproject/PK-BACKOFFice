@@ -3117,12 +3117,9 @@ class AccountPKController extends Controller
                         $add->covid          = $value->covid;
                         $add->date_save      = $value->date_save;
                         $add->STMdoc         = $value->STMdoc;
-                        $add->save();
- 
-                        // $check202 = Acc_1102050101_202::where('an',$value->an)->where('STMdoc',NULL)->count();
-               
-                        // if ($check202 > 0) {
-                            
+                        $add->save(); 
+                        // $check202 = Acc_1102050101_202::where('an',$value->an)->where('STMdoc',NULL)->count();               
+                        // if ($check202 > 0) {                            
                             // AND (s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> 0 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> "") 
                         // } else {                
                         //     Acc_1102050101_202::where('an',$value->an) 
@@ -3137,24 +3134,30 @@ class AccountPKController extends Controller
                         // }     
                     } 
 
-                    Acc_1102050101_202::where('an',$value->an) 
-                        ->update([
-                            'status'          => 'Y',
-                            'stm_rep'         => $value->debit,
-                            'stm_money'       => $value->ip_paytrue,
-                            'stm_rcpno'       => $value->rep.'-'.$value->repno,
-                            'stm_trainid'     => $value->tranid,
-                            'STMdoc'          => $value->STMdoc,
-                    ]);
-                    Acc_1102050101_217::where('an',$value->an) 
-                        ->update([
-                            'status'          => 'Y',
-                            'stm_rep'         => $value->debit,
-                            'stm_money'       => $value->hc_drug+$value->hc+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug,
-                            'stm_rcpno'       => $value->rep.'-'.$value->repno,
-                            'stm_trainid'     => $value->tranid,
-                            'STMdoc'          => $value->STMdoc,
-                    ]);
+                    if ($value->ip_paytrue > 0) {
+                        Acc_1102050101_202::where('an',$value->an) 
+                            ->update([
+                                'status'          => 'Y',
+                                'stm_rep'         => $value->debit,
+                                'stm_money'       => $value->ip_paytrue,
+                                'stm_rcpno'       => $value->rep.'-'.$value->repno,
+                                'stm_trainid'     => $value->tranid,
+                                'STMdoc'          => $value->STMdoc,
+                        ]);
+                    }
+                    if ($value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug > 0) {
+                        Acc_1102050101_217::where('an',$value->an) 
+                            ->update([
+                                'status'          => 'Y',
+                                'stm_rep'         => $value->debit,
+                                'stm_money'       => $value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug,
+                                'stm_rcpno'       => $value->rep.'-'.$value->repno,
+                                'stm_trainid'     => $value->tranid,
+                                'STMdoc'          => $value->STMdoc,
+                        ]);
+                    }
+                    
+                    
 
                 } else {
                 }

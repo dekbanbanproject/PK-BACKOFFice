@@ -96,25 +96,14 @@
                 </div>
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
-                <div class="col-md-2"> 
-                    <select name="budget_year" id="budget_year" class="form-control inputmedsalt text-center" style="width: 100%">
-                        @foreach ($dabudget_year as $item_y)
-                            @if ($y == $item_y->leave_year_id )
-                                <option value="{{$item_y->leave_year_id}}" selected>{{$item_y->leave_year_name}}</option>
-                            @else
-                                <option value="{{$item_y->leave_year_id}}">{{$item_y->leave_year_name}}</option>
-                            @endif                                   
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-2 text-start"> 
-                    {{-- <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                <div class="col-md-5 text-end"> 
+                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                         <input type="text" class="form-control inputacc" name="startdate" id="datepicker" placeholder="Start Date"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $startdate }}" required/>
                         <input type="text" class="form-control inputacc" name="enddate" placeholder="End Date" id="datepicker2"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                            data-date-language="th-th" value="{{ $enddate }}" required/>    --}}
+                            data-date-language="th-th" value="{{ $enddate }}" required/>   
                     <button type="submit" class="ladda-button btn-pill btn btn-primary cardacc" data-style="expand-left">
                         <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                         <span class="ladda-spinner"></span>
@@ -139,7 +128,7 @@
                                     <div class="d-flex text-start">
                                         <div class="flex-grow-1 ">
                                             <?php
-                                                $y = $item->years;
+                                                $y = $item->year;
                                                 $ynew = $y + 543;
                                                 // ลูกหนี้ทั้งหมด
                                                 $datas = DB::select('
@@ -149,44 +138,86 @@
                                                             WHERE account_code="1102050101.202"
                                                             AND stamp = "N"
                                                             and month(dchdate) = "'.$item->months.'"
-                                                            and year(dchdate) = "'.$item->years.'";
+                                                            and year(dchdate) = "'.$item->year.'";
                                                 ');
                                                 foreach ($datas as $key => $value) {
                                                     $count_N = $value->Can;
                                                     $sum_N = $value->sumdebit;
                                                 }
-                                                 // สีเขียว STM
-                                                $sumapprove_ = DB::select('
-                                                        SELECT count(DISTINCT U1.an) as Apvit ,sum(U2.ip_paytrue) as ip_paytrue
-                                                            FROM acc_1102050101_202 U1
-                                                            INNER JOIN acc_stm_ucs U2 ON U2.an = U1.an
-                                                            WHERE month(U1.dchdate) = "'.$item->months.'"
-                                                            AND year(U1.dchdate) = "'.$item->years.'"
-                                                            AND U2.ip_paytrue > "0.00"
-                                                '); 
-                                                foreach ($sumapprove_ as $key => $value2) {
-                                                    $amountpay = $value2->ip_paytrue;
-                                                    $stm_count = $value2->Apvit;
+                                                // ตั้งลูกหนี้
+                                                $datasum_ = DB::select('
+                                                    SELECT sum(debit_total) as debit_total,count(DISTINCT an) as Cvit
+                                                            from acc_1102050101_202
+                                                            WHERE month(dchdate) = "'.$item->months.'"
+                                                            and year(dchdate) = "'.$item->year.'"
+                                                          
+                                                ');
+                                                // AND status = "N"
+                                                // AND status = "N"
+                                                foreach ($datasum_ as $key => $value2) {
+                                                    $sum_Y = $value2->debit_total;
+                                                    $count_Y = $value2->Cvit;
                                                 }
+                                                // สีเขียว STM
+                                                $sumapprove_ = DB::select('
+                                                        SELECT count(DISTINCT a.an) as Apvit ,sum(U2.ip_paytrue) as ip_paytrue
+                                                            FROM acc_1102050101_202 a
+                                                            INNER JOIN acc_stm_ucs U2 ON U2.an = a.an
+                                                            WHERE month(a.dchdate) = "'.$item->months.'"
+                                                            AND year(a.dchdate) = "'.$item->year.'"
+                                                            AND U2.ip_paytrue > "0.00"
+                                                    ');
+                                                    // WHERE month(a.dchdate) = "'.$item->months.'"
+                                                    //         and year(a.dchdate) = "'.$item->year.'"
 
-                                                // ยกยอดไป 
+                                                    // AND au.ip_paytrue > "0.00"
+                                                    // AND au.ip_paytrue IS NOT NULL
+                                                    foreach ($sumapprove_ as $key => $value3) {
+                                                        $amountpay = $value3->ip_paytrue;
+                                                        $stm_count = $value3->Apvit;
+                                                    }
+                                                    // สีส้ม ยกยอดไป
+                                                    // $sumyokma_ = DB::select('
+                                                    //     SELECT count(DISTINCT an) as anyokma ,sum(debit_total) as debityokma
+                                                    //             FROM acc_1102050101_202
+                                                    //             WHERE year(dchdate) = "'.$item->year.'"
+                                                    //             AND month(dchdate) = "'.$item->months.'"
+                                                               
+                                                    // ');
+                                                    // // AND status ="N"
+                                                    // foreach ($sumyokma_ as $key => $value5) {
+                                                    //     $total_yokma = $value5->debityokma;
+                                                    //     $count_yokma = $value5->anyokma;
+                                                    // }
+                                                     // ยกยอดไป
+                                                    // $mo = $item->months;
                                                     $sumyokma_all_ = DB::select('
                                                         SELECT count(DISTINCT U1.an) as anyokma ,sum(U1.debit_total) as debityokma
                                                                 FROM acc_1102050101_202 U1
                                                                 LEFT JOIN acc_stm_ucs U2 ON U2.an = U1.an
-                                                                WHERE month(U1.dchdate) = "'.$item->months.'"
-                                                                AND year(U1.dchdate) = "'.$item->years.'"
-                                                                AND (U2.rep IS NULL OR U2.ip_paytrue = "0.00")
+                                                                WHERE year(U1.dchdate) = "'.$item->year.'" 
+                                                                AND month(U1.dchdate) = "'.$item->months.'"   
                                                     ');
                                                     // AND U2.ip_paytrue = "0.00"
 
                                                     // AND (U2.rep IS NULL OR U2.ip_paytrue < "1")
-                                             
+                                                    // AND U2.ip_paytrue = "0.00"
+                                                    // AND U2.rep IS NULL
+                                                    // AND month(U1.dchdate) < "'.$mo.'"
                                                     foreach ($sumyokma_all_ as $key => $value6) {
                                                         $total_yokma_alls = $value6->debityokma ;
                                                         $count_yokma_alls = $value6->anyokma ;
                                                     }
-                                                
+                                                     
+                                                    // if ( $sum_Y > $amountpay) {
+                                                    //     $yokpai = $sum_Y - $amountpay;
+                                                    //     $count_Yok = $count_Y - $stm_count;
+                                                    // } else {
+                                                    //     $yokpai = $amountpay - $sum_Y;
+                                                    //     $count_Yok = $stm_count - $amountpay;
+                                                    // }
+
+                                                    // $count_Y
 
                                             ?>
                                             <div class="row">
@@ -197,7 +228,7 @@
                                                 <div class="col-md-5 text-end mt-2 me-2">
                                                     <a href="{{url('account_pkucs202')}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง">
-                                                            <h6 class="text-end">00 Visit</h6>
+                                                            <h6 class="text-end">{{$count_N}} Visit</h6>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -207,7 +238,8 @@
                                                     <i class="fa-solid fa-2x fa-sack-dollar me-2 align-middle text-secondary"></i>
                                                 </div>
                                                 <div class="col-md-4 text-start mt-3">
-                                                    <p class="text-muted mb-0"> 
+                                                    <p class="text-muted mb-0">
+                                                        {{-- <span class="text-secondary fw-bold font-size-15 me-2" style="font-family: sans-serif">ลูกหนี้ทั้งหมด</span> --}}
                                                         ลูกหนี้ที่ต้องตั้ง
                                                     </p>
                                                 </div>
@@ -234,17 +266,16 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end me-2">
-                                                    <a href="{{url('account_pkucs202_detail/'.$item->months.'/'.$item->years)}}" target="_blank">
+                                                    <a href="{{url('account_pkucs202_detail/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover">
-                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$item->total_an}} Visit">
-                                                                {{ number_format($item->total_sum, 2) }}
+                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_Y}} Visit">
+                                                                    {{ number_format($sum_Y, 2) }}
                                                                     <i class="fa-brands fa-btc text-danger ms-2"></i>
                                                             </p>
                                                         </div>
                                                     </a>
                                                 </div>
                                             </div>
-                                           
                                             <div class="row">
                                                 <div class="col-md-1 text-start ms-4">
                                                     <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle text-success"></i>
@@ -256,15 +287,11 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end me-2">
-                                                    <a href="{{url('account_pkucs202_stm/'.$item->months.'/'.$item->years)}}" target="_blank">
+                                                    <a href="{{url('account_pkucs202_stm/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover">
-                                                            {{-- <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$stm_count}} Visit">
+                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$stm_count}} Visit">
                                                                     {{ number_format($amountpay, 2) }}
                                                                     <i class="fa-brands fa-btc text-success ms-2"></i>
-                                                            </p> --}}
-                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$item->total_stm_an}} Visit">
-                                                                {{ number_format($item->total_sum_ip_paytrue, 2) }}
-                                                                <i class="fa-brands fa-btc text-success ms-2"></i>
                                                             </p>
                                                         </div>
                                                     </a>
@@ -282,10 +309,10 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end me-2">
-                                                    <a href="{{url('account_pkucs202_stmnull/'.$item->months.'/'.$item->years)}}" target="_blank">
+                                                    <a href="{{url('account_pkucs202_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover">
                                                             <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ยกยอดไปเดือนนี้ {{$count_yokma_alls}} Visit">
-                                                                  
+                                                                    {{-- {{ number_format($total_yokma, 2) }} --}} 
                                                                      {{ number_format($total_yokma_alls, 2) }}
                                                                     <i class="fa-brands fa-btc ms-2" style="color: rgb(160, 12, 98)"></i>
                                                             </p>
@@ -293,14 +320,37 @@
                                                     </a>
                                                 </div>
                                             </div>
-  
+
+                                            {{-- <div class="row">
+                                                <div class="col-md-1 text-start ms-4">
+                                                    <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle" style="color: rgb(10, 124, 201)"></i>
+                                                </div>
+                                                <div class="col-md-4 text-start mt-3">
+                                                    <p class="text-muted mb-0">
+                                                            ยกยอดไปรวมทั้งหมด
+                                                    </p>
+                                                </div>
+                                                <div class="col"></div>
+                                                <div class="col-md-5 text-end me-2">
+                                                    <a href="{{url('account_pkucs202_stmnull_all/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                        <div class="widget-chart widget-chart-hover">
+                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ยกยอดไปรวมทั้งหมด {{$count_yokma_all}} Visit">
+                                                                    {{ number_format($total_yokma_all, 2) }}
+                                                                    <i class="fa-brands fa-btc ms-2" style="color: rgb(10, 124, 201)"></i>
+                                                            </p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div> --}}
+
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     @else
-                    {{-- <div class="grid-menu-col">
+                    <div class="grid-menu-col">
                         <div class="g-0 row">
                             <div class="col-sm-12">
                                 <div class="d-flex text-start">
@@ -346,7 +396,21 @@
                                                     $amountpay = $value3->ip_paytrue;
                                                     $stm_count = $value3->Apvit;
                                                 }
-                                             
+                                                // AND au.ip_paytrue IS NOT NULL
+                                                // > "0.00"
+                                                // สีส้ม ยกยอดไป
+                                                // $sumyokma_ = DB::select('
+                                                //     SELECT count(DISTINCT an) as anyokma ,sum(debit_total) as debityokma
+                                                //             FROM acc_1102050101_202
+                                                //             WHERE dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                                                //             AND status ="N"
+                                                // ');
+                                                // foreach ($sumyokma_ as $key => $value5) {
+                                                //     $total_yokma = $value5->debityokma;
+                                                //     $count_yokma = $value5->anyokma;
+                                                // }
+                                                
+                                                // $mo = $item->months;
                                                 $sumyokma_all_ = DB::select('
                                                     SELECT count(DISTINCT U1.an) as anyokma ,sum(U1.debit_total) as debityokma
                                                             FROM acc_1102050101_202 U1
@@ -355,12 +419,33 @@
                                                           
                                                             AND (U2.rep IS NULL OR U2.ip_paytrue = "0.00")
                                                 ');
-                                           
+                                                // AND U2.ip_paytrue = "0.00"
                                                 foreach ($sumyokma_all_ as $key => $value6) {
                                                     $total_yokma_all = $value6->debityokma ;
                                                     $count_yokma_all = $value6->anyokma;
                                                 }
-                                          
+                                                // foreach ($sumyokma_all_ as $key => $value6) {
+                                                //     $total_yokma_all = $value6->debityokma + $total_yokma;
+                                                //     $count_yokma_all = $value6->anyokma + $count_yokma;
+                                                // }
+
+                                                // if ( $sum_Y > $amountpay) {
+                                                //     $yokpai = $sum_Y - $amountpay;
+                                                //     $count_Yok = $count_Y - $stm_count;
+                                                // } else {
+                                                //     $yokpai = $amountpay - $sum_Y;
+                                                //     $count_Yok = $stm_count - $amountpay;
+                                                // }
+
+                                                // $sumyokma_all_ = DB::select('
+                                                //     SELECT count(DISTINCT U1.an) as anyokma ,sum(U1.debit_total) as debityokma
+                                                //             FROM acc_1102050101_202 U1
+                                                //             LEFT JOIN acc_stm_ucs U2 ON U2.an = U1.an
+                                                //             WHERE U1.status ="N" AND U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                                                //             AND U2.rep IS NULL
+                                                // ');
+
+                                                // $count_Y
 
                                         ?>
                                         <div class="row">
@@ -382,7 +467,7 @@
                                             </div>
                                             <div class="col-md-4 text-start mt-3">
                                                 <p class="text-muted mb-0">
-                                                    
+                                                    {{-- <span class="text-secondary fw-bold font-size-15 me-2" style="font-family: sans-serif">ลูกหนี้ทั้งหมด</span> --}}
                                                     ลูกหนี้ที่ต้องตั้ง
                                                 </p>
                                             </div>
@@ -455,7 +540,7 @@
                                                 <a href="{{url('account_pkucs202_stmnull_date/'.$startdate.'/'.$enddate)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ยกยอดไปเดือนนี้ {{$count_yokma_all}} Visit">
-                                                             
+                                                                {{-- {{ number_format($total_yokma, 2) }} --}} 
                                                                  {{ number_format($total_yokma_all, 2) }}
                                                                 <i class="fa-brands fa-btc ms-2" style="color: rgb(160, 12, 98)"></i>
                                                         </p>
@@ -468,7 +553,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
 
                     @endif
                 </div>
@@ -484,7 +569,6 @@
         $(document).ready(function() {
             $('#example').DataTable();
             $('#example2').DataTable();
-            // $('select').select2();
             $('#p4p_work_month').select2({
                 placeholder: "--เลือก--",
                 allowClear: true
@@ -506,8 +590,6 @@
             $('#Processdata').click(function() {
                 var datepicker = $('#datepicker').val(); 
                 var datepicker2 = $('#datepicker2').val(); 
-                var budget_year = $('#budget_year').val(); 
-                
                 Swal.fire({
                         title: 'ต้องการประมวลผลใหม่ใช่ไหม ?',
                         text: "You Warn Process Data!",
@@ -525,9 +607,9 @@
                                     url: "{{ route('acc.account_pkucs202_processdata') }}",
                                     type: "POST",
                                     dataType: 'json',
-                                    data: {budget_year
-                                        // datepicker,
-                                        // datepicker2                        
+                                    data: {
+                                        datepicker,
+                                        datepicker2                        
                                     },
                                     success: function(data) {
                                         if (data.status == 200) { 

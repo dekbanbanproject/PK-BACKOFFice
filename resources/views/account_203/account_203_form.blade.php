@@ -122,12 +122,12 @@
                                             <th class="text-center" >hn</th> 
                                             <th class="text-center">ชื่อ-นามสกุล</th>
                                             <th class="text-center">เลขรับ</th>
+                                            <th class="text-center">hospcode</th>  
                                             <th class="text-center">โรงพยาบาล</th>
                                             <th class="text-center">pttype</th> 
                                             <th class="text-center">vstdate</th>
                                             <th class="text-center">pdx</th>
-                                            <th class="text-center">dx0</th>  
-                                            {{-- <th class="text-center">hospcode</th>    --}}
+                                            <th class="text-center">dx0</th>                                               
                                             <th class="text-center">ค่ารักษา</th> 
                                             <th class="text-center">ยอดเรียกเก็บ</th>   
                                         </tr>
@@ -137,18 +137,18 @@
                                         @foreach ($acc_debtor as $item) 
                                             <tr id="tr_{{$item->vn}}">                                                  
                                                 <td class="text-center" width="5%">{{ $i++ }}</td>  
-                                                <td class="text-center" width="10%">{{ $item->cid }}</td>  
+                                                <td class="text-center" width="7%">{{ $item->cid }}</td>  
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  
-                                                <td class="p-2" >{{ $item->ptname }}</td> 
-                                                <td class="text-center" width="10%">{{ $item->referin_no }}</td> 
-                                                <td class="p-2" width="15%">{{ $item->hospname }}</td> 
+                                                <td class="p-2">{{ $item->ptname }}</td> 
+                                                <td class="text-center" width="5%">{{ $item->referin_no }}</td> 
+                                                <td class="text-center" width="5%">{{ $item->hospcode }}</td>  
+                                                <td class="p-2" width="12%">{{ $item->hospname }}</td> 
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>   
-                                                <td class="text-center" width="7%">{{ $item->vstdate }}</td>  
+                                                <td class="text-center" width="6%">{{ $item->vstdate }}</td>  
                                                 <td class="text-center" width="5%">{{ $item->pdx }}</td>  
-                                                <td class="text-center" width="5%">{{ $item->dx0 }}</td>  
-                                                {{-- <td class="text-center" width="7%">{{ $item->hospcode }}</td>    --}}
-                                                <td class="text-center" width="8%">{{ number_format($item->income, 2) }}</td> 
-                                                <td class="text-center" width="8%">{{ number_format($item->debit_total, 2) }}</td>  
+                                                <td class="text-center" width="5%">{{ $item->dx0 }}</td>                                                 
+                                                <td class="text-center" width="6%">{{ number_format($item->income, 2) }}</td> 
+                                                <td class="text-center" width="6%">{{ number_format($item->debit_total, 2) }}</td>  
                                             </tr>
                                         @endforeach
                                     </tbody>
