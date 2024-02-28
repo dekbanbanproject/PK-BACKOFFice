@@ -156,20 +156,13 @@
                                                     $sum_N = $value->sumdebit;
                                                 }
                                                  // สีเขียว STM
-                                                // $sumapprove_ = DB::select('
-                                                //         SELECT count(DISTINCT U1.an) as Apvit ,sum(U2.ip_paytrue) as ip_paytrue
-                                                //             FROM acc_1102050101_202 U1
-                                                //             INNER JOIN acc_stm_ucs U2 ON U2.an = U1.an
-                                                //             WHERE month(U1.dchdate) = "'.$item->months.'"
-                                                //             AND year(U1.dchdate) = "'.$item->years.'"
-                                                //             AND U2.ip_paytrue > "0.00"
-                                                // '); 
                                                 $sumapprove_ = DB::select('
-                                                        SELECT count(DISTINCT U1.an) as Apvit ,sum(U1.stm_money) as ip_paytrue
-                                                            FROM acc_1102050101_202 U1 
+                                                        SELECT count(DISTINCT U1.an) as Apvit ,sum(U2.ip_paytrue) as ip_paytrue
+                                                            FROM acc_1102050101_202 U1
+                                                            INNER JOIN acc_stm_ucs U2 ON U2.an = U1.an
                                                             WHERE month(U1.dchdate) = "'.$item->months.'"
                                                             AND year(U1.dchdate) = "'.$item->years.'"
-                                                            AND U1.stm_money IS NOT NULL
+                                                            AND U2.ip_paytrue > "0.00"
                                                 '); 
                                                 foreach ($sumapprove_ as $key => $value2) {
                                                     $amountpay = $value2->ip_paytrue;
@@ -178,11 +171,12 @@
 
                                                 // ยกยอดไป 
                                                     $sumyokma_all_ = DB::select('
-                                                    SELECT count(DISTINCT U1.an) as anyokma ,sum(U1.debit_total) as debityokma
-                                                            FROM acc_1102050101_202 U1 
-                                                            WHERE month(U1.dchdate) = "'.$item->months.'"
-                                                            AND year(U1.dchdate) = "'.$item->years.'" 
-                                                            AND (U1.stm_money IS NULL OR U1.stm_money = "")
+                                                        SELECT count(DISTINCT U1.an) as anyokma ,sum(U1.debit_total) as debityokma
+                                                                FROM acc_1102050101_202 U1
+                                                                LEFT JOIN acc_stm_ucs U2 ON U2.an = U1.an
+                                                                WHERE month(U1.dchdate) = "'.$item->months.'"
+                                                                AND year(U1.dchdate) = "'.$item->years.'"
+                                                                AND (U2.rep IS NULL OR U2.ip_paytrue = "0.00")
                                                     ');
                                                     // AND U2.ip_paytrue = "0.00"
 
