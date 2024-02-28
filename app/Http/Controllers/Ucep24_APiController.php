@@ -761,47 +761,47 @@ class Ucep24_APiController extends Controller
              'claim'      =>   "UCEP24"
          ]);
 
-        //16 dru.txt
-        $file_d_dru = "Export/".$folder."/DRU.txt";
-        // $objFopen_dru = fopen($file_d_dru, 'w');
-        $objFopen_dru_utf = fopen($file_d_dru, 'w');
-        $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER|SP_ITEM';
-        // fwrite($objFopen_dru, $opd_head_dru);
-        fwrite($objFopen_dru_utf, $opd_head_dru);
-        $dru = DB::connection('mysql')->select('
-            SELECT * from d_dru where d_anaconda_id = "UCEP24"
-        ');
-        foreach ($dru as $key => $value7) {
-            $g1 = $value7->HCODE;
-            $g2 = $value7->HN;
-            $g3 = $value7->AN;
-            $g4 = $value7->CLINIC;
-            $g5 = $value7->PERSON_ID;
-            $g6 = $value7->DATE_SERV;
-            $g7 = $value7->DID;
-            $g8 = $value7->DIDNAME;
-            $g9 = $value7->AMOUNT;
-            $g10 = $value7->DRUGPRIC;
-            $g11 = $value7->DRUGCOST;
-            $g12 = $value7->DIDSTD;
-            $g13 = $value7->UNIT;
-            $g14 = $value7->UNIT_PACK;
-            $g15 = $value7->SEQ;
-            // $g16 = $value7->DRUGTYPE;
-            $g17 = $value7->DRUGREMARK;
-            $g18 = $value7->PA_NO;
-            $g19 = $value7->TOTCOPAY;
-            $g20 = $value7->USE_STATUS;
-            $g21 = $value7->TOTAL;
-            $g22 = $value7->SIGCODE;
-            $g23 = $value7->SIGTEXT;  
-            $g24 = $value7->PROVIDER; 
-            $g25 = $value7->SP_ITEM;      
-            $str_dru="\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22."|".$g23."|".$g24."|".$g25;
-            // $ansitxt_dru = iconv('UTF-8', 'TIS-620', $str_dru);
-            $ansitxt_dru_utf = iconv('UTF-8', 'UTF-8', $str_dru);
-            // fwrite($objFopen_dru, $ansitxt_dru);
-            fwrite($objFopen_dru_utf, $ansitxt_dru_utf);
+     //16 dru.txt
+     $file_d_dru = "Export/".$folder."/DRU.txt";
+     // $objFopen_dru = fopen($file_d_dru, 'w');
+     $objFopen_dru_utf = fopen($file_d_dru, 'w');
+     $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER|SP_ITEM';
+     // fwrite($objFopen_dru, $opd_head_dru);
+     fwrite($objFopen_dru_utf, $opd_head_dru);
+     $dru = DB::connection('mysql')->select('
+         SELECT * from d_dru where d_anaconda_id = "UCEP24"
+     ');
+     foreach ($dru as $key => $value7) {
+         $g1 = $value7->HCODE;
+         $g2 = $value7->HN;
+         $g3 = $value7->AN;
+         $g4 = $value7->CLINIC;
+         $g5 = $value7->PERSON_ID;
+         $g6 = $value7->DATE_SERV;
+         $g7 = $value7->DID;
+         $g8 = $value7->DIDNAME;
+         $g9 = $value7->AMOUNT;
+         $g10 = $value7->DRUGPRIC;
+         $g11 = $value7->DRUGCOST;
+         $g12 = $value7->DIDSTD;
+         $g13 = $value7->UNIT;
+         $g14 = $value7->UNIT_PACK;
+         $g15 = $value7->SEQ;
+         // $g16 = $value7->DRUGTYPE;
+         $g17 = $value7->DRUGREMARK;
+         $g18 = $value7->PA_NO;
+         $g19 = $value7->TOTCOPAY;
+         $g20 = $value7->USE_STATUS;
+         $g21 = $value7->TOTAL;
+         $g22 = $value7->SIGCODE;
+         $g23 = $value7->SIGTEXT;  
+         $g24 = $value7->PROVIDER; 
+         $g25 = $value7->SP_ITEM;      
+         $str_dru="\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22."|".$g23."|".$g24."|".$g25;
+         // $ansitxt_dru = iconv('UTF-8', 'TIS-620', $str_dru);
+         $ansitxt_dru_utf = iconv('UTF-8', 'UTF-8', $str_dru);
+         // fwrite($objFopen_dru, $ansitxt_dru);
+         fwrite($objFopen_dru_utf, $ansitxt_dru_utf); 
         }
         // fclose($objFopen_dru);
         fclose($objFopen_dru_utf);
