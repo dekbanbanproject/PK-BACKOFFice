@@ -958,7 +958,7 @@ class Account202Controller extends Controller
                     left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
                     WHERE a.dchdate BETWEEN "'.$start.'" AND "'.$end.'"
                     AND a.account_code ="1102050101.202"
-                    GROUP BY months
+                    GROUP BY months ORDER BY a.dchdate DESC
             ');  
             // SELECT days,months,years,MONTH_NAME,SUM(count_tongtung_an) as tongtung_an,SUM(debit_tontung) as sum_debit_tontung
             // ,SUM(count_an) as total_an,SUM(debit_total) as total_sum 
