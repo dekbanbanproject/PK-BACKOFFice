@@ -926,10 +926,7 @@ class Account202Controller extends Controller
          $startdate     = $request->startdate;
          $enddate       = $request->enddate;
          $budget_year   = $request->budget_year;
-         $bg            = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
-         $date_begin    = $bg->date_begin;
-         $date_end      = $bg->date_end;
-
+        
          $datenow       = date("Y-m-d");
          $y             = date('Y') + 543;
          $dabudget_year = DB::table('budget_year')->where('active','=',true)->get(); 
@@ -947,7 +944,7 @@ class Account202Controller extends Controller
         $start = (''.$year_old.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
     
-        if ($budget_year_ == '') {          
+        if ($budget_year == '') {          
              $datashow = DB::select(' 
                     SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
                     ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
@@ -974,6 +971,9 @@ class Account202Controller extends Controller
             // WHERE years BETWEEN "'.$year_old.'" AND "'.$year_now.'"
             // AND months BETWEEN "'.$months_old.'" AND "'.$months_now.'"          
          } else {
+            $bg            = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
+            $date_begin    = $bg->date_begin;
+            $date_end      = $bg->date_end;
             $datashow = DB::select(' 
                     SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
                     ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
@@ -1004,6 +1004,7 @@ class Account202Controller extends Controller
                  'enddate'          =>  $enddate,
                  'datashow'         =>  $datashow,
                  'dabudget_year'    =>  $dabudget_year,
+                 'budget_year'      =>  $budget_year,
                  'y'                =>  $y,
              ]);
      }
