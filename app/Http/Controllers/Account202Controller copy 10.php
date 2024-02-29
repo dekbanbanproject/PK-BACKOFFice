@@ -937,38 +937,25 @@ class Account202Controller extends Controller
         
         $months_now = date('m');
         $year_now = date('Y');
-        $yearnew = date('Y');
+        $yearnew = date('Y')+1;
         $year_old = date('Y')-1;
         $months_old  = ('10');
         $start = (''.$year_old.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
-        // dd($end);
+        // dd($year_old);
         if ($startdate == '') {          
              $datashow = DB::select('
-                  
+                    SELECT days,months,years,MONTH_NAME,SUM(count_tongtung_an) as tongtung_an,SUM(debit_tontung) as sum_debit_tontung
 
-                    SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
-                    ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
-                    ,sum(b.debit_total) as tung_looknee,sum(b.stm_money) as ip_paytrue
-                    ,count(DISTINCT c.an) as total_stm_an
-                    ,sum(c.ip_paytrue) as total_sum_ip_paytrue
-                    FROM acc_debtor a
-                    LEFT JOIN acc_1102050101_202 b ON b.an = a.an 
-                    LEFT JOIN acc_stm_ucs c ON c.an = a.an AND c.ip_paytrue > 0
-                    left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
-                    WHERE a.dchdate BETWEEN "'.$start.'" AND "'.$end.'"
-                    AND a.account_code ="1102050101.202"
-                    GROUP BY months
+                    ,SUM(count_an) as total_an,SUM(debit_total) as total_sum 
+
+                    ,SUM(count_an_stm) as total_stm_an,SUM(ip_paytrue) as total_sum_ip_paytrue 
+
+                    FROM acc_db_202
+                    WHERE years BETWEEN "'.$year_old.'" AND "'.$year_now.'"
+                    GROUP BY months,years
+                    ORDER BY years DESC
             ');  
-            // SELECT days,months,years,MONTH_NAME,SUM(count_tongtung_an) as tongtung_an,SUM(debit_tontung) as sum_debit_tontung
-            // ,SUM(count_an) as total_an,SUM(debit_total) as total_sum 
-            // ,SUM(count_an_stm) as total_stm_an,SUM(ip_paytrue) as total_sum_ip_paytrue 
-            // FROM acc_db_202
-            // WHERE years BETWEEN "'.$year_old.'" AND "'.$year_now.'"
-            // GROUP BY months,years
-            // ORDER BY years DESC
-
-
             // WHERE years BETWEEN "'.$year_old.'" AND "'.$year_now.'"
             // AND months BETWEEN "'.$months_old.'" AND "'.$months_now.'"          
          } else {

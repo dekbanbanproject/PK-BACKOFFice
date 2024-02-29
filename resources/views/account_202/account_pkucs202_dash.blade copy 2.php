@@ -243,7 +243,7 @@
                                                     <a href="{{url('account_pkucs202_detail/'.$item->months.'/'.$item->years)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover">
                                                             <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$item->total_an}} Visit">
-                                                                {{ number_format($item->tung_looknee, 2) }}
+                                                                {{ number_format($item->total_sum, 2) }}
                                                                     <i class="fa-brands fa-btc text-danger ms-2"></i>
                                                             </p>
                                                         </div>
