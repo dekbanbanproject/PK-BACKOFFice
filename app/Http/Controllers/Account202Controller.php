@@ -925,7 +925,11 @@ class Account202Controller extends Controller
         //  $datenow = date('Y-m-d');
          $startdate     = $request->startdate;
          $enddate       = $request->enddate;
-         $budget_year_  = $request->budget_year;
+         $budget_year   = $request->budget_year;
+         $bg            = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
+         $date_begin    = $bg->date_begin;
+         $date_end      = $bg->date_end;
+
          $datenow       = date("Y-m-d");
          $y             = date('Y') + 543;
          $dabudget_year = DB::table('budget_year')->where('active','=',true)->get(); 
@@ -942,11 +946,9 @@ class Account202Controller extends Controller
         $months_old  = ('10');
         $start = (''.$year_old.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
-        // dd($end);
-        if ($startdate == '') {          
-             $datashow = DB::select('
-                  
-
+    
+        if ($budget_year_ == '') {          
+             $datashow = DB::select(' 
                     SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
                     ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
                     ,sum(b.debit_total) as tung_looknee,sum(b.stm_money) as ip_paytrue
@@ -972,13 +974,27 @@ class Account202Controller extends Controller
             // WHERE years BETWEEN "'.$year_old.'" AND "'.$year_now.'"
             // AND months BETWEEN "'.$months_old.'" AND "'.$months_now.'"          
          } else {
-            $datashow = DB::select('
-                    SELECT * FROM acc_db_202
-                    WHERE months = "'.$start.'" 
-                    AND years = "'.$start.'" 
-                    GROUP BY months,years
-                    ORDER BY years DESC 
-            ');
+            $datashow = DB::select(' 
+                    SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
+                    ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
+                    ,sum(b.debit_total) as tung_looknee,sum(b.stm_money) as ip_paytrue
+                    ,count(DISTINCT c.an) as total_stm_an
+                    ,sum(c.ip_paytrue) as total_sum_ip_paytrue
+                    FROM acc_debtor a
+                    LEFT JOIN acc_1102050101_202 b ON b.an = a.an 
+                    LEFT JOIN acc_stm_ucs c ON c.an = a.an AND c.ip_paytrue > 0
+                    left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
+                    WHERE a.dchdate BETWEEN "'.$date_begin.'" AND "'.$date_end.'"
+                    AND a.account_code ="1102050101.202"
+                    GROUP BY months ORDER BY a.dchdate DESC
+            ');  
+            // $datashow = DB::select('
+            //         SELECT * FROM acc_db_202
+            //         WHERE months = "'.$start.'" 
+            //         AND years = "'.$start.'" 
+            //         GROUP BY months,years
+            //         ORDER BY years DESC 
+            // ');
          }
         //  WHERE months = "'.$months_old.'" 
         //  AND years = "'.$year_old.'" 
