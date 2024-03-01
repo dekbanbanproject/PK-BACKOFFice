@@ -110,7 +110,7 @@ if (Auth::check()) {
                         </select>
                     </div>
                 </div>
-                <div class="col-md-2">  
+                <div class="col-md-3">  
                     {{-- mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info --}}
                     {{-- ladda-button me-2 btn-pill btn --}}
                     <button type="submit" class="ladda-button me-2 mb-2 btn-pill btn cardot" style="background-color: rgb(207, 168, 243)">

@@ -88,10 +88,10 @@ if (Auth::check()) {
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
                         data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                         <input type="text" class="form-control inputot" name="startdate" id="datepicker" placeholder="Start Date"
-                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $startdate }}" required/>
                         <input type="text" class="form-control inputot" name="enddate" placeholder="End Date" id="datepicker2"
-                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $enddate }}" required/> 
                     </div>
                 </div> 
@@ -112,7 +112,7 @@ if (Auth::check()) {
                     </select>
                     </div>
                 </div> 
-                <div class="col-md-2">   
+                <div class="col-md-3">   
                     <button type="submit" class="ladda-button me-2 mb-2 btn-pill btn cardot" style="background-color: rgb(207, 168, 243)">
                         <i class="pe-7s-search btn-icon-wrapper me-2" style="color:rgb(253, 253, 253)"></i>
                         <span style="color:rgb(253, 253, 253)">ค้นหา</span>
