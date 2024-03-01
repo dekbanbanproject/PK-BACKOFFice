@@ -111,13 +111,11 @@ if (Auth::check()) {
                     </div>
                 </div>
                 <div class="col-md-3">  
-                    {{-- mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info --}}
-                    {{-- ladda-button me-2 btn-pill btn --}}
-                    <button type="submit" class="ladda-button me-2 mb-2 btn-pill btn cardot" style="background-color: rgb(207, 168, 243)">
-                        <i class="pe-7s-search btn-icon-wrapper me-2" style="color:rgb(253, 253, 253)"></i>
-                        <span style="color:rgb(253, 253, 253)">ค้นหา</span>
-                    </button> 
-                
+                 
+                    <button type="submit" class="ladda-button me-2 mb-2 btn-pill btn cardot" style="background-color: rgb(248, 243, 201)">
+                        <i class="pe-7s-search btn-icon-wrapper me-2" style="color:rgb(31, 30, 30)"></i>
+                        <span style="color:rgb(37, 36, 36)">ค้นหา</span>
+                    </button>
                     <a href="{{url('time_backot_depexcel/'.$deb.'/'.$startdate.'/'.$enddate)}}" class="ladda-button me-2 mb-2 btn-pill btn cardot" style="background-color: rgb(243, 198, 168))">
                         <i class="fa-solid fa-file-excel me-2" style="color:rgb(26, 27, 27)"></i>
                         <span style="color:rgb(15, 15, 15)">Export Excel</span>

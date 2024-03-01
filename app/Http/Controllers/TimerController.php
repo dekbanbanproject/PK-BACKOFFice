@@ -1093,6 +1093,7 @@ class TimerController extends Controller
                             WHERE c.CHEACKIN_DATE = CURDATE()  
                             AND ot.OPERATE_TYPE_ID NOT IN ("1","2","5","7")                      
                             AND h.HR_DEPARTMENT_ID = "'.$deb.'"
+                            AND ot.OPERATE_TYPE_NAME REGEXP "นอกเวลา|วันหยุด"
                             GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
                             ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
                 '); 
@@ -1116,6 +1117,7 @@ class TimerController extends Controller
                                 WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"
                                 AND ot.OPERATE_TYPE_ID NOT IN ("1","2","5","7")                      
                                 AND h.HR_DEPARTMENT_ID = "'.$deb.'"
+                                AND ot.OPERATE_TYPE_NAME REGEXP "นอกเวลา|วันหยุด"
                                 GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
                                 ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
                 '); 
@@ -1225,6 +1227,7 @@ class TimerController extends Controller
                             WHERE c.CHEACKIN_DATE = CURDATE()  
                             AND ot.OPERATE_TYPE_ID NOT IN ("1","2","5","7")                      
                             AND hs.HR_DEPARTMENT_SUB_ID = "'.$debsub.'"
+                            AND ot.OPERATE_TYPE_NAME REGEXP "นอกเวลา|วันหยุด"
                             GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
                             ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
                 '); 
@@ -1248,6 +1251,7 @@ class TimerController extends Controller
                                 WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"
                                 AND ot.OPERATE_TYPE_ID NOT IN ("1","2","5","7")                      
                                 AND hs.HR_DEPARTMENT_SUB_ID = "'.$debsub.'"
+                                AND ot.OPERATE_TYPE_NAME REGEXP "นอกเวลา|วันหยุด"
                                 GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
                                 ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
                 '); 
@@ -1359,6 +1363,7 @@ class TimerController extends Controller
                             WHERE c.CHEACKIN_DATE = CURDATE()  
                             AND ot.OPERATE_TYPE_ID NOT IN ("1","2","5","7")                      
                             AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
+                            AND ot.OPERATE_TYPE_NAME REGEXP "นอกเวลา|วันหยุด"
                             GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
                             ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
                 '); 
@@ -1382,6 +1387,7 @@ class TimerController extends Controller
                                 WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"
                                 AND ot.OPERATE_TYPE_ID NOT IN ("1","2","5","7")                      
                                 AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
+                                AND ot.OPERATE_TYPE_NAME REGEXP "นอกเวลา|วันหยุด"
                                 GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
                                 ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
                 '); 
