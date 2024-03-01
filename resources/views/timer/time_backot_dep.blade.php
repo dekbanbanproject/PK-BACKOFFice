@@ -65,20 +65,69 @@ if (Auth::check()) {
     $newDate = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน 
 ?>
   
-<div class="tabs-animation">
-    
-        <div class="row text-center">  
-            <div id="overlay">
-                <div class="cv-spinner">
-                  <span class="spinner"></span>
-                </div>
-              </div>
-              
+  <div class="tabs-animation">
+    <div class="row text-center">
+        <div id="overlay">
+            <div class="cv-spinner">
+                <span class="spinner"></span>
+            </div>
         </div> 
+    </div> 
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner"> 
+            </div>
+        </div>
+    </div>
+       
+    <form action="{{ route('t.time_backot_dep') }}" method="POST">
+        @csrf
+            <div class="row mb-2"> 
+                <div class="col-md-2 text-end">วันที่</div>
+                <div class="col-md-4 text-center">
+                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                        data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                        <input type="text" class="form-control inputot" name="startdate" id="datepicker" placeholder="Start Date"
+                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                            data-date-language="th-th" value="{{ $startdate }}" required/>
+                        <input type="text" class="form-control inputot" name="enddate" placeholder="End Date" id="datepicker2"
+                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                            data-date-language="th-th" value="{{ $enddate }}" required/> 
+                    </div>
+                </div> 
+                <div class="col-md-1 text-center">กลุ่มภารกิจ</div>
+                    <div class="col-md-2 text-center">
+                        <div class="input-group">
+                            <select id="HR_DEPARTMENT_ID" name="HR_DEPARTMENT_ID" class="form-select form-select-lg department" style="width: 100%"> 
+                            
+                                @foreach ($department as $items0) 
+                                @if ($deb == $items0->HR_DEPARTMENT_ID)
+                                    <option value="{{ $items0->HR_DEPARTMENT_ID }}" selected> {{ $items0->HR_DEPARTMENT_NAME }} </option> 
+                                @else
+                                    <option value="{{ $items0->HR_DEPARTMENT_ID }}"> {{ $items0->HR_DEPARTMENT_NAME }} </option> 
+                                @endif    
+                                @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2 me-2">  
+                    <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                        <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
+                    </button> 
+                
+                    <a href="{{url('time_backot_depexcel/'.$deb.'/'.$startdate.'/'.$enddate)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                        <i class="fa-solid fa-file-excel me-2"></i>
+                        Export
+                    </a>
+                
+                </div>
+                
+            </div>
+    </form>  
 
        
 
-        <div class="main-card mb-3 card">
+        <div class="card cardot">
             <div class="card-header">
                 รายละเอียดโอที กลุ่มภารกิจ
                 <div class="btn-actions-pane-right">
@@ -93,51 +142,8 @@ if (Auth::check()) {
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab-eg2-0" role="tabpanel">
                         <p> 
-                            <form action="{{ route('t.time_backot_dep') }}" method="POST">
-                                @csrf
-                                    <div class="row"> 
-                                        <div class="col-md-2 text-end">วันที่</div>
-                                        <div class="col-md-4 text-center">
-                                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
-                                                data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
-                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                                    data-date-language="th-th" value="{{ $startdate }}" required/>
-                                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
-                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                                    data-date-language="th-th" value="{{ $enddate }}" required/> 
-                                            </div>
-                                        </div> 
-                                        <div class="col-md-1 text-center">กลุ่มภารกิจ</div>
-                                            <div class="col-md-2 text-center">
-                                                <div class="input-group">
-                                                    <select id="HR_DEPARTMENT_ID" name="HR_DEPARTMENT_ID" class="form-select form-select-lg department" style="width: 100%"> 
-                                                    
-                                                        @foreach ($department as $items0) 
-                                                        @if ($deb == $items0->HR_DEPARTMENT_ID)
-                                                            <option value="{{ $items0->HR_DEPARTMENT_ID }}" selected> {{ $items0->HR_DEPARTMENT_NAME }} </option> 
-                                                        @else
-                                                            <option value="{{ $items0->HR_DEPARTMENT_ID }}"> {{ $items0->HR_DEPARTMENT_NAME }} </option> 
-                                                        @endif    
-                                                        @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2 me-2">  
-                                            <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                                <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
-                                            </button> 
-                                        
-                                            <a href="{{url('time_backot_depexcel/'.$deb.'/'.$startdate.'/'.$enddate)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
-                                                <i class="fa-solid fa-file-excel me-2"></i>
-                                                Export
-                                            </a>
-                                        
-                                        </div>
-                                        
-                                    </div>
-                            </form>  
-                            <div class="table-responsive mt-3">
+                           
+                            <div class="table-responsive">
                                 <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example2">
                                     <thead>
                                         <tr>

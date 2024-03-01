@@ -53,6 +53,7 @@
 <!-- Plugins css -->
 {{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
 <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('css/dacccss.css') }}">
 </head>
   <style>
         body{
@@ -79,6 +80,22 @@
   		background-image: url('/pkbackoffice/public/images/bgheader.jpg');
 		background-repeat: no-repeat;
 	}
+    .cardot{
+        border-radius: 4em 4em 4em 4em;
+        box-shadow: 0 0 10px rgb(152, 226, 224);
+        border:solid 1px #08b7ec;
+        /* box-shadow: 0 0 10px rgb(247, 198, 176); */
+    }
+    
+    .inputot{
+        /* border-radius: 5em 5em 5em 5em; */
+        border: none;
+        box-shadow: 0 0 10px rgb(152, 226, 224);
+        border:solid 1px #08b7ec;
+        border-radius: 40px;
+        /* border-radius: 4em 4em 4em 4em;
+        box-shadow: 0 0 10px rgb(152, 226, 224); */
+    }
   </style>
 
 <body data-topbar="dark">
