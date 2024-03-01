@@ -205,7 +205,7 @@
                                             <td class="p-2" >{{ $item->account_code }}</td> 
                                             <td class="text-center" width="3%">  
                                                 @if ($item->nhso_docno == '' && $item->pttype =='ss')
-                                                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning" >
+                                                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning editModal" value="{{ $item->account_code.'/'.$item->id }}">
                                                         <i class="fa-solid fa-book-open text-warning me-2"></i> 
                                                         ยังไม่ได้ลงเลขหนังสือ-เลขที่ใบเสร็จ 
                                                     </button>
@@ -249,7 +249,7 @@
                                                         ลงเลขที่ใบเสร็จ 
                                                     </a>  --}}
                                                 @elseif ($item->recieve_no == '' && $item->nhso_docno =='')
-                                                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" >
+                                                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger editModal" value="{{ $item->account_code.'/'.$item->id }}">
                                                         <i class="fa-solid fa-file-invoice text-danger me-2"></i> 
                                                         ยังไม่ได้ลงเลขหนังสือ-เลขที่ใบเสร็จ 
                                                     </button> 
