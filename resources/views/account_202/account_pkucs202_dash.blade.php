@@ -144,7 +144,7 @@
                                                 // ลูกหนี้ทั้งหมด
                                                 $datas = DB::select('
                                                     SELECT count(DISTINCT an) as Can
-                                                        ,SUM(debit) as sumdebit
+                                                        ,SUM(debit_total) as sumdebit
                                                         from acc_debtor
                                                             WHERE account_code="1102050101.202"
                                                             AND stamp = "N"
@@ -155,26 +155,17 @@
                                                     $count_N = $value->Can;
                                                     $sum_N = $value->sumdebit;
                                                 }
-                                                 // สีเขียว STM
-                                                // $sumapprove_ = DB::select('
-                                                //         SELECT count(DISTINCT U1.an) as Apvit ,sum(U2.ip_paytrue) as ip_paytrue
-                                                //             FROM acc_1102050101_202 U1
-                                                //             INNER JOIN acc_stm_ucs U2 ON U2.an = U1.an
-                                                //             WHERE month(U1.dchdate) = "'.$item->months.'"
-                                                //             AND year(U1.dchdate) = "'.$item->years.'"
-                                                //             AND U2.ip_paytrue > "0.00"
-                                                // '); 
+                                                 // สีเขียว STM 
                                                 $sumapprove_ = DB::select('
-                                                        SELECT count(DISTINCT U1.an) as Apvit ,sum(U1.stm_money) as stm_money,sum(U2.ip_paytrue) as ip_paytrue
-                                                            FROM acc_1102050101_202 U1 
-                                                            INNER JOIN acc_stm_ucs U2 ON U2.an = U1.an AND U2.ip_paytrue >= "0.00"
+                                                        SELECT count(DISTINCT U1.an) as Apvit ,sum(U1.stm_money) as stm_money
+                                                            FROM acc_1102050101_202 U1  
                                                             WHERE month(U1.dchdate) = "'.$item->months.'"
                                                             AND year(U1.dchdate) = "'.$item->years.'"
-                                                            
+                                                            AND U1.stm_money >= "0.00"
                                                 '); 
                                                 // AND U1.stm_money IS NOT NULL
                                                 foreach ($sumapprove_ as $key => $value2) {
-                                                    $stm_ip_paytrue  = $value2->ip_paytrue;
+                                                    $stm_ip_paytrue  = $value2->stm_money;
                                                     $stm_count       = $value2->Apvit;
                                                 }
                                                 // ยกยอดไป 

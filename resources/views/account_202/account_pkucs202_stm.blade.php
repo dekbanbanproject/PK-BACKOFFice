@@ -127,7 +127,7 @@
                                     <?php $number++; ?>
                                     <tr height="20" style="font-size: 14px;">
                                         <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td> 
-                                        <td class="text-center" width="6%">{{ $item->tranid }}</td> 
+                                        <td class="text-center" width="6%">{{ $item->stm_trainid }}</td> 
                                         <td class="text-center" width="6%">{{ $item->vn }}</td>  
                                         <td class="text-center" width="6%">{{ $item->an }}</td> 
                                         <td class="text-center" width="5%">{{ $item->hn }}</td>   
@@ -145,9 +145,9 @@
                                         @endif --}}
                                         
 
-                                        <td class="text-end" style="color:rgb(184, 12, 169)" width="7%">{{ number_format(($item->debit_total-$item->ip_paytrue),2)}}</td> 
-                                        <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($item->ip_paytrue,2)}}</td> 
-                                        <td class="text-end" style="color:rgb(9, 196, 180)" width="8%">{{ number_format($item->total_approve,2)}}</td>  
+                                        <td class="text-end" style="color:rgb(184, 12, 169)" width="7%">{{ number_format(($item->debit_total-$item->stm_money),2)}}</td> 
+                                        <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($item->stm_money,2)}}</td> 
+                                        <td class="text-end" style="color:rgb(9, 196, 180)" width="8%">{{ number_format($item->stm_total,2)}}</td>  
                                         <td class="p-2" width="10%">{{ $item->STMdoc }}</td>  
                                         {{-- <td class="text-end" width="10%"> 
                                             <button type="button" class="btn btn-icon btn-shadow btn-dashed btn-outline-primary" data-bs-toggle="modal" data-bs-target="#DetailModal{{ $item->an }}" data-bs-placement="right" title="ค่าใช้จ่าย">{{ number_format($item->debit,2)}} </button> 
@@ -155,9 +155,9 @@
                                     </tr>
                                         <?php
                                             $total1 = $total1 + $item->debit_total;
-                                            $total2 = $total2 + ($item->debit_total-$item->ip_paytrue); 
-                                            $total3 = $total3 + $item->ip_paytrue;
-                                            $total4 = $total4 + $item->total_approve;
+                                            $total2 = $total2 + ($item->debit_total-$item->stm_money); 
+                                            $total3 = $total3 + $item->stm_money;
+                                            $total4 = $total4 + $item->stm_total;
                                         ?>
 
                                     <div class="modal fade" id="DetailModal{{ $item->an }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
