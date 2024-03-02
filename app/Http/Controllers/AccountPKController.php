@@ -3134,7 +3134,7 @@ class AccountPKController extends Controller
                         // }     
                     } 
 
-                    if ($value->ip_paytrue > 0) {
+                    if ($value->ip_paytrue >= "0.00") {
                         Acc_1102050101_202::where('an',$value->an) 
                             ->update([
                                 'status'          => 'Y',
@@ -3142,10 +3142,11 @@ class AccountPKController extends Controller
                                 'stm_money'       => $value->ip_paytrue,
                                 'stm_rcpno'       => $value->rep.'-'.$value->repno,
                                 'stm_trainid'     => $value->tranid,
+                                'stm_total'       => $value->total_approve,
                                 'STMdoc'          => $value->STMdoc,
                         ]);
                     }
-                    if ($value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug > 0) {
+                    if ($value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug >= "0.00") {
                         Acc_1102050101_217::where('an',$value->an) 
                             ->update([
                                 'status'          => 'Y',

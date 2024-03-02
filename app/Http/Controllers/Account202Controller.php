@@ -1186,9 +1186,9 @@ class Account202Controller extends Controller
                 SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,s.dmis_money2
                 ,s.total_approve,a.income_group,s.inst,s.hc,s.hc_drug,s.ae,s.ae_drug,s.ip_paytrue,s.STMdoc,a.adjrw,a.total_adjrw_income
                 FROM acc_1102050101_202 a
-                INNER JOIN acc_stm_ucs s ON s.an = a.an
+                INNER JOIN acc_stm_ucs s ON s.an = a.an AND s.ip_paytrue >= "0.00"
                 WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" 
-                AND s.ip_paytrue >= "0.00"
+                
                 GROUP BY a.an
          ');
         //  AND s.rep IS NOT NULL 
