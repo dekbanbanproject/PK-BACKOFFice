@@ -1190,10 +1190,10 @@ class Account202Controller extends Controller
  
          $datashow = DB::select('
                 SELECT a.stm_trainid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total
-                ,a.income_group,a.adjrw,a.total_adjrw_income,a.stm_money,a.stm_total,a.STMdoc
-                
+                ,a.income_group,a.adjrw,a.total_adjrw_income,a.stm_money,a.stm_total,a.STMdoc                
                 FROM acc_1102050101_202 a              
                 WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" 
+                AND a.stm_money IS NOT NULL
                 GROUP BY a.an
          ');
         //  ,s.dmis_money2,s.total_approve,s.inst,s.hc,s.hc_drug,s.ae,s.ae_drug,s.ip_paytrue,s.STMdoc

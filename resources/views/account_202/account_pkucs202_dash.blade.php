@@ -162,6 +162,7 @@
                                                             WHERE month(U1.dchdate) = "'.$item->months.'"
                                                             AND year(U1.dchdate) = "'.$item->years.'"
                                                             AND U1.stm_money >= "0.00"
+                                                       
                                                 '); 
                                                 // AND U1.stm_money IS NOT NULL
                                                 foreach ($sumapprove_ as $key => $value2) {
