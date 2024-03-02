@@ -99,7 +99,7 @@
             <td></td>
             <td colspan="2">
                 <center>
-                <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ขอรับรองว่าผู้มาปฏิบัติหน้าที่ราชการตามรายชื่อข้างต้นนี้  ข้าพเจ้าเป็นผู้สั่งให้มาปฏิบัติหน้าที่ราชการ อันเป็นงานที่จำเป็นจะต้องปฏิบัติ</label><br>
+                <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ขอรับรองว่าผู้มาปฏิบัติหน้าที่ราชการตามรายชื่อข้างต้นนี้  ข้าพเจ้าเป็นผู้สั่งให้มาปฏิบัติหน้าที่ราชการ </label><br>
                 <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> อันเป็นงานที่จำเป็นจะต้องปฏิบัติ</label><br><br><br> 
                 </center>
             </td> 
