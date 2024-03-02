@@ -310,6 +310,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_pkucs202_dash') }}">dashboard</a></li>
                                             <li><a href="{{ url('account_pkucs202_pull') }}">ดึงลูกหนี้</a> </li>
+                                            <li><a href="{{ url('account_pkucs202_search') }}">ค้นหาลูกหนี้</a> </li>
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">203-ลูกหนี้ค่ารักษา UC-OP นอก CUP(ในจังหวัด)</a>

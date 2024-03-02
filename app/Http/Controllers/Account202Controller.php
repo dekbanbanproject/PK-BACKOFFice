@@ -132,6 +132,39 @@ class Account202Controller extends Controller
              'acc_debtor'      =>     $acc_debtor,
          ]);
      }
+     public function account_pkucs202_search(Request $request)
+     {
+         $datenow = date('Y-m-d');
+         $startdate = $request->startdate;
+         $enddate = $request->enddate;
+         $date = date('Y-m-d'); 
+         $new_day = date('Y-m-d', strtotime($date . ' -5 day')); //ย้อนหลัง 1 วัน
+         $data['users'] = User::get();
+         if ($startdate =='') {
+            $datashow = DB::select(' 
+                SELECT * from acc_1102050101_202 
+                WHERE dchdate BETWEEN "'.$new_day.'" AND  "'.$date.'" 
+                
+            ');
+         } else {
+            $datashow = DB::select(' 
+                SELECT * from acc_1102050101_202 
+                WHERE dchdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" 
+                
+            ');
+         }
+         
+ 
+        
+        
+         return view('account_202.account_pkucs202_search', $data, [
+             'startdate'     => $startdate,
+             'enddate'       => $enddate,
+             'datashow'      => $datashow,
+             'startdate'     => $startdate,
+             'enddate'       => $enddate
+         ]);
+     }
      public function account_pkucs202_pulldata(Request $request)
      {
          $date              = date('Y-m-d H:i:s');
@@ -987,24 +1020,15 @@ class Account202Controller extends Controller
                     SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
                     ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
                     ,sum(a.debit_total) as tung_looknee  
-                  
-                    FROM acc_debtor a  
+                    FROM acc_debtor a 
                     LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
                     WHERE a.dchdate BETWEEN "'.$date_begin.'" AND "'.$date_end.'"
                     AND a.account_code ="1102050101.202"
-                    GROUP BY months ORDER BY a.dchdate DESC
+                    GROUP BY months ORDER BY a.dchdate DESC 
             ');  
-            // $datashow = DB::select('
-            //         SELECT * FROM acc_db_202
-            //         WHERE months = "'.$start.'" 
-            //         AND years = "'.$start.'" 
-            //         GROUP BY months,years
-            //         ORDER BY years DESC 
-            // ');
+            
          }
-        //  WHERE months = "'.$months_old.'" 
-        //  AND years = "'.$year_old.'" 
-      
+        
              return view('account_202.account_pkucs202_dash',[
                  'startdate'        =>  $startdate,
                  'enddate'          =>  $enddate,
