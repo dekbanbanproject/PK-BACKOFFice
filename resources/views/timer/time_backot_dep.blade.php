@@ -96,10 +96,10 @@ if (Auth::check()) {
                     </div>
                 </div> 
                 <div class="col-md-1 text-center">กลุ่มภารกิจ</div>
-                    <div class="col-md-2 text-center">
+                    <div class="col-md-3 text-center">
                         <div class="input-group">
-                            <select id="HR_DEPARTMENT_ID" name="HR_DEPARTMENT_ID" class="form-select form-select-lg department" style="width: 100%"> 
-                            
+                            {{-- <select id="HR_DEPARTMENT_ID" name="HR_DEPARTMENT_ID" class="form-select form-select-lg department" style="width: 100%">  --}}
+                                <select name="department_id" id="department_id" class="form-control form-control-sm" style="width: 100%"> 
                                 @foreach ($department as $items0) 
                                 @if ($deb == $items0->HR_DEPARTMENT_ID)
                                     <option value="{{ $items0->HR_DEPARTMENT_ID }}" selected> {{ $items0->HR_DEPARTMENT_NAME }} </option> 
@@ -110,7 +110,7 @@ if (Auth::check()) {
                         </select>
                     </div>
                 </div>
-                <div class="col-md-3">  
+                <div class="col-md-2">  
                  
                     <button type="submit" class="ladda-button me-2 mb-2 btn-pill btn cardot" style="background-color: rgb(248, 243, 201)">
                         <i class="pe-7s-search btn-icon-wrapper me-2" style="color:rgb(31, 30, 30)"></i>
@@ -129,7 +129,7 @@ if (Auth::check()) {
 
        
 
-        <div class="card cardot">
+        <div class="card cardot2">
             <div class="card-header">
                 รายละเอียดโอที กลุ่มภารกิจ
                 <div class="btn-actions-pane-right">
@@ -194,7 +194,7 @@ if (Auth::check()) {
     
     $(document).ready(function() {
         // $("#overlay").fadeIn(300);　
-
+        $('select').select2();
         $('#datepicker').datepicker({
             format: 'yyyy-mm-dd'
         });

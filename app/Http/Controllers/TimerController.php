@@ -632,9 +632,9 @@ class TimerController extends Controller
     { 
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        $deb = $request->HR_DEPARTMENT_ID; 
-        $debsub = $request->HR_DEPARTMENT_SUB_ID;
-        $debsubsub = $request->HR_DEPARTMENT_SUB_SUB_ID;
+        $deb = $request->department_id; 
+        $debsub = $request->department_sub_id;
+        $debsubsub = $request->department_subsub_id;
         $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
 
         if ($deb != '') {
@@ -779,9 +779,9 @@ class TimerController extends Controller
     { 
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        $deb = $request->HR_DEPARTMENT_ID; 
-        $debsub = $request->HR_DEPARTMENT_SUB_ID;
-        $debsubsub = $request->HR_DEPARTMENT_SUB_SUB_ID;
+        $deb = $request->department_id; 
+        $debsub = $request->department_sub_id;
+        $debsubsub = $request->department_subsub_id;
         $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
  
         $datashow_ = DB::connection('mysql6')->select('  
@@ -867,9 +867,10 @@ class TimerController extends Controller
     { 
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        $deb = $request->HR_DEPARTMENT_ID; 
-        $debsub = $request->HR_DEPARTMENT_SUB_ID;
-        $debsubsub = $request->HR_DEPARTMENT_SUB_SUB_ID;
+        $deb = $request->department_id; 
+        $debsub = $request->department_sub_id;
+        $debsubsub = $request->department_subsub_id;
+        // dd($debsubsub);
         $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
  
         $datashow_ = DB::connection('mysql6')->select('  
@@ -1003,7 +1004,10 @@ class TimerController extends Controller
     { 
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        $deb = $request->HR_DEPARTMENT_ID;  
+        // $deb = $request->HR_DEPARTMENT_ID; 
+        $deb = $request->department_id; 
+        $debsub = $request->department_sub_id;
+        $debsubsub = $request->department_subsub_id;  
         $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
  
         if ($startdate == '') {
@@ -1138,7 +1142,10 @@ class TimerController extends Controller
     { 
         $startdate = $request->startdate;
         $enddate = $request->enddate; 
-        $debsub = $request->HR_DEPARTMENT_SUB_ID; 
+        // $debsub = $request->HR_DEPARTMENT_SUB_ID;
+        $deb = $request->department_id; 
+        $debsub = $request->department_sub_id;
+        $debsubsub = $request->department_subsub_id; 
         $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
  
         if ($startdate == '') {
@@ -1272,7 +1279,10 @@ class TimerController extends Controller
     { 
         $startdate = $request->startdate;
         $enddate = $request->enddate; 
-        $debsubsub = $request->HR_DEPARTMENT_SUB_SUB_ID;
+        // $debsubsub = $request->HR_DEPARTMENT_SUB_SUB_ID;
+        $deb = $request->department_id; 
+        $debsub = $request->department_sub_id;
+        $debsubsub = $request->department_subsub_id;
         $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
  
         if ($startdate == '') {

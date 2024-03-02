@@ -107,8 +107,8 @@ if (Auth::check()) {
                                         <div class="col-md-1 text-center">ฝ่าย/แผนก</div>
                                         <div class="col-md-2 text-center">
                                             <div class="input-group">
-                                                <select id="HR_DEPARTMENT_SUB_ID" name="HR_DEPARTMENT_SUB_ID" class="form-select form-select-lg department_sub" style="width: 100%"> 
-                                                
+                                                {{-- <select id="HR_DEPARTMENT_SUB_ID" name="HR_DEPARTMENT_SUB_ID" class="form-select form-select-lg department_sub" style="width: 100%">  --}}
+                                                    <select name="department_sub_id" id="department_sub_id" class="form-control form-control-sm" style="width: 100%"> 
                                                     @foreach ($department_sub as $items) 
                                                     @if ($debsub == $items->HR_DEPARTMENT_SUB_ID)
                                                         <option value="{{ $items->HR_DEPARTMENT_SUB_ID }}" selected> {{ $items->HR_DEPARTMENT_SUB_NAME }} </option> 

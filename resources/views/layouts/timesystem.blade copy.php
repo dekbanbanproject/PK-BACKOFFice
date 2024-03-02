@@ -7,57 +7,53 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
 
-            <!-- Font Awesome -->
-            <link href="{{ asset('assets/fontawesome/css/all.css') }}" rel="stylesheet">
-            <!-- App favicon -->
-            <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-          
-           
-        
-            {{-- <link href="{{ asset('pkclaim/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
-            <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
-            <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
-            <link href="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet">
-        
-            <!-- jquery.vectormap css -->
-            <link href="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}"
-                rel="stylesheet" type="text/css" />
-        
-            <!-- DataTables -->
-            <link href="{{ asset('pkclaim/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet"
-                type="text/css" />
-            <link href="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet"
-                type="text/css" />
-            <link href="{{ asset('pkclaim/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}" rel="stylesheet"
-                type="text/css" />
-        
-            <!-- Responsive datatable examples -->
-            <link href="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}"
-                rel="stylesheet" type="text/css" />
-        
-            <!-- Bootstrap Css -->
-            <link href="{{ asset('pkclaim/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
-            <!-- Icons Css -->
-            <link href="{{ asset('pkclaim/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-            <!-- App Css-->
-            <link href="{{ asset('pkclaim/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
-        
-            <link href="{{ asset('css/fullcalendar.css') }}" rel="stylesheet">
-           <!-- select2 -->
-            <link rel="stylesheet" href="{{asset('asset/js/plugins/select2/css/select2.min.css')}}">
-           <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-           <link rel="stylesheet"
-           href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
-       {{-- <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet"> --}}
-   
-       <link rel="stylesheet" href="{{ asset('disacc/vendors/@fortawesome/fontawesome-free/css/all.min.css') }}">
-       <link rel="stylesheet" href="{{ asset('disacc/vendors/ionicons-npm/css/ionicons.css') }}">
-       <link rel="stylesheet" href="{{ asset('disacc/vendors/linearicons-master/dist/web-font/style.css') }}">
-       {{-- <link rel="stylesheet"
-           href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}"> --}}
-       <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="{{ asset('assets/fontawesome/css/all.css') }}" rel="stylesheet">
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+
+    {{-- <link href="{{ asset('pkclaim/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
+    <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet">
+
+    <!-- jquery.vectormap css -->
+    <link href="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}"
+        rel="stylesheet" type="text/css" />
+
+    <!-- DataTables -->
+    <link href="{{ asset('pkclaim/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet"
+        type="text/css" />
+    <link href="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet"
+        type="text/css" />
+    <link href="{{ asset('pkclaim/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}" rel="stylesheet"
+        type="text/css" />
+
+    <!-- Responsive datatable examples -->
+    <link href="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}"
+        rel="stylesheet" type="text/css" />
+
+    <!-- Bootstrap Css -->
+    <link href="{{ asset('pkclaim/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="{{ asset('pkclaim/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="{{ asset('pkclaim/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset('css/fullcalendar.css') }}" rel="stylesheet">
+   <!-- select2 -->
+    <link rel="stylesheet" href="{{asset('asset/js/plugins/select2/css/select2.min.css')}}">
+   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <link rel="stylesheet"
+   href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
+<!-- Plugins css -->
+{{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
+{{-- <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet"> --}}
+<link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('css/dacccss.css') }}">
 </head>
   <style>
@@ -85,12 +81,6 @@
   		background-image: url('/pkbackoffice/public/images/bgheader.jpg');
 		background-repeat: no-repeat;
 	}
-    .cardot2{
-        border-radius: 0em 0em 4em 4em;
-        box-shadow: 0 0 10px rgb(152, 226, 224);
-        border:solid 1px #08b7ec;
-        /* box-shadow: 0 0 10px rgb(247, 198, 176); */
-    }
     .cardot{
         border-radius: 4em 4em 4em 4em;
         box-shadow: 0 0 10px rgb(152, 226, 224);
@@ -218,10 +208,10 @@
                 <div id="sidebar-menu">
                         <ul class="metismenu list-unstyled" id="side-menu" >
 
-                        {{-- <li class="menu-title">Menu</li> --}}
+                        <li class="menu-title">Menu</li>
                         <li>
                             <a href="{{ url('time_dashboard') }}">
-                                <i class="fa-solid fa-gauge-high "></i>
+                                <i class="fa-solid fa-gauge-high text-white"></i>
                                 <span>Dashboard</span>
                                 {{-- <span style="color: white">Dashboard</span> --}}
                             </a>
@@ -288,8 +278,9 @@
 
     <!-- Right bar overlay-->
     <div class="rightbar-overlay"></div>
+
     <!-- JAVASCRIPT -->
-    <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>
+    {{-- <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script> --}}
 
     <script src="{{ asset('pkclaim/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/metismenu/metisMenu.min.js') }}"></script>
@@ -335,8 +326,11 @@
 
     <!-- Datatable init js -->
     <script src="{{ asset('pkclaim/js/pages/datatables.init.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script> 
-    <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/prettify.js') }}"></script> 
+    <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script>
+
+    <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/prettify.js') }}"></script>
+
+
     <script src="{{ asset('pkclaim/js/pages/form-wizard.init.js') }}"></script>
     <script type="text/javascript" src="{{ asset('fullcalendar/lib/moment.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.min.js') }}"></script>
@@ -346,6 +340,8 @@
 
     <!-- App js -->
     <script src="{{ asset('pkclaim/js/app.js') }}"></script>
+    {{-- <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet"> --}}
+
     @yield('footer')
 
 

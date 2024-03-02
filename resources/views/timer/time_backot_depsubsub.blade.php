@@ -41,6 +41,15 @@
            .is-hide{
            display:none;
            }
+           .form-select{
+            height: 40px;
+            /* background-color: #ffffff; */
+            /* border: 1px solid rgba(0, 0, 0, 0.1);
+            -webkit-border-radius: 2px;
+            border-radius: 2px; */
+            /* cursor: text; */
+            /* min-height: 40px !important; */
+           }
 </style>
 <script>
     function TypeAdmin() {
@@ -96,10 +105,10 @@ if (Auth::check()) {
                     </div>
                 </div> 
                 <div class="col-md-1 text-center">หน่วยงาน</div>
-                <div class="col-md-2 text-center">
+                <div class="col-md-3 text-center">
                     <div class="input-group">
-                        <select id="HR_DEPARTMENT_SUB_SUB_ID" name="HR_DEPARTMENT_SUB_SUB_ID" class="form-select form-select-lg department_sub_sub" style="width: 100%"> 
-                        
+                        {{-- <select id="HR_DEPARTMENT_SUB_SUB_ID" name="HR_DEPARTMENT_SUB_SUB_ID" class="form-control form-control-sm" style="width: 100%;">  --}}
+                        <select name="department_subsub_id" id="department_subsub_id" class="form-control form-control-sm" style="width: 100%">   
                             @foreach ($department_subsub as $items2) 
                             @if ($debsubsub == $items2->HR_DEPARTMENT_SUB_SUB_ID)
                                 <option value="{{ $items2->HR_DEPARTMENT_SUB_SUB_ID }}" selected> {{ $items2->HR_DEPARTMENT_SUB_SUB_NAME }} </option> 
@@ -110,7 +119,7 @@ if (Auth::check()) {
                     </select>
                     </div>
                 </div> 
-                <div class="col-md-3">   
+                <div class="col-md-2">   
                     <button type="submit" class="ladda-button me-2 mb-2 btn-pill btn cardot" style="background-color: rgb(248, 243, 201)">
                         <i class="pe-7s-search btn-icon-wrapper me-2" style="color:rgb(31, 30, 30)"></i>
                         <span style="color:rgb(37, 36, 36)">ค้นหา</span>
@@ -128,7 +137,7 @@ if (Auth::check()) {
 
        
 
-        <div class="card cardot">
+        <div class="card cardot2">
             <div class="card-header">
                 รายละเอียดโอทีหน่วยงาน
                 <div class="btn-actions-pane-right">
@@ -193,7 +202,7 @@ if (Auth::check()) {
     
     $(document).ready(function() {
         // $("#overlay").fadeIn(300);　
-
+        $('select').select2();
         $('#datepicker').datepicker({
             format: 'yyyy-mm-dd'
         });

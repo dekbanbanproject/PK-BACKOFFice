@@ -188,7 +188,7 @@
 
         <div class="row"> 
             <div class="col-md-12"> 
-                 <div class="main-card mb-3 card shadow-lg">
+                 <div class="card cardot2">
                     <div class="card-header">
                         ลงเวลาเข้า-ออกทั้งหมด      
                         <div class="btn-actions-pane-right">

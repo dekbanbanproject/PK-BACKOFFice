@@ -96,10 +96,10 @@ if (Auth::check()) {
                     </div>
                 </div> 
                 <div class="col-md-1 text-center">กลุ่มงาน/ฝ่าย</div>
-                <div class="col-md-2 text-center">
+                <div class="col-md-3 text-center">
                     <div class="input-group">
-                        <select id="HR_DEPARTMENT_SUB_ID" name="HR_DEPARTMENT_SUB_ID" class="form-select form-select-lg department_sub" style="width: 100%"> 
-                        
+                        {{-- <select id="HR_DEPARTMENT_SUB_ID" name="HR_DEPARTMENT_SUB_ID" class="form-select form-select-lg department_sub" style="width: 100%">  --}}
+                            <select name="department_sub_id" id="department_sub_id" class="form-control form-control-sm" style="width: 100%"> 
                             @foreach ($department_sub as $items) 
                             @if ($debsub == $items->HR_DEPARTMENT_SUB_ID)
                                 <option value="{{ $items->HR_DEPARTMENT_SUB_ID }}" selected> {{ $items->HR_DEPARTMENT_SUB_NAME }} </option> 
@@ -112,7 +112,7 @@ if (Auth::check()) {
                     </select>
                     </div>
                 </div> 
-                <div class="col-md-3">    
+                <div class="col-md-2">    
                     <button type="submit" class="ladda-button me-2 mb-2 btn-pill btn cardot" style="background-color: rgb(248, 243, 201)">
                         <i class="pe-7s-search btn-icon-wrapper me-2" style="color:rgb(31, 30, 30)"></i>
                         <span style="color:rgb(37, 36, 36)">ค้นหา</span>
@@ -129,7 +129,7 @@ if (Auth::check()) {
     </form> 
        
 
-        <div class="card cardot">
+        <div class="card cardot2">
             <div class="card-header">
                 รายละเอียดโอที กลุ่มงาน/ฝ่าย
                 <div class="btn-actions-pane-right">
@@ -194,7 +194,7 @@ if (Auth::check()) {
     
     $(document).ready(function() {
         // $("#overlay").fadeIn(300);　
-
+        $('select').select2();
         $('#datepicker').datepicker({
             format: 'yyyy-mm-dd'
         });
