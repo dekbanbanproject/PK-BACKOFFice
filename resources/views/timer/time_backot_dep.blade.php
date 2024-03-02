@@ -83,7 +83,7 @@ if (Auth::check()) {
     <form action="{{ route('t.time_backot_dep') }}" method="POST">
         @csrf
             <div class="row mb-2"> 
-                <div class="col-md-2 text-end">วันที่</div>
+                <div class="col-md-1 text-end">วันที่</div>
                 <div class="col-md-4 text-center">
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
                         data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
