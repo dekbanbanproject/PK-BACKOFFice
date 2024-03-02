@@ -1078,7 +1078,7 @@ class Account202Controller extends Controller
          $data = DB::select(' 
              SELECT *  from acc_1102050101_202 
              WHERE dchdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" 
-             AND status = "N"
+              
          ');
          // SELECT *,au.subinscl  from acc_1102050101_202 a
          //     LEFT JOIN acc_debtor au ON au.an = a.an
@@ -1261,36 +1261,45 @@ class Account202Controller extends Controller
          $data['users'] = User::get();
  
             $data = DB::connection('mysql')->select('
-                SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group,au.inst,au.ip_paytrue,a.adjrw,a.total_adjrw_income
-                from acc_1102050101_202 a
-                LEFT JOIN acc_stm_ucs au ON au.an = a.an
-                WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"            
-                AND (au.rep IS NULL OR au.ip_paytrue = "0.00")
-                GROUP BY a.an 
+                
+
+                SELECT a.stm_trainid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total
+                ,a.income_group,a.adjrw,a.total_adjrw_income,a.stm_money,a.stm_total,a.STMdoc                
+                FROM acc_1102050101_202 a              
+                WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" 
+                AND a.stm_money IS NULL
+                GROUP BY a.an
              ');
+
+            //  SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group,au.inst,au.ip_paytrue,a.adjrw,a.total_adjrw_income
+            //  from acc_1102050101_202 a
+            //  LEFT JOIN acc_stm_ucs au ON au.an = a.an
+            //  WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"            
+            //  AND (au.rep IS NULL OR au.ip_paytrue = "0.00")
+            //  GROUP BY a.an
             //  AND au.rep IS NULL 
              // SELECT vn,an,hn,cid,ptname,dchdate,income_group,debit_total
              // ,inst
              // FROM acc_1102050101_202
              // WHERE status ="N"
-            $sum_money_ = DB::connection('mysql')->select('
-                SELECT SUM(a.debit_total) as total
-                from acc_1102050101_202 a
-                LEFT JOIN acc_stm_ucs au ON au.an = a.an
-                WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NULL;
-            ');
-            foreach ($sum_money_ as $key => $value) {
-                $sum_debit_total = $value->total;
-            }
-            $sum_stm_ = DB::connection('mysql')->select('
-                SELECT SUM(au.inst) as stmtotal
-                from acc_1102050101_202 a
-                LEFT JOIN acc_stm_ucs au ON au.an = a.an
-                WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NULL;
-            ');
-            foreach ($sum_stm_ as $key => $value) {
-                $sum_stm_total = $value->stmtotal;
-            }
+            // $sum_money_ = DB::connection('mysql')->select('
+            //     SELECT SUM(a.debit_total) as total
+            //     from acc_1102050101_202 a
+            //     LEFT JOIN acc_stm_ucs au ON au.an = a.an
+            //     WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NULL;
+            // ');
+            // foreach ($sum_money_ as $key => $value) {
+            //     $sum_debit_total = $value->total;
+            // }
+            // $sum_stm_ = DB::connection('mysql')->select('
+            //     SELECT SUM(au.inst) as stmtotal
+            //     from acc_1102050101_202 a
+            //     LEFT JOIN acc_stm_ucs au ON au.an = a.an
+            //     WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NULL;
+            // ');
+            // foreach ($sum_stm_ as $key => $value) {
+            //     $sum_stm_total = $value->stmtotal;
+            // }
  
          return view('account_202.account_pkucs202_stmnull', $data, [
              'startdate'         =>     $startdate,
@@ -1298,8 +1307,8 @@ class Account202Controller extends Controller
              'data'              =>     $data,
              'months'            =>     $months,
              'year'              =>     $year,
-             'sum_debit_total'   =>     $sum_debit_total,
-             'sum_stm_total'     =>     $sum_stm_total
+            //  'sum_debit_total'   =>     $sum_debit_total,
+            //  'sum_stm_total'     =>     $sum_stm_total
          ]);
      }
      public function account_pkucs202_stmnull_date(Request $request,$startdate,$enddate)
