@@ -3167,6 +3167,7 @@ class AccountPKController extends Controller
                                 // 'stm_money'       => $value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug,
                                 'stm_rcpno'       => $value->rep.'-'.$value->repno,
                                 'stm_trainid'     => $value->tranid,
+                                'stm_total'       => $value->total_approve,
                                 'STMdoc'          => $value->STMdoc,
                         ]);
                     }else if ($value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug > "0.00") {
@@ -3177,6 +3178,7 @@ class AccountPKController extends Controller
                                 'stm_money'       => $value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug,
                                 'stm_rcpno'       => $value->rep.'-'.$value->repno,
                                 'stm_trainid'     => $value->tranid,
+                                'stm_total'       => $value->total_approve,
                                 'STMdoc'          => $value->STMdoc,
                         ]);
                     } else {    
