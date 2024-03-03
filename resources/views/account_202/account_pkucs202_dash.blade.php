@@ -186,19 +186,19 @@
                                                     $stm_count       = $value2->Apvit;
                                                 }
                                                 // ยกยอดไป 
-                                                    $sumyokma_all_ = DB::select('
-                                                        SELECT count(DISTINCT U1.an) as anyokma ,sum(U1.debit_total) as debityokma
-                                                            FROM acc_1102050101_202 U1 
-                                                            WHERE month(U1.dchdate) = "'.$item->months.'"
-                                                            AND year(U1.dchdate) = "'.$item->years.'" 
-                                                            AND (U1.stm_money IS NULL OR U1.stm_money = "")
-                                                    ');
-                                                    // AND U2.ip_paytrue = "0.00"
-                                                    // AND (U2.rep IS NULL OR U2.ip_paytrue < "1")                                             
-                                                    foreach ($sumyokma_all_ as $key => $value6) {
-                                                        $total_yokma_alls = $value6->debityokma ;
-                                                        $count_yokma_alls = $value6->anyokma ;
-                                                    }                                                
+                                                $sumyokma_all_ = DB::select('
+                                                    SELECT count(DISTINCT U1.an) as anyokma ,sum(U1.debit_total) as debityokma
+                                                        FROM acc_1102050101_202 U1 
+                                                        WHERE month(U1.dchdate) = "'.$item->months.'"
+                                                        AND year(U1.dchdate) = "'.$item->years.'" 
+                                                        AND (U1.stm_money IS NULL OR U1.stm_money = "")
+                                                ');
+                                                // AND U2.ip_paytrue = "0.00"
+                                                // AND (U2.rep IS NULL OR U2.ip_paytrue < "1")                                             
+                                                foreach ($sumyokma_all_ as $key => $value6) {
+                                                    $total_yokma_alls = $value6->debityokma ;
+                                                    $count_yokma_alls = $value6->anyokma ;
+                                                }                                                
 
                                             ?>
                                             <div class="row">
@@ -318,8 +318,8 @@
                                 <div class="d-flex text-start">
                                     <div class="flex-grow-1 ">
                                         <?php 
-                                            // ตั้งลูกหนี้
-                                            $y = $item->years;
+                                                // ตั้งลูกหนี้
+                                                $y = $item->years;
                                                 $ynew = $y + 543;
                                                 // ลูกหนี้ทั้งหมด
                                                 $datas = DB::select('
@@ -347,18 +347,18 @@
                                                     $stm_count       = $value2->Apvit;
                                                 }
                                                 // ยกยอดไป 
-                                                    $sumyokma_all_ = DB::select('
-                                                        SELECT count(DISTINCT U1.an) as anyokma ,sum(U1.debit_total) as debityokma
-                                                            FROM acc_1102050101_202 U1 
-                                                            WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"  
-                                                            AND (U1.stm_money IS NULL OR U1.stm_money = "")
-                                                    ');
-                                                    // AND U2.ip_paytrue = "0.00"
-                                                    // AND (U2.rep IS NULL OR U2.ip_paytrue < "1")                                             
-                                                    foreach ($sumyokma_all_ as $key => $value6) {
-                                                        $total_yokma_alls = $value6->debityokma ;
-                                                        $count_yokma_alls = $value6->anyokma ;
-                                                    }   
+                                                $sumyokma_all_ = DB::select('
+                                                    SELECT count(DISTINCT U1.an) as anyokma ,sum(U1.debit_total) as debityokma
+                                                        FROM acc_1102050101_202 U1 
+                                                        WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"  
+                                                        AND (U1.stm_money IS NULL OR U1.stm_money = "")
+                                                ');
+                                                // AND U2.ip_paytrue = "0.00"
+                                                // AND (U2.rep IS NULL OR U2.ip_paytrue < "1")                                             
+                                                foreach ($sumyokma_all_ as $key => $value6) {
+                                                    $total_yokma_alls = $value6->debityokma ;
+                                                    $count_yokma_alls = $value6->anyokma ;
+                                                }   
                                           
 
                                         ?>

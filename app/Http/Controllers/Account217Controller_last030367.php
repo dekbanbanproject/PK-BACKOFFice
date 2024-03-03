@@ -454,110 +454,62 @@ class Account217Controller extends Controller
     }
     public function account_pkucs217_dash(Request $request)
     {
-        // $datenow = date('Y-m-d');
-        // $startdate = $request->startdate;
-        // $enddate = $request->enddate;
-        // $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
 
-        // $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
-        // $date = date('Y-m-d');
-        // $y = date('Y') + 543;
-        // $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-        // $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
-        // $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-        // $yearnew = date('Y');
-        // $yearold = date('Y')-1;
-        // $start = (''.$yearold.'-10-01');
-        // $end = (''.$yearnew.'-09-30'); 
-        $startdate     = $request->startdate;
-        $enddate       = $request->enddate;
-        $budget_year   = $request->budget_year;
-    
-        $datenow       = date("Y-m-d");
-        $y             = date('Y') + 543;
-        $dabudget_year = DB::table('budget_year')->where('active','=',true)->get(); 
         $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
-        $date = date('Y-m-d'); 
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-        
-        $months_now = date('m');
-        $year_now = date('Y');
         $yearnew = date('Y');
-        $year_old = date('Y')-1;
-        $months_old  = ('10');
-        $start = (''.$year_old.'-10-01');
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
         // dd($end);
-        // if ($startdate == '') {
-        //     $datashow = DB::select('
-        //             SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
-        //             ,count(distinct a.hn) as hn
-        //             ,count(distinct a.vn) as vn
-        //             ,count(distinct a.an) as an
-        //             ,sum(a.income) as income
-        //             ,sum(a.paid_money) as paid_money
-        //             ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-        //             ,sum(a.debit) as debit
-        //             FROM acc_debtor a
-        //             left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
-        //             WHERE a.dchdate between "'.$start.'" and "'.$end.'"
-        //             and account_code="1102050101.217"
-        //             group by month(a.dchdate) order by a.dchdate desc limit 7;
-        //     '); 
-        // } else {
-        //     $datashow = DB::select('
-        //             SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
-        //             ,count(distinct a.hn) as hn
-        //             ,count(distinct a.vn) as vn
-        //             ,count(distinct a.an) as an
-        //             ,sum(a.income) as income
-        //             ,sum(a.paid_money) as paid_money
-        //             ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-        //             ,sum(a.debit) as debit
-        //             FROM acc_debtor a
-        //             left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
-        //             WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
-        //             and account_code="1102050101.217"
-        //             group by month(a.dchdate) order by a.dchdate desc;
-        //     ');
-        // }
-        if ($budget_year == '') {          
-            $datashow = DB::select(' 
-                   SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
-                   ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
-                   ,sum(a.debit_total) as tung_looknee  
-                   FROM acc_debtor a 
-                   LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
-                   WHERE a.dchdate BETWEEN "'.$start.'" AND "'.$end.'"
-                   AND a.account_code ="1102050101.217"
-                   GROUP BY months ORDER BY a.dchdate DESC
-           ');      
+        if ($startdate == '') {
+            $datashow = DB::select('
+                    SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn
+                    ,count(distinct a.vn) as vn
+                    ,count(distinct a.an) as an
+                    ,sum(a.income) as income
+                    ,sum(a.paid_money) as paid_money
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+                    ,sum(a.debit) as debit
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
+                    WHERE a.dchdate between "'.$start.'" and "'.$end.'"
+                    and account_code="1102050101.217"
+                    group by month(a.dchdate) order by a.dchdate desc limit 7;
+            ');
+            // and stamp = "N"
         } else {
-           $bg            = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
-           $date_begin    = $bg->date_begin;
-           $date_end      = $bg->date_end;
-           $datashow      = DB::select(' 
-                   SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
-                   ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
-                   ,sum(a.debit_total) as tung_looknee  
-                   FROM acc_debtor a 
-                   LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
-                   WHERE a.dchdate BETWEEN "'.$date_begin.'" AND "'.$date_end.'"
-                   AND a.account_code ="1102050101.217"
-                   GROUP BY months ORDER BY a.dchdate DESC 
-           ');  
-           
+            $datashow = DB::select('
+                    SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn
+                    ,count(distinct a.vn) as vn
+                    ,count(distinct a.an) as an
+                    ,sum(a.income) as income
+                    ,sum(a.paid_money) as paid_money
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+                    ,sum(a.debit) as debit
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
+                    WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
+                    and account_code="1102050101.217"
+                    group by month(a.dchdate) order by a.dchdate desc;
+            ');
         }
 
         return view('account_217.account_pkucs217_dash',[
-            'startdate'        =>  $startdate,
-            'enddate'          =>  $enddate,
-            'datashow'         =>  $datashow,
-            'dabudget_year'    =>  $dabudget_year,
-            'budget_year'      =>  $budget_year,
-            'y'                =>  $y,
+            'startdate'        =>     $startdate,
+            'enddate'          =>     $enddate,
+            'datashow'         =>     $datashow,
+            'leave_month_year' =>     $leave_month_year,
         ]);
     }
     public function account_pkucs217(Request $request,$months,$year)
@@ -596,7 +548,7 @@ class Account217Controller extends Controller
         $data = DB::select('
             SELECT *  from acc_1102050101_217
             WHERE month(dchdate) = "'.$months.'" and year(dchdate) = "'.$year.'"
-            GROUP BY an
+           
         ');
         // AND status = "N"
         return view('account_217.account_pkucs217_detail', $data, [
@@ -718,36 +670,57 @@ class Account217Controller extends Controller
         // dd($id);
         $data['users'] = User::get();
 
-        // $datashow = DB::select('
-        
-        //     SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,s.dmis_money2
-        //     ,a.income_group,s.inst,s.hc,s.hc_drug,s.ae,s.ae_drug,s.STMdoc,a.debit_total,s.ip_paytrue as STM202
-        //     ,s.inst+s.hc+s.hc_drug+s.ae+s.ae_drug+s.dmis_money2+s.dmis_drug as stm217
-        //     ,s.total_approve STM_TOTAL
-        //     from acc_1102050101_217 a
-        //     LEFT JOIN acc_stm_ucs s ON s.an = a.an
-        //     WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
-            
-        //     AND (s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> 0 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> "") 
-        //     group by a.an
-        // ');
-
         $datashow = DB::select('
-                SELECT a.stm_trainid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total
-                ,a.income_group,a.adjrw,a.total_adjrw_income,a.stm_money,a.stm_total,a.STMdoc                
-                FROM acc_1102050101_217 a              
-                WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" 
-                AND a.stm_money IS NOT NULL
-                GROUP BY a.an
-        ');
         
+            SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,s.dmis_money2
+            ,a.income_group,s.inst,s.hc,s.hc_drug,s.ae,s.ae_drug,s.STMdoc,a.debit_total,s.ip_paytrue as STM202
+            ,s.inst+s.hc+s.hc_drug+s.ae+s.ae_drug+s.dmis_money2+s.dmis_drug as stm217
+            ,s.total_approve STM_TOTAL
+            from acc_1102050101_217 a
+            LEFT JOIN acc_stm_ucs s ON s.an = a.an
+            WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
+            
+            AND (s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> 0 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> "") 
+            group by a.an
+        ');
+        // AND s.rep IS NOT NULL
+        // AND (s.hc_drug >0 or s.hc >0 or s.ae >0 or s.ae_drug >0 or s.inst >0 or s.dmis_money2 >0 or s.dmis_drug >0)
+        $sum_money_ = DB::connection('mysql')->select('
+            SELECT SUM(a.debit_total) as total
+            from acc_1102050101_217 a
+            LEFT JOIN acc_stm_ucs au ON au.an = a.an
+            WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NOT NULL;
+        ');
+        foreach ($sum_money_ as $key => $value) {
+            $sum_debit_total = $value->total;
+        }
+            $sum_stm_ = DB::connection('mysql')->select('
+            SELECT SUM(au.inst) as stmtotal
+            from acc_1102050101_217 a
+            LEFT JOIN acc_stm_ucs au ON au.an = a.an
+            WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NOT NULL;
+        ');
+        foreach ($sum_stm_ as $key => $value) {
+            $sum_stm_total = $value->stmtotal;
+        }
+        // $sum_stm_ = DB::connection('mysql')->select('
+        //     SELECT SUM(au.total_approve) as total
+        //     from acc_1102050101_217 a
+        //     LEFT JOIN acc_stm_ucs au ON au.an = a.an
+        //     WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NOT NULL;
+        // ');
+        // foreach ($sum_stm_ as $key => $value) {
+        //     $sum_debit_total = $value->total;
+        // }
 
             return view('account_217.account_pkucs217_stm', $data, [
                 'startdate'         =>     $startdate,
                 'enddate'           =>     $enddate,
                 'datashow'          =>     $datashow,
                 'months'            =>     $months,
-                'year'              =>     $year, 
+                'year'              =>     $year,
+                'sum_debit_total'   =>     $sum_debit_total,
+                'sum_stm_total'     =>     $sum_stm_total
             ]);
     }
     public function account_pkucs217_stmnull(Request $request,$months,$year)
