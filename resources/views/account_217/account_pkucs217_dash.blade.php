@@ -159,7 +159,7 @@
             <div class="col-xl-4 col-md-12">
                 <div class="card cardacc" style="background-color: rgb(246, 235, 247)"> 
 
-                    @if ($budget_year == '')
+                    {{-- @if ($budget_year == '') --}}
                         <div class="grid-menu-col">
                             <div class="g-0 row">
                                 <div class="col-sm-12">
@@ -311,9 +311,9 @@
                                 </div>
                             </div>
                         </div>
-                    @else
+                    {{-- @else --}}
                   
-                    <div class="grid-menu-col">
+                    {{-- <div class="grid-menu-col">
                         <div class="g-0 row">
                             <div class="col-sm-12">
                                 <div class="d-flex text-start">
@@ -464,7 +464,7 @@
                         </div>
                     </div>
 
-                    @endif                 
+                    @endif                  --}}
                        
                    
                 </div> 

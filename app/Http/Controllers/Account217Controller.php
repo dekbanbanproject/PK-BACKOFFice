@@ -469,8 +469,8 @@ class Account217Controller extends Controller
         // $yearold = date('Y')-1;
         // $start = (''.$yearold.'-10-01');
         // $end = (''.$yearnew.'-09-30'); 
-        $startdate     = $request->startdate;
-        $enddate       = $request->enddate;
+        // $startdate     = $request->startdate;
+        // $enddate       = $request->enddate;
         $budget_year   = $request->budget_year;
     
         $datenow       = date("Y-m-d");
@@ -484,11 +484,7 @@ class Account217Controller extends Controller
         
         $months_now = date('m');
         $year_now = date('Y');
-        $yearnew = date('Y');
-        $year_old = date('Y')-1;
-        $months_old  = ('10');
-        $start = (''.$year_old.'-10-01');
-        $end = (''.$yearnew.'-09-30'); 
+       
         // dd($end);
         // if ($startdate == '') {
         //     $datashow = DB::select('
@@ -523,28 +519,34 @@ class Account217Controller extends Controller
         //             group by month(a.dchdate) order by a.dchdate desc;
         //     ');
         // }
-        if ($budget_year == '') {          
+        if ($budget_year == '') {    
+            $yearnew     = date('Y');
+            $year_old    = date('Y')-1;
+            $months_old  = ('10');
+            $startdate   = (''.$year_old.'-10-01');
+            $enddate     = (''.$yearnew.'-09-30'); 
+
             $datashow = DB::select(' 
                    SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
                    ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
                    ,sum(a.debit_total) as tung_looknee  
                    FROM acc_debtor a 
                    LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
-                   WHERE a.dchdate BETWEEN "'.$start.'" AND "'.$end.'"
+                   WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                    AND a.account_code ="1102050101.217"
                    GROUP BY months ORDER BY a.dchdate DESC
            ');      
         } else {
-           $bg            = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
-           $date_begin    = $bg->date_begin;
-           $date_end      = $bg->date_end;
-           $datashow      = DB::select(' 
+           $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
+           $startdate    = $bg->date_begin;
+           $enddate      = $bg->date_end;
+           $datashow     = DB::select(' 
                    SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
                    ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
                    ,sum(a.debit_total) as tung_looknee  
                    FROM acc_debtor a 
                    LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
-                   WHERE a.dchdate BETWEEN "'.$date_begin.'" AND "'.$date_end.'"
+                   WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                    AND a.account_code ="1102050101.217"
                    GROUP BY months ORDER BY a.dchdate DESC 
            ');  
