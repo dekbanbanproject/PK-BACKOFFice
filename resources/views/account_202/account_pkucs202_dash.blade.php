@@ -148,7 +148,7 @@
             @foreach ($datashow as $item)
             <div class="col-xl-4 col-md-12">
                 <div class="card cardacc" style="background-color: rgb(246, 235, 247)">
-                    @if ($startdate == '')
+                    {{-- @if ($budget_year == '') --}}
                         <div class="grid-menu-col">
                             <div class="g-0 row">
                                 <div class="col-sm-12">
@@ -165,7 +165,7 @@
                                                             WHERE account_code="1102050101.202"
                                                             AND stamp = "N"
                                                             and month(dchdate) = "'.$item->months.'"
-                                                            and year(dchdate) = "'.$item->years.'";
+                                                            and year(dchdate) = "'.$item->years.'"
                                                 ');
                                                 foreach ($datas as $key => $value) {
                                                     $count_N = $value->Can;
@@ -311,8 +311,8 @@
                                 </div>
                             </div>
                         </div>
-                    @else
-                    <div class="grid-menu-col">
+                    {{-- @else --}}
+                    {{-- <div class="grid-menu-col">
                         <div class="g-0 row">
                             <div class="col-sm-12">
                                 <div class="d-flex text-start">
@@ -327,8 +327,12 @@
                                                         ,SUM(debit_total) as sumdebit
                                                         from acc_debtor
                                                             WHERE account_code="1102050101.202"
-                                                            AND stamp = "N" AND dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                                                            AND stamp = "N" 
+                                                            
+                                                            AND month(dchdate) = "'.$item->months.'"
+                                                            AND year(dchdate) = "'.$item->years.'"
                                                 ');
+                                                // AND dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
                                                 foreach ($datas as $key => $value) {
                                                     $count_N2 = $value->Can;
                                                     $sum_N2 = $value->sumdebit;
@@ -364,7 +368,7 @@
                                         ?>
                                         <div class="row">
                                             <div class="col-md-5 text-start mt-4 ms-4">
-                                                <h5 > {{$item->MONTH_NAME}} {{$ynew}}</h5>
+                                                <h5 > {{$item->MONTH_NAME}} {{$ynew}} /{{$startdate}} /{{$enddate}}</h5>
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-5 text-end mt-2 me-2">
@@ -467,9 +471,9 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
-                    @endif
+                    {{-- @endif --}}
                 </div>
             </div>
             @endforeach

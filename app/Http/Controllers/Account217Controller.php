@@ -758,36 +758,26 @@ class Account217Controller extends Controller
         // dd($id);
         $data['users'] = User::get();
 
-        $data = DB::select('
-                SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,s.dmis_money2,s.total_approve,a.income_group,s.inst,s.ip_paytrue
-                ,s.inst + s.hc + s.hc_drug + s.ae + s.ae_drug + s.dmis_money2 + s.dmis_drug as stm217
-                from acc_1102050101_217 a
-                LEFT JOIN acc_stm_ucs s ON s.an = a.an
-                WHERE a.status ="N"
-                AND month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
+        // $data = DB::select('
+        //         SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,s.dmis_money2,s.total_approve,a.income_group,s.inst,s.ip_paytrue
+        //         ,s.inst + s.hc + s.hc_drug + s.ae + s.ae_drug + s.dmis_money2 + s.dmis_drug as stm217
+        //         from acc_1102050101_217 a
+        //         LEFT JOIN acc_stm_ucs s ON s.an = a.an
+        //         WHERE a.status ="N"
+        //         AND month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
              
-                AND (s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug = 0 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug is null)
-                group by a.an
+        //         AND (s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug = 0 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug is null)
+        //         group by a.an
+        // ');
+        $data = DB::connection('mysql')->select('  
+            SELECT a.stm_trainid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total
+            ,a.income_group,a.adjrw,a.total_adjrw_income,a.stm_money,a.stm_total,a.STMdoc                
+            FROM acc_1102050101_217 a              
+            WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" 
+            AND a.stm_money IS NULL
+            GROUP BY a.an
         ');
-        // AND (s.hc_drug = 0 or s.hc =0 or s.ae =0 or s.ae_drug =0 or s.inst = 0 or s.dmis_money2 =0 or s.dmis_drug =0)
-        $sum_money_ = DB::connection('mysql')->select('
-            SELECT SUM(a.debit_total) as total
-            from acc_1102050101_217 a
-            LEFT JOIN acc_stm_ucs au ON au.an = a.an
-            WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NULL;
-        ');
-        foreach ($sum_money_ as $key => $value) {
-            $sum_debit_total = $value->total;
-        }
-        $sum_stm_ = DB::connection('mysql')->select('
-            SELECT SUM(au.inst) as stmtotal
-            from acc_1102050101_217 a
-            LEFT JOIN acc_stm_ucs au ON au.an = a.an
-            WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NULL;
-        ');
-        foreach ($sum_stm_ as $key => $value) {
-            $sum_stm_total = $value->stmtotal;
-        }
+        
 
         return view('account_217.account_pkucs217_stmnull', $data, [
             'startdate'         =>     $startdate,
@@ -795,8 +785,7 @@ class Account217Controller extends Controller
             'data'              =>     $data,
             'months'            =>     $months,
             'year'              =>     $year,
-            'sum_debit_total'   =>     $sum_debit_total,
-            'sum_stm_total'     =>     $sum_stm_total
+            
         ]);
     }
     public function account_pkucs217_stmnull_all(Request $request,$months,$year)

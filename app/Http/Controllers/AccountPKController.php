@@ -3135,27 +3135,27 @@ class AccountPKController extends Controller
                     } 
 
                     if ($value->ip_paytrue == "0.00") {
-                        // Acc_1102050101_202::where('an',$value->an) 
-                        //     ->update([
-                        //         'status'          => 'Y',
-                        //         'stm_rep'         => $value->debit,
-                        //         // 'stm_money'       => $value->ip_paytrue,
-                        //         'stm_rcpno'       => $value->rep.'-'.$value->repno,
-                        //         'stm_trainid'     => $value->tranid,
-                        //         'stm_total'       => $value->total_approve,
-                        //         'STMdoc'          => $value->STMdoc,
-                        // ]);
+                        Acc_1102050101_202::where('an',$value->an) 
+                            ->update([
+                                'status'          => 'Y',
+                                'stm_rep'         => $value->debit,
+                                // 'stm_money'       => $value->ip_paytrue,
+                                'stm_rcpno'       => $value->rep.'-'.$value->repno,
+                                'stm_trainid'     => $value->tranid,
+                                'stm_total'       => $value->total_approve,
+                                'STMdoc'          => $value->STMdoc,
+                        ]);
                     }else if ($value->ip_paytrue > "0.00") {
-                            // Acc_1102050101_202::where('an',$value->an) 
-                            //     ->update([
-                            //         'status'          => 'Y',
-                            //         'stm_rep'         => $value->debit,
-                            //         'stm_money'       => $value->ip_paytrue,
-                            //         'stm_rcpno'       => $value->rep.'-'.$value->repno,
-                            //         'stm_trainid'     => $value->tranid,
-                            //         'stm_total'       => $value->total_approve,
-                            //         'STMdoc'          => $value->STMdoc,
-                            // ]);
+                            Acc_1102050101_202::where('an',$value->an) 
+                                ->update([
+                                    'status'          => 'Y',
+                                    'stm_rep'         => $value->debit,
+                                    'stm_money'       => $value->ip_paytrue,
+                                    'stm_rcpno'       => $value->rep.'-'.$value->repno,
+                                    'stm_trainid'     => $value->tranid,
+                                    'stm_total'       => $value->total_approve,
+                                    'STMdoc'          => $value->STMdoc,
+                            ]);
                     } else {
                     }
 

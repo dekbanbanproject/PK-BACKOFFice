@@ -159,7 +159,7 @@
             <div class="col-xl-4 col-md-12">
                 <div class="card cardacc" style="background-color: rgb(246, 235, 247)"> 
 
-                    @if ($startdate == '')
+                    @if ($budget_year == '')
                         <div class="grid-menu-col">
                             <div class="g-0 row">
                                 <div class="col-sm-12">
