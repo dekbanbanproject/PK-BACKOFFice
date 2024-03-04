@@ -1210,7 +1210,8 @@ class AutoController extends Controller
                 AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10")
                 AND p.nationality = "99"
                 AND p.birthday <> CURDATE()
-                group by o.vn                    
+                group by o.vn  
+                LIMIT 200                  
             ');  
             // BETWEEN "2024-02-11" AND "2024-02-15"
             // WHERE o.vstdate = CURDATE()
@@ -1218,21 +1219,21 @@ class AutoController extends Controller
                 $check = Check_sit_auto::where('vn', $value->vn)->count();
 
                 if ($check > 0) {
-                    Check_sit_auto::where('vn', $value->vn)
-                        ->update([ 
-                            'hometel'    => $value->hometel,
-                            'vsttime'    => $value->vsttime,
-                            'fullname'   => $value->fullname,
-                            'pttype'     => $value->pttype,
-                            'hospmain'   => $value->hospmain,
-                            'hospsub'    => $value->hospsub,
-                            'main_dep'   => $value->main_dep,
-                            'staff'      => $value->staff,
-                            'staff_name' => $value->staffname,
-                            'debit'      => $value->debit,
-                            'pdx'        => $value->pdx,
-                            'cc'         => $value->cc
-                        ]);
+                    // Check_sit_auto::where('vn', $value->vn)
+                    //     ->update([ 
+                    //         'hometel'    => $value->hometel,
+                    //         'vsttime'    => $value->vsttime,
+                    //         'fullname'   => $value->fullname,
+                    //         'pttype'     => $value->pttype,
+                    //         'hospmain'   => $value->hospmain,
+                    //         'hospsub'    => $value->hospsub,
+                    //         'main_dep'   => $value->main_dep,
+                    //         'staff'      => $value->staff,
+                    //         'staff_name' => $value->staffname,
+                    //         'debit'      => $value->debit,
+                    //         'pdx'        => $value->pdx,
+                    //         'cc'         => $value->cc
+                    //     ]);
                 } else {
                     Check_sit_auto::insert([
                         'vn'         => $value->vn,
