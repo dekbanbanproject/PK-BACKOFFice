@@ -38,6 +38,9 @@ return new class extends Migration
                 $table->string('priority_name')->nullable();//  
                 $table->string('STMdoc')->nullable();// 
                 $table->string('user_id')->nullable();// 
+                $table->string('hospcode')->nullable();// 
+                $table->string('hospmain')->nullable();// 
+                $table->string('referin_no')->nullable();// 
                 $table->enum('active', ['N', 'Y', 'W'])->default('N');  
                 $table->timestamps();
             });

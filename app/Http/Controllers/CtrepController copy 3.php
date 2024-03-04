@@ -267,7 +267,6 @@ class CtrepController extends Controller
                         when xi.service_price is null then xi.service_price_ipd
                         else xi.service_price
                         end as xray_price
-                        
                         ,case 
                         when xh.total_price is null then xt.total_price
                         else xh.total_price
@@ -291,15 +290,35 @@ class CtrepController extends Controller
                         LEFT OUTER JOIN hospcode h on h.hospcode = v.hospmain 
                         LEFT OUTER JOIN referin ro on ro.vn = v.vn 
                         WHERE x.request_date BETWEEN "' . $startdate . '" AND "' . $enddate . '" 
-                        AND (xi.xray_items_group ="3")   
+                        AND (xi.xray_items_group ="3") 
+
+                         
                 ');
-                          
+                // ,case 
+                // when xh.xray_price is null then xt.xray_price
+                // else xh.xray_price
+                // end as xray_price            
                 foreach ($data_ct_new as $key => $value_new) {   
                     $check2 = A_ct_scan::where('vn', $value_new->vn)->where('xray_list', $value_new->xray_list)->count();               
                     if ($check2 > 0) {    
-                        A_ct_scan::where('vn',$value_new->vn)->where('xray_list', $value_new->xray_list)->update([ 
+                        A_ct_scan::where('vn',$value_new->vn)->where('xray_list', $value_new->xray_list)->update([
+                            // 'vn'                  => $value_new->vn,
+                            // 'an'                  => $value_new->an,
+                            // 'hn'                  => $value_new->hn,                                 
+                            // 'cid'                 => $value_new->cid,  
+                            // 'request_date'        => $value_new->request_date,
+                            // 'ptname'              => $value_new->ptname,
+                            // 'xray_list'           => $value_new->xray_list,
+                            // 'confirm_all'         => $value_new->confirm_all,
+                            // 'department'          => $value_new->department,
+                            // 'department_code'     => $value_new->department_code, 
+                            // 'department_name'     => $value_new->department_name, 
+                            // 'pttype'              => $value_new->pttype, 
+                            // 'xray_order_number'   => $value_new->xray_order_number, 
                             'xray_price'          => $value_new->xray_price, 
-                            'total_price'         => $value_new->total_price,   
+                            'total_price'         => $value_new->total_price, 
+                            // 'department_list'     => $value_new->department_list, 
+                            // 'priority_name'       => $value_new->priority_name,  
                             'user_id'             => Auth::user()->id,
                             'hospcode'            => $value_new->hospcode, 
                             'referin_no'          => $value_new->referin_no, 
@@ -740,7 +759,7 @@ class CtrepController extends Controller
      
         if ($startdate != '') {   
                 $data['datashow'] = DB::connection('mysql')->select('
-                    SELECT vn,hn,cid,ptname,request_date,pttype,referin_no,hospcode,hospmain,SUM(xray_price) as xray_price,total_price,active,STMdoc
+                    SELECT *
                     FROM a_ct_scan 
                     WHERE request_date BETWEEN "' . $startdate . '" AND "' . $enddate . '" 
                     GROUP BY vn
@@ -748,7 +767,7 @@ class CtrepController extends Controller
                 '); 
         } else { 
                 $data['datashow'] = DB::connection('mysql')->select('
-                    SELECT vn,hn,cid,ptname,request_date,pttype,referin_no,hospcode,hospmain,xray_price,total_price,active,STMdoc
+                    SELECT *
                     FROM a_ct_scan 
                     WHERE request_date BETWEEN "' . $newDate . '" AND "' . $date . '" 
                     GROUP BY vn

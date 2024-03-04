@@ -195,7 +195,7 @@ background-repeat: no-repeat;
                                 <li class="menu-title">Menu</li> 
                                 <li>
                                     <a href="{{ url('ct_rep') }}">  
-                                        <i class="fa-regular fa-heart text-info"></i>
+                                        <i class="fa-regular fa-heart text-success"></i>
                                         <span>CT Check </span>
                                     </a>
                                 </li>
@@ -219,7 +219,8 @@ background-repeat: no-repeat;
                                 </li>
                                 <li>
                                     <a href="javascript: void(0);" class="has-arrow waves-effect"> 
-                                        <i class="fa fa-lungs-virus text-danger"></i>
+                                        {{-- <i class="fa fa-lungs-virus text-danger"></i> --}} 
+                                        <i class="fas fa-chart-line text-danger"></i>
                                         <span>CT Report</span>
                                     </a>
                                     <ul class="sub-menu" aria-expanded="true">
