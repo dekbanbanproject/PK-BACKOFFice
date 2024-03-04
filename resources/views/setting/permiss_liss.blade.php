@@ -534,7 +534,7 @@ $permiss_account = StaticController::permiss_account($iduser);
                       {{-- </div> --}}
 
                       {{-- <div class="row mt-3 me-3 mb-3 ms-3"> --}}
-                        <div class="col-4 col-md-3 col-xl-3">
+                        {{-- <div class="col-4 col-md-3 col-xl-3">
                             <div class="card">
                                 <div class="card-body shadow-lg">
 
@@ -549,7 +549,7 @@ $permiss_account = StaticController::permiss_account($iduser);
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-4 col-md-3 col-xl-3">
                             <div class="card">
                                 <div class="card-body shadow-lg">

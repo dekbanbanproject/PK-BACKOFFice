@@ -2657,6 +2657,7 @@ Route::match(['get','post'],'ct_rep_sync',[App\Http\Controllers\CtrepController:
 Route::match(['get','post'],'ct_rep_confirm',[App\Http\Controllers\CtrepController::class, 'ct_rep_confirm'])->name('ct.ct_rep_confirm');//
 Route::match(['get','post'],'ct_rep_checksit',[App\Http\Controllers\CtrepController::class, 'ct_rep_checksit'])->name('ct.ct_rep_checksit');//
 Route::match(['get','post'],'ct_report',[App\Http\Controllers\CtrepController::class, 'ct_report'])->name('ct.ct_report');//
+Route::match(['get','post'],'ct_report_hos',[App\Http\Controllers\CtrepController::class, 'ct_report_hos'])->name('ct.ct_report_hos');//
 
 Route::match(['get','post'],'thalassemia_year',[App\Http\Controllers\PctController::class, 'thalassemia_year'])->name('pct.thalassemia_year');//
 Route::match(['get','post'],'thalassemia_yearsearch',[App\Http\Controllers\PctController::class, 'thalassemia_yearsearch'])->name('pct.thalassemia_yearsearch');//

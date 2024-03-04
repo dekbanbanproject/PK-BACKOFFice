@@ -196,7 +196,7 @@ background-repeat: no-repeat;
                                 <li>
                                     <a href="{{ url('ct_rep') }}">  
                                         <i class="fa-regular fa-heart text-info"></i>
-                                        <span>CT Check Report </span>
+                                        <span>CT Check </span>
                                     </a>
                                 </li>
                                 {{-- <li>
@@ -205,28 +205,28 @@ background-repeat: no-repeat;
                                         <span>CT Check Report IPD</span>
                                     </a>
                                 </li> --}}
-                                <li>
+                                {{-- <li>
                                     <a href="{{ url('ct_report') }}">  
                                         <i class="fa-regular fa-heart text-success"></i>
                                         <span>CT Report</span>
                                     </a>
-                                </li>
+                                </li> --}}
                                 <li>
                                     <a href="{{ url('ct_rep_import') }}">  
                                         <i class="fa-regular fa-heart text-primary"></i>
                                         <span>Import Excel CT</span>
                                     </a>
                                 </li>
-                                {{-- <li>
+                                <li>
                                     <a href="javascript: void(0);" class="has-arrow waves-effect"> 
                                         <i class="fa fa-lungs-virus text-danger"></i>
                                         <span>CT Report</span>
                                     </a>
                                     <ul class="sub-menu" aria-expanded="true">
-                                        <li><a href="{{ url('ct_rep') }}">Ct</a></li> 
-                                        <li><a href="{{ url('ct_rep_import') }}">Import Excel CT</a></li>  
+                                        <li><a href="{{ url('ct_report') }}">CT Report</a></li> 
+                                        <li><a href="{{ url('ct_report_hos') }}">CT Report เรียกเก็บ</a></li>  
                                     </ul>
-                                </li> --}}
+                                </li>
                                  
                                 
                             </ul>

@@ -337,7 +337,7 @@ $pos = strrpos($url, '/') + 1;
                     {{-- </div> --}}
 
                     {{-- <div class="row me-1 mb-1 ms-1"> --}}
-                        <div class="col-4 col-md-3 col-xl-3">
+                        {{-- <div class="col-4 col-md-3 col-xl-3">
                             <div class="card">
                                 <div class="card-body shadow-lg">
 
@@ -349,7 +349,7 @@ $pos = strrpos($url, '/') + 1;
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-4 col-md-3 col-xl-3">
                             <div class="card">
                                 <div class="card-body shadow-lg">

@@ -713,6 +713,46 @@ class CtrepController extends Controller
         ]);
     }
 
+    public function ct_report_hos(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+ 
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 2 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y')+1;
+        $yearold = date('Y');
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+     
+        if ($startdate != '') {   
+                $data['datashow'] = DB::connection('mysql')->select('
+                    SELECT *
+                    FROM a_ct_scan 
+                    WHERE request_date BETWEEN "' . $startdate . '" AND "' . $enddate . '" 
+                    GROUP BY vn
+                    ORDER BY request_date DESC
+                '); 
+        } else { 
+                $data['datashow'] = DB::connection('mysql')->select('
+                    SELECT *
+                    FROM a_ct_scan 
+                    WHERE request_date BETWEEN "' . $newDate . '" AND "' . $date . '" 
+                    GROUP BY vn
+                   ORDER BY request_date DESC
+                ');                 
+        }          
+        
+        return view('ct.ct_report_hos',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+            // 'datashow'      =>     $datashow,
+        ]);
+    }
+
     public function ct_rep_pay(Request $request)
     {
         $startdate = $request->startdate;
