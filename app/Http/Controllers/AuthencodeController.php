@@ -29,12 +29,13 @@ use SplFileObject;
 use Arr;
 use Storage;
 use GuzzleHttp\Client;
-
+// http://192.168.121.111:8189/
 class AuthencodeController extends Controller
 {
     public function authen_main(Request $request)
     {
         $ip = $request->ip();
+        dd($ip);
         $terminals = Http::get('http://' . $ip . ':8189/api/smartcard/terminals')->collect();
         $cardcid = Http::get('http://' . $ip . ':8189/api/smartcard/read')->collect();
         $cardcidonly = Http::get('http://' . $ip . ':8189/api/smartcard/read-card-only')->collect();

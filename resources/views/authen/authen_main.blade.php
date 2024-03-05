@@ -39,7 +39,7 @@
  
     <style>
         body {
-            background-color: rgb(255, 220, 239);
+            background-color: rgb(252, 229, 241);
             background-repeat: no-repeat;
             background-attachment: fixed;
             /* background-size: cover; */
@@ -71,6 +71,46 @@
             font-family: 'Noto Sans Thai', sans-serif;
             font-size: 14px; 
         }
+
+        #button{
+               display:block;
+               margin:20px auto;
+               padding:30px 30px;
+               background-color:#eee;
+               border:solid #ccc 1px;
+               cursor: pointer;
+               }
+               #overlay{	
+               position: fixed;
+               top: 0;
+               z-index: 100;
+               width: 100%;
+               height:100%;
+               display: none;
+               background: rgba(0,0,0,0.6);
+               }
+               .cv-spinner {
+               height: 100%;
+               display: flex;
+               justify-content: center;
+               align-items: center;  
+               }
+               .spinner {
+               width: 250px;
+               height: 250px;
+               border: 10px #ddd solid;
+               border-top: 10px #1fdab1 solid;
+               border-radius: 50%;
+               animation: sp-anime 0.8s infinite linear;
+               }
+               @keyframes sp-anime {
+               100% { 
+                   transform: rotate(390deg); 
+               }
+               }
+               .is-hide{
+               display:none;
+               }
     </style>
 </head>
 
@@ -80,52 +120,27 @@
         $org = DB::connection('mysql')->select('SELECT * FROM orginfo WHERE orginfo_id = 1');
     ?>
  
-    <div class="tabs-animation mt-3">
-            <div class="row text-center">
-                <div id="overlay">
-                    <div class="cv-spinner">
-                        <span class="spinner"></span>
-                    </div>
+ 
+            <div class="tabs-animation">
+                <div class="row text-center">
+                    <div id="overlay">
+                        <div class="cv-spinner">
+                            <span class="spinner"></span>
+                        </div>
+                    </div> 
                 </div> 
-            </div>
-    
-          
+                {{-- <div id="preloader">
+                    <div id="status">
+                        <div class="spinner"> 
+                        </div>
+                    </div>
+                </div> --}}
                
             <div class="row mt-2">
                 <div class="col"></div>
                 <div class="col-xl-10">
                   
                                     @if ($smartcard == 'NO_CONNECT')
-                                        <div class="row mt-4">
-                                            <div class="col"></div> 
-                                            <div class="col-md-1 text-end">
-                                                <img src="{{ asset('medical/assets/img/logo150.png') }}" alt="" height="70px" width="70px">   
-                                            </div>
-                                            <div class="col-md-4 text-start mt-3">  
-                                                @foreach ($org as $item)  
-                                                        <h1 style="color:rgb(136, 43, 241)" class="Head2"> 
-                                                            {{$item->orginfo_name}}
-                                                        </h1>  
-                                                @endforeach
-                                            </div> 
-                                            <div class="col"></div> 
-                                        </div>
-
-                                        <div class="row mt-4">
-                                            <div class="col"></div>
-                                            <div class="col-md-4 text-center ">
-                                                <img src="http://localhost:8189/assets/images/smartcard-connected.png" alt=""
-                                                    width="320px"><br> <br>
-                                                <label for="" class="form-label Head1"
-                                                    style="color: rgb(255, 255, 255);font-size:35px" >ไม่พบเครื่องอ่านบัตร</label>
-                                                <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
-                                            </div>
-                                            <div class="col"></div>
-                                        </div>
-                          
-                                    @else
-                                            @if ($smartcardcon == 'NO_CID')
-
                                                 <div class="row mt-4">
                                                     <div class="col"></div> 
                                                     <div class="col-md-1 text-end">
@@ -143,16 +158,47 @@
 
                                                 <div class="row mt-4">
                                                     <div class="col"></div>
-                                                    <div class="col-md-4 text-center">
-                                                        <img src="{{ asset('images/card1.jpg') }}" alt="Image"
-                                                            class="img-thumbnail shadow-lg" width="320px">
-                                                        <br><br> 
-                                                            <label for="" class="form-label Head1"
-                                                            style="color: rgb(255, 255, 255);font-size:35px" >กรุณาเสียบบัตรประชาชน</label>
+                                                    <div class="col-md-4 text-center ">
+                                                        <img src="http://localhost:8189/assets/images/smartcard-connected.png" alt=""
+                                                            width="320px"><br> <br>
+                                                        <label for="" class="form-label Head1"
+                                                            style="color: rgb(255, 255, 255);font-size:35px" >ไม่พบเครื่องอ่านบัตร</label>
                                                         <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
                                                     </div>
                                                     <div class="col"></div>
                                                 </div>
+                          
+                                    @else
+
+                                            @if ($smartcardcon == 'NO_CID')
+
+                                                    <div class="row mt-4">
+                                                        <div class="col"></div> 
+                                                        <div class="col-md-1 text-end">
+                                                            <img src="{{ asset('medical/assets/img/logo150.png') }}" alt="" height="70px" width="70px">   
+                                                        </div>
+                                                        <div class="col-md-4 text-start mt-3">  
+                                                            @foreach ($org as $item)  
+                                                                    <h1 style="color:rgb(136, 43, 241)" class="Head2"> 
+                                                                        {{$item->orginfo_name}}
+                                                                    </h1>  
+                                                            @endforeach
+                                                        </div> 
+                                                        <div class="col"></div> 
+                                                    </div>
+
+                                                    <div class="row mt-4">
+                                                        <div class="col"></div>
+                                                        <div class="col-md-4 text-center">
+                                                            <img src="{{ asset('images/card1.jpg') }}" alt="Image"
+                                                                class="img-thumbnail shadow-lg" width="320px">
+                                                            <br><br> 
+                                                                <label for="" class="form-label Head1"
+                                                                style="color: rgb(255, 255, 255);font-size:35px" >กรุณาเสียบบัตรประชาชน</label>
+                                                            <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+                                                        </div>
+                                                        <div class="col"></div>
+                                                    </div>
                                             @else
 
                                                     <div class="row mt-4">
@@ -341,8 +387,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-md-1"></div>
-                                                    </div>
- 
+                                                    </div> 
 
                                                     <hr style="height: 2px;color:white;">
 
@@ -666,7 +711,6 @@
                                                             </div>
                                                   
                                                     @else 
-
                                                             <div id="accordion" class="custom-accordion">
                                                                 <div class="card mb-1 shadow-none">
                                                                     <a href="#collapseOne" class="text-dark collapsed" data-bs-toggle="collapse"
@@ -1075,10 +1119,14 @@
                                                                                 <div class="row mt-2">
                                                                                     <div class="col"></div>
                                                                                     <div class="col-md-8 text-center">  
-                                                                                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info" id="OpenVisit"> 
+                                                                                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info"> 
                                                                                             <i class="fa-solid fa-heart-circle-bolt ms-4 me-4 mt-2" style="font-size: 18px;color:rgb(136, 43, 241)"></i>
                                                                                             <label for="" style="font-size: 18px;color:rgb(136, 43, 241)" class="me-3 mt-2">Authen Code + Visit</label>
                                                                                         </button>
+                                                                                        {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info" id="OpenVisit"> 
+                                                                                            <i class="fa-solid fa-heart-circle-bolt ms-4 me-4 mt-2" style="font-size: 18px;color:rgb(136, 43, 241)"></i>
+                                                                                            <label for="" style="font-size: 18px;color:rgb(136, 43, 241)" class="me-3 mt-2">Authen Code + Visit</label>
+                                                                                        </button> --}}
                                                                                     </div> 
                                                                                     <div class="col"></div>
                                                                                 </div>
@@ -1087,8 +1135,7 @@
                                                                     </div>
                                                                 </div>
                                                                 
-                                                            </div>
- 
+                                                            </div> 
 
                                                     @endif
 
@@ -1100,10 +1147,11 @@
                                                         <input type="hidden" class="form-control" id="time" name="time" value="{{ $time }}">
                                                         
                                                         <hr style="height: 2px;color:white;">
-
-                                                   
  
-
+                                                        <h3 style="color:rgb(136, 43, 241)" class="Head2 text-center"> 
+                                                             BY ทีมพัฒนา PK-HOS
+                                                        </h3>  
+                                                        
                                             @endif
                                 
                                     @endif
@@ -1128,6 +1176,8 @@
                 // $('#ovstist').select2({
                 //     dropdownParent: $('#insertdata')
                 // });
+                $('#spinner').hide();//Request is complete so hide spinner
+                // $("#spinner-div").hide(); //Request is complete so hide spinner
                 
                 $('#Authen_Only').click(function() {
                         var pid             = $('#pid').val(); 

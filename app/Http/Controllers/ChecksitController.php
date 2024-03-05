@@ -294,13 +294,11 @@ class ChecksitController extends Controller
         // }
 
         $data_sit = DB::connection('mysql')->select('
-            SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,c.staff_name,k.department 
-            from check_sit_auto c
+            SELECT * 
+            FROM check_sit_auto c
             LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-            WHERE c.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'" AND c.claimcode is null
-            AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
-            AND c.main_dep NOT IN("011","036","107")
-            GROUP BY c.vn
+            WHERE vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'" 
+            GROUP BY vn
         ');
          
         return view('authen.check_authen_day',[

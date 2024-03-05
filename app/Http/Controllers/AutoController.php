@@ -1056,8 +1056,7 @@ class AutoController extends Controller
                         'staff'      => $value->staff,
                         'staff_name' => $value->staffname,
                         'debit'      => $value->debit
-                    ]);
-
+                    ]); 
                 } 
         } 
         return view('auto.pull_Checksit_hosauto');
@@ -1210,8 +1209,7 @@ class AutoController extends Controller
                 AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10")
                 AND p.nationality = "99"
                 AND p.birthday <> CURDATE()
-                group by o.vn  
-                LIMIT 200                  
+                GROUP BY o.vn   
             ');  
             // BETWEEN "2024-02-11" AND "2024-02-15"
             // WHERE o.vstdate = CURDATE()
@@ -1219,21 +1217,21 @@ class AutoController extends Controller
                 $check = Check_sit_auto::where('vn', $value->vn)->count();
 
                 if ($check > 0) {
-                    // Check_sit_auto::where('vn', $value->vn)
-                    //     ->update([ 
-                    //         'hometel'    => $value->hometel,
-                    //         'vsttime'    => $value->vsttime,
-                    //         'fullname'   => $value->fullname,
-                    //         'pttype'     => $value->pttype,
-                    //         'hospmain'   => $value->hospmain,
-                    //         'hospsub'    => $value->hospsub,
-                    //         'main_dep'   => $value->main_dep,
-                    //         'staff'      => $value->staff,
-                    //         'staff_name' => $value->staffname,
-                    //         'debit'      => $value->debit,
-                    //         'pdx'        => $value->pdx,
-                    //         'cc'         => $value->cc
-                    //     ]);
+                    Check_sit_auto::where('vn', $value->vn)
+                        ->update([ 
+                            'hometel'    => $value->hometel,
+                            'vsttime'    => $value->vsttime,
+                            'fullname'   => $value->fullname,
+                            'pttype'     => $value->pttype,
+                            'hospmain'   => $value->hospmain,
+                            'hospsub'    => $value->hospsub,
+                            'main_dep'   => $value->main_dep,
+                            'staff'      => $value->staff,
+                            'staff_name' => $value->staffname,
+                            'debit'      => $value->debit,
+                            'pdx'        => $value->pdx,
+                            'cc'         => $value->cc
+                        ]);
                 } else {
                     Check_sit_auto::insert([
                         'vn'         => $value->vn,
@@ -1281,7 +1279,7 @@ class AutoController extends Controller
                 $check = Check_sit_tiauto::where('vn', $val->vn)->count();
 
                 if ($check > 0) {
-                    Check_sit_auto::where('vn', $value->vn)
+                    Check_sit_tiauto::where('vn', $value->vn)
                     ->update([ 
                         'hometel'    => $value->hometel,
                         'vsttime'    => $value->vsttime,
@@ -1717,33 +1715,33 @@ class AutoController extends Controller
         $yearold = date('Y')-1;
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
-
-                    $acc_opitemrece_ = DB::connection('mysql2')->select('
-                            SELECT vn,an,hn,vstdate,rxdate,income,pttype,paidst,order_no,icode,qty,cost,finance_number,unitprice,discount,sum_price
-                            FROM opitemrece 
-                            WHERE vstdate ="'.$date.'"
-                    ');
-                    foreach ($acc_opitemrece_ as $key => $va2) {
-                        // $check = Acc_opitemrece::where('')
-                        Acc_opitemrece::insert([
-                            'hn'                 => $va2->hn,
-                            'an'                 => $va2->an,
-                            'vn'                 => $va2->vn,
-                            'pttype'             => $va2->pttype,
-                            'paidst'             => $va2->paidst,
-                            'rxdate'             => $va2->rxdate,
-                            'vstdate'            => $va2->vstdate, 
-                            'income'             => $va2->income,
-                            'order_no'           => $va2->order_no,
-                            'icode'              => $va2->icode, 
-                            'qty'                => $va2->qty,
-                            'cost'               => $va2->cost,
-                            'finance_number'     => $va2->finance_number,
-                            'unitprice'          => $va2->unitprice,
-                            'discount'           => $va2->discount,
-                            'sum_price'          => $va2->sum_price,
-                        ]);
-                    }
+                $acc_opitemrece_ = DB::connection('mysql2')->select('
+                        SELECT vn,an,hn,vstdate,rxdate,income,pttype,paidst,order_no,icode,qty,cost,finance_number,unitprice,discount,sum_price
+                        FROM opitemrece 
+                        WHERE vstdate ="'.$date.'"
+                ');
+                foreach ($acc_opitemrece_ as $key => $va2) {
+                    // $check = Acc_opitemrece::where('')
+                    // $check = Acc_opitemrece::where('vn', $va2->vn)->count();
+                    Acc_opitemrece::insert([
+                        'hn'                 => $va2->hn,
+                        'an'                 => $va2->an,
+                        'vn'                 => $va2->vn,
+                        'pttype'             => $va2->pttype,
+                        'paidst'             => $va2->paidst,
+                        'rxdate'             => $va2->rxdate,
+                        'vstdate'            => $va2->vstdate, 
+                        'income'             => $va2->income,
+                        'order_no'           => $va2->order_no,
+                        'icode'              => $va2->icode, 
+                        'qty'                => $va2->qty,
+                        'cost'               => $va2->cost,
+                        'finance_number'     => $va2->finance_number,
+                        'unitprice'          => $va2->unitprice,
+                        'discount'           => $va2->discount,
+                        'sum_price'          => $va2->sum_price,
+                    ]);
+                }
  
         return view('auto.inst_opitemrece');
     }

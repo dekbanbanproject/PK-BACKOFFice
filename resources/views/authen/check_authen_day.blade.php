@@ -44,20 +44,24 @@
 </style>
 
 <div class="tabs-animation">
-
-        <div class="row text-center">
-            <div id="overlay">
-                <div class="cv-spinner">
-                  <span class="spinner"></span>
-                </div>
-              </div>
-
+    <div class="row text-center">
+        <div id="overlay">
+            <div class="cv-spinner">
+                <span class="spinner"></span>
+            </div>
+        </div> 
+    </div> 
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner"> 
+            </div>
         </div>
+    </div>
         <div class="row">
             <div class="col-md-12">
                  <div class="card cardreport">
                     <div class="card-header">
-                        รายงานคนไข้ที่มาใช้บริการ ไม่ได้ขอ Authen
+                        รายงานคนไข้ที่มาใช้บริการ Check Authen
                         <div class="btn-actions-pane-right">  
                             <form action="{{ route('claim.check_authen_day') }}" method="POST">
                                 @csrf
