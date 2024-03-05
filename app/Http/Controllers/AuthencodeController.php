@@ -35,14 +35,17 @@ class AuthencodeController extends Controller
     public function authen_main(Request $request)
     {
         $ip = $request->ip();
-        dd($ip);
+        // dd($ip);
         $terminals = Http::get('http://' . $ip . ':8189/api/smartcard/terminals')->collect();
         $cardcid = Http::get('http://' . $ip . ':8189/api/smartcard/read')->collect();
         $cardcidonly = Http::get('http://' . $ip . ':8189/api/smartcard/read-card-only')->collect();
+        // $terminals = Http::get('http://localhost:8189/api/smartcard/terminals')->collect();
+        // $cardcid = Http::get('http://localhost:8189/api/smartcard/read')->collect();
+        // $cardcidonly = Http::get('http://localhost:8189/api/smartcard/read-card-only')->collect();
         $output = Arr::sort($terminals);
         $outputcard = Arr::sort($cardcid);
         $outputcardonly = Arr::sort($cardcidonly);
-        // dd($outputcard);
+        // dd($outputcardonly);
         if ($output == []) {
 
             $smartcard = 'NO_CONNECT';
@@ -90,6 +93,7 @@ class AuthencodeController extends Controller
                     $cid_    = $value->cid;
                     $token_  = $value->token;
                 }
+                // dd($token_data);  
                 $client = new SoapClient(
                     "http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
                     array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1', "trace" => 1, "exceptions" => 0, "cache_wsdl" => 0)
@@ -109,10 +113,10 @@ class AuthencodeController extends Controller
                     @$maininscl                = $v->maininscl;  // maininscl": "WEL"
                     @$startdate                = $v->startdate;  //"25650728"
                     @$hmain                    = $v->hmain;   //"11066"
-                    @$subinscl                  = $v->subinscl;    //subinscl": "73"
+                    @$subinscl                 = $v->subinscl;    //subinscl": "73"
                     @$person_id_nhso           = $v->person_id;
                     if (@$maininscl == 'WEL') {
-                        @$cardid                    = $v->cardid;  // "R73450035286038"
+                        @$cardid               = $v->cardid;  // "R73450035286038"
                     } else {
                         $cardid = '';
                     } 
@@ -129,6 +133,7 @@ class AuthencodeController extends Controller
                 }
                 $check_cid = DB::connection('mysql2')->table('patient')->where('cid','=',$collection['pid'])->count();
                 $check_hcode = DB::connection('mysql')->table('orginfo')->where('orginfo_id','=','1')->first();
+                // dd($check_cid);
                 if ($check_cid > 0) {
                             $data_patient_ = DB::connection('mysql2')->select(' 
                                         SELECT p.hn ,pe.pttype_expire_date as expiredate ,pe.pttype_hospmain as hospmain ,pe.pttype_hospsub as hospsub 
@@ -143,6 +148,7 @@ class AuthencodeController extends Controller
                                         WHERE p.cid = "'.$collection['pid'].'"
                                         GROUP BY p.hn
                             ');
+                            // dd($data_patient_);
                             foreach ($data_patient_ as $key => $value) {
                                 $pids          = $value->cid;
                                 $hcode         = $value->hcode;
@@ -201,14 +207,14 @@ class AuthencodeController extends Controller
                         $spslname        = '';
                         $ptname          = '';
                         $hipdata_pttype  = '';
-                        $pttype_s          = '';
+                        $pttype_s        = '';
 
                         // $check_pttype = DB::connection('mysql10')->table('pttype')->where('hipdata_pttype','=',$subinscl)->get();
                     
                 }
                 
                 
-                // dd($check_pttype);
+                // dd($pids);
                 // $check_pttype = DB::connection('mysql10')->table('pttype')->where('hipdata_pttype','=',$subinscl)->where('pttype','=',$pttype)->get();
                 // $data['check_pttype'] = DB::connection('mysql10')->table('pttype')->where('hipdata_pttype','=',$subinscl)->get();
                 // dd($hcode);
@@ -218,14 +224,14 @@ class AuthencodeController extends Controller
                 $time = date("His");
                 $vn = $year . '' . $mounts . '' . $day . '' . $time;
                 $time_s = date("H:i:s");
-
+                // dd($time_s);
                 $date = date('Y-m-d');
-                // dd($vn);OK
-                $getvn_stat =  DB::connection('mysql10')->select('select * from vn_stat limit 2');
-                $get_ovst =  DB::connection('mysql10')->select('select * from ovst limit 2');
-                $get_opdscreen =  DB::connection('mysql10')->select('select * from opdscreen limit 2');
-                $get_ovst_seq =  DB::connection('mysql10')->select('select * from ovst_seq limit 2');
-                $get_spclty =  DB::connection('mysql10')->select('select * from spclty');
+                // dd($vn);
+                // $getvn_stat =  DB::connection('mysql10')->select('select * from vn_stat limit 2');
+                // $get_ovst =  DB::connection('mysql10')->select('select * from ovst limit 2');
+                // $get_opdscreen =  DB::connection('mysql10')->select('select * from opdscreen limit 2');
+                // $get_ovst_seq =  DB::connection('mysql10')->select('select * from ovst_seq limit 2');
+                // $get_spclty =  DB::connection('mysql10')->select('select * from spclty');
                 $data['ovstist'] =  DB::connection('mysql10')->select('select * from ovstist');
                 $data['spclty'] =  DB::connection('mysql10')->select('select * from spclty');
                 $data['kskdepartment'] =  DB::connection('mysql10')->select('select * from kskdepartment');
@@ -245,33 +251,36 @@ class AuthencodeController extends Controller
                 $data['occupation'] =  DB::connection('mysql10')->select('SELECT * FROM occupation');
                 $data_patient =  DB::connection('mysql10')->select('SELECT pttype FROM patient WHERE cid = "'.$collection['pid'].'" ');
                 $data['pttype'] =  DB::connection('mysql10')->select('SELECT * FROM pttype');
-
+                // dd($data_patient);
                 foreach ($data_patient as $key => $value_pat) {
                     $check_pttype_ = DB::connection('mysql10')->table('pttype')->where('hipdata_pttype','=',$subinscl)->where('pttype','=',$value_pat->pttype)->first();
                 }
-                $ori_pttype  = $check_pttype_->pttype;
+                // $ori_pttype  = $check_pttype_->pttype;
+                $ori_pttype  = $data_patient;
                 // dd($ori_pttype);
                 // $data['thaiaddress_provinces'] =  DB::connection('mysql10')->select(' select * from thaiaddress_provinces');
                 // $data['thaiaddress_amphures'] =  DB::connection('mysql10')->select(' select * from thaiaddress_amphures');
                 // $data['thaiaddress_districts'] =  DB::connection('mysql10')->select(' select * from thaiaddress_districts');
-                
+                // dd($getvn_stat);
 
                 //ที่เก็บรูปภาพ
                 $data['patient_image'] =  DB::connection('mysql10')->select('select * from patient_image where image_name = "OPD" limit 100');
-                // dd($hn);
+                // dd($data_patient);
                 if ($hn == '') {
                     $ovst_key = '';
                 } else {
                      ///// เจน  ovst_key  จาก Hosxp
                     // $getovst_key_ = Http::get('https://cloud4.hosxp.net/api/ovst_key?Action=get_ovst_key&hospcode="' . $hcode . '"&vn="' . $vn . '"&computer_name=abcde&app_name=AppName&fbclid=IwAR2SvX7NJIiW_cX2JYaTkfAduFqZAi1gVV7ftiffWPsi4M97pVbgmRBjgY8')->collect();
-                    // $output5 = Arr::sort($getovst_key_);
+                    // $output5 = Arr::sort($getovst_key_);                  
                     // $ovst_key = $output5['result']['ovst_key'];
                     $ovst_key = '';
+                    // dd($ovst_key);
                 }
                  
                 ///// เจน  hos_guid  จาก Hosxp
                 $data_key = DB::connection('mysql10')->select('SELECT uuid() as keygen');
                 $output4 = Arr::sort($data_key);
+                // dd($output4);
                 foreach ($output4 as $key => $value_) {
                     $hos_guid = $value_->keygen;
                 }
@@ -281,7 +290,7 @@ class AuthencodeController extends Controller
                 // foreach ($output5 as $key => $value_ovst_key) { 
                 //     $ovst_key = $value_ovst_key->ovst_key; 
                 // }
-                // dd($cardid);
+                // dd($hos_guid);
                 return view('authen.authen_main', $data, [
                     'smartcard'                  =>  $smartcard,
                     'cardcid'                    =>  $cardcid,

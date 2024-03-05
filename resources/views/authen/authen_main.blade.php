@@ -1232,7 +1232,20 @@
                                                         }
                                                     })
                                                 } else {
-                                                    consollog(data);
+                                                    // consollog(data);
+                                                    Swal.fire({
+                                                        icon: "error",
+                                                        title: "Oops...Authen Code ไม่สำเร็จ",
+                                                        text: "Authen Code Unsuccess!",
+                                                        footer: '<a href="#">กรุณาลองใหม่อีกครั้ง?</a>'
+                                                    }).then((result) => {
+                                                        if (result
+                                                            .isConfirmed) {
+                                                            console.log(
+                                                                data);
+                                                            window.location.reload(); 
+                                                        }
+                                                    })
                                                 }
                                             },
                                         });
