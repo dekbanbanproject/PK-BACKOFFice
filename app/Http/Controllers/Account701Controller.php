@@ -88,63 +88,63 @@ date_default_timezone_set("Asia/Bangkok");
 class Account701Controller extends Controller
  {
         
-    public function account_701_dash(Request $request)
-    {
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
-        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
-        $date = date('Y-m-d');
-        $y = date('Y') + 543;
-        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
-        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-        $yearnew = date('Y')+1;
-        $yearold = date('Y')-1;
-        $start = (''.$yearold.'-10-01');
-        $end = (''.$yearnew.'-09-30'); 
+    // public function account_701_dash(Request $request)
+    // {
+    //     $startdate = $request->startdate;
+    //     $enddate = $request->enddate;
+    //     $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+    //     $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+    //     $date = date('Y-m-d');
+    //     $y = date('Y') + 543;
+    //     $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+    //     $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+    //     $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+    //     $yearnew = date('Y')+1;
+    //     $yearold = date('Y')-1;
+    //     $start = (''.$yearold.'-10-01');
+    //     $end = (''.$yearnew.'-09-30'); 
 
-        if ($startdate == '') {
-            $datashow = DB::select('
-                SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-                    ,count(distinct a.hn) as hn
-                    ,count(distinct a.vn) as vn
-                    ,sum(a.paid_money) as paid_money
-                    ,sum(a.income) as income
-                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-                    FROM acc_debtor a
-                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                    WHERE a.vstdate between "'.$start.'" and "'.$end.'"
-                    and account_code="1102050101.701"
-                    and income <> 0
-                    group by month(a.vstdate) order by a.vstdate desc limit 6;
-            ');
-        } else {
-            $datashow = DB::select('
-                SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-                    ,count(distinct a.hn) as hn
-                    ,count(distinct a.vn) as vn
-                    ,sum(a.paid_money) as paid_money
-                    ,sum(a.income) as income
-                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-                    FROM acc_debtor a
-                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                    WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
-                    and account_code="1102050101.701"
-                    and income <>0
+    //     if ($startdate == '') {
+    //         $datashow = DB::select('
+    //             SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+    //                 ,count(distinct a.hn) as hn
+    //                 ,count(distinct a.vn) as vn
+    //                 ,sum(a.paid_money) as paid_money
+    //                 ,sum(a.income) as income
+    //                 ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+    //                 FROM acc_debtor a
+    //                 left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+    //                 WHERE a.vstdate between "'.$start.'" and "'.$end.'"
+    //                 and account_code="1102050101.701"
+    //                 and income <> 0
+    //                 group by month(a.vstdate) order by a.vstdate desc limit 6;
+    //         ');
+    //     } else {
+    //         $datashow = DB::select('
+    //             SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+    //                 ,count(distinct a.hn) as hn
+    //                 ,count(distinct a.vn) as vn
+    //                 ,sum(a.paid_money) as paid_money
+    //                 ,sum(a.income) as income
+    //                 ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+    //                 FROM acc_debtor a
+    //                 left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+    //                 WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
+    //                 and account_code="1102050101.701"
+    //                 and income <>0
                     
-            ');
-        }
+    //         ');
+    //     }
 
-        return view('account_701.account_701_dash',[
-            'startdate'        => $startdate,
-            'enddate'          => $enddate,
-            'leave_month_year' => $leave_month_year,
-            'datashow'         => $datashow,
-            'newyear'          => $newyear,
-            'date'             => $date,
-        ]);
-    }
+    //     return view('account_701.account_701_dash',[
+    //         'startdate'        => $startdate,
+    //         'enddate'          => $enddate,
+    //         'leave_month_year' => $leave_month_year,
+    //         'datashow'         => $datashow,
+    //         'newyear'          => $newyear,
+    //         'date'             => $date,
+    //     ]);
+    // }
     public function account_701_pull(Request $request)
     {
         $datenow = date('Y-m-d');
@@ -160,7 +160,7 @@ class Account701Controller extends Controller
                         SELECT a.acc_debtor_id,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.pttype,a.debit_total,c.subinscl,a.hospmain 
                    
                     from acc_debtor a
-                    left join checksit_hos c on c.vn = a.vn  
+                    left join check_sit_auto c on c.vn = a.vn  
                     WHERE a.account_code="1102050101.701"
                     AND a.stamp = "N"
                     GROUP BY a.vn

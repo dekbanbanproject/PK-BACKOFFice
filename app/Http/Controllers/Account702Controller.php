@@ -212,8 +212,8 @@ class Account702Controller extends Controller
                 LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
                 LEFT JOIN opitemrece op ON op.vn = o.vn
                 WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                AND vp.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.702")
-                AND v.hospmain IN(SELECT hospmain FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.702")
+                AND vp.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.702" AND pttype IS NOT NULL)
+                AND v.hospmain IN(SELECT hospmain FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.702" AND hospmain IS NOT NULL)
                 AND v.income <> 0
                 and (o.an="" or o.an is null)
                 GROUP BY v.vn
