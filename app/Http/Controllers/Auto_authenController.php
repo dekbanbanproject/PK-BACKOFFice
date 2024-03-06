@@ -402,7 +402,7 @@ class Auto_authenController extends Controller
                                     // }
 
                                 } else {
-                                    $checkcs = Check_authen::where('claimcode','=',$claimCode)->count();
+                                    $checkcs = Check_authen::where('claimcode','=',$claimCode)->where('cid','=',$personalId)->count();
                                     if ($checkcs > 0) {                                       
                                         Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->update([
                                             'claimcode'       => $claimCode,
@@ -433,13 +433,13 @@ class Auto_authenController extends Controller
                                             'authentication'             => $claimAuthen, 
                                         ]);
 
-                                        Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->update([
-                                            'claimcode'       => $claimCode,
-                                            'claimtype'       => $claimType,
-                                            'servicerep'      => $patientType,
-                                            'servicename'     => $claimTypeName,
-                                            'authentication'  => $claimAuthen,
-                                        ]);  
+                                        // Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->update([
+                                        //     'claimcode'       => $claimCode,
+                                        //     'claimtype'       => $claimType,
+                                        //     'servicerep'      => $patientType,
+                                        //     'servicename'     => $claimTypeName,
+                                        //     'authentication'  => $claimAuthen,
+                                        // ]);  
                                     }
 
                                

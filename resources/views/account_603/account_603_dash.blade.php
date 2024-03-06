@@ -211,7 +211,7 @@
                                                     <h5 >เดือน {{$item->MONTH_NAME}} {{$ynew}}</h5>
                                                 </div>
                                                 {{-- <div class="col"></div> --}}
-                                                <div class="col-md-5 text-end mt-2 me-4">
+                                                <div class="col-md-5 text-end mt-2 me-2">
                                                     <a href="{{url('account_603_pull')}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง">
                                                             <h6 class="text-end">{{$count_N}} Visit</h6>
@@ -230,7 +230,7 @@
                                                     </p>
                                                 </div>
                                                 <div class="col"></div>
-                                                <div class="col-md-4 text-end me-4">
+                                                <div class="col-md-4 text-end me-2">
                                                     {{-- <a href="" target="_blank"> --}}
                                                         <div class="widget-chart widget-chart-hover" >
                                                             <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ที่ต้องตั้ง {{$count_N}} Visit" >
@@ -251,7 +251,7 @@
                                                     </p>
                                                 </div>
                                                 <div class="col"></div>
-                                                <div class="col-md-4 text-end me-4">
+                                                <div class="col-md-4 text-end me-2">
                                                     <a href="{{url('account_603_detail/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover">
                                                             <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_Y}} Visit">
@@ -272,7 +272,7 @@
                                                     </p>
                                                 </div>
                                                 <div class="col"></div>
-                                                <div class="col-md-4 text-end me-4">
+                                                <div class="col-md-4 text-end me-2">
                                                     <a href="{{url('account_603_stm/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover">
                                                             <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$stm_count}} Visit">
@@ -295,7 +295,7 @@
                                                     </p>
                                                 </div>
                                                 <div class="col"></div>
-                                                <div class="col-md-4 text-end me-4">
+                                                <div class="col-md-4 text-end me-2">
                                                     <a href="{{url('account_603_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover">
                                                             {{-- <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวน {{$yokpaicount}} Visit">

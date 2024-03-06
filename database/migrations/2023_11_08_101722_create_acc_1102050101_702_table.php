@@ -45,6 +45,7 @@ return new class extends Migration
                 $table->string('debit_refer')->nullable();// เฉพาะ Refer
                 $table->string('debit_toa')->nullable();//
                 $table->string('debit_total')->nullable();//
+                $table->string('toklong')->nullable();//
                 $table->string('max_debt_amount')->nullable();//  
                 $table->string('rw')->nullable();// 
                 $table->string('adjrw')->nullable();//                    adjrw

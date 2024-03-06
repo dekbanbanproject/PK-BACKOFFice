@@ -209,7 +209,14 @@
                                 <li><a href="{{ url('check_sit_day') }}" target="_blank">เช็คสิทธิ์</a></li>
                                 <li><a href="{{ url('check_authen_day') }}" target="_blank">Check Authen</a></li>
                                 {{-- <li><a href="{{ url('check_authen') }}" target="_blank">Import Excel Authen</a></li> --}}
-                                {{-- <li><a href="{{ url('check_sit_money') }}" target="_blank"> เช็คสิทธิ์ Money PK</a></li> --}}
+                                {{-- <li><a href="{{ url('check_sit_money') }}" target="_blank"> เช็คสิทธิ์ Money PK</a></li> --}} 
+                                 <li><a href="javascript: void(0);" class="has-arrow">DATA AUTO</a>
+                                    <ul class="sub-menu" aria-expanded="true">
+                                        <li><a href="{{ url('pull_hosauto') }}" target="_blank">Pull Hos Auto</a></li>
+                                        <li><a href="{{ url('checksit_auto') }}" target="_blank">Checksit Auto</a></li> 
+                                        <li><a href="{{ url('pullauthen_spsch') }}" target="_blank">Pull Authen SPSCH Auto</a></li> 
+                                    </ul>
+                                </li>
                             </ul>
                         </li>
 

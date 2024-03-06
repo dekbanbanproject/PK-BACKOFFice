@@ -203,7 +203,7 @@ class Account203Controller extends Controller
                         left outer join hospcode h on h.hospcode = v.hospmain 
                         left outer join referin ro on ro.vn = v.vn  
                         where v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                        and i.an is null AND v.uc_money <> 0   
+                        and i.an is null AND v.uc_money <> 0 AND p.nationality = "99"   
                         and v.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.203" AND opdipd ="OPD")
                         and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )                        
                         and (oo.code  BETWEEN "E110" and "E149" or oo.code  BETWEEN "I10" and "I150" or oo.code  BETWEEN "J440" and "J449")
@@ -228,7 +228,7 @@ class Account203Controller extends Controller
                         left outer join referin ro on ro.vn = v.vn 
                 
                         where v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                        and i.an is null AND v.uc_money <> 0   
+                        and i.an is null AND v.uc_money <> 0  AND p.nationality = "99"  
                         and v.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.203" AND opdipd ="OPD")
                         and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )                        
                         AND v.pdx NOT BETWEEN "E110" AND "E149" AND v.pdx NOT BETWEEN "J440" AND "J449" AND v.pdx NOT BETWEEN "I10" AND "I159"

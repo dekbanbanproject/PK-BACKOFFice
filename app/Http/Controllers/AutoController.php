@@ -1210,6 +1210,7 @@ class AutoController extends Controller
                 AND p.nationality = "99"
                 AND p.birthday <> CURDATE()
                 GROUP BY o.vn   
+                
             ');  
             // BETWEEN "2024-02-11" AND "2024-02-15"
             // WHERE o.vstdate = CURDATE()
@@ -1217,21 +1218,21 @@ class AutoController extends Controller
                 $check = Check_sit_auto::where('vn', $value->vn)->count();
 
                 if ($check > 0) {
-                    Check_sit_auto::where('vn', $value->vn)
-                        ->update([ 
-                            'hometel'    => $value->hometel,
-                            'vsttime'    => $value->vsttime,
-                            'fullname'   => $value->fullname,
-                            'pttype'     => $value->pttype,
-                            'hospmain'   => $value->hospmain,
-                            'hospsub'    => $value->hospsub,
-                            'main_dep'   => $value->main_dep,
-                            'staff'      => $value->staff,
-                            'staff_name' => $value->staffname,
-                            'debit'      => $value->debit,
-                            'pdx'        => $value->pdx,
-                            'cc'         => $value->cc
-                        ]);
+                    // Check_sit_auto::where('vn', $value->vn)
+                    //     ->update([ 
+                    //         'hometel'    => $value->hometel,
+                    //         'vsttime'    => $value->vsttime,
+                    //         'fullname'   => $value->fullname,
+                    //         'pttype'     => $value->pttype,
+                    //         'hospmain'   => $value->hospmain,
+                    //         'hospsub'    => $value->hospsub,
+                    //         'main_dep'   => $value->main_dep,
+                    //         'staff'      => $value->staff,
+                    //         'staff_name' => $value->staffname,
+                    //         'debit'      => $value->debit,
+                    //         'pdx'        => $value->pdx,
+                    //         'cc'         => $value->cc
+                    //     ]);
                 } else {
                     Check_sit_auto::insert([
                         'vn'         => $value->vn,
@@ -1279,21 +1280,21 @@ class AutoController extends Controller
                 $check = Check_sit_tiauto::where('vn', $val->vn)->count();
 
                 if ($check > 0) {
-                    Check_sit_tiauto::where('vn', $value->vn)
-                    ->update([ 
-                        'hometel'    => $value->hometel,
-                        'vsttime'    => $value->vsttime,
-                        'fullname'   => $value->fullname,
-                        'pttype'     => $value->pttype,
-                        'hospmain'   => $value->hospmain,
-                        'hospsub'    => $value->hospsub,
-                        'main_dep'   => $value->main_dep,
-                        'staff'      => $value->staff,
-                        'staff_name' => $value->staffname,
-                        'debit'      => $value->debit,
-                        'pdx'        => $value->pdx,
-                        'cc'         => $value->cc
-                    ]);
+                    // Check_sit_tiauto::where('vn', $value->vn)
+                    // ->update([ 
+                    //     'hometel'    => $value->hometel,
+                    //     'vsttime'    => $value->vsttime,
+                    //     'fullname'   => $value->fullname,
+                    //     'pttype'     => $value->pttype,
+                    //     'hospmain'   => $value->hospmain,
+                    //     'hospsub'    => $value->hospsub,
+                    //     'main_dep'   => $value->main_dep,
+                    //     'staff'      => $value->staff,
+                    //     'staff_name' => $value->staffname,
+                    //     'debit'      => $value->debit,
+                    //     'pdx'        => $value->pdx,
+                    //     'cc'         => $value->cc
+                    // ]);
                 } else {
                     Check_sit_tiauto::insert([
                         'vn'         => $val->vn,

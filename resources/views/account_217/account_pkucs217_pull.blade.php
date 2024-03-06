@@ -100,8 +100,7 @@ $yb = date('Y') + 542;
                         </button>   
                         
                 {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" id="Check_sitipd">
-                    <i class="fa-solid fa-2 me-2"></i> 
-                    ตรวจสอบสิทธิ์
+                        <i class="fa-solid fa-2 me-2"></i> ตรวจสอบสิทธิ์
                 </button>    --}}
             </div>                    
             </div>

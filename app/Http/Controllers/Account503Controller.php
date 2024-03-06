@@ -151,9 +151,9 @@ class Account503Controller extends Controller
         $enddate = $request->enddate;
         if ($startdate == '') { 
                 $acc_debtor = DB::select(' 
-                    SELECT a.acc_debtor_id,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.pttype,a.debit_total,c.subinscl,a.hospmain,a.income,a.rcpt_money,a.nationality                  
+                    SELECT a.acc_debtor_id,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.pttype,a.debit_total,c.subinscl,a.hospmain,a.income,a.rcpt_money,a.nationality,a.toklong                  
                     from acc_debtor a
-                    left join checksit_hos c on c.vn = a.vn  
+                    left join check_sit_auto c on c.vn = a.vn  
                     WHERE a.account_code="1102050101.503"
                     AND a.stamp = "N"
                     GROUP BY a.vn
@@ -174,42 +174,103 @@ class Account503Controller extends Controller
         $datenow = date('Y-m-d');
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2; 
-        $acc_debtor = DB::connection('mysql2')->select('  
-                    SELECT o.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
-                    ,o.vstdate,o.vsttime,pt.nationality
-                    ,v.hospmain,"" regdate,"" dchdate,op.income as income_group  
-                    ,ptt.pttype_eclaim_id,vp.pttype
-                    ,"22" as acc_code
-                    ,"1102050101.503" as account_code
-                    ,"ลูกหนี้ค่ารักษา-แรงงานต่างด้าว OPนอกCUP" as account_name
-                    ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money 
-                    ,v.income-v.discount_money-v.rcpt_money as debit
-                    ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
-                    ,sum(if(op.income="02",sum_price,0)) as debit_instument
-                    ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
-                    ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
-                    ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
-                    ,ptt.max_debt_money
-                    from ovst o
-                    left join vn_stat v on v.vn=o.vn
-                    left join patient pt on pt.hn=o.hn
-                    LEFT JOIN visit_pttype vp on vp.vn = v.vn
-                    LEFT JOIN pttype ptt on o.pttype=ptt.pttype
-                    LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
-                    LEFT JOIN opitemrece op ON op.vn = o.vn
-                    WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                    AND vp.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.503" AND opdipd = "OPD")
-                    AND v.hospmain IN(SELECT hospmain FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.503") 
-                    AND pt.nationality <> "99"
-                    AND v.income <> 0
-                    and (o.an="" or o.an is null)
-                    GROUP BY v.vn
+        // $acc_debtor = DB::connection('mysql2')->select('  
+        //             SELECT o.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
+        //             ,o.vstdate,o.vsttime,pt.nationality
+        //             ,v.hospmain,"" regdate,"" dchdate,op.income as income_group  
+        //             ,ptt.pttype_eclaim_id,vp.pttype
+        //             ,"22" as acc_code
+        //             ,"1102050101.503" as account_code
+        //             ,"ลูกหนี้ค่ารักษา-แรงงานต่างด้าว OPนอกCUP" as account_name
+        //             ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money 
+        //             ,v.income-v.discount_money-v.rcpt_money as debit
+        //             ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
+        //             ,sum(if(op.income="02",sum_price,0)) as debit_instument
+        //             ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
+        //             ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
+        //             ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
+        //             ,ptt.max_debt_money
+        //             from ovst o
+        //             left join vn_stat v on v.vn=o.vn
+        //             left join patient pt on pt.hn=o.hn
+        //             LEFT JOIN visit_pttype vp on vp.vn = v.vn
+        //             LEFT JOIN pttype ptt on o.pttype=ptt.pttype
+        //             LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
+        //             LEFT JOIN opitemrece op ON op.vn = o.vn
+        //             WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+        //             AND vp.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.503" AND opdipd = "OPD")
+        //             AND v.hospmain IN(SELECT hospmain FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.503") 
+        //             AND pt.nationality <> "99"
+        //             AND v.income <> 0
+        //             and (o.an="" or o.an is null)
+        //             GROUP BY v.vn
  
-        ');
+        // ');
         // AND v.hospmain IN(SELECT hospmain FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.701")
+        $acc_debtor = DB::connection('mysql2')->select(' 
+                SELECT * FROM
+                (
+                    SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,i.dchdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,ro.icd10 as referin_no,h.name as hospmain,p.nationality
+                    ,"07" as acc_code,"1102050101.503" as account_code,"ลูกหนี้ค่ารักษา-คนต่างด้าวและแรงงานต่างด้าว OP นอก CUP" as account_name,v.pdx,v.dx0
+                    ,v.income,v.uc_money ,v.discount_money,v.rcpt_money,v.paid_money,v.income-v.discount_money-v.rcpt_money as debit  
+                   
+                    ,case
+                    when v.uc_money < 1000 then v.uc_money
+                    else "1000"
+                    end as toklong
 
+                    from vn_stat v
+                    left outer join ipt i on i.vn = v.vn
+                    left outer join patient p on p.hn = v.hn
+                    left outer join pttype pt on pt.pttype =v.pttype 
+                    left outer join icd101 oo on oo.code IN(v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5 )
+                    left outer join opdscreen d on d.vn = v.vn
+                    left outer join hospcode h on h.hospcode = v.hospmain 
+                    left outer join referin ro on ro.vn = v.vn  
+                    where v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+                    and i.an is null AND v.uc_money <> 0 AND p.nationality <> "99"   
+                    and v.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.503" AND opdipd = "OPD")
+                    and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )                        
+                    and (oo.code  BETWEEN "E110" and "E149" or oo.code  BETWEEN "I10" and "I150" or oo.code  BETWEEN "J440" and "J449")
+                    group by v.vn
+            
+                    UNION
+            
+                    SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,i.dchdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,ro.icd10 as referin_no,h.name as hospmain,p.nationality
+                    ,"07" as acc_code,"1102050101.503" as account_code,"ลูกหนี้ค่ารักษา-คนต่างด้าวและแรงงานต่างด้าว OP นอก CUP" as account_name,v.pdx,v.dx0
+                    ,v.income,v.uc_money ,v.discount_money,v.rcpt_money,v.paid_money,v.income-v.discount_money-v.rcpt_money as debit  
+                    
+                    ,case
+                    when v.uc_money < 700 then v.uc_money
+                    else "700"
+                    end as toklong
+                    
+                    from vn_stat v
+                    left outer join ipt i on i.vn = v.vn
+                    left outer join patient p on p.hn = v.hn
+                    left outer join pttype pt on pt.pttype =v.pttype 
+                    left outer join ovstdiag oo on oo.vn = v.vn
+                    left outer join opdscreen d on d.vn = v.vn
+                    left outer join hospcode h on h.hospcode = v.hospmain 
+                    left outer join referin ro on ro.vn = v.vn 
+            
+                    where v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+                    and i.an is null AND v.uc_money <> 0  AND p.nationality <> "99"  
+                    and v.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.503" AND opdipd = "OPD")
+                    and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )                        
+                    AND v.pdx NOT BETWEEN "E110" AND "E149" AND v.pdx NOT BETWEEN "J440" AND "J449" AND v.pdx NOT BETWEEN "I10" AND "I159"
+                    AND v.dx0 NOT BETWEEN "E110" AND "E149" AND v.dx0 NOT BETWEEN "J440" AND "J449" AND v.dx0 NOT BETWEEN "I10" AND "I159"
+                    AND v.dx1 NOT BETWEEN "E110" AND "E149" AND v.dx1 NOT BETWEEN "J440" AND "J449" AND v.dx1 NOT BETWEEN "I10" AND "I159"
+                    AND v.dx2 NOT BETWEEN "E110" AND "E149" AND v.dx2 NOT BETWEEN "J440" AND "J449" AND v.dx2 NOT BETWEEN "I10" AND "I159"
+                    AND v.dx3 NOT BETWEEN "E110" AND "E149" AND v.dx3 NOT BETWEEN "J440" AND "J449" AND v.dx3 NOT BETWEEN "I10" AND "I159"
+                    AND v.dx4 NOT BETWEEN "E110" AND "E149" AND v.dx4 NOT BETWEEN "J440" AND "J449" AND v.dx4 NOT BETWEEN "I10" AND "I159"
+                    AND v.dx5 NOT BETWEEN "E110" AND "E149" AND v.dx5 NOT BETWEEN "J440" AND "J449" AND v.dx5 NOT BETWEEN "I10" AND "I159"
+                    group by v.vn
+                ) As Refer 
+        ');
         foreach ($acc_debtor as $key => $value) {
-                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.503')->whereBetween('vstdate', [$startdate, $enddate])->count();
+            // $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.503')->whereBetween('vstdate', [$startdate, $enddate])->count();
+                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.503')->count();
                     if ($check == 0) {
                         Acc_debtor::insert([
                             'hn'                 => $value->hn,
@@ -224,19 +285,20 @@ class Account503Controller extends Controller
                             'acc_code'           => $value->acc_code,
                             'account_code'       => $value->account_code,
                             'account_name'       => $value->account_name,
-                            'income_group'       => $value->income_group,
+                            // 'income_group'       => $value->income_group,
                             'income'             => $value->income,
                             'uc_money'           => $value->uc_money,
                             'discount_money'     => $value->discount_money,
                             'paid_money'         => $value->paid_money,
                             'rcpt_money'         => $value->rcpt_money,
                             'debit'              => $value->debit,
-                            'debit_drug'         => $value->debit_drug,
-                            'debit_instument'    => $value->debit_instument,
-                            'debit_toa'          => $value->debit_toa,
-                            'debit_refer'        => $value->debit_refer,
+                            // 'debit_drug'         => $value->debit_drug,
+                            // 'debit_instument'    => $value->debit_instument,
+                            // 'debit_toa'          => $value->debit_toa,
+                            // 'debit_refer'        => $value->debit_refer,
                             'debit_total'        => $value->debit,
-                            'max_debt_amount'    => $value->max_debt_money,
+                            'toklong'            => $value->toklong, 
+                            // 'max_debt_amount'    => $value->max_debt_money,
                             'acc_debtor_userid'  => Auth::user()->id
                         ]);
                     }
@@ -289,6 +351,7 @@ class Account503Controller extends Controller
                             'debit_refer'       => $value->debit_refer,
                             'debit_toa'         => $value->debit_toa,
                             'debit_total'       => $value->debit_total,
+                            'toklong'           => $value->toklong,
                             'max_debt_amount'   => $value->max_debt_amount,
                             'acc_debtor_userid' => $iduser
                     ]);
@@ -308,7 +371,7 @@ class Account503Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-        SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.hospmain,U1.hospmain,U1.income,U1.rcpt_money,U1.nationality
+        SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.hospmain,U1.hospmain,U1.income,U1.rcpt_money,U1.nationality,U1.toklong
             from acc_1102050101_503 U1
             WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
             GROUP BY U1.vn
@@ -331,7 +394,7 @@ class Account503Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-        SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.hospmain,U1.hospmain,U1.income,U1.rcpt_money ,U1.nationality
+        SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.hospmain,U1.hospmain,U1.income,U1.rcpt_money ,U1.nationality,U1.toklong
             from acc_1102050101_503 U1
             WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" 
             GROUP BY U1.vn

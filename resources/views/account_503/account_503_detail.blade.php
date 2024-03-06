@@ -85,6 +85,7 @@
                                     <th class="text-center">income</th> 
                                     <th class="text-center">rcpt_money</th> 
                                     <th class="text-center">ลูกหนี้</th> 
+                                    <th class="text-center">ข้อตกลง</th> 
                                 </tr>
                             </thead>
                             <tbody>
@@ -101,20 +102,22 @@
                                         <td class="text-center" width="8%">{{ $item->vn }}</td> 
                                         {{-- <td class="text-center" width="8%">{{ $item->an }}</td>  --}}
                                         <td class="text-center" width="5%">{{ $item->hn }}</td>   
-                                        <td class="text-center" width="10%">{{ $item->cid }}</td>  
+                                        <td class="text-center" width="8%">{{ $item->cid }}</td>  
                                         <td class="p-2" >{{ $item->ptname }}</td>  
                                         <td class="text-center" width="8%">{{ $item->vstdate }}</td>   
                                         <td class="text-center" width="5%">{{ $item->pttype }}</td>  
-                                        <td class="text-center" width="5%">{{ $item->hospmain }}</td>
+                                        <td class="text-center" width="10%">{{ $item->hospmain }}</td>
                                         <td class="text-center" style="color:rgb(97, 72, 243)" width="5%">{{ $item->nationality }}</td> 
                                         <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td> 
                                         <td class="text-center" width="10%">{{ number_format($item->rcpt_money, 2) }}</td> 
                                         <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>  
+                                        <td class="text-end" width="10%" style="color:rgb(108, 64, 117)">{{ number_format($item->toklong, 2) }}</td> 
                                     </tr>
                                     <?php
                                             $total1 = $total1 + $item->income;
                                             $total2 = $total2 + $item->rcpt_money;
                                             $total3 = $total3 + $item->debit_total; 
+                                            $total4 = $total4 + $item->toklong; 
                                     ?>
                                 @endforeach
 
@@ -124,6 +127,7 @@
                                 <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
                                 <td class="text-center" style="background-color: #FCA533" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
                                 <td class="text-center" style="background-color: #44E952"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td> 
+                                <td class="text-center" style="background-color: #7e4c88"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label> </td> 
                             </tr>  
                         </table>
                     </div>
