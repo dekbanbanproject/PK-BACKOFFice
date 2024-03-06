@@ -106,18 +106,18 @@ class Account701Controller extends Controller
 
     //     if ($startdate == '') {
     //         $datashow = DB::select('
-    //             SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-    //                 ,count(distinct a.hn) as hn
-    //                 ,count(distinct a.vn) as vn
-    //                 ,sum(a.paid_money) as paid_money
-    //                 ,sum(a.income) as income
-    //                 ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-    //                 FROM acc_debtor a
-    //                 left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-    //                 WHERE a.vstdate between "'.$start.'" and "'.$end.'"
-    //                 and account_code="1102050101.701"
-    //                 and income <> 0
-    //                 group by month(a.vstdate) order by a.vstdate desc limit 6;
+                // SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+                //     ,count(distinct a.hn) as hn
+                //     ,count(distinct a.vn) as vn
+                //     ,sum(a.paid_money) as paid_money
+                //     ,sum(a.income) as income
+                //     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+                //     FROM acc_debtor a
+                //     left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+                //     WHERE a.vstdate between "'.$start.'" and "'.$end.'"
+                //     and account_code="1102050101.701"
+                //     and income <> 0
+                //     group by month(a.vstdate) order by a.vstdate desc limit 6;
     //         ');
     //     } else {
     //         $datashow = DB::select('
@@ -145,6 +145,71 @@ class Account701Controller extends Controller
     //         'date'             => $date,
     //     ]);
     // }
+    public function account_701_dash(Request $request)
+     { 
+         $budget_year   = $request->budget_year;        
+         $datenow       = date("Y-m-d");
+         $y             = date('Y') + 543;
+         $dabudget_year = DB::table('budget_year')->where('active','=',true)->get(); 
+         $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+         $date = date('Y-m-d'); 
+         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี        
+        $months_now = date('m');
+        $year_now = date('Y'); 
+        //    dd($budget_year);
+        if ($budget_year == '') {  
+            $yearnew = date('Y');
+            $year_old = date('Y')-1;
+            $months_old  = ('10');
+            $startdate = (''.$year_old.'-10-01');
+            $enddate = (''.$yearnew.'-09-30');
+
+                $datashow = DB::select(' 
+                        SELECT MONTH(a.vstdate) as months,YEAR(a.vstdate) as years
+                        ,count(DISTINCT a.vn) as total_vn,l.MONTH_NAME
+                        ,sum(a.debit_total) as tung_looknee  
+                        ,sum(a.paid_money) as paid_money
+                        ,sum(a.income) as income
+                        ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+                        FROM acc_debtor a 
+                        LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.vstdate)
+                        WHERE a.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                        AND a.account_code ="1102050101.701" and income <> 0
+                        GROUP BY months ORDER BY a.vstdate DESC  
+    
+                ');    
+         } else {
+                $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
+                $startdate    = $bg->date_begin;
+                $enddate      = $bg->date_end;
+                // dd($enddate);
+                $datashow = DB::select(' 
+                        SELECT MONTH(a.vstdate) as months,YEAR(a.vstdate) as years
+                        ,count(DISTINCT a.vn) as total_vn,l.MONTH_NAME
+                        ,sum(a.debit_total) as tung_looknee  
+                        ,sum(a.paid_money) as paid_money
+                        ,sum(a.income) as income
+                        ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+                        FROM acc_debtor a 
+                        LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.vstdate)
+                        WHERE a.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                        AND a.account_code ="1102050101.701" and income <> 0
+                        GROUP BY months ORDER BY a.vstdate DESC  
+    
+                ');   
+         }
+        
+             return view('account_701.account_701_dash',[
+                 'startdate'        =>  $startdate,
+                 'enddate'          =>  $enddate, 
+                 'datashow'         =>  $datashow,
+                 'dabudget_year'    =>  $dabudget_year,
+                 'budget_year'      =>  $budget_year,
+                 'y'                =>  $y,
+             ]);
+     }
     public function account_701_pull(Request $request)
     {
         $datenow = date('Y-m-d');

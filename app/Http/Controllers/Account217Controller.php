@@ -771,9 +771,10 @@ class Account217Controller extends Controller
         //         AND (s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug = 0 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug is null)
         //         group by a.an
         // ');
+        // SELECT a.stm_trainid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total
+        //     ,a.income_group,a.adjrw,a.total_adjrw_income,a.stm_money,a.stm_total,a.STMdoc  
         $data = DB::connection('mysql')->select('  
-            SELECT a.stm_trainid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total
-            ,a.income_group,a.adjrw,a.total_adjrw_income,a.stm_money,a.stm_total,a.STMdoc                
+            SELECT *                
             FROM acc_1102050101_217 a              
             WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" 
             AND a.stm_money IS NULL

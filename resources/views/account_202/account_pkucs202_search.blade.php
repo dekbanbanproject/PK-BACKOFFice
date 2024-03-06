@@ -124,6 +124,7 @@
                                     <th class="text-center">inst</th> 
                                     <th class="text-center">toa</th> 
                                     <th class="text-center">refer</th> 
+                                    <th class="text-center">ucep</th> 
 
                                     <th class="text-center">ลูกหนี้</th>  
                                     <th class="text-center">ส่วนต่าง</th> 
@@ -134,7 +135,7 @@
                             </thead>
                             <tbody>
                                 <?php $number = 0; 
-                                $total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0;$total7 = 0;$total8 = 0;
+                                $total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0;$total7 = 0;$total8 = 0;$total9 = 0;
                                 ?>
                                 @foreach ($datashow as $item)
                                     <?php $number++; ?>
@@ -150,6 +151,8 @@
                                         <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_instument,2)}}</td> 
                                         <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_toa,2)}}</td> 
                                         <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_refer,2)}}</td> 
+                                        <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_ucep,2)}}</td> 
+
                                         <td class="text-end" style="color:rgb(73, 147, 231)" width="6%">{{ number_format($item->debit_total,2)}}</td> 
                                         <td class="text-end" style="color:rgb(184, 12, 169)" width="6%">{{ number_format(($item->debit_total-$item->stm_money),2)}}</td> 
                                         <td class="text-end" style="color:rgb(216, 95, 14)" width="6%">{{ number_format($item->stm_money,2)}}</td> 
@@ -162,10 +165,12 @@
                                             $total2 = $total2 + $item->debit_instument;
                                             $total3 = $total3 + $item->debit_toa;
                                             $total4 = $total4 + $item->debit_refer;
-                                            $total5 = $total5 + $item->debit_total;
-                                            $total6 = $total6 + ($item->debit_total-$item->stm_money); 
-                                            $total7 = $total7 + $item->stm_money;
-                                            $total8 = $total8 + $item->stm_total;
+                                            $total5 = $total5 + $item->debit_ucep;
+
+                                            $total6 = $total6 + $item->debit_total;
+                                            $total7 = $total7 + ($item->debit_total-$item->stm_money); 
+                                            $total8 = $total8 + $item->stm_money;
+                                            $total9 = $total9 + $item->stm_total;
                                         ?>                                 
                                 @endforeach  
                                
@@ -180,6 +185,7 @@
                                             <td class="text-end" style="background-color: #e09be9">{{ number_format($total6,2)}}</td> 
                                             <td class="text-end" style="background-color: #f5a382">{{ number_format($total7,2)}}</td> 
                                             <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total8,2)}}</td>  
+                                            <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total9,2)}}</td>  
                                             <td class="text-end" style="background-color: #ff9d9d"></td> 
                                         </tr>  
                         </table>

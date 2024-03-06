@@ -121,7 +121,8 @@ $yb = date('Y') + 542;
                                     <th class="text-center">ลูกหนี้</th> 
                                     <th class="text-center">Stm 217</th> 
                                     <th class="text-center">ส่วนต่าง</th>  
-                                    <th class="text-center">ยอดชดเชยทั้งสิ้น</th>  
+                                    <th class="text-center">ชดเชย</th>  
+                                    <th class="text-center">VA</th>  
                                     <th class="text-center">STMdoc</th> 
                                 </tr>
                             </thead>
@@ -142,8 +143,8 @@ $yb = date('Y') + 542;
                                         <td class="text-end" style="color:rgb(184, 12, 169)" width="7%">{{ number_format(($item->stm_money),2)}}</td> 
                                         <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($item->debit_total-$item->stm_money,2)}}</td> 
                                         <td class="text-end" style="color:rgb(9, 196, 180)" width="8%">{{ number_format($item->stm_total,2)}}</td>  
+                                        <td class="text-center" width="6%">{{ $item->va }}</td> 
                                         <td class="p-2" width="10%">{{ $item->STMdoc }}</td>  
-                                        
                                     </tr>
                                         <?php
                                             $total1 = $total1 + $item->debit_total;
@@ -161,7 +162,7 @@ $yb = date('Y') + 542;
                                 <td class="text-end" style="background-color: #e09be9">{{ number_format($total2,2)}}</td> 
                                 <td class="text-end" style="background-color: #f5a382">{{ number_format($total3,2)}}</td> 
                                 <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total4,2)}}</td>  
-                                <td class="text-end" style="background-color: #ff9d9d"></td> 
+                                <td colspan="2" class="text-end" style="background-color: #ff9d9d"></td> 
                             </tr>   
                         </table>
                     </div>

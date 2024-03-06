@@ -404,13 +404,13 @@ class Auto_authenController extends Controller
                                 } else {
                                     $checkcs = Check_authen::where('claimcode','=',$claimCode)->where('cid','=',$personalId)->count();
                                     if ($checkcs > 0) {                                       
-                                        // Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->where('claimcode','=',NULL)->update([
-                                        //     'claimcode'       => $claimCode,
-                                        //     'claimtype'       => $claimType,
-                                        //     'servicerep'      => $patientType,
-                                        //     'servicename'     => $claimTypeName,
-                                        //     'authentication'  => $claimAuthen,
-                                        // ]);  
+                                        Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->where('claimcode','=',NULL)->update([
+                                            'claimcode'       => $claimCode,
+                                            'claimtype'       => $claimType,
+                                            'servicerep'      => $patientType,
+                                            'servicename'     => $claimTypeName,
+                                            'authentication'  => $claimAuthen,
+                                        ]);  
                                     } else {
                                         Check_authen::create([
                                             'cid'                        => $personalId,
@@ -468,21 +468,31 @@ class Auto_authenController extends Controller
                 AND c.claimtype <> "PG0130001"  
                 AND ca.claimcode IS NULL
         '); 
-      
+        // SELECT c.cid,c.vstdate,c.claimcode,c.claimtype,c.servicerep,c.servicename,c.authentication,ca.claimcode as Caclaimcode
+        //         FROM check_authen c   
+        //         LEFT JOIN check_sit_auto ca ON ca.cid = c.cid and c.vstdate = ca.vstdate
+        //         WHERE c.vstdate = "2023-12-12"
+        //         AND c.claimtype <> "PG0130001" 
+        //         AND ca.claimcode IS NULL
+        // CURDATE()
         foreach ($data_ as $key => $value) {   
-            // $data_update = DB::connection('mysql')->select('
-            //         SELECT cid,vstdate,claimcode,claimtype,servicerep,servicename,authentication
-            //         FROM check_sit_auto  
-            //         WHERE vstdate = CURDATE() 
-            //         AND claimcode IS NULL
-            // ');            
-            Check_sit_auto::where('cid','=',$value->cid)->where('vstdate','=',$value->vstdate)->update([
-                'claimcode'       => $value->claimcode,
-                'claimtype'       => $value->claimtype,
-                'servicerep'      => $value->servicerep,
-                'servicename'     => $value->servicename,
-                'authentication'  => $value->authentication,
-            ]);   
+            //  $count = Check_sit_auto::where('claimcode','=',$value->claimcode)->count(); 
+            //  if ($count>0) {
+            //     Check_sit_auto::where('claimcode','=',$value->claimcode)->update([ 
+            //         'claimtype'       => $value->claimtype,
+            //         'servicerep'      => $value->servicerep,
+            //         'servicename'     => $value->servicename,
+            //         'authentication'  => $value->authentication,
+            //     ]);   
+            //  } else {
+                Check_sit_auto::where('cid','=',$value->cid)->where('vstdate','=',$value->vstdate)->update([
+                    'claimcode'       => $value->claimcode,
+                    'claimtype'       => $value->claimtype,
+                    'servicerep'      => $value->servicerep,
+                    'servicename'     => $value->servicename,
+                    'authentication'  => $value->authentication,
+                ]);   
+            //  }             
              
         }
 

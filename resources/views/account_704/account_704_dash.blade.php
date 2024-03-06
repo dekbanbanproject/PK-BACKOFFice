@@ -290,7 +290,7 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end me-2">
-                                                    <a href="{{url('account_pkucs202_stm/'.$item->months.'/'.$item->years)}}" target="_blank">
+                                                    {{-- <a href="{{url('account_pkucs202_stm/'.$item->months.'/'.$item->years)}}" target="_blank"> --}}
                                                         <div class="widget-chart widget-chart-hover">
                                                             {{-- <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$stm_count}} Visit">
                                                                     {{ number_format($amountpay, 2) }}
@@ -301,7 +301,7 @@
                                                                 <i class="fa-brands fa-btc text-success ms-2"></i>
                                                             </p>
                                                         </div>
-                                                    </a>
+                                                    {{-- </a> --}}
                                                 </div>
                                             </div>
 
