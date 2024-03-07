@@ -266,7 +266,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-invoice-dollar" style="color: #55595a"></i>
-                                <span>คนต่างด้าว</span>
+                                <span>maintenance</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true"> 
                                 <li><a href="javascript: void(0);" class="has-arrow">501-คนต่างด้าวและแรงงานต่างด้าว OP </a>
@@ -276,27 +276,8 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                        
                                     </ul>
                                 </li>
-                                <li><a href="javascript: void(0);" class="has-arrow">502-คนต่างด้าวและแรงงานต่างด้าว OP </a>
-                                    <ul class="sub-menu" aria-expanded="true"> 
-                                        <li><a href="{{ url('account_502_dash') }}">dashboard</a></li>
-                                        <li><a href="{{ url('account_502_pull') }}">ดึงลูกหนี้</a></li>
-                                       
-                                    </ul>
-                                </li>
-                                <li><a href="javascript: void(0);" class="has-arrow">503-คนต่างด้าวและแรงงานต่างด้าว OP นอก CUP</a>
-                                    <ul class="sub-menu" aria-expanded="true"> 
-                                        <li><a href="{{ url('account_503_dash') }}">dashboard</a></li>
-                                        <li><a href="{{ url('account_503_pull') }}">ดึงลูกหนี้</a></li>
-                                       
-                                    </ul>
-                                </li>
-                                <li><a href="javascript: void(0);" class="has-arrow">504-คนต่างด้าวและแรงงานต่างด้าว IP นอก CUP </a>
-                                    <ul class="sub-menu" aria-expanded="true"> 
-                                        <li><a href="{{ url('account_504_dash') }}">dashboard</a></li>
-                                        <li><a href="{{ url('account_504_pull') }}">ดึงลูกหนี้</a></li>
-                                       
-                                    </ul>
-                                </li>
+                                
+                                 
                                 
                             </ul>
                         </li>
