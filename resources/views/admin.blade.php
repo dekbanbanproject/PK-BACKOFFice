@@ -813,6 +813,36 @@
                     </div>
                 </div> 
             </div>
+
+            <div class="col-xl-3 col-md-3">
+                <div class="main-card mb-3 card shadow-lg rounded-pill"
+                    style="background-color: rgba(147, 204, 248, 0.871)">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover rounded-pill">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                            <a href="" target="_blank">
+                                                <h5 class="text-start mb-2">Tecnicial-Service</h5>
+                                            </a>
+                                        </div>
+                                        <div class="avatar ms-2">
+                                            <a href="{{ url('techservice') }}" target="_blank">
+                                                <button
+                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
+                                                        <img src="{{ asset('images/techserevice.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
  
 
 
