@@ -143,7 +143,7 @@ $pos = strrpos($url, '/') + 1;
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $number = 0; ?>
+                                    <?php $number = 0; $total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0;$total7 = 0;$total8 = 0;$total9 = 0;?>
                                     @foreach ($data as $item)
                                         <?php $number++; ?>
                                     
@@ -161,12 +161,19 @@ $pos = strrpos($url, '/') + 1;
                                                             {{ number_format($item->pricereq_all,2)}}   --}}
                                                     </td>
                                             </tr>
-                                            
+                                            <?php
+                                            $total1 = $total1 + $item->debit_total; 
+                                      
+                                        ?>    
                                         
     
                                     @endforeach
 
                                 </tbody>
+                                <tr style="background-color: #f3fca1">
+                                    <td colspan="7" class="text-end" style="background-color: #ff9d9d"></td>
+                                    <td class="text-end" style="background-color: #f58d73">{{ number_format($total1,2)}}</td>   
+                                </tr>  
                             </table>
                         </div>
                     </div>
