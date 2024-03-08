@@ -108,20 +108,13 @@
             display: none;
         }
     </style>
-    <div class="tabs-animation"> 
+    <div class="tabs-animation">
         <div class="row text-center">
             <div id="overlay">
                 <div class="cv-spinner">
                     <span class="spinner"></span>
                 </div>
-            </div> 
-        </div> 
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner"> 
-                </div>
             </div>
-        </div>
  
             <div class="row">
                 <div class="col"></div>  
@@ -129,10 +122,10 @@
                 <div class="col-md-7 text-center">
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
                         data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                        <input type="text" class="form-control cardclaim" name="startdate" id="datepicker" placeholder="Start Date"
+                        <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
                             data-date-container='#datepicker1' autocomplete="off" data-provide="datepicker"
                             data-date-autoclose="true" data-date-language="th-th" value="{{ $startdate }}" />
-                        <input type="text" class="form-control cardclaim" name="enddate" placeholder="End Date" id="datepicker2"
+                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
                             data-date-container='#datepicker1' autocomplete="off" data-provide="datepicker" 
                             data-date-autoclose="true" data-date-language="th-th" value="{{ $enddate }}" />
                         <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Searchdata">
@@ -149,18 +142,20 @@
                         </button>  --}}
                         <a href="{{ url('aipn_export') }}" class="btn-icon btn-shadow btn-dashed btn btn-outline-success"> <i class="fa-solid fa-arrow-up-right-from-square text-success me-2"></i>ส่งออก</a>
                         <a href="{{ url('aipn_zip') }}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>
-                         
+                        
+                       
                     </div>
                 </div> 
             </div>
  
-           
-            <div class="row mt-3">
+            <br>
+            <br>
+            <div class="row">
                 <div class="col"></div>
                 <div class="col-md-2 text-end">เลือกตาม AN</div>
                 <div class="col-md-7 text-center">
                     <div class="input-group" id="datepicker1">
-                        <input type="text" class="form-control cardclaim" name="AN" id="AN" placeholder="AN" required>
+                        <input type="text" class="form-control" name="AN" id="AN" placeholder="AN" required>
                         <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Searchdata_an">
                             <i class="fa-solid fa-magnifying-glass"></i>
                             ดึงข้อมูล AN
@@ -178,24 +173,34 @@
                         {{-- <a href="{{ url('aipn_send_an') }}" class="btn btn-success"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ส่งออก</a> --}}
                         {{-- <a href="{{ url('aipn_zip') }}" class="btn btn-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a> --}}  
                     </div>
-                </div> 
+                </div>
+                {{-- <div class="col"></div> --}}
             </div>  
             
  
         <div class="row mt-3">
             <div class="col-xl-12">
-                <div class="card cardclaim">
-                    {{-- <div class="card-header">
-                        <h4 class="card-title">รายละเอียดประกันสังคมผู้ป่วยใน AIPN</h4> 
+                <div class="main-card mb-3 card">
+                    <div class="card-header">
+                        <h4 class="card-title">รายละเอียดประกันสังคมผู้ป่วยใน AIPN</h4>
+                        {{-- <p class="card-title-desc">รายละเอียดประกันสังคมผู้ป่วยใน</p> --}}
                         <div class="btn-actions-pane-right">
-                            
+                            {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll" >
+                                <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>
+                                Sync Data All 
+                            </button> --}}
                         </div>
-                    </div> --}}
+                    </div>
                     <div class="card-body"> 
 
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
-                         
+                            {{-- <li class="nav-item">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#BillItems" role="tab">
+                                    <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                                    <span class="d-none d-sm-block">BillItems</span>    
+                                </a>
+                            </li> --}}
                             <li class="nav-item">
                                 <a class="nav-link active" data-bs-toggle="tab" href="#AIPN" role="tab">
                                     <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
@@ -435,64 +440,7 @@
                             </div>
 
                             <div class="tab-pane" id="BillItems" role="tabpanel">
-                                <p class="mb-0">
-                                    <div class="table-responsive">
-                                        <table id="ex_1" class="table table-striped" style="width: 100%;">
-                                            <thead>
-                                                <tr>
-                                                    <th width="5%" class="text-center">ลำดับ</th>
-                                                    <th class="text-center">AN</th> 
-                                                    <th class="text-center">BillGr</th>
-                                                    <th class="text-center">BillGrCS</th>
-                                                    <th class="text-center">CodeSys</th>
-                                                    <th class="text-center">CSCode</th>
-                                                    <th class="text-center">STDCode</th>
-                                                    <th class="text-center">ClaimCat</th>
-                                                    <th class="text-center">LCCode</th>
-                                                    <th class="text-center">Descript</th>
-                                                    <th class="text-center">QTY</th>
-                                                    <th class="text-center">UnitPrice</th>
-                                                    <th class="text-center">ChargeAmt</th> 
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php $i = 1; ?>
-                                                @foreach ($d_abillitems as $item2)
-                                                    <tr id="sidb{{ $item2->d_abillitems_id }}" style="font-size: 12px;">
-                                                        <td class="text-center">{{ $i++ }}</td>
-                                                        <td class="text-center">{{ $item2->AN }} </td> 
-                                                        <td class="text-center" width="5%">{{ $item2->BillGr }} </td>
-                                                        <td class="text-center" width="5%">{{ $item2->BillGrCS }}</td>
-                                                        @if ($item2->CodeSys == 'TMT' && $item2->STDCode == '')
-                                                            <td class="text-center" style="background-color: rgb(241, 6, 45)" width="5%">{{ $item2->CodeSys }} </td>
-                                                        @elseif ($item2->CodeSys == 'TMLT' && $item2->STDCode == '')
-                                                            <td class="text-center" style="background-color: rgb(252, 2, 44)" width="5%">{{ $item2->CodeSys }} </td>
-                                                        @else
-                                                            <td class="text-center" width="5%">{{ $item2->CodeSys }} </td>
-                                                        @endif
-                                                        <td class="text-center" width="5%">{{ $item2->CSCode }}</td>
-                                                        <td class="text-center" width="5%">{{ $item2->STDCode }} </td>
-                                                        <td class="text-center" width="5%">{{ $item2->ClaimCat }} </td>
-                                                        <td class="text-center" width="10%"> 
-                                                            <a href="{{ url('aipn_billitems_destroy/' . $item2->d_abillitems_id) }}"
-                                                                data-bs-toggle="tooltip" data-bs-placement="left"
-                                                                title="ลบ" class="btn btn-outline-danger btn-sm">
-                                                                <i class="fa-solid fa-trash-can text-danger me-2"></i>
-                                                                {{ $item2->LCCode }}
-                                                            </a>
-                                                        </td>
-                                                        <td class="text-start">{{ $item2->Descript }}</td>
-                                                        <td class="text-center" width="5%">{{ $item2->QTY }}</td>
-                                                        <td class="text-center" width="5%">
-                                                            {{ number_format($item2->UnitPrice, 2) }}</td>
-                                                        <td class="text-center" width="5%">
-                                                            {{ number_format($item2->ChargeAmt, 2) }}</td> 
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </p>
+
                             </div>
                         </div>
  
@@ -501,7 +449,7 @@
             </div>
         </div>
 
-        {{-- <div class="row mt-2">
+        <div class="row mt-2">
 
             <div class="col-xl-12">
                 <div class="main-card mb-3 card">
@@ -518,7 +466,10 @@
                                         <thead>
                                             <tr>
                                                 <th width="5%" class="text-center">ลำดับ</th>
-                                                <th class="text-center">AN</th> 
+                                                <th class="text-center">AN</th>
+                                                {{-- <th class="text-center">sequence</th> --}}
+                                                {{-- <th class="text-center">ServDate</th> --}}
+                                                {{-- <th class="text-center">ServTime</th> --}}
                                                 <th class="text-center">BillGr</th>
                                                 <th class="text-center">BillGrCS</th>
                                                 <th class="text-center">CodeSys</th>
@@ -537,13 +488,18 @@
                                             @foreach ($d_abillitems as $item2)
                                                 <tr id="sidb{{ $item2->d_abillitems_id }}" style="font-size: 12px;">
                                                     <td class="text-center">{{ $i++ }}</td>
-                                                    <td class="text-center">{{ $item2->AN }} </td> 
+                                                    <td class="text-center">{{ $item2->AN }} </td>
+                                                    {{-- <td class="text-center">{{ $item2->sequence }}</td> --}}
+                                                    {{-- <td class="text-center">{{ $item2->ServDate }} </td> --}}
+                                                    {{-- <td class="text-center">{{ $item2->ServTime }} </td> --}}
                                                     <td class="text-center" width="5%">{{ $item2->BillGr }} </td>
                                                     <td class="text-center" width="5%">{{ $item2->BillGrCS }}</td>
                                                     @if ($item2->CodeSys == 'TMT' && $item2->STDCode == '')
-                                                        <td class="text-center" style="background-color: rgb(241, 6, 45)" width="5%">{{ $item2->CodeSys }} </td>
+                                                        <td class="text-center" style="background-color: rgb(241, 6, 45)"
+                                                            width="5%">{{ $item2->CodeSys }} </td>
                                                     @elseif ($item2->CodeSys == 'TMLT' && $item2->STDCode == '')
-                                                        <td class="text-center" style="background-color: rgb(252, 2, 44)" width="5%">{{ $item2->CodeSys }} </td>
+                                                        <td class="text-center" style="background-color: rgb(252, 2, 44)"
+                                                            width="5%">{{ $item2->CodeSys }} </td>
                                                     @else
                                                         <td class="text-center" width="5%">{{ $item2->CodeSys }} </td>
                                                     @endif
@@ -575,10 +531,10 @@
                     </div>
                 </div>
             </div>
-        </div> --}}
+        </div>
 
     </div>
-</div>
+
     <!-- addicodeModal Modal -->
     <div class="modal fade" id="addicodeModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -797,7 +753,6 @@
                                 }
                     })
             });
-
             $('#Exportdata').click(function() {
                     var datepicker = $('#datepicker').val(); 
                     var datepicker2 = $('#datepicker2').val(); 
@@ -1016,7 +971,6 @@
                                 }
                     })
             });
-
             $('#Processdata_an').click(function() {
                     var datepicker = $('#datepicker').val(); 
                     var datepicker2 = $('#datepicker2').val(); 
@@ -1146,7 +1100,6 @@
                     },
                 });
             });
-
             $('#Updatedata_time').click(function() {
                     var DateIn = $('#datein_edit').val(); 
                     var TimeIn = $('#timein_edit').val(); 

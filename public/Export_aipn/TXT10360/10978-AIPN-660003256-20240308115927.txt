@@ -1,0 +1,11 @@
+<CIPN>
+<Header>
+<DocClass>IPClaim</DocClass>
+<DocSysID version="2.1">AIPN</DocSysID>
+<serviceEvent>ADT</serviceEvent>
+<authorID>10978</authorID>
+<authorName>รพ.ภูเขียวเฉลิมพระเกียรติ</authorName>
+<effectiveTime>2024-03-08T11:59:27</effectiveTime>
+</Header>
+<ClaimAuth>
+<AuthCode></AuthCode>
