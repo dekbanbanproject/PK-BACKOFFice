@@ -690,7 +690,7 @@ class AipnController extends Controller
             $opd_head = "\n" . '</IPADT>';
             fwrite($objFopen_opd, $opd_head);
 
-            $ipdx_count_ = DB::connection('mysql')->select('SELECT COUNT(d_aipdx_id) as iCount FROM d_aipdx WHERE an = "'.$an.'"');
+            $ipdx_count_ = DB::connection('mysql')->select('SELECT COUNT(d_aipdx_id) as iCount FROM d_aipdx');
             foreach ($ipdx_count_ as $key => $value_c) {
                 $ipdx_count = $value_c->iCount;
             }
@@ -715,7 +715,7 @@ class AipnController extends Controller
             $opd_head = "\n" . '</IPDx>';
             fwrite($objFopen_opd, $opd_head);
 
-            $ipop_count_ = DB::connection('mysql')->select('SELECT COUNT(d_aipop_id) as iopcount FROM d_aipop WHERE an = "'.$an.'"');
+            $ipop_count_ = DB::connection('mysql')->select('SELECT COUNT(d_aipop_id) as iopcount FROM d_aipop');
             foreach ($ipop_count_ as $key => $value_op) {
                 $ipop_count = $value_op->iopcount;
             }
@@ -744,7 +744,7 @@ class AipnController extends Controller
             $opd_head = "\n" . '</IPOp>';
             fwrite($objFopen_opd, $opd_head);
 
-            $billitem_count_ = DB::connection('mysql')->select('SELECT COUNT(d_abillitems_id) as bill_count FROM d_abillitems WHERE AN = "'.$an.'"');
+            $billitem_count_ = DB::connection('mysql')->select('SELECT COUNT(d_abillitems_id) as bill_count FROM d_abillitems');
             foreach ($billitem_count_ as $key => $value_bill) {
                 $billitem_count = $value_bill->bill_count;
             }
