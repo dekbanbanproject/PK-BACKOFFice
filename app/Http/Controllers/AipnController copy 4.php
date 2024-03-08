@@ -825,6 +825,298 @@ class AipnController extends Controller
  
             // ********************HASH MD5********************
  
+            // ********************File 2  ********************
+            $file_pat2 = "Export_aipn/" . $folder . "/10978-AIPN-" .$an.'-'. $aipn_date_now_preg . '' . $aipn_time_now_preg . ".xml";
+            $objFopen_opd2 = fopen($file_pat2, 'w'); 
+
+     
+            $opd_head2 = '<?xml version="1.0" encoding="windows-874"?>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $opd_head2 = "\n" . '<CIPN>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $opd_head2 = "\n" . '<Header>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $opd_head2 = "\n" . '<DocClass>IPClaim</DocClass>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $opd_head2 = "\n" . '<DocSysID version="2.1">AIPN</DocSysID>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $opd_head2 = "\n" . '<serviceEvent>ADT</serviceEvent>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $opd_head2 = "\n" . '<authorID>10978</authorID>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $opd_head2 = "\n" . '<authorName>รพ.ภูเขียวเฉลิมพระเกียรติ</authorName>';
+            $opd_head_ansi2 = iconv('UTF-8', 'TIS-620', $opd_head2);
+            fwrite($objFopen_opd2, $opd_head_ansi2);
+
+            $opd_head2 = "\n" . '<effectiveTime>' . $aipn_date_now . 'T' . $aipn_time_now . '</effectiveTime>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $opd_head2 = "\n" . '</Header>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $opd_head2 = "\n" . '<ClaimAuth>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $opd_head2 = "\n" . '<AuthCode></AuthCode>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $aipn_InvNumber_2 = DB::connection('mysql')->select('SELECT AN,CONCAT(DTAdm_d,"T",DTAdm_t) as DTAdm,CONCAT(DTDisch_d,"T",DTDisch_t) as DTDisch FROM d_aipadt WHERE AN = "'.$an.'"');
+            foreach ($aipn_InvNumber_2 as $key => $val2) {
+                $inv2 = $val2->AN;
+                $audt2 = $val2->DTAdm;
+                $indt2 = $val2->DTDisch;
+            }
+
+            $opd_head2 = "\n" . '<AuthDT>' . $audt2 . '</AuthDT>';
+            fwrite($objFopen_opd2, $opd_head2);
+            $opd_head2 = "\n" . '<UPayPlan>80</UPayPlan>';
+            fwrite($objFopen_opd2, $opd_head2);
+            $opd_head2 = "\n" . '<ServiceType>IP</ServiceType>';
+            fwrite($objFopen_opd2, $opd_head2);
+            $opd_head2 = "\n" . '<ProjectCode></ProjectCode>';
+            fwrite($objFopen_opd2, $opd_head2);
+            $opd_head2 = "\n" . '<EventCode> </EventCode>';
+            fwrite($objFopen_opd2, $opd_head2);
+            $opd_head2 = "\n" . '<UserReserve> </UserReserve>';
+            fwrite($objFopen_opd2, $opd_head2);
+            $opd_head2 = "\n" . '<Hmain>10702</Hmain>';
+            fwrite($objFopen_opd2, $opd_head2);
+            $opd_head2 = "\n" . '<Hcare>10978</Hcare>';
+            fwrite($objFopen_opd2, $opd_head2);
+            $opd_head2 = "\n" . '<CareAs>B</CareAs>';
+            fwrite($objFopen_opd2, $opd_head2);
+            $opd_head2 = "\n" . '<ServiceSubType> </ServiceSubType>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $opd_head2 = "\n" . '</ClaimAuth>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $opd_head2 = "\n" . '<IPADT>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $aipn_data2 = DB::connection('mysql')->select('   
+                    SELECT 
+                    AN,HN,IDTYPE,PIDPAT,TITLE,NAMEPAT,DOB,SEX,MARRIAGE,CHANGWAT,AMPHUR,NATION,AdmType,AdmSource 
+                    ,CONCAT(DTAdm_d,"T",DTAdm_t) as DTAdm
+                    ,CONCAT(DTDisch_d,"T",DTDisch_t) as DTDisch 
+                    ,LeaveDay,DischStat,DishType,AdmWt,DishWard,Dept
+                    FROM d_aipadt 
+                    WHERE AN = "'.$an.'"
+                ');
+
+            foreach ($aipn_data2 as $key => $value22) {
+                $bb1 = $value22->AN;
+                $bb2 = $value22->HN;
+                $bb3 = $value22->IDTYPE;
+                $bb4 = $value22->PIDPAT;
+                $bb5 = $value22->TITLE;
+                $bb6 = $value22->NAMEPAT;
+                $bb7 = $value22->DOB;
+                $bb8 = $value22->SEX;
+                $bb9 = $value22->MARRIAGE;
+                $bb10 = $value22->CHANGWAT;
+                $bb11 = $value22->AMPHUR;
+                $bb12 = $value22->NATION;
+                $bb13 = $value22->AdmType;
+                $bb14 = $value22->AdmSource;
+                $bb15 = $value22->DTAdm;
+                $bb16 = $value22->DTDisch;
+                $bb17 = $value22->LeaveDay;
+                $bb18 = $value22->DischStat;
+                $bb19 = $value22->DishType;
+                $bb20 = $value22->AdmWt;
+                $bb21 = $value22->DishWard;
+                $bb22 = $value22->Dept;
+                $strText22 = "\n" . $bb1 . "|" . $bb2 . "|" . $bb3 . "|" . $bb4 . "|" . $bb5 . "|" . $bb6 . "|" . $bb7 . "|" . $bb8 . "|" . $bb9 . "|" . $bb10 . "|" . $bb11 . "|" . $bb12 . "|" . $bb13 . "|" . $bb14 . "|" . $bb15 . "|" . $bb16 . "|" . $bb17 . "|" . $bb18 . "|" . $bb19 . "|" . $bb20 . "|" . $bb21 . "|" . $bb22;
+                $ansitxt_pat22 = iconv('UTF-8', 'TIS-620', $strText22);
+                fwrite($objFopen_opd2, $ansitxt_pat22);
+            }
+
+            $opd_head2 = "\n" . '</IPADT>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $ipdx_count_2 = DB::connection('mysql')->select('SELECT COUNT(d_aipdx_id) as iCount FROM d_aipdx WHERE an = "'.$an.'"');
+            foreach ($ipdx_count_2 as $key => $value_c2) {
+                $ipdx_count2 = $value_c2->iCount;
+            }
+            $opd_head2 = "\n" . '<IPDx Reccount="' . $ipdx_count2 . '">';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $ipdx2 = DB::connection('mysql')->select('   
+                    SELECT * FROM d_aipdx WHERE an = "'.$an.'" 
+                ');
+            foreach ($ipdx2 as $key => $value_ip2) {
+                $ss1 = $value_ip2->sequence;
+                $ss2 = $value_ip2->DxType;
+                $ss3 = $value_ip2->CodeSys;
+                $ss4 = $value_ip2->Dcode;
+                $ss5 = $value_ip2->DiagTerm;
+                $ss6 = $value_ip2->DR;
+
+                $strTexts = "\n" . $ss1 . "|" . $ss2 . "|" . $ss3 . "|" . $ss4 . "|" . $ss5 . "|" . $ss6 . "|";
+                $ansitxt_ipdxs = iconv('UTF-8', 'TIS-620', $strTexts);
+                fwrite($objFopen_opd2, $ansitxt_ipdxs);
+            }
+            $opd_head2 = "\n" . '</IPDx>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $ipop_count_2 = DB::connection('mysql')->select('SELECT COUNT(d_aipop_id) as iopcount FROM d_aipop WHERE an = "'.$an.'"');
+            foreach ($ipop_count_2 as $key => $value_op2) {
+                $ipop_count2 = $value_op2->iopcount;
+            }
+            $opd_head2 = "\n" . '<IPOp Reccount="' . $ipop_count2 . '">';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $ipop2 = DB::connection('mysql')->select('   
+                    SELECT 
+                    sequence,CodeSys,Code,Procterm,DR,DateIn,DateOut,Location 
+                    FROM d_aipop WHERE an = "'.$an.'" 
+                ');
+            foreach ($ipop2 as $key => $value_ipop2) {
+                $so1 = $value_ipop2->sequence;
+                $so2 = $value_ipop2->CodeSys;
+                $so3 = $value_ipop2->Code;
+                $so4 = $value_ipop2->Procterm;
+                $so5 = $value_ipop2->DR;
+                $so6 = $value_ipop2->DateIn;
+                $so7 = $value_ipop2->DateOut;
+
+                $strTexto = "\n" . $so1 . "|" . $so2 . "|" . $so3 . "|" . $so4 . "|" . $so5 . "|" . $so6 . "|" . $so7 . "|";
+                $ansitxt_ipopoo = iconv('UTF-8', 'TIS-620', $strTexto);
+                fwrite($objFopen_opd2, $ansitxt_ipopoo);
+            }
+            $opd_head2 = "\n" . '</IPOp>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $billitem_count_2 = DB::connection('mysql')->select('SELECT COUNT(d_abillitems_id) as bill_count FROM d_abillitems WHERE AN = "'.$an.'"');
+            foreach ($billitem_count_2 as $key => $value_bill2) {
+                $billitem_count2 = $value_bill2->bill_count;
+            }
+            $opd_head2 = "\n" . '<Invoices>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $opd_head2 = "\n" . '<InvNumber>' . $inv2 . '</InvNumber>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $opd_head2 = "\n" . '<InvDT>' . $indt2 . '</InvDT>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $opd_head2 = "\n" . '<BillItems Reccount="' . $billitem_count2 . '">';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $text_billitems_2 = DB::connection('mysql')->select('SELECT * from d_abillitems WHERE AN = "'.$an.'"');
+            foreach ($text_billitems_2 as $key => $bitem2) {
+                $at1 = $bitem2->sequence;
+                $at2 = $bitem2->ServDate;
+                $at3 = $bitem2->BillGr;
+                $at4 = $bitem2->LCCode;
+                $at5 = $bitem2->Descript;
+                $at6 = $bitem2->QTY;
+                $at7 = $bitem2->UnitPrice;
+                $at8 = $bitem2->ChargeAmt;
+                $at9 = $bitem2->Discount;
+                $at10 = $bitem2->ProcedureSeq;
+                $at11 = $bitem2->DiagnosisSeq;
+                $at12 = $bitem2->ClaimSys;
+                $at13 = $bitem2->BillGrCS;
+                $at14 = $bitem2->CSCode;
+                $at15 = $bitem2->CodeSys;
+                $at16 = $bitem2->STDCode;
+                $at17 = $bitem2->ClaimCat;
+                $at18 = $bitem2->DateRev;
+                $at19 = $bitem2->ClaimUP;
+                $at20 = $bitem2->ClaimAmt;
+
+                $strTextD22 = "\n" . $at1 . "|" . $at2 . "|" . $at3 . "|" . $at4 . "|" . $at5 . "|" . $at6 . "|" . $at7 . "|" . $at8 . "|" . $at9 . "|" . $at10 . "|" . $at11 . "|" . $at12 . "|" . $at13 . "|" . $at14 . "|" . $at15 . "|" . $at16 . "|" . $at17 . "|" . $at18 . "|" . $at19 . "|" . $at20;
+                $ansitxt_bitem2 = iconv('UTF-8', 'TIS-620', $strTextD22);
+                fwrite($objFopen_opd2, $ansitxt_bitem2);
+            }
+            $sum_billitems_a2 = DB::connection('mysql')->select('SELECT SUM(ChargeAmt) as Total from d_abillitems WHERE AN = "'.$an.'"');
+            foreach ($sum_billitems_a2 as $key => $value_sum2) {
+                $sum_billitemsa2 = $value_sum2->Total;
+            }
+
+            $opd_head2 = "\n" . '</BillItems>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $opd_head2 = "\n" . '<InvAddDiscount>0.00</InvAddDiscount>';
+            fwrite($objFopen_opd2, $opd_head2);
+            $opd_head2 = "\n" . '<DRGCharge>' . $sum_billitemsa2 . '</DRGCharge>';
+            fwrite($objFopen_opd2, $opd_head2);
+            $opd_head2 = "\n" . '<XDRGClaim>0.0000</XDRGClaim>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $opd_head2 = "\n" . '</Invoices>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $opd_head2 = "\n" . '<Coinsurance> </Coinsurance>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $opd_head2 = "\n" . '</CIPN>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $opd_head2 = "\n";
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $opd_head2 = "\n";
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $objFopen_opd2 = fopen($file_pat2, 'a');
+            $opd_head2 = '<?EndNote HMAC="' . $mdup . '" ?>';
+            fwrite($objFopen_opd2, $opd_head2);
+
+            $opd_head2 = "\n";
+            fwrite($objFopen_opd2, $opd_head2);
+
+            fclose($objFopen_opd2);
+
+  
+            // $pathdir = "Export_aipn/".$folder."/";
+            // $zipcreated = $folder . ".zip";
+
+            // dd($pathdir);
+            
+            // $newzip = new ZipArchive;
+            // if ($newzip->open($zipcreated, ZipArchive::CREATE) === TRUE) {
+            //     $dir = opendir($pathdir);
+            //     while ($file = readdir($dir)) {
+            //         if (is_file($pathdir . $file)) {
+            //             $newzip->addFile($pathdir . $file, $file);
+            //         }
+            //     }
+            //     // dd($newzip);
+            //     $newzip->close();
+            //     if (file_exists($zipcreated)) {
+            //         header('Content-Type: application/zip');
+            //         header('Content-Disposition: attachment; filename="' . basename($zipcreated) . '"');
+            //         header('Content-Length: ' . filesize($zipcreated));
+            //         flush();
+            //         readfile($zipcreated);
+            //         unlink($zipcreated);
+            //         $files = glob($pathdir . '/*');
+
+            //         foreach ($files as $file) {
+            //             if (is_file($file)) {
+            //             }
+            //         } 
+            //         // return redirect()->back(); 
+            //         return redirect()->route('claim.aipn');
+            //         // return response()->json([
+            //         //     'status'    => '200'
+            //         // ]);
+            //     }
+            // }
+
+
+
+        }
         $pathdir = "Export_aipn/".$folder."/";
             $zipcreated = $folder . ".zip";
 
