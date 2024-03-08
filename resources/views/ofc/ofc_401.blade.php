@@ -252,6 +252,11 @@ $pos = strrpos($url, '/') + 1;
                                                 <tr style="font-size: 13px">
                                                     <th class="text-center">ลำดับ</th>
                                                     <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox" name="stampchoi" id="stampchoi"> </th> 
+                                                    <th class="text-center">
+                                                        <span class="bg-success badge me-2">{{ $count_no }}</span> 
+                                                        Approve Code
+                                                        <span class="bg-danger badge me-2">{{ $count_null }}</span> 
+                                                    </th>
                                                     <th class="text-center">cid</th>
                                                     <th class="text-center">hn</th>
                                                     <th class="text-center">ptname</th>  
@@ -259,11 +264,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <th class="text-center">vstdate</th> 
                                                     <th class="text-center">icd10</th> 
                                                     <th class="text-center">pdx</th> 
-                                                    <th class="text-center">
-                                                        <span class="bg-success badge me-2">{{ $count_no }}</span> 
-                                                        Approve Code
-                                                        <span class="bg-danger badge me-2">{{ $count_null }}</span> 
-                                                    </th> 
+                                                    
                                                     <th class="text-center">Price OFC</th> 
                                                 </tr>
                                             </thead>
@@ -281,13 +282,6 @@ $pos = strrpos($url, '/') + 1;
                                                     @else --}}
                                                         <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox choisub_chk" data-id="{{$item1->d_ofc_401_id}}"> </td> 
                                                     {{-- @endif --}}
-                                                    <td class="text-center" width="7%">  {{ $item1->cid }}  </td>
-                                                    <td class="text-center" width="8%">{{ $item1->hn }}</td>
-                                                    <td class="text-start">{{ $item1->ptname }}</td>  
-                                                    <td class="text-center" width="5%">{{ $item1->pttype }}</td> 
-                                                    <td class="text-center" width="7%">{{ $item1->vstdate }}</td> 
-                                                    <td class="text-center" width="5%">{{ $item1->icd10 }}</td>
-                                                    <td class="text-center" width="5%">{{ $item1->pdx }}</td>
                                                     <td class="text-center" width="15%">
                                                         @if ($item1->Apphos != NULL)
                                                             <span class="bg-success badge me-2">{{ $item1->Apphos }}</span> 
@@ -296,6 +290,14 @@ $pos = strrpos($url, '/') + 1;
                                                         @endif
                                                         
                                                     </td> 
+                                                    <td class="text-center" width="7%">  {{ $item1->cid }}  </td>
+                                                    <td class="text-center" width="8%">{{ $item1->hn }}</td>
+                                                    <td class="text-start">{{ $item1->ptname }}</td>  
+                                                    <td class="text-center" width="5%">{{ $item1->pttype }}</td> 
+                                                    <td class="text-center" width="7%">{{ $item1->vstdate }}</td> 
+                                                    <td class="text-center" width="5%">{{ $item1->icd10 }}</td>
+                                                    <td class="text-center" width="5%">{{ $item1->pdx }}</td>
+                                                    
                                                     <td class="text-end" width="7%" style="font-size: 15px;color:blue">{{ number_format($item1->price_ofc, 2) }}</td> 
                                                 </tr>
                     
