@@ -289,7 +289,7 @@
                                     <ul class="sub-menu" aria-expanded="true"> 
                                         <li><a href="{{ url('ofc_401_main') }}">OFC-MAIN </a></li>
                                         <li><a href="{{ url('ofc_401') }}">OFC-401 </a></li> 
-                                        <li><a href="{{ url('ofc_401_check') }}">OFC-CHECK </a></li>
+                                        {{-- <li><a href="{{ url('ofc_401_check') }}">OFC-CHECK </a></li> --}}
                                         <li><a href="{{ url('ofc_401_rep') }}">OFC-REP </a></li>
                                         <li><a href="{{ url('ofc_402') }}">OFC-402 </a></li>
                                         {{-- <li><a href="{{ url('ktb_spawn') }}">การตรวจหลังคลอด ANC</a></li> --}}
@@ -301,7 +301,7 @@
                                     <ul class="sub-menu" aria-expanded="true"> 
                                         <li><a href="{{ url('lgo_801_main') }}">LGO-MAIN </a></li> 
                                         <li><a href="{{ url('lgo_801') }}">LGO-CLAIM </a></li> 
-                                        <li><a href="{{ url('lgo_801_check') }}">LGO-CHECK </a></li>
+                                        {{-- <li><a href="{{ url('lgo_801_check') }}">LGO-CHECK </a></li> --}}
                                         <li><a href="{{ url('lgo_801_rep') }}">LGO-REP </a></li> 
                                     </ul>
                                 </li>
