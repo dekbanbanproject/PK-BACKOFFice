@@ -704,6 +704,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <li><a href="{{ url('upstm_tixml') }}">OFC(Xml-ไต)OK</a></li>
                                 <li><a href="{{ url('upstm_lgotiexcel') }}">LGO(Excel-ไต)OK</a></li>
                                 <li><a href="{{ url('upstm_tixml_sss') }}">SSS(Xml-ไต)OK</a></li>
+                                <li><a href="{{ url('upstm_sss_xml') }}">SSS(Xml)</a></li>
                             </ul>
                         </li>
                     @endif

@@ -194,7 +194,7 @@
                                                 </p>
                                             </div>
                                             <div class="col"></div>
-                                            <div class="col-md-5 text-end me-4">
+                                            <div class="col-md-5 text-end me-2">
                                                 {{-- <a href="" target="_blank"> --}}
                                                     <div class="widget-chart widget-chart-hover" >
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ที่ต้องตั้ง {{ $visit}} Visit" >
@@ -216,7 +216,7 @@
                                                 </p>
                                             </div>
                                             <div class="col"></div>
-                                            <div class="col-md-5 text-end me-4">
+                                            <div class="col-md-5 text-end me-2">
                                                 {{-- <a href="" target="_blank"> --}}
                                                     <a href="{{url('account_301_dashsubdetail/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">

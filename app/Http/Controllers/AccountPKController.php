@@ -3721,6 +3721,26 @@ class AccountPKController extends Controller
                 ]);
     }
 
+    public function upstm_sss_xml(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+
+        return view('account_pk.upstm_sss_xml',[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+        ]);
+    }
+
+
+
+
+
+
+
+
+
     public function acc_setting(Request $request)
     {
         $startdate = $request->startdate;
