@@ -101,9 +101,9 @@
         </div>
 
         <div class="row"> 
-            <div class="col"></div>
-            <div class="col-xl-10 col-md-10">
-                <div class="main-card mb-3 card">
+            {{-- <div class="col"></div> --}}
+            <div class="col-xl-12 col-md-12">
+                <div class="card cardacc">
                     <div class="grid-menu-col">
                         <form action="{{ route('acc.upstm_ofcexcel_save') }}" method="POST" enctype="multipart/form-data">
                             {{-- id="Upstmti" --}}
@@ -118,56 +118,65 @@
                                             type="file" required>
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     </div>
-                                </div>
-                                    @if ($countc > 0)
-                                    <div class="col-md-2 mb-3 mt-5">
-                                        <select name="type" id="type" class="form-control form-control-sm">
-                                            <option value="OFC">OFC</option>
-                                            <option value="BKK">BKK</option>
-                                        </select>
-                                    </div>
-                                    {{-- <div class="col-md-2 mb-3 mt-5">
-                                        <a href="{{ url('upstm_ofcexcel_senddata') }}" class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Senddata">
-                                            <i class="fa-solid fa-file-import me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="ส่งข้อมูล"></i>
-                                                ส่งข้อมูล
-                                        </a>
-                                    </div> --}}
-                                   
-                                    <div class="col-md-4 mb-3 mt-5">
-                                        <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left" id="Senddata">
-                                            <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>บันทึกข้อมูล</span>
-                                            <span class="ladda-spinner"></span>
-                                        </button>
-                                    
-                                    
-                                        <button type="button" class="ladda-button me-2 btn-pill btn btn-success cardacc" data-style="expand-left" id="Sendstmdata">
-                                            <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>กระทบลูกหนี้ OPD</span>
-                                            <span class="ladda-spinner"></span>
-                                        </button>
-
-                                        <button type="button" class="ladda-button me-2 btn-pill btn btn-danger cardacc" data-style="expand-left" id="Sendstmipddata">
-                                            <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>กระทบลูกหนี้ IPD</span>
-                                            <span class="ladda-spinner"></span>
-                                        </button>
-
-                                    </div>
-                                   
-                                    @else
-                                    <div class="col-md-2 mb-3 mt-5">
-                                        <button type="submit"
-                                            class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                            <i class="fa-solid fa-cloud-arrow-up me-2" data-bs-toggle="tooltip"
-                                                data-bs-placement="top" title="UP STM"></i>
-                                            UP STM
-                                        </button>
-                                    </div>
-                                    @endif
-
-
-                                {{-- </div> --}}
+                                </div> 
                                 <div class="col"></div>
 
                             </div>
+                            @if ($countc > 0)
+                           <div class="row">
+                            <div class="col"></div>
+                            <div class="col-md-2 mb-3">
+                                <select name="type" id="type" class="form-control form-control-sm cardacc">
+                                    <option value="OFC">OFC</option>
+                                    <option value="BKK">BKK</option>
+                                </select>
+                            </div>
+                            <div class="col-md-8">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left" id="Senddata">
+                                    <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>บันทึกข้อมูล</span>
+                                    <span class="ladda-spinner"></span>
+                                </button>
+                            
+                            
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-success cardacc" data-style="expand-left" id="Sendstmdata">
+                                    <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>กระทบลูกหนี้ OPD 401</span>
+                                    <span class="ladda-spinner"></span>
+                                </button>
+
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-success cardacc" data-style="expand-left" id="Sendstmipddata">
+                                    <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>กระทบลูกหนี้ IPD 402</span>
+                                    <span class="ladda-spinner"></span>
+                                </button>
+
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-danger cardacc" data-style="expand-left" id="Sendstm803">
+                                    <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>กระทบลูกหนี้ 803</span>
+                                    <span class="ladda-spinner"></span>
+                                </button>
+                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-danger cardacc" data-style="expand-left" id="Sendstm804">
+                                    <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>กระทบลูกหนี้ 804</span>
+                                    <span class="ladda-spinner"></span>
+                                </button> --}}
+
+                            </div>
+                          <div class="col"></div>
+                           </div>
+                           @else
+                           <div class="row">
+                            <div class="col"></div>
+                            <div class="col-md-2">
+                                <button type="submit"
+                                class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                <i class="fa-solid fa-cloud-arrow-up me-2" data-bs-toggle="tooltip"
+                                    data-bs-placement="top" title="UP STM"></i>
+                                UP STM
+                            </button> 
+                            </div>
+                            <div class="col"></div>
+                           </div>
+                            @endif
+
+
+
                         </form>
                     </div>
                 </div>
@@ -181,7 +190,7 @@
                 </div> 
                 <br> 
             </div>
-            <div class="col"></div>
+            {{-- <div class="col"></div> --}}
         </div>
 
 
@@ -189,7 +198,7 @@
 
             <div class="col"></div>
             <div class="col-xl-8 col-md-6">
-                <div class="main-card card p-3">
+                <div class="card cardacc p-3">
                     <div class="grid-menu-col">
                         {{-- <div class="row mt-3 mb-3">
                             <div class="col"></div>
@@ -583,6 +592,58 @@
                                         datepicker,
                                         datepicker2                        
                                     },
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({
+                                                title: 'กระทบลูกหนี้สำเร็จ',
+                                                text: "You Affects debtors data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+                                        } else {
+                                            
+                                        }
+                                    },
+                                });
+                                
+                            }
+                })
+            });
+
+            $('#Sendstm803').click(function() {
+                var type = $('#type').val();  
+                
+                Swal.fire({
+                        title: 'ต้องการกระทบลูกหนี้ใช่ไหม ?',
+                        text: "You Warn Affects debtors Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, pull it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+                                
+                                $.ajax({
+                                    url: "{{ route('acc.upstm_bkk803_senddata') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {type },
                                     success: function(data) {
                                         if (data.status == 200) { 
                                             Swal.fire({

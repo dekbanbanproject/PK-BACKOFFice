@@ -87,104 +87,59 @@ class Account803Controller extends Controller
         
     public function account_803_dash(Request $request)
     {
-        // $startdate = $request->startdate;
-        // $enddate = $request->enddate;
-        // $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
-        // $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
-        // $date = date('Y-m-d');
-        // $y = date('Y') + 543;
-        // $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-        // $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
-        // $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-        // $yearnew = date('Y')+1;
-        // $yearold = date('Y')-1;
-        // $start = (''.$yearold.'-10-01');
-        // $end = (''.$yearnew.'-09-30'); 
-
-        // if ($startdate == '') {
-        //     $datashow = DB::select('
-        //         SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-        //             ,count(distinct a.hn) as hn
-        //             ,count(distinct a.vn) as vn
-        //             ,sum(a.paid_money) as paid_money
-        //             ,sum(a.income) as income
-        //             ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-        //             FROM acc_debtor a
-        //             left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-        //             WHERE a.vstdate between "'.$start.'" and "'.$end.'"
-        //             and account_code="1102050102.803"
-        //             and income <> 0
-        //             group by month(a.vstdate) order by a.vstdate desc limit 3;
-        //     ');
-        // } else {
-        //     $datashow = DB::select('
-        //         SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-        //             ,count(distinct a.hn) as hn
-        //             ,count(distinct a.vn) as vn
-        //             ,sum(a.paid_money) as paid_money
-        //             ,sum(a.income) as income
-        //             ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-        //             FROM acc_debtor a
-        //             left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-        //             WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
-        //             and account_code="1102050102.803"
-        //             and income <>0
-                    
-        //     ');
-        // }
-        $budget_year   = $request->budget_year;
-            
-        $datenow       = date("Y-m-d");
-        $y             = date('Y') + 543;
-        $dabudget_year = DB::table('budget_year')->where('active','=',true)->get(); 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
         $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
-        $date = date('Y-m-d'); 
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-        
-        $months_now = date('m');
-        $year_now = date('Y'); 
-        //    dd($budget_year);
-        if ($budget_year == '') {  
-            $yearnew = date('Y');
-            $year_old = date('Y')-1;
-            $months_old  = ('10');
-            $startdate = (''.$year_old.'-10-01');
-            $enddate = (''.$yearnew.'-09-30');
-            $datashow = DB::select(' 
-                    SELECT MONTH(a.vstdate) as months,YEAR(a.vstdate) as years
-                    ,count(DISTINCT a.vn) as total_vn,l.MONTH_NAME
-                    ,sum(a.debit_total) as tung_looknee  
-                    FROM acc_debtor a 
-                    LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.vstdate)
-                    WHERE a.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                    AND a.account_code ="1102050102.803"
-                    GROUP BY months ORDER BY a.vstdate DESC
-            ');    
+        $yearnew = date('Y')+1;
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+
+        if ($startdate == '') {
+            $datashow = DB::select('
+                SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn
+                    ,count(distinct a.vn) as vn
+                    ,sum(a.paid_money) as paid_money
+                    ,sum(a.income) as income
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+                    WHERE a.vstdate between "'.$start.'" and "'.$end.'"
+                    and account_code="1102050102.803"
+                    and income <> 0
+                    group by month(a.vstdate) order by a.vstdate desc limit 3;
+            ');
         } else {
-            $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
-            $startdate    = $bg->date_begin;
-            $enddate      = $bg->date_end; 
-            $datashow = DB::select(' 
-                    SELECT MONTH(a.vstdate) as months,YEAR(a.vstdate) as years
-                    ,count(DISTINCT a.vn) as total_vn,l.MONTH_NAME
-                    ,sum(a.debit_total) as tung_looknee  
-                    FROM acc_debtor a 
-                    LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.vstdate)
-                    WHERE a.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                    AND a.account_code ="1102050102.803"
-                    GROUP BY months ORDER BY a.vstdate DESC 
-            ');  
+            $datashow = DB::select('
+                SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn
+                    ,count(distinct a.vn) as vn
+                    ,sum(a.paid_money) as paid_money
+                    ,sum(a.income) as income
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+                    WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
+                    and account_code="1102050102.803"
+                    and income <>0
+                    
+            ');
         }
 
         return view('account_803.account_803_dash',[
-            'startdate'        =>  $startdate,
-                 'enddate'          =>  $enddate, 
-                 'datashow'         =>  $datashow,
-                 'dabudget_year'    =>  $dabudget_year,
-                 'budget_year'      =>  $budget_year,
-                 'y'                =>  $y,
+            'startdate'        => $startdate,
+            'enddate'          => $enddate,
+            'leave_month_year' => $leave_month_year,
+            'datashow'         => $datashow,
+            'newyear'          => $newyear,
+            'date'             => $date,
         ]);
     }
     public function account_803_pull(Request $request)
@@ -199,7 +154,7 @@ class Account803Controller extends Controller
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $acc_debtor = DB::select('
                 SELECT a.*,c.subinscl from acc_debtor a
-                left join check_sit_auto c on c.vn = a.vn  
+                left join checksit_hos c on c.vn = a.vn  
                 WHERE a.account_code="1102050102.803"
                 AND a.stamp = "N"
                 group by a.vn
@@ -248,7 +203,7 @@ class Account803Controller extends Controller
                 LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
                 LEFT JOIN opitemrece op ON op.vn = o.vn
                 WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                AND vp.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050102.803" AND opdipd ="OPD" AND pttype <>"")
+                AND vp.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050102.803" AND opdipd ="OPD")
 
                 AND v.income <> 0
                 and (o.an="" or o.an is null)
@@ -256,8 +211,7 @@ class Account803Controller extends Controller
         ');
      
         foreach ($acc_debtor as $key => $value) {
-            // $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050102.803')->whereBetween('vstdate', [$startdate, $enddate])->count();
-                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050102.803')->count();
+                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050102.803')->whereBetween('vstdate', [$startdate, $enddate])->count();
                     if ($check == 0) {
                         Acc_debtor::insert([
                             'hn'                 => $value->hn,
@@ -370,11 +324,11 @@ class Account803Controller extends Controller
         $data['users'] = User::get();
 
         $datashow = DB::select('
-            SELECT *
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc 
                 from acc_1102050102_803 U1
-               
+                LEFT JOIN acc_stm_ofc U2 ON U2.cid = U1.cid AND U2.vstdate = U1.vstdate 
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
-                AND U1.stm_money IS NOT NULL
+                AND U2.pricereq_all is not null 
                 group by U1.vn
         ');
         // SELECT count(DISTINCT a.vn) as Apvit ,sum(au.claim_true_af) as claim_true_af
@@ -395,17 +349,14 @@ class Account803Controller extends Controller
         $data['users'] = User::get();
 
         $datashow = DB::select('
-            SELECT *
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc 
                 from acc_1102050102_803 U1
-               
+                LEFT JOIN acc_stm_ofc U2 ON U2.cid = U1.cid AND U2.vstdate = U1.vstdate 
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
-               
-                AND U1.stm_money IS NULL
+                AND U2.pricereq_all is null 
                 group by U1.vn
         ');
-        // U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc 
-        // LEFT JOIN acc_stm_ofc U2 ON U2.cid = U1.cid AND U2.vstdate = U1.vstdate 
-        // AND U2.pricereq_all is null 
+        
         return view('account_803.account_803_stmnull', $data, [ 
             'datashow'      =>     $datashow,
             'months'        =>     $months,
