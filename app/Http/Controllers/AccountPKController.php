@@ -2892,13 +2892,13 @@ class AccountPKController extends Controller
     }
     function upstm_ucs_excel(Request $request)
     { 
-        $this->validate($request, [
-            'file' => 'required|file|mimes:xls,xlsx'
-        ]);
+        // $this->validate($request, [
+        //     'file' => 'required|file|mimes:xls,xlsx'
+        // ]);
         $the_file = $request->file('file'); 
         $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
 
-        
+        // dd($the_file);
             try{
                 // $a = array('2','3');
                 // foreach($a as $value){
@@ -3026,6 +3026,8 @@ class AccountPKController extends Controller
                     Acc_stm_ucs_excel::insert($data_); 
                 }
                 // Acc_stm_ucs_excel::insert($data); 
+
+                
                 // Cheet 3
                 $spreadsheet2 = IOFactory::load($the_file->getRealPath()); 
                 $sheet2        = $spreadsheet2->setActiveSheetIndex(3);
@@ -3089,7 +3091,6 @@ class AccountPKController extends Controller
                     $al2 = $sheet2->getCell( 'AL' . $row2 )->getValue();
                     $del_al2 = str_replace(",","",$al2);
 
-                    // $rep_ = $sheet->getCell( 'A' . $row )->getValue();
  
                     $data2[] = [
                         'rep'                   =>$sheet2->getCell( 'A' . $row2 )->getValue(),

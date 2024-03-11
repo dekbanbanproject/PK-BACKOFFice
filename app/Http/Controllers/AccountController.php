@@ -1951,7 +1951,7 @@ class AccountController extends Controller
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
         $yearnew = date('Y')+1;
-        $yearold = date('Y');
+        $yearold = date('Y')-1;
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
 
@@ -1965,11 +1965,14 @@ class AccountController extends Controller
                     LEFT JOIN hos.pttype t on t.pttype=v.pttype
                     LEFT JOIN leave_month l on l.MONTH_ID = MONTH(v.vstdate)
                     WHERE v.vstdate between "' . $startdate . '" and "' . $enddate . '"
-                    AND (v.paid_money > 0 AND v.rcpt_money = 0 and v.remain_money = 0 )
-                    AND v.pttype <> "P1"
+                    AND (v.paid_money <> v.rcpt_money)
+                  
+                    AND v.pttype <> "P1" AND v.rcpt_money <> 30
                     GROUP BY date_format(v.vstdate, "%M")
                     ORDER BY v.vstdate desc  
             ');
+            // AND ((v.rcpt_money + v.remain_money) <> v.paid_money)
+            // AND (v.paid_money > 0 AND v.rcpt_money = 0 and v.remain_money = 0 )
             // AND (v.paid_money>0 and v.rcpt_money>0 )
         } else {
             $datashow = DB::connection('mysql10')->select('
@@ -1981,13 +1984,14 @@ class AccountController extends Controller
                     LEFT JOIN hos.pttype t on t.pttype=v.pttype
                     LEFT JOIN leave_month l on l.MONTH_ID = MONTH(v.vstdate)
                     WHERE v.vstdate between "' . $start . '" and "' . $end . '"
+                    AND (v.paid_money <> v.rcpt_money)   
                  
-                    AND (v.paid_money > 0 AND v.rcpt_money = 0 and v.remain_money = 0 )
-                    AND v.pttype <> "P1"
+                    AND v.pttype <> "P1" AND v.rcpt_money <> 30
                     GROUP BY date_format(v.vstdate, "%M")
                     ORDER BY v.vstdate desc limit 6
             ');
         }
+        // AND (v.paid_money > 0 AND v.rcpt_money = 0 and v.remain_money = 0 )
         // AND (v.paid_money > 0 and v.rcpt_money = 0 and r.bill_amount < 1) 
         
         return view('account.account_nopaid', [
@@ -2011,10 +2015,12 @@ class AccountController extends Controller
                 LEFT JOIN pttype t on t.pttype=v.pttype
                 left outer join hos.rcpt_print r on v.vn = r.vn
                 WHERE YEAR(v.vstdate) = "' . $year . '" AND MONTH(v.vstdate) = "' . $months . '" 
-                AND (v.paid_money > 0 AND v.rcpt_money = 0 and v.remain_money = 0 )
+                AND (v.paid_money <> v.rcpt_money)
+                AND v.rcpt_money <> 30
                 AND v.pttype <> "P1"
            
         ');
+        // AND (v.paid_money > 0 AND v.rcpt_money = 0 and v.remain_money = 0 )
         // AND (v.paid_money > 0 and v.rcpt_money = 0 and r.bill_amount < 1)
         return view('account.account_nopaid_sub', [
             'datashow'   =>  $datashow, 
