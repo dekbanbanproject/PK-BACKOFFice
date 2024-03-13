@@ -18,25 +18,27 @@ return new class extends Migration
             Schema::connection('mysql')->create('d_ins', function (Blueprint $table) {
                 $table->bigIncrements('d_ins_id');
 
-                $table->string('HN')->nullable();//
-                $table->string('INSCL')->nullable();//
-                $table->string('SUBTYPE')->nullable();//
-                $table->string('CID')->nullable();//
+                $table->string('HN',length: 15)->nullable();//
+                $table->string('INSCL',length: 3)->nullable();//
+                $table->string('SUBTYPE',length: 2)->nullable();//
+                $table->string('CID',length: 16)->nullable();//            
+                $table->date('DATEEXP')->nullable();// 
+                $table->string('HOSPMAIN',length: 5)->nullable();//  
+                $table->string('HOSPSUB',length: 5)->nullable(); //             
+                $table->string('GOVCODE',length: 6)->nullable(); // 
+                $table->string('HCODE',length: 6)->nullable(); //   
+                $table->string('GOVNAME',length: 255)->nullable(); // 
+                $table->string('PERMITNO',length: 30)->nullable(); // 
+                $table->string('DOCNO',length: 30)->nullable(); // 
+                $table->string('OWNRPID',length: 13)->nullable(); // 
+                $table->string('OWNRNAME',length: 255)->nullable(); // 
+                $table->string('AN',length: 15)->nullable(); // 
+                $table->string('SEQ',length: 15)->nullable(); // 
+                $table->string('SUBINSCL',length: 2)->nullable(); // 
+                $table->string('RELINSCL',length: 1)->nullable(); // 
+                $table->string('HTYPE',length: 1)->nullable(); // 
+
                 $table->string('DATEIN')->nullable();// 
-                $table->string('DATEEXP')->nullable();// 
-                $table->string('HOSPMAIN')->nullable();//  
-                $table->string('HOSPSUB')->nullable(); //             
-                $table->string('GOVCODE')->nullable(); //  
-                $table->string('GOVNAME')->nullable(); // 
-                $table->string('PERMITNO')->nullable(); // 
-                $table->string('DOCNO')->nullable(); // 
-                $table->string('OWNRPID')->nullable(); // 
-                $table->string('OWNRNAME')->nullable(); // 
-                $table->string('AN')->nullable(); // 
-                $table->string('SEQ')->nullable(); // 
-                $table->string('SUBINSCL')->nullable(); // 
-                $table->string('RELINSCL')->nullable(); // 
-                $table->string('HTYPE')->nullable(); // 
                 $table->string('d_anaconda_id')->nullable(); // 
                 $table->string('user_id')->nullable(); //  
                 $table->timestamps();

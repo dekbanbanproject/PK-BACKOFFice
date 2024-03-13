@@ -18,7 +18,7 @@ return new class extends Migration
             Schema::connection('mysql')->create('d_opd', function (Blueprint $table) {
                 $table->bigIncrements('d_opd_id');
 
-                $table->string('HN')->nullable();//
+                $table->string('HN',length: 15)->nullable();//
                 $table->string('CLINIC')->nullable();//
                 $table->string('DATEOPD')->nullable();// 
                 $table->string('TIMEOPD')->nullable();//  

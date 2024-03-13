@@ -17,14 +17,14 @@ return new class extends Migration
         {
             Schema::connection('mysql')->create('d_odx', function (Blueprint $table) {
                 $table->bigIncrements('d_odx_id');
-                $table->string('HN')->nullable();// 
-                $table->string('DATEDX')->nullable();//                  
-                $table->string('CLINIC')->nullable();//  
-                $table->string('DIAG')->nullable(); //             
-                $table->string('DXTYPE')->nullable(); //  
-                $table->string('DRDX')->nullable(); //  
-                $table->string('PERSON_ID')->nullable(); // 
-                $table->string('SEQ')->nullable(); // 
+                $table->string('HN',length: 15)->nullable();// 
+                $table->date('DATEDX')->nullable();//                  
+                $table->string('CLINIC',length: 5)->nullable();//  
+                $table->string('DIAG',length: 7)->nullable(); //             
+                $table->string('DXTYPE',length: 1)->nullable(); //  
+                $table->string('DRDX',length: 6)->nullable(); //  
+                $table->string('PERSON_ID',length: 13)->nullable(); // 
+                $table->string('SEQ',length: 15)->nullable(); // 
                 $table->string('d_anaconda_id')->nullable(); // 
                 $table->string('user_id')->nullable(); //  
                 $table->timestamps();

@@ -2064,6 +2064,9 @@ Route::middleware(['type'])->group(function(){
 
     Route::match(['get','post'],'account_401_dash',[App\Http\Controllers\Account401Controller::class, 'account_401_dash'])->name('acc.account_401_dash');//
     Route::match(['get','post'],'account_401_pull',[App\Http\Controllers\Account401Controller::class, 'account_401_pull'])->name('acc.account_401_pull');//
+    Route::match(['get','post'],'account_401_checksit',[App\Http\Controllers\Account401Controller::class, 'account_401_checksit'])->name('acc.account_401_checksit');//
+    Route::match(['get','post'],'account_401_claim',[App\Http\Controllers\Account401Controller::class, 'account_401_claim'])->name('acc.account_401_claim');//
+    Route::match(['get','post'],'account_401_claim_export',[App\Http\Controllers\Account401Controller::class, 'account_401_claim_export'])->name('acc.account_401_claim_export');//
     Route::match(['get','post'],'account_401_pulldata',[App\Http\Controllers\Account401Controller::class, 'account_401_pulldata'])->name('acc.account_401_pulldata');//
     Route::match(['get','post'],'account_401/{months}/{year}',[App\Http\Controllers\Account401Controller::class, 'account_401'])->name('acc.account_401');//
     Route::match(['get','post'],'account_401_detail/{months}/{year}',[App\Http\Controllers\Account401Controller::class, 'account_401_detail'])->name('acc.account_401_detail');//

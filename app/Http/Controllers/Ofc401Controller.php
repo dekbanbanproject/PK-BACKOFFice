@@ -170,12 +170,11 @@ class Ofc401Controller extends Controller
                         LEFT OUTER JOIN ovst o ON v.vn=o.vn
                         LEFT OUTER JOIN opdscreen op ON v.vn = op.vn
                         LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype 
-                        LEFT OUTER JOIN rcpt_debt rd ON v.vn=rd.vn
+                        LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn
                         LEFT OUTER JOIN hpc11_ktb_approval hh on hh.pid = pt.cid and hh.transaction_date = v.vstdate 
                         LEFT OUTER JOIN ipt i on i.vn = v.vn                        
                     WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                    AND v.pttype in ("O1","O2","O3","O4","O5") 
-                   
+                    AND v.pttype in ("O1","O2","O3","O4","O5")                    
                     AND v.pttype not in ("OF","FO")                         
                     AND o.an is null
                     AND v.pdx <> ""

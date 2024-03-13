@@ -17,14 +17,16 @@ return new class extends Migration
         {
             Schema::connection('mysql')->create('d_iop', function (Blueprint $table) {
                 $table->bigIncrements('d_iop_id'); 
-                $table->string('AN')->nullable();// 
-                $table->string('OPER')->nullable();// 
-                $table->string('OPTYPE')->nullable(); // 
-                $table->string('DROPID')->nullable(); //  
-                $table->string('DATEIN')->nullable();// 
-                $table->string('TIMEIN')->nullable();//  
-                $table->string('DATEOUT')->nullable();// 
-                $table->string('TIMEOUT')->nullable();// 
+
+                $table->string('AN',length: 15)->nullable();// 
+                $table->string('OPER',length: 7)->nullable();// 
+                $table->string('OPTYPE',length: 1)->nullable(); // 
+                $table->string('DROPID',length: 6)->nullable(); //  
+                $table->date('DATEIN')->nullable();// 
+                $table->string('TIMEIN',length: 4)->nullable();//  
+                $table->date('DATEOUT')->nullable();// 
+                $table->string('TIMEOUT',length: 4)->nullable();// 
+
                 $table->string('d_anaconda_id')->nullable(); // 
                 $table->string('user_id')->nullable(); //   
                 $table->timestamps();

@@ -18,13 +18,14 @@ return new class extends Migration
             Schema::connection('mysql')->create('d_orf', function (Blueprint $table) {
                 $table->bigIncrements('d_orf_id');
 
-                $table->string('HN')->nullable();// 
-                $table->string('DATEOPD')->nullable();//
-                $table->string('CLINIC')->nullable();//  
-                $table->string('REFER')->nullable(); //     
-                $table->string('REFERTYPE')->nullable(); //  
-                $table->string('REFERDATE')->nullable(); //  
-                $table->string('SEQ')->nullable(); //  
+                $table->string('HN',length: 15)->nullable();// 
+                $table->date('DATEOPD')->nullable();//
+                $table->string('CLINIC',length: 5)->nullable();//  
+                $table->string('REFER',length: 5)->nullable(); //     
+                $table->string('REFERTYPE',length: 1)->nullable(); //   
+                $table->string('SEQ',length: 15)->nullable(); //  
+                $table->date('REFERDATE')->nullable(); // 
+                
                 $table->string('d_anaconda_id')->nullable(); // 
                 $table->string('user_id')->nullable(); //  
                 $table->timestamps();

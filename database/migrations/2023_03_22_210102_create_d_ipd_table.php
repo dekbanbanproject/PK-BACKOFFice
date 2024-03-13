@@ -18,19 +18,20 @@ return new class extends Migration
             Schema::connection('mysql')->create('d_ipd', function (Blueprint $table) {
                 $table->bigIncrements('d_ipd_id');
 
-                $table->string('HN')->nullable();// 
-                $table->string('AN')->nullable();// 
-                $table->string('DATEADM')->nullable();// 
-                $table->string('TIMEADM')->nullable();//  
-                $table->string('DATEDSC')->nullable();// 
-                $table->string('TIMEDSC')->nullable();//  
-                $table->string('DISCHS')->nullable();//  
-                $table->string('DISCHT')->nullable(); //   
-                $table->string('WARDDSC')->nullable(); //  
-                $table->string('DEPT')->nullable(); // 
-                $table->string('ADM_W')->nullable(); // 
-                $table->string('UUC')->nullable(); // 
-                $table->string('SVCTYPE')->nullable(); // 
+                $table->string('HN',length: 15)->nullable();// 
+                $table->string('AN',length: 15)->nullable();// 
+                $table->date('DATEADM')->nullable();// 
+                $table->string('TIMEADM',length: 4)->nullable();//  
+                $table->date('DATEDSC')->nullable();// 
+                $table->string('TIMEDSC',length: 4)->nullable();//  
+                $table->string('DISCHS',length: 1)->nullable();//  
+                $table->string('DISCHT',length: 1)->nullable(); //   
+                $table->string('WARDDSC',length: 4)->nullable(); //  
+                $table->string('DEPT',length: 2)->nullable(); //  
+                $table->decimal('ADM_W', total: 5, places: 2)->nullable(); // 
+                $table->string('UUC',length: 1)->nullable(); // 
+                $table->string('SVCTYPE',length: 1)->nullable(); // 
+
                 $table->string('d_anaconda_id')->nullable(); // 
                 $table->string('user_id')->nullable(); //  
                 $table->timestamps();

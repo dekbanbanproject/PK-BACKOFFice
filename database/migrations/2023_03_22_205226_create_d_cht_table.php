@@ -18,17 +18,18 @@ return new class extends Migration
             Schema::connection('mysql')->create('d_cht', function (Blueprint $table) {
                 $table->bigIncrements('d_cht_id');
 
-                $table->string('HN')->nullable();// 
-                $table->string('AN')->nullable();// 
-                $table->string('DATE')->nullable();//                  
-                $table->string('TOTAL')->nullable();//  
-                $table->string('PAID')->nullable(); //             
-                $table->string('PTTYPE')->nullable(); //   
-                $table->string('PERSON_ID')->nullable(); // 
-                $table->string('SEQ')->nullable(); // 
-                $table->text('OPD_MEMO',500)->nullable(); // 
-                $table->text('INVOICE_NO',50)->nullable(); // 
-                $table->text('INVOICE_LT',50)->nullable(); // 
+                $table->string('HN',length: 15)->nullable();// 
+                $table->string('AN',length: 15)->nullable();// 
+                $table->date('DATE')->nullable();//                  
+                $table->decimal('TOTAL',total: 12, places: 2)->nullable();//  
+                $table->decimal('PAID',total: 12, places: 2)->nullable();//  
+                $table->string('PTTYPE',length: 2)->nullable(); //   
+                $table->string('PERSON_ID',length: 13)->nullable(); // 
+                $table->string('SEQ',length: 15)->nullable(); // 
+                $table->string('OPD_MEMO',length: 500)->nullable(); // 
+                $table->string('INVOICE_NO',length: 50)->nullable(); // 
+                $table->string('INVOICE_LT',length: 50)->nullable(); // 
+
                 $table->string('d_anaconda_id')->nullable(); // 
                 $table->string('user_id')->nullable(); //  
                 $table->timestamps();
