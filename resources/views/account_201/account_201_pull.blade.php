@@ -112,7 +112,11 @@
                                 <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.201</p>
                             </div> --}}
                             <div class="col"></div>
-                            <div class="col-md-2 text-end">
+                            <div class="col-md-3 text-end">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-info cardacc" id="Check_sitipd">
+                                    <i class="fa-solid fa-user me-2"></i>
+                                    ตรวจสอบสิทธิ์
+                                </button>
                                
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_201_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
@@ -140,7 +144,7 @@
                                             <th class="text-center">ptname</th>
                                             <th class="text-center">vstdate</th>  
                                             <th class="text-center">pttype</th> 
-                                            {{-- <th class="text-center">spsch</th>   --}}
+                                            <th class="text-center">spsch</th>  
                                             <th class="text-center">ลูกหนี้</th>  
                                         </tr>
                                     </thead>
@@ -170,7 +174,7 @@
                                                 <td class="text-center" width="10%">{{ $item->vstdate }}</td>   
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td> 
                                                 
-                                                {{-- <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td>  --}}
+                                                <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td> 
                                                 
                                                 {{-- <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td>  --}}
                                                 <td class="text-center" width="10%">{{ number_format($item->debit_total, 2) }}</td> 
@@ -182,7 +186,7 @@
                                         @endforeach
                                     </tbody>
                                     <tr style="background-color: #f3fca1">
-                                        <td colspan="9" class="text-end" style="background-color: #fca1a1"></td>
+                                        <td colspan="10" class="text-end" style="background-color: #fca1a1"></td>
                                         <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
                                        
                                     </tr>  
@@ -362,6 +366,61 @@
                                 });
                                 
                             }
+                })
+            });
+
+            $('#Check_sitipd').click(function() {
+                var datepicker = $('#datepicker').val(); 
+                var datepicker2 = $('#datepicker2').val(); 
+                //    alert(datepicker);
+                Swal.fire({
+                        title: 'ต้องการตรวจสอบสอทธิ์ใช่ไหม ?',
+                        text: "You Check Sit Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, pull it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner-div").show(); //Load button clicked show spinner 
+                            $.ajax({
+                                url: "{{ route('acc.account_201_checksit') }}",
+                                type: "POST",
+                                dataType: 'json',
+                                data: {
+                                    datepicker,
+                                    datepicker2                        
+                                },
+                                success: function(data) {
+                                    if (data.status == 200) { 
+                                        Swal.fire({
+                                            title: 'เช็คสิทธิ์สำเร็จ',
+                                            text: "You Check sit success",
+                                            icon: 'success',
+                                            showCancelButton: false,
+                                            confirmButtonColor: '#06D177',
+                                            confirmButtonText: 'เรียบร้อย'
+                                        }).then((result) => {
+                                            if (result
+                                                .isConfirmed) {
+                                                console.log(
+                                                    data);
+                                                window.location.reload();
+                                                $('#spinner-div').hide();//Request is complete so hide spinner
+                                                    setTimeout(function(){
+                                                        $("#overlay").fadeOut(300);
+                                                    },500);
+                                            }
+                                        })
+                                    } else {
+                                        
+                                    }
+
+                                },
+                            });
+                        }
                 })
             });
              

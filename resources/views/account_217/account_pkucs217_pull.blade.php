@@ -118,7 +118,11 @@ $yb = date('Y') + 542;
                                 <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p> --}}
                             </div>
                             <div class="col"></div>
-                            <div class="col-md-2 text-end">
+                            <div class="col-md-3 text-end">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-info cardacc" id="Check_sitipd">
+                                    <i class="fa-solid fa-user me-2"></i>
+                                    ตรวจสอบสิทธิ์
+                                </button>
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_pkucs217_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
@@ -377,7 +381,7 @@ $yb = date('Y') + 542;
                                 $("#overlay").fadeIn(300);　
                                 $("#spinner-div").show(); //Load button clicked show spinner 
                             $.ajax({
-                                url: "{{ route('acc.account_pkCheck_sitipd') }}",
+                                url: "{{ route('acc.account_pkucs217_checksit') }}",
                                 type: "POST",
                                 dataType: 'json',
                                 data: {

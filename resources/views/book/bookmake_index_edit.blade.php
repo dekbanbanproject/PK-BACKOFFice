@@ -193,8 +193,7 @@
                        
                         <div class="col-md-12">
                             <div class="input-group text-center"> 
-                                <input type="file" class="form-control" id="pdfupload" name="pdfupload" accept="application/pdf" />
-                        
+                                <input type="file" class="form-control" id="pdfupload" name="pdfupload" accept="application/pdf" /> 
 
                                 <div id="zoom-percent" style="text-align: right;background-color: #E6E6FA;">90</div>
    

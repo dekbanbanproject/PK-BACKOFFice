@@ -268,6 +268,7 @@
                                 <span>FS EClaim</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('doc_eclaim') }}">คู่มือเคลม</a></li>
                                 <li><a href="{{ url('fs_eclaim') }}">Fs Eclaim & Hos</a></li>
                             </ul>
                         </li>

@@ -158,13 +158,10 @@ class Account216Controller extends Controller
         if ($startdate == '') {
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $acc_debtor = DB::select('
-                SELECT a.acc_debtor_id,a.vn,a.hn,a.cid,a.vstdate,a.ptname,a.pttype,a.income,a.debit_total,a.debit_instument
-                ,a.debit_drug,a.debit_toa,a.debit_refer,c.subinscl 
-                from acc_debtor a
-                left outer join checksit_hos c on c.vn = a.vn
-               
+                SELECT *
+                from acc_debtor a 
                 WHERE a.account_code="1102050101.216"
-                AND a.stamp = "N" 
+                AND a.stamp = "N" AND a.debit_total > 0
                 group by a.vn
                 order by a.vstdate desc;
             ');
@@ -178,13 +175,10 @@ class Account216Controller extends Controller
             // order by a.dchdate asc;
         } else {
             $acc_debtor = DB::select('
-            SELECT a.acc_debtor_id,a.vn,a.hn,a.cid,a.vstdate,a.ptname,a.pttype,a.income,a.debit_total,a.debit_instument
-            ,a.debit_drug,a.debit_toa,a.debit_refer,c.subinscl 
-             from acc_debtor a
-                left join checksit_hos c on c.vn = a.vn
-
+            SELECT * 
+             from acc_debtor a 
                 WHERE a.account_code="1102050101.216"
-                AND a.stamp = "N" 
+                AND a.stamp = "N" AND a.debit_total > 0
                 group by a.vn
                 order by a.vstdate desc;
             ');
@@ -195,6 +189,91 @@ class Account216Controller extends Controller
             'enddate'       =>     $enddate,
             'acc_debtor'    =>     $acc_debtor,
         ]);
+    }
+    public function account_pkucs216_checksit(Request $request)
+    {
+        $datestart = $request->datestart;
+        $dateend = $request->dateend;
+        $date = date('Y-m-d');
+        
+        $data_sitss = DB::connection('mysql')->select('SELECT vn,an,cid,vstdate,dchdate FROM acc_debtor WHERE account_code="1102050101.216" AND stamp = "N" GROUP BY vn');
+       //  AND subinscl IS NULL
+           //  LIMIT 30
+        // WHERE vstdate = CURDATE()
+        // BETWEEN "2024-02-03" AND "2024-02-15"
+        // $token_data = DB::connection('mysql')->select('SELECT cid,token FROM ssop_token');
+        $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
+        foreach ($token_data as $key => $value) { 
+            $cid_    = $value->cid;
+            $token_  = $value->token;
+        }
+        foreach ($data_sitss as $key => $item) {
+            $pids = $item->cid;
+            $vn   = $item->vn; 
+            $an   = $item->an; 
+                // $token_data = DB::connection('mysql10')->select('SELECT cid,token FROM hos.nhso_token where token <> ""');
+                // foreach ($token_data as $key => $value) { 
+                    $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
+                        array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1',"trace" => 1,"exceptions" => 0,"cache_wsdl" => 0)
+                        );
+                        $params = array(
+                            'sequence' => array(
+                                "user_person_id"   => "$cid_",
+                                "smctoken"         => "$token_",
+                                // "user_person_id" => "$value->cid",
+                                // "smctoken"       => "$value->token",
+                                "person_id"        => "$pids"
+                        )
+                    );
+                    $contents = $client->__soapCall('searchCurrentByPID',$params);
+                    foreach ($contents as $v) {
+                        @$status = $v->status ;
+                        @$maininscl = $v->maininscl;
+                        @$startdate = $v->startdate;
+                        @$hmain = $v->hmain ;
+                        @$subinscl = $v->subinscl ;
+                        @$person_id_nhso = $v->person_id;
+
+                        @$hmain_op = $v->hmain_op;  //"10978"
+                        @$hmain_op_name = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
+                        @$hsub = $v->hsub;    //"04047"
+                        @$hsub_name = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
+                        @$subinscl_name = $v->subinscl_name ; //"ช่วงอายุ 12-59 ปี"
+
+                        IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
+                            $date = date("Y-m-d");
+                          
+                            Acc_debtor::where('vn', $vn)
+                            ->update([
+                                'status'         => 'จำหน่าย/เสียชีวิต',
+                                'maininscl'      => @$maininscl,
+                                'pttype_spsch'   => @$subinscl,
+                                'hmain'          => @$hmain,
+                                'subinscl'       => @$subinscl, 
+                            ]);
+                            
+                        }elseif(@$maininscl !="" || @$subinscl !=""){
+                           Acc_debtor::where('vn', $vn)
+                           ->update([
+                               'status'         => @$status,
+                               'maininscl'      => @$maininscl,
+                               'pttype_spsch'   => @$subinscl,
+                               'hmain'          => @$hmain,
+                               'subinscl'       => @$subinscl,
+                           
+                           ]); 
+                                    
+                        }
+
+                    }
+           
+        }
+
+        return response()->json([
+
+           'status'    => '200'
+       ]);
+
     }
     public function account_pkucs216_pulldata(Request $request)
     {
