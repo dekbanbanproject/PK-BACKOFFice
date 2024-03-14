@@ -1668,17 +1668,11 @@ class AccountPKController extends Controller
                                     'stm_rep'         => $value->price_req,
                                     'stm_money'       => $value->pricereq_all,
                                     'stm_rcpno'       => $value->repno.'-'.$value->no,
+                                    'stm_total'       => $value->pricereq_all,
                                     'STMdoc'          => $value->STMdoc,
-                                ]);
-                            } else {
-                                // Acc_1102050101_401::where('cid',$value->cid)->where('vstdate',$value->vstdate)
-                                // ->update([
-                                //     'stm_rep'         => $value->price_req,
-                                //     'stm_money'       => $value->pricereq_all,
-                                //     'stm_rcpno'       => $value->repno.'-'.$value->no,
-                                //     'STMdoc'          => $value->STMdoc,
-                                // ]);
-                            }         
+                                ]); 
+                            }  
+                           
  
                     } else {
                         # code...
@@ -1841,7 +1835,79 @@ class AccountPKController extends Controller
                 'status'    => '200',
             ]);
     }
+ 
+    public function upstm_bkk804_senddata(Request $request)
+    {    
+        try{
+                $data_ = DB::connection('mysql')->select('
+                    SELECT *
+                    FROM acc_stm_ofcexcel
+                    WHERE income <> "" AND repno <> ""
+                    
+                ');
+                $type = $request->type;
+                
+                foreach ($data_ as $key => $value) {
+                    // $value->no != '' && $value->repno != 'REP' &&
+                    if ($value->repno != 'REP%' || $value->repno != '') {
+                            $check = Acc_stm_ofc::where('repno','=',$value->repno)->where('no','=',$value->no)->count();
+                            if ($check > 0) {
+                                $add = Acc_stm_ofc::where('repno','=',$value->repno)->where('no','=',$value->no)->update([
+                                    'type'     => $type
+                                ]); 
+                            } else {
+                                $add = new Acc_stm_ofc();
+                                $add->repno          = $value->repno;
+                                $add->no             = $value->no;
+                                $add->hn             = $value->hn;
+                                $add->an             = $value->an;
+                                $add->cid            = $value->cid;
+                                $add->fullname       = $value->fullname;
+                                $add->vstdate        = $value->vstdate;
+                                $add->dchdate        = $value->dchdate;
+                                $add->PROJCODE       = $value->PROJCODE;
+                                $add->AdjRW          = $value->AdjRW;
+                                $add->price_req      = $value->price_req;
+                                $add->prb            = $value->prb;
+                                $add->room           = $value->room;
+                                $add->inst           = $value->inst;
+                                $add->drug           = $value->drug;
+                                $add->income         = $value->income;
+                                $add->refer          = $value->refer;
+                                $add->waitdch        = $value->waitdch;
+                                $add->service        = $value->service;
+                                $add->pricereq_all   = $value->pricereq_all;
+                                $add->STMdoc         = $value->STMdoc;
+                                $add->type           = $type;
+                                $add->save(); 
+                            } 
 
+                            $check804 = Acc_1102050102_804::where('an',$value->an)->where('STMdoc',NULL)->count();   
+                            if ($check804 > 0) {
+                                Acc_1102050102_804::where('an',$value->an) 
+                                ->update([
+                                    'stm_rep'         => $value->price_req,
+                                    'stm_money'       => $value->pricereq_all,
+                                    'stm_rcpno'       => $value->repno.'-'.$value->no,
+                                    'stm_total'       => $value->pricereq_all,
+                                    'STMdoc'          => $value->STMdoc,
+                                ]);
+                            }     
+ 
+                    } else {
+                        # code...
+                    }
+                     
+                }
+        } catch (Exception $e) {
+            $error_code = $e->errorInfo[1];
+            return back()->withErrors('There was a problem uploading the data!');
+        }
+        Acc_stm_ofcexcel::truncate(); 
+        return response()->json([
+                'status'    => '200',
+            ]);
+    }
     public function upstm_lgoexcel(Request $request)
     {
         $datenow = date('Y-m-d');

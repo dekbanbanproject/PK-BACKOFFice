@@ -114,7 +114,19 @@
                                 <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
                             </div> --}}
                             <div class="col"></div>
-                            <div class="col-md-2 text-end">
+                            <div class="col-md-5 text-end">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-info cardacc" id="Check_sit">
+                                    <i class="fa-solid fa-user me-2"></i>
+                                    ตรวจสอบสิทธิ์
+                                </button>
+                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-warning cardacc Claim" data-url="{{url('account_401_claim')}}">
+                                     <i class="fa-solid fa-sack-dollar me-2"></i>
+                                    Claim
+                                </button>
+                                <a href="{{url('account_401_claim_export')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
+                                    <i class="fa-solid fa-file-export text-white me-2"></i>
+                                    Export Txt
+                                </a>    --}}
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_804_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
@@ -428,6 +440,144 @@
                                                     
                                                 }
                                               
+                                        }
+                                    });
+                                    $.each(allValls,function (index,value) {
+                                        $('table tr').filter("[data-row-id='"+value+"']").remove();
+                                    });
+                                }
+                            }
+                        }) 
+                    // var check = confirm("Are you want ?");  
+                }
+            });
+
+            $('#Check_sit').click(function() {
+                var datepicker = $('#datepicker').val(); 
+                var datepicker2 = $('#datepicker2').val(); 
+                //    alert(datepicker);
+                Swal.fire({
+                        title: 'ต้องการตรวจสอบสอทธิ์ใช่ไหม ?',
+                        text: "You Check Sit Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, pull it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner-div").show(); //Load button clicked show spinner 
+                            $.ajax({
+                                url: "{{ route('acc.account_804_checksit') }}",
+                                type: "POST",
+                                dataType: 'json',
+                                data: {
+                                    datepicker,
+                                    datepicker2                        
+                                },
+                                success: function(data) {
+                                    if (data.status == 200) { 
+                                        Swal.fire({
+                                            title: 'เช็คสิทธิ์สำเร็จ',
+                                            text: "You Check sit success",
+                                            icon: 'success',
+                                            showCancelButton: false,
+                                            confirmButtonColor: '#06D177',
+                                            confirmButtonText: 'เรียบร้อย'
+                                        }).then((result) => {
+                                            if (result
+                                                .isConfirmed) {
+                                                console.log(
+                                                    data);
+                                                window.location.reload();
+                                                $('#spinner-div').hide();//Request is complete so hide spinner
+                                                    setTimeout(function(){
+                                                        $("#overlay").fadeOut(300);
+                                                    },500);
+                                            }
+                                        })
+                                    } else {
+                                        
+                                    }
+
+                                },
+                            });
+                        }
+                })
+            });
+
+            $('.Claim').on('click', function(e) {
+                // alert('oo');
+                var allValls = [];
+                // $(".sub_destroy:checked").each(function () {
+                $(".sub_chk:checked").each(function () {
+                    allValls.push($(this).attr('data-id'));
+                });
+                if (allValls.length <= 0) {
+                    // alert("SSSS");
+                    Swal.fire({
+                        title: 'คุณยังไม่ได้เลือกรายการ ?',
+                        text: "กรุณาเลือกรายการก่อน",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33', 
+                        }).then((result) => {
+                        
+                        })
+                } else {
+                    Swal.fire({
+                        title: 'Are you Want Delete sure?',
+                        text: "คุณต้องการ Claim รายการนี้ใช่ไหม!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, Claim it.!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                var check = true;
+                                if (check == true) {
+                                    var join_selected_values = allValls.join(",");
+                                    // alert(join_selected_values);
+                                    $("#overlay").fadeIn(300);　
+                                    $("#spinner").show(); //Load button clicked show spinner 
+
+                                    $.ajax({
+                                        url:$(this).data('url'),
+                                        type: 'POST',
+                                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                                        data: 'ids='+join_selected_values,
+                                        success:function(data){ 
+                                                if (data.status == 200) {
+                                                    // $(".sub_destroy:checked").each(function () {
+                                                    $(".sub_chk:checked").each(function () {
+                                                        $(this).parents("tr").remove();
+                                                    });
+                                                    Swal.fire({
+                                                        title: 'ส่งข้อมูลเคลมสำเร็จ',
+                                                        text: "You Claim data success",
+                                                        icon: 'success',
+                                                        showCancelButton: false,
+                                                        confirmButtonColor: '#06D177',
+                                                        confirmButtonText: 'เรียบร้อย'
+                                                    }).then((result) => {
+                                                        if (result
+                                                            .isConfirmed) {
+                                                            console.log(
+                                                                data);
+                                                            window.location.reload();
+                                                            $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                        }
+                                                    })
+                                                } else {
+                                                    
+                                                }
+                                                 
                                         }
                                     });
                                     $.each(allValls,function (index,value) {

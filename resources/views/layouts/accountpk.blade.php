@@ -693,6 +693,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                         <li><a href="{{ url('upstm_ofc_ipd') }}">OFC IPD 402</a></li>
                                         <li><a href="{{ url('upstm_lgo_opd') }}">LGO OPD 801</a></li>
                                         <li><a href="{{ url('upstm_lgo_ipd') }}">LGO IPD 802</a></li>
+                                        <li><a href="{{ url('upstm_bkk_opd') }}">BKK OPD 803</a></li>
                                     </ul>
                                 </li>
 

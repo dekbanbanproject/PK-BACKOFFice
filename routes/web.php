@@ -1733,6 +1733,8 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'upstm_lgo_ipd',[App\Http\Controllers\AccountPKController::class, 'upstm_lgo_ipd'])->name('acc.upstm_lgo_ipd');//
     Route::match(['get','post'],'upstm_lgo_ipd_detail/{id}',[App\Http\Controllers\AccountPKController::class, 'upstm_lgo_ipd_detail'])->name('acc.upstm_lgo_ipd_detail');//
 
+    Route::match(['get','post'],'upstm_bkk_opd',[App\Http\Controllers\AccountPKController::class, 'upstm_bkk_opd'])->name('acc.upstm_bkk_opd');//
+
     Route::match(['get','post'],'upstm_ucs',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs'])->name('acc.upstm_ucs');//
     Route::match(['get','post'],'upstm_ucs_excel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_excel'])->name('acc.upstm_ucs_excel');//
     Route::match(['get','post'],'upstm_ucs_sendexcel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_sendexcel'])->name('acc.upstm_ucs_sendexcel');//
@@ -2296,6 +2298,7 @@ Route::middleware(['type'])->group(function(){
 
     Route::match(['get','post'],'account_803_dash',[App\Http\Controllers\Account803Controller::class, 'account_803_dash'])->name('acc.account_803_dash');//
     Route::match(['get','post'],'account_803_pull',[App\Http\Controllers\Account803Controller::class, 'account_803_pull'])->name('acc.account_803_pull');//
+    Route::match(['get','post'],'account_803_checksit',[App\Http\Controllers\Account803Controller::class, 'account_803_checksit'])->name('acc.account_803_checksit');//
     Route::match(['get','post'],'account_803_pulldata',[App\Http\Controllers\Account803Controller::class, 'account_803_pulldata'])->name('acc.account_803_pulldata');// 
     Route::match(['get','post'],'account_803_detail/{months}/{year}',[App\Http\Controllers\Account803Controller::class, 'account_803_detail'])->name('acc.account_803_detail');//
     Route::match(['get','post'],'account_803_stm/{months}/{year}',[App\Http\Controllers\Account803Controller::class, 'account_803_stm'])->name('acc.account_803_stm');//
@@ -2308,6 +2311,7 @@ Route::middleware(['type'])->group(function(){
 
     Route::match(['get','post'],'account_804_dash',[App\Http\Controllers\Account804Controller::class, 'account_804_dash'])->name('acc.account_804_dash');//
     Route::match(['get','post'],'account_804_pull',[App\Http\Controllers\Account804Controller::class, 'account_804_pull'])->name('acc.account_804_pull');//
+    Route::match(['get','post'],'account_804_checksit',[App\Http\Controllers\Account804Controller::class, 'account_804_checksit'])->name('acc.account_804_checksit');//
     Route::match(['get','post'],'account_804_pulldata',[App\Http\Controllers\Account804Controller::class, 'account_804_pulldata'])->name('acc.account_804_pulldata');// 
     Route::match(['get','post'],'account_804_detail/{months}/{year}',[App\Http\Controllers\Account804Controller::class, 'account_804_detail'])->name('acc.account_804_detail');//
     Route::match(['get','post'],'account_804_stm/{months}/{year}',[App\Http\Controllers\Account804Controller::class, 'account_804_stm'])->name('acc.account_804_stm');//

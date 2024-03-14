@@ -91,64 +91,110 @@ class Account804Controller extends Controller
    
     public function account_804_dash(Request $request)
     {
-         $datenow = date('Y-m-d');
-         $startdate = $request->startdate;
-         $enddate = $request->enddate;
-         $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
-        $date_start = $dabudget_year->date_begin;
-        $date_end   = $dabudget_year->date_end;
+        //  $datenow = date('Y-m-d');
+        //  $startdate = $request->startdate;
+        //  $enddate = $request->enddate;
+        //  $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+        // $date_start = $dabudget_year->date_begin;
+        // $date_end   = $dabudget_year->date_end;
 
-         $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        //  $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
  
-         $y = date('Y') + 543; 
-         $yearnew = date('Y');
-         $yearnew = date('Y')+1;
-         $yearold = date('Y')-1;
-        $start = (''.$yearold.'-10-01');
-        $end = (''.$yearnew.'-09-30'); 
+        //  $y = date('Y') + 543; 
+        //  $yearnew = date('Y');
+        //  $yearnew = date('Y')+1;
+        //  $yearold = date('Y')-1;
+        // $start = (''.$yearold.'-10-01');
+        // $end = (''.$yearnew.'-09-30'); 
  
-         if ($startdate == '') {
-             $datashow = DB::select('
-                     SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
-                     ,count(distinct a.hn) as hn
-                     ,count(distinct a.vn) as vn
-                     ,count(distinct a.an) as an
-                     ,sum(a.income) as income
-                     ,sum(a.paid_money) as paid_money
-                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+        //  if ($startdate == '') {
+        //      $datashow = DB::select('
+        //              SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
+        //              ,count(distinct a.hn) as hn
+        //              ,count(distinct a.vn) as vn
+        //              ,count(distinct a.an) as an
+        //              ,sum(a.income) as income
+        //              ,sum(a.paid_money) as paid_money
+        //              ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
  
-                     FROM acc_debtor a
-                     left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
-                     WHERE a.dchdate between "'.$date_start.'" and "'.$date_end.'"
-                     and account_code="1102050102.804"
+        //              FROM acc_debtor a
+        //              left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
+        //              WHERE a.dchdate between "'.$date_start.'" and "'.$date_end.'"
+        //              and account_code="1102050102.804"
  
-                     group by month(a.dchdate) order by a.dchdate desc limit 3;
-             ');
-             // and stamp = "N"
-         } else {
-             $datashow = DB::select('
-                     SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
-                     ,count(distinct a.hn) as hn
-                     ,count(distinct a.vn) as vn
-                     ,count(distinct a.an) as an
-                     ,sum(a.income) as income
-                     ,sum(a.paid_money) as paid_money
-                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+        //              group by month(a.dchdate) order by a.dchdate desc limit 3;
+        //      ');
+        //      // and stamp = "N"
+        //  } else {
+        //      $datashow = DB::select('
+        //              SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
+        //              ,count(distinct a.hn) as hn
+        //              ,count(distinct a.vn) as vn
+        //              ,count(distinct a.an) as an
+        //              ,sum(a.income) as income
+        //              ,sum(a.paid_money) as paid_money
+        //              ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
  
-                     FROM acc_debtor a
-                     left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
-                     WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
-                     and account_code="1102050102.804"
+        //              FROM acc_debtor a
+        //              left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
+        //              WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
+        //              and account_code="1102050102.804"
  
                      
-             ');
-         }
-        //  group by month(a.dchdate) order by month(a.dchdate) desc;
+        //      ');
+        //  }
+        $budget_year   = $request->budget_year;
+            
+        $datenow       = date("Y-m-d");
+        $y             = date('Y') + 543;
+        $dabudget_year = DB::table('budget_year')->where('active','=',true)->get(); 
+        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d'); 
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        
+        $months_now = date('m');
+        $year_now = date('Y'); 
+        //    dd($budget_year);
+        if ($budget_year == '') {  
+            $yearnew = date('Y');
+            $year_old = date('Y')-1;
+            $months_old  = ('10');
+            $startdate = (''.$year_old.'-10-01');
+            $enddate = (''.$yearnew.'-09-30');
+            $datashow = DB::select(' 
+                    SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
+                    ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
+                    ,sum(a.debit_total) as tung_looknee  
+                    FROM acc_debtor a 
+                    LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
+                    WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                    AND a.account_code ="1102050102.804"
+                    GROUP BY months ORDER BY a.dchdate DESC
+            ');    
+        } else {
+            $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
+            $startdate    = $bg->date_begin;
+            $enddate      = $bg->date_end; 
+            $datashow = DB::select(' 
+                    SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
+                    ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
+                    ,sum(a.debit_total) as tung_looknee  
+                    FROM acc_debtor a 
+                    LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
+                    WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                    AND a.account_code ="1102050102.804"
+                    GROUP BY months ORDER BY a.dchdate DESC 
+            ');  
+        }
+        
              return view('account_804.account_804_dash',[
-                 'startdate'     =>     $startdate,
-                 'enddate'       =>     $enddate,
-                 'datashow'    =>     $datashow,
-                 'leave_month_year' =>  $leave_month_year,
+                'enddate'          =>  $enddate, 
+                'datashow'         =>  $datashow,
+                'dabudget_year'    =>  $dabudget_year,
+                'budget_year'      =>  $budget_year,
+                'y'                =>  $y,
              ]);
     }
     public function account_804_pull(Request $request)
@@ -162,23 +208,18 @@ class Account804Controller extends Controller
          if ($startdate == '') {
              // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
              $acc_debtor = DB::select('
-                 SELECT a.*,c.subinscl from acc_debtor a
-                 left join checksit_hos c on c.an = a.an
+                 SELECT a.* from acc_debtor a 
                  WHERE account_code="1102050102.804"
-                 AND stamp = "N"
+                 AND stamp = "N" AND a.debit_total > 0
                  group by an
                  order by vstdate desc; 
              '); 
          } else {
              $acc_debtor = DB::select('
-                 SELECT 
-                 a.acc_debtor_id,a.an,a.vn,a.hn,a.cid,a.ptname,a.pttype,a.dchdate,a.income,a.debit_total,a.debit_instument,a.debit_drug,a.debit_toa,a.debit_refer
-                 ,c.subinscl 
-                 from acc_debtor a
-               
-                 left join checksit_hos c on c.an = a.an
+                 SELECT a.*
+                 from acc_debtor a 
                  WHERE a.account_code="1102050102.804" and a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                 AND a.stamp = "N"
+                 AND a.stamp = "N" AND a.debit_total > 0
                  group by a.an
                  order by a.dchdate desc; 
              '); 
@@ -443,6 +484,87 @@ class Account804Controller extends Controller
         return response()->json([
             'status'    => '200'
         ]);
+    }
+
+    public function account_804_checksit(Request $request)
+    {
+        $datestart = $request->datestart;
+        $dateend = $request->dateend;
+        $date = date('Y-m-d');
+        
+        $data_sitss = DB::connection('mysql')->select('SELECT vn,an,cid,vstdate,dchdate FROM acc_debtor WHERE account_code="1102050102.804" AND subinscl IS NULL GROUP BY an');
+        // $data_sitss = DB::connection('mysql')->select('SELECT vn,an,cid,vstdate,dchdate FROM acc_debtor WHERE account_code="1102050102.804" AND stamp = "N" GROUP BY an');
+        $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
+        foreach ($token_data as $key => $value) { 
+            $cid_    = $value->cid;
+            $token_  = $value->token;
+        }
+        foreach ($data_sitss as $key => $item) {
+            $pids = $item->cid;
+            $vn   = $item->vn; 
+            $an   = $item->an; 
+                
+                    $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
+                        array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1',"trace" => 1,"exceptions" => 0,"cache_wsdl" => 0)
+                        );
+                        $params = array(
+                            'sequence' => array(
+                                "user_person_id"   => "$cid_",
+                                "smctoken"         => "$token_",
+                                // "user_person_id" => "$value->cid",
+                                // "smctoken"       => "$value->token",
+                                "person_id"        => "$pids"
+                        )
+                    );
+                    $contents = $client->__soapCall('searchCurrentByPID',$params);
+                    foreach ($contents as $v) {
+                        @$status = $v->status ;
+                        @$maininscl = $v->maininscl;
+                        @$startdate = $v->startdate;
+                        @$hmain = $v->hmain ;
+                        @$subinscl = $v->subinscl ;
+                        @$person_id_nhso = $v->person_id;
+
+                        @$hmain_op = $v->hmain_op;  //"10978"
+                        @$hmain_op_name = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
+                        @$hsub = $v->hsub;    //"04047"
+                        @$hsub_name = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
+                        @$subinscl_name = $v->subinscl_name ; //"ช่วงอายุ 12-59 ปี"
+
+                        IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
+                            $date = date("Y-m-d");
+                          
+                            Acc_debtor::where('an', $an)
+                            ->update([
+                                'status'         => 'จำหน่าย/เสียชีวิต',
+                                'maininscl'      => @$maininscl,
+                                'pttype_spsch'   => @$subinscl,
+                                'hmain'          => @$hmain,
+                                'subinscl'       => @$subinscl, 
+                            ]);
+                            
+                        }elseif(@$maininscl !="" || @$subinscl !=""){
+                           Acc_debtor::where('an', $an)
+                           ->update([
+                               'status'         => @$status,
+                               'maininscl'      => @$maininscl,
+                               'pttype_spsch'   => @$subinscl,
+                               'hmain'          => @$hmain,
+                               'subinscl'       => @$subinscl,
+                           
+                           ]); 
+                                    
+                        }
+
+                    }
+           
+        }
+
+        return response()->json([
+
+           'status'    => '200'
+       ]);
+
     }
     
    
