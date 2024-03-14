@@ -2777,10 +2777,7 @@ class AccountPKController extends Controller
             'enddate'       =>     $enddate,
             'STMDoc'        =>     $id,  
         ]);
-    }
-
-   
-
+    }  
     public function upstm_lgo_detail_opd(Request $request,$id)
     { 
         $startdate = $request->startdate;
@@ -2818,8 +2815,7 @@ class AccountPKController extends Controller
             'datashow'      =>     $datashow, 
             'STMDoc'        =>     $id, 
         ]);
-    }
-    
+    }    
     public function upstm_ofc_detail_ipd(Request $request,$id)
     { 
         $startdate = $request->startdate;
@@ -2838,8 +2834,7 @@ class AccountPKController extends Controller
             'datashow'      =>     $datashow, 
             'STMDoc'        =>     $id, 
         ]);
-    }
-   
+    }   
     public function upstm_ofc_detail_ti(Request $request,$id)
     { 
         $startdate = $request->startdate;
@@ -2934,6 +2929,69 @@ class AccountPKController extends Controller
             'STMDoc'        =>     $id, 
         ]);
     }
+    public function upstm_bkk_opd(Request $request)
+    { 
+        $startdate       = $request->startdate;
+        $enddate         = $request->enddate;
+        $data['ofc_opd'] = DB::connection('mysql')->select('
+                SELECT STMDoc,SUM(stm_money) as total  
+                FROM acc_1102050102_803
+                GROUP BY STMDoc 
+                ORDER BY STMDoc DESC  
+        ');
+         
+        return view('account_pk.upstm_bkk_opd',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            // 'datashow'      =>     $datashow, 
+        ]);
+    }
+    public function upstm_bkk_opd_detail(Request $request,$id)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+                SELECT *
+                FROM acc_1102050102_803  
+                WHERE STMdoc = "'.$id.'"  
+                AND stm_money IS NOT NULL 
+        '); 
+        // a.vn,a.hn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,a.STMdoc,a.stm_money
+        $data['bkk_opd'] = DB::connection('mysql')->select('
+                SELECT STMDoc,SUM(stm_money) as total  
+                FROM acc_1102050102_803
+                GROUP BY STMDoc 
+                ORDER BY STMDoc DESC  
+        ');
+        return view('account_pk.upstm_bkk_opd_detail',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow, 
+            'STMDoc'        =>     $id, 
+        ]);
+    }
+    public function upstm_bkk_ipd(Request $request)
+    { 
+        $startdate       = $request->startdate;
+        $enddate         = $request->enddate;
+        $data['ofc_ipd'] = DB::connection('mysql')->select('
+                SELECT STMDoc,SUM(stm_money) as total  
+                FROM acc_1102050102_804
+                GROUP BY STMDoc 
+                ORDER BY STMDoc DESC  
+        ');
+         
+        return view('account_pk.upstm_bkk_ipd',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            // 'datashow'      =>     $datashow, 
+        ]);
+    }
+
+
+
+
+
  
 
     public function upstm_ucs(Request $request)
