@@ -212,7 +212,7 @@
                     </li> --}}
                     
                     <li> <a href="{{ url('check_dashboard') }}" data-bs-toggle="modal" target="_blank" data-bs-target="#exampleModal"><i class="fa-solid fa-fingerprint me-2"></i>Login</a> </li> 
-                    <li><a href="{{ url('authen_main') }}" target="_blank"><i class="fa-solid fa-person me-2" style="font-size: 15px"></i>Authen</a></li> 
+                    {{-- <li><a href="{{ url('authen_main') }}" target="_blank"><i class="fa-solid fa-person me-2" style="font-size: 15px"></i>Authen</a></li>  --}}
                 </ul> 
                 <i class="bi bi-list mobile-nav-toggle d-none"></i>
             </nav>
