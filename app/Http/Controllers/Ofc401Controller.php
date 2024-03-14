@@ -175,7 +175,7 @@ class Ofc401Controller extends Controller
                         LEFT OUTER JOIN ipt i on i.vn = v.vn                        
                     WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                     AND v.pttype in ("O1","O2","O3","O4","O5")                    
-                    AND v.pttype not in ("OF","FO")                         
+                    AND v.pttype not in ("OF","FO") AND rd.sss_approval_code <> ""                         
                     AND o.an is null
                     AND v.pdx <> ""
                     GROUP BY v.vn 
@@ -398,7 +398,7 @@ class Ofc401Controller extends Controller
                     ,if(i.an is null,p.hipdata_code,pp.hipdata_code) INSCL ,if(i.an is null,p.pcode,pp.pcode) SUBTYPE,v.cid CID
                     ,DATE_FORMAT(if(i.an is null,v.pttype_begin,ap.begin_date), "%Y%m%d") DATEIN
                     ,DATE_FORMAT(if(i.an is null,v.pttype_expire,ap.expire_date), "%Y%m%d") DATEEXP
-                    ,if(i.an is null,v.hospmain,ap.hospmain) HOSPMAIN,if(i.an is null,v.hospsub,ap.hospsub) HOSPSUB,"" GOVCODE ,"" GOVNAME
+                    ,if(i.an is null,v.hospmain,ap.hospmain) HOSPMAIN,if(i.an is null,v.hospsub,ap.hospsub) HOSPSUB,v.hcode as HCODE,"" GOVCODE ,"" GOVNAME
                     ,ifnull(if(i.an is null,r.sss_approval_code,ap.claim_code),ca.claimcode) PERMITNO
                     ,"" DOCNO ,"" OWNRPID,"" OWNRNAME ,i.an AN ,v.vn SEQ ,"" SUBINSCL,"" RELINSCL,"2" HTYPE
                     FROM vn_stat v
@@ -420,12 +420,12 @@ class Ofc401Controller extends Controller
                         'HN'                => $va_01->HN,
                         'INSCL'             => $va_01->INSCL,
                         'SUBTYPE'           => $va_01->SUBTYPE,
-                        'CID'               => $va_01->CID,
-                        'DATEIN'            => $va_01->DATEIN, 
+                        'CID'               => $va_01->CID,                        
                         'DATEEXP'           => $va_01->DATEEXP,
                         'HOSPMAIN'          => $va_01->HOSPMAIN, 
-                        'HOSPSUB'           => $va_01->HOSPSUB,
+                        'HOSPSUB'           => $va_01->HOSPSUB,                     
                         'GOVCODE'           => $va_01->GOVCODE,
+                        'HCODE'             => $va_01->HCODE,
                         'GOVNAME'           => $va_01->GOVNAME,
                         'PERMITNO'          => $va_01->PERMITNO,
                         'DOCNO'             => $va_01->DOCNO,
@@ -436,6 +436,8 @@ class Ofc401Controller extends Controller
                         'SUBINSCL'          => $va_01->SUBINSCL,
                         'RELINSCL'          => $va_01->RELINSCL,
                         'HTYPE'             => $va_01->HTYPE,
+
+                        'DATEIN'            => $va_01->DATEIN, 
                         'user_id'           => $iduser,
                         'd_anaconda_id'     => 'OFC_401'
                     ]);
@@ -524,11 +526,11 @@ class Ofc401Controller extends Controller
                 foreach ($data_orf_ as $va_03) {       
                     D_orf::insert([
                         'HN'                => $va_03->HN,
-                        'CLINIC'            => $va_03->CLINIC,
                         'DATEOPD'           => $va_03->DATEOPD,
+                        'CLINIC'            => $va_03->CLINIC,                        
                         'REFER'             => $va_03->REFER,
-                        'SEQ'               => $va_03->SEQ,
                         'REFERTYPE'         => $va_03->REFERTYPE, 
+                        'SEQ'               => $va_03->SEQ,                      
                         'REFERDATE'         => $va_03->REFERDATE, 
                         'user_id'           => $iduser,
                         'd_anaconda_id'     => 'OFC_401'
@@ -550,8 +552,8 @@ class Ofc401Controller extends Controller
                 foreach ($data_odx_ as $va_04) { 
                     D_odx::insert([
                         'HN'                => $va_04->HN,
-                        'CLINIC'            => $va_04->CLINIC,
                         'DATEDX'            => $va_04->DATEDX,
+                        'CLINIC'            => $va_04->CLINIC, 
                         'DIAG'              => $va_04->DIAG,
                         'DXTYPE'            => $va_04->DXTYPE,
                         'DRDX'              => $va_04->DRDX,
@@ -576,9 +578,9 @@ class Ofc401Controller extends Controller
                 ');
                 foreach ($data_oop_ as $va_05) { 
                     D_oop::insert([
-                        'HN'                => $va_05->HN,
-                        'CLINIC'            => $va_05->CLINIC,
+                        'HN'                => $va_05->HN, 
                         'DATEOPD'           => $va_05->DATEOPD,
+                        'CLINIC'            => $va_05->CLINIC,
                         'OPER'              => $va_05->OPER,
                         'DROPID'            => $va_05->DROPID,
                         'PERSON_ID'         => $va_05->PERSON_ID, 
@@ -601,9 +603,9 @@ class Ofc401Controller extends Controller
                         WHERE  i.vn IN("'.$va1->vn.'")
                 ');
                 foreach ($data_ipd_ as $va_06) {     
-                    D_ipd::insert([
-                        'AN'                => $va_06->AN,
+                    D_ipd::insert([ 
                         'HN'                => $va_06->HN,
+                        'AN'                => $va_06->AN,
                         'DATEADM'           => $va_06->DATEADM,
                         'TIMEADM'           => $va_06->TIMEADM,
                         'DATEDSC'           => $va_06->DATEDSC,
@@ -795,6 +797,7 @@ class Ofc401Controller extends Controller
                         'REFMAINO'          => $va_12->REFMAINO,
                         'OREFTYPE'          => $va_12->OREFTYPE,
                         'UCAE'              => $va_12->UCAE,
+                        'EMTYPE'            => $va_12->EMTYPE,
                         'SEQ'               => $va_12->SEQ,
                         'AESTATUS'          => $va_12->AESTATUS,
                         'DALERT'            => $va_12->DALERT,
@@ -909,10 +912,10 @@ class Ofc401Controller extends Controller
                 // ,d.sks_dfs_text as SIGTEXT
                 foreach ($data_dru_ as $va_14) {
                     D_dru::insert([ 
-                        'HN'             => $va_14->HN,
-                        'CLINIC'         => $va_14->CLINIC,
                         'HCODE'          => $va_14->HCODE,
+                        'HN'             => $va_14->HN,
                         'AN'             => $va_14->AN,
+                        'CLINIC'         => $va_14->CLINIC, 
                         'PERSON_ID'      => $va_14->PERSON_ID,
                         'DATE_SERV'      => $va_14->DATE_SERV,
                         'DID'            => $va_14->DID,
@@ -926,11 +929,9 @@ class Ofc401Controller extends Controller
                         'SEQ'            => $va_14->SEQ,
                         'DRUGREMARK'     => $va_14->DRUGREMARK,
                         'PA_NO'          => $va_14->PA_NO,
-                        'TOTCOPAY'       => $va_14->TOTCOPAY,
-                        // 'TOTCOPAY'       => '01',
+                        'TOTCOPAY'       => $va_14->TOTCOPAY, 
                         'USE_STATUS'     => $va_14->USE_STATUS,
-                        'TOTAL'          => $va_14->TOTAL,  
-                        // 'TOTAL'          => '01',
+                        'TOTAL'          => $va_14->TOTAL,   
                         'SIGCODE'        => $va_14->SIGCODE,                      
                         'SIGTEXT'        => $va_14->SIGTEXT,
                         'PROVIDER'       => $va_14->PROVIDER,
@@ -976,7 +977,8 @@ class Ofc401Controller extends Controller
         //1 ins.txt
         $file_d_ins = "Export/".$folder."/INS.txt";
         $objFopen_ins = fopen($file_d_ins, 'w'); 
-        $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
+        // $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
+        $opd_head = 'HN|INSCL|SUBTYPE|CID|HCODE|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
         fwrite($objFopen_ins, $opd_head); 
         $ins = DB::connection('mysql')->select('
             SELECT * from d_ins where d_anaconda_id = "OFC_401"
@@ -986,7 +988,7 @@ class Ofc401Controller extends Controller
             $a2 = $value1->INSCL;
             $a3 = $value1->SUBTYPE;
             $a4 = $value1->CID;
-            $a5 = $value1->DATEIN;
+            $a5 = $value1->HCODE;
             $a6 = $value1->DATEEXP;
             $a7 = $value1->HOSPMAIN;
             $a8 = $value1->HOSPSUB;
@@ -995,7 +997,7 @@ class Ofc401Controller extends Controller
             $a11 = $value1->PERMITNO;
             $a12 = $value1->DOCNO;
             $a13 = $value1->OWNRPID;
-            $a14= $value1->OWNRNAME;
+            $a14= $value1->OWNNAME;
             $a15 = $value1->AN;
             $a16= $value1->SEQ;
             $a17= $value1->SUBINSCL;

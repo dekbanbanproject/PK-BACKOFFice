@@ -108,7 +108,7 @@
                                         <div class="row"> 
                                             <div class="col-md-6">
                                                 <div class="card p-4 card-ofc">
-                                                    <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL BKK IPD 804</h4>
+                                                    <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL LGO IPD 802</h4>
                                                     <div class="table-responsive">
                                                         <table id="example" class="table table-striped table-bordered "
                                                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -122,16 +122,26 @@
                                                             <tbody>
                                                                 <?php $number = 0;
                                                                 $total1 = 0; ?>
-                                                                @foreach ($ofc_ipd as $item)
+                                                                @foreach ($lgo_opd as $item)
                                                                     <?php $number++; 
-                                                                      
+                                                                        // $datas = DB::select('
+                                                                        //     SELECT SUM(b.pricereq_all) as total  
+                                                                        //         FROM acc_1102050101_401 a
+                                                                        //         LEFT JOIN acc_stm_ofc b ON b.cid = a.cid AND b.vstdate = a.vstdate
+                                                                        //         WHERE b.STMDoc = "'.$item->STMDoc.'" AND b.an = "-"
+                                                                        //         AND b.pricereq_all > 0
+                                                                        // ');
+                                                                        // foreach ($datas as $key => $value) { 
+                                                                        //     $sum_total = $value->total;
+                                                                        // }
+                                                                    
                                                                     
                                                                     ?>
                                 
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
                                                                         <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px">  
-                                                                            <a href="{{url('upstm_bkk_ipd_detail/'.$item->STMDoc)}}" target="_blank"> {{ $item->STMDoc }}</a>  
+                                                                            <a href="{{url('upstm_lgo_ipd_detail/'.$item->STMDoc)}}" target="_blank"> {{ $item->STMDoc }}</a>  
                                                                         </td>  
                                                                         <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($item->total, 2) }}</td>
                                                                     </tr>

@@ -700,7 +700,8 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
 
 
                                 <li><a href="{{ url('upstm_ucs') }}">UCS(Excel-202)OK</a></li>
-                                <li><a href="{{ url('upstm_ofcexcel') }}">OFC-BKK(Excel)OK</a></li> 
+                                <li><a href="{{ url('upstm_ofcexcel') }}">OFC(Excel)OK</a></li> 
+                                <li><a href="{{ url('upstm_bkkexcel') }}">BKK(Excel)OK</a></li> 
                                 <li><a href="{{ url('upstm_lgoexcel') }}">LGO(Excel)OK</a></li>  
                                 <li><a href="{{ url('upstm_ti') }}">UCS(Excel-ไต)OK</a></li>
                                 <li><a href="{{ url('upstm_tixml') }}">OFC(Xml-ไต)OK</a></li>

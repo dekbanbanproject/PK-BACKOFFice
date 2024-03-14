@@ -1511,6 +1511,7 @@ class AccountPKController extends Controller
             'countc'        =>     $countc
         ]);
     }
+    // upstm_ofcexcel_senddata
     public function upstm_ofcexcel_save(Request $request)
     {
             // Excel::import(new ImportAcc_stm_ofcexcel_import, $request->file('file')->store('files'));
@@ -1614,6 +1615,29 @@ class AccountPKController extends Controller
                 'status'    => '200',
             ]);
     }
+
+    public function upstm_bkkexcel(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+                SELECT repno,vstdate,SUM(pricereq_all) as Sumprice,STMdoc,month(vstdate) as months
+                FROM acc_stm_ofcexcel
+                GROUP BY repno
+            ');
+        $countc = DB::table('acc_stm_ofcexcel')->count();
+        // dd($countc );
+        return view('account_pk.upstm_bkkexcel',[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow,
+            'countc'        =>     $countc
+        ]);
+    }
+
+
+
     public function upstm_ofcexcel_senddata(Request $request)
     {        
         // dd($type);
@@ -1631,9 +1655,9 @@ class AccountPKController extends Controller
                     if ($value->repno != 'REP%' || $value->repno != '') {
                             $check = Acc_stm_ofc::where('repno','=',$value->repno)->where('no','=',$value->no)->count();
                             if ($check > 0) {
-                                $add = Acc_stm_ofc::where('repno','=',$value->repno)->where('no','=',$value->no)->update([
-                                    'type'     => $type
-                                ]); 
+                            //     $add = Acc_stm_ofc::where('repno','=',$value->repno)->where('no','=',$value->no)->update([
+                            //         'type'     => $type
+                            //     ]); 
                             } else {
                                 $add = new Acc_stm_ofc();
                                 $add->repno          = $value->repno;
@@ -1659,21 +1683,18 @@ class AccountPKController extends Controller
                                 $add->STMdoc         = $value->STMdoc;
                                 $add->type           = $type;
                                 $add->save(); 
-                            } 
-
-                            $check803 = Acc_1102050102_803::where('cid',$value->cid)->where('vstdate',$value->vstdate)->where('STMdoc',NULL)->count();
-                            if ($check803 > 0) {
-                                Acc_1102050102_803::where('cid',$value->cid)->where('vstdate',$value->vstdate)
-                                ->update([
-                                    'stm_rep'         => $value->price_req,
-                                    'stm_money'       => $value->pricereq_all,
-                                    'stm_rcpno'       => $value->repno.'-'.$value->no,
-                                    'stm_total'       => $value->pricereq_all,
-                                    'STMdoc'          => $value->STMdoc,
-                                ]); 
                             }  
-                           
- 
+                            // $check401 = Acc_1102050101_401::where('cid',$value->cid)->where('vstdate',$value->vstdate)->where('STMdoc',NULL)->count();
+                            // if ($check401 > 0) {
+                            //     Acc_1102050101_401::where('cid',$value->cid)->where('vstdate',$value->vstdate)
+                            //     ->update([
+                            //         'stm_rep'         => $value->price_req,
+                            //         'stm_money'       => $value->pricereq_all,
+                            //         'stm_rcpno'       => $value->repno.'-'.$value->no,
+                            //         'stm_total'       => $value->pricereq_all,
+                            //         'STMdoc'          => $value->STMdoc,
+                            //     ]); 
+                            // }   
                     } else {
                         # code...
                     }
@@ -1688,6 +1709,7 @@ class AccountPKController extends Controller
                 'status'    => '200',
             ]);
     }
+    // 401
     public function upstm_ofcexcel_sendstmdata(Request $request)
     { 
         try{
@@ -1707,13 +1729,13 @@ class AccountPKController extends Controller
                             'STMdoc'          => $value->STMdoc,
                         ]);
                     } else {
-                        Acc_1102050101_401::where('cid',$value->cid)->where('vstdate',$value->vstdate)
-                        ->update([
-                            'stm_rep'         => $value->price_req,
-                            'stm_money'       => $value->pricereq_all,
-                            'stm_rcpno'       => $value->repno.'-'.$value->no,
-                            'STMdoc'          => $value->STMdoc,
-                        ]);
+                        // Acc_1102050101_401::where('cid',$value->cid)->where('vstdate',$value->vstdate)
+                        // ->update([
+                        //     'stm_rep'         => $value->price_req,
+                        //     'stm_money'       => $value->pricereq_all,
+                        //     'stm_rcpno'       => $value->repno.'-'.$value->no,
+                        //     'STMdoc'          => $value->STMdoc,
+                        // ]);
                     }                   
                    
                 }
@@ -1727,6 +1749,7 @@ class AccountPKController extends Controller
                 'status'    => '200',
             ]);
     }
+    // 402
     public function upstm_ofcexcel_sendstmipddata(Request $request)
     { 
         try{
@@ -1746,10 +1769,8 @@ class AccountPKController extends Controller
                             'stm_rcpno'       => $value->repno.'-'.$value->no,
                             'STMdoc'          => $value->STMdoc,
                         ]);
-                    } else {
-                        
-                    }                   
-                   
+                    } else {                        
+                    } 
                 }
         } catch (Exception $e) {
             $error_code = $e->errorInfo[1];
@@ -2687,6 +2708,69 @@ class AccountPKController extends Controller
             'enddate'       =>     $enddate,  
         ]);
     }
+    public function upstm_lgo_opd_detail(Request $request,$id)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+                SELECT *
+                FROM acc_1102050102_801  
+                WHERE STMdoc = "'.$id.'"  
+                AND stm_money IS NOT NULL 
+        ');
+     
+        $data['lgo_opd'] = DB::connection('mysql')->select('
+                SELECT STMDoc,SUM(stm_money) as total  
+                FROM acc_1102050102_801
+                GROUP BY STMDoc 
+                ORDER BY STMDoc DESC  
+        ');
+        return view('account_pk.upstm_lgo_opd_detail',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow, 
+            'STMDoc'        =>     $id, 
+        ]);
+    }
+    public function upstm_lgo_ipd(Request $request)
+    { 
+        $startdate       = $request->startdate;
+        $enddate         = $request->enddate;
+        $data['lgo_opd'] = DB::connection('mysql')->select('
+                SELECT STMDoc,SUM(stm_money) as total  
+                FROM acc_1102050102_802
+                GROUP BY STMDoc 
+                ORDER BY STMDoc DESC  
+        '); 
+        return view('account_pk.upstm_lgo_ipd',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,  
+        ]);
+    }
+    public function upstm_lgo_ipd_detail(Request $request,$id)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+                SELECT *
+                FROM acc_1102050102_802 
+                WHERE STMdoc = "'.$id.'"  
+                AND stm_money IS NOT NULL 
+        ');
+     
+        $data['lgo_ipd'] = DB::connection('mysql')->select('
+                SELECT STMDoc,SUM(stm_money) as total  
+                FROM acc_1102050102_802
+                GROUP BY STMDoc 
+                ORDER BY STMDoc DESC  
+        ');
+        return view('account_pk.upstm_lgo_ipd_detail',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow, 
+            'STMDoc'        =>     $id, 
+        ]);
+    }
 
     public function upstm_ofc_ti(Request $request)
     {
@@ -2985,6 +3069,30 @@ class AccountPKController extends Controller
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
             // 'datashow'      =>     $datashow, 
+        ]);
+    }
+    public function upstm_bkk_ipd_detail(Request $request,$id)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+                SELECT *
+                FROM acc_1102050102_804  
+                WHERE STMdoc = "'.$id.'"  
+                AND stm_money IS NOT NULL 
+        '); 
+        // a.vn,a.hn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,a.STMdoc,a.stm_money
+        $data['bkk_ipd'] = DB::connection('mysql')->select('
+                SELECT STMDoc,SUM(stm_money) as total  
+                FROM acc_1102050102_804
+                GROUP BY STMDoc 
+                ORDER BY STMDoc DESC  
+        ');
+        return view('account_pk.upstm_bkk_ipd_detail',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow, 
+            'STMDoc'        =>     $id, 
         ]);
     }
 
