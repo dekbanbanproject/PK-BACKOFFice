@@ -579,8 +579,9 @@ class Account401Controller extends Controller
          
         $id = $request->ids;
         $iduser = Auth::user()->id;
-        // $data_vn_1 = D_ofc_401::whereIn('d_ofc_401_id',explode(",",$id))->get();
-        $data_vn_1 = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->where('account_code','=',"1102050101.401")->where('stamp','=',"N")->get();
+        $data_vn_1 = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
+
+        // $data_vn_1 = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->where('account_code','=',"1102050101.401")->where('stamp','=',"N")->get();
         // $data_vn_1 = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->where('account_code','=',"1102050101.401")->where('stamp','=',"N")->where('approval_code','<>',"")->get();
          foreach ($data_vn_1 as $key => $va1) {
                 //D_ins OK
@@ -635,13 +636,16 @@ class Account401Controller extends Controller
                     SELECT v.hcode HCODE,v.hn HN
                     ,pt.chwpart CHANGWAT,pt.amppart AMPHUR,DATE_FORMAT(pt.birthday,"%Y%m%d") DOB
                     ,pt.sex SEX,pt.marrystatus MARRIAGE ,pt.occupation OCCUPA,lpad(pt.nationality,3,0) NATION,pt.cid PERSON_ID
-                    ,concat(pt.fname," ",pt.lname,",",pt.pname) NAMEPAT,pt.pname TITLE,pt.fname FNAME,pt.lname LNAME,"1" IDTYPE
+                    ,concat(pt.fname," ",pt.lname,",",pt.pname) NAMEPAT
+                    ,pt.pname TITLE,pt.fname FNAME,pt.lname LNAME,"1" IDTYPE
                     from vn_stat v
                     LEFT OUTER JOIN pttype p on p.pttype = v.pttype
                     LEFT OUTER JOIN ipt i on i.vn = v.vn 
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn 
                     WHERE v.vn IN("'.$va1->vn.'")
                 ');
+                // ,concat(pt.fname," ",pt.lname) NAMEPAT
+                // ,concat(pt.fname," ",pt.lname,",",pt.pname) NAMEPAT
                 foreach ($data_pat_ as $va_02) {
                     D_pat::insert([
                         'HCODE'              => $va_02->HCODE,
