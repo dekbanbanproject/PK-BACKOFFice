@@ -580,7 +580,8 @@ class Account401Controller extends Controller
         $id = $request->ids;
         $iduser = Auth::user()->id;
         // $data_vn_1 = D_ofc_401::whereIn('d_ofc_401_id',explode(",",$id))->get();
-        $data_vn_1 = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->where('account_code','=',"1102050101.401")->where('stamp','=',"N")->where('approval_code','<>',"")->get();
+        $data_vn_1 = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->where('account_code','=',"1102050101.401")->where('stamp','=',"N")->get();
+        // $data_vn_1 = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->where('account_code','=',"1102050101.401")->where('stamp','=',"N")->where('approval_code','<>',"")->get();
          foreach ($data_vn_1 as $key => $va1) {
                 //D_ins OK
                 $data_ins_ = DB::connection('mysql2')->select('

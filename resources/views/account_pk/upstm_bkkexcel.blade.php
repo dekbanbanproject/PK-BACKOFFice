@@ -126,39 +126,19 @@
                            <div class="row">
                             <div class="col"></div>
                             <div class="col-md-2 mb-3">
-                                <select name="type" id="type" class="form-control form-control-sm cardacc">
-                                    <option value="OFC">OFC</option>
-                                    {{-- <option value="BKK">BKK</option> --}}
+                                <select name="type" id="type" class="form-control form-control-sm cardacc"> 
+                                    <option value="BKK">BKK</option>
                                 </select>
                             </div>
-                            <div class="col-md-4">
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left" id="Senddata">
-                                    <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>บันทึกข้อมูล</span>
-                                    <span class="ladda-spinner"></span>
-                                </button>
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-success cardacc" data-style="expand-left" id="Sendstmdata">
-                                    <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>กระทบลูกหนี้ OPD 401</span>
-                                    <span class="ladda-spinner"></span>
-                                </button>
-                            
-                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-success cardacc" data-style="expand-left" id="Senddata">
-                                    <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>กระทบลูกหนี้ OPD 401</span>
-                                    <span class="ladda-spinner"></span>
-                                </button> --}}
-
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-info cardacc" data-style="expand-left" id="Sendstmipddata">
-                                    <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>กระทบลูกหนี้ IPD 402</span>
-                                    <span class="ladda-spinner"></span>
-                                </button>
-
-                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-warning cardacc" data-style="expand-left" id="Sendstm803">
+                            <div class="col-md-4"> 
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-warning cardacc" data-style="expand-left" id="Sendstm803">
                                     <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>กระทบลูกหนี้ 803</span>
                                     <span class="ladda-spinner"></span>
                                 </button>
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-danger cardacc" data-style="expand-left" id="Sendstm804">
                                     <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>กระทบลูกหนี้ 804</span>
                                     <span class="ladda-spinner"></span>
-                                </button> --}}
+                                </button>
 
                             </div>
                           <div class="col"></div>
