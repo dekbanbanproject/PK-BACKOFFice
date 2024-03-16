@@ -1049,13 +1049,22 @@ class Ofc401Controller extends Controller
             SELECT * from d_opd where d_anaconda_id = "OFC_401"
         ');
         foreach ($opd as $key => $value15) {
-            $o1 = $value15->HN;
-            $o2 = $value15->CLINIC;
-            $o3 = $value15->DATEOPD; 
-            $o4 = $value15->TIMEOPD; 
-            $o5 = $value15->SEQ; 
-            $o6 = $value15->UUC;  
-            $str_opd="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6;
+            $o1 = $value3->HN;
+            $o2 = $value3->CLINIC;
+            $o3 = $value3->DATEOPD; 
+            $o4 = $value3->TIMEOPD; 
+            $o5 = $value3->SEQ; 
+            $o6 = $value3->UUC; 
+            $o7 = $value3->DETAIL; 
+            $o8 = $value3->BTEMP; 
+            $o9 = $value3->SBP; 
+            $o10 = $value3->DBP; 
+            $o11 = $value3->PR; 
+            $o12 = $value3->RR; 
+            $o13 = $value3->OPTYPE; 
+            $o14 = $value3->TYPEIN;  
+            $o15 = $value3->TYPEOUT; 
+            $str_opd="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6."|".$o7."|".$o8."|".$o9."|".$o10."|".$o11."|".$o12."|".$o13."|".$o14."|".$o15;
             $ansitxt_opd = iconv('UTF-8', 'TIS-620', $str_opd); 
             fwrite($objFopen_opd, $ansitxt_opd);
             

@@ -429,7 +429,7 @@
                         })
                 } else {
                     Swal.fire({
-                        title: 'Are you Want Delete sure?',
+                        title: 'Are you Want Claim sure?',
                         text: "คุณต้องการ Claim รายการนี้ใช่ไหม!",
                         icon: 'warning',
                         showCancelButton: true,
