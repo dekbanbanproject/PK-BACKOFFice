@@ -1191,7 +1191,8 @@ class Account401Controller extends Controller
             $a19 = $value1->HTYPE;
             // $str_ins="\n".$a1."|".$a2."|".$a3."|".$a4."|".$a5."|".$a6."|".$a7."|".$a8."|".$a9."|".$a10."|".$a11."|".$a12."|".$a13."|".$a14."|".$a15."|".$a16."|".$a17."|".$a18."|".$a19;
             $str_ins="\n".$a1."|".$a2."|".$a3."|".$a4."|".$a6."|".$a7."|".$a8."|".$a9."|".$a10."|".$a11."|".$a12."|".$a13."|".$a14."|".$a15."|".$a16."|".$a17."|".$a18."|".$a19;
-            $ansitxt_ins = iconv('UTF-8', 'TIS-620', $str_ins); 
+            // $ansitxt_ins = iconv('UTF-8', 'TIS-620', $str_ins); 
+            $ansitxt_ins = iconv('UTF-8', 'UTF-8', $str_ins); 
             fwrite($objFopen_ins, $ansitxt_ins); 
         }
         fclose($objFopen_ins); 
@@ -1199,27 +1200,29 @@ class Account401Controller extends Controller
         //2 pat.txt
         $file_d_pat = "Export/".$folder."/PAT.txt";
         $objFopen_pat = fopen($file_d_pat, 'w'); 
+        // $opd_head_pat = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
         $opd_head_pat = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
         fwrite($objFopen_pat, $opd_head_pat);
         $pat = DB::connection('mysql')->select('SELECT * from d_pat where d_anaconda_id = "OFC_401"');
-        foreach ($pat as $key => $value9) {
-            $i1 = $value9->HCODE;
-            $i2 = $value9->HN;
-            $i3 = $value9->CHANGWAT;
-            $i4 = $value9->AMPHUR;
-            $i5 = $value9->DOB;
-            $i6 = $value9->SEX;
-            $i7 = $value9->MARRIAGE;
-            $i8 = $value9->OCCUPA;
-            $i9 = $value9->NATION;
-            $i10 = $value9->PERSON_ID;
-            $i11 = $value9->NAMEPAT;
-            $i12 = $value9->TITLE;
-            $i13 = $value9->FNAME;
-            $i14 = $value9->LNAME;
-            $i15 = $value9->IDTYPE;      
+        foreach ($pat as $key => $value2) {
+            $i1 = $value2->HCODE;
+            $i2 = $value2->HN;
+            $i3 = $value2->CHANGWAT;
+            $i4 = $value2->AMPHUR;
+            $i5 = $value2->DOB;
+            $i6 = $value2->SEX;
+            $i7 = $value2->MARRIAGE;
+            $i8 = $value2->OCCUPA;
+            $i9 = $value2->NATION;
+            $i10 = $value2->PERSON_ID;
+            $i11 = $value2->NAMEPAT;
+            $i12 = $value2->TITLE;
+            $i13 = $value2->FNAME;
+            $i14 = $value2->LNAME;
+            $i15 = $value2->IDTYPE;      
             $str_pat="\n".$i1."|".$i2."|".$i3."|".$i4."|".$i5."|".$i6."|".$i7."|".$i8."|".$i9."|".$i10."|".$i11."|".$i12."|".$i13."|".$i14."|".$i15;
-            $ansitxt_pat = iconv('UTF-8', 'TIS-620', $str_pat); 
+            // $ansitxt_pat = iconv('UTF-8', 'TIS-620', $str_pat);
+            $ansitxt_pat = iconv('UTF-8', 'UTF-8', $str_pat);  
             fwrite($objFopen_pat, $ansitxt_pat);
             
         }
@@ -1250,7 +1253,8 @@ class Account401Controller extends Controller
             $o14 = $value3->TYPEIN;  
             $o15 = $value3->TYPEOUT; 
             $str_opd="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6."|".$o7."|".$o8."|".$o9."|".$o10."|".$o11."|".$o12."|".$o13."|".$o14."|".$o15;
-            $ansitxt_opd = iconv('UTF-8', 'TIS-620', $str_opd); 
+            // $ansitxt_opd = iconv('UTF-8', 'TIS-620', $str_opd); 
+            $ansitxt_opd = iconv('UTF-8', 'UTF-8', $str_opd); 
             fwrite($objFopen_opd, $ansitxt_opd);
             
         }
@@ -1272,7 +1276,8 @@ class Account401Controller extends Controller
             $p6 = $value4->SEQ;  
             $p7 = $value4->REFERDATE; 
             $str_orf="\n".$p1."|".$p2."|".$p3."|".$p4."|".$p5."|".$p6."|".$p7;
-            $ansitxt_orf = iconv('UTF-8', 'TIS-620', $str_orf); 
+            // $ansitxt_orf = iconv('UTF-8', 'TIS-620', $str_orf); 
+            $ansitxt_orf = iconv('UTF-8', 'UTF-8', $str_orf); 
             fwrite($objFopen_orf, $ansitxt_orf); 
         }
         fclose($objFopen_orf);        
@@ -1293,7 +1298,8 @@ class Account401Controller extends Controller
             $m7 = $value5->PERSON_ID; 
             $m8 = $value5->SEQ; 
             $str_odx="\n".$m1."|".$m2."|".$m3."|".$m4."|".$m5."|".$m6."|".$m7."|".$m8;
-            $ansitxt_odx = iconv('UTF-8', 'TIS-620', $str_odx); 
+            // $ansitxt_odx = iconv('UTF-8', 'TIS-620', $str_odx); 
+            $ansitxt_odx = iconv('UTF-8', 'UTF-8', $str_odx); 
             fwrite($objFopen_odx, $ansitxt_odx); 
         }
         fclose($objFopen_odx); 
@@ -1314,7 +1320,8 @@ class Account401Controller extends Controller
             $n7 = $value6->SEQ; 
             $n8 = $value6->SERVPRICE; 
             $str_oop="\n".$n1."|".$n2."|".$n3."|".$n4."|".$n5."|".$n6."|".$n7."|".$n8;
-            $ansitxt_oop = iconv('UTF-8', 'TIS-620', $str_oop); 
+            // $ansitxt_oop = iconv('UTF-8', 'TIS-620', $str_oop); 
+            $ansitxt_oop = iconv('UTF-8', 'UTF-8', $str_oop); 
             fwrite($objFopen_oop, $ansitxt_oop); 
         }
         fclose($objFopen_oop); 
@@ -1340,7 +1347,8 @@ class Account401Controller extends Controller
             $j12 = $value7->UUC;
             $j13 = $value7->SVCTYPE;    
             $str_ipd="\n".$j1."|".$j2."|".$j3."|".$j4."|".$j5."|".$j6."|".$j7."|".$j8."|".$j9."|".$j10."|".$j11."|".$j12."|".$j13;
-            $ansitxt_ipd = iconv('UTF-8', 'TIS-620', $str_ipd); 
+            // $ansitxt_ipd = iconv('UTF-8', 'TIS-620', $str_ipd); 
+            $ansitxt_ipd = iconv('UTF-8', 'UTF-8', $str_ipd); 
             fwrite($objFopen_ipd, $ansitxt_ipd); 
         }
         fclose($objFopen_ipd); 
@@ -1356,7 +1364,8 @@ class Account401Controller extends Controller
             $k2 = $value8->REFER;
             $k3 = $value8->REFERTYPE; 
             $str_irf="\n".$k1."|".$k2."|".$k3;
-            $ansitxt_irf = iconv('UTF-8', 'TIS-620', $str_irf); 
+            // $ansitxt_irf = iconv('UTF-8', 'TIS-620', $str_irf); 
+            $ansitxt_irf = iconv('UTF-8', 'UTF-8', $str_irf); 
             fwrite($objFopen_irf, $ansitxt_irf); 
         }
         fclose($objFopen_irf); 
@@ -1373,7 +1382,8 @@ class Account401Controller extends Controller
             $h3 = $value9->DXTYPE;
             $h4 = $value9->DRDX; 
             $str_idx="\n".$h1."|".$h2."|".$h3."|".$h4;
-            $ansitxt_idx = iconv('UTF-8', 'TIS-620', $str_idx); 
+            // $ansitxt_idx = iconv('UTF-8', 'TIS-620', $str_idx);
+            $ansitxt_idx = iconv('UTF-8', 'UTF-8', $str_idx);  
             fwrite($objFopen_idx, $ansitxt_idx); 
         }
         fclose($objFopen_idx); 
@@ -1394,7 +1404,8 @@ class Account401Controller extends Controller
             $b7 = $value10->DATEOUT;
             $b8 = $value10->TIMEOUT;           
             $str_iop="\n".$b1."|".$b2."|".$b3."|".$b4."|".$b5."|".$b6."|".$b7."|".$b8;
-            $ansitxt_iop = iconv('UTF-8', 'TIS-620', $str_iop); 
+            // $ansitxt_iop = iconv('UTF-8', 'TIS-620', $str_iop); 
+            $ansitxt_iop = iconv('UTF-8', 'UTF-8', $str_iop); 
             fwrite($objFopen_iop, $ansitxt_iop); 
         }
         fclose($objFopen_iop); 
@@ -1418,7 +1429,8 @@ class Account401Controller extends Controller
             $f10 = $value11->INVOICE_NO;
             $f11 = $value11->INVOICE_LT;
             $str_cht="\n".$f1."|".$f2."|".$f3."|".$f4."|".$f5."|".$f6."|".$f7."|".$f8."|".$f9."|".$f10."|".$f11;
-            $ansitxt_cht = iconv('UTF-8', 'TIS-620', $str_cht); 
+            // $ansitxt_cht = iconv('UTF-8', 'TIS-620', $str_cht); 
+            $ansitxt_cht = iconv('UTF-8', 'UTF-8', $str_cht); 
             fwrite($objFopen_cht, $ansitxt_cht); 
         }
         fclose($objFopen_cht); 
@@ -1438,7 +1450,8 @@ class Account401Controller extends Controller
             $e6 = $value12->PERSON_ID;
             $e7 = $value12->SEQ; 
             $str_cha="\n".$e1."|".$e2."|".$e3."|".$e4."|".$e5."|".$e6."|".$e7;
-            $ansitxt_cha = iconv('UTF-8', 'TIS-620', $str_cha); 
+            // $ansitxt_cha = iconv('UTF-8', 'TIS-620', $str_cha); 
+            $ansitxt_cha = iconv('UTF-8', 'UTF-8', $str_cha);
             fwrite($objFopen_cha, $ansitxt_cha); 
         }
         fclose($objFopen_cha); 
@@ -1469,7 +1482,8 @@ class Account401Controller extends Controller
              $d17 = $value13->DALERT;
              $d18 = $value13->TALERT;        
              $str_aer="\n".$d1."|".$d2."|".$d3."|".$d4."|".$d5."|".$d6."|".$d7."|".$d8."|".$d9."|".$d10."|".$d11."|".$d12."|".$d13."|".$d14."|".$d15."|".$d16."|".$d17."|".$d18;
-             $ansitxt_aer = iconv('UTF-8', 'TIS-620', $str_aer); 
+            //  $ansitxt_aer = iconv('UTF-8', 'TIS-620', $str_aer); 
+             $ansitxt_aer = iconv('UTF-8', 'UTF-8', $str_aer); 
              fwrite($objFopen_aer, $ansitxt_aer); 
          }
          fclose($objFopen_aer); 
@@ -1509,7 +1523,8 @@ class Account401Controller extends Controller
             $c26 = $value14->LMP;
             $c27 = $value14->SP_ITEM;           
             $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17."|".$c18."|".$c19."|".$c20."|".$c21."|".$c22."|".$c23."|".$c24."|".$c25."|".$c26."|".$c27;
-            $ansitxt_adp = iconv('UTF-8', 'TIS-620', $str_adp); 
+            // $ansitxt_adp = iconv('UTF-8', 'TIS-620', $str_adp); 
+            $ansitxt_adp = iconv('UTF-8', 'UTF-8', $str_adp);
             fwrite($objFopen_adp, $ansitxt_adp); 
         }
         fclose($objFopen_adp); 
@@ -1529,8 +1544,10 @@ class Account401Controller extends Controller
              $L6 = $value15->TIMEIN; 
              $L7 = $value15->QTYDAY; 
              $str_lvd="\n".$L1."|".$L2."|".$L3."|".$L4."|".$L5."|".$L6."|".$L7;
-             $ansitxt_lvd = iconv('UTF-8', 'TIS-620', $str_lvd); 
+            //  $ansitxt_lvd = iconv('UTF-8', 'TIS-620', $str_lvd); 
+             $ansitxt_lvd = iconv('UTF-8', 'UTF-8', $str_lvd); 
              fwrite($objFopen_lvd, $ansitxt_lvd); 
+            //  UTF-8
          }
          fclose($objFopen_lvd); 
 
@@ -1576,7 +1593,8 @@ class Account401Controller extends Controller
         $file_d_dru = "Export/".$folder."/DRU.txt";
         $objFopen_dru = fopen($file_d_dru, 'w');
         // $objFopen_dru_utf = fopen($file_d_dru, 'w');
-        $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER|SP_ITEM';
+        // $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER|SP_ITEM';
+        $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
         fwrite($objFopen_dru, $opd_head_dru);
         // fwrite($objFopen_dru_utf, $opd_head_dru);
         $dru = DB::connection('mysql')->select('SELECT * from d_dru where d_anaconda_id = "OFC_401"');
@@ -1605,9 +1623,10 @@ class Account401Controller extends Controller
             $g22 = $value16->SIGCODE;
             $g23 = $value16->SIGTEXT;  
             $g24 = $value16->PROVIDER; 
-            $g25 = $value16->SP_ITEM;      
-            $str_dru="\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22."|".$g23."|".$g24."|".$g25;
-            $ansitxt_dru = iconv('UTF-8', 'TIS-620', $str_dru);
+            // $g25 = $value16->SP_ITEM;      
+            $str_dru="\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22."|".$g23."|".$g24;
+            $ansitxt_dru = iconv('UTF-8', 'UTF-8', $str_dru);
+            // $ansitxt_dru = iconv('UTF-8', 'TIS-620', $str_dru);
             // $ansitxt_dru_utf = iconv('UTF-8', 'UTF-8', $str_dru);
             fwrite($objFopen_dru, $ansitxt_dru);
             // fwrite($objFopen_dru_utf, $ansitxt_dru_utf);
