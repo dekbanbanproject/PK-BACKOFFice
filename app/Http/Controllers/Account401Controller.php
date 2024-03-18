@@ -64,6 +64,22 @@ use App\Models\D_aer;
 use App\Models\D_irf;
 use App\Models\D_ofc_401;
 
+use App\Models\Fdh_ins;
+use App\Models\Fdh_pat;
+use App\Models\Fdh_opd;
+use App\Models\Fdh_orf;
+use App\Models\Fdh_odx;
+use App\Models\Fdh_cht;
+use App\Models\Fdh_cha;
+use App\Models\Fdh_oop; 
+use App\Models\Fdh_adp;
+use App\Models\Fdh_dru;
+use App\Models\Fdh_idx;
+use App\Models\Fdh_iop;
+use App\Models\Fdh_ipd;
+use App\Models\Fdh_aer;
+use App\Models\Fdh_irf;
+
 use PDF;
 use setasign\Fpdi\Fpdi;
 use App\Models\Budget_year;
@@ -577,6 +593,10 @@ class Account401Controller extends Controller
         D_cha::where('d_anaconda_id','=','OFC_401')->delete();
         D_ins::where('d_anaconda_id','=','OFC_401')->delete();
          
+        Fdh_ins::where('d_anaconda_id','=','OFC_401')->delete();
+        Fdh_pat::where('d_anaconda_id','=','OFC_401')->delete();
+        Fdh_opd::where('d_anaconda_id','=','OFC_401')->delete();
+
         $id = $request->ids;
         $iduser = Auth::user()->id;
         $data_vn_1 = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
@@ -587,12 +607,13 @@ class Account401Controller extends Controller
                 //D_ins OK
                 $data_ins_ = DB::connection('mysql2')->select('
                     SELECT v.hn HN
-                    ,if(i.an is null,p.hipdata_code,pp.hipdata_code) INSCL ,if(i.an is null,p.pcode,pp.pcode) SUBTYPE,v.cid CID
+                    ,if(i.an is null,p.hipdata_code,pp.hipdata_code) INSCL ,if(i.an is null,p.pcode,pp.pcode) SUBTYPE,v.cid CID,v.hcode AS HCODE
                     ,DATE_FORMAT(if(i.an is null,v.pttype_begin,ap.begin_date), "%Y%m%d") DATEIN
                     ,DATE_FORMAT(if(i.an is null,v.pttype_expire,ap.expire_date), "%Y%m%d") DATEEXP
                     ,if(i.an is null,v.hospmain,ap.hospmain) HOSPMAIN,if(i.an is null,v.hospsub,ap.hospsub) HOSPSUB,"" GOVCODE ,"" GOVNAME
                     ,ifnull(if(i.an is null,r.sss_approval_code,ap.claim_code),ca.claimcode) PERMITNO
-                    ,"" DOCNO ,"" OWNRPID,"" OWNRNAME ,i.an AN ,v.vn SEQ ,"" SUBINSCL,"" RELINSCL,"2" HTYPE
+                    ,"" DOCNO ,"" OWNRPID,"" OWNNAME ,i.an AN ,v.vn SEQ ,"" SUBINSCL,"" RELINSCL
+                    ,"" HTYPE
                     FROM vn_stat v
                     LEFT OUTER JOIN pttype p on p.pttype = v.pttype
                     LEFT OUTER JOIN ipt i on i.vn = v.vn 
@@ -605,14 +626,14 @@ class Account401Controller extends Controller
                     WHERE v.vn IN("'.$va1->vn.'")  
                     GROUP BY v.vn 
                 ');
- 
+                // ,"2" HTYPE
                 foreach ($data_ins_ as $va_01) {
-                    D_ins::insert([
+                    Fdh_ins::insert([
                         'HN'                => $va_01->HN,
                         'INSCL'             => $va_01->INSCL,
                         'SUBTYPE'           => $va_01->SUBTYPE,
-                        'CID'               => $va_01->CID,
-                        'DATEIN'            => $va_01->DATEIN, 
+                        'CID'               => $va_01->CID, 
+                        'HCODE'             => $va_01->HCODE,   
                         'DATEEXP'           => $va_01->DATEEXP,
                         'HOSPMAIN'          => $va_01->HOSPMAIN, 
                         'HOSPSUB'           => $va_01->HOSPSUB,
@@ -621,12 +642,13 @@ class Account401Controller extends Controller
                         'PERMITNO'          => $va_01->PERMITNO,
                         'DOCNO'             => $va_01->DOCNO,
                         'OWNRPID'           => $va_01->OWNRPID,
-                        'OWNRNAME'          => $va_01->OWNRNAME,
+                        'OWNNAME'           => $va_01->OWNNAME,
                         'AN'                => $va_01->AN,
                         'SEQ'               => $va_01->SEQ,
                         'SUBINSCL'          => $va_01->SUBINSCL,
                         'RELINSCL'          => $va_01->RELINSCL,
                         'HTYPE'             => $va_01->HTYPE,
+
                         'user_id'           => $iduser,
                         'd_anaconda_id'     => 'OFC_401'
                     ]);
@@ -638,16 +660,15 @@ class Account401Controller extends Controller
                     ,pt.sex SEX,pt.marrystatus MARRIAGE ,pt.occupation OCCUPA,lpad(pt.nationality,3,0) NATION,pt.cid PERSON_ID
                     ,concat(pt.fname," ",pt.lname,",",pt.pname) NAMEPAT
                     ,pt.pname TITLE,pt.fname FNAME,pt.lname LNAME,"1" IDTYPE
-                    from vn_stat v
+                    FROM vn_stat v
                     LEFT OUTER JOIN pttype p on p.pttype = v.pttype
                     LEFT OUTER JOIN ipt i on i.vn = v.vn 
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn 
                     WHERE v.vn IN("'.$va1->vn.'")
                 ');
-                // ,concat(pt.fname," ",pt.lname) NAMEPAT
-                // ,concat(pt.fname," ",pt.lname,",",pt.pname) NAMEPAT
+            
                 foreach ($data_pat_ as $va_02) {
-                    D_pat::insert([
+                    Fdh_pat::insert([
                         'HCODE'              => $va_02->HCODE,
                         'HN'                 => $va_02->HN,
                         'CHANGWAT'           => $va_02->CHANGWAT,
@@ -663,6 +684,7 @@ class Account401Controller extends Controller
                         'FNAME'              => $va_02->FNAME,
                         'LNAME'              => $va_02->LNAME,
                         'IDTYPE'             => $va_02->IDTYPE,
+
                         'user_id'            => $iduser,
                         'd_anaconda_id'      => 'OFC_401'
                     ]);
@@ -683,7 +705,7 @@ class Account401Controller extends Controller
                         WHERE v.vn IN("'.$va1->vn.'")                  
                 '); 
                 foreach ($data_opd as $val3) {       
-                    D_opd::insert([
+                    Fdh_opd::insert([
                         'HN'                => $val3->HN,
                         'CLINIC'            => $val3->CLINIC,
                         'DATEOPD'           => $val3->DATEOPD,
@@ -1160,40 +1182,50 @@ class Account401Controller extends Controller
 
         header("Content-type: text/txt");
         header("Cache-Control: no-store, no-cache");
-        header('Content-Disposition: attachment; filename="content.txt"');
+        header('Content-Disposition: attachment; filename="content.txt"; charset=tis-620″ ;');
 
         //1 ins.txt
         $file_d_ins = "Export/".$folder."/INS.txt";
         $objFopen_ins = fopen($file_d_ins, 'w'); 
         // $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
-        $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
+        // $opd_head = 'HN|INSCL|SUBTYPE|CID|HCODE|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
+        $opd_head = 'HN|INSCL|SUBTYPE|CID|HCODE|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
+        // $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
+        // $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
         fwrite($objFopen_ins, $opd_head); 
-        $ins = DB::connection('mysql')->select('SELECT * from d_ins where d_anaconda_id = "OFC_401"');
+        $ins = DB::connection('mysql')->select('SELECT * from fdh_ins where d_anaconda_id = "OFC_401"');
         foreach ($ins as $key => $value1) {
-            $a1 = $value1->HN;
-            $a2 = $value1->INSCL;
-            $a3 = $value1->SUBTYPE;
-            $a4 = $value1->CID;
-            // $a5 = $value1->DATEIN;
-            $a6 = $value1->DATEEXP;
-            $a7 = $value1->HOSPMAIN;
-            $a8 = $value1->HOSPSUB;
-            $a9 = $value1->GOVCODE;
-            $a10 = $value1->GOVNAME;
-            $a11 = $value1->PERMITNO;
-            $a12 = $value1->DOCNO;
-            $a13 = $value1->OWNRPID;
-            $a14= $value1->OWNRNAME;
-            $a15 = $value1->AN;
-            $a16= $value1->SEQ;
-            $a17= $value1->SUBINSCL;
-            $a18 = $value1->RELINSCL;
-            $a19 = $value1->HTYPE;
-            // $str_ins="\n".$a1."|".$a2."|".$a3."|".$a4."|".$a5."|".$a6."|".$a7."|".$a8."|".$a9."|".$a10."|".$a11."|".$a12."|".$a13."|".$a14."|".$a15."|".$a16."|".$a17."|".$a18."|".$a19;
-            $str_ins="\n".$a1."|".$a2."|".$a3."|".$a4."|".$a6."|".$a7."|".$a8."|".$a9."|".$a10."|".$a11."|".$a12."|".$a13."|".$a14."|".$a15."|".$a16."|".$a17."|".$a18."|".$a19;
-            // $ansitxt_ins = iconv('UTF-8', 'TIS-620', $str_ins); 
-            $ansitxt_ins = iconv('UTF-8', 'UTF-8', $str_ins); 
-            fwrite($objFopen_ins, $ansitxt_ins); 
+            $a1  = $value1->HN;
+            $a2  = $value1->INSCL;
+            $a3  = $value1->SUBTYPE;
+            $a4  = $value1->CID;
+            $a5  = $value1->HCODE;
+            // $a6  = $value1->DATEIN;
+            $a7  = $value1->DATEEXP;
+            $a8  = $value1->HOSPMAIN;
+            $a9  = $value1->HOSPSUB;
+            $a10  = $value1->GOVCODE;
+            $a11 = $value1->GOVNAME;
+            $a12 = $value1->PERMITNO;
+            $a13 = $value1->DOCNO;
+            $a14 = $value1->OWNRPID;
+            $a15 = $value1->OWNNAME;
+            $a16 = $value1->AN;
+            $a17 = $value1->SEQ;
+            $a18 = $value1->SUBINSCL;
+            $a19 = $value1->RELINSCL;
+            $a20 = $value1->HTYPE;
+            // $str_ins="\n".$a1."|".$a2."|".$a3."|".$a4."|".$a5."|".$a6."|".$a7."|".$a8."|".$a9."|".$a10."|".$a11."|".$a12."|".$a13."|".$a14."|".$a15."|".$a16."|".$a17."|".$a18."|".$a19."|".$a20;
+            // $str_ins="\n".$a1."|".$a2."|".$a3."|".$a4."|".$a6."|".$a7."|".$a8."|".$a9."|".$a10."|".$a11."|".$a12."|".$a13."|".$a14."|".$a15."|".$a16."|".$a17."|".$a18."|".$a19."|".$a20;
+             $str_ins ="\n".$a1."|".$a2."|".$a3."|".$a4."|".$a5."|".$a7."|".$a8."|".$a9."|".$a10."|".$a11."|".$a12."|".$a13."|".$a14."|".$a15."|".$a16."|".$a17."|".$a18."|".$a19."|".$a20;
+            //  $str_ins="\n".$a1."|".$a2."|".$a3."|".$a4."|".$a6."|".$a7."|".$a8."|".$a9."|".$a10."|".$a11."|".$a12."|".$a13."|".$a14."|".$a15."|".$a16."|".$a17."|".$a18."|".$a19."|".$a20;
+            // $ansitxt_ins = iconv('UTF-8', 'UTF-8', $str_ins); 
+            // $ansitxt_ins = iconv('UTF-8', 'UTF-8', $str_ins); 
+            // $utf8_ins = iconv("TIS-620", "UTF-8", $ansitxt_ins );
+            // fwrite($objFopen_ins, $ansitxt_ins); 
+            $str = preg_replace("/\n/", "\r\n", $str_ins); 
+            $str1 = mb_convert_encoding($str, 'windows-1252', 'utf-8');
+            fwrite($objFopen_ins, $str1);
         }
         fclose($objFopen_ins); 
 
@@ -1203,28 +1235,51 @@ class Account401Controller extends Controller
         // $opd_head_pat = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
         $opd_head_pat = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
         fwrite($objFopen_pat, $opd_head_pat);
-        $pat = DB::connection('mysql')->select('SELECT * from d_pat where d_anaconda_id = "OFC_401"');
+        $pat = DB::connection('mysql')->select('SELECT * from fdh_pat where d_anaconda_id = "OFC_401"');
         foreach ($pat as $key => $value2) {
-            $i1 = $value2->HCODE;
-            $i2 = $value2->HN;
-            $i3 = $value2->CHANGWAT;
-            $i4 = $value2->AMPHUR;
-            $i5 = $value2->DOB;
-            $i6 = $value2->SEX;
-            $i7 = $value2->MARRIAGE;
-            $i8 = $value2->OCCUPA;
-            $i9 = $value2->NATION;
+            $i1  = $value2->HCODE;
+            $i2  = $value2->HN;
+            $i3  = $value2->CHANGWAT;
+            $i4  = $value2->AMPHUR;
+            $i5  = $value2->DOB;
+            $i6  = $value2->SEX;
+            $i7  = $value2->MARRIAGE;
+            $i8  = $value2->OCCUPA;
+            $i9  = $value2->NATION;
             $i10 = $value2->PERSON_ID;
             $i11 = $value2->NAMEPAT;
             $i12 = $value2->TITLE;
             $i13 = $value2->FNAME;
             $i14 = $value2->LNAME;
             $i15 = $value2->IDTYPE;      
-            $str_pat="\n".$i1."|".$i2."|".$i3."|".$i4."|".$i5."|".$i6."|".$i7."|".$i8."|".$i9."|".$i10."|".$i11."|".$i12."|".$i13."|".$i14."|".$i15;
+            $str_pat ="\n".$i1."|".$i2."|".$i3."|".$i4."|".$i5."|".$i6."|".$i7."|".$i8."|".$i9."|".$i10."|".$i11."|".$i12."|".$i13."|".$i14."|".$i15;
             // $ansitxt_pat = iconv('UTF-8', 'TIS-620', $str_pat);
-            $ansitxt_pat = iconv('UTF-8', 'UTF-8', $str_pat);  
-            fwrite($objFopen_pat, $ansitxt_pat);
+            // $utf8 = iconv("TIS-620", "UTF-8", $ansitxt_pat_tis620 );
+            // $ansitxt_pat = iconv('UTF-8', 'UTF-8', $str_pat);  
+            // fwrite($objFopen_pat, $ansitxt_pat_tis620);
+            // $str_620 = iconv("UTF-8", "ANSI", $str_pat); 
+            // $convertedChar = iconv('ISO-IR-166', "UTF-8", utf8_decode('¤'), $str_pat);
+            $str_pat_20 = preg_replace("/\n/", "\r\n", $str_pat); 
+            // $str_pat_21 = mb_convert_encoding($str_pat_20, 'windows-1252', 'utf-8');
+            // $str_pat_20 = preg_replace("/\n/", "\r\n", $str_pat); 
+            // $str_pat_21 = mb_convert_encoding($str_pat_20, 'windows-1251', 'UTF-8');
+            // $ansitxt_pat = iconv('UTF-8', 'TIS-620', $str_pat_21);
+            // $str_pat_22 = iconv("windows-874","UTF-8",$str_pat_20);
+
+            $len = strlen(trim($str_pat_20));
+	
+            $utf8 = mb_convert_encoding($str_pat_20, 'Windows-1252', 'UTF-8');
+            $utf8 = iconv( 'UTF-8', 'TIS-620', $utf8);
             
+            $len_utf8 = strlen(trim($utf8));
+            if(trim($utf8) != '' && trim($utf8) != '..' && $len_utf8 > ($len/2) ){
+                $text = $utf8;
+            }
+
+            // $str_pat_21 = mb_convert_encoding($str_pat_20, 'Windows-1252', 'UTF-8');
+            // $str_pat_22 = iconv( 'TIS-620', 'UTF-8', $str_pat_21);
+            
+            fwrite($objFopen_pat, $text);
         }
         fclose($objFopen_pat);
         
@@ -1233,9 +1288,10 @@ class Account401Controller extends Controller
         $file_d_opd = "Export/".$folder."/OPD.txt";
         $objFopen_opd = fopen($file_d_opd, 'w');
      
+        // $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC';
         $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT';
         fwrite($objFopen_opd, $opd_head_opd);
-        $opd = DB::connection('mysql')->select('SELECT * from d_opd where d_anaconda_id = "OFC_401"');
+        $opd = DB::connection('mysql')->select('SELECT * from fdh_opd where d_anaconda_id = "OFC_401"');
         foreach ($opd as $key => $value3) {
             $o1 = $value3->HN;
             $o2 = $value3->CLINIC;
@@ -1251,11 +1307,16 @@ class Account401Controller extends Controller
             $o12 = $value3->RR; 
             $o13 = $value3->OPTYPE; 
             $o14 = $value3->TYPEIN;  
-            $o15 = $value3->TYPEOUT; 
-            $str_opd="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6."|".$o7."|".$o8."|".$o9."|".$o10."|".$o11."|".$o12."|".$o13."|".$o14."|".$o15;
-            // $ansitxt_opd = iconv('UTF-8', 'TIS-620', $str_opd); 
-            $ansitxt_opd = iconv('UTF-8', 'UTF-8', $str_opd); 
-            fwrite($objFopen_opd, $ansitxt_opd);
+            $o15 = $value3->TYPEOUT;
+            // $str_opd="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6; 
+            $str_opd ="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6."|".$o7."|".$o8."|".$o9."|".$o10."|".$o11."|".$o12."|".$o13."|".$o14."|".$o15;
+            // $ansitxt_opd = iconv('UTF-8', 'UTF-8', $str_opd); 
+            // $ansitxt_opd = iconv('UTF-8', 'UTF-8', $str_opd); 
+            // $utf8_opd = iconv("TIS-620", "UTF-8", $ansitxt_opd );
+            // fwrite($objFopen_opd, $ansitxt_opd);
+            $str_opd_30 = preg_replace("/\n/", "\r\n", $str_opd); 
+            $str_opd_31 = mb_convert_encoding($str_opd_30, 'windows-1252', 'utf-8');
+            fwrite($objFopen_opd, $str_opd_31);
             
         }
         fclose($objFopen_opd);
@@ -1287,7 +1348,7 @@ class Account401Controller extends Controller
         $objFopen_odx = fopen($file_d_odx, 'w'); 
         $opd_head_odx = 'HN|DATEDX|CLINIC|DIAG|DXTYPE|DRDX|PERSON_ID|SEQ';
         fwrite($objFopen_odx, $opd_head_odx);
-        $odx = DB::connection('mysql')->select('SELECT * from d_odx where d_anaconda_id = "OFC_401"');
+        $odx = DB::connection('mysql')->select('SELECT HN,DATEDX,CLINIC,DIAG,DXTYPE,DRDX,PERSON_ID,SEQ from d_odx where d_anaconda_id = "OFC_401"');
         foreach ($odx as $key => $value5) {
             $m1 = $value5->HN;
             $m2 = $value5->DATEDX;
@@ -1413,7 +1474,8 @@ class Account401Controller extends Controller
         //11 cht.txt
         $file_d_cht = "Export/".$folder."/CHT.txt";
         $objFopen_cht = fopen($file_d_cht, 'w'); 
-        $opd_head_cht = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ|OPD_MEMO|INVOICE_NO|INVOICE_LT';
+        // $opd_head_cht = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ|OPD_MEMO|INVOICE_NO|INVOICE_LT';
+        $opd_head_cht = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ';
         fwrite($objFopen_cht, $opd_head_cht);
         $cht = DB::connection('mysql')->select('SELECT * from d_cht where d_anaconda_id = "OFC_401"');
         foreach ($cht as $key => $value11) {
@@ -1425,12 +1487,14 @@ class Account401Controller extends Controller
             $f6 = $value11->PTTYPE;
             $f7 = $value11->PERSON_ID; 
             $f8 = $value11->SEQ;
-            $f9 = $value11->OPD_MEMO;
-            $f10 = $value11->INVOICE_NO;
-            $f11 = $value11->INVOICE_LT;
-            $str_cht="\n".$f1."|".$f2."|".$f3."|".$f4."|".$f5."|".$f6."|".$f7."|".$f8."|".$f9."|".$f10."|".$f11;
-            // $ansitxt_cht = iconv('UTF-8', 'TIS-620', $str_cht); 
+            // $f9 = $value11->OPD_MEMO;
+            // $f10 = $value11->INVOICE_NO;
+            // $f11 = $value11->INVOICE_LT;
+            // $str_cht="\n".$f1."|".$f2."|".$f3."|".$f4."|".$f5."|".$f6."|".$f7."|".$f8."|".$f9."|".$f10."|".$f11;
+            $str_cht="\n".$f1."|".$f2."|".$f3."|".$f4."|".$f5."|".$f6."|".$f7."|".$f8;
             $ansitxt_cht = iconv('UTF-8', 'UTF-8', $str_cht); 
+            // $ansitxt_cht = iconv('UTF-8', 'UTF-8', $str_cht); 
+            // $utf8_cht = iconv("TIS-620", "UTF-8", $ansitxt_cht );
             fwrite($objFopen_cht, $ansitxt_cht); 
         }
         fclose($objFopen_cht); 
@@ -1450,8 +1514,8 @@ class Account401Controller extends Controller
             $e6 = $value12->PERSON_ID;
             $e7 = $value12->SEQ; 
             $str_cha="\n".$e1."|".$e2."|".$e3."|".$e4."|".$e5."|".$e6."|".$e7;
-            // $ansitxt_cha = iconv('UTF-8', 'TIS-620', $str_cha); 
-            $ansitxt_cha = iconv('UTF-8', 'UTF-8', $str_cha);
+            $ansitxt_cha = iconv('UTF-8', 'UTF-8', $str_cha); 
+            // $ansitxt_cha = iconv('UTF-8', 'UTF-8', $str_cha);
             fwrite($objFopen_cha, $ansitxt_cha); 
         }
         fclose($objFopen_cha); 
@@ -1642,35 +1706,35 @@ class Account401Controller extends Controller
 
 
 
-        $pathdir =  "Export/".$folder."/";
-        $zipcreated = $folder.".zip";
+        // $pathdir =  "Export/".$folder."/";
+        // $zipcreated = $folder.".zip";
 
-        $newzip = new ZipArchive;
-        if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
-        $dir = opendir($pathdir);
+        // $newzip = new ZipArchive;
+        // if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
+        // $dir = opendir($pathdir);
         
-        while($file = readdir($dir)) {
-            if(is_file($pathdir.$file)) {
-                $newzip -> addFile($pathdir.$file, $file);
-            }
-        }
-        $newzip ->close();
-                if (file_exists($zipcreated)) {
-                    header('Content-Type: application/zip');
-                    header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
-                    header('Content-Length: ' . filesize($zipcreated));
-                    flush();
-                    readfile($zipcreated); 
-                    unlink($zipcreated);   
-                    $files = glob($pathdir . '/*');   
-                    foreach($files as $file) {   
-                        if(is_file($file)) {      
-                            // unlink($file); 
-                        } 
-                    }                      
-                    return redirect()->route('claim.ofc_401');                    
-                }
-        } 
+        // while($file = readdir($dir)) {
+        //     if(is_file($pathdir.$file)) {
+        //         $newzip -> addFile($pathdir.$file, $file);
+        //     }
+        // }
+        // $newzip ->close();
+        //         if (file_exists($zipcreated)) {
+        //             header('Content-Type: application/zip');
+        //             header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
+        //             header('Content-Length: ' . filesize($zipcreated));
+        //             flush();
+        //             readfile($zipcreated); 
+        //             unlink($zipcreated);   
+        //             $files = glob($pathdir . '/*');   
+        //             foreach($files as $file) {   
+        //                 if(is_file($file)) {      
+        //                     // unlink($file); 
+        //                 } 
+        //             }                      
+        //             return redirect()->route('claim.ofc_401');                    
+        //         }
+        // } 
 
             return redirect()->route('acc.account_401_pull');
 
