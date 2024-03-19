@@ -110,7 +110,7 @@ class Fdh_Ucep24Controller extends Controller
         if ($startdate == '') {              
         } else {
                 $iduser = Auth::user()->id; 
-                D_ucep24_main::truncate();
+                // D_ucep24_main::truncate();
                 D_ucep24::truncate();
                 $data_main_ = DB::connection('mysql2')->select('   
                         SELECT i.vn,o.an,o.hn,pt.cid,i.pttype,CONCAT(pt.pname,pt.fname," ",pt.lname) ptname,o.vstdate,i.dchdate,p.hipdata_code,o.qty,o.sum_price,i1.icd10 as DIAG
@@ -273,26 +273,26 @@ class Fdh_Ucep24Controller extends Controller
     }    
     public function ucep24_main_process(Request $request)
     {  
-        Fdh_ins::where('d_anaconda_id','=','OFC_401')->delete();
-        Fdh_pat::where('d_anaconda_id','=','OFC_401')->delete();
-        Fdh_opd::where('d_anaconda_id','=','OFC_401')->delete();
-        Fdh_orf::where('d_anaconda_id','=','OFC_401')->delete();
-        Fdh_odx::where('d_anaconda_id','=','OFC_401')->delete();
-        Fdh_oop::where('d_anaconda_id','=','OFC_401')->delete();
-        Fdh_ipd::where('d_anaconda_id','=','OFC_401')->delete();
-        Fdh_irf::where('d_anaconda_id','=','OFC_401')->delete();
-        Fdh_idx::where('d_anaconda_id','=','OFC_401')->delete(); 
-        Fdh_iop::where('d_anaconda_id','=','OFC_401')->delete();
-        Fdh_cht::where('d_anaconda_id','=','OFC_401')->delete();
-        Fdh_cha::where('d_anaconda_id','=','OFC_401')->delete();
-        Fdh_aer::where('d_anaconda_id','=','OFC_401')->delete();
-        Fdh_adp::where('d_anaconda_id','=','OFC_401')->delete();
-        Fdh_dru::where('d_anaconda_id','=','OFC_401')->delete();            
-        Fdh_lvd::where('d_anaconda_id','=','OFC_401')->delete();           
+        Fdh_ins::where('d_anaconda_id','=','UCEP24')->delete();
+        Fdh_pat::where('d_anaconda_id','=','UCEP24')->delete();
+        Fdh_opd::where('d_anaconda_id','=','UCEP24')->delete();
+        Fdh_orf::where('d_anaconda_id','=','UCEP24')->delete();
+        Fdh_odx::where('d_anaconda_id','=','UCEP24')->delete();
+        Fdh_oop::where('d_anaconda_id','=','UCEP24')->delete();
+        Fdh_ipd::where('d_anaconda_id','=','UCEP24')->delete();
+        Fdh_irf::where('d_anaconda_id','=','UCEP24')->delete();
+        Fdh_idx::where('d_anaconda_id','=','UCEP24')->delete(); 
+        Fdh_iop::where('d_anaconda_id','=','UCEP24')->delete();
+        Fdh_cht::where('d_anaconda_id','=','UCEP24')->delete();
+        Fdh_cha::where('d_anaconda_id','=','UCEP24')->delete();
+        Fdh_aer::where('d_anaconda_id','=','UCEP24')->delete();
+        Fdh_adp::where('d_anaconda_id','=','UCEP24')->delete();
+        Fdh_dru::where('d_anaconda_id','=','UCEP24')->delete();            
+        Fdh_lvd::where('d_anaconda_id','=','UCEP24')->delete();           
         
         $id = $request->ids;
         $iduser = Auth::user()->id;
-        $data_vn_1 = D_ofc_401::whereIn('d_ofc_401_id',explode(",",$id))->get();
+        $data_vn_1 = D_ucep24_main::whereIn('d_ucep24_main_id',explode(",",$id))->get();
                 
          foreach ($data_vn_1 as $key => $va1) {
                 
@@ -342,7 +342,7 @@ class Fdh_Ucep24Controller extends Controller
                         'HTYPE'             => $va_01->HTYPE,
 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_401'
+                        'd_anaconda_id'     => 'UCEP24'
                     ]);
                 }
                 //D_pat OK
@@ -379,7 +379,7 @@ class Fdh_Ucep24Controller extends Controller
                         'IDTYPE'             => $va_02->IDTYPE,
 
                         'user_id'            => $iduser,
-                        'd_anaconda_id'      => 'OFC_401'
+                        'd_anaconda_id'      => 'UCEP24'
                     ]);
                 }
                 //D_opd OK
@@ -415,7 +415,7 @@ class Fdh_Ucep24Controller extends Controller
                         'TYPEIN'            => $val3->TYPEIN, 
                         'TYPEOUT'           => $val3->TYPEOUT, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_401'
+                        'd_anaconda_id'     => 'UCEP24'
                     ]);
                 }
 
@@ -443,7 +443,7 @@ class Fdh_Ucep24Controller extends Controller
                         'SEQ'               => $va_03->SEQ, 
                         'REFERDATE'         => $va_03->REFERDATE, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_401'
+                        'd_anaconda_id'     => 'UCEP24'
                     ]);
                 }
                  // D_odx OK
@@ -468,7 +468,7 @@ class Fdh_Ucep24Controller extends Controller
                         'PERSON_ID'         => $va_04->PERSON_ID, 
                         'SEQ'               => $va_04->SEQ, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_401'
+                        'd_anaconda_id'     => 'UCEP24'
                     ]);
                     
                 }
@@ -495,7 +495,7 @@ class Fdh_Ucep24Controller extends Controller
                         'SEQ'               => $va_05->SEQ, 
                         'SERVPRICE'         => $va_05->SERVPRICE, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_401'
+                        'd_anaconda_id'     => 'UCEP24'
                     ]);
                     
                 }
@@ -526,7 +526,7 @@ class Fdh_Ucep24Controller extends Controller
                         'UUC'               => $va_06->UUC, 
                         'SVCTYPE'           => $va_06->SVCTYPE, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_401'
+                        'd_anaconda_id'     => 'UCEP24'
                     ]);
                 }
                 
@@ -546,7 +546,7 @@ class Fdh_Ucep24Controller extends Controller
                         'REFER'              => $va_07->REFER,
                         'REFERTYPE'          => $va_07->REFERTYPE,
                         'user_id'            => $iduser,
-                        'd_anaconda_id'      => 'OFC_401',
+                        'd_anaconda_id'      => 'UCEP24',
                     ]);                     
                 }                 
                 //D_idx OK 
@@ -566,7 +566,7 @@ class Fdh_Ucep24Controller extends Controller
                         'DXTYPE'            => $va_08->DXTYPE,
                         'DRDX'              => $va_08->DRDX, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_401'
+                        'd_anaconda_id'     => 'UCEP24'
                     ]);
                             
                 }
@@ -592,7 +592,7 @@ class Fdh_Ucep24Controller extends Controller
                         'DATEOUT'           => $va_09->DATEOUT,
                         'TIMEOUT'           => $va_09->TIMEOUT,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_401'
+                        'd_anaconda_id'     => 'UCEP24'
                     ]);
                 }
                 //D_cht OK
@@ -622,7 +622,7 @@ class Fdh_Ucep24Controller extends Controller
                         'INVOICE_NO'        => $va_10->INVOICE_NO,
                         'INVOICE_LT'        => $va_10->INVOICE_LT,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_401'
+                        'd_anaconda_id'     => 'UCEP24'
                     ]);
                 }
                 //D_cha OK
@@ -663,7 +663,7 @@ class Fdh_Ucep24Controller extends Controller
                         'PERSON_ID'         => $va_11->PERSON_ID,
                         'SEQ'               => $va_11->SEQ, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_401'
+                        'd_anaconda_id'     => 'UCEP24'
                     ]);
                 } 
                  //D_aer OK
@@ -712,7 +712,7 @@ class Fdh_Ucep24Controller extends Controller
                         'DALERT'            => $va_12->DALERT,
                         'TALERT'            => $va_12->TALERT,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_401'
+                        'd_anaconda_id'     => 'UCEP24'
                     ]);
                 } 
                 //D_adp
@@ -777,7 +777,7 @@ class Fdh_Ucep24Controller extends Controller
                         'icode'                => $va_13->icode,
                         'vstdate'              => $va_13->vstdate,
                         'user_id'              => $iduser,
-                        'd_anaconda_id'        => 'OFC_401'
+                        'd_anaconda_id'        => 'UCEP24'
                     ]);
                 } 
                 //D_dru OK
@@ -841,16 +841,50 @@ class Fdh_Ucep24Controller extends Controller
                         'PROVIDER'       => $va_14->PROVIDER,
                         'vstdate'        => $va_14->vstdate,   
                         'user_id'        => $iduser,
-                        'd_anaconda_id'  => 'OFC_401'
+                        'd_anaconda_id'  => 'UCEP24'
                     ]);
                 } 
  
          }
-         D_ofc_401::whereIn('d_ofc_401_id',explode(",",$id))
-                ->update([
-                    'active' => 'Y'
+           
+
+        $data_ = DB::connection('mysql')->select('SELECT vn,an,hn,DATE_FORMAT(vstdate,"%Y%m%d") as vstdate,dchdate,icode,qty FROM d_ucep24'); 
+        $iduser = Auth::user()->id;
+        foreach ($data_ as $key => $val) {   
+            Fdh_dru::where('AN',$val->an)->where('DID',$val->icode)->where('d_anaconda_id',"UCEP24") 
+            ->update([
+                'SP_ITEM'     => '01',
+                'AMOUNT'      => $val->qty
+            ]);  
+            
+            $check = Fdh_adp::where('AN',$val->an)->where('CODE','UCEP24')->where('d_anaconda_id',"UCEP24")->count();
+            if ($check > 0) {                   
+            } else {
+                Fdh_adp::insert([
+                    'HN'             => $val->hn, 
+                    'AN'             => $val->an, 
+                    'DATEOPD'        => $val->vstdate,  
+                    'TYPE'           => '5', 
+                    'CODE'           => 'UCEP24', 
+                    'QTY'            => '1', 
+                    'RATE'           => '0', 
+                    'TOTCOPAY'       => '0', 
+                    'TOTAL'          => '0', 
+                    'SP_ITEM'        => '01', 
+                    'user_id'        => $iduser,
+                    'd_anaconda_id'  => 'UCEP24'
                 ]);
+            }   
+        }
+             
+        Fdh_adp::where('SP_ITEM','=','')->where('d_anaconda_id',"UCEP24")->delete();
+        Fdh_adp::where('QTY','=',['',null])->where('SP_ITEM','=','01')->where('d_anaconda_id',"UCEP24")->delete();
+        Fdh_dru::where('SP_ITEM','=',null)->where('d_anaconda_id',"UCEP24")->delete();
         Fdh_adp::where('CODE','=','XXXXXX')->delete();
+        D_ucep24_main::whereIn('d_ucep24_main_id',explode(",",$id))
+        ->update([
+            'active' => 'Y'
+        ]);
 
         return response()->json([
              'status'    => '200'
@@ -873,7 +907,7 @@ class Fdh_Ucep24Controller extends Controller
         $file = new Filesystem;
         $file->cleanDirectory('Export'); //ทั้งหมด
         // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
-        $folder='OFC_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+        $folder='UCEP24_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
 
          mkdir ('Export/'.$folder, 0777, true);  //Web
         //  mkdir ('C:Export/'.$folder, 0777, true); //localhost
@@ -891,7 +925,7 @@ class Fdh_Ucep24Controller extends Controller
         // $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
         // $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
         fwrite($objFopen_ins, $opd_head); 
-        $ins = DB::connection('mysql')->select('SELECT * from fdh_ins where d_anaconda_id = "OFC_401"');
+        $ins = DB::connection('mysql')->select('SELECT * from fdh_ins where d_anaconda_id = "UCEP24"');
         foreach ($ins as $key => $value1) {
             $a1  = $value1->HN;
             $a2  = $value1->INSCL;
@@ -929,7 +963,7 @@ class Fdh_Ucep24Controller extends Controller
         // $opd_head_pat = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
         $opd_head_pat = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
         fwrite($objFopen_pat, $opd_head_pat);
-        $pat = DB::connection('mysql')->select('SELECT * from fdh_pat where d_anaconda_id = "OFC_401"');
+        $pat = DB::connection('mysql')->select('SELECT * from fdh_pat where d_anaconda_id = "UCEP24"');
         foreach ($pat as $key => $value2) {
             $i1  = $value2->HCODE;
             $i2  = $value2->HN;
@@ -961,7 +995,7 @@ class Fdh_Ucep24Controller extends Controller
         // $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC';
         $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT';
         fwrite($objFopen_opd, $opd_head_opd);
-        $opd = DB::connection('mysql')->select('SELECT * from fdh_opd where d_anaconda_id = "OFC_401"');
+        $opd = DB::connection('mysql')->select('SELECT * from fdh_opd where d_anaconda_id = "UCEP24"');
         foreach ($opd as $key => $value3) {
             $o1 = $value3->HN;
             $o2 = $value3->CLINIC;
@@ -992,7 +1026,7 @@ class Fdh_Ucep24Controller extends Controller
         $objFopen_orf = fopen($file_d_orf, 'w'); 
         $opd_head_orf = 'HN|DATEOPD|CLINIC|REFER|REFERTYPE|SEQ|REFERDATE';
         fwrite($objFopen_orf, $opd_head_orf);
-        $orf = DB::connection('mysql')->select('SELECT * from fdh_orf where d_anaconda_id = "OFC_401"');
+        $orf = DB::connection('mysql')->select('SELECT * from fdh_orf where d_anaconda_id = "UCEP24"');
         foreach ($orf as $key => $value4) {
             $p1 = $value4->HN;
             $p2 = $value4->DATEOPD;
@@ -1013,7 +1047,7 @@ class Fdh_Ucep24Controller extends Controller
         $objFopen_odx = fopen($file_d_odx, 'w'); 
         $opd_head_odx = 'HN|DATEDX|CLINIC|DIAG|DXTYPE|DRDX|PERSON_ID|SEQ';
         fwrite($objFopen_odx, $opd_head_odx);
-        $odx = DB::connection('mysql')->select('SELECT * from fdh_odx where d_anaconda_id = "OFC_401"');
+        $odx = DB::connection('mysql')->select('SELECT * from fdh_odx where d_anaconda_id = "UCEP24"');
         foreach ($odx as $key => $value5) {
             $m1 = $value5->HN;
             $m2 = $value5->DATEDX;
@@ -1035,7 +1069,7 @@ class Fdh_Ucep24Controller extends Controller
         $objFopen_oop = fopen($file_d_oop, 'w'); 
         $opd_head_oop = 'HN|DATEOPD|CLINIC|OPER|DROPID|PERSON_ID|SEQ|SERVPRICE';
         fwrite($objFopen_oop, $opd_head_oop);
-        $oop = DB::connection('mysql')->select('SELECT * from fdh_oop where d_anaconda_id = "OFC_401"');
+        $oop = DB::connection('mysql')->select('SELECT * from fdh_oop where d_anaconda_id = "UCEP24"');
         foreach ($oop as $key => $value6) {
             $n1 = $value6->HN;
             $n2 = $value6->DATEOPD;
@@ -1058,7 +1092,7 @@ class Fdh_Ucep24Controller extends Controller
         $objFopen_ipd = fopen($file_d_ipd, 'w'); 
         $opd_head_ipd = 'HN|AN|DATEADM|TIMEADM|DATEDSC|TIMEDSC|DISCHS|DISCHT|WARDDSC|DEPT|ADM_W|UUC|SVCTYPE';
         fwrite($objFopen_ipd, $opd_head_ipd);
-        $ipd = DB::connection('mysql')->select('SELECT * from fdh_ipd where d_anaconda_id = "OFC_401"');
+        $ipd = DB::connection('mysql')->select('SELECT * from fdh_ipd where d_anaconda_id = "UCEP24"');
         foreach ($ipd as $key => $value7) {
             $j1 = $value7->HN;
             $j2 = $value7->AN;
@@ -1085,7 +1119,7 @@ class Fdh_Ucep24Controller extends Controller
         $objFopen_irf = fopen($file_d_irf, 'w'); 
         $opd_head_irf = 'AN|REFER|REFERTYPE';
         fwrite($objFopen_irf, $opd_head_irf);
-        $irf = DB::connection('mysql')->select('SELECT * from fdh_irf where d_anaconda_id = "OFC_401"');
+        $irf = DB::connection('mysql')->select('SELECT * from fdh_irf where d_anaconda_id = "UCEP24"');
         foreach ($irf as $key => $value8) {
             $k1 = $value8->AN;
             $k2 = $value8->REFER;
@@ -1102,7 +1136,7 @@ class Fdh_Ucep24Controller extends Controller
         $objFopen_idx = fopen($file_d_idx, 'w'); 
         $opd_head_idx = 'AN|DIAG|DXTYPE|DRDX';
         fwrite($objFopen_idx, $opd_head_idx);
-        $idx = DB::connection('mysql')->select('SELECT * from fdh_idx where d_anaconda_id = "OFC_401"');
+        $idx = DB::connection('mysql')->select('SELECT * from fdh_idx where d_anaconda_id = "UCEP24"');
         foreach ($idx as $key => $value9) {
             $h1 = $value9->AN;
             $h2 = $value9->DIAG;
@@ -1120,7 +1154,7 @@ class Fdh_Ucep24Controller extends Controller
         $objFopen_iop = fopen($file_d_iop, 'w'); 
         $opd_head_iop = 'AN|OPER|OPTYPE|DROPID|DATEIN|TIMEIN|DATEOUT|TIMEOUT';
         fwrite($objFopen_iop, $opd_head_iop);
-        $iop = DB::connection('mysql')->select('SELECT * from fdh_iop where d_anaconda_id = "OFC_401"');
+        $iop = DB::connection('mysql')->select('SELECT * from fdh_iop where d_anaconda_id = "UCEP24"');
         foreach ($iop as $key => $value10) {
             $b1 = $value10->AN;
             $b2 = $value10->OPER;
@@ -1143,7 +1177,7 @@ class Fdh_Ucep24Controller extends Controller
         $opd_head_cht = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ|OPD_MEMO|INVOICE_NO|INVOICE_LT';
         // $opd_head_cht = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ';
         fwrite($objFopen_cht, $opd_head_cht);
-        $cht = DB::connection('mysql')->select('SELECT * from fdh_cht where d_anaconda_id = "OFC_401"');
+        $cht = DB::connection('mysql')->select('SELECT * from fdh_cht where d_anaconda_id = "UCEP24"');
         foreach ($cht as $key => $value11) {
             $f1 = $value11->HN;
             $f2 = $value11->AN;
@@ -1169,7 +1203,7 @@ class Fdh_Ucep24Controller extends Controller
         $objFopen_cha = fopen($file_d_cha, 'w'); 
         $opd_head_cha = 'HN|AN|DATE|CHRGITEM|AMOUNT|PERSON_ID|SEQ';
         fwrite($objFopen_cha, $opd_head_cha);
-        $cha = DB::connection('mysql')->select('SELECT * from fdh_cha where d_anaconda_id = "OFC_401"');
+        $cha = DB::connection('mysql')->select('SELECT * from fdh_cha where d_anaconda_id = "UCEP24"');
         foreach ($cha as $key => $value12) {
             $e1 = $value12->HN;
             $e2 = $value12->AN;
@@ -1190,7 +1224,7 @@ class Fdh_Ucep24Controller extends Controller
          $objFopen_aer = fopen($file_d_aer, 'w'); 
          $opd_head_aer = 'HN|AN|DATEOPD|AUTHAE|AEDATE|AETIME|AETYPE|REFER_NO|REFMAINI|IREFTYPE|REFMAINO|OREFTYPE|UCAE|EMTYPE|SEQ|AESTATUS|DALERT|TALERT';
          fwrite($objFopen_aer, $opd_head_aer);
-         $aer = DB::connection('mysql')->select('SELECT * from fdh_aer where d_anaconda_id = "OFC_401"');
+         $aer = DB::connection('mysql')->select('SELECT * from fdh_aer where d_anaconda_id = "UCEP24"');
          foreach ($aer as $key => $value13) {
              $d1 = $value13->HN;
              $d2 = $value13->AN;
@@ -1227,7 +1261,7 @@ class Fdh_Ucep24Controller extends Controller
         $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE';
         
         fwrite($objFopen_adp, $opd_head_adp);
-        $adp = DB::connection('mysql')->select('SELECT * from fdh_adp where d_anaconda_id = "OFC_401"');
+        $adp = DB::connection('mysql')->select('SELECT * from fdh_adp where d_anaconda_id = "UCEP24"');
         foreach ($adp as $key => $value14) {
             $c1  = $value14->HN;
             $c2  = $value14->AN;
@@ -1271,7 +1305,7 @@ class Fdh_Ucep24Controller extends Controller
          $objFopen_lvd = fopen($file_d_lvd, 'w'); 
          $opd_head_lvd = 'SEQLVD|AN|DATEOUT|TIMEOUT|DATEIN|TIMEIN|QTYDAY';
          fwrite($objFopen_lvd, $opd_head_lvd);
-         $lvd = DB::connection('mysql')->select('SELECT * from fdh_lvd where d_anaconda_id = "OFC_401"');
+         $lvd = DB::connection('mysql')->select('SELECT * from fdh_lvd where d_anaconda_id = "UCEP24"');
          foreach ($lvd as $key => $value15) {
              $L1 = $value15->SEQLVD;
              $L2 = $value15->AN;
@@ -1296,7 +1330,7 @@ class Fdh_Ucep24Controller extends Controller
         $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRICE|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
         fwrite($objFopen_dru, $opd_head_dru);
         // fwrite($objFopen_dru_utf, $opd_head_dru);
-        $dru = DB::connection('mysql')->select('SELECT * from fdh_dru where d_anaconda_id = "OFC_401"');
+        $dru = DB::connection('mysql')->select('SELECT * from fdh_dru where d_anaconda_id = "UCEP24"');
         foreach ($dru as $key => $value16) {
             $g1 = $value16->HCODE;
             $g2 = $value16->HN;
@@ -1341,37 +1375,37 @@ class Fdh_Ucep24Controller extends Controller
 
 
 
-        // $pathdir =  "Export/".$folder."/";
-        // $zipcreated = $folder.".zip";
+        $pathdir =  "Export/".$folder."/";
+        $zipcreated = $folder.".zip";
 
-        // $newzip = new ZipArchive;
-        // if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
-        // $dir = opendir($pathdir);
+        $newzip = new ZipArchive;
+        if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
+        $dir = opendir($pathdir);
         
-        // while($file = readdir($dir)) {
-        //     if(is_file($pathdir.$file)) {
-        //         $newzip -> addFile($pathdir.$file, $file);
-        //     }
-        // }
-        // $newzip ->close();
-        //         if (file_exists($zipcreated)) {
-        //             header('Content-Type: application/zip');
-        //             header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
-        //             header('Content-Length: ' . filesize($zipcreated));
-        //             flush();
-        //             readfile($zipcreated); 
-        //             unlink($zipcreated);   
-        //             $files = glob($pathdir . '/*');   
-        //             foreach($files as $file) {   
-        //                 if(is_file($file)) {      
-        //                     // unlink($file); 
-        //                 } 
-        //             }                      
-        //             return redirect()->route('claim.ofc_main');                    
-        //         }
-        // } 
+        while($file = readdir($dir)) {
+            if(is_file($pathdir.$file)) {
+                $newzip -> addFile($pathdir.$file, $file);
+            }
+        }
+        $newzip ->close();
+                if (file_exists($zipcreated)) {
+                    header('Content-Type: application/zip');
+                    header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
+                    header('Content-Length: ' . filesize($zipcreated));
+                    flush();
+                    readfile($zipcreated); 
+                    unlink($zipcreated);   
+                    $files = glob($pathdir . '/*');   
+                    foreach($files as $file) {   
+                        if(is_file($file)) {      
+                            // unlink($file); 
+                        } 
+                    }                      
+                    return redirect()->route('claim.ucep24_main');                    
+                }
+        } 
 
-            return redirect()->route('claim.ofc_main');
+            return redirect()->route('claim.ucep24_main');
 
     }
      
