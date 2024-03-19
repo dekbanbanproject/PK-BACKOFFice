@@ -455,6 +455,7 @@ class Fdh_Ucep24Controller extends Controller
                         LEFT OUTER JOIN doctor d on d.`code` = o.doctor
                     
                         WHERE v.vn IN("'.$va1->vn.'") 
+                        GROUP BY v.vn,o.diagtype
                 ');
                 // INNER JOIN icd101 i on i.code = o.icd10
                 foreach ($data_odx_ as $va_04) { 
