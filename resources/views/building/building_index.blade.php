@@ -1,6 +1,6 @@
 @extends('layouts.article')
 
-@section('title', 'PK-BACKOFFice || ข้อมูลอาคาร')
+@section('title', 'PK-HOS || ข้อมูลอาคาร')
 
 <?php
 use App\Http\Controllers\StaticController;

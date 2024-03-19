@@ -165,7 +165,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgba(151, 76, 126, 0.781)" class="mt-4">PK-BACKOFFice</h4>
+                                <h4 style="color:rgba(151, 76, 126, 0.781)" class="mt-4">PK-HOS</h4>
                             </span>
                         </a>
                     </div>

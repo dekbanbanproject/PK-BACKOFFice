@@ -1,5 +1,5 @@
 @extends('layouts.anc')
-@section('title', 'PK-BACKOFFice || ANC')
+@section('title', 'PK-HOS || ANC')
  
 @section('content')
     <script>

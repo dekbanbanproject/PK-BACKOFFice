@@ -1,5 +1,5 @@
 @extends('layouts.userdashboard')
-@section('title', 'PK-BACKOFFICE || ช้อมูลการจองห้องประชุม')
+@section('title', 'PK-HOS || ช้อมูลการจองห้องประชุม')
 @section('content')
 <style>
     #button{

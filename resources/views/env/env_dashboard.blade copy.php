@@ -1,5 +1,5 @@
 @extends('layouts.envnew')
-@section('title', 'PK-BACKOFFice || ENV')
+@section('title', 'PK-HOS || ENV')
 
      
 

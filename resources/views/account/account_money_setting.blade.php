@@ -1,5 +1,5 @@
 @extends('layouts.account')
-@section('title', 'PK-BACKOFFice || Account')
+@section('title', 'PK-HOS || Account')
 @section('content')
     <script>
         function account_money_destroy(account_listpercen_id) {

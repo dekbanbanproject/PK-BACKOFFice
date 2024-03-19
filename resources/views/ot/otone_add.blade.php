@@ -1,5 +1,5 @@
 @extends('layouts.otsystem')
-@section('title', 'PK-BACKOFFice || OT Report')
+@section('title', 'PK-HOS || OT Report')
 @section('content')
 <script>
     function TypeAdmin() {

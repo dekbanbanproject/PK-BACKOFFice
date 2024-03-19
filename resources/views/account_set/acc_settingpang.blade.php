@@ -1,5 +1,5 @@
 @extends('layouts.accountpk')
-@section('title', 'PK-BACKOFFice || ACCOUNT-SET')
+@section('title', 'PK-HOS || ACCOUNT-SET')
 
 @section('content')
 

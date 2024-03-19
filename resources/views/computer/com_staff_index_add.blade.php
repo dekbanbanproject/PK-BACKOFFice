@@ -1,5 +1,5 @@
 @extends('layouts.com')
-@section('title', 'PK-BACKOFFice || แจ้งซ่อมคอมพิวเตอร์')
+@section('title', 'PK-HOS || แจ้งซ่อมคอมพิวเตอร์')
 @section('content')
     <script>
         function TypeAdmin() {

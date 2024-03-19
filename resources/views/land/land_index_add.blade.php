@@ -1,5 +1,5 @@
 @extends('layouts.article')
-@section('title', 'PK-BACKOFFice || ข้อมูลที่ดิน')
+@section('title', 'PK-HOS || ข้อมูลที่ดิน')
 
 <style>
     .btn {

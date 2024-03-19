@@ -1,5 +1,5 @@
 @extends('layouts.surgery')
-@section('title', 'PK-BACKOFFice || ศัลยกรรม')
+@section('title', 'PK-HOS || ศัลยกรรม')
 @section('content')
   
 <div class="tabs-animation">

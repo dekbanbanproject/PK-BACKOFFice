@@ -1,5 +1,5 @@
 @extends('layouts.dentalnews')
-@section('title', 'PK-BACKOFFice || ทันตกรรม')
+@section('title', 'PK-HOS || ทันตกรรม')
 @section('content')
     <script>
         function TypeAdmin() {

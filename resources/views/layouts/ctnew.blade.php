@@ -113,7 +113,7 @@ background-repeat: no-repeat;
                                     </span>
                                     <span class="logo-lg">
                                         {{-- <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-dark" height="20"> --}}
-                                        <h4 style="color:rgba(23, 189, 147, 0.74)" class="mt-4">PK-BACKOFFice</h4>
+                                        <h4 style="color:rgba(23, 189, 147, 0.74)" class="mt-4">PK-HOS</h4>
                                     </span>
                                 </a>
         
@@ -123,7 +123,7 @@ background-repeat: no-repeat;
                                             height="40">
                                     </span>
                                     <span class="logo-lg">
-                                        <h4 style="color:rgba(23, 189, 147, 0.74)" class="mt-4">PK-BACKOFFice</h4>
+                                        <h4 style="color:rgba(23, 189, 147, 0.74)" class="mt-4">PK-HOS</h4>
                                     </span>
                                 </a>
                             </div>

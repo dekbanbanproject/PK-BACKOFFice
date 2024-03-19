@@ -1,5 +1,5 @@
 @extends('layouts.envnew')
-@section('title', 'PK-BACKOFFice || ตั้งค่าบริษัท')
+@section('title', 'PK-HOS || ตั้งค่าบริษัท')
 <script>
     function TypeAdmin() {
         window.location.href = '{{ route('index') }}';

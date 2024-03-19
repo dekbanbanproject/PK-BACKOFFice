@@ -156,7 +156,7 @@
             <div class="navbar-header shadow-lg" style="background-color: rgb(164, 7, 179)">
                 {{-- <div class="d-flex"> 
                     <div class="navbar-brand-box">
-                        <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-BACKOFFice</h4>
+                        <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-HOS</h4>
                     </div>
                     <button type="button" class="btn btn-sm px-3 font-size-24 d-lg-none header-item"
                         data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
@@ -195,7 +195,7 @@
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-BACKOFFice</h4> 
+                                <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-HOS</h4> 
                             </span>
                         </a>
                     </div>

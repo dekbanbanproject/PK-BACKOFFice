@@ -1,5 +1,5 @@
 @extends('layouts.medical')
-@section('title', 'PK-BACKOFFice || เครื่องมือแพทย์')
+@section('title', 'PK-HOS || เครื่องมือแพทย์')
 @section('content')
     <script>
         function TypeAdmin() {

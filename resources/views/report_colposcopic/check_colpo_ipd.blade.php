@@ -1,5 +1,5 @@
 @extends('layouts.report_font')
-@section('title', 'PK-BACKOFFice || Colposcopic')
+@section('title', 'PK-HOS || Colposcopic')
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@200&family=Srisakdi:wght@400;700&display=swap" rel="stylesheet">

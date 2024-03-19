@@ -1,5 +1,5 @@
 @extends('layouts.accpk') 
-@section('title','PK-BACKOFFice || คลังวัสดุ')
+@section('title','PK-HOS || คลังวัสดุ')
 <script>
     function TypeAdmin() {
         window.location.href = '{{ route('index') }}';

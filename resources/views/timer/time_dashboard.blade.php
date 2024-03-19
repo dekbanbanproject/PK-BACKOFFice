@@ -1,5 +1,5 @@
 @extends('layouts.timesystem')
-@section('title', 'PK-BACKOFFice || DASHBOARD')
+@section('title', 'PK-HOS || DASHBOARD')
 
 
 @section('content')

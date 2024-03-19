@@ -1,6 +1,6 @@
 @extends('layouts.admindashboard')
 
-@section('title', 'PK-BACKOFFice || Profile')
+@section('title', 'PK-HOS || Profile')
 
 
 @section('content')

@@ -98,7 +98,7 @@
                 <div class="d-flex">
                     <!-- LOGO -->
                     <div class="navbar-brand-box">
-                        <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-BACKOFFice</h4>
+                        <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-HOS</h4>
                     </div>
                     <button type="button" class="btn btn-sm px-3 font-size-24 d-lg-none header-item"
                         data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">

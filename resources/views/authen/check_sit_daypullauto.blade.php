@@ -1,5 +1,5 @@
 @extends('layouts.report_font')
-@section('title', 'PK-BACKOFFice || checksit')
+@section('title', 'PK-HOS || checksit')
 @section('content')
 
     <div class="tabs-animation">

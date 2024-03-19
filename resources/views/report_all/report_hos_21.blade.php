@@ -1,5 +1,5 @@
 @extends('layouts.reportall')
-@section('title', 'PK-BACKOFFice || Report-จำนวนผู้ป่วย ESRD+EGFRน้อยกว่า6 HD CAPD')
+@section('title', 'PK-HOS || Report-จำนวนผู้ป่วย ESRD+EGFRน้อยกว่า6 HD CAPD')
 
 @section('content')
     <script>

@@ -1,6 +1,6 @@
 @extends('layouts.person')
 
-@section('title', 'PK-BACKOFFice || บุคลากร')
+@section('title', 'PK-HOS || บุคลากร')
 
 
 @section('content')

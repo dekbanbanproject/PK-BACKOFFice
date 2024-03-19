@@ -1,5 +1,5 @@
 @extends('layouts.userdashboard')
-@section('title', 'PK-BACKOFFice || Time-Index')
+@section('title', 'PK-HOS || Time-Index')
 @section('content')
 <style>
     #button{

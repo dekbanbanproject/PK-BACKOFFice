@@ -1,5 +1,5 @@
 @extends('layouts.articleslide')
-@section('title', 'PK-BACKOFFice || ข้อมูลครุภัณฑ์')
+@section('title', 'PK-HOS || ข้อมูลครุภัณฑ์')
 
 <style>
     #button {

@@ -166,7 +166,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                             </span>
                             <span class="logo-lg">
                                 {{-- <img src="{{ asset('assets/images/logo-dark.png') }}" alt="logo-dark" height="20"> --}}
-                                <h4 style="color:pink" class="mt-4">PK-BACKOFFice</h4>
+                                <h4 style="color:pink" class="mt-4">PK-HOS</h4>
                             </span>
                         </a>
 
@@ -176,7 +176,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:pink" class="mt-4">PK-BACKOFFice</h4>
+                                <h4 style="color:pink" class="mt-4">PK-HOS</h4>
                             </span>
                         </a>
                     </div>

@@ -189,7 +189,7 @@
                                     height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgba(250, 178, 234, 0.781)" class="mt-4">PK-BACKOFFice</h4>
+                                <h4 style="color:rgba(250, 178, 234, 0.781)" class="mt-4">PK-HOS</h4>
                             </span>
                         </a>
                     </div>

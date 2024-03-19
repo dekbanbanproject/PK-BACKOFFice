@@ -1,5 +1,5 @@
 @extends('layouts.reportall')
-@section('title', 'PK-BACKOFFice || Report-จำนวนการเกิด Hypovolemic Shock จาก PPH')
+@section('title', 'PK-HOS || Report-จำนวนการเกิด Hypovolemic Shock จาก PPH')
 
 @section('content')
     <script>

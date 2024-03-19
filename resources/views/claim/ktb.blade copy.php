@@ -1,5 +1,5 @@
 @extends('layouts.pkclaim')
-@section('title', 'PK-BACKOFFice || KTB')
+@section('title', 'PK-HOS || KTB')
 
 @section('content')
     <script>

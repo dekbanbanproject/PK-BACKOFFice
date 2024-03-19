@@ -1,5 +1,5 @@
 @extends('layouts.report_font')
-@section('title', 'PK-BACKOFFice || งานจิตเวชและยาเสพติด')
+@section('title', 'PK-HOS || งานจิตเวชและยาเสพติด')
 @section('content')
     {{-- <script>
         function TypeAdmin() {

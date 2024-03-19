@@ -1,5 +1,5 @@
 @extends('layouts.plannew')
-@section('title', 'PK-BACKOFFice || Plan')
+@section('title', 'PK-HOS || Plan')
 @section('content')
 <?php
     if (Auth::check()) {

@@ -1,5 +1,5 @@
 @extends('layouts.auto')
-@section('title', 'PK-BACKOFFice || authen')
+@section('title', 'PK-HOS || authen')
 
 @section('content')
     <style>

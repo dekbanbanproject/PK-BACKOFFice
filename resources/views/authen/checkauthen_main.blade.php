@@ -1,5 +1,5 @@
 @extends('layouts.authen')
-@section('title', 'PK-BACKOFFice || Authen')
+@section('title', 'PK-HOS || Authen')
 @section('content')
   
 <div class="tabs-animation">

@@ -1,5 +1,5 @@
 @extends('layouts.upstm')
-@section('title', 'PK-BACKOFFice || Stm')
+@section('title', 'PK-HOS || Stm')
  
 @section('content')
 

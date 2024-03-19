@@ -115,7 +115,7 @@
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h5 style="color:rgb(54, 53, 53)" class="mt-4">PK-BACKOFFice</h5> 
+                                <h5 style="color:rgb(54, 53, 53)" class="mt-4">PK-HOS</h5> 
                             </span>
                         </a>
                     </div>

@@ -1,5 +1,5 @@
 @extends('layouts.meetting')
-@section('title', 'PK-BACKOFFice || ห้องประชุม')
+@section('title', 'PK-HOS || ห้องประชุม')
 
  
     <?php

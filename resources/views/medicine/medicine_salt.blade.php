@@ -1,5 +1,5 @@
 @extends('layouts.medicine')
-@section('title', 'PK-BACKOFFice || แพทย์แผนไทย')
+@section('title', 'PK-HOS || แพทย์แผนไทย')
 
      <?php
      use App\Http\Controllers\StaticController;

@@ -1,6 +1,6 @@
 {{-- @extends('layouts.pkclaim_refer') --}}
 @extends('layouts.pkclaim')
-@section('title','PK-BACKOFFice || OPIP')
+@section('title','PK-HOS || OPIP')
 @section('content')
 <script>
     function TypeAdmin() {

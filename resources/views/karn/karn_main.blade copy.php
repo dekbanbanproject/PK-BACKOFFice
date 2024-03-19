@@ -1,6 +1,6 @@
 {{-- @extends('layouts.pkclaim_refer') --}}
 @extends('layouts.pkclaim')
-@section('title','PK-BACKOFFice || Karn Report')
+@section('title','PK-HOS || Karn Report')
 @section('content')
     <style>
         .table th {

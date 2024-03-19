@@ -1,5 +1,5 @@
 @extends('layouts.checksit')
-@section('title', 'PK-BACKOFFice || checksit')
+@section('title', 'PK-HOS || checksit')
 @section('content')
 <style>
          #button{

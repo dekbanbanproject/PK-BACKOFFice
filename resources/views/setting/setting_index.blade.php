@@ -1,5 +1,5 @@
 @extends('layouts.admin_setting')
-@section('title', 'PK-BACKOFFice || กลุ่มงาน')
+@section('title', 'PK-HOS || กลุ่มงาน')
 @section('content')
 <script>
   function TypeAdmin() {

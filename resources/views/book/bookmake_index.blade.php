@@ -1,5 +1,5 @@
 @extends('layouts.book')
-@section('title', 'PK-BACKOFFice || งานสารบรรณ')
+@section('title', 'PK-HOS || งานสารบรรณ')
 
 @section('content')
     <script>
