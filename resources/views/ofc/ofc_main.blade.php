@@ -1,4 +1,4 @@
-@extends('layouts.pkclaim')
+@extends('layouts.fdh')
 @section('title', 'PK-BACKOFFice || OFC')
 @section('content')
 <script>
@@ -48,7 +48,7 @@ $pos = strrpos($url, '/') + 1;
         width: 250px;
         height: 250px;
         border: 10px #ddd solid;
-        border-top: 10px #1fdab1 solid;
+        border-top: 10px #0dc79f solid;
         border-radius: 50%;
         animation: sp-anime 0.8s infinite linear;
     }
@@ -74,6 +74,7 @@ $pos = strrpos($url, '/') + 1;
 </style>
 
 <div class="tabs-animation">
+
     <div class="row text-center">
         <div id="overlay">
             <div class="cv-spinner">
@@ -87,52 +88,45 @@ $pos = strrpos($url, '/') + 1;
             </div>
         </div>
     </div>
-    <form action="{{ url('ofc_401') }}" method="POST">
+    <form action="{{ url('ofc_main') }}" method="POST">
         @csrf
-    <div class="row">      
-        <div class="col-md-3">
-            <h4 class="card-title" style="color:rgb(252, 161, 119)">Detail OFC OPD</h4>
-            <p class="card-title-desc">รายละเอียดข้อมูล OFC OPD ข้าราชการ</p>
-        </div> 
-        <div class="col"></div>
-        <div class="col-md-1 text-end mt-2">วันที่</div>
-        <div class="col-md-7 text-end">
-            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                <input type="text" class="form-control cardclaim" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                    data-date-language="th-th" value="{{ $startdate }}" required/>
-                <input type="text" class="form-control cardclaim" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                    data-date-language="th-th" value="{{ $enddate }}"/>          
-                <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                    <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
-                    ค้นหา
-                </button>  
+    <div class="row"> 
+            <div class="col-md-3">
+                <h4 class="card-title" style="color:rgba(21, 177, 164, 0.871)">Detail OFC List</h4>
+                <p class="card-title-desc">รายละเอียดข้อมูล OFC ข้าราชการ</p>
+            </div>
+            <div class="col"></div>
+            <div class="col-md-1 text-end mt-2">วันที่</div>
+            <div class="col-md-6 text-end">
+                <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                    <input type="text" class="form-control card_fdh_4" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                        data-date-language="th-th" value="{{ $startdate }}" required/>
+                    <input type="text" class="form-control card_fdh_4" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                        data-date-language="th-th" value="{{ $enddate }}"/>  
+        
+                    <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                        <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
+                        ค้นหา
+                    </button>  
 
-            </form>
-
-                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success cardacc ProcessChoi" data-url="{{url('ofc_401_process')}}">
-                    <i class="fa-solid fa-spinner text-success me-2"></i>
-                    ประมวลผล
-                </button>                  
-                <a href="{{url('ofc_401_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
-                    <i class="fa-solid fa-file-export text-danger me-2"></i>
-                    Export Txt
-                </a>                   
-                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger" id="ExportdataAPI">
-                    <i class="fa-solid fa-upload text-danger me-2"></i>
-                    Export Api
-                </button>
-                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="SenddataAPI">
-                    <i class="fa-solid fa-upload text-primary me-2"></i>
-                    ส่ง New Eclaim
-                </button>
-
-            </div> 
-        </div>          
+                    </form>
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('ofc_main_process')}}">
+                        <i class="fa-solid fa-spinner text-success me-2"></i>
+                        ส่งเคลม
+                    </button>
+                   
+                    <a href="{{url('ofc_main_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4">
+                        <i class="fa-solid fa-file-export text-danger me-2"></i>
+                        Export Txt
+                    </a> 
+                </div> 
+            </div>          
     </div>
  
     <div class="row">
         <div class="col-xl-12">
-            <div class="card cardclaim"> 
+            <div class="card card_fdh_4">
+       
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
@@ -141,7 +135,7 @@ $pos = strrpos($url, '/') + 1;
                                 <li class="nav-item">
                                     <a class="nav-link active" data-bs-toggle="tab" href="#Main" role="tab">
                                         <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                        <span class="d-none d-sm-block">Detail OFC</span>    
+                                        <span class="d-none d-sm-block">OFC ข้าราชการ</span>    
                                     </a>
                                 </li>   
                                 <li class="nav-item">
@@ -239,19 +233,18 @@ $pos = strrpos($url, '/') + 1;
                                         <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
                                         <span class="d-none d-sm-block">DRU</span>    
                                     </a>
-                                </li>                                
+                                </li>
+                                
                             </ul>
                             <!-- Tab panes -->
                             <div class="tab-content p-3 text-muted">
-
                                 <div class="tab-pane active" id="Main" role="tabpanel">
                                     <p class="mb-0">
-                                        {{-- id="example"  --}}
-                                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                             <thead>
                                                 <tr style="font-size: 13px">
-                                                    <th class="text-center">ลำดับ</th>
-                                                    <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox" name="stampchoi" id="stampchoi"> </th> 
+                                                    <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox" name="stamp" id="stamp"> </th> 
+                                                    <th class="text-center">ลำดับ</th> 
                                                     <th class="text-center">
                                                         <span class="bg-success badge me-2">{{ $count_no }}</span> 
                                                         Approve Code
@@ -269,35 +262,35 @@ $pos = strrpos($url, '/') + 1;
                                             </thead>
                                             <tbody>
                                                 <?php $number = 0; ?>
-                                                @foreach ($d_ofc_401 as $item1)
+                                                @foreach ($d_ofc_401 as $item)
                                                 <?php $number++; ?>
                     
-                                                <tr id="tr_{{$item1->d_ofc_401_id}}">
-                                                    <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td>
-                                                    {{-- @if ($item1->price_ofc == '')
-                                                        <td class="text-center" width="5%">
-                                                            <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
-                                                        </td> 
-                                                    @else --}}
-                                                        <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox choisub_chk" data-id="{{$item1->d_ofc_401_id}}"> </td> 
-                                                    {{-- @endif --}}
-                                                    <td class="text-center" width="15%">
-                                                        @if ($item1->Apphos != NULL)
-                                                            <span class="bg-success badge me-2">{{ $item1->Apphos }}</span> 
+                                                    <tr height="20" style="font-size: 12px;">
+                                                        @if ($item->icd10 == '')
+                                                            <td class="text-center" width="5%">
+                                                                <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
+                                                            </td> 
                                                         @else
-                                                            <span class="bg-danger badge me-2">{{ $item1->Apphos }}</span> 
+                                                            <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox sub_chk" data-id="{{$item->d_ofc_401_id}}"> </td> 
                                                         @endif
-                                                        
-                                                    </td> 
-                                                    <td class="text-center" width="7%">  {{ $item1->cid }}  </td>
-                                                    <td class="text-center" width="8%">{{ $item1->hn }}</td>
-                                                    <td class="text-start">{{ $item1->ptname }}</td>  
-                                                    <td class="text-center" width="5%">{{ $item1->pttype }}</td> 
-                                                    <td class="text-center" width="7%">{{ $item1->vstdate }}</td> 
-                                                    <td class="text-center" width="5%">{{ $item1->icd10 }}</td>
-                                                    <td class="text-center" width="5%">{{ $item1->pdx }}</td>                                                    
-                                                    <td class="text-end" width="7%" style="font-size: 15px;color:blue">{{ number_format($item1->price_ofc, 2) }}</td> 
-                                                </tr>
+                                                        <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td>
+                                                        <td class="text-center" width="15%">
+                                                            @if ($item->Apphos != NULL)
+                                                                <span class="bg-success badge me-2">{{ $item->Apphos }}</span> 
+                                                            @else
+                                                                <span class="bg-danger badge me-2">{{ $item->Apphos }}</span> 
+                                                            @endif
+                                                            
+                                                        </td> 
+                                                        <td class="text-center" width="7%">  {{ $item->cid }}  </td>
+                                                        <td class="text-center" width="8%">{{ $item->hn }}</td>
+                                                        <td class="text-start">{{ $item->ptname }}</td>  
+                                                        <td class="text-center" width="5%">{{ $item->pttype }}</td> 
+                                                        <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
+                                                        <td class="text-center" width="5%">{{ $item->icd10 }}</td>
+                                                        <td class="text-center" width="5%">{{ $item->pdx }}</td>                                                    
+                                                        <td class="text-end" width="7%" style="font-size: 15px;color:blue">{{ number_format($item->price_ofc, 2) }}</td> 
+                                                    </tr>
                     
                     
                     
@@ -771,7 +764,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <th class="text-center">INSCL</th>
                                                     <th class="text-center">SUBTYPE</th> 
                                                     <th class="text-center">CID</th> 
-                                                    <th class="text-center">DATEIN</th> 
+                                                    <th class="text-center">HCODE</th> 
                                                     <th class="text-center">DATEEXP</th> 
                                                     <th class="text-center">HOSPMAIN</th> 
                                                     <th class="text-center">HOSPSUB</th> 
@@ -789,7 +782,7 @@ $pos = strrpos($url, '/') + 1;
                                                         <td class="text-center" width="10%">{{$ins->INSCL }}</td>  
                                                         <td class="text-center" width="10%">{{$ins->SUBTYPE }}</td>
                                                         <td class="text-center" width="10%">{{$ins->CID }}</td>
-                                                        <td class="text-center" width="10%">{{$ins->DATEIN }}</td>
+                                                        <td class="text-center" width="10%">{{$ins->HCODE }}</td>
                                                         <td class="text-center">{{$ins->DATEEXP }}</td> 
                                                         <td class="text-center" >{{$ins->HOSPMAIN }}</td>  
                                                         <td class="text-center" >{{$ins->HOSPSUB }}</td> 
@@ -802,7 +795,7 @@ $pos = strrpos($url, '/') + 1;
                                         </table>
                                     </p>
                                 </div> 
-                                <div class="tab-pane" id="ADP" role="tabpanel">
+                                 <div class="tab-pane" id="ADP" role="tabpanel">
                                     <p class="mb-0">
                                         <table id="example16" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                             <thead>
@@ -890,7 +883,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <th class="text-center">DID</th> 
                                                     <th class="text-center">DIDNAME</th> 
                                                     <th class="text-center">AMOUNT</th> 
-                                                    <th class="text-center">DRUGPRIC</th>  
+                                                    <th class="text-center">DRUGPRICE</th>  
                                                     <th class="text-center">DRUGCOST</th>
                                                     <th class="text-center">DIDSTD</th>
                                                     <th class="text-center">UNIT</th>
@@ -912,7 +905,7 @@ $pos = strrpos($url, '/') + 1;
                                                         <td class="text-center" >{{$dru->DID }}</td>
                                                         <td class="text-start" >{{$dru->DIDNAME }}</td>
                                                         <td class="text-center" >{{$dru->AMOUNT }}</td>
-                                                        <td class="text-center" >{{$dru->DRUGPRIC }}</td>  
+                                                        <td class="text-center" >{{$dru->DRUGPRICE }}</td>  
                                                         <td class="text-center">{{$dru->DRUGCOST }}</td> 
                                                         <td class="text-center" >{{$dru->DIDSTD }}</td> 
                                                         <td class="text-center" >{{$dru->UNIT }}</td> 
@@ -925,16 +918,19 @@ $pos = strrpos($url, '/') + 1;
                                     </p>
                                 </div>
 
-                            </div>
 
+                            </div>
                         </div>
-                    </div> 
+                    </div>                   
+                   
                 </div>
             </div>
         </div>
+
     </div>
 </div>
  
+
 @endsection
 @section('footer')
 
@@ -953,13 +949,21 @@ $pos = strrpos($url, '/') + 1;
             placeholder: "--เลือก--",
             allowClear: true
         });
-
+        $('#stamp').on('click', function(e) {
+                    if($(this).is(':checked',true))  
+                    {
+                        $(".sub_chk").prop('checked', true);  
+                    } else {  
+                        $(".sub_chk").prop('checked',false);  
+                    }  
+        });   
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
         $("#spinner-div").hide(); //Request is complete so hide spinner
+       
         $('#Processdata').click(function() {
                 var datepicker = $('#datepicker').val(); 
                 var datepicker2 = $('#datepicker2').val(); 
@@ -977,7 +981,7 @@ $pos = strrpos($url, '/') + 1;
                                 $("#spinner").show(); //Load button clicked show spinner 
                                 
                                 $.ajax({
-                                    url: "{{ route('claim.ofc_401_process') }}",
+                                    url: "{{ route('claim.walkin_process') }}",
                                     type: "POST",
                                     dataType: 'json',
                                     data: {
@@ -1015,129 +1019,11 @@ $pos = strrpos($url, '/') + 1;
                 })
         });
 
-        $('#SenddataAPI').click(function() {
-                var datepicker = $('#datepicker').val(); 
-                var datepicker2 = $('#datepicker2').val(); 
-                Swal.fire({
-                        title: 'ต้องการส่งข้อมูลไป New Eclaim ใช่ไหม ?',
-                        text: "You Warn Send Data!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, send it!'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                $("#overlay").fadeIn(300);　
-                                $("#spinner").show(); //Load button clicked show spinner 
-                                
-                                $.ajax({
-                                    url: "{{ route('claim.ofc_401_sendapi') }}",
-                                    type: "POST",
-                                    dataType: 'json',
-                                    data: {
-                                        datepicker,
-                                        datepicker2                        
-                                    },
-                                    success: function(data) {
-                                        if (data.status == 200) { 
-                                            Swal.fire({
-                                                title: 'ส่งข้อมูลไป New Eclaim สำเร็จ',
-                                                text: "You Send data New Eclaim success",
-                                                icon: 'success',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#06D177',
-                                                confirmButtonText: 'เรียบร้อย'
-                                            }).then((result) => {
-                                                if (result
-                                                    .isConfirmed) {
-                                                    console.log(
-                                                        data);
-                                                    window.location.reload();
-                                                    $('#spinner').hide();//Request is complete so hide spinner
-                                                        setTimeout(function(){
-                                                            $("#overlay").fadeOut(300);
-                                                        },500);
-                                                }
-                                            })
-                                        } else {
-                                            
-                                        }
-                                    },
-                                });
-                                
-                            }
-                })
-        });
-
-        $('#ExportdataAPI').click(function() {
-                var datepicker = $('#datepicker').val(); 
-                var datepicker2 = $('#datepicker2').val(); 
-                Swal.fire({
-                        title: 'ต้องการส่งออก ใช่ไหม ?',
-                        text: "You Warn Send Data!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, send it!'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                $("#overlay").fadeIn(300);　
-                                $("#spinner").show(); //Load button clicked show spinner 
-                                
-                                $.ajax({
-                                    url: "{{ route('claim.ofc_401_exportapi') }}",
-                                    type: "POST",
-                                    dataType: 'json',
-                                    data: {
-                                        datepicker,
-                                        datepicker2                        
-                                    },
-                                    success: function(data) {
-                                        if (data.status == 200) { 
-                                            Swal.fire({
-                                                title: 'ส่งออกสำเร็จ',
-                                                text: "You Export data success",
-                                                icon: 'success',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#06D177',
-                                                confirmButtonText: 'เรียบร้อย'
-                                            }).then((result) => {
-                                                if (result
-                                                    .isConfirmed) {
-                                                    console.log(
-                                                        data);
-                                                    window.location.reload();
-                                                    $('#spinner').hide();//Request is complete so hide spinner
-                                                        setTimeout(function(){
-                                                            $("#overlay").fadeOut(300);
-                                                        },500);
-                                                }
-                                            })
-                                        } else {
-                                            
-                                        }
-                                    },
-                                });
-                                
-                            }
-                })
-        });
-
-        $('#stampchoi').on('click', function(e) {
-                    if($(this).is(':checked',true))  
-                    {
-                        $(".choisub_chk").prop('checked', true);  
-                    } else {  
-                        $(".choisub_chk").prop('checked',false);  
-                    }  
-        }); 
-
-        $('.ProcessChoi').on('click', function(e) {
-            //alert('oo');
+        $('.Claim').on('click', function(e) {
+            // alert('oo');
             var allValls = [];
-            $(".choisub_chk:checked").each(function () {
+            // $(".sub_destroy:checked").each(function () {
+            $(".sub_chk:checked").each(function () {
                 allValls.push($(this).attr('data-id'));
             });
             if (allValls.length <= 0) {
@@ -1154,59 +1040,65 @@ $pos = strrpos($url, '/') + 1;
                     })
             } else {
                 Swal.fire({
-                        title: 'Are you sure Choose in Box?',
-                        text: "คุณต้องการประมวลผลตามที่เลือกใช่ไหม!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, Choose it.!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        var check = true;
-                        if (check == true) {
-                            var join_selected_values = allValls.join(","); 
-                            $("#overlay").fadeIn(300);　
-                            $("#spinner").show(); //Load button clicked show spinner 
-                            $.ajax({
-                                url:$(this).data('url'),
-                                type: 'POST',
-                                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                                data: 'ids='+join_selected_values,
-                                success:function(data){ 
-                                        if (data.status == 200) {
-                                            $(".sub_chk:checked").each(function () {
-                                                $(this).parents("tr").remove();
-                                            });
-                                            Swal.fire({
-                                                title: 'ประมวลผลสำเร็จ',
-                                                text: "You Process data success",
-                                                icon: 'success',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#06D177',
-                                                confirmButtonText: 'เรียบร้อย'
-                                            }).then((result) => {
-                                                if (result
-                                                    .isConfirmed) {
-                                                    console.log(
-                                                        data);
-                                                    window.location.reload();
-                                                    $('#spinner').hide();//Request is complete so hide spinner
-                                                setTimeout(function(){
-                                                    $("#overlay").fadeOut(300);
-                                                },500);
-                                                }
-                                            })
-                                        } else {                                                    
-                                        } 
-                                }
-                            });
-                            $.each(allValls,function (index,value) {
-                                $('table tr').filter("[data-row-id='"+value+"']").remove();
-                            });
+                    title: 'Are you Want Claim sure?',
+                    text: "คุณต้องการ Claim รายการนี้ใช่ไหม!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Claim it.!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            var check = true;
+                            if (check == true) {
+                                var join_selected_values = allValls.join(",");
+                                // alert(join_selected_values);
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+
+                                $.ajax({
+                                    url:$(this).data('url'),
+                                    type: 'POST',
+                                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                                    data: 'ids='+join_selected_values,
+                                    success:function(data){ 
+                                            if (data.status == 200) {
+                                                // $(".sub_destroy:checked").each(function () {
+                                                $(".sub_chk:checked").each(function () {
+                                                    $(this).parents("tr").remove();
+                                                });
+                                                Swal.fire({
+                                                    title: 'ส่งข้อมูลเคลมสำเร็จ',
+                                                    text: "You Claim data success",
+                                                    icon: 'success',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#06D177',
+                                                    confirmButtonText: 'เรียบร้อย'
+                                                }).then((result) => {
+                                                    if (result
+                                                        .isConfirmed) {
+                                                        console.log(
+                                                            data);
+                                                        window.location.reload();
+                                                        $('#spinner').hide();//Request is complete so hide spinner
+                                                    setTimeout(function(){
+                                                        $("#overlay").fadeOut(300);
+                                                    },500);
+                                                    }
+                                                })
+                                            } else {
+                                                
+                                            }
+                                                
+                                    }
+                                });
+                                $.each(allValls,function (index,value) {
+                                    $('table tr').filter("[data-row-id='"+value+"']").remove();
+                                });
+                            }
                         }
-                    }
-                })                     
+                    }) 
+                // var check = confirm("Are you want ?");  
             }
         });
         

@@ -8,61 +8,40 @@ use Carbon\Carbon;
 use Illuminate\support\Facades\Hash;
 use Illuminate\support\Facades\Validator;
 use App\Models\User;
-use App\Models\Acc_debtor;
-use App\Models\Pttype_eclaim;
-use App\Models\Account_listpercen;
-use App\Models\Leave_month;
-use App\Models\Acc_debtor_stamp;
-use App\Models\Acc_debtor_sendmoney;
-use App\Models\Pttype;
-use App\Models\Pttype_acc;
-use App\Models\Acc_stm_ti;
-use App\Models\Acc_stm_ti_total;
-use App\Models\Acc_opitemrece;
-use App\Models\Acc_1102050101_202;
-use App\Models\Acc_1102050101_217;
-use App\Models\Acc_1102050101_2166;
-use App\Models\Acc_stm_ucs;
-use App\Models\Acc_1102050101_301;
-use App\Models\Acc_1102050101_304;
-use App\Models\Acc_1102050101_308;
-use App\Models\Acc_1102050101_4011;
-use App\Models\Acc_1102050101_3099;
-use App\Models\Acc_1102050101_401;
-use App\Models\Acc_1102050101_402;
-use App\Models\Acc_1102050102_801;
-use App\Models\Acc_1102050102_802;
-use App\Models\Acc_1102050102_803;
-use App\Models\Acc_1102050102_804;
-use App\Models\Acc_1102050101_4022;
-use App\Models\Acc_1102050102_602;
-use App\Models\Acc_1102050102_603;
-use App\Models\Acc_stm_prb;
-use App\Models\Acc_stm_ti_totalhead;
-use App\Models\Acc_stm_ti_excel;
-use App\Models\Acc_stm_ofc;
-use App\Models\acc_stm_ofcexcel;
-use App\Models\Acc_stm_lgo;
-use App\Models\Acc_stm_lgoexcel;
-use App\Models\Check_sit_auto;
-use App\Models\Acc_stm_ucs_excel;
-use App\Models\D_ins;
-use App\Models\D_pat;
-use App\Models\D_opd;
-use App\Models\D_orf;
-use App\Models\D_odx;
-use App\Models\D_cht;
-use App\Models\D_cha;
-use App\Models\D_oop;
-use App\Models\D_claim;
-use App\Models\D_adp;
-use App\Models\D_dru;
-use App\Models\D_idx;
-use App\Models\D_iop;
-use App\Models\D_ipd;
-use App\Models\D_aer;
-use App\Models\D_irf;
-use App\Models\D_ofc_401;
+use App\Models\Ot_one;
+use PDF;
+use setasign\Fpdi\Fpdi;
+use App\Models\Budget_year;
+use Illuminate\Support\Facades\File;
+use DataTables;
+use Intervention\Image\ImageManagerStatic as Image;
+// use Barryvdh\DomPDF\Facade\Pdf;
+use App\Exports\OtExport;
+// use App\Imports\UsersImport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Department;
+use App\Models\Departmentsub;
+use App\Models\Departmentsubsub;
+use App\Models\Position; 
+use App\Models\D_apiwalkin_ins;  
+use App\Models\D_apiwalkin_adp;
+use App\Models\D_apiwalkin_aer;
+use App\Models\D_apiwalkin_orf;
+use App\Models\D_apiwalkin_odx;
+use App\Models\D_apiwalkin_cht;
+use App\Models\D_apiwalkin_cha;
+use App\Models\D_apiwalkin_oop;
+use App\Models\D_claim; 
+use App\Models\D_apiwalkin_dru;
+use App\Models\D_apiwalkin_idx;
+use App\Models\D_apiwalkin_iop;
+use App\Models\D_apiwalkin_ipd;
+use App\Models\D_apiwalkin_pat;
+use App\Models\D_apiwalkin_opd;
+use App\Models\D_walkin;
+use App\Models\D_walkin_drug;
+use App\Models\D_apiwalkin_irf;
+use App\Models\D_walkin_report;
 
 use App\Models\Fdh_ins;
 use App\Models\Fdh_pat;
@@ -79,60 +58,44 @@ use App\Models\Fdh_iop;
 use App\Models\Fdh_ipd;
 use App\Models\Fdh_aer;
 use App\Models\Fdh_irf;
+use App\Models\Fdh_lvd;
+use App\Models\D_ofc_401;
+use App\Models\D_dru_out;
+use App\Models\D_ofc_repexcel;
+use App\Models\D_ofc_rep;
 
-use PDF;
-use setasign\Fpdi\Fpdi;
-use App\Models\Budget_year;
-use Illuminate\Support\Facades\File;
-use DataTables;
-use Intervention\Image\ImageManagerStatic as Image;
-use App\Mail\DissendeMail;
-use Mail;
-use Illuminate\Support\Facades\Storage;
 use Auth;
-use Http;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Http; 
 use SoapClient;
-// use File;
-// use SplFileObject;
-use Arr;
-// use Storage;
-use GuzzleHttp\Client; 
-use App\Imports\ImportAcc_stm_ti;
-use App\Imports\ImportAcc_stm_tiexcel_import;
-use App\Imports\ImportAcc_stm_ofcexcel_import;
-use App\Imports\ImportAcc_stm_lgoexcel_import;
-use App\Models\Acc_1102050101_217_stam;
-use App\Models\Acc_opitemrece_stm; 
+use Arr;   
 use SplFileObject;
 use PHPExcel;
 use PHPExcel_IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx; 
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use PhpOffice\PhpSpreadsheet\IOFactory; 
-use App\Models\D_ofc_repexcel;
-use App\Models\D_ofc_rep; 
 use ZipArchive;  
 use Illuminate\Support\Facades\Redirect;
 use PhpParser\Node\Stmt\If_;
 use Stevebauman\Location\Facades\Location; 
 use Illuminate\Filesystem\Filesystem;
- 
 
+use Mail;
+use Illuminate\Support\Facades\Storage;
+  
+ 
 date_default_timezone_set("Asia/Bangkok");
 
-
-class Account401Controller extends Controller
- {
-        
-    public function account_401_dash(Request $request)
+class Fdh_OfcController extends Controller
+{  
+    public function ofc_main(Request $request)
     {
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
-        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+ 
         $date = date('Y-m-d');
         $y = date('Y') + 543;
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
@@ -142,468 +105,127 @@ class Account401Controller extends Controller
         $yearold = date('Y')-1;
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
-        // dd($start);
-        if ($startdate == '') {
-            $datashow = DB::select('
-                SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-                    ,count(distinct a.hn) as hn
-                    ,count(distinct a.vn) as vn
-                    ,sum(a.paid_money) as paid_money
-                    ,sum(a.income) as income
-                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-                    FROM acc_debtor a
-                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                    WHERE a.vstdate between "'.$start.'" and "'.$end.'"
-                    and account_code="1102050101.401"
-                    and income <> 0
-                    group by month(a.vstdate) order by a.vstdate desc limit 2;
-            ');
+        if ($startdate == '') {              
         } else {
-            $datashow = DB::select('
-                SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-                    ,count(distinct a.hn) as hn
-                    ,count(distinct a.vn) as vn
-                    ,sum(a.paid_money) as paid_money
-                    ,sum(a.income) as income
-                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-                    FROM acc_debtor a
-                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                    WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
-                    and account_code="1102050101.401"
-                    and income <>0
-                    
-            ');
-        }
-
-        return view('account_401.account_401_dash',[
-            'startdate'        => $startdate,
-            'enddate'          => $enddate,
-            'leave_month_year' => $leave_month_year,
-            'datashow'         => $datashow,
-            'newyear'          => $newyear,
-            'date'             => $date,
-        ]);
-    }
-    public function account_401_pull(Request $request)
-    {
-        $datenow = date('Y-m-d');
-        $months = date('m');
-        $year = date('Y');
-        // dd($year);
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        if ($startdate == '') { 
-            // $data_vn = DB::select(' SELECT vn FROM acc_debtor WHERE account_code="1102050101.401" AND stamp = "N"');
-            // foreach ($data_vn as $key => $value) {
-                $acc_debtor = DB::select(' 
-                        SELECT * 
-                        from acc_debtor a 
-                        WHERE a.account_code="1102050101.401"
-                        AND a.stamp = "N" AND a.debit_total > 0
-                        GROUP BY a.vn
-                        order by a.vstdate asc; 
-                '); 
-        } else {
-            // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
-        }
-
-        return view('account_401.account_401_pull',[
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate,
-            'acc_debtor'    =>     $acc_debtor,
-        ]);
-    }
-
-    public function account_401_pulldata(Request $request)
-    {
-        $datenow = date('Y-m-d');
-        $startdate = $request->datepicker;
-        $enddate = $request->datepicker2;
-        // Acc_opitemrece::truncate();
-        $acc_debtor = DB::connection('mysql2')->select(' 
-            SELECT o.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
-                ,o.vstdate,o.vsttime
-                ,v.hospmain,"" regdate,"" dchdate,op.income as income_group  
-                ,ptt.pttype_eclaim_id,vp.pttype
-                ,e.code as acc_code
-                ,"1102050101.401" as account_code
-                ,"เบิกจ่ายตรงกรมบัญชีกลาง" as account_name
-                ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money 
-                ,v.income-v.discount_money-v.rcpt_money as debit
-                ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
-                ,sum(if(op.income="02",sum_price,0)) as debit_instument
-                ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
-                ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
-                ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
-                ,ptt.max_debt_money
-                ,GROUP_CONCAT(DISTINCT ov.icd10 order by ov.diagtype) AS icd10,v.pdx
-                ,group_concat(DISTINCT hh.appr_code,":",hh.transaction_amount,"/") AS AppKTB 
-                ,rd.sss_approval_code AS approval_code,rd.amount AS price_ofc,d.cc
-                from ovst o
-                left join vn_stat v on v.vn=o.vn
-                left join patient pt on pt.hn=o.hn
-                LEFT JOIN visit_pttype vp on vp.vn = v.vn
-                LEFT JOIN pttype ptt on o.pttype=ptt.pttype
-                LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
-                LEFT JOIN opitemrece op ON op.vn = o.vn
-                LEFT JOIN ovstdiag ov ON ov.vn = v.vn
-                LEFT JOIN rcpt_debt rd ON v.vn = rd.vn
-                LEFT JOIN hpc11_ktb_approval hh on hh.pid = pt.cid and hh.transaction_date = v.vstdate 
-                LEFT JOIN opdscreen d on d.vn = v.vn
-                WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                AND vp.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.401")
-                  
-                and v.income-v.discount_money-v.rcpt_money <> 0
-                and (o.an="" or o.an is null)
-                GROUP BY v.vn
-        ');
-        // AND vp.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.401"))
-        // AND vp.pttype IN("O1","O2","O3","O4","O5")
-        // ,e.ar_opd as account_code
-        // ,e.name as account_name
-
-        foreach ($acc_debtor as $key => $value) {
-                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.401')->count();
-                    // ->whereBetween('vstdate', [$startdate, $enddate])
-                    if ($check == 0) {
-                        Acc_debtor::insert([
-                            'hn'                 => $value->hn,
-                            'an'                 => $value->an,
+                $iduser = Auth::user()->id; 
+                // D_ofc_401::truncate(); 
+               
+                $data_main_ = DB::connection('mysql2')->select(
+                    'SELECT v.vn,o.an,v.cid,v.hn,concat(pt.pname,pt.fname," ",pt.lname) ptname
+                            ,v.vstdate,v.pttype  ,rd.sss_approval_code AS "Apphos",v.inc04 as xray
+                            ,rd.amount AS price_ofc,v.income,ptt.hipdata_code 
+                            ,group_concat(distinct hh.appr_code,":",hh.transaction_amount,"/") AS AppKTB 
+                            ,GROUP_CONCAT(DISTINCT ov.icd10 order by ov.diagtype) AS icd10,v.pdx
+                            FROM vn_stat v
+                            LEFT OUTER JOIN patient pt ON v.hn=pt.hn
+                            LEFT OUTER JOIN ovstdiag ov ON v.vn=ov.vn
+                            LEFT OUTER JOIN ovst o ON v.vn=o.vn
+                            LEFT OUTER JOIN opdscreen op ON v.vn = op.vn
+                            LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype 
+                            LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn
+                            LEFT OUTER JOIN hpc11_ktb_approval hh on hh.pid = pt.cid and hh.transaction_date = v.vstdate 
+                            LEFT OUTER JOIN ipt i on i.vn = v.vn                        
+                        WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                        AND v.pttype in ("O1","O2","O3","O4","O5")                    
+                        AND v.pttype not in ("OF","FO") AND rd.sss_approval_code <> ""                         
+                        AND o.an is null
+                        AND v.pdx <> ""
+                        GROUP BY v.vn 
+                ');                 
+                foreach ($data_main_ as $key => $value) {   
+                    $check_wa = D_ofc_401::where('vn',$value->vn)->count(); 
+                    if ($check_wa > 0) {                        
+                    } else {
+                        D_ofc_401::insert([
                             'vn'                 => $value->vn,
+                            'hn'                 => $value->hn,
+                            'an'                 => $value->an, 
                             'cid'                => $value->cid,
-                            'ptname'             => $value->ptname,
                             'pttype'             => $value->pttype,
                             'vstdate'            => $value->vstdate,
-                            'acc_code'           => $value->acc_code,
-                            'account_code'       => $value->account_code,
-                            'account_name'       => $value->account_name,
-                            'income_group'       => $value->income_group,
-                            'income'             => $value->income,
-                            'uc_money'           => $value->uc_money,
-                            'discount_money'     => $value->discount_money,
-                            'paid_money'         => $value->paid_money,
-                            'rcpt_money'         => $value->rcpt_money,
-                            'debit'              => $value->debit,
-                            'debit_drug'         => $value->debit_drug,
-                            'debit_instument'    => $value->debit_instument,
-                            'debit_toa'          => $value->debit_toa,
-                            'debit_refer'        => $value->debit_refer,
-                            'debit_total'        => $value->debit,
-                            'max_debt_amount'    => $value->max_debt_money,
-                            'pdx'                => $value->pdx,
+                            'ptname'             => $value->ptname,
+                            'Apphos'             => $value->Apphos,
+                            'Appktb'             => $value->AppKTB,
+                            'price_ofc'          => $value->price_ofc, 
                             'icd10'              => $value->icd10,
-                            'cc'                 => $value->cc,
-                            'approval_code'      => $value->approval_code,
-                            'price_ofc'          => $value->price_ofc,
-                            'acc_debtor_userid'  => Auth::user()->id
+                            'pdx'                => $value->pdx,
                         ]);
-                    }
-
-        }
-
-            return response()->json([
-
-                'status'    => '200'
-            ]);
-    }
-    public function account_401_checksit(Request $request)
-    {
-        $datestart = $request->datestart;
-        $dateend = $request->dateend;
-        $date = date('Y-m-d');
-        
-        $data_sitss = DB::connection('mysql')->select('SELECT vn,an,cid,vstdate,dchdate FROM acc_debtor WHERE account_code="1102050101.401" AND stamp = "N" GROUP BY vn');
- 
-        $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
-        foreach ($token_data as $key => $value) { 
-            $cid_    = $value->cid;
-            $token_  = $value->token;
-        }
-        foreach ($data_sitss as $key => $item) {
-            $pids = $item->cid;
-            $vn   = $item->vn; 
-            $an   = $item->an; 
-                
-                    $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
-                        array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1',"trace" => 1,"exceptions" => 0,"cache_wsdl" => 0)
-                        );
-                        $params = array(
-                            'sequence' => array(
-                                "user_person_id"   => "$cid_",
-                                "smctoken"         => "$token_",
-                                // "user_person_id" => "$value->cid",
-                                // "smctoken"       => "$value->token",
-                                "person_id"        => "$pids"
-                        )
-                    );
-                    $contents = $client->__soapCall('searchCurrentByPID',$params);
-                    foreach ($contents as $v) {
-                        @$status = $v->status ;
-                        @$maininscl = $v->maininscl;
-                        @$startdate = $v->startdate;
-                        @$hmain = $v->hmain ;
-                        @$subinscl = $v->subinscl ;
-                        @$person_id_nhso = $v->person_id;
-
-                        @$hmain_op = $v->hmain_op;  //"10978"
-                        @$hmain_op_name = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
-                        @$hsub = $v->hsub;    //"04047"
-                        @$hsub_name = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
-                        @$subinscl_name = $v->subinscl_name ; //"ช่วงอายุ 12-59 ปี"
-
-                        IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
-                            $date = date("Y-m-d");
-                          
-                            Acc_debtor::where('vn', $vn)
-                            ->update([
-                                'status'         => 'จำหน่าย/เสียชีวิต',
-                                'maininscl'      => @$maininscl,
-                                'pttype_spsch'   => @$subinscl,
-                                'hmain'          => @$hmain,
-                                'subinscl'       => @$subinscl, 
-                            ]);
-                            
-                        }elseif(@$maininscl !="" || @$subinscl !=""){
-                           Acc_debtor::where('vn', $vn)
-                           ->update([
-                               'status'         => @$status,
-                               'maininscl'      => @$maininscl,
-                               'pttype_spsch'   => @$subinscl,
-                               'hmain'          => @$hmain,
-                               'subinscl'       => @$subinscl,
-                           
-                           ]); 
-                                    
-                        }
-
-                    }
-           
-        }
-
-        return response()->json([
-
-           'status'    => '200'
-       ]);
-
-    }
-
-    public function account_401_stam(Request $request)
-    {
-        $id = $request->ids;
-        $iduser = Auth::user()->id;
-        $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
-            Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))
-                    ->update([
-                        'stamp' => 'Y'
-                    ]);
-        foreach ($data as $key => $value) {
-                $date = date('Y-m-d H:m:s');
-             $check = Acc_1102050101_401::where('vn', $value->vn)->count();
-                // $check = Acc_debtor::where('vn', $value->vn)
-                // ->where('debit_total','=','0')
-                // ->count();
-                if ($check > 0) {
-                # code...
-                } else {
-                    Acc_1102050101_401::insert([
+                    }  
+                    $check = D_claim::where('vn',$value->vn)->count();
+                    if ($check > 0) {
+                        D_claim::where('vn',$value->vn)->update([ 
+                            'sum_price'          => $value->price_ofc,  
+                        ]);
+                    } else {
+                        D_claim::insert([
                             'vn'                => $value->vn,
                             'hn'                => $value->hn,
                             'an'                => $value->an,
                             'cid'               => $value->cid,
+                            'pttype'            => $value->pttype,
                             'ptname'            => $value->ptname,
                             'vstdate'           => $value->vstdate,
-                            'regdate'           => $value->regdate,
-                            'dchdate'           => $value->dchdate,
-                            'pttype'            => $value->pttype,
-                            'pttype_nhso'       => $value->pttype_spsch,
-                            'acc_code'          => $value->acc_code,
-                            'account_code'      => $value->account_code,
-                            'income'            => $value->income,
-                            'income_group'      => $value->income_group,
-                            'uc_money'          => $value->uc_money,
-                            'discount_money'    => $value->discount_money,
-                            'rcpt_money'        => $value->rcpt_money,
-                            'debit'             => $value->debit,
-                            'debit_drug'        => $value->debit_drug,
-                            'debit_instument'   => $value->debit_instument,
-                            'debit_refer'       => $value->debit_refer,
-                            'debit_toa'         => $value->debit_toa,
-                            'debit_total'       => $value->debit_total,
-                            'max_debt_amount'   => $value->max_debt_amount,
-                            'acc_debtor_userid' => $iduser
-                    ]);
-                }
+                            'hipdata_code'      => $value->hipdata_code,
+                            // 'qty'               => $value->qty,
+                            'sum_price'          => $value->price_ofc,
+                            'type'              => 'OPD',
+                            'nhso_adp_code'     => 'OFC',
+                            'claimdate'         => $date, 
+                            'userid'            => $iduser, 
+                        ]);
+                    }                      
 
-        }
-        return response()->json([
-            'status'    => '200'
-        ]);
-    }
-    public function account_401_destroy_all(Request $request)
-    {
-        $id = $request->ids;
-        Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->delete();               
-        return response()->json([
-            'status'    => '200'
-        ]);
-    }
-
-    public function account_401_detail(Request $request,$months,$year)
-    {
-        $datenow = date('Y-m-d');
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        // dd($id);
-        $data['users'] = User::get();
-
-        $data = DB::select('
-        SELECT *
-            from acc_1102050101_401 U1
-            WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
-            GROUP BY U1.vn
-        ');
-        // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
-        return view('account_401.account_401_detail', $data, [ 
-            'data'          =>     $data,
+                    
+                } 
+        }                
+            $data['d_ofc_401'] = DB::connection('mysql')->select('SELECT * from d_ofc_401 WHERE active ="N" AND Apphos IS NOT NULL ORDER BY vn ASC');  
+            $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="OFC_401"'); 
+            $data['data_orf'] = DB::connection('mysql')->select('SELECT * from fdh_orf WHERE d_anaconda_id ="OFC_401"'); 
+            $data['data_oop'] = DB::connection('mysql')->select('SELECT * from fdh_oop WHERE d_anaconda_id ="OFC_401"');
+            $data['data_odx'] = DB::connection('mysql')->select('SELECT * from fdh_odx WHERE d_anaconda_id ="OFC_401"');
+            $data['data_idx'] = DB::connection('mysql')->select('SELECT * from fdh_idx WHERE d_anaconda_id ="OFC_401"');
+            $data['data_ipd'] = DB::connection('mysql')->select('SELECT * from fdh_ipd WHERE d_anaconda_id ="OFC_401"');
+            $data['data_irf'] = DB::connection('mysql')->select('SELECT * from fdh_irf WHERE d_anaconda_id ="OFC_401"');
+            $data['data_aer'] = DB::connection('mysql')->select('SELECT * from fdh_aer WHERE d_anaconda_id ="OFC_401"');
+            $data['data_iop'] = DB::connection('mysql')->select('SELECT * from fdh_iop WHERE d_anaconda_id ="OFC_401"');
+            $data['data_adp'] = DB::connection('mysql')->select('SELECT * from fdh_adp WHERE d_anaconda_id ="OFC_401"');
+            $data['data_pat'] = DB::connection('mysql')->select('SELECT * from fdh_pat WHERE d_anaconda_id ="OFC_401"');
+            $data['data_cht'] = DB::connection('mysql')->select('SELECT * from fdh_cht WHERE d_anaconda_id ="OFC_401"');
+            $data['data_cha'] = DB::connection('mysql')->select('SELECT * from fdh_cha WHERE d_anaconda_id ="OFC_401"');
+            $data['data_ins'] = DB::connection('mysql')->select('SELECT * from fdh_ins WHERE d_anaconda_id ="OFC_401"');
+            $data['data_dru'] = DB::connection('mysql')->select('SELECT * from fdh_dru WHERE d_anaconda_id ="OFC_401"');
+            $data['count_no'] = D_ofc_401::where('Apphos','<>','')->where('active','=','N')->count();
+            $data['count_null'] = D_ofc_401::where('Apphos','=',Null)->where('active','=','N')->count();
+        return view('ofc.ofc_main',$data,[
             'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate
+            'enddate'       =>     $enddate, 
         ]);
-    }
-    public function account_401_stm(Request $request,$months,$year)
-    {
-        $datenow = date('Y-m-d');
-        
-        $data['users'] = User::get();
-
-        $datashow = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc 
-                from acc_1102050101_401 U1
-                LEFT JOIN acc_stm_ofc U2 on U2.hn = U1.hn AND U2.vstdate = U1.vstdate 
-                WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
-                AND U2.pricereq_all is not null 
-                group by U1.vn
-        ');
-       
-        return view('account_401.account_401_stm', $data, [ 
-            'datashow'      =>     $datashow,
-            'months'        =>     $months,
-            'year'          =>     $year
-        ]);
-    }
-    public function account_401_stmnull(Request $request,$months,$year)
-    {
-        $datenow = date('Y-m-d');
-        
-        $data['users'] = User::get();
-
-        $datashow = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.income,U1.rcpt_money,U1.debit_total,U2.pricereq_all ,U2.STMdoc
-                from acc_1102050101_401 U1
-                LEFT JOIN acc_stm_ofc U2 on U2.hn = U1.hn AND U2.vstdate = U1.vstdate  
-                WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
-                AND U2.pricereq_all is null
-                group by U1.vn 
-        ');
-       
-        return view('account_401.account_401_stmnull',[ 
-            'datashow'          =>     $datashow,
-            'months'        =>     $months,
-            'year'          =>     $year
-        ]);
-    }
-
-    public function account_401_detail_date(Request $request,$startdate,$enddate)
-    {
-        $datenow = date('Y-m-d');
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        // dd($id);
-        $data['users'] = User::get();
-
-        $data = DB::select('
-        SELECT *
-            from acc_1102050101_401 U1
-            WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" 
-            GROUP BY U1.vn
-        ');
-        // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
-        return view('account_401.account_401_detail_date', $data, [ 
-            'data'          =>     $data,
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate
-        ]);
-    }
-    public function account_401_stm_date(Request $request,$startdate,$enddate)
-    {
-        $datenow = date('Y-m-d');
-        
-        $data['users'] = User::get();
-
-        $datashow = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc 
-                from acc_1102050101_401 U1
-                LEFT JOIN acc_stm_ofc U2 on U2.hn = U1.hn AND U2.vstdate = U1.vstdate 
-                WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"
-                AND U2.pricereq_all is not null 
-                group by U1.vn
-        ');
-       
-        return view('account_401.account_401_stm_date', $data, [ 
-            'datashow'         =>     $datashow,
-            'startdate'        =>     $startdate,
-            'enddate'          =>     $enddate
-        ]);
-    }
-    public function account_401_stmnull_date(Request $request,$startdate,$enddate)
-    {
-        $datenow = date('Y-m-d');
-        
-        $data['users'] = User::get();
-
-        $datashow = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.income,U1.rcpt_money,U1.debit_total,U2.pricereq_all ,U2.STMdoc
-                from acc_1102050101_401 U1
-                LEFT JOIN acc_stm_ofc U2 on U2.hn = U1.hn AND U2.vstdate = U1.vstdate  
-                WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"
-                AND U2.pricereq_all is null
-                group by U1.vn 
-        ');
-       
-        return view('account_401.account_401_stmnull_date',[ 
-            'datashow'         =>     $datashow,
-            'startdate'        =>     $startdate,
-            'enddate'          =>     $enddate
-        ]);
-    }
-    public function account_401_claim(Request $request)
+    }    
+    public function ofc_main_process(Request $request)
     {  
-        D_opd::where('d_anaconda_id','=','OFC_401')->delete();
-        D_orf::where('d_anaconda_id','=','OFC_401')->delete();
-        D_oop::where('d_anaconda_id','=','OFC_401')->delete();
-        D_odx::where('d_anaconda_id','=','OFC_401')->delete();
-        D_idx::where('d_anaconda_id','=','OFC_401')->delete();
-        D_ipd::where('d_anaconda_id','=','OFC_401')->delete();
-        D_irf::where('d_anaconda_id','=','OFC_401')->delete();
-        D_aer::where('d_anaconda_id','=','OFC_401')->delete();
-        D_iop::where('d_anaconda_id','=','OFC_401')->delete();
-        D_adp::where('d_anaconda_id','=','OFC_401')->delete();   
-        D_dru::where('d_anaconda_id','=','OFC_401')->delete();   
-        D_pat::where('d_anaconda_id','=','OFC_401')->delete();
-        D_cht::where('d_anaconda_id','=','OFC_401')->delete();
-        D_cha::where('d_anaconda_id','=','OFC_401')->delete();
-        D_ins::where('d_anaconda_id','=','OFC_401')->delete();
-         
         Fdh_ins::where('d_anaconda_id','=','OFC_401')->delete();
         Fdh_pat::where('d_anaconda_id','=','OFC_401')->delete();
         Fdh_opd::where('d_anaconda_id','=','OFC_401')->delete();
-
+        Fdh_orf::where('d_anaconda_id','=','OFC_401')->delete();
+        Fdh_odx::where('d_anaconda_id','=','OFC_401')->delete();
+        Fdh_oop::where('d_anaconda_id','=','OFC_401')->delete();
+        Fdh_ipd::where('d_anaconda_id','=','OFC_401')->delete();
+        Fdh_irf::where('d_anaconda_id','=','OFC_401')->delete();
+        Fdh_idx::where('d_anaconda_id','=','OFC_401')->delete(); 
+        Fdh_iop::where('d_anaconda_id','=','OFC_401')->delete();
+        Fdh_cht::where('d_anaconda_id','=','OFC_401')->delete();
+        Fdh_cha::where('d_anaconda_id','=','OFC_401')->delete();
+        Fdh_aer::where('d_anaconda_id','=','OFC_401')->delete();
+        Fdh_adp::where('d_anaconda_id','=','OFC_401')->delete();
+        Fdh_dru::where('d_anaconda_id','=','OFC_401')->delete();            
+        Fdh_lvd::where('d_anaconda_id','=','OFC_401')->delete();           
+        
         $id = $request->ids;
         $iduser = Auth::user()->id;
-        $data_vn_1 = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
-
-        // $data_vn_1 = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->where('account_code','=',"1102050101.401")->where('stamp','=',"N")->get();
-        // $data_vn_1 = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->where('account_code','=',"1102050101.401")->where('stamp','=',"N")->where('approval_code','<>',"")->get();
+        $data_vn_1 = D_ofc_401::whereIn('d_ofc_401_id',explode(",",$id))->get();
+                
          foreach ($data_vn_1 as $key => $va1) {
+                
                 //D_ins OK
                 $data_ins_ = DB::connection('mysql2')->select('
                     SELECT v.hn HN
@@ -665,6 +287,7 @@ class Account401Controller extends Controller
                     LEFT OUTER JOIN ipt i on i.vn = v.vn 
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn 
                     WHERE v.vn IN("'.$va1->vn.'")
+                    GROUP BY v.hn
                 ');
             
                 foreach ($data_pat_ as $va_02) {
@@ -725,26 +348,29 @@ class Account401Controller extends Controller
                         'd_anaconda_id'     => 'OFC_401'
                     ]);
                 }
+
                 //D_orf _OK
                 $data_orf_ = DB::connection('mysql2')->select('
                         SELECT v.hn HN
                         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,v.spclty CLINIC,ifnull(r1.refer_hospcode,r2.refer_hospcode) REFER
-                        ,"0100" REFERTYPE,v.vn SEQ,"" REFERDATE
+                        ,"0100" REFERTYPE,v.vn SEQ                        
+                        ,if(r1.refer_date ="",r2.refer_date,r1.refer_date) as REFERDATE
                         FROM vn_stat v
                         LEFT OUTER JOIN ovst o on o.vn = v.vn
                         LEFT OUTER JOIN referin r1 on r1.vn = v.vn 
                         LEFT OUTER JOIN referout r2 on r2.vn = v.vn
                         WHERE v.vn IN("'.$va1->vn.'") 
                         AND (r1.vn is not null or r2.vn is not null);
-                ');                
+                '); 
+                // ,r1.refer_date as REFERDATE               
                 foreach ($data_orf_ as $va_03) {       
-                    D_orf::insert([
+                    Fdh_orf::insert([
                         'HN'                => $va_03->HN,
-                        'CLINIC'            => $va_03->CLINIC,
                         'DATEOPD'           => $va_03->DATEOPD,
+                        'CLINIC'            => $va_03->CLINIC, 
                         'REFER'             => $va_03->REFER,
-                        'SEQ'               => $va_03->SEQ,
                         'REFERTYPE'         => $va_03->REFERTYPE, 
+                        'SEQ'               => $va_03->SEQ, 
                         'REFERDATE'         => $va_03->REFERDATE, 
                         'user_id'           => $iduser,
                         'd_anaconda_id'     => 'OFC_401'
@@ -762,10 +388,10 @@ class Account401Controller extends Controller
                 ');
              
                 foreach ($data_odx_ as $va_04) { 
-                    D_odx::insert([
+                    Fdh_odx::insert([
                         'HN'                => $va_04->HN,
-                        'CLINIC'            => $va_04->CLINIC,
                         'DATEDX'            => $va_04->DATEDX,
+                        'CLINIC'            => $va_04->CLINIC, 
                         'DIAG'              => $va_04->DIAG,
                         'DXTYPE'            => $va_04->DXTYPE,
                         'DRDX'              => $va_04->DRDX,
@@ -789,10 +415,10 @@ class Account401Controller extends Controller
                         AND substring(o.icd10,1,1) in ("0","1","2","3","4","5","6","7","8","9") 
                 ');
                 foreach ($data_oop_ as $va_05) { 
-                    D_oop::insert([
+                    Fdh_oop::insert([
                         'HN'                => $va_05->HN,
-                        'CLINIC'            => $va_05->CLINIC,
                         'DATEOPD'           => $va_05->DATEOPD,
+                        'CLINIC'            => $va_05->CLINIC, 
                         'OPER'              => $va_05->OPER,
                         'DROPID'            => $va_05->DROPID,
                         'PERSON_ID'         => $va_05->PERSON_ID, 
@@ -815,15 +441,16 @@ class Account401Controller extends Controller
                         WHERE i.vn IN("'.$va1->vn.'")
                 ');
                 foreach ($data_ipd_ as $va_06) {     
-                    D_ipd::insert([
-                        'AN'                => $va_06->AN,
+                    Fdh_ipd::insert([
                         'HN'                => $va_06->HN,
+                        'AN'                => $va_06->AN,                       
                         'DATEADM'           => $va_06->DATEADM,
                         'TIMEADM'           => $va_06->TIMEADM,
                         'DATEDSC'           => $va_06->DATEDSC,
                         'TIMEDSC'           => $va_06->TIMEDSC,
                         'DISCHS'            => $va_06->DISCHS,
                         'DISCHT'            => $va_06->DISCHT, 
+                        'WARDDSC'           => $va_06->WARDDSC, 
                         'DEPT'              => $va_06->DEPT, 
                         'ADM_W'             => $va_06->ADM_W, 
                         'UUC'               => $va_06->UUC, 
@@ -833,8 +460,8 @@ class Account401Controller extends Controller
                     ]);
                 }
                 
-                 //D_irf OK
-                 $data_irf_ = DB::connection('mysql2')->select('
+                //D_irf OK
+                $data_irf_ = DB::connection('mysql2')->select('
                         SELECT a.an AN,ifnull(o.refer_hospcode,oo.refer_hospcode) REFER,"0100" REFERTYPE
                         FROM an_stat a
                         LEFT OUTER JOIN ipt ip on ip.an = a.an
@@ -844,7 +471,7 @@ class Account401Controller extends Controller
                         AND (a.an in(SELECT vn FROM referin WHERE vn = oo.vn) or a.an in(SELECT vn FROM referout WHERE vn = o.vn));
                 ');
                 foreach ($data_irf_ as $va_07) {
-                    D_irf::insert([
+                    Fdh_irf::insert([
                         'AN'                 => $va_07->AN,
                         'REFER'              => $va_07->REFER,
                         'REFERTYPE'          => $va_07->REFERTYPE,
@@ -863,7 +490,7 @@ class Account401Controller extends Controller
                         WHERE ip.vn IN("'.$va1->vn.'")
                 ');
                 foreach ($data_idx_ as $va_08) { 
-                    D_idx::insert([
+                    Fdh_idx::insert([
                         'AN'                => $va_08->AN,  
                         'DIAG'              => $va_08->DIAG,
                         'DXTYPE'            => $va_08->DXTYPE,
@@ -885,7 +512,7 @@ class Account401Controller extends Controller
                         WHERE ip.vn IN("'.$va1->vn.'")
                 ');
                 foreach ($data_iop_ as $va_09) {
-                    D_iop::insert([
+                    Fdh_iop::insert([
                         'AN'                => $va_09->AN,
                         'OPER'              => $va_09->OPER,
                         'OPTYPE'            => $va_09->OPTYPE,
@@ -912,7 +539,7 @@ class Account401Controller extends Controller
                     
                 ');
                 foreach ($data_cht_ as $va_10) {
-                    D_cht::insert([
+                    Fdh_cht::insert([
                         'HN'                => $va_10->HN,
                         'AN'                => $va_10->AN,
                         'DATE'              => $va_10->DATE,
@@ -957,7 +584,7 @@ class Account401Controller extends Controller
                         GROUP BY v.an,CHRGITEM; 
                 ');
                 foreach ($data_cha_ as $va_11) {
-                    D_cha::insert([
+                    Fdh_cha::insert([
                         'HN'                => $va_11->HN,
                         'AN'                => $va_11->AN,
                         'DATE'              => $va_11->DATE,
@@ -995,7 +622,7 @@ class Account401Controller extends Controller
                         GROUP BY a.an;
                 ');
                 foreach ($data_aer_ as $va_12) {
-                    D_aer::insert([
+                    Fdh_aer::insert([
                         'HN'                => $va_12->HN,
                         'AN'                => $va_12->AN,
                         'DATEOPD'           => $va_12->DATEOPD,
@@ -1009,6 +636,7 @@ class Account401Controller extends Controller
                         'REFMAINO'          => $va_12->REFMAINO,
                         'OREFTYPE'          => $va_12->OREFTYPE,
                         'UCAE'              => $va_12->UCAE,
+                        'EMTYPE'            => $va_12->EMTYPE,
                         'SEQ'               => $va_12->SEQ,
                         'AESTATUS'          => $va_12->AESTATUS,
                         'DALERT'            => $va_12->DALERT,
@@ -1046,9 +674,7 @@ class Account401Controller extends Controller
                         AND v.an is NULL
                         GROUP BY vv.vn,n.nhso_adp_code,rate) b 
                         GROUP BY seq,CODE,rate;
-                '); 
-                // ,n.nhso_adp_type_id TYPE
-                // ,ic.drg_chrgitem_id TYPE
+                ');                 
                 foreach ($data_adp_ as $va_13) {
                     Fdh_adp::insert([
                         'HN'                   => $va_13->HN,
@@ -1084,10 +710,10 @@ class Account401Controller extends Controller
                         'd_anaconda_id'        => 'OFC_401'
                     ]);
                 } 
-                 //D_dru OK
-                 $data_dru_ = DB::connection('mysql2')->select('
+                //D_dru OK
+                $data_dru_ = DB::connection('mysql2')->select('
                     SELECT vv.hcode HCODE ,v.hn HN ,v.an AN ,vv.spclty CLINIC ,vv.cid PERSON_ID ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
-                    ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,v.qty AMOUNT ,round(v.unitprice,2) DRUGPRIC
+                    ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,v.qty AMOUNT ,round(v.unitprice,2) DRUGPRICE
                     ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
                     ,oo.presc_reason DRUGREMARK ,"" PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
                     ,"" TOTAL ,"" as SIGCODE ,"" as SIGTEXT ,"" PROVIDER,v.vstdate
@@ -1103,7 +729,7 @@ class Account401Controller extends Controller
                     UNION all
 
                     SELECT pt.hcode HCODE ,v.hn HN ,v.an AN ,v1.spclty CLINIC ,pt.cid PERSON_ID ,DATE_FORMAT((v.vstdate),"%Y%m%d") DATE_SERV
-                    ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,sum(v.qty) AMOUNT ,round(v.unitprice,2) DRUGPRIC
+                    ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,sum(v.qty) AMOUNT ,round(v.unitprice,2) DRUGPRICE
                     ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
                     ,oo.presc_reason DRUGREMARK ,"" PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
                     ,"" TOTAL,"" as SIGCODE,"" as SIGTEXT,""  PROVIDER,v.vstdate
@@ -1119,17 +745,17 @@ class Account401Controller extends Controller
                 ');
                
                 foreach ($data_dru_ as $va_14) {
-                    D_dru::insert([ 
-                        'HN'             => $va_14->HN,
-                        'CLINIC'         => $va_14->CLINIC,
+                    Fdh_dru::insert([ 
                         'HCODE'          => $va_14->HCODE,
+                        'HN'             => $va_14->HN,
                         'AN'             => $va_14->AN,
+                        'CLINIC'         => $va_14->CLINIC, 
                         'PERSON_ID'      => $va_14->PERSON_ID,
                         'DATE_SERV'      => $va_14->DATE_SERV,
                         'DID'            => $va_14->DID,
                         'DIDNAME'        => $va_14->DIDNAME, 
                         'AMOUNT'         => $va_14->AMOUNT,
-                        'DRUGPRIC'       => $va_14->DRUGPRIC,
+                        'DRUGPRICE'      => $va_14->DRUGPRICE,
                         'DRUGCOST'       => $va_14->DRUGCOST,
                         'DIDSTD'         => $va_14->DIDSTD,
                         'UNIT'           => $va_14->UNIT,
@@ -1148,19 +774,20 @@ class Account401Controller extends Controller
                         'd_anaconda_id'  => 'OFC_401'
                     ]);
                 } 
-                 
+ 
          }
-         
-         D_adp::where('CODE','=','XXXXXX')->delete();
-          
+         D_ofc_401::whereIn('d_ofc_401_id',explode(",",$id))
+                ->update([
+                    'active' => 'Y'
+                ]);
+        Fdh_adp::where('CODE','=','XXXXXX')->delete();
 
-         return response()->json([
+        return response()->json([
              'status'    => '200'
-         ]);
+        ]);
     }
     
-
-    public function account_401_claim_export(Request $request)
+    public function ofc_main_export(Request $request)
     {
         $sss_date_now = date("Y-m-d");
         $sss_time_now = date("H:i:s");
@@ -1295,7 +922,7 @@ class Account401Controller extends Controller
         $objFopen_orf = fopen($file_d_orf, 'w'); 
         $opd_head_orf = 'HN|DATEOPD|CLINIC|REFER|REFERTYPE|SEQ|REFERDATE';
         fwrite($objFopen_orf, $opd_head_orf);
-        $orf = DB::connection('mysql')->select('SELECT * from d_orf where d_anaconda_id = "OFC_401"');
+        $orf = DB::connection('mysql')->select('SELECT * from fdh_orf where d_anaconda_id = "OFC_401"');
         foreach ($orf as $key => $value4) {
             $p1 = $value4->HN;
             $p2 = $value4->DATEOPD;
@@ -1316,7 +943,7 @@ class Account401Controller extends Controller
         $objFopen_odx = fopen($file_d_odx, 'w'); 
         $opd_head_odx = 'HN|DATEDX|CLINIC|DIAG|DXTYPE|DRDX|PERSON_ID|SEQ';
         fwrite($objFopen_odx, $opd_head_odx);
-        $odx = DB::connection('mysql')->select('SELECT HN,DATEDX,CLINIC,DIAG,DXTYPE,DRDX,PERSON_ID,SEQ from d_odx where d_anaconda_id = "OFC_401"');
+        $odx = DB::connection('mysql')->select('SELECT * from fdh_odx where d_anaconda_id = "OFC_401"');
         foreach ($odx as $key => $value5) {
             $m1 = $value5->HN;
             $m2 = $value5->DATEDX;
@@ -1338,7 +965,7 @@ class Account401Controller extends Controller
         $objFopen_oop = fopen($file_d_oop, 'w'); 
         $opd_head_oop = 'HN|DATEOPD|CLINIC|OPER|DROPID|PERSON_ID|SEQ|SERVPRICE';
         fwrite($objFopen_oop, $opd_head_oop);
-        $oop = DB::connection('mysql')->select('SELECT * from d_oop where d_anaconda_id = "OFC_401"');
+        $oop = DB::connection('mysql')->select('SELECT * from fdh_oop where d_anaconda_id = "OFC_401"');
         foreach ($oop as $key => $value6) {
             $n1 = $value6->HN;
             $n2 = $value6->DATEOPD;
@@ -1361,7 +988,7 @@ class Account401Controller extends Controller
         $objFopen_ipd = fopen($file_d_ipd, 'w'); 
         $opd_head_ipd = 'HN|AN|DATEADM|TIMEADM|DATEDSC|TIMEDSC|DISCHS|DISCHT|WARDDSC|DEPT|ADM_W|UUC|SVCTYPE';
         fwrite($objFopen_ipd, $opd_head_ipd);
-        $ipd = DB::connection('mysql')->select('SELECT * from d_ipd where d_anaconda_id = "OFC_401"');
+        $ipd = DB::connection('mysql')->select('SELECT * from fdh_ipd where d_anaconda_id = "OFC_401"');
         foreach ($ipd as $key => $value7) {
             $j1 = $value7->HN;
             $j2 = $value7->AN;
@@ -1388,7 +1015,7 @@ class Account401Controller extends Controller
         $objFopen_irf = fopen($file_d_irf, 'w'); 
         $opd_head_irf = 'AN|REFER|REFERTYPE';
         fwrite($objFopen_irf, $opd_head_irf);
-        $irf = DB::connection('mysql')->select('SELECT * from d_irf where d_anaconda_id = "OFC_401"');
+        $irf = DB::connection('mysql')->select('SELECT * from fdh_irf where d_anaconda_id = "OFC_401"');
         foreach ($irf as $key => $value8) {
             $k1 = $value8->AN;
             $k2 = $value8->REFER;
@@ -1405,7 +1032,7 @@ class Account401Controller extends Controller
         $objFopen_idx = fopen($file_d_idx, 'w'); 
         $opd_head_idx = 'AN|DIAG|DXTYPE|DRDX';
         fwrite($objFopen_idx, $opd_head_idx);
-        $idx = DB::connection('mysql')->select('SELECT * from d_idx where d_anaconda_id = "OFC_401"');
+        $idx = DB::connection('mysql')->select('SELECT * from fdh_idx where d_anaconda_id = "OFC_401"');
         foreach ($idx as $key => $value9) {
             $h1 = $value9->AN;
             $h2 = $value9->DIAG;
@@ -1423,7 +1050,7 @@ class Account401Controller extends Controller
         $objFopen_iop = fopen($file_d_iop, 'w'); 
         $opd_head_iop = 'AN|OPER|OPTYPE|DROPID|DATEIN|TIMEIN|DATEOUT|TIMEOUT';
         fwrite($objFopen_iop, $opd_head_iop);
-        $iop = DB::connection('mysql')->select('SELECT * from d_iop where d_anaconda_id = "OFC_401"');
+        $iop = DB::connection('mysql')->select('SELECT * from fdh_iop where d_anaconda_id = "OFC_401"');
         foreach ($iop as $key => $value10) {
             $b1 = $value10->AN;
             $b2 = $value10->OPER;
@@ -1443,10 +1070,10 @@ class Account401Controller extends Controller
         //11 cht.txt
         $file_d_cht = "Export/".$folder."/CHT.txt";
         $objFopen_cht = fopen($file_d_cht, 'w'); 
-        // $opd_head_cht = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ|OPD_MEMO|INVOICE_NO|INVOICE_LT';
-        $opd_head_cht = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ';
+        $opd_head_cht = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ|OPD_MEMO|INVOICE_NO|INVOICE_LT';
+        // $opd_head_cht = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ';
         fwrite($objFopen_cht, $opd_head_cht);
-        $cht = DB::connection('mysql')->select('SELECT * from d_cht where d_anaconda_id = "OFC_401"');
+        $cht = DB::connection('mysql')->select('SELECT * from fdh_cht where d_anaconda_id = "OFC_401"');
         foreach ($cht as $key => $value11) {
             $f1 = $value11->HN;
             $f2 = $value11->AN;
@@ -1472,7 +1099,7 @@ class Account401Controller extends Controller
         $objFopen_cha = fopen($file_d_cha, 'w'); 
         $opd_head_cha = 'HN|AN|DATE|CHRGITEM|AMOUNT|PERSON_ID|SEQ';
         fwrite($objFopen_cha, $opd_head_cha);
-        $cha = DB::connection('mysql')->select('SELECT * from d_cha where d_anaconda_id = "OFC_401"');
+        $cha = DB::connection('mysql')->select('SELECT * from fdh_cha where d_anaconda_id = "OFC_401"');
         foreach ($cha as $key => $value12) {
             $e1 = $value12->HN;
             $e2 = $value12->AN;
@@ -1493,7 +1120,7 @@ class Account401Controller extends Controller
          $objFopen_aer = fopen($file_d_aer, 'w'); 
          $opd_head_aer = 'HN|AN|DATEOPD|AUTHAE|AEDATE|AETIME|AETYPE|REFER_NO|REFMAINI|IREFTYPE|REFMAINO|OREFTYPE|UCAE|EMTYPE|SEQ|AESTATUS|DALERT|TALERT';
          fwrite($objFopen_aer, $opd_head_aer);
-         $aer = DB::connection('mysql')->select('SELECT * from d_aer where d_anaconda_id = "OFC_401"');
+         $aer = DB::connection('mysql')->select('SELECT * from fdh_aer where d_anaconda_id = "OFC_401"');
          foreach ($aer as $key => $value13) {
              $d1 = $value13->HN;
              $d2 = $value13->AN;
@@ -1574,7 +1201,7 @@ class Account401Controller extends Controller
          $objFopen_lvd = fopen($file_d_lvd, 'w'); 
          $opd_head_lvd = 'SEQLVD|AN|DATEOUT|TIMEOUT|DATEIN|TIMEIN|QTYDAY';
          fwrite($objFopen_lvd, $opd_head_lvd);
-         $lvd = DB::connection('mysql')->select('SELECT * from d_lvd where d_anaconda_id = "OFC_401"');
+         $lvd = DB::connection('mysql')->select('SELECT * from fdh_lvd where d_anaconda_id = "OFC_401"');
          foreach ($lvd as $key => $value15) {
              $L1 = $value15->SEQLVD;
              $L2 = $value15->AN;
@@ -1590,54 +1217,16 @@ class Account401Controller extends Controller
             fwrite($objFopen_lvd, $str_lvd_152);
          }
          fclose($objFopen_lvd); 
-
-        //16 dru.txt
-        // $file_d_dru = "Export/".$folder."/DRU.txt";
-        // $objFopen_dru = fopen($file_d_dru, 'w'); 
-        // $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGTYPE|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
-        // fwrite($objFopen_dru, $opd_head_dru);
-        // $dru = DB::connection('mysql')->select('
-        //     SELECT * from d_dru where d_anaconda_id = "OFC_401"
-        // ');
-        // foreach ($dru as $key => $value7) {
-        //     $g1 = $value7->HCODE;
-        //     $g2 = $value7->HN;
-        //     $g3 = $value7->AN;
-        //     $g4 = $value7->CLINIC;
-        //     $g5 = $value7->PERSON_ID;
-        //     $g6 = $value7->DATE_SERV;
-        //     $g7 = $value7->DID;
-        //     $g8 = $value7->DIDNAME;
-        //     $g9 = $value7->AMOUNT;
-        //     $g10 = $value7->DRUGPRIC;
-        //     $g11 = $value7->DRUGCOST;
-        //     $g12 = $value7->DIDSTD;
-        //     $g13 = $value7->UNIT;
-        //     $g14 = $value7->UNIT_PACK;
-        //     $g15 = $value7->SEQ;
-        //     $g16 = $value7->DRUGREMARK;
-        //     $g17 = $value7->PA_NO;
-        //     $g18 = $value7->TOTCOPAY;
-        //     $g19 = $value7->USE_STATUS;
-        //     $g20 = $value7->TOTAL;
-        //     $g21 = $value7->SIGCODE;
-        //     $g22 = $value7->SIGTEXT;  
-        //     $g23 = $value7->SIGTEXT;      
-        //     $str_dru="\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g16."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22."|".$g23;
-        //     $ansitxt_dru = iconv('UTF-8', 'TIS-620', $str_dru); 
-        //     fwrite($objFopen_dru, $ansitxt_dru); 
-        // }
-        // fclose($objFopen_dru); 
-        
+ 
         //16 dru.txt
         $file_d_dru = "Export/".$folder."/DRU.txt";
         $objFopen_dru = fopen($file_d_dru, 'w');
         // $objFopen_dru_utf = fopen($file_d_dru, 'w');
         // $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER|SP_ITEM';
-        $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
+        $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRICE|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
         fwrite($objFopen_dru, $opd_head_dru);
         // fwrite($objFopen_dru_utf, $opd_head_dru);
-        $dru = DB::connection('mysql')->select('SELECT * from d_dru where d_anaconda_id = "OFC_401"');
+        $dru = DB::connection('mysql')->select('SELECT * from fdh_dru where d_anaconda_id = "OFC_401"');
         foreach ($dru as $key => $value16) {
             $g1 = $value16->HCODE;
             $g2 = $value16->HN;
@@ -1648,7 +1237,7 @@ class Account401Controller extends Controller
             $g7 = $value16->DID;
             $g8 = $value16->DIDNAME;
             $g9 = $value16->AMOUNT;
-            $g10 = $value16->DRUGPRIC;
+            $g10 = $value16->DRUGPRICE;
             $g11 = $value16->DRUGCOST;
             $g12 = $value16->DIDSTD;
             $g13 = $value16->UNIT;
@@ -1708,14 +1297,12 @@ class Account401Controller extends Controller
         //                     // unlink($file); 
         //                 } 
         //             }                      
-        //             return redirect()->route('claim.ofc_401');                    
+        //             return redirect()->route('claim.ofc_main');                    
         //         }
         // } 
 
-            return redirect()->route('acc.account_401_pull');
+            return redirect()->route('claim.ofc_main');
 
     }
-   
- 
-
- }
+     
+}

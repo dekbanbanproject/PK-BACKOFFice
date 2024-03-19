@@ -8,15 +8,13 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     { 
-        if (!Schema::hasTable('d_adp'))
+        if (!Schema::hasTable('fdh_adp'))
         {
-            Schema::connection('mysql')->create('d_adp', function (Blueprint $table) {
-                $table->bigIncrements('d_adp_id'); 
+            Schema::connection('mysql')->create('fdh_adp', function (Blueprint $table) {
+                $table->bigIncrements('fdh_adp_id'); 
                 
                 $table->string('HN',length: 15)->nullable();// 
                 $table->string('AN',length: 15)->nullable();//  
@@ -40,7 +38,7 @@ return new class extends Migration
                 $table->string('CLINIC',length: 5)->nullable(); // 
                 $table->decimal('ITEMSRC',total: 1, places: 0)->nullable();// 
                 $table->string('PROVIDER',length: 15)->nullable(); //
-                $table->string('GLAVIDA',length: 2)->nullable(); //
+                $table->string('GRAVIDA',length: 2)->nullable(); //
                 $table->string('GA_WEEK',length: 2)->nullable(); //
                 $table->string('DCIP',length: 2)->nullable(); //
                 $table->date('LMP')->nullable(); // 
@@ -57,11 +55,9 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('d_adp');
+        Schema::dropIfExists('fdh_adp');
     }
 };

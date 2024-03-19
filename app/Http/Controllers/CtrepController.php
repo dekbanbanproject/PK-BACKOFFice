@@ -214,11 +214,12 @@ class CtrepController extends Controller
                     SELECT a_ct_scan_id,vn,hn,cid,order_date,order_time,order_date_time,request_date,ptname,xray_list,confirm_all,department,department_code
                     ,department_name,pttype,ptty_spsch,xray_order_number,xray_price,total_price,department_list,priority_name,STMdoc,user_id,active
                     FROM a_ct_scan 
-                    WHERE request_date BETWEEN "2024-01-16" AND "2024-01-31"
+                    WHERE request_date BETWEEN "2024-02-01" AND "2024-02-15"
                   
                     GROUP BY vn
                     ORDER BY request_date ASC
                 '); 
+                // BETWEEN "'.$newDate.'" and "'.$date.'"
                 // AND active = "N"
                 // WHERE request_date BETWEEN "' . $newDate . '" AND "' . $date . '"
                 // $data['datashow'] = DB::connection('mysql')->select('SELECT * FROM a_ct WHERE vstdate BETWEEN "' . $newDate . '" AND "' . $date . '" ORDER BY vstdate DESC');

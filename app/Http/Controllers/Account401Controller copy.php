@@ -1050,7 +1050,7 @@ class Account401Controller extends Controller
                 // ,n.nhso_adp_type_id TYPE
                 // ,ic.drg_chrgitem_id TYPE
                 foreach ($data_adp_ as $va_13) {
-                    Fdh_adp::insert([
+                    d_adp::insert([
                         'HN'                   => $va_13->HN,
                         'AN'                   => $va_13->AN,
                         'DATEOPD'              => $va_13->DATEOPD,
@@ -1218,11 +1218,15 @@ class Account401Controller extends Controller
             $a20 = $value1->HTYPE;
             // $str_ins="\n".$a1."|".$a2."|".$a3."|".$a4."|".$a5."|".$a6."|".$a7."|".$a8."|".$a9."|".$a10."|".$a11."|".$a12."|".$a13."|".$a14."|".$a15."|".$a16."|".$a17."|".$a18."|".$a19."|".$a20;
             // $str_ins="\n".$a1."|".$a2."|".$a3."|".$a4."|".$a6."|".$a7."|".$a8."|".$a9."|".$a10."|".$a11."|".$a12."|".$a13."|".$a14."|".$a15."|".$a16."|".$a17."|".$a18."|".$a19."|".$a20;
-            $str_ins ="\n".$a1."|".$a2."|".$a3."|".$a4."|".$a5."|".$a7."|".$a8."|".$a9."|".$a10."|".$a11."|".$a12."|".$a13."|".$a14."|".$a15."|".$a16."|".$a17."|".$a18."|".$a19."|".$a20;
-            
-            $str_ins_10 = preg_replace("/\n/", "\r\n", $str_ins); 
-            $str_ins_11 = mb_convert_encoding($str_ins_10, 'UTF-8');   
-            fwrite($objFopen_ins, $str_ins_11);  
+             $str_ins ="\n".$a1."|".$a2."|".$a3."|".$a4."|".$a5."|".$a7."|".$a8."|".$a9."|".$a10."|".$a11."|".$a12."|".$a13."|".$a14."|".$a15."|".$a16."|".$a17."|".$a18."|".$a19."|".$a20;
+            //  $str_ins="\n".$a1."|".$a2."|".$a3."|".$a4."|".$a6."|".$a7."|".$a8."|".$a9."|".$a10."|".$a11."|".$a12."|".$a13."|".$a14."|".$a15."|".$a16."|".$a17."|".$a18."|".$a19."|".$a20;
+            // $ansitxt_ins = iconv('UTF-8', 'UTF-8', $str_ins); 
+            // $ansitxt_ins = iconv('UTF-8', 'UTF-8', $str_ins); 
+            // $utf8_ins = iconv("TIS-620", "UTF-8", $ansitxt_ins );
+            // fwrite($objFopen_ins, $ansitxt_ins); 
+            $str = preg_replace("/\n/", "\r\n", $str_ins); 
+            $str1 = mb_convert_encoding($str, 'windows-1252', 'utf-8');
+            fwrite($objFopen_ins, $str1);
         }
         fclose($objFopen_ins); 
 
@@ -1252,7 +1256,32 @@ class Account401Controller extends Controller
             $str_pat ="\n".$i1."|".$i2."|".$i3."|".$i4."|".$i5."|".$i6."|".$i7."|".$i8."|".$i9."|".$i10."|".$i11."|".$i12."|".$i13."|".$i14."|".$i15;
             $str_pat_20 = preg_replace("/\n/", "\r\n", $str_pat); 
             $str_pat_21 = mb_convert_encoding($str_pat_20, 'UTF-8');   
-            fwrite($objFopen_pat, $str_pat_21);              
+            fwrite($objFopen_pat, $str_pat_21);
+            // $ansitxt_pat = iconv('UTF-8', 'TIS-620', $str_pat);
+            // $utf8 = iconv("TIS-620", "UTF-8", $ansitxt_pat_tis620 );
+            // $ansitxt_pat = iconv('UTF-8', 'UTF-8', $str_pat);  
+            // fwrite($objFopen_pat, $ansitxt_pat_tis620);
+            // $str_620 = iconv("UTF-8", "ANSI", $str_pat); 
+            // $convertedChar = iconv('ISO-IR-166', "UTF-8", utf8_decode('¤'), $str_pat);
+           
+            // $str_pat_21 = mb_convert_encoding($str_pat_20, 'windows-1252', 'utf-8');
+            // $str_pat_20 = preg_replace("/\n/", "\r\n", $str_pat); 
+            // $str_pat_21 = mb_convert_encoding($str_pat_20, 'windows-1251', 'UTF-8');
+            // $ansitxt_pat = iconv('UTF-8', 'TIS-620', $str_pat_21);
+            // $str_pat_22 = iconv("windows-874","UTF-8",$str_pat_20);
+
+            // $len = strlen(trim($str_pat_20));
+	
+            // $utf8 = mb_convert_encoding($str_pat_20, 'Windows-1252', 'UTF-8');
+            // $utf8 = iconv( 'UTF-8', 'TIS-620', $utf8);
+            
+            // $len_utf8 = strlen(trim($utf8));
+            // if(trim($utf8) != '' && trim($utf8) != '..' && $len_utf8 > ($len/2) ){
+            //     $text = $utf8;
+            // }
+            // fwrite($objFopen_pat, $text);
+            // $str_pat_21 = mb_convert_encoding($str_pat_20, 'Windows-1252', 'UTF-8');
+         
         }
         fclose($objFopen_pat);
         
@@ -1283,9 +1312,14 @@ class Account401Controller extends Controller
             $o15 = $value3->TYPEOUT;
             // $str_opd="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6; 
             $str_opd ="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6."|".$o7."|".$o8."|".$o9."|".$o10."|".$o11."|".$o12."|".$o13."|".$o14."|".$o15;
+            // $ansitxt_opd = iconv('UTF-8', 'UTF-8', $str_opd); 
+            // $ansitxt_opd = iconv('UTF-8', 'UTF-8', $str_opd); 
+            // $utf8_opd = iconv("TIS-620", "UTF-8", $ansitxt_opd );
+            // fwrite($objFopen_opd, $ansitxt_opd);
             $str_opd_30 = preg_replace("/\n/", "\r\n", $str_opd); 
-            $str_opd_31 = mb_convert_encoding($str_opd_30, 'UTF-8');   
-            fwrite($objFopen_opd, $str_opd_31);  
+            $str_opd_31 = mb_convert_encoding($str_opd_30, 'windows-1252', 'utf-8');
+            fwrite($objFopen_opd, $str_opd_31);
+            
         }
         fclose($objFopen_opd);
        
@@ -1305,9 +1339,9 @@ class Account401Controller extends Controller
             $p6 = $value4->SEQ;  
             $p7 = $value4->REFERDATE; 
             $str_orf="\n".$p1."|".$p2."|".$p3."|".$p4."|".$p5."|".$p6."|".$p7;
-            $str_orf_40 = preg_replace("/\n/", "\r\n", $str_orf); 
-            $str_orf_41 = mb_convert_encoding($str_orf_40, 'UTF-8');   
-            fwrite($objFopen_orf, $str_orf_41);   
+            // $ansitxt_orf = iconv('UTF-8', 'TIS-620', $str_orf); 
+            $ansitxt_orf = iconv('UTF-8', 'UTF-8', $str_orf); 
+            fwrite($objFopen_orf, $ansitxt_orf); 
         }
         fclose($objFopen_orf);        
 
@@ -1327,9 +1361,9 @@ class Account401Controller extends Controller
             $m7 = $value5->PERSON_ID; 
             $m8 = $value5->SEQ; 
             $str_odx="\n".$m1."|".$m2."|".$m3."|".$m4."|".$m5."|".$m6."|".$m7."|".$m8;
-            $str_odx_50 = preg_replace("/\n/", "\r\n", $str_odx); 
-            $str_odx_51 = mb_convert_encoding($str_odx_50, 'UTF-8');   
-            fwrite($objFopen_odx, $str_odx_51);  
+            // $ansitxt_odx = iconv('UTF-8', 'TIS-620', $str_odx); 
+            $ansitxt_odx = iconv('UTF-8', 'UTF-8', $str_odx); 
+            fwrite($objFopen_odx, $ansitxt_odx); 
         }
         fclose($objFopen_odx); 
 
@@ -1348,11 +1382,10 @@ class Account401Controller extends Controller
             $n6 = $value6->PERSON_ID; 
             $n7 = $value6->SEQ; 
             $n8 = $value6->SERVPRICE; 
-            $str_oop="\n".$n1."|".$n2."|".$n3."|".$n4."|".$n5."|".$n6."|".$n7."|".$n8; 
-            $str_oop_60 = preg_replace("/\n/", "\r\n", $str_oop); 
-            $str_oop_61 = mb_convert_encoding($str_oop_60, 'UTF-8');   
-            fwrite($objFopen_oop, $str_oop_61); 
-
+            $str_oop="\n".$n1."|".$n2."|".$n3."|".$n4."|".$n5."|".$n6."|".$n7."|".$n8;
+            // $ansitxt_oop = iconv('UTF-8', 'TIS-620', $str_oop); 
+            $ansitxt_oop = iconv('UTF-8', 'UTF-8', $str_oop); 
+            fwrite($objFopen_oop, $ansitxt_oop); 
         }
         fclose($objFopen_oop); 
 
@@ -1377,9 +1410,9 @@ class Account401Controller extends Controller
             $j12 = $value7->UUC;
             $j13 = $value7->SVCTYPE;    
             $str_ipd="\n".$j1."|".$j2."|".$j3."|".$j4."|".$j5."|".$j6."|".$j7."|".$j8."|".$j9."|".$j10."|".$j11."|".$j12."|".$j13;
-            $str_ipd_70 = preg_replace("/\n/", "\r\n", $str_ipd); 
-            $str_ipd_71 = mb_convert_encoding($str_ipd_70, 'UTF-8');   
-            fwrite($objFopen_ipd, $str_ipd_71); 
+            // $ansitxt_ipd = iconv('UTF-8', 'TIS-620', $str_ipd); 
+            $ansitxt_ipd = iconv('UTF-8', 'UTF-8', $str_ipd); 
+            fwrite($objFopen_ipd, $ansitxt_ipd); 
         }
         fclose($objFopen_ipd); 
 
@@ -1393,10 +1426,10 @@ class Account401Controller extends Controller
             $k1 = $value8->AN;
             $k2 = $value8->REFER;
             $k3 = $value8->REFERTYPE; 
-            $str_irf="\n".$k1."|".$k2."|".$k3; 
-            $str_irf_80 = preg_replace("/\n/", "\r\n", $str_irf); 
-            $str_irf_81 = mb_convert_encoding($str_irf_80, 'UTF-8');   
-            fwrite($objFopen_irf, $str_irf_81);
+            $str_irf="\n".$k1."|".$k2."|".$k3;
+            // $ansitxt_irf = iconv('UTF-8', 'TIS-620', $str_irf); 
+            $ansitxt_irf = iconv('UTF-8', 'UTF-8', $str_irf); 
+            fwrite($objFopen_irf, $ansitxt_irf); 
         }
         fclose($objFopen_irf); 
 
@@ -1411,10 +1444,10 @@ class Account401Controller extends Controller
             $h2 = $value9->DIAG;
             $h3 = $value9->DXTYPE;
             $h4 = $value9->DRDX; 
-            $str_idx="\n".$h1."|".$h2."|".$h3."|".$h4; 
-            $str_idx_90 = preg_replace("/\n/", "\r\n", $str_idx); 
-            $str_idx_91 = mb_convert_encoding($str_idx_90, 'UTF-8');   
-            fwrite($objFopen_idx, $str_idx_91);
+            $str_idx="\n".$h1."|".$h2."|".$h3."|".$h4;
+            // $ansitxt_idx = iconv('UTF-8', 'TIS-620', $str_idx);
+            $ansitxt_idx = iconv('UTF-8', 'UTF-8', $str_idx);  
+            fwrite($objFopen_idx, $ansitxt_idx); 
         }
         fclose($objFopen_idx); 
                    
@@ -1433,10 +1466,10 @@ class Account401Controller extends Controller
             $b6 = $value10->TIMEIN;
             $b7 = $value10->DATEOUT;
             $b8 = $value10->TIMEOUT;           
-            $str_iop="\n".$b1."|".$b2."|".$b3."|".$b4."|".$b5."|".$b6."|".$b7."|".$b8; 
-            $str_iop_100 = preg_replace("/\n/", "\r\n", $str_iop); 
-            $str_iop_101 = mb_convert_encoding($str_iop_100, 'UTF-8');   
-            fwrite($objFopen_iop, $str_iop_101);
+            $str_iop="\n".$b1."|".$b2."|".$b3."|".$b4."|".$b5."|".$b6."|".$b7."|".$b8;
+            // $ansitxt_iop = iconv('UTF-8', 'TIS-620', $str_iop); 
+            $ansitxt_iop = iconv('UTF-8', 'UTF-8', $str_iop); 
+            fwrite($objFopen_iop, $ansitxt_iop); 
         }
         fclose($objFopen_iop); 
         
@@ -1456,14 +1489,15 @@ class Account401Controller extends Controller
             $f6 = $value11->PTTYPE;
             $f7 = $value11->PERSON_ID; 
             $f8 = $value11->SEQ;
-            $f9 = $value11->OPD_MEMO;
-            $f10 = $value11->INVOICE_NO;
-            $f11 = $value11->INVOICE_LT;
-            $str_cht="\n".$f1."|".$f2."|".$f3."|".$f4."|".$f5."|".$f6."|".$f7."|".$f8."|".$f9."|".$f10."|".$f11;
-            // $str_cht="\n".$f1."|".$f2."|".$f3."|".$f4."|".$f5."|".$f6."|".$f7."|".$f8; 
-            $str_cht_11 = preg_replace("/\n/", "\r\n", $str_cht); 
-            $str_cht_12 = mb_convert_encoding($str_cht_11, 'UTF-8');   
-            fwrite($objFopen_cht, $str_cht_12);
+            // $f9 = $value11->OPD_MEMO;
+            // $f10 = $value11->INVOICE_NO;
+            // $f11 = $value11->INVOICE_LT;
+            // $str_cht="\n".$f1."|".$f2."|".$f3."|".$f4."|".$f5."|".$f6."|".$f7."|".$f8."|".$f9."|".$f10."|".$f11;
+            $str_cht="\n".$f1."|".$f2."|".$f3."|".$f4."|".$f5."|".$f6."|".$f7."|".$f8;
+            $ansitxt_cht = iconv('UTF-8', 'UTF-8', $str_cht); 
+            // $ansitxt_cht = iconv('UTF-8', 'UTF-8', $str_cht); 
+            // $utf8_cht = iconv("TIS-620", "UTF-8", $ansitxt_cht );
+            fwrite($objFopen_cht, $ansitxt_cht); 
         }
         fclose($objFopen_cht); 
 
@@ -1481,10 +1515,10 @@ class Account401Controller extends Controller
             $e5 = $value12->AMOUNT;
             $e6 = $value12->PERSON_ID;
             $e7 = $value12->SEQ; 
-            $str_cha="\n".$e1."|".$e2."|".$e3."|".$e4."|".$e5."|".$e6."|".$e7;            
-            $str_cha_12 = preg_replace("/\n/", "\r\n", $str_cha); 
-            $str_cha_122 = mb_convert_encoding($str_cha_12, 'UTF-8');   
-            fwrite($objFopen_cha, $str_cha_122);
+            $str_cha="\n".$e1."|".$e2."|".$e3."|".$e4."|".$e5."|".$e6."|".$e7;
+            $ansitxt_cha = iconv('UTF-8', 'UTF-8', $str_cha); 
+            // $ansitxt_cha = iconv('UTF-8', 'UTF-8', $str_cha);
+            fwrite($objFopen_cha, $ansitxt_cha); 
         }
         fclose($objFopen_cha); 
 
@@ -1514,33 +1548,28 @@ class Account401Controller extends Controller
              $d17 = $value13->DALERT;
              $d18 = $value13->TALERT;        
              $str_aer="\n".$d1."|".$d2."|".$d3."|".$d4."|".$d5."|".$d6."|".$d7."|".$d8."|".$d9."|".$d10."|".$d11."|".$d12."|".$d13."|".$d14."|".$d15."|".$d16."|".$d17."|".$d18;
-          
-            $str_aer_13 = preg_replace("/\n/", "\r\n", $str_aer); 
-            $str_aer_132 = mb_convert_encoding($str_aer_13, 'UTF-8');   
-            fwrite($objFopen_aer, $str_aer_132);
+            //  $ansitxt_aer = iconv('UTF-8', 'TIS-620', $str_aer); 
+             $ansitxt_aer = iconv('UTF-8', 'UTF-8', $str_aer); 
+             fwrite($objFopen_aer, $ansitxt_aer); 
          }
          fclose($objFopen_aer); 
                    
         //14 adp.txt
         $file_d_adp = "Export/".$folder."/ADP.txt";
         $objFopen_adp = fopen($file_d_adp, 'w'); 
-        // $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP|LMP|SP_ITEM';
-        // $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP/E_screen|LMP|SP_ITEM';
-        // $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP/E_screen|LMP|SP_ITEM';
-        $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE';
-        
+        $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP|LMP|SP_ITEM';
         fwrite($objFopen_adp, $opd_head_adp);
-        $adp = DB::connection('mysql')->select('SELECT * from fdh_adp where d_anaconda_id = "OFC_401"');
+        $adp = DB::connection('mysql')->select('SELECT * from d_adp where d_anaconda_id = "OFC_401"');
         foreach ($adp as $key => $value14) {
-            $c1  = $value14->HN;
-            $c2  = $value14->AN;
-            $c3  = $value14->DATEOPD;
-            $c4  = $value14->TYPE;
-            $c5  = $value14->CODE;
-            $c6  = $value14->QTY;
-            $c7  = $value14->RATE;
-            $c8  = $value14->SEQ;
-            $c9  = $value14->CAGCODE;
+            $c1 = $value14->HN;
+            $c2 = $value14->AN;
+            $c3 = $value14->DATEOPD;
+            $c4 = $value14->TYPE;
+            $c5 = $value14->CODE;
+            $c6 = $value14->QTY;
+            $c7 = $value14->RATE;
+            $c8 = $value14->SEQ;
+            $c9 = $value14->CAGCODE;
             $c10 = $value14->DOSE;
             $c11 = $value14->CA_TYPE;
             $c12 = $value14->SERIALNO;
@@ -1549,23 +1578,20 @@ class Account401Controller extends Controller
             $c15 = $value14->TOTAL;
             $c16 = $value14->QTYDAY;
             $c17 = $value14->TMLTCODE;
-            // $c18 = $value14->STATUS1;
-            // $c19 = $value14->BI;
-            // $c20 = $value14->CLINIC;
-            // $c21 = $value14->ITEMSRC;
-            // $c22 = $value14->PROVIDER;
-            // $c23 = $value14->GRAVIDA;
-            // $c24 = $value14->GA_WEEK;
-            // $c25 = $value14->DCIP;
-            // $c26 = $value14->LMP;
-            // $c27 = $value14->SP_ITEM;   
-            $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17;        
-            // $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17."|".$c18."|".$c19."|".$c20."|".$c21."|".$c22."|".$c23."|".$c24."|".$c25."|".$c26."|".$c27;
-            // $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17."|".$c18."|".$c19."|".$c20."|".$c21."|".$c22."|".$c23."|".$c24."|".$c25."|".$c26;
-           
-            $str_adp_14 = preg_replace("/\n/", "\r\n", $str_adp); 
-            $str_adp_142 = mb_convert_encoding($str_adp_14, 'UTF-8');   
-            fwrite($objFopen_adp, $str_adp_142);
+            $c18 = $value14->STATUS1;
+            $c19 = $value14->BI;
+            $c20 = $value14->CLINIC;
+            $c21 = $value14->ITEMSRC;
+            $c22 = $value14->PROVIDER;
+            $c23 = $value14->GRAVIDA;
+            $c24 = $value14->GA_WEEK;
+            $c25 = $value14->DCIP;
+            $c26 = $value14->LMP;
+            $c27 = $value14->SP_ITEM;           
+            $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17."|".$c18."|".$c19."|".$c20."|".$c21."|".$c22."|".$c23."|".$c24."|".$c25."|".$c26."|".$c27;
+            // $ansitxt_adp = iconv('UTF-8', 'TIS-620', $str_adp); 
+            $ansitxt_adp = iconv('UTF-8', 'UTF-8', $str_adp);
+            fwrite($objFopen_adp, $ansitxt_adp); 
         }
         fclose($objFopen_adp); 
         
@@ -1584,10 +1610,10 @@ class Account401Controller extends Controller
              $L6 = $value15->TIMEIN; 
              $L7 = $value15->QTYDAY; 
              $str_lvd="\n".$L1."|".$L2."|".$L3."|".$L4."|".$L5."|".$L6."|".$L7;
-           
-            $str_lvd_15 = preg_replace("/\n/", "\r\n", $str_lvd); 
-            $str_lvd_152 = mb_convert_encoding($str_lvd_15, 'UTF-8');   
-            fwrite($objFopen_lvd, $str_lvd_152);
+            //  $ansitxt_lvd = iconv('UTF-8', 'TIS-620', $str_lvd); 
+             $ansitxt_lvd = iconv('UTF-8', 'UTF-8', $str_lvd); 
+             fwrite($objFopen_lvd, $ansitxt_lvd); 
+            //  UTF-8
          }
          fclose($objFopen_lvd); 
 
@@ -1666,19 +1692,19 @@ class Account401Controller extends Controller
             // $g25 = $value16->SP_ITEM;      
             $str_dru="\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22."|".$g23."|".$g24;
             $ansitxt_dru = iconv('UTF-8', 'UTF-8', $str_dru);
-            
-            $str_dru_16 = preg_replace("/\n/", "\r\n", $str_dru); 
-            $str_dru_162 = mb_convert_encoding($str_dru_16, 'UTF-8');   
-            fwrite($objFopen_dru, $str_dru_162);
+            // $ansitxt_dru = iconv('UTF-8', 'TIS-620', $str_dru);
+            // $ansitxt_dru_utf = iconv('UTF-8', 'UTF-8', $str_dru);
+            fwrite($objFopen_dru, $ansitxt_dru);
+            // fwrite($objFopen_dru_utf, $ansitxt_dru_utf);
         }
         fclose($objFopen_dru); 
-
          //17 lab.txt
-        //  $file_d_lab = "Export/".$folder."/LAB.txt";
-        //  $objFopen_lab = fopen($file_d_lab, 'w');
-        //  $opd_head_lab = 'HCODE|HN|PERSON_ID|DATESERV|SEQ|LABTEST|LABRESULT';
-        //  fwrite($objFopen_lab, $opd_head_lab);
-        //  fclose($objFopen_lab);
+         $file_d_lab = "Export/".$folder."/LAB.txt";
+         $objFopen_lab = fopen($file_d_lab, 'w');
+         $opd_head_lab = 'HCODE|HN|PERSON_ID|DATESERV|SEQ|LABTEST|LABRESULT';
+         fwrite($objFopen_lab, $opd_head_lab);
+
+         fclose($objFopen_lab);
 
 
 

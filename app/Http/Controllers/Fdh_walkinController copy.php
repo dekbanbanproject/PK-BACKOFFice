@@ -42,6 +42,23 @@ use App\Models\D_walkin;
 use App\Models\D_apiwalkin_ldv;
 use App\Models\D_apiwalkin_irf;
 use App\Models\D_walkin_report;
+
+use App\Models\Fdh_ins;
+use App\Models\Fdh_pat;
+use App\Models\Fdh_opd;
+use App\Models\Fdh_orf;
+use App\Models\Fdh_odx;
+use App\Models\Fdh_cht;
+use App\Models\Fdh_cha;
+use App\Models\Fdh_oop; 
+use App\Models\Fdh_adp;
+use App\Models\Fdh_dru;
+use App\Models\Fdh_idx;
+use App\Models\Fdh_iop;
+use App\Models\Fdh_ipd;
+use App\Models\Fdh_aer;
+use App\Models\Fdh_irf;
+
 use Auth;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http; 
@@ -70,7 +87,7 @@ use Illuminate\Support\Facades\Storage;
  
 date_default_timezone_set("Asia/Bangkok");
 
-class DwalkinController extends Controller
+class Fdh_walkinController extends Controller
 {  
     public function walkin(Request $request)
     {

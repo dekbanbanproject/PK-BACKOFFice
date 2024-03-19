@@ -14,7 +14,8 @@ return new class extends Migration
         if (!Schema::hasTable('d_ofc_402'))
         {
             Schema::connection('mysql')->create('d_ofc_402', function (Blueprint $table) { 
-                $table->bigIncrements('d_ofc_402_id');//  
+                $table->bigIncrements('d_ofc_402_id');// 
+                $table->enum('active', ['N','Y'])->default('N')->nullable(); 
                 $table->string('vn')->nullable();//   
                 $table->string('an')->nullable();//  
                 $table->string('hn')->nullable();// 

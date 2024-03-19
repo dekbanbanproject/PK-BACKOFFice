@@ -284,21 +284,12 @@ Route::match(['get','post'],'uprep_money_plbhn',[App\Http\Controllers\UpstmContr
 
 Route::match(['get','post'],'report_zero',[App\Http\Controllers\ReportZeroController::class, 'report_zero'])->name('claim.report_zero');//
 
-// *******************FDC *******************
-Route::match(['get','post'],'fdh_data',[App\Http\Controllers\FdhController::class, 'fdh_data'])->name('claim.fdh_data');//
-Route::match(['get','post'],'fdh_data_process',[App\Http\Controllers\FdhController::class, 'fdh_data_process'])->name('claim.fdh_data_process');//
-Route::match(['get','post'],'fdh_data_export',[App\Http\Controllers\FdhController::class, 'fdh_data_export'])->name('claim.fdh_data_export');//
+
 
 // *******************Vaccein *******************
 Route::match(['get','post'],'hpv_report',[App\Http\Controllers\VaccineController::class, 'hpv_report'])->name('claim.hpv_report');//
 Route::match(['get','post'],'hpv_report_pull',[App\Http\Controllers\VaccineController::class, 'hpv_report_pull'])->name('claim.hpv_report_pull');//
-// *******************UCS *******************
-Route::match(['get','post'],'walkin',[App\Http\Controllers\DwalkinController::class, 'walkin'])->name('claim.walkin');//
-Route::match(['get','post'],'walkin_process',[App\Http\Controllers\DwalkinController::class, 'walkin_process'])->name('claim.walkin_process');//
-Route::match(['get','post'],'walkin_export',[App\Http\Controllers\DwalkinController::class, 'walkin_export'])->name('claim.walkin_export');//
-Route::match(['get','post'],'walkin_exportapi',[App\Http\Controllers\DwalkinController::class, 'walkin_exportapi'])->name('claim.walkin_exportapi');//
-Route::match(['get','post'],'walkin_sendapi',[App\Http\Controllers\DwalkinController::class, 'walkin_sendapi'])->name('claim.walkin_sendapi');//
-Route::match(['get','post'],'walkin_report',[App\Http\Controllers\DwalkinController::class, 'walkin_report'])->name('claim.walkin_report');//
+
 
 // *******************CRRT *******************
 Route::match(['get','post'],'crrt',[App\Http\Controllers\CrrtController::class, 'crrt'])->name('claim.crrt');//
@@ -3010,5 +3001,25 @@ Route::match(['get','post'],'tb_main_detail/{id}',[App\Http\Controllers\TbContro
 
 // ************** Tecnicial-Service ****************************
 Route::match(['get','post'],'techservice',[App\Http\Controllers\TechserviceController::class, 'techservice'])->name('tec.techservice');//
+
+
+// ************** FDH ****************************
+Route::match(['get','post'],'fdh_main',[App\Http\Controllers\FdhController::class, 'fdh_main'])->name('fdh.fdh_main');// 
+Route::match(['get','post'],'fdh_data',[App\Http\Controllers\FdhController::class, 'fdh_data'])->name('claim.fdh_data');//
+Route::match(['get','post'],'fdh_data_process',[App\Http\Controllers\FdhController::class, 'fdh_data_process'])->name('claim.fdh_data_process');//
+Route::match(['get','post'],'fdh_data_export',[App\Http\Controllers\FdhController::class, 'fdh_data_export'])->name('claim.fdh_data_export');//
+
+// *******************FDH UCS *******************
+Route::match(['get','post'],'walkin',[App\Http\Controllers\Fdh_walkinController::class, 'walkin'])->name('claim.walkin');//
+Route::match(['get','post'],'walkin_process',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_process'])->name('claim.walkin_process');//
+Route::match(['get','post'],'walkin_export',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_export'])->name('claim.walkin_export');//
+Route::match(['get','post'],'walkin_exportapi',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_exportapi'])->name('claim.walkin_exportapi');//
+Route::match(['get','post'],'walkin_sendapi',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_sendapi'])->name('claim.walkin_sendapi');//
+Route::match(['get','post'],'walkin_report',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_report'])->name('claim.walkin_report');//
+
+// *******************FDH OFC *******************
+Route::match(['get','post'],'ofc_main',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main'])->name('claim.ofc_main');//
+Route::match(['get','post'],'ofc_main_process',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main_process'])->name('claim.ofc_main_process');//
+Route::match(['get','post'],'ofc_main_export',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main_export'])->name('claim.ofc_main_export');//
 
 });

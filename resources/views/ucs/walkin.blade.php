@@ -1,4 +1,4 @@
-@extends('layouts.pkclaim')
+@extends('layouts.fdh')
 @section('title', 'PK-BACKOFFice || UCS')
 @section('content')
 <script>
@@ -48,7 +48,7 @@ $pos = strrpos($url, '/') + 1;
         width: 250px;
         height: 250px;
         border: 10px #ddd solid;
-        border-top: 10px #1fdab1 solid;
+        border-top: 10px #0dc79f solid;
         border-radius: 50%;
         animation: sp-anime 0.8s infinite linear;
     }
@@ -92,16 +92,16 @@ $pos = strrpos($url, '/') + 1;
         @csrf
     <div class="row"> 
             <div class="col-md-3">
-                <h4 class="card-title" style="color:rgb(252, 161, 119)">Detail WalkIn List</h4>
+                <h4 class="card-title" style="color:rgba(21, 177, 164, 0.871)">Detail WalkIn List</h4>
                 <p class="card-title-desc">รายละเอียดข้อมูล WalkIn List</p>
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-7 text-end">
+            <div class="col-md-6 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control cardclaim" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control card_fdh_4" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
-                    <input type="text" class="form-control cardclaim" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control card_fdh_4" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
         
                     <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
@@ -110,38 +110,23 @@ $pos = strrpos($url, '/') + 1;
                     </button>  
 
                     </form>
-                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success" id="Processdata">
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('walkin_process')}}">
                         <i class="fa-solid fa-spinner text-success me-2"></i>
-                        ประมวลผล
+                        ส่งเคลม
                     </button>
                    
-                        <a href="{{url('walkin_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
-                            <i class="fa-solid fa-file-export text-danger me-2"></i>
-                            Export Txt
-                        </a>
-                   
-                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger" id="ExportdataAPI">
-                        <i class="fa-solid fa-upload text-danger me-2"></i>
-                        Export Api
-                    </button>
-                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="SenddataAPI">
-                        <i class="fa-solid fa-upload text-primary me-2"></i>
-                        ส่ง New Eclaim
-                    </button>
+                    <a href="{{url('walkin_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4">
+                        <i class="fa-solid fa-file-export text-danger me-2"></i>
+                        Export Txt
+                    </a> 
                 </div> 
-            </div>
-          
+            </div>          
     </div>
  
     <div class="row">
         <div class="col-xl-12">
-            <div class="card cardclaim">
-                {{-- <div class="card-header" style="background-color: rgb(180, 250, 227)">
-                     WalkIn List
-                    <div class="btn-actions-pane-right">
-                        
-                    </div>
-                </div> --}}
+            <div class="card card_fdh_4">
+       
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
@@ -258,13 +243,14 @@ $pos = strrpos($url, '/') + 1;
                                         <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                             <thead>
                                                 <tr style="font-size: 13px">
+                                                    <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox" name="stamp" id="stamp"> </th> 
                                                     <th class="text-center">ลำดับ</th>
                                                     <th class="text-center">vn</th>
                                                     <th class="text-center">hn</th>
                                                     <th class="text-center">cid</th>  
-                                                    <th class="text-center">pttype</th> 
-                                                    <th class="text-center">icd10</th> 
                                                     <th class="text-center">vstdate</th> 
+                                                    <th class="text-center">pttype</th> 
+                                                    <th class="text-center">icd10</th>  
                                                     <th class="text-center">Authen</th> 
                                                     <th class="text-center">ptname</th> 
                                                     <th class="text-center">income</th> 
@@ -272,21 +258,29 @@ $pos = strrpos($url, '/') + 1;
                                             </thead>
                                             <tbody>
                                                 <?php $number = 0; ?>
-                                                @foreach ($d_walkin as $item1)
+                                                @foreach ($d_walkin as $item)
                                                 <?php $number++; ?>
                     
-                                                <tr height="20" style="font-size: 12px;">
-                                                    <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td>
-                                                    <td class="text-center" width="10%">  {{ $item1->vn }}  </td>
-                                                    <td class="text-center" width="5%">{{ $item1->hn }}</td>
-                                                    <td class="text-center" width="10%">{{ $item1->cid }}</td>  
-                                                    <td class="text-center" width="5%">{{ $item1->pttype }}</td> 
-                                                    <td class="text-center" width="7%">{{ $item1->icd10 }}</td> 
-                                                    <td class="text-center" width="10%">{{ $item1->vstdate }}</td> 
-                                                    <td class="text-center" width="10%">{{ $item1->authen }}</td> 
-                                                    <td class="text-start">{{ $item1->ptname }}</td> 
-                                                    <td class="text-center" width="10%">{{ $item1->income }}</td> 
-                                                </tr>
+                                                    <tr height="20" style="font-size: 12px;">
+                                                        @if ($item->icd10 == '')
+                                                            <td class="text-center" width="5%">
+                                                                <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
+                                                            </td> 
+                                                        @else
+                                                            <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox sub_chk" data-id="{{$item->d_walkin_id}}"> </td> 
+                                                        @endif
+                                                        <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td>
+                                                        <td class="text-center" width="10%">  {{ $item->vn }}  </td>
+                                                        <td class="text-center" width="5%">{{ $item->hn }}</td>
+                                                        <td class="text-center" width="10%">{{ $item->cid }}</td>  
+                                                        <td class="text-center" width="10%">{{ $item->vstdate }}</td> 
+                                                        <td class="text-center" width="5%">{{ $item->pttype }}</td> 
+                                                        <td class="text-center" width="7%">{{ $item->icd10 }}</td> 
+                                                       
+                                                        <td class="text-center" width="10%">{{ $item->authen }}</td> 
+                                                        <td class="text-start">{{ $item->ptname }}</td> 
+                                                        <td class="text-center" width="10%">{{ $item->income }}</td> 
+                                                    </tr>
                     
                     
                     
@@ -760,7 +754,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <th class="text-center">INSCL</th>
                                                     <th class="text-center">SUBTYPE</th> 
                                                     <th class="text-center">CID</th> 
-                                                    <th class="text-center">DATEIN</th> 
+                                                    <th class="text-center">HCODE</th> 
                                                     <th class="text-center">DATEEXP</th> 
                                                     <th class="text-center">HOSPMAIN</th> 
                                                     <th class="text-center">HOSPSUB</th> 
@@ -778,7 +772,7 @@ $pos = strrpos($url, '/') + 1;
                                                         <td class="text-center" width="10%">{{$ins->INSCL }}</td>  
                                                         <td class="text-center" width="10%">{{$ins->SUBTYPE }}</td>
                                                         <td class="text-center" width="10%">{{$ins->CID }}</td>
-                                                        <td class="text-center" width="10%">{{$ins->DATEIN }}</td>
+                                                        <td class="text-center" width="10%">{{$ins->HCODE }}</td>
                                                         <td class="text-center">{{$ins->DATEEXP }}</td> 
                                                         <td class="text-center" >{{$ins->HOSPMAIN }}</td>  
                                                         <td class="text-center" >{{$ins->HOSPSUB }}</td> 
@@ -879,7 +873,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <th class="text-center">DID</th> 
                                                     <th class="text-center">DIDNAME</th> 
                                                     <th class="text-center">AMOUNT</th> 
-                                                    <th class="text-center">DRUGPRIC</th>  
+                                                    <th class="text-center">DRUGPRICE</th>  
                                                     <th class="text-center">DRUGCOST</th>
                                                     <th class="text-center">DIDSTD</th>
                                                     <th class="text-center">UNIT</th>
@@ -901,7 +895,7 @@ $pos = strrpos($url, '/') + 1;
                                                         <td class="text-center" >{{$dru->DID }}</td>
                                                         <td class="text-start" >{{$dru->DIDNAME }}</td>
                                                         <td class="text-center" >{{$dru->AMOUNT }}</td>
-                                                        <td class="text-center" >{{$dru->DRUGPRIC }}</td>  
+                                                        <td class="text-center" >{{$dru->DRUGPRICE }}</td>  
                                                         <td class="text-center">{{$dru->DRUGCOST }}</td> 
                                                         <td class="text-center" >{{$dru->DIDSTD }}</td> 
                                                         <td class="text-center" >{{$dru->UNIT }}</td> 
@@ -917,8 +911,7 @@ $pos = strrpos($url, '/') + 1;
 
                             </div>
                         </div>
-                    </div>
-                   
+                    </div>                   
                    
                 </div>
             </div>
@@ -946,12 +939,21 @@ $pos = strrpos($url, '/') + 1;
             placeholder: "--เลือก--",
             allowClear: true
         });
+        $('#stamp').on('click', function(e) {
+                    if($(this).is(':checked',true))  
+                    {
+                        $(".sub_chk").prop('checked', true);  
+                    } else {  
+                        $(".sub_chk").prop('checked',false);  
+                    }  
+        });   
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
         $("#spinner-div").hide(); //Request is complete so hide spinner
+       
         $('#Processdata').click(function() {
                 var datepicker = $('#datepicker').val(); 
                 var datepicker2 = $('#datepicker2').val(); 
@@ -1007,113 +1009,87 @@ $pos = strrpos($url, '/') + 1;
                 })
         });
 
-        $('#SenddataAPI').click(function() {
-                var datepicker = $('#datepicker').val(); 
-                var datepicker2 = $('#datepicker2').val(); 
+        $('.Claim').on('click', function(e) {
+            // alert('oo');
+            var allValls = [];
+            // $(".sub_destroy:checked").each(function () {
+            $(".sub_chk:checked").each(function () {
+                allValls.push($(this).attr('data-id'));
+            });
+            if (allValls.length <= 0) {
+                // alert("SSSS");
                 Swal.fire({
-                        title: 'ต้องการส่งข้อมูลไป New Eclaim ใช่ไหม ?',
-                        text: "You Warn Send Data!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, send it!'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
+                    title: 'คุณยังไม่ได้เลือกรายการ ?',
+                    text: "กรุณาเลือกรายการก่อน",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33', 
+                    }).then((result) => {
+                    
+                    })
+            } else {
+                Swal.fire({
+                    title: 'Are you Want Claim sure?',
+                    text: "คุณต้องการ Claim รายการนี้ใช่ไหม!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Claim it.!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            var check = true;
+                            if (check == true) {
+                                var join_selected_values = allValls.join(",");
+                                // alert(join_selected_values);
                                 $("#overlay").fadeIn(300);　
                                 $("#spinner").show(); //Load button clicked show spinner 
-                                
+
                                 $.ajax({
-                                    url: "{{ route('claim.walkin_sendapi') }}",
-                                    type: "POST",
-                                    dataType: 'json',
-                                    data: {
-                                        datepicker,
-                                        datepicker2                        
-                                    },
-                                    success: function(data) {
-                                        if (data.status == 200) { 
-                                            Swal.fire({
-                                                title: 'ส่งข้อมูลไป New Eclaim สำเร็จ',
-                                                text: "You Send data New Eclaim success",
-                                                icon: 'success',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#06D177',
-                                                confirmButtonText: 'เรียบร้อย'
-                                            }).then((result) => {
-                                                if (result
-                                                    .isConfirmed) {
-                                                    console.log(
-                                                        data);
-                                                    window.location.reload();
-                                                    $('#spinner').hide();//Request is complete so hide spinner
-                                                        setTimeout(function(){
-                                                            $("#overlay").fadeOut(300);
-                                                        },500);
-                                                }
-                                            })
-                                        } else {
-                                            
-                                        }
-                                    },
+                                    url:$(this).data('url'),
+                                    type: 'POST',
+                                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                                    data: 'ids='+join_selected_values,
+                                    success:function(data){ 
+                                            if (data.status == 200) {
+                                                // $(".sub_destroy:checked").each(function () {
+                                                $(".sub_chk:checked").each(function () {
+                                                    $(this).parents("tr").remove();
+                                                });
+                                                Swal.fire({
+                                                    title: 'ส่งข้อมูลเคลมสำเร็จ',
+                                                    text: "You Claim data success",
+                                                    icon: 'success',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#06D177',
+                                                    confirmButtonText: 'เรียบร้อย'
+                                                }).then((result) => {
+                                                    if (result
+                                                        .isConfirmed) {
+                                                        console.log(
+                                                            data);
+                                                        window.location.reload();
+                                                        $('#spinner').hide();//Request is complete so hide spinner
+                                                    setTimeout(function(){
+                                                        $("#overlay").fadeOut(300);
+                                                    },500);
+                                                    }
+                                                })
+                                            } else {
+                                                
+                                            }
+                                                
+                                    }
                                 });
-                                
-                            }
-                })
-        });
-        $('#ExportdataAPI').click(function() {
-                var datepicker = $('#datepicker').val(); 
-                var datepicker2 = $('#datepicker2').val(); 
-                Swal.fire({
-                        title: 'ต้องการส่งออก ใช่ไหม ?',
-                        text: "You Warn Send Data!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, send it!'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                $("#overlay").fadeIn(300);　
-                                $("#spinner").show(); //Load button clicked show spinner 
-                                
-                                $.ajax({
-                                    url: "{{ route('claim.walkin_exportapi') }}",
-                                    type: "POST",
-                                    dataType: 'json',
-                                    data: {
-                                        datepicker,
-                                        datepicker2                        
-                                    },
-                                    success: function(data) {
-                                        if (data.status == 200) { 
-                                            Swal.fire({
-                                                title: 'ส่งออกสำเร็จ',
-                                                text: "You Export data success",
-                                                icon: 'success',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#06D177',
-                                                confirmButtonText: 'เรียบร้อย'
-                                            }).then((result) => {
-                                                if (result
-                                                    .isConfirmed) {
-                                                    console.log(
-                                                        data);
-                                                    window.location.reload();
-                                                    $('#spinner').hide();//Request is complete so hide spinner
-                                                        setTimeout(function(){
-                                                            $("#overlay").fadeOut(300);
-                                                        },500);
-                                                }
-                                            })
-                                        } else {
-                                            
-                                        }
-                                    },
+                                $.each(allValls,function (index,value) {
+                                    $('table tr').filter("[data-row-id='"+value+"']").remove();
                                 });
-                                
                             }
-                })
+                        }
+                    }) 
+                // var check = confirm("Are you want ?");  
+            }
         });
         
     });

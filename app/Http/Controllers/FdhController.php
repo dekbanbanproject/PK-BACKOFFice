@@ -111,6 +111,18 @@ use Illuminate\Filesystem\Filesystem;
 
 class FdhController extends Controller
 { 
+    public function fdh_main(Request $request)
+    {
+            $startdate = $request->startdate;
+            $enddate = $request->enddate; 
+            $data['users']     = User::get();  
+
+
+        return view('fdh.fdh_main',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+        ]);
+    }
     public function fdh_data(Request $request)
     {
             $startdate = $request->startdate;

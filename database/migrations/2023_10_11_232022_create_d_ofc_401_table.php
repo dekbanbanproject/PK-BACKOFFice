@@ -17,6 +17,7 @@ return new class extends Migration
         {
             Schema::connection('mysql')->create('d_ofc_401', function (Blueprint $table) { 
                 $table->bigIncrements('d_ofc_401_id');//  
+                $table->enum('active', ['N','Y'])->default('N')->nullable();
                 $table->string('vn')->nullable();//   
                 $table->string('an')->nullable();//  
                 $table->string('hn')->nullable();//  

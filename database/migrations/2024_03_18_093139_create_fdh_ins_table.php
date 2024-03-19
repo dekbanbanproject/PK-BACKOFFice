@@ -22,7 +22,7 @@ return new class extends Migration
                 $table->string('CID',16)->nullable();//  
                 $table->string('HCODE',5)->nullable();// 
 
-                $table->string('DATEIN', 8)->nullable();//   
+                // $table->string('DATEIN', 8)->nullable();//   
 
                 $table->string('DATEEXP', 8)->nullable();// 
                 $table->string('HOSPMAIN', 5)->nullable();//  
@@ -32,7 +32,7 @@ return new class extends Migration
                 $table->string('PERMITNO', 30)->nullable(); // 
                 $table->string('DOCNO', 30)->nullable(); // 
                 $table->string('OWNRPID', 13)->nullable(); // 
-                $table->string('OWNRNAME', 255)->nullable(); // 
+                $table->string('OWNNAME', 255)->nullable(); // 
                 $table->string('AN', 15)->nullable(); // 
                 $table->string('SEQ',15)->nullable(); // 
                 $table->string('SUBINSCL', 2)->nullable(); // 

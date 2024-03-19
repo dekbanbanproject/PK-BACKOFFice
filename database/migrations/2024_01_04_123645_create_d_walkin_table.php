@@ -15,6 +15,7 @@ return new class extends Migration
         {
             Schema::connection('mysql')->create('d_walkin', function (Blueprint $table) { 
                 $table->bigIncrements('d_walkin_id');//  
+                $table->enum('active', ['N','Y'])->default('N')->nullable();
                 $table->string('vn')->nullable();//   
                 $table->string('an')->nullable();//  
                 $table->string('hn')->nullable();// 
