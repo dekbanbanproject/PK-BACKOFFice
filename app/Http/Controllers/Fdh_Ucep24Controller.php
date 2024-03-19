@@ -453,10 +453,10 @@ class Fdh_Ucep24Controller extends Controller
                         FROM vn_stat v
                         LEFT OUTER JOIN ovstdiag o on o.vn = v.vn
                         LEFT OUTER JOIN doctor d on d.`code` = o.doctor
-                        INNER JOIN icd101 i on i.code = o.icd10
+                    
                         WHERE v.vn IN("'.$va1->vn.'") 
                 ');
-             
+                // INNER JOIN icd101 i on i.code = o.icd10
                 foreach ($data_odx_ as $va_04) { 
                     Fdh_odx::insert([
                         'HN'                => $va_04->HN,
@@ -551,14 +551,16 @@ class Fdh_Ucep24Controller extends Controller
                 }                 
                 //D_idx OK 
                 $data_idx_ = DB::connection('mysql2')->select('
-                        SELECT v.an AN,o.icd10 DIAG,o.diagtype DXTYPE,if(d.licenseno="","-99999",d.licenseno) DRDX
-                        FROM an_stat v
-                        LEFT OUTER JOIN iptdiag o on o.an = v.an
-                        LEFT OUTER JOIN doctor d on d.`code` = o.doctor
-                        LEFT OUTER JOIN ipt ip on ip.an = v.an
-                        INNER JOIN icd101 i on i.code = o.icd10
+                        SELECT ip.an AN,o.icd10 DIAG,o.diagtype DXTYPE,if(d.licenseno="","-99999",d.licenseno) DRDX
+                        FROM ipt ip
+                        LEFT OUTER JOIN iptdiag o on o.an = ip.an
+                        LEFT OUTER JOIN doctor d on d.`code` = o.doctor                        
+                      
                         WHERE ip.vn IN("'.$va1->vn.'")
+                        GROUP BY ip.an,o.diagtype
                 ');
+                // LEFT OUTER JOIN ipt ip on ip.an = v.an
+                // INNER JOIN icd101 i on i.code = o.icd10
                 foreach ($data_idx_ as $va_08) { 
                     Fdh_idx::insert([
                         'AN'                => $va_08->AN,  
