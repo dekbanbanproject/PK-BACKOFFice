@@ -12,7 +12,7 @@ class Fdh_irf extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     protected $connection = 'mysql';
-    protected $table = 'fdh_aer';
+    protected $table = 'fdh_irf';
     protected $primaryKey = 'fdh_aer_id';
     protected $fillable = [
         'AN','REFER','REFERTYPE'  
