@@ -183,38 +183,40 @@ class FdhController extends Controller
                     } 
 
                     $data_main_ipd = DB::connection('mysql2')->select(
-                        'SELECT i.vn,a.hn HN,a.an AN,pt.cid,a.pttype,i.dchdate,concat(p.pname,p.fname," ",p.lname) ptname
+                        'SELECT i.vn,a.hn HN,a.an AN,p.cid,a.pttype,i.dchdate,concat(p.pname,p.fname," ",p.lname) ptname,o.icd10 DIAG
                         ,a.income-a.rcpt_money-a.discount_money as debit
                             FROM an_stat a
                             LEFT OUTER JOIN ipt i on i.an = a.an
-                            LEFT OUTER JOIN pttype p on p.pttype = a.pttype
-                            LEFT OUTER JOIN patient pt on pt.hn = a.hn                      
+                            LEFT OUTER JOIN pttype pt on pt.pttype = a.pttype
+                            LEFT OUTER JOIN patient p on p.hn = a.hn   
+                            LEFT OUTER JOIN iptdiag o on o.an = a.an                   
                             WHERE i.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"   
                             GROUP BY a.an 
                     ');  
                     foreach ($data_main_ipd as $key => $value2) {   
-                        $check_ipd = D_fdh::where('vn',$value->vn)->count(); 
+                        $check_ipd = D_fdh::where('vn',$value2->vn)->count(); 
                         if ($check_ipd > 0) {  
-
+                            D_fdh::where('vn',$value2->vn)->update([ 
+                                'dchdate'      => $value2->dchdate,  
+                                'debit'        => $value2->debit
+                            ]);
                         } else {
                             D_fdh::insert([
-                                'vn'           => $value->vn,
-                                'hn'           => $value->hn,
-                                'an'           => $value->an, 
-                                'cid'          => $value->cid,
-                                'pttype'       => $value->pttype, 
-                                // 'subinscl'     => $value->subinscl, 
-                                'ptname'       => $value->ptname,
-                                // 'vstdate'      => $value->vstdate,
-                                'dchdate'      => $value->dchdate, 
-                                // 'icd10'        => $value->icd10,
-                                'debit'        => $value->debit
+                                'vn'           => $value2->vn,
+                                'hn'           => $value2->HN,
+                                'an'           => $value2->AN, 
+                                'cid'          => $value2->cid,
+                                'pttype'       => $value2->pttype,  
+                                'ptname'       => $value2->ptname, 
+                                'dchdate'      => $value2->dchdate, 
+                                'icd10'        => $value2->DIAG,
+                                'debit'        => $value2->debit
                             ]);
                         }   
                     }   
             } 
 
-            $data['d_fdh'] = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" ORDER BY vn ASC');  
+            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" ORDER BY vn ASC');  
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="FDH"'); 
             $data['data_orf'] = DB::connection('mysql')->select('SELECT * from fdh_orf WHERE d_anaconda_id ="FDH"'); 
             $data['data_oop'] = DB::connection('mysql')->select('SELECT * from fdh_oop WHERE d_anaconda_id ="FDH"');
@@ -231,7 +233,6 @@ class FdhController extends Controller
             $data['data_ins'] = DB::connection('mysql')->select('SELECT * from fdh_ins WHERE d_anaconda_id ="FDH"');
             $data['data_dru'] = DB::connection('mysql')->select('SELECT * from fdh_dru WHERE d_anaconda_id ="FDH"');
 
-
         return view('fdh.fdh_main',$data,[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate, 
@@ -244,7 +245,7 @@ class FdhController extends Controller
         $dateend = $request->dateend;
         $date = date('Y-m-d');
         
-        $data_sitss = DB::connection('mysql')->select('SELECT vn,an,cid,vstdate,dchdate FROM d_fdh WHERE active = "N" GROUP BY cid');
+        $data_sitss = DB::connection('mysql')->select('SELECT vn,an,cid,vstdate,dchdate FROM d_fdh WHERE active = "N" AND subinscl IS NULL GROUP BY cid');
  
         $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
         foreach ($token_data as $key => $value) { 
