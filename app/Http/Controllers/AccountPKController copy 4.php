@@ -2817,67 +2817,6 @@ class AccountPKController extends Controller
             'STMDoc'        =>     $id,  
         ]);
     }
-    public function upstm_sss_ti(Request $request)
-    {
-        $datenow             = date('Y-m-d');
-        $startdate           = $request->startdate;
-        $enddate             = $request->enddate;        
-        $data['sss_ti']     = DB::connection('mysql')->select('
-                SELECT STMDoc,SUM(stm_total) as total 
-                FROM acc_1102050101_3099   
-                WHERE stm_money IS NOT NULL
-                GROUP BY STMDoc 
-                ORDER BY STMDoc DESC
-        ');        
-        return view('account_pk.upstm_sss_ti',$data,[
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate, 
-        ]);
-    }
-    public function upstm_sss_ti_detail(Request $request,$id)
-    {
-        $datenow             = date('Y-m-d');
-        $startdate           = $request->startdate;
-        $enddate             = $request->enddate; 
-        // $data['sss_ti']     = DB::connection('mysql')->select('
-        //         SELECT b.STMDoc,SUM(b.Total_amount) as total 
-        //         FROM acc_1102050101_3099 a 
-        //         LEFT JOIN acc_stm_ti_total b ON b.hn = a.hn AND b.vstdate = a.vstdate
-        //         WHERE b.HDflag IN("COC")
-        //         GROUP BY STMDoc 
-        //         ORDER BY STMDoc DESC
-        // ');  
-        $data['sss_ti']     = DB::connection('mysql')->select('
-                SELECT STMDoc,SUM(stm_total) as total 
-                FROM acc_1102050101_3099   
-                WHERE stm_money IS NOT NULL
-                GROUP BY STMDoc 
-                ORDER BY STMDoc DESC
-        ');  
-        $data['datashow']     = DB::connection('mysql')->select('
-            SELECT *
-            FROM acc_1102050101_3099   
-            WHERE STMdoc = "'.$id.'"  
-               
-        ');
-        // AND b.Total_amount IS NOT NULL 
-        return view('account_pk.upstm_sss_ti_detail',$data,[
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate,
-            'STMDoc'        =>     $id,  
-        ]);
-    }
-
-
-
-
-
-
-
-
-
-
-
     public function upstm_ofc_ti_ipd(Request $request)
     {
         $datenow             = date('Y-m-d');
@@ -3894,11 +3833,7 @@ class AccountPKController extends Controller
                             ]);
                             Acc_1102050101_4011::where('hn',$hn)->where('vstdate',$dttdate)
                             ->update([
-                                'status'            => 'Y',
-                                'stm_money'       => $amount, 
-                                'stm_trainid'     => $invno,
-                                'stm_total'       => $amount,
-                                'STMdoc'          => @$STMdoc, 
+                                'status'            => 'Y'
                             ]);
 
                     } else {
@@ -3917,11 +3852,7 @@ class AccountPKController extends Controller
 
                             Acc_1102050101_4011::where('hn',$hn)->where('vstdate',$dttdate)
                             ->update([
-                                'status'            => 'Y',
-                                'stm_money'       => $amount, 
-                                'stm_trainid'     => $invno,
-                                'stm_total'       => $amount,
-                                'STMdoc'          => @$STMdoc, 
+                                'status'            => 'Y'
                             ]);
                     }
                 }
@@ -3947,9 +3878,6 @@ class AccountPKController extends Controller
     {
             $tar_file_ = $request->file;
             $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
-
-            // dd($file_);
-
             $filename = pathinfo($file_, PATHINFO_FILENAME);
             $extension = pathinfo($file_, PATHINFO_EXTENSION);
             $xmlString = file_get_contents(($tar_file_));
@@ -3997,10 +3925,14 @@ class AccountPKController extends Controller
             // dd($bills_ );
                 $tbill_ = $bills_['HDBill'];
                 // dd($tbill_ );
-                foreach ($tbill_ as $key => $value) { 
+                foreach ($tbill_ as $key => $value) {
+                    // $hn           = $value['hn'];
                     $fullname     = $value['name'];
                     $cid          = $value['pid'];
-                   
+                    // $quota        = $value['quota'];
+                    // $hdcharge     = $value['hdcharge'];
+                    // $payable      = $value['payable'];
+
                     $tbill        = $value['TBill'];
                     foreach ($tbill as $key => $value2) {
                             $hcode = $value2['hreg'];
@@ -4017,19 +3949,42 @@ class AccountPKController extends Controller
                             $dttran     = $value2['dttran'];
                             $dttranDate = explode("T",$value2['dttran']);
                             $dttdate    = $dttranDate[0];
-                            $dtttime    = $dttranDate[1]; 
+                            $dtttime    = $dttranDate[1];
+                            // $EPOpay     = $value2['EPOpay'];
 
-                            if (isset($value2['EPOpay'])) { 
+                            if (isset($value2['EPOpay'])) {
+                                // $EPO_tt = $value2['EPOs']['EPO']['epoPay'];
+                                // $EPO_tt = $value2['EPOs']['EPOpay'];
                                 $EPO_tt = $value2['EPOpay'];
                                 $Total = $amount + $EPO_tt;
                             } elseif (isset($value2['EPOs']['EPO']['epoPay'])){
                                 $EPO_tt = $value2['EPOs']['EPO']['epoPay'];
                                 $Total = $amount + $EPO_tt;
-                            } else { 
+                            } else {
+                                // $EPO_tt = $value2['EPOpay'];
+                                // $EPO_tt = $value2['EPO']['epoPay'];
+                                // $EPO_tt = $value2['EPOs']['EPO']['epoPay'];
                                 $EPO_tt = '';
                                 $Total = $amount;
                             }
- 
+
+
+                        // if (isset($value2['EPOs']['EPOpay'])) {
+                            // if (isset($value2['EPOs']['EPO']['epoPay'])) {
+                            //     $EPO_tt = $value2['EPOs']['EPO']['epoPay'];
+                            //     // $EPO_tt = $value2['EPOs']['EPOpay'];
+                            //     $Total = $amount + $EPO_tt;
+                            // } else {
+                            //     $EPO_tt = '';
+                            //     $Total = '';
+                            // }
+                            // dd($EPO_tt );  EPOpay
+                            // if ( $Total == '') {
+                            //     $Total_amount = $amount;
+                            // } else {
+                            //     # code...
+                            // }
+                            
                             $checkc     = Acc_stm_ti_total::where('hn', $hn)->where('vstdate', $dttdate)->count();
                             $datenow = date('Y-m-d');
                             if ( $checkc > 0) {
@@ -4056,11 +4011,7 @@ class AccountPKController extends Controller
                                     ]);
                                     Acc_1102050101_3099::where('hn',$hn)->where('vstdate',$dttdate)
                                     ->update([
-                                        'status'            => 'Y',
-                                        'stm_money'       => $Total, 
-                                        'stm_trainid'     => $invno,
-                                        'stm_total'       => $Total,
-                                        'STMdoc'          => @$STMdoc, 
+                                        'status'            => 'Y'
                                     ]);
                             } else {
                                 Acc_stm_ti_total::insert([
@@ -4085,11 +4036,14 @@ class AccountPKController extends Controller
                                 ]);
                                 Acc_1102050101_3099::where('hn',$hn)->where('vstdate',$dttdate)
                                 ->update([
-                                    'status'            => 'Y', 
-                                    'stm_money'       => $Total, 
-                                    'stm_trainid'     => $invno,
-                                    'stm_total'       => $Total,
-                                    'STMdoc'          => @$STMdoc, 
+                                    'status'            => 'Y',
+                                    'stm_rep'         => $value->debit,
+                                    'stm_money'       => $value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug,
+                                    'stm_rcpno'       => $value->rep.'-'.$value->repno,
+                                    'stm_trainid'     => $value->tranid,
+                                    'stm_total'       => $value->total_approve,
+                                    'STMdoc'          => $value->STMdoc,
+                                    'va'              => $value->va,
                                 ]);
                             }
                     }
@@ -4097,10 +4051,10 @@ class AccountPKController extends Controller
                 // return redirect()->back();
                 return response()->json([
                     'status'    => '200',
-                   
+                    'success'   => 'Successfully uploaded.'
                 ]);
     }
-    // 'success'   => 'Successfully uploaded.'
+
     public function upstm_sss_xml(Request $request)
     {
         $datenow = date('Y-m-d');

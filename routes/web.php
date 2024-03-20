@@ -1708,6 +1708,9 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'upstm_ucs_ti',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_ti'])->name('acc.upstm_ucs_ti');//
     Route::match(['get','post'],'upstm_ucs_ti_detail/{id}',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_ti_detail'])->name('acc.upstm_ucs_ti_detail');//
 
+    Route::match(['get','post'],'upstm_sss_ti',[App\Http\Controllers\AccountPKController::class, 'upstm_sss_ti'])->name('acc.upstm_sss_ti');//
+    Route::match(['get','post'],'upstm_sss_ti_detail/{id}',[App\Http\Controllers\AccountPKController::class, 'upstm_sss_ti_detail'])->name('acc.upstm_sss_ti_detail');//
+
     Route::match(['get','post'],'upstm_ofc_ti',[App\Http\Controllers\AccountPKController::class, 'upstm_ofc_ti'])->name('acc.upstm_ofc_ti');//
     Route::match(['get','post'],'upstm_ofc_ti_detail/{id}',[App\Http\Controllers\AccountPKController::class, 'upstm_ofc_ti_detail'])->name('acc.upstm_ofc_ti_detail');//
     Route::match(['get','post'],'upstm_ofc_ti_ipd',[App\Http\Controllers\AccountPKController::class, 'upstm_ofc_ti_ipd'])->name('acc.upstm_ofc_ti_ipd');//

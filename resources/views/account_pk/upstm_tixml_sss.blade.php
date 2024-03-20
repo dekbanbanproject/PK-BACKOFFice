@@ -88,7 +88,7 @@
                     <div class="main-card mb-3 card">
                         <div class="grid-menu-col">
                             <div class="g-0 row">
-                                {{-- <form action="{{ route('acc.upstm_tixml_sssimport') }}" method="POST" enctype="multipart/form-data" id="insert_stmsssForm"> --}}
+                              
                                 <form action="{{ route('acc.upstm_tixml_sssimport') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                         <div class="col-sm-12">
@@ -98,7 +98,7 @@
                                                     <input class="form-control form-control-lg" id="formFileLg" name="file" type="file" required>
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                 </div>
-                                                <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                                <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary">
                                                     <i class="fa-solid fa-file-import me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="UP STM"></i>
                                                     UP STM  
                                                 </button>
@@ -140,42 +140,42 @@
                 format: 'yyyy-mm-dd'
             });
 
-            $('#Upstmti').on('submit',function(e){
-              e.preventDefault(); 
-              var form = this;
-              // alert('OJJJJOL');
-              $.ajax({
-                url:$(form).attr('action'),
-                method:$(form).attr('method'),
-                data:new FormData(form),
-                processData:false,
-                dataType:'json',
-                contentType:false,
-                beforeSend:function(){
-                  $(form).find('span.error-text').text('');
-                },
-                success:function(data){
-                  if (data.status == 200 ) {     
-                    Swal.fire({
-                      title: 'Up Statment สำเร็จ',
-                      text: "You Up Statment data success",
-                      icon: 'success',
-                      showCancelButton: false,
-                      confirmButtonColor: '#06D177',
-                      // cancelButtonColor: '#d33',
-                      confirmButtonText: 'เรียบร้อย'
-                    }).then((result) => {
-                      if (result.isConfirmed) {                  
-                        window.location.reload(); 
-                      }
-                    })        
+            // $('#Upstmti').on('submit',function(e){
+            //   e.preventDefault(); 
+            //   var form = this;
+            //   // alert('OJJJJOL');
+            //   $.ajax({
+            //     url:$(form).attr('action'),
+            //     method:$(form).attr('method'),
+            //     data:new FormData(form),
+            //     processData:false,
+            //     dataType:'json',
+            //     contentType:false,
+            //     beforeSend:function(){
+            //       $(form).find('span.error-text').text('');
+            //     },
+            //     success:function(data){
+            //       if (data.status == 200 ) {     
+            //         Swal.fire({
+            //           title: 'Up Statment สำเร็จ',
+            //           text: "You Up Statment data success",
+            //           icon: 'success',
+            //           showCancelButton: false,
+            //           confirmButtonColor: '#06D177',
+            //           // cancelButtonColor: '#d33',
+            //           confirmButtonText: 'เรียบร้อย'
+            //         }).then((result) => {
+            //           if (result.isConfirmed) {                  
+            //             window.location.reload(); 
+            //           }
+            //         })        
                     
-                  } else {          
+            //       } else {          
                        
-                  }
-                }
-              });
-            });
+            //       }
+            //     }
+            //   });
+            // });
 
             // $('#insert_stmsssForm').on('submit',function(e){
             //         e.preventDefault();
@@ -227,20 +227,37 @@
                     bar.width(percentVal);
                     percent.html(percentVal);
                 },
-                complete: function(xhr) { 
-                    Swal.fire({
-                        title: 'UP STM สำเร็จ',
-                        text: "You UP STM success",
-                        icon: 'success',
-                        showCancelButton: false,
-                        confirmButtonColor: '#06D177',
-                        // cancelButtonColor: '#d33',
-                        confirmButtonText: 'เรียบร้อย'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location = "{{ url('upstm_tixml_sss') }}";
-                        }
-                    })
+                complete: function(data) { 
+                    if (data.status == '200') {
+                            Swal.fire({
+                            title: 'UP STM สำเร็จ',
+                            text: "You UP STM success",
+                            icon: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#06D177',
+                            // cancelButtonColor: '#d33',
+                            confirmButtonText: 'เรียบร้อย'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = "{{ url('upstm_tixml_sss') }}";
+                            }
+                        })
+                    } else {
+                        
+                    }
+                    // Swal.fire({
+                    //     title: 'UP STM สำเร็จ',
+                    //     text: "You UP STM success",
+                    //     icon: 'success',
+                    //     showCancelButton: false,
+                    //     confirmButtonColor: '#06D177',
+                    //     // cancelButtonColor: '#d33',
+                    //     confirmButtonText: 'เรียบร้อย'
+                    // }).then((result) => {
+                    //     if (result.isConfirmed) {
+                    //         window.location = "{{ url('upstm_tixml_sss') }}";
+                    //     }
+                    // })
                 }
             })
               
