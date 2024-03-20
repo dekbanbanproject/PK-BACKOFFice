@@ -3027,12 +3027,19 @@ Route::match(['get','post'],'ofc_main',[App\Http\Controllers\Fdh_OfcController::
 Route::match(['get','post'],'ofc_main_process',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main_process'])->name('claim.ofc_main_process');//
 Route::match(['get','post'],'ofc_main_export',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main_export'])->name('claim.ofc_main_export');//
 
-Route::match(['get','post'],'lgo_main',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main'])->name('claim.lgo_main');//
-Route::match(['get','post'],'lgo_main_process',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main_process'])->name('claim.lgo_main_process');//
-Route::match(['get','post'],'lgo_main_export',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main_export'])->name('claim.lgo_main_export');//
+// *******************FDH LGO *******************
+Route::match(['get','post'],'lgo_main',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main'])->name('fdh.lgo_main');//
+Route::match(['get','post'],'lgo_main_process',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main_process'])->name('fdh.lgo_main_process');//
+Route::match(['get','post'],'lgo_main_export',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main_export'])->name('fdh.lgo_main_export');//
 
+// *******************FDH UCS *******************
 Route::match(['get','post'],'ucep24_main',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main'])->name('claim.ucep24_main');//
 Route::match(['get','post'],'ucep24_main_process',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main_process'])->name('claim.ucep24_main_process');//
 Route::match(['get','post'],'ucep24_main_export',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main_export'])->name('claim.ucep24_main_export');//
+
+// *******************FDH LGO *******************
+// Route::match(['get','post'],'lgo_main',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main'])->name('fdh.lgo_main');//
+// Route::match(['get','post'],'lgo_main_process',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main_process'])->name('fdh.lgo_main_process');//
+// Route::match(['get','post'],'lgo_main_export',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main_export'])->name('fdh.lgo_main_export');//
 
 });
