@@ -3004,7 +3004,9 @@ Route::match(['get','post'],'techservice',[App\Http\Controllers\TechserviceContr
 
 
 // ************** FDH ****************************
+Route::match(['get','post'],'fdh_dashboard',[App\Http\Controllers\FdhController::class, 'fdh_dashboard'])->name('fdh.fdh_dashboard');// 
 Route::match(['get','post'],'fdh_main',[App\Http\Controllers\FdhController::class, 'fdh_main'])->name('fdh.fdh_main');// 
+Route::match(['get','post'],'fdh_checksit',[App\Http\Controllers\FdhController::class, 'fdh_checksit'])->name('fdh.fdh_checksit');// 
 Route::match(['get','post'],'fdh_data',[App\Http\Controllers\FdhController::class, 'fdh_data'])->name('claim.fdh_data');//
 Route::match(['get','post'],'fdh_data_process',[App\Http\Controllers\FdhController::class, 'fdh_data_process'])->name('claim.fdh_data_process');//
 Route::match(['get','post'],'fdh_data_export',[App\Http\Controllers\FdhController::class, 'fdh_data_export'])->name('claim.fdh_data_export');//

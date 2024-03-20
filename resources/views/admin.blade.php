@@ -859,7 +859,7 @@
                                             </a>
                                         </div>
                                         <div class="avatar ms-2">
-                                            <a href="{{ url('fdh_main') }}" target="_blank">
+                                            <a href="{{ url('fdh_dashboard') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
                                                         <img src="{{ asset('images/LOGO-FDH.png') }}" height="70px" width="110px" class="rounded-circle"> 

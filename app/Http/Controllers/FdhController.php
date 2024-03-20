@@ -63,7 +63,7 @@ use App\Models\Product_buy;
 use App\Models\Users_prefix;
 use App\Models\D_fdh_opd;
 use App\Models\D_fdh_ipd;
-use App\Models\D_12001;
+use App\Models\D_fdh;
 use App\Models\D_ins;
 use App\Models\D_pat;
 use App\Models\D_opd;
@@ -84,6 +84,25 @@ use App\Models\D_ofc_401;
 use App\Models\D_ucep24_main;
 use App\Models\D_ucep24;
 use App\Models\Acc_ucep24;
+use App\Models\Fdh_ins;
+use App\Models\Fdh_pat;
+use App\Models\Fdh_opd;
+use App\Models\Fdh_orf;
+use App\Models\Fdh_odx;
+use App\Models\Fdh_cht;
+use App\Models\Fdh_cha;
+use App\Models\Fdh_oop; 
+use App\Models\Fdh_adp;
+use App\Models\Fdh_dru;
+use App\Models\Fdh_idx;
+use App\Models\Fdh_iop;
+use App\Models\Fdh_ipd;
+use App\Models\Fdh_aer;
+use App\Models\Fdh_irf;
+use App\Models\Fdh_lvd; 
+use App\Models\D_dru_out;
+use App\Models\D_ofc_repexcel;
+use App\Models\D_ofc_rep;
 use Auth;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http; 
@@ -111,17 +130,193 @@ use Illuminate\Filesystem\Filesystem;
 
 class FdhController extends Controller
 { 
+    public function fdh_dashboard(Request $request)
+    {
+            $startdate = $request->startdate;
+            $enddate = $request->enddate; 
+            $data['users']     = User::get();   
+        return view('fdh.fdh_dashboard',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+        ]);
+    }
     public function fdh_main(Request $request)
     {
             $startdate = $request->startdate;
             $enddate = $request->enddate; 
             $data['users']     = User::get();  
+            if ($startdate == '') {              
+            } else {
+                    $iduser = Auth::user()->id;  
+                    $data_main_opd = DB::connection('mysql2')->select(
+                        'SELECT v.vn,o.an,v.cid,v.hn,concat(pt.pname,pt.fname," ",pt.lname) ptname
+                                ,v.vstdate,v.pttype,v.income,ptt.hipdata_code,GROUP_CONCAT(DISTINCT ov.icd10 order by ov.diagtype) AS icd10,v.pdx
+                                ,v.income-v.rcpt_money-v.discount_money as debit
+                                FROM vn_stat v
+                                LEFT OUTER JOIN ovst o ON v.vn=o.vn 
+                                LEFT OUTER JOIN patient pt ON v.hn=pt.hn
+                                LEFT OUTER JOIN ovstdiag ov ON v.vn=ov.vn 
+                                LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype  
+                                LEFT OUTER JOIN ipt i on i.vn = v.vn                        
+                            WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"  
+                            AND o.an is null 
+                            GROUP BY v.vn 
+                    ');                 
+                    foreach ($data_main_opd as $key => $value) {   
+                        $check_opd = D_fdh::where('vn',$value->vn)->count(); 
+                        if ($check_opd > 0) {  
+                        } else {
+                            D_fdh::insert([
+                                'vn'           => $value->vn,
+                                'hn'           => $value->hn,
+                                'an'           => $value->an, 
+                                'cid'          => $value->cid,
+                                'pttype'       => $value->pttype, 
+                                // 'subinscl'     => $value->subinscl, 
+                                'ptname'       => $value->ptname,
+                                'vstdate'      => $value->vstdate,
+                                // 'dchdate'      => $value->dchdate, 
+                                'icd10'        => $value->icd10,
+                                'debit'        => $value->debit
+                            ]);
+                        }   
+                    } 
+
+                    $data_main_ipd = DB::connection('mysql2')->select(
+                        'SELECT i.vn,a.hn HN,a.an AN,pt.cid,a.pttype,i.dchdate,concat(p.pname,p.fname," ",p.lname) ptname
+                        ,a.income-a.rcpt_money-a.discount_money as debit
+                            FROM an_stat a
+                            LEFT OUTER JOIN ipt i on i.an = a.an
+                            LEFT OUTER JOIN pttype p on p.pttype = a.pttype
+                            LEFT OUTER JOIN patient pt on pt.hn = a.hn                      
+                            WHERE i.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"   
+                            GROUP BY a.an 
+                    ');  
+                    foreach ($data_main_ipd as $key => $value2) {   
+                        $check_ipd = D_fdh::where('vn',$value->vn)->count(); 
+                        if ($check_ipd > 0) {  
+
+                        } else {
+                            D_fdh::insert([
+                                'vn'           => $value->vn,
+                                'hn'           => $value->hn,
+                                'an'           => $value->an, 
+                                'cid'          => $value->cid,
+                                'pttype'       => $value->pttype, 
+                                // 'subinscl'     => $value->subinscl, 
+                                'ptname'       => $value->ptname,
+                                // 'vstdate'      => $value->vstdate,
+                                'dchdate'      => $value->dchdate, 
+                                // 'icd10'        => $value->icd10,
+                                'debit'        => $value->debit
+                            ]);
+                        }   
+                    }   
+            } 
+
+            $data['d_fdh'] = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" ORDER BY vn ASC');  
+            $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="FDH"'); 
+            $data['data_orf'] = DB::connection('mysql')->select('SELECT * from fdh_orf WHERE d_anaconda_id ="FDH"'); 
+            $data['data_oop'] = DB::connection('mysql')->select('SELECT * from fdh_oop WHERE d_anaconda_id ="FDH"');
+            $data['data_odx'] = DB::connection('mysql')->select('SELECT * from fdh_odx WHERE d_anaconda_id ="FDH"');
+            $data['data_idx'] = DB::connection('mysql')->select('SELECT * from fdh_idx WHERE d_anaconda_id ="FDH"');
+            $data['data_ipd'] = DB::connection('mysql')->select('SELECT * from fdh_ipd WHERE d_anaconda_id ="FDH"');
+            $data['data_irf'] = DB::connection('mysql')->select('SELECT * from fdh_irf WHERE d_anaconda_id ="FDH"');
+            $data['data_aer'] = DB::connection('mysql')->select('SELECT * from fdh_aer WHERE d_anaconda_id ="FDH"');
+            $data['data_iop'] = DB::connection('mysql')->select('SELECT * from fdh_iop WHERE d_anaconda_id ="FDH"');
+            $data['data_adp'] = DB::connection('mysql')->select('SELECT * from fdh_adp WHERE d_anaconda_id ="FDH"');
+            $data['data_pat'] = DB::connection('mysql')->select('SELECT * from fdh_pat WHERE d_anaconda_id ="FDH"');
+            $data['data_cht'] = DB::connection('mysql')->select('SELECT * from fdh_cht WHERE d_anaconda_id ="FDH"');
+            $data['data_cha'] = DB::connection('mysql')->select('SELECT * from fdh_cha WHERE d_anaconda_id ="FDH"');
+            $data['data_ins'] = DB::connection('mysql')->select('SELECT * from fdh_ins WHERE d_anaconda_id ="FDH"');
+            $data['data_dru'] = DB::connection('mysql')->select('SELECT * from fdh_dru WHERE d_anaconda_id ="FDH"');
 
 
         return view('fdh.fdh_main',$data,[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate, 
         ]);
+    }
+    
+    public function fdh_checksit(Request $request)
+    {
+        $datestart = $request->datestart;
+        $dateend = $request->dateend;
+        $date = date('Y-m-d');
+        
+        $data_sitss = DB::connection('mysql')->select('SELECT vn,an,cid,vstdate,dchdate FROM d_fdh WHERE active = "N" GROUP BY cid');
+ 
+        $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
+        foreach ($token_data as $key => $value) { 
+            $cid_    = $value->cid;
+            $token_  = $value->token;
+        }
+        foreach ($data_sitss as $key => $item) {
+            $pids = $item->cid;
+            $vn   = $item->vn; 
+            $an   = $item->an; 
+                
+                    $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
+                        array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1',"trace" => 1,"exceptions" => 0,"cache_wsdl" => 0)
+                        );
+                        $params = array(
+                            'sequence' => array(
+                                "user_person_id"   => "$cid_",
+                                "smctoken"         => "$token_",
+                                // "user_person_id" => "$value->cid",
+                                // "smctoken"       => "$value->token",
+                                "person_id"        => "$pids"
+                        )
+                    );
+                    $contents = $client->__soapCall('searchCurrentByPID',$params);
+                    foreach ($contents as $v) {
+                        @$status = $v->status ;
+                        @$maininscl = $v->maininscl;
+                        @$startdate = $v->startdate;
+                        @$hmain = $v->hmain ;
+                        @$subinscl = $v->subinscl ;
+                        @$person_id_nhso = $v->person_id;
+
+                        @$hmain_op = $v->hmain_op;  //"10978"
+                        @$hmain_op_name = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
+                        @$hsub = $v->hsub;    //"04047"
+                        @$hsub_name = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
+                        @$subinscl_name = $v->subinscl_name ; //"ช่วงอายุ 12-59 ปี"
+
+                        IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
+                            $date = date("Y-m-d");
+                          
+                            D_fdh::where('cid', $pids)
+                            ->update([
+                                // 'status'         => 'จำหน่าย/เสียชีวิต',
+                                // 'maininscl'      => @$maininscl,
+                                // 'pttype_spsch'   => @$subinscl,
+                                // 'hmain'          => @$hmain,
+                                'subinscl'       => @$subinscl, 
+                            ]);
+                            
+                        }elseif(@$maininscl !="" || @$subinscl !=""){
+                            D_fdh::where('cid', $pids)
+                           ->update([
+                            //    'status'         => @$status,
+                            //    'maininscl'      => @$maininscl,
+                            //    'pttype_spsch'   => @$subinscl,
+                            //    'hmain'          => @$hmain,
+                               'subinscl'       => @$subinscl,
+                           
+                           ]); 
+                                    
+                        }
+
+                    }
+           
+        }
+
+        return response()->json([
+
+           'status'    => '200'
+       ]);
+
     }
     public function fdh_data(Request $request)
     {

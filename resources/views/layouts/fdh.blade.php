@@ -103,6 +103,16 @@
         border-radius: 3em 3em 3em 3em;
         box-shadow: 0 0 10px rgba(21, 177, 164, 0.871);
     }
+    .fdhcheckbox{         
+        width: 20px;
+        height: 20px;       
+        /* border-radius: 2em 2em 2em 2em; */
+        border: 10px solid rgba(21, 177, 164, 0.871);
+        /* color: teal; */
+        /* border-color: teal; */
+        box-shadow: 0 0 10px rgba(21, 177, 164, 0.871);
+        /* box-shadow: 0 0 10px teal; */
+    }
  
 </style>
 <?php
@@ -243,7 +253,12 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
                         <li class="menu-title">Menu</li>                         
-
+                        <li><a href="{{ url('fdh_main') }}">  
+                                {{-- <i class="fa-solid fa-gauge-high text-primary"></i> --}}
+                                <i class="fa-brands fa-nfc-symbol text-primary"></i>
+                                <span>FDH</span> 
+                            </a> 
+                        </li> 
                         {{-- @if ($permiss_ofc != 0)                           
                             <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">

@@ -280,14 +280,10 @@ class Account216Controller extends Controller
         $datenow = date('Y-m-d');
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
-        $acc_debtor = DB::connection('mysql2')->select(' 
-                 SELECT v.vn,ifnull(o.an,"") as an,o.hn,pt.cid
-                ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
-                ,v.vstdate,v.hospmain 
+        $acc_debtor = DB::connection('mysql2')->select( 
+                'SELECT v.vn,ifnull(o.an,"") as an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) as ptname,v.vstdate,v.hospmain,vp.max_debt_amount 
                 
-                ,vp.pttype,"03" as acc_code
-                ,"1102050101.216" as account_code ,"ลูกหนี้ค่ารักษา UC-OP บริการเฉพาะ (CR)" as account_name
-                ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
+                ,vp.pttype,"03" as acc_code,"1102050101.216" as account_code ,"ลูกหนี้ค่ารักษา UC-OP บริการเฉพาะ (CR)" as account_name,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
                  
                 ,CASE 
                 WHEN vp.pttype = "49" THEN v.income
@@ -306,28 +302,27 @@ class Account216Controller extends Controller
                 ,sum(if(op.income="02",sum_price,0)) as debit_instument
                 ,sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0)) as debit_drug
                 ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
-                ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
-                
-                ,vp.max_debt_amount
-                from hos.ovst o
-                left outer join hos.vn_stat v on v.vn=o.vn
-                left outer join visit_pttype vp on vp.vn = v.vn
-                left outer join hos.patient pt on pt.hn=o.hn
-                left outer join hos.pttype ptt on o.pttype=ptt.pttype
-                left outer join hos.pttype_eclaim e on e.code=ptt.pttype_eclaim_id
-                left outer join hos.opitemrece op ON op.vn = o.vn
-                left outer join s_drugitems s on s.icode = op.icode
+                ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer 
 
+                FROM ovst o
+                LEFT OUTER JOIN vn_stat v on v.vn=o.vn
+                LEFT OUTER JOIN visit_pttype vp on vp.vn = v.vn
+                LEFT OUTER JOIN patient pt on pt.hn=o.hn
+                LEFT OUTER JOIN pttype ptt on o.pttype=ptt.pttype
+                LEFT OUTER JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
+                LEFT OUTER JOIN opitemrece op ON op.vn = o.vn
+                LEFT OUTER JOIN s_drugitems s on s.icode = op.icode
                 WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                 AND v.income-v.discount_money-v.rcpt_money <> 0
-                AND vp.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.216")
-                
-                AND op.icode NOT like "c%" 
-                AND op.icode NOT IN("3003661","3003662","3003336","3002896","3002897","3002898","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3003608","3010102","3010353")
+                AND vp.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.216")                
+                AND NOT(s.name like "CT%" OR s.name like "Portex tube%")
+                AND op.icode NOT IN("3003661","3003662","3003336","3002896","3002897","3002898","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3003608","3010102","3010353")                                
                 AND (o.an="" or o.an is null)
-                GROUP BY v.vn 
-                
-        '); 
+                GROUP BY v.vn'
+        ); 
+        // AND op.icode NOT IN(SELECT no_icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.216" AND no_icode <> "")
+        // AND op.icode NOT IN("3003661","3003662","3003336","3002896","3002897","3002898","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3003608","3010102","3010353")
+        // AND op.icode NOT like "c%"
         // AND s.nhso_adp_code NOT IN("3001","3002","2501","2502","3001","3002","9214","8901","8902","8904","8608","9001","8903","9211","9212","020700")
         // AND op.icode NOT IN("3003661","3003662","3010272","3003663","3002896","3002897","3002898","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3009702","3010348")
         // AND op.icode IN(SELECT icode from pkbackoffice.acc_setpang_type WHERE icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217"))

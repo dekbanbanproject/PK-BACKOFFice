@@ -148,10 +148,10 @@
                             </div>
                             <div class="col"></div>
                             <div class="col-md-2 text-end">
-                                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info Savestamp" data-url="{{url('chang_pttype_opdstamp')}}">
+                                {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info Savestamp" data-url="{{url('chang_pttype_opdstamp')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
-                                </button>
+                                </button> --}}
                             </div>
                         </div>
 
@@ -163,7 +163,7 @@
                                         <tr>
                                           
                                             <th width="5%" class="text-center">ลำดับ</th> 
-                                            <th width="5%" class="text-center"><input type="checkbox" name="stamp" id="stamp"> </th> 
+                                            {{-- <th width="5%" class="text-center"><input type="checkbox" name="stamp" id="stamp"> </th>  --}}
                                             <th class="text-center" width="5%">vn</th> 
                                             <th class="text-center">an</th>
                                             <th class="text-center" >hn</th>
@@ -181,7 +181,7 @@
                                         @foreach ($acc_debtor as $item) 
                                             <tr id="sid{{ $item->acc_debtor_id }}">                                                  
                                                 <td class="text-center" width="5%">{{ $i++ }}</td>   
-                                                <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td>  
+                                                {{-- <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td>   --}}
                                                 <td class="text-center" width="5%">{{ $item->vn }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->an }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  

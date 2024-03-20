@@ -17,13 +17,17 @@ return new class extends Migration
         {
             Schema::connection('mysql')->create('d_fdh', function (Blueprint $table) { 
                 $table->bigIncrements('d_fdh_id');//  
+                $table->enum('active', ['N','Y'])->default('N')->nullable();
                 $table->string('vn')->nullable();//   
                 $table->string('an')->nullable();//  
                 $table->string('hn')->nullable();//  
                 $table->string('cid')->nullable();//  
                 $table->string('ptname')->nullable();//  
                 $table->string('pttype')->nullable();// 
+                $table->string('subinscl')->nullable();// 
                 $table->date('vstdate')->nullable();//  
+                $table->date('dchdate')->nullable();// 
+                $table->string('icd10')->nullable();// 
                 $table->timestamps();
             }); 
         }
