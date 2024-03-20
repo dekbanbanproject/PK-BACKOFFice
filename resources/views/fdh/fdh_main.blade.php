@@ -933,6 +933,14 @@ $pos = strrpos($url, '/') + 1;
 <script>
     $(document).ready(function() {
 
+        var table = $('#example').DataTable({
+                scrollY: '60vh',
+                scrollCollapse: true,
+                scrollX: true,
+                "autoWidth": false,
+                "pageLength": 100,
+                "lengthMenu": [10,100,200,300,400,500],
+        });
         $('#datepicker').datepicker({
             format: 'yyyy-mm-dd'
         });
@@ -940,7 +948,7 @@ $pos = strrpos($url, '/') + 1;
             format: 'yyyy-mm-dd'
         });
 
-        $('#example').DataTable();
+        // $('#example').DataTable();
         $('#hospcode').select2({
             placeholder: "--เลือก--",
             allowClear: true
@@ -1091,13 +1099,13 @@ $pos = strrpos($url, '/') + 1;
                     })
             } else {
                 Swal.fire({
-                    title: 'Are you Want Claim sure?',
-                    text: "คุณต้องการ Claim รายการนี้ใช่ไหม!",
+                    title: 'Are you Want Process sure?',
+                    text: "คุณต้องการ Process รายการนี้ใช่ไหม!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, Claim it.!'
+                    confirmButtonText: 'Yes, Process it.!'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             var check = true;
@@ -1119,8 +1127,8 @@ $pos = strrpos($url, '/') + 1;
                                                     $(this).parents("tr").remove();
                                                 });
                                                 Swal.fire({
-                                                    title: 'ส่งข้อมูลเคลมสำเร็จ',
-                                                    text: "You Claim data success",
+                                                    title: 'ประมวลผลสำเร็จ',
+                                                    text: "You Process data success",
                                                     icon: 'success',
                                                     showCancelButton: false,
                                                     confirmButtonColor: '#06D177',

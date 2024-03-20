@@ -132,17 +132,23 @@ class Fdh_Ucep24Controller extends Controller
                         group BY i.an
                         ORDER BY i.an;
                 ');                 
-                foreach ($data_main_ as $key => $value2) {    
-                    D_ucep24_main::insert([
-                        'vn'                => $value2->vn,
-                        'hn'                => $value2->hn,
-                        'an'                => $value2->an, 
-                        'cid'               => $value2->cid,
-                        'vstdate'           => $value2->vstdate, 
-                        'dchdate'           => $value2->dchdate, 
-                        'ptname'            => $value2->ptname, 
-                        'pttype'            => $value2->pttype, 
-                    ]); 
+                foreach ($data_main_ as $key => $value2) {   
+                    $check_ = D_ucep24_main::where('vn',$value2->vn)->count();                      
+                    if ($check_ > 0) { 
+                    } else {
+                        D_ucep24_main::insert([
+                            'vn'                => $value2->vn,
+                            'hn'                => $value2->hn,
+                            'an'                => $value2->an, 
+                            'cid'               => $value2->cid,
+                            'vstdate'           => $value2->vstdate, 
+                            'dchdate'           => $value2->dchdate, 
+                            'ptname'            => $value2->ptname, 
+                            'pttype'            => $value2->pttype, 
+                        ]); 
+                    }
+                    
+                   
                 }   
                 $data_date_one = DB::connection('mysql')->select('SELECT vn,an,vstdate FROM d_ucep24_main GROUP BY an'); 
                 foreach ($data_date_one as $key => $v_opitem_one) {
@@ -884,6 +890,7 @@ class Fdh_Ucep24Controller extends Controller
         Fdh_adp::where('QTY','=',['',null])->where('SP_ITEM','=','01')->where('d_anaconda_id',"UCEP24")->delete();
         Fdh_dru::where('SP_ITEM','=',null)->where('d_anaconda_id',"UCEP24")->delete();
         Fdh_adp::where('CODE','=','XXXXXX')->delete();
+        
         D_ucep24_main::whereIn('d_ucep24_main_id',explode(",",$id))
         ->update([
             'active' => 'Y'
