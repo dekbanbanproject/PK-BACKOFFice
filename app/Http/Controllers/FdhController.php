@@ -997,7 +997,7 @@ class FdhController extends Controller
                 'active' => 'Y'
             ]);
         Fdh_adp::where('CODE','=','XXXXXX')->delete();
-        Fdh_dru::where('HCODE','<>','10978')->where('d_anaconda_id','=','FDH')->delete();
+        Fdh_dru::where('HCODE',NULL)->where('d_anaconda_id','=','FDH')->delete();
          return response()->json([
              'status'    => '200'
          ]);
