@@ -1,5 +1,5 @@
 @extends('layouts.article')
-@section('title', 'PK-HOS || ข้อมูลชั้น-ห้อง')
+@section('title', 'PK-OFFICE || ข้อมูลชั้น-ห้อง')
 
  
     <style>

@@ -339,7 +339,7 @@
 
         <div class="row text-center">
             <div class="col-md-12 ">
-                <label for="" class=" ms-5" style="color: white"> Create By ทีมพัฒนา PK-HOS</label>
+                <label for="" class=" ms-5" style="color: white"> Create By ทีมพัฒนา PK-OFFICE</label>
             </div>
         </div>
 

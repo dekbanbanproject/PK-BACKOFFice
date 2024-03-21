@@ -158,7 +158,7 @@ use App\Models\Products_request_sub;
                 {{-- <div class="navbar-header shadow" style="background-color: rgb(200, 195, 201)"> --}}
                 {{-- <div class="d-flex">
                     <div class="navbar-brand-box">
-                        <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-HOS</h4>
+                        <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-OFFICE</h4>
                     </div>
                     <button type="button" class="btn btn-sm px-3 font-size-24 d-lg-none header-item"
                         data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
@@ -197,7 +197,7 @@ use App\Models\Products_request_sub;
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgba(200, 195, 201, 0.781)" class="mt-4">PK-HOS</h4>
+                                <h4 style="color:rgba(200, 195, 201, 0.781)" class="mt-4">PK-OFFICE</h4>
                             </span>
                         </a>
                     </div>
@@ -227,7 +227,7 @@ use App\Models\Products_request_sub;
                                 </span>
                                 <span class="logo-lg">
                                     {{-- <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-dark" height="20"> --}}
-                                    <h4 style="color:rgba(23, 189, 147, 0.74)" class="mt-4">PK-HOS</h4>
+                                    <h4 style="color:rgba(23, 189, 147, 0.74)" class="mt-4">PK-OFFICE</h4>
                                 </span>
                             </a>
     
@@ -237,7 +237,7 @@ use App\Models\Products_request_sub;
                                         height="40">
                                 </span>
                                 <span class="logo-lg">
-                                    <h4 style="color:rgba(23, 189, 147, 0.74)" class="mt-4">PK-HOS</h4>
+                                    <h4 style="color:rgba(23, 189, 147, 0.74)" class="mt-4">PK-OFFICE</h4>
                                 </span>
                             </a>
                         </div>
@@ -391,7 +391,7 @@ use App\Models\Products_request_sub;
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-HOS
+                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-OFFICE
                             </div>
                         </div>
                     </div>

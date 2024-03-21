@@ -1,5 +1,5 @@
 @extends('layouts.admin_setting')
-@section('title', 'PK-HOS || setting')
+@section('title', 'PK-OFFICE || setting')
 @section('content')
     <style>
         * {

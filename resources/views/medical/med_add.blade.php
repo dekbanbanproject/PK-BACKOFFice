@@ -1,5 +1,5 @@
 @extends('layouts.medicalslide')
-@section('title', 'PK-HOS || เครื่องมือแพทย์')
+@section('title', 'PK-OFFICE || เครื่องมือแพทย์')
 
 <style>
     .btn {

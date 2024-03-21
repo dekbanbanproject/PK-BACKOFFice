@@ -1,5 +1,5 @@
 @extends('layouts.warehouse_new')
-@section('title', 'PK-HOS || คลังวัสดุ')
+@section('title', 'PK-OFFICE || คลังวัสดุ')
 @section('content')
 <script>
     function TypeAdmin() {

@@ -1,5 +1,5 @@
 @extends('layouts.authenthemes')
-@section('title', 'PK-HOS || Authen Code')
+@section('title', 'PK-OFFICE || Authen Code')
 @section('content')
  
 <script language="JavaScript">

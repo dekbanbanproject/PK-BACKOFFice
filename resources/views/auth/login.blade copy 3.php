@@ -313,7 +313,7 @@
             {{-- <div class="col-md-1"></div> --}}
             <div class="col-md-4 "> 
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;               
-                <label for="" class=" ms-5" style="color: white"> By ทีมพัฒนา PK-HOS</label>
+                <label for="" class=" ms-5" style="color: white"> By ทีมพัฒนา PK-OFFICE</label>
             </div>     
             <div class="col-md-8"></div>  
         </div>

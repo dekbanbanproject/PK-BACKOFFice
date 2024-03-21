@@ -1,5 +1,5 @@
 @extends('layouts.fdh')
-@section('title', 'PK-HOS || OFC')
+@section('title', 'PK-OFFICE || OFC')
 @section('content')
 <script>
     function TypeAdmin() {
@@ -936,6 +936,14 @@ $pos = strrpos($url, '/') + 1;
 
 <script>
     $(document).ready(function() {
+        var table = $('#example').DataTable({
+                scrollY: '60vh',
+                scrollCollapse: true,
+                scrollX: true,
+                "autoWidth": false,
+                "pageLength": 100,
+                "lengthMenu": [10,100,150,200,300,400,500],
+        });
 
         $('#datepicker').datepicker({
             format: 'yyyy-mm-dd'

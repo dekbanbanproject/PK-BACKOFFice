@@ -1,5 +1,5 @@
 @extends('layouts.meettingnew')
-@section('title', 'PK-HOS || ห้องประชุม')
+@section('title', 'PK-OFFICE || ห้องประชุม')
  
 @section('content')
     <script>

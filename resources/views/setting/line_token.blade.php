@@ -1,5 +1,5 @@
 @extends('layouts.admin_setting')
-@section('title', 'PK-HOS || Line Token')
+@section('title', 'PK-OFFICE || Line Token')
 <script>
   function TypeAdmin() {
       window.location.href = '{{ route('index') }}';

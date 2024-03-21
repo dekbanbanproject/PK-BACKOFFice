@@ -189,7 +189,7 @@
                                     height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgba(250, 178, 234, 0.781)" class="mt-4">PK-HOS</h4>
+                                <h4 style="color:rgba(250, 178, 234, 0.781)" class="mt-4">PK-OFFICE</h4>
                             </span>
                         </a>
                     </div>
@@ -337,7 +337,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-HOS
+                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-OFFICE
                             </div>
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 @extends('layouts.p4pnew')
-@section('title', 'PK-HOS || P4P')
+@section('title', 'PK-OFFICE || P4P')
 
     
 

@@ -1,6 +1,6 @@
 @extends('layouts.userdashboard')
 
-@section('title', 'PK-HOS || บุคลากร')
+@section('title', 'PK-OFFICE || บุคลากร')
 
 
 @section('content')

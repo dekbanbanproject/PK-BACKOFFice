@@ -188,7 +188,7 @@ class Fdh_LgoController extends Controller
             $data['data_dru'] = DB::connection('mysql')->select('SELECT * from fdh_dru WHERE d_anaconda_id ="LGO_801"');
             // $data['count_no'] = D_ofc_401::where('Apphos','<>','')->where('active','=','N')->count();
             // $data['count_null'] = D_ofc_401::where('Apphos','=',Null)->where('active','=','N')->count();
-        return view('lgo.lgo_801',$data,[
+        return view('lgo.lgo_main',$data,[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate, 
         ]);

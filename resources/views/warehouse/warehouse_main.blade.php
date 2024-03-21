@@ -1,6 +1,6 @@
 {{-- @extends('layouts.accpk') --}}
 @extends('layouts.warehouse_new')
-@section('title', 'PK-HOS || คลังวัสดุ')
+@section('title', 'PK-OFFICE || คลังวัสดุ')
 @section('content')
 
     <script>
@@ -118,7 +118,7 @@
                                     <div class="widget-chart widget-chart-hover">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">
-                                                    <p class="text-start font-size-13 mb-2">PK-HOS</p>
+                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                                     <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
                                                 </div>
                                                 <div class="avatar-sm me-2">
@@ -149,7 +149,7 @@
                                     <div class="widget-chart widget-chart-hover">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">
-                                                    <p class="text-start font-size-13 mb-2">PK-HOS</p>
+                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                                     <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
                                                 </div>
                                                 <div class="avatar-sm me-2">
@@ -180,7 +180,7 @@
                                     <div class="widget-chart widget-chart-hover">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">
-                                                    <p class="text-start font-size-13 mb-2">PK-HOS</p>
+                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                                     <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
                                                 </div>
                                                 <div class="avatar-sm me-2">
@@ -211,7 +211,7 @@
                                     <div class="widget-chart widget-chart-hover">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">
-                                                    <p class="text-start font-size-13 mb-2">PK-HOS</p>
+                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                                     <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
                                                 </div>
                                                 <div class="avatar-sm me-2">
@@ -242,7 +242,7 @@
                                     <div class="widget-chart widget-chart-hover">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">
-                                                    <p class="text-start font-size-13 mb-2">PK-HOS</p>
+                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                                     <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
                                                 </div>
                                                 <div class="avatar-sm me-2">
@@ -273,7 +273,7 @@
                                     <div class="widget-chart widget-chart-hover">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">
-                                                    <p class="text-start font-size-13 mb-2">PK-HOS</p>
+                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                                     <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
                                                 </div>
                                                 <div class="avatar-sm me-2">
@@ -304,7 +304,7 @@
                                     <div class="widget-chart widget-chart-hover">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">
-                                                    <p class="text-start font-size-13 mb-2">PK-HOS</p>
+                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                                     <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
                                                 </div>
                                                 <div class="avatar-sm me-2">
@@ -336,7 +336,7 @@
                                     <div class="widget-chart widget-chart-hover">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">
-                                                    <p class="text-start font-size-13 mb-2">PK-HOS</p>
+                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                                     <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
                                                 </div>
                                                 <div class="avatar-sm me-2">
@@ -368,7 +368,7 @@
                                     <div class="widget-chart widget-chart-hover">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">
-                                                    <p class="text-start font-size-13 mb-2">PK-HOS</p>
+                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                                     <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
                                                 </div>
                                                 <div class="avatar-sm me-2">
@@ -400,7 +400,7 @@
                                     <div class="widget-chart widget-chart-hover">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">
-                                                    <p class="text-start font-size-13 mb-2">PK-HOS</p>
+                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                                     <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
                                                 </div>
                                                 <div class="avatar-sm me-2">
@@ -432,7 +432,7 @@
                                     <div class="widget-chart widget-chart-hover">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">
-                                                    <p class="text-start font-size-13 mb-2">PK-HOS</p>
+                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                                     <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
                                                 </div>
                                                 <div class="avatar-sm me-2">
@@ -464,7 +464,7 @@
                                     <div class="widget-chart widget-chart-hover">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">
-                                                    <p class="text-start font-size-13 mb-2">PK-HOS</p>
+                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                                     <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
                                                 </div>
                                                 <div class="avatar-sm me-2">
@@ -496,7 +496,7 @@
                                     <div class="widget-chart widget-chart-hover">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">
-                                                    <p class="text-start font-size-13 mb-2">PK-HOS</p>
+                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                                     <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
                                                 </div>
                                                 <div class="avatar-sm me-2">
@@ -528,7 +528,7 @@
                                     <div class="widget-chart widget-chart-hover">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">
-                                                    <p class="text-start font-size-13 mb-2">PK-HOS</p>
+                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                                     <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
                                                 </div>
                                                 <div class="avatar-sm me-2">
@@ -560,7 +560,7 @@
                                     <div class="widget-chart widget-chart-hover">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">
-                                                    <p class="text-start font-size-13 mb-2">PK-HOS</p>
+                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                                     <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
                                                 </div>
                                                 <div class="avatar-sm me-2">
@@ -594,7 +594,7 @@
                                     <div class="widget-chart widget-chart-hover">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">
-                                                    <p class="text-start font-size-13 mb-2">PK-HOS</p>
+                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                                     <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
                                                 </div>
                                                 <div class="avatar-sm me-2">

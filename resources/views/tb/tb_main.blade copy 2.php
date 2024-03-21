@@ -1,5 +1,5 @@
 @extends('layouts.clinictb')
-@section('title', 'PK-HOS || CLINIC-TB')
+@section('title', 'PK-OFFICE || CLINIC-TB')
 
 @section('content')
     <script>

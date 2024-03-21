@@ -458,7 +458,7 @@
                     <div class="text-sm-end d-none d-sm-block">
                         Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา
                         
-                         <h6 style="color:rgb(220, 134, 247)" class="mt-2"> PK-HOS</h6> 
+                         <h6 style="color:rgb(220, 134, 247)" class="mt-2"> PK-OFFICE</h6> 
                     </div>
                 </div>
                 <div class="col"></div>

@@ -1,5 +1,5 @@
 @extends('layouts.reportall')
-@section('title', 'PK-HOS || Report-ตัวชี้วัดสำคัญใน (MED)')
+@section('title', 'PK-OFFICE || Report-ตัวชี้วัดสำคัญใน (MED)')
 
 @section('content')
     <script>

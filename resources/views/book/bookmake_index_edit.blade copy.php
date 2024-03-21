@@ -1,5 +1,5 @@
 @extends('layouts.book')
-@section('title', 'PK-HOS || งานสารบรรณ')
+@section('title', 'PK-OFFICE || งานสารบรรณ')
  
 <script src="{{ asset('js/signature.js') }}"></script>
  

@@ -1,5 +1,5 @@
 @extends('layouts.tech')
-@section('title', 'PK-HOS || Tecnicial-Service')
+@section('title', 'PK-OFFICE || Tecnicial-Service')
 
 @section('content')
     <script>

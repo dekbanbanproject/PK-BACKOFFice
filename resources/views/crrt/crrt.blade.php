@@ -1,5 +1,5 @@
 @extends('layouts.pkclaim')
-@section('title', 'PK-HOS || UCS')
+@section('title', 'PK-OFFICE || UCS')
 @section('content')
 <script>
     function TypeAdmin() {

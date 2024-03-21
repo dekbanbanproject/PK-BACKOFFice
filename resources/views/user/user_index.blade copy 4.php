@@ -1,5 +1,5 @@
 @extends('layouts.userdashboard')
-@section('title', 'PK-HOS  || ผู้ใช้งานทั่วไป')
+@section('title', 'PK-OFFICE  || ผู้ใช้งานทั่วไป')
 
 @section('content')
     <script>
@@ -116,7 +116,7 @@
                                 <div class="widget-chart widget-chart-hover"> 
                                         <div class="d-flex">
                                             <div class="flex-grow-1">                                                    
-                                                <p class="text-start font-size-14 mb-2">PK-HOS</p>   
+                                                <p class="text-start font-size-14 mb-2">PK-OFFICE</p>   
                                                 <h4 class="text-start mb-2">บุคคลากร</h4>                                                         
                                             </div>    
                                             <div class="avatar-sm me-2">
@@ -148,7 +148,7 @@
                                     <div class="widget-chart widget-chart-hover"> 
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">                                                    
-                                                    <p class="text-start font-size-14 mb-2">PK-HOS</p>   
+                                                    <p class="text-start font-size-14 mb-2">PK-OFFICE</p>   
                                                     <h4 class="text-start mb-2">ระบบการลา</h4>                                                         
                                                 </div>    
                                                 <div class="avatar-sm me-2">
@@ -181,7 +181,7 @@
                                     <div class="widget-chart widget-chart-hover"> 
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">                                                    
-                                                    <p class="text-start font-size-14 mb-2">PK-HOS</p>   
+                                                    <p class="text-start font-size-14 mb-2">PK-OFFICE</p>   
                                                     <h4 class="text-start mb-2">สารบรรณ</h4>                                                         
                                                 </div>    
                                                 <div class="avatar-sm me-2">
@@ -213,7 +213,7 @@
                                     <div class="widget-chart widget-chart-hover"> 
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">                                                    
-                                                    <p class="text-start font-size-14 mb-2">PK-HOS</p>   
+                                                    <p class="text-start font-size-14 mb-2">PK-OFFICE</p>   
                                                     <h4 class="text-start mb-2">ยานพาหนะ</h4>                                                         
                                                 </div>    
                                                 <div class="avatar-sm me-2">
@@ -245,7 +245,7 @@
                                     <div class="widget-chart widget-chart-hover"> 
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">                                                    
-                                                    <p class="text-start font-size-14 mb-2">PK-HOS</p>   
+                                                    <p class="text-start font-size-14 mb-2">PK-OFFICE</p>   
                                                     <h4 class="text-start mb-2">ห้องประชุม</h4>                                                         
                                                 </div>    
                                                 <div class="avatar-sm me-2">
@@ -277,7 +277,7 @@
                                     <div class="widget-chart widget-chart-hover"> 
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">                                                    
-                                                    <p class="text-start font-size-14 mb-2">PK-HOS</p>   
+                                                    <p class="text-start font-size-14 mb-2">PK-OFFICE</p>   
                                                     <h4 class="text-start mb-2">ซ่อมบำรุง</h4>                                                         
                                                 </div>    
                                                 <div class="avatar-sm me-2">
@@ -311,7 +311,7 @@
                                     <div class="widget-chart widget-chart-hover"> 
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">                                                    
-                                                    <p class="text-start font-size-14 mb-2">PK-HOS</p>   
+                                                    <p class="text-start font-size-14 mb-2">PK-OFFICE</p>   
                                                     <h4 class="text-start mb-2">คอมพิวเตอร์</h4>                                                         
                                                 </div>    
                                                 <div class="avatar-sm me-2">
@@ -343,7 +343,7 @@
                                     <div class="widget-chart widget-chart-hover"> 
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">                                                    
-                                                    <p class="text-start font-size-14 mb-2">PK-HOS</p>   
+                                                    <p class="text-start font-size-14 mb-2">PK-OFFICE</p>   
                                                     <h4 class="text-start mb-2">เครื่องมือแพทย์</h4>                                                         
                                                 </div>    
                                                 <div class="avatar-sm me-2">
@@ -375,7 +375,7 @@
                                     <div class="widget-chart widget-chart-hover"> 
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">                                                    
-                                                    <p class="text-start font-size-14 mb-2">PK-HOS</p>   
+                                                    <p class="text-start font-size-14 mb-2">PK-OFFICE</p>   
                                                     <h4 class="text-start mb-2">บ้านพัก</h4>                                                         
                                                 </div>    
                                                 <div class="avatar-sm me-2">
@@ -407,7 +407,7 @@
                                     <div class="widget-chart widget-chart-hover"> 
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">                                                    
-                                                    <p class="text-start font-size-14 mb-2">PK-HOS</p>   
+                                                    <p class="text-start font-size-14 mb-2">PK-OFFICE</p>   
                                                     <h4 class="text-start mb-2">แผนงาน</h4>                                                         
                                                 </div>    
                                                 <div class="avatar-sm me-2">
@@ -439,7 +439,7 @@
                                     <div class="widget-chart widget-chart-hover"> 
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">                                                    
-                                                    <p class="text-start font-size-14 mb-2">PK-HOS</p>   
+                                                    <p class="text-start font-size-14 mb-2">PK-OFFICE</p>   
                                                     <h4 class="text-start mb-2">ทรัพย์สิน</h4>                                                         
                                                 </div>    
                                                 <div class="avatar-sm me-2">
@@ -471,7 +471,7 @@
                                     <div class="widget-chart widget-chart-hover"> 
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">                                                    
-                                                    <p class="text-start font-size-14 mb-2">PK-HOS</p>   
+                                                    <p class="text-start font-size-14 mb-2">PK-OFFICE</p>   
                                                     <h4 class="text-start mb-2">พัสดุ</h4>                                                         
                                                 </div>    
                                                 <div class="avatar-sm me-2">
@@ -504,7 +504,7 @@
                                     <div class="widget-chart widget-chart-hover"> 
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">                                                    
-                                                    <p class="text-start font-size-14 mb-2">PK-HOS</p>   
+                                                    <p class="text-start font-size-14 mb-2">PK-OFFICE</p>   
                                                     <h4 class="text-start mb-2">คลังวัสดุ</h4>                                                         
                                                 </div>    
                                                 <div class="avatar-sm me-2">
@@ -536,7 +536,7 @@
                                     <div class="widget-chart widget-chart-hover"> 
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">                                                    
-                                                    <p class="text-start font-size-14 mb-2">PK-HOS</p>   
+                                                    <p class="text-start font-size-14 mb-2">PK-OFFICE</p>   
                                                     <h4 class="text-start mb-2">คลังยา</h4>                                                         
                                                 </div>    
                                                 <div class="avatar-sm me-2">
@@ -568,7 +568,7 @@
                                     <div class="widget-chart widget-chart-hover"> 
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">                                                    
-                                                    <p class="text-start font-size-14 mb-2">PK-HOS</p>   
+                                                    <p class="text-start font-size-14 mb-2">PK-OFFICE</p>   
                                                     <h4 class="text-start mb-2">จ่ายกลาง</h4>                                                         
                                                 </div>    
                                                 <div class="avatar-sm me-2">
@@ -600,7 +600,7 @@
                                     <div class="widget-chart widget-chart-hover"> 
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">                                                    
-                                                    <p class="text-start font-size-14 mb-2">PK-HOS</p>   
+                                                    <p class="text-start font-size-14 mb-2">PK-OFFICE</p>   
                                                     <h4 class="text-start mb-2">งานประกัน</h4>                                                         
                                                 </div>    
                                                 <div class="avatar-sm me-2">
@@ -632,7 +632,7 @@
                                     <div class="widget-chart widget-chart-hover"> 
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">                                                    
-                                                    <p class="text-start font-size-14 mb-2">PK-HOS</p>   
+                                                    <p class="text-start font-size-14 mb-2">PK-OFFICE</p>   
                                                     <h4 class="text-start mb-2">การเงิน</h4>                                                         
                                                 </div>    
                                                 <div class="avatar-sm me-2">
@@ -664,7 +664,7 @@
                                     <div class="widget-chart widget-chart-hover"> 
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">                                                    
-                                                    <p class="text-start font-size-14 mb-2">PK-HOS</p>   
+                                                    <p class="text-start font-size-14 mb-2">PK-OFFICE</p>   
                                                     <h4 class="text-start mb-2">การบัญชี</h4>                                                         
                                                 </div>    
                                                 <div class="avatar-sm me-2">
@@ -696,7 +696,7 @@
                                     <div class="widget-chart widget-chart-hover"> 
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">                                                    
-                                                    <p class="text-start font-size-14 mb-2">PK-HOS</p>   
+                                                    <p class="text-start font-size-14 mb-2">PK-OFFICE</p>   
                                                     <h4 class="text-start mb-2">P4P</h4>                                                         
                                                 </div>    
                                                 <div class="avatar-sm me-2">
@@ -731,7 +731,7 @@
                                 <div class="widget-chart widget-chart-hover"> 
                                         <div class="d-flex">
                                             <div class="flex-grow-1">                                                    
-                                                <p class="text-start font-size-14 mb-2">PK-HOS</p>   
+                                                <p class="text-start font-size-14 mb-2">PK-OFFICE</p>   
                                                 <h4 class="text-start mb-2">แพทย์แผนไทย</h4>                                                         
                                             </div>    
                                             <div class="avatar-sm me-2">
@@ -763,7 +763,7 @@
                                 <div class="widget-chart widget-chart-hover"> 
                                         <div class="d-flex">
                                             <div class="flex-grow-1">                                                    
-                                                <p class="text-start font-size-14 mb-2">PK-HOS</p>   
+                                                <p class="text-start font-size-14 mb-2">PK-OFFICE</p>   
                                                 <h4 class="text-start mb-2">โอที</h4>                                                         
                                             </div>    
                                             <div class="avatar-sm me-2">
@@ -795,7 +795,7 @@
                                 <div class="widget-chart widget-chart-hover"> 
                                         <div class="d-flex">
                                             <div class="flex-grow-1">                                                    
-                                                <p class="text-start font-size-14 mb-2">PK-HOS</p>   
+                                                <p class="text-start font-size-14 mb-2">PK-OFFICE</p>   
                                                 <h4 class="text-start mb-2">ENV</h4>                                                         
                                             </div>    
                                             <div class="avatar-sm me-2">
@@ -828,7 +828,7 @@
                                 <div class="widget-chart widget-chart-hover"> 
                                         <div class="d-flex">
                                             <div class="flex-grow-1">                                                    
-                                                <p class="text-start font-size-14 mb-2">PK-HOS</p>   
+                                                <p class="text-start font-size-14 mb-2">PK-OFFICE</p>   
                                                 <h4 class="text-start mb-2">ระบบลงเวลา</h4>                                                         
                                             </div>    
                                             <div class="avatar-sm me-2">

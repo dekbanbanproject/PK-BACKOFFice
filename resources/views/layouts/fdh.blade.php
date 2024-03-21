@@ -158,7 +158,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                             </span>
                             <span class="logo-lg">
                                 {{-- <img src="{{ asset('assets/images/logo-dark.png') }}" alt="logo-dark" height="20"> --}}
-                                <h4 style="color:pink" class="mt-4">PK-HOS</h4>
+                                <h4 style="color:pink" class="mt-4">PK-OFFICE</h4>
                             </span>
                         </a>
 
@@ -168,7 +168,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgba(21, 177, 164, 0.871)" class="mt-4">PK-HOS</h4>
+                                <h4 style="color:rgba(21, 177, 164, 0.871)" class="mt-4">PK-OFFICE</h4>
                             </span>
                         </a>
                     </div>
@@ -289,10 +289,26 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                      <i class="fa-solid fa-sack-dollar text-success"></i>
                                     <span>UCS</span>
                                 </a>
-                                <ul class="sub-menu" aria-expanded="true">
-                                    {{-- <li><a href="{{ url('walkin') }}" target="_blank">WlakIN</a></li>  --}}
+                                <ul class="sub-menu" aria-expanded="true"> 
                                     <li><a href="{{ url('walkin') }}">WlakIN</a></li> 
                                     <li><a href="{{ url('ucep24_main') }}">Ucep-24</a></li> 
+                                    <li><a href="javascript: void(0);" class="has-arrow">PPFS-67</a>
+                                        <ul class="sub-menu" aria-expanded="true">
+                                            <li><a href="{{ url('fdh_ppfs_12001') }}">12001-คัดกรองสุขภาพจิต 15-34ปี</a></li>
+                                            <li><a href="{{ url('fdh_ppfs_12002') }}">12002-คัดกรองสุขภาพจิต 35-59ปี</a></li>
+                                            <li><a href="{{ url('fdh_ppfs_12003') }}">12003-เจาะเลือดจากหลอดเลือดดำ 35-59ปี</a></li>
+                                            <li><a href="{{ url('fdh_ppfs_12004') }}">12004-เจาะเลือดจากหลอดเลือดดำ 45-59ปี</a></li>
+                                            <li><a href="{{ url('fdh_ppfs_2206') }}">2206-7 แว่นตาเด็ก</a></li> 
+                                        </ul>
+                                    </li> 
+                                    <li><a href="javascript: void(0);" class="has-arrow">ANC-หญิงตั้งครรภ์</a>
+                                        <ul class="sub-menu" aria-expanded="true">
+                                            <li><a href="{{ url('fdh_ppfs_30011') }}">บริการดูแลและฝากครรภ์</a></li>
+                                            <li><a href="{{ url('fdh_ppfs_30015') }}">บริการตรวจหลังคลอด</a></li>
+                                            {{-- <li><a href="{{ url('anc_dent') }}">ตรวจฟัน+ขัดฟัน</a></li> --}}
+                                            {{-- <li><a href="{{ url('anc_14001') }}">บริการยาเม็ดเสริมธาตุเหล็ก</a></li> --}}
+                                        </ul>
+                                    </li>
                                 </ul> 
                             </li>
                         {{-- @endif --}}
@@ -353,7 +369,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-HOS
+                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-OFFICE
                             </div>
                         </div>
                     </div>

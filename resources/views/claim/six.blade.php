@@ -1,5 +1,5 @@
 @extends('layouts.pkclaim')
-@section('title', 'PK-HOS || ส่งออก 16 แฟ้ม')
+@section('title', 'PK-OFFICE || ส่งออก 16 แฟ้ม')
 
 @section('content')
     <script>

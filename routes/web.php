@@ -3022,6 +3022,38 @@ Route::match(['get','post'],'walkin_exportapi',[App\Http\Controllers\Fdh_walkinC
 Route::match(['get','post'],'walkin_sendapi',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_sendapi'])->name('claim.walkin_sendapi');//
 Route::match(['get','post'],'walkin_report',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_report'])->name('claim.walkin_report');//
 
+Route::match(['get','post'],'ucep24_main',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main'])->name('claim.ucep24_main');//
+Route::match(['get','post'],'ucep24_main_process',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main_process'])->name('claim.ucep24_main_process');//
+Route::match(['get','post'],'ucep24_main_export',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main_export'])->name('claim.ucep24_main_export');//
+
+Route::match(['get','post'],'fdh_ppfs_12001',[App\Http\Controllers\Fdh_PPfs12001Controller::class, 'fdh_ppfs_12001'])->name('fdh.fdh_ppfs_12001');//
+Route::match(['get','post'],'fdh_ppfs_12001_process',[App\Http\Controllers\Fdh_PPfs12001Controller::class, 'fdh_ppfs_12001_process'])->name('fdh.fdh_ppfs_12001_process');//
+Route::match(['get','post'],'fdh_ppfs_12001_export',[App\Http\Controllers\Fdh_PPfs12001Controller::class, 'fdh_ppfs_12001_export'])->name('fdh.fdh_ppfs_12001_export');//
+
+Route::match(['get','post'],'fdh_ppfs_12002',[App\Http\Controllers\Fdh_PPfs12002Controller::class, 'fdh_ppfs_12002'])->name('fdh.fdh_ppfs_12002');//
+Route::match(['get','post'],'fdh_ppfs_12002_process',[App\Http\Controllers\Fdh_PPfs12002Controller::class, 'fdh_ppfs_12002_process'])->name('fdh.fdh_ppfs_12002_process');//
+Route::match(['get','post'],'fdh_ppfs_12002_export',[App\Http\Controllers\Fdh_PPfs12002Controller::class, 'fdh_ppfs_12002_export'])->name('fdh.fdh_ppfs_12002_export');//
+
+Route::match(['get','post'],'fdh_ppfs_12003',[App\Http\Controllers\Fdh_PPfs12003Controller::class, 'fdh_ppfs_12003'])->name('fdh.fdh_ppfs_12003');//
+Route::match(['get','post'],'fdh_ppfs_12003_process',[App\Http\Controllers\Fdh_PPfs12003Controller::class, 'fdh_ppfs_12003_process'])->name('fdh.fdh_ppfs_12003_process');//
+Route::match(['get','post'],'fdh_ppfs_12003_export',[App\Http\Controllers\Fdh_PPfs12003Controller::class, 'fdh_ppfs_12003_export'])->name('fdh.fdh_ppfs_12003_export');//
+
+Route::match(['get','post'],'fdh_ppfs_12004',[App\Http\Controllers\Fdh_PPfs12004Controller::class, 'fdh_ppfs_12004'])->name('fdh.fdh_ppfs_12004');//
+Route::match(['get','post'],'fdh_ppfs_12004_process',[App\Http\Controllers\Fdh_PPfs12004Controller::class, 'fdh_ppfs_12004_process'])->name('fdh.fdh_ppfs_12004_process');//
+Route::match(['get','post'],'fdh_ppfs_12004_export',[App\Http\Controllers\Fdh_PPfs12004Controller::class, 'fdh_ppfs_12004_export'])->name('fdh.fdh_ppfs_12004_export');//
+
+Route::match(['get','post'],'fdh_ppfs_2206',[App\Http\Controllers\Fdh_PPfs2206Controller::class, 'fdh_ppfs_12001'])->name('fdh.fdh_ppfs_12001');//
+Route::match(['get','post'],'fdh_ppfs_2206_process',[App\Http\Controllers\Fdh_PPfs2206Controller::class, 'ucep24_main_process'])->name('fdh.fdh_ppfs_12001_process');//
+Route::match(['get','post'],'fdh_ppfs_2206_export',[App\Http\Controllers\Fdh_PPfs2206Controller::class, 'ucep24_main_export'])->name('fdh.fdh_ppfs_12001_export');//
+
+Route::match(['get','post'],'fdh_ppfs_30011',[App\Http\Controllers\Fdh_PPfs30011Controller::class, 'fdh_ppfs_30011'])->name('fdh.fdh_ppfs_30011');//
+Route::match(['get','post'],'fdh_ppfs_30011_process',[App\Http\Controllers\Fdh_PPfs30011Controller::class, 'fdh_ppfs_30011_process'])->name('fdh.fdh_ppfs_30011_process');//
+Route::match(['get','post'],'fdh_ppfs_30011_export',[App\Http\Controllers\Fdh_PPfs30011Controller::class, 'fdh_ppfs_30011_export'])->name('fdh.fdh_ppfs_30011_export');//
+
+Route::match(['get','post'],'fdh_ppfs_30015',[App\Http\Controllers\Fdh_PPfs30015Controller::class, 'fdh_ppfs_30015'])->name('fdh.fdh_ppfs_30015');//
+Route::match(['get','post'],'fdh_ppfs_30015_process',[App\Http\Controllers\Fdh_PPfs30015Controller::class, 'fdh_ppfs_30015_process'])->name('fdh.fdh_ppfs_30015_process');//
+Route::match(['get','post'],'fdh_ppfs_30015_export',[App\Http\Controllers\Fdh_PPfs30015Controller::class, 'fdh_ppfs_30015_export'])->name('fdh.fdh_ppfs_30015_export');//
+
 // *******************FDH OFC *******************
 Route::match(['get','post'],'ofc_main',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main'])->name('claim.ofc_main');//
 Route::match(['get','post'],'ofc_main_process',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main_process'])->name('claim.ofc_main_process');//
@@ -3032,10 +3064,8 @@ Route::match(['get','post'],'lgo_main',[App\Http\Controllers\Fdh_LgoController::
 Route::match(['get','post'],'lgo_main_process',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main_process'])->name('fdh.lgo_main_process');//
 Route::match(['get','post'],'lgo_main_export',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main_export'])->name('fdh.lgo_main_export');//
 
-// *******************FDH UCS *******************
-Route::match(['get','post'],'ucep24_main',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main'])->name('claim.ucep24_main');//
-Route::match(['get','post'],'ucep24_main_process',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main_process'])->name('claim.ucep24_main_process');//
-Route::match(['get','post'],'ucep24_main_export',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main_export'])->name('claim.ucep24_main_export');//
+ 
+
 
 // *******************FDH LGO *******************
 // Route::match(['get','post'],'lgo_main',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main'])->name('fdh.lgo_main');//

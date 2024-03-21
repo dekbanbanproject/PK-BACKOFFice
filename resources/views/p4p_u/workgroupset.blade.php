@@ -1,5 +1,5 @@
 @extends('layouts.user')
-@section('title', 'PK-HOS || P4P')
+@section('title', 'PK-OFFICE || P4P')
 
      <?php
      use App\Http\Controllers\P4pController;
