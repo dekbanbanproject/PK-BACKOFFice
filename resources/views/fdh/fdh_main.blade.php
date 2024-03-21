@@ -938,8 +938,8 @@ $pos = strrpos($url, '/') + 1;
                 scrollCollapse: true,
                 scrollX: true,
                 "autoWidth": false,
-                "pageLength": 100,
-                "lengthMenu": [10,100,150,200,300,400,500],
+                "pageLength": 25,
+                "lengthMenu": [10,25,100,150,200,300,400,500],
         });
         $('#datepicker').datepicker({
             format: 'yyyy-mm-dd'

@@ -3016,6 +3016,7 @@ Route::match(['get','post'],'fdh_data_export',[App\Http\Controllers\FdhControlle
 
 // *******************FDH UCS *******************
 Route::match(['get','post'],'walkin',[App\Http\Controllers\Fdh_walkinController::class, 'walkin'])->name('claim.walkin');//
+Route::match(['get','post'],'walkin_process_vn',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_process_vn'])->name('claim.walkin_process_vn');//
 Route::match(['get','post'],'walkin_process',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_process'])->name('claim.walkin_process');//
 Route::match(['get','post'],'walkin_export',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_export'])->name('claim.walkin_export');//
 Route::match(['get','post'],'walkin_exportapi',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_exportapi'])->name('claim.walkin_exportapi');//

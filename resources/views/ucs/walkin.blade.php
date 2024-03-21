@@ -95,9 +95,18 @@ $pos = strrpos($url, '/') + 1;
                 <h4 class="card-title" style="color:rgba(21, 177, 164, 0.871)">Detail WalkIn List</h4>
                 <p class="card-title-desc">รายละเอียดข้อมูล WalkIn List</p>
             </div>
-            <div class="col"></div>
+            {{-- <div class="col"></div> --}}
+            <div class="col-md-2">
+                <input type="text" name="VN" id="VN" class="form-control card_fdh_4" placeholder="VN"/> 
+            </div>
+            <div class="col-md-1 text-start"> 
+                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim_vn" data-url="{{url('walkin_process_vn')}}">
+                    <i class="fa-solid fa-spinner text-success me-2"></i>
+                    ส่งเคลม
+                </button>
+            </div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-6 text-end">
+            <div class="col-md-5 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control card_fdh_4" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
@@ -932,8 +941,8 @@ $pos = strrpos($url, '/') + 1;
                 scrollCollapse: true,
                 scrollX: true,
                 "autoWidth": false,
-                "pageLength": 100,
-                "lengthMenu": [10,100,150,200,300,400,500],
+                "pageLength": 50,
+                "lengthMenu": [10,25,50,100,150,200,300,400,500],
         });
 
         $('#datepicker').datepicker({
@@ -1099,6 +1108,62 @@ $pos = strrpos($url, '/') + 1;
                     }) 
                 // var check = confirm("Are you want ?");  
             }
+        });
+
+        $('.Claim_vn').on('click', function(e) {
+            
+            var VN = $('#VN').val();  
+
+                Swal.fire({
+                    title: 'Are you Want Claim sure?',
+                    text: "คุณต้องการ Claim รายการนี้ใช่ไหม!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, Claim it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+                                
+                                $.ajax({
+                                    url: "{{ route('claim.walkin_process_vn') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {
+                                        VN                         
+                                    },
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({
+                                                title: 'ส่งข้อมูลเคลมสำเร็จ',
+                                                    text: "You Claim data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+                                        } else {
+                                            
+                                        }
+                                    },
+                                });
+                                
+                            }
+                })
+           
         });
         
     });

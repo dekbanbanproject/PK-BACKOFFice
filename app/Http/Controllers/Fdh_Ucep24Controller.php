@@ -395,18 +395,20 @@ class Fdh_Ucep24Controller extends Controller
                  
                 //D_opd OK
                 $data_opd = DB::connection('mysql2')->select('
-                        SELECT  v.hn HN
-                        ,v.spclty CLINIC
-                        ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
-                        ,concat(substr(o.vsttime,1,2),substr(o.vsttime,4,2)) TIMEOPD
-                        ,v.vn SEQ
-                        ,"1" UUC ,"" DETAIL,""BTEMP,""SBP,""DBP,""PR,""RR,""OPTYPE,""TYPEIN,""TYPEOUT
-                        from vn_stat v
-                        LEFT OUTER JOIN ovst o on o.vn = v.vn
-                        LEFT OUTER JOIN pttype p on p.pttype = v.pttype
-                        LEFT OUTER JOIN ipt i on i.vn = v.vn
-                        LEFT OUTER JOIN patient pt on pt.hn = v.hn
-                        WHERE v.vn IN("'.$va1->vn.'")                  
+                    SELECT  v.hn HN,v.spclty CLINIC,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
+                    ,concat(substr(o.vsttime,1,2),substr(o.vsttime,4,2)) TIMEOPD,v.vn SEQ
+                    ,"1" UUC ,oc.cc as DETAIL,oc.temperature as BTEMP,oc.bps as SBP,oc.bpd as DBP,""PR,""RR
+                    ,""OPTYPE
+                    ,ot.export_code as TYPEIN,st.export_code as TYPEOUT
+                    FROM ovst o
+                    LEFT OUTER JOIN vn_stat v on o.vn = v.vn 
+                    LEFT OUTER JOIN opdscreen oc  on oc.vn = o.vn 
+                    LEFT OUTER JOIN pttype p on p.pttype = v.pttype
+                    LEFT OUTER JOIN ipt i on i.vn = v.vn
+                    LEFT OUTER JOIN patient pt on pt.hn = v.hn
+                    LEFT OUTER JOIN ovstist ot on ot.ovstist = o.ovstist  
+                    LEFT OUTER JOIN ovstost st on st.ovstost = o.ovstost  
+                    WHERE v.vn IN("'.$va1->vn.'")                 
                 '); 
                 foreach ($data_opd as $val3) {       
                     Fdh_opd::insert([
@@ -732,12 +734,12 @@ class Fdh_Ucep24Controller extends Controller
                 //D_adp
                 $data_adp_ = DB::connection('mysql2')->select(' 
                         SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
-                            ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
-                            FROM
-                            (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,sum(v.QTY) QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
-                            ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
-                            ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC
-                            ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
+                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
+                        FROM
+                        (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,sum(v.QTY) QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
+                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,if(n.nhso_adp_code is null,"1","2") as ITEMSRC
+                        ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
                         FROM opitemrece v
                         JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null 
                         LEFT OUTER JOIN ipt i on i.an = v.an
@@ -745,19 +747,19 @@ class Fdh_Ucep24Controller extends Controller
                         WHERE i.vn IN("'.$va1->vn.'")
                         GROUP BY i.vn,n.nhso_adp_code,rate) a 
                         GROUP BY an,CODE,rate
-                            UNION
+                        UNION
                         SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
-                            ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
-                            FROM
-                            (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,sum(v.QTY) QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
-                            ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
+                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
+                        FROM
+                        (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,sum(v.QTY) QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
+                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,if(n.nhso_adp_code is null,"1","2") as ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
                         FROM opitemrece v
                         JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null 
                         LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
                         WHERE vv.vn IN("'.$va1->vn.'")
                         AND v.an is NULL
                         GROUP BY vv.vn,n.nhso_adp_code,rate) b 
-                        GROUP BY seq,CODE,rate;
+                        GROUP BY seq,CODE,rate; 
                 ');                 
                 foreach ($data_adp_ as $va_13) {
                     Fdh_adp::insert([
