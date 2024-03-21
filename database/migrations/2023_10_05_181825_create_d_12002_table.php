@@ -17,6 +17,7 @@ return new class extends Migration
         {
             Schema::connection('mysql')->create('d_12002', function (Blueprint $table) { 
                 $table->bigIncrements('d_12002_id');//  
+                $table->enum('active', ['N','Y'])->default('N')->nullable();
                 $table->string('vn')->nullable();//   
                 $table->string('an')->nullable();//  
                 $table->string('hn')->nullable();//  
@@ -24,6 +25,8 @@ return new class extends Migration
                 $table->string('vstdate')->nullable();// 
                 $table->string('pttype')->nullable();// 
                 $table->string('ptname')->nullable();// 
+                $table->string('authen')->nullable();// 
+                $table->string('icd10')->nullable();// 
                 $table->string('icode')->nullable();// 
                 $table->string('sum_price')->nullable();// 
                 $table->timestamps();

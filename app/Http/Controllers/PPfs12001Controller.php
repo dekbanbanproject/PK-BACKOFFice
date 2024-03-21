@@ -146,15 +146,15 @@ class PPfs12001Controller extends Controller
             D_12001::truncate(); 
                 $data_main_ = DB::connection('mysql2')->select(' 
                         SELECT v.vn,v.hn,o.an,v.cid,v.pttype,concat(pt.pname,pt.fname," ",pt.lname) ptname,v.vstdate,p.hipdata_code,op.icode,op.qty,op.sum_price
-                        FROM hos.ovst o
-                        LEFT OUTER JOIN hos.vn_stat v on v.vn=o.vn
-                        LEFT OUTER JOIN hos.patient pt on pt.hn=o.hn 
-                        LEFT OUTER JOIN hos.pttype p ON p.pttype = v.pttype
+                        FROM ovst o
+                        LEFT OUTER JOIN vn_stat v on v.vn=o.vn
+                        LEFT OUTER JOIN patient pt on pt.hn=o.hn 
+                        LEFT OUTER JOIN pttype p ON p.pttype = v.pttype
                         LEFT OUTER JOIN opitemrece op ON op.vn = v.vn   
                         LEFT OUTER JOIN s_drugitems d on d.icode = op.icode
                         where o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                        
-                        AND (o.an=" " or o.an is null)
+                        AND (o.an="" or o.an is null)
                         AND pt.nationality="99" 
                         AND v.age_y between "15" and "34" AND pt.sex=2 
                         AND d.nhso_adp_code ="12001"  

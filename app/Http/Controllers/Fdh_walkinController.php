@@ -335,29 +335,35 @@ class Fdh_walkinController extends Controller
                     WHERE v.vn IN("'.$va1->vn.'")
                     GROUP BY v.hn
                 ');
-            
                 foreach ($data_pat_ as $va_02) {
-                    Fdh_pat::insert([
-                        'HCODE'              => $va_02->HCODE,
-                        'HN'                 => $va_02->HN,
-                        'CHANGWAT'           => $va_02->CHANGWAT,
-                        'AMPHUR'             => $va_02->AMPHUR,
-                        'DOB'                => $va_02->DOB,
-                        'SEX'                => $va_02->SEX,
-                        'MARRIAGE'           => $va_02->MARRIAGE,
-                        'OCCUPA'             => $va_02->OCCUPA,
-                        'NATION'             => $va_02->NATION,
-                        'PERSON_ID'          => $va_02->PERSON_ID,
-                        'NAMEPAT'            => $va_02->NAMEPAT,
-                        'TITLE'              => $va_02->TITLE,
-                        'FNAME'              => $va_02->FNAME,
-                        'LNAME'              => $va_02->LNAME,
-                        'IDTYPE'             => $va_02->IDTYPE,
-
-                        'user_id'            => $iduser,
-                        'd_anaconda_id'      => 'WALKIN'
-                    ]);
-                }
+                    $check_hn = Fdh_pat::where('hn',$va_02->HN)->where('d_anaconda_id','=','WALKIN')->count();
+                    if ($check_hn > 0) { 
+                    } else {
+                        Fdh_pat::insert([
+                            'HCODE'              => $va_02->HCODE,
+                            'HN'                 => $va_02->HN,
+                            'CHANGWAT'           => $va_02->CHANGWAT,
+                            'AMPHUR'             => $va_02->AMPHUR,
+                            'DOB'                => $va_02->DOB,
+                            'SEX'                => $va_02->SEX,
+                            'MARRIAGE'           => $va_02->MARRIAGE,
+                            'OCCUPA'             => $va_02->OCCUPA,
+                            'NATION'             => $va_02->NATION,
+                            'PERSON_ID'          => $va_02->PERSON_ID,
+                            'NAMEPAT'            => $va_02->NAMEPAT,
+                            'TITLE'              => $va_02->TITLE,
+                            'FNAME'              => $va_02->FNAME,
+                            'LNAME'              => $va_02->LNAME,
+                            'IDTYPE'             => $va_02->IDTYPE,
+        
+                            'user_id'            => $iduser,
+                            'd_anaconda_id'      => 'WALKIN'
+                        ]);
+                    }
+                    
+                } 
+             
+                
                 //D_opd OK
                 $data_opd = DB::connection('mysql2')->select('
                         SELECT  v.hn HN
