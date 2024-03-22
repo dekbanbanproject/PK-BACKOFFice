@@ -253,7 +253,7 @@ $pos = strrpos($url, '/') + 1;
                                             <thead>
                                                 <tr style="font-size: 13px">
                                                     <th width="5%" class="text-center"><input type="checkbox" class="fdhcheckbox" name="stamp" id="stamp"> </th> 
-                                                    <th class="text-center">ลำดับ</th>
+                                                    {{-- <th class="text-center">ลำดับ</th> --}}
                                                     <th class="text-center">vn</th>
                                                     <th class="text-center">hn</th>
                                                     <th class="text-center">cid</th>  
@@ -261,13 +261,14 @@ $pos = strrpos($url, '/') + 1;
                                                     <th class="text-center">pttype</th> 
                                                     <th class="text-center">icd10</th>  
                                                     <th class="text-center">Authen</th> 
+                                                    <th class="text-center">projectcode</th> 
                                                     <th class="text-center">ptname</th> 
-                                                    <th class="text-center">income</th> 
+                                                    <th class="text-center">debit</th> 
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php $number = 0; ?>
-                                                @foreach ($d_walkin as $item)
+                                                @foreach ($d_fdh as $item)
                                                 <?php $number++; ?>
                     
                                                     <tr height="20" style="font-size: 12px;">
@@ -276,19 +277,20 @@ $pos = strrpos($url, '/') + 1;
                                                                 <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
                                                             </td> 
                                                         @else
-                                                            <td class="text-center" width="5%"><input type="checkbox" class="fdhcheckbox sub_chk" data-id="{{$item->d_walkin_id}}"> </td> 
+                                                            <td class="text-center" width="5%"><input type="checkbox" class="fdhcheckbox sub_chk" data-id="{{$item->d_fdh_id}}"> </td> 
                                                         @endif
-                                                        <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td>
+                                                        {{-- <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td> --}}
                                                         <td class="text-center" width="10%">  {{ $item->vn }}  </td>
                                                         <td class="text-center" width="5%">{{ $item->hn }}</td>
                                                         <td class="text-center" width="10%">{{ $item->cid }}</td>  
-                                                        <td class="text-center" width="10%">{{ $item->vstdate }}</td> 
+                                                        <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
                                                         <td class="text-center" width="5%">{{ $item->pttype }}</td> 
                                                         <td class="text-center" width="7%">{{ $item->icd10 }}</td> 
                                                        
-                                                        <td class="text-center" width="10%">{{ $item->authen }}</td> 
+                                                        <td class="text-center" width="7%">{{ $item->authen }}</td> 
+                                                        <td class="text-center" width="5%">{{ $item->projectcode }}</td> 
                                                         <td class="text-start">{{ $item->ptname }}</td> 
-                                                        <td class="text-center" width="10%">{{ $item->income }}</td> 
+                                                        <td class="text-center" width="8%">{{ $item->debit }}</td> 
                                                     </tr>
                     
                     
@@ -941,7 +943,7 @@ $pos = strrpos($url, '/') + 1;
                 scrollCollapse: true,
                 scrollX: true,
                 "autoWidth": false,
-                "pageLength": 50,
+                "pageLength": 10,
                 "lengthMenu": [10,25,50,100,150,200,300,400,500],
         });
 

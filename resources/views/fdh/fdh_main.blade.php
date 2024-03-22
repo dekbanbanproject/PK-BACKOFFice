@@ -252,7 +252,7 @@ $pos = strrpos($url, '/') + 1;
                                             <thead>
                                                 <tr style="font-size: 13px">
                                                     <th width="5%" class="text-center"><input type="checkbox" class="fdhcheckbox" name="stamp" id="stamp"> </th> 
-                                                    <th class="text-center">ลำดับ</th>
+                                                    {{-- <th class="text-center">ลำดับ</th> --}}
                                                     <th class="text-center">vn</th>
                                                     <th class="text-center">an</th>
                                                     <th class="text-center">hn</th>
@@ -263,6 +263,8 @@ $pos = strrpos($url, '/') + 1;
                                                     <th class="text-center">subinscl</th>  
                                                     <th class="text-center">ptname</th>  
                                                     <th class="text-center">icd10</th> 
+                                                    <th class="text-center">authen</th> 
+                                                    <th class="text-center">debit</th> 
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -278,7 +280,7 @@ $pos = strrpos($url, '/') + 1;
                                                         @else
                                                             <td class="text-center" width="5%"><input type="checkbox" class="fdhcheckbox sub_chk" data-id="{{$item->d_fdh_id}}"> </td> 
                                                         @endif
-                                                        <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td>
+                                                        {{-- <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td> --}}
                                                         <td class="text-center" width="8%">{{ $item->vn }}  </td>
                                                         <td class="text-center" width="8%">{{ $item->an }}  </td>
                                                         <td class="text-center" width="5%">{{ $item->hn }}</td>
@@ -288,7 +290,9 @@ $pos = strrpos($url, '/') + 1;
                                                         <td class="text-center" width="5%">{{ $item->pttype }}</td> 
                                                         <td class="text-center" width="5%">{{ $item->subinscl }}</td>    
                                                         <td class="text-start">{{ $item->ptname }}</td>  
-                                                        <td class="text-center" width="7%">{{ $item->icd10 }}</td> 
+                                                        <td class="text-center" width="5%">{{ $item->icd10 }}</td> 
+                                                        <td class="text-center" width="7%">{{ $item->authen }}</td> 
+                                                        <td class="text-center" width="7%">{{ $item->debit }}</td> 
                                                     </tr> 
                     
                                                 @endforeach
@@ -938,7 +942,7 @@ $pos = strrpos($url, '/') + 1;
                 scrollCollapse: true,
                 scrollX: true,
                 "autoWidth": false,
-                "pageLength": 25,
+                "pageLength": 10,
                 "lengthMenu": [10,25,100,150,200,300,400,500],
         });
         $('#datepicker').datepicker({

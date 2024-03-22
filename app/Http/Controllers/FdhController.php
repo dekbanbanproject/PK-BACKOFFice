@@ -149,19 +149,23 @@ class FdhController extends Controller
             } else {
                     $iduser = Auth::user()->id;  
                     $data_main_opd = DB::connection('mysql2')->select(
-                        'SELECT v.vn,o.an,v.cid,v.hn,concat(pt.pname,pt.fname," ",pt.lname) ptname
-                                ,v.vstdate,v.pttype,v.income,ptt.hipdata_code,GROUP_CONCAT(DISTINCT ov.icd10 order by ov.diagtype) AS icd10,v.pdx
+                        'SELECT v.vn,o.an,v.cid,v.hn,concat(p.pname,p.fname," ",p.lname) ptname,h.hospcode
+                                ,v.vstdate,v.pttype,v.income,pt.hipdata_code,GROUP_CONCAT(DISTINCT ov.icd10 order by ov.diagtype) AS icd10,v.pdx
                                 ,v.income-v.rcpt_money-v.discount_money as debit
                                 FROM vn_stat v
                                 LEFT OUTER JOIN ovst o ON v.vn=o.vn 
-                                LEFT OUTER JOIN patient pt ON v.hn=pt.hn
+                                LEFT OUTER JOIN patient p ON v.hn=p.hn
                                 LEFT OUTER JOIN ovstdiag ov ON v.vn=ov.vn 
-                                LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype  
-                                LEFT OUTER JOIN ipt i on i.vn = v.vn                        
+                                LEFT OUTER JOIN pttype pt ON v.pttype=pt.pttype 
+                                LEFT OUTER JOIN hospcode h on h.hospcode = v.hospmain 
+                                                    
                             WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"  
                             AND o.an is null 
                             GROUP BY v.vn 
-                    ');                 
+                    ');  
+                    // ,ca.claimcode as authen 
+                    // LEFT OUTER JOIN pkbackoffice.check_authen ca on ca.cid = v.cid AND ca.vstdate = v.vstdate  
+                    // LEFT OUTER JOIN ipt i on i.vn = v.vn              
                     foreach ($data_main_opd as $key => $value) {   
                         $check_opd = D_fdh::where('vn',$value->vn)->count(); 
                         if ($check_opd > 0) {  
@@ -172,10 +176,10 @@ class FdhController extends Controller
                                 'an'           => $value->an, 
                                 'cid'          => $value->cid,
                                 'pttype'       => $value->pttype, 
-                                // 'subinscl'     => $value->subinscl, 
+                                // 'authen'       => $value->authen, 
                                 'ptname'       => $value->ptname,
                                 'vstdate'      => $value->vstdate,
-                                // 'dchdate'      => $value->dchdate, 
+                                'hospcode'     => $value->hospcode, 
                                 'icd10'        => $value->icd10,
                                 'debit'        => $value->debit
                             ]);
@@ -213,10 +217,18 @@ class FdhController extends Controller
                                 'debit'        => $value2->debit
                             ]);
                         }   
-                    }   
+                    } 
+                    $data_authen_    = DB::connection('mysql')->select('SELECT hncode,cid,vstdate,claimcode FROM check_authen WHERE vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" '); 
+                    foreach ($data_authen_ as $key => $v_up) {
+                        D_fdh::where('cid',$v_up->cid)->where('vstdate',$v_up->vstdate)->update([ 
+                            'authen'   => $v_up->claimcode,  
+                        ]);
+                    } 
+                    
+
             } 
 
-            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND icd10 IS NOT NULL ORDER BY vn ASC');  
+            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND authen IS NOT NULL AND icd10 IS NOT NULL ORDER BY vn ASC');  
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="FDH"'); 
             $data['data_orf'] = DB::connection('mysql')->select('SELECT * from fdh_orf WHERE d_anaconda_id ="FDH"'); 
             $data['data_oop'] = DB::connection('mysql')->select('SELECT * from fdh_oop WHERE d_anaconda_id ="FDH"');
@@ -541,7 +553,7 @@ class FdhController extends Controller
                         LEFT OUTER JOIN patient pt on pt.hn = v.hn
                         LEFT OUTER JOIN ovstist ot on ot.ovstist = o.ovstist  
                         LEFT OUTER JOIN ovstost st on st.ovstost = o.ovstost  
-                        WHERE v.vn IN("'.$va1->vn.'")                 
+                        WHERE o.vn IN("'.$va1->vn.'")                 
             '); 
             foreach ($data_opd as $val3) {       
                 Fdh_opd::insert([
@@ -862,16 +874,14 @@ class FdhController extends Controller
                     'd_anaconda_id'     => 'FDH'
                 ]);
             } 
-            //D_adp
             $data_adp_ = DB::connection('mysql2')->select(' 
-
-                SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
-                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
+                        SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"" LMP ,""SP_ITEM,icode ,vstdate
                         FROM
                         (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,sum(v.QTY) QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
                         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,if(n.nhso_adp_code is null,"1","2") as ITEMSRC
-                        ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
+                        ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"" LMP ,""SP_ITEM,v.icode,v.vstdate
                         FROM opitemrece v
                         JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null 
                         LEFT OUTER JOIN ipt i on i.an = v.an
@@ -881,10 +891,10 @@ class FdhController extends Controller
                         GROUP BY an,CODE,rate
                         UNION
                         SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
-                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
+                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"" LMP ,""SP_ITEM,icode ,vstdate
                         FROM
                         (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,sum(v.QTY) QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
-                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,if(n.nhso_adp_code is null,"1","2") as ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
+                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,if(n.nhso_adp_code is null,"1","2") as ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"" LMP ,""SP_ITEM,v.icode,v.vstdate
                         FROM opitemrece v
                         JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null 
                         LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn

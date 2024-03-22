@@ -118,7 +118,7 @@ class Fdh_walkinController extends Controller
                 }
                 $data_main_ = DB::connection('mysql2')->select(' 
                     SELECT v.hn,v.vn,i.an,v.vstdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.cid,v.pttype,group_concat(distinct oo.icd10) as icd10
-                        ,h.hospcode,h.name as hospcode_name,ee.er_emergency_level_name ,v.income,v.uc_money,v.paid_money,v.rcpt_money,pt.hipdata_code
+                        ,ca.claimcode as authen,h.hospcode,h.name as hospcode_name,ee.er_emergency_level_name ,v.income,v.uc_money,v.paid_money,v.rcpt_money,pt.hipdata_code
                         ,v.income-v.rcpt_money-v.discount_money as debit
                         FROM vn_stat v
                         LEFT OUTER JOIN referin r on r.vn = v.vn
@@ -132,7 +132,7 @@ class Fdh_walkinController extends Controller
                         LEFT OUTER JOIN visit_pttype vv on vv.vn = v.vn
                         LEFT OUTER JOIN pttype pt on pt.pttype =v.pttype  
                         LEFT OUTER JOIN hpc11_ktb_approval hh on hh.pid = v.cid and hh.transaction_date = v.vstdate 
-                        
+                        LEFT OUTER JOIN pkbackoffice.check_authen ca on ca.cid = v.cid AND ca.vstdate = v.vstdate
                         WHERE v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                         AND i.an is null 
                         AND v.pttype in("W2","W1","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81")  
@@ -140,13 +140,30 @@ class Fdh_walkinController extends Controller
                         and v.vn not in(select vn from pkbackoffice.d_walkin_drug where vn = v.vn)
                         AND pt.hipdata_code ="UCS"
                         GROUP BY v.vn 
-                ');  
-                // ,ca.claimcode as authen
-                // LEFT OUTER JOIN pkbackoffice.check_authen ca on ca.cid = v.cid AND ca.vstdate = v.vstdate               
+                ');                 
                 foreach ($data_main_ as $key => $value) {   
-                    $check_wa = D_fdh::where('vn',$value->vn)->where('projectcode','WALKIN')->count(); 
-                    if ($check_wa > 0) { 
-                    } else { 
+                    $check_wa = D_walkin::where('vn',$value->vn)->count(); 
+                    if ($check_wa > 0) {
+                        # code...
+                    } else {
+                        // D_walkin::insert([
+                        //     'vn'                      => $value->vn,
+                        //     'hn'                      => $value->hn,
+                        //     'an'                      => $value->an, 
+                        //     'cid'                     => $value->cid,
+                        //     'pttype'                  => $value->pttype,
+                        //     'vstdate'                 => $value->vstdate,
+                        //     'authen'                  => $value->authen,
+                        //     'icd10'                   => $value->icd10, 
+                        //     'ptname'                  => $value->ptname, 
+                        //     'hospcode'                => $value->hospcode, 
+                        //     'hospcode_name'           => $value->hospcode_name, 
+                        //     'er_emergency_level_name' => $value->er_emergency_level_name, 
+                        //     'income'                  => $value->income, 
+                        //     'paid_money'              => $value->paid_money, 
+                        //     'uc_money'                => $value->uc_money,  
+                        //     'rcpt_money'              => $value->rcpt_money,  
+                        // ]);
                         D_fdh::insert([
                             'vn'           => $value->vn,
                             'hn'           => $value->hn,
@@ -155,13 +172,13 @@ class Fdh_walkinController extends Controller
                             'pttype'       => $value->pttype,                           
                             'ptname'       => $value->ptname,
                             'vstdate'      => $value->vstdate,
-                            // 'authen'       => $value->authen,
+                            'authen'       => $value->authen,
                             'projectcode'  => 'WALKIN', 
                             'icd10'        => $value->icd10,
                             'hospcode'     => $value->hospcode, 
                             'debit'        => $value->debit
                         ]);
-                    }                      
+                    }                       
 
                     $check = D_claim::where('vn',$value->vn)->where('nhso_adp_code','WALKIN')->count();
                     if ($check > 0) {
@@ -185,18 +202,28 @@ class Fdh_walkinController extends Controller
                             'claimdate'         => $date, 
                             'userid'            => $iduser, 
                         ]);
-                       
+                        // D_walkin_report::insert([
+                        //     'vn'                      => $value->vn,
+                        //     'hn'                      => $value->hn,
+                        //     'an'                      => $value->an, 
+                        //     'cid'                     => $value->cid,
+                        //     'pttype'                  => $value->pttype,
+                        //     'vstdate'                 => $value->vstdate,
+                        //     'authen'                  => $value->authen,
+                        //     'icd10'                   => $value->icd10, 
+                        //     'ptname'                  => $value->ptname, 
+                        //     'hospcode'                => $value->hospcode, 
+                        //     'hospcode_name'           => $value->hospcode_name, 
+                        //     'er_emergency_level_name' => $value->er_emergency_level_name, 
+                        //     'income'                  => $value->income, 
+                        //     'paid_money'              => $value->paid_money, 
+                        //     'uc_money'                => $value->uc_money,  
+                        //     'rcpt_money'              => $value->rcpt_money,  
+                        // ]);
                     }  
                 } 
-                $data_authen_    = DB::connection('mysql')->select('SELECT hncode,cid,vstdate,claimcode FROM check_authen WHERE vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" '); 
-                    foreach ($data_authen_ as $key => $v_up) {
-                        D_fdh::where('cid',$v_up->cid)->where('vstdate',$v_up->vstdate)->update([ 
-                            'authen'   => $v_up->claimcode,  
-                        ]);
-                    } 
-        }         
-            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="WALKIN" AND authen IS NOT NULL AND icd10 IS NOT NULL ORDER BY vn ASC');        
-            // $data['d_walkin'] = DB::connection('mysql')->select('SELECT * from d_walkin WHERE active ="N" AND authen IS NOT NULL ORDER BY vn ASC');  
+        }                
+            $data['d_walkin'] = DB::connection('mysql')->select('SELECT * from d_walkin WHERE active ="N" AND authen IS NOT NULL ORDER BY vn ASC');  
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="WALKIN"'); 
             $data['data_orf'] = DB::connection('mysql')->select('SELECT * from fdh_orf WHERE d_anaconda_id ="WALKIN"'); 
             $data['data_oop'] = DB::connection('mysql')->select('SELECT * from fdh_oop WHERE d_anaconda_id ="WALKIN"');
@@ -900,7 +927,7 @@ class Fdh_walkinController extends Controller
 
         $id = $request->ids;
         $iduser = Auth::user()->id;
-        $data_vn_1 = D_fdh::whereIn('d_fdh_id',explode(",",$id))->get();
+        $data_vn_1 = D_walkin::whereIn('d_walkin_id',explode(",",$id))->get();
                 
          foreach ($data_vn_1 as $key => $va1) {
                 
@@ -1006,14 +1033,13 @@ class Fdh_walkinController extends Controller
                         FROM ovst o
                         LEFT OUTER JOIN vn_stat v on o.vn = v.vn 
                         LEFT OUTER JOIN opdscreen oc  on oc.vn = o.vn 
-                        LEFT OUTER JOIN pttype p on p.pttype = v.pttype 
+                        LEFT OUTER JOIN pttype p on p.pttype = v.pttype
+                        LEFT OUTER JOIN ipt i on i.vn = v.vn
                         LEFT OUTER JOIN patient pt on pt.hn = v.hn
                         LEFT OUTER JOIN ovstist ot on ot.ovstist = o.ovstist  
                         LEFT OUTER JOIN ovstost st on st.ovstost = o.ovstost  
-                        WHERE o.vn IN("'.$va1->vn.'") 
-                        GROUP BY o.vn
+                        WHERE v.vn IN("'.$va1->vn.'") 
                 '); 
-                // LEFT OUTER JOIN ipt i on i.vn = v.vn
                 // oc.cc as
                 foreach ($data_opd as $val3) {       
                     Fdh_opd::insert([
@@ -1042,7 +1068,7 @@ class Fdh_walkinController extends Controller
                         SELECT v.hn HN
                         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,v.spclty CLINIC,ifnull(r1.refer_hospcode,r2.refer_hospcode) REFER
                         ,"0100" REFERTYPE,v.vn SEQ                        
-                        ,ifnull(DATE_FORMAT(r1.refer_date,"%Y%m%d"),DATE_FORMAT(r2.refer_date,"%Y%m%d")) as REFERDATE
+                        ,if(r1.refer_date ="",r2.refer_date,r1.refer_date) as REFERDATE
                         FROM vn_stat v
                         LEFT OUTER JOIN ovst o on o.vn = v.vn
                         LEFT OUTER JOIN referin r1 on r1.vn = v.vn 
@@ -1336,12 +1362,12 @@ class Fdh_walkinController extends Controller
                 //D_adp
                 $data_adp_ = DB::connection('mysql2')->select(' 
                         SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
-                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"" LMP ,""SP_ITEM,icode ,vstdate
+                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
                         FROM
                         (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,sum(v.QTY) QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
                         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,if(n.nhso_adp_code is null,"1","2") as ITEMSRC
-                        ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"" LMP ,""SP_ITEM,v.icode,v.vstdate
+                        ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
                         FROM opitemrece v
                         JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null 
                         LEFT OUTER JOIN ipt i on i.an = v.an
@@ -1351,10 +1377,10 @@ class Fdh_walkinController extends Controller
                         GROUP BY an,CODE,rate
                         UNION
                         SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
-                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"" LMP ,""SP_ITEM,icode ,vstdate
+                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
                         FROM
                         (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,sum(v.QTY) QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
-                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,if(n.nhso_adp_code is null,"1","2") as ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"" LMP ,""SP_ITEM,v.icode,v.vstdate
+                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,if(n.nhso_adp_code is null,"1","2") as ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
                         FROM opitemrece v
                         JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null 
                         LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
@@ -1464,43 +1490,43 @@ class Fdh_walkinController extends Controller
                 } 
  
          }
-        // $walk_ = DB::connection('mysql')->select('SELECT * FROM fdh_adp WHERE d_anaconda_id = "WALKIN" GROUP BY SEQ');
-        // foreach ($walk_ as $key => $va_w) {
-        //     Fdh_adp::insert([
-        //         'HN'                   => $va_w->HN,
-        //         'AN'                   => $va_w->AN,
-        //         'DATEOPD'              => $va_w->DATEOPD,
-        //         'TYPE'                 => '5',
-        //         'CODE'                 => 'WALKIN',
-        //         'QTY'                  => '1',
-        //         'RATE'                 => '0.00',
-        //         'SEQ'                  => $va_w->SEQ,
-        //         'CAGCODE'              => $va_w->CAGCODE,
-        //         'DOSE'                 => $va_w->DOSE,
-        //         'CA_TYPE'              => $va_w->CA_TYPE,
-        //         'SERIALNO'             => $va_w->SERIALNO,
-        //         'TOTCOPAY'             => $va_w->TOTCOPAY,
-        //         'USE_STATUS'           => $va_w->USE_STATUS,
-        //         'TOTAL'                => $va_w->TOTAL,
-        //         'QTYDAY'               => $va_w->QTYDAY,
-        //         'TMLTCODE'             => $va_w->TMLTCODE,
-        //         'STATUS1'              => $va_w->STATUS1,
-        //         'BI'                   => $va_w->BI,
-        //         'CLINIC'               => $va_w->CLINIC,
-        //         'ITEMSRC'              => $va_w->ITEMSRC,
-        //         'PROVIDER'             => $va_w->PROVIDER,
-        //         'GRAVIDA'              => $va_w->GRAVIDA,
-        //         'GA_WEEK'              => $va_w->GA_WEEK,
-        //         'DCIP'                 => $va_w->DCIP,
-        //         'LMP'                  => $va_w->LMP,
-        //         'SP_ITEM'              => $va_w->SP_ITEM,
-        //         'icode'                => $va_w->icode,
-        //         'vstdate'              => $va_w->vstdate,
-        //         'user_id'              => $iduser,
-        //         'd_anaconda_id'        => 'WALKIN'
-        //     ]);
-        // }
-        D_fdh::whereIn('d_fdh_id',explode(",",$id))
+        $walk_ = DB::connection('mysql')->select('SELECT * FROM fdh_adp WHERE d_anaconda_id = "WALKIN" GROUP BY SEQ');
+        foreach ($walk_ as $key => $va_w) {
+            Fdh_adp::insert([
+                'HN'                   => $va_13->HN,
+                'AN'                   => $va_13->AN,
+                'DATEOPD'              => $va_13->DATEOPD,
+                'TYPE'                 => '5',
+                'CODE'                 => 'WALKIN',
+                'QTY'                  => '1',
+                'RATE'                 => '0.00',
+                'SEQ'                  => $va_13->SEQ,
+                'CAGCODE'              => $va_13->CAGCODE,
+                'DOSE'                 => $va_13->DOSE,
+                'CA_TYPE'              => $va_13->CA_TYPE,
+                'SERIALNO'             => $va_13->SERIALNO,
+                'TOTCOPAY'             => $va_13->TOTCOPAY,
+                'USE_STATUS'           => $va_13->USE_STATUS,
+                'TOTAL'                => $va_13->TOTAL,
+                'QTYDAY'               => $va_13->QTYDAY,
+                'TMLTCODE'             => $va_13->TMLTCODE,
+                'STATUS1'              => $va_13->STATUS1,
+                'BI'                   => $va_13->BI,
+                'CLINIC'               => $va_13->CLINIC,
+                'ITEMSRC'              => $va_13->ITEMSRC,
+                'PROVIDER'             => $va_13->PROVIDER,
+                'GRAVIDA'              => $va_13->GRAVIDA,
+                'GA_WEEK'              => $va_13->GA_WEEK,
+                'DCIP'                 => $va_13->DCIP,
+                'LMP'                  => $va_13->LMP,
+                'SP_ITEM'              => $va_13->SP_ITEM,
+                'icode'                => $va_13->icode,
+                'vstdate'              => $va_13->vstdate,
+                'user_id'              => $iduser,
+                'd_anaconda_id'        => 'WALKIN'
+            ]);
+        }
+        D_walkin::whereIn('d_walkin_id',explode(",",$id))
                 ->update([
                     'active' => 'Y'
                 ]);
@@ -2523,35 +2549,35 @@ class Fdh_walkinController extends Controller
 
 
 
-            // $pathdir =  "Export/".$folder."/";
-            // $zipcreated = $folder.".zip";
+        $pathdir =  "Export/".$folder."/";
+        $zipcreated = $folder.".zip";
 
-            // $newzip = new ZipArchive;
-            // if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
-            // $dir = opendir($pathdir);
-            
-            // while($file = readdir($dir)) {
-            //     if(is_file($pathdir.$file)) {
-            //         $newzip -> addFile($pathdir.$file, $file);
-            //     }
-            // }
-            // $newzip ->close();
-            //         if (file_exists($zipcreated)) {
-            //             header('Content-Type: application/zip');
-            //             header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
-            //             header('Content-Length: ' . filesize($zipcreated));
-            //             flush();
-            //             readfile($zipcreated); 
-            //             unlink($zipcreated);   
-            //             $files = glob($pathdir . '/*');   
-            //             foreach($files as $file) {   
-            //                 if(is_file($file)) {      
-            //                     // unlink($file); 
-            //                 } 
-            //             }                      
-            //             return redirect()->route('claim.walkin');                    
-            //         }
-            // } 
+        $newzip = new ZipArchive;
+        if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
+        $dir = opendir($pathdir);
+        
+        while($file = readdir($dir)) {
+            if(is_file($pathdir.$file)) {
+                $newzip -> addFile($pathdir.$file, $file);
+            }
+        }
+        $newzip ->close();
+                if (file_exists($zipcreated)) {
+                    header('Content-Type: application/zip');
+                    header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
+                    header('Content-Length: ' . filesize($zipcreated));
+                    flush();
+                    readfile($zipcreated); 
+                    unlink($zipcreated);   
+                    $files = glob($pathdir . '/*');   
+                    foreach($files as $file) {   
+                        if(is_file($file)) {      
+                            // unlink($file); 
+                        } 
+                    }                      
+                    return redirect()->route('claim.walkin');                    
+                }
+        } 
 
             return redirect()->route('claim.walkin');
 

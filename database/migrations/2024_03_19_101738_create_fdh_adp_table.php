@@ -41,8 +41,7 @@ return new class extends Migration
                 $table->string('GRAVIDA',length: 2)->nullable(); //
                 $table->string('GA_WEEK',length: 2)->nullable(); //
                 $table->string('DCIP',length: 2)->nullable(); //
-                $table->date('LMP')->nullable(); // 
-
+                $table->string('LMP',length: 8)->nullable(); // 
                 $table->string('SP_ITEM',length: 2)->nullable(); // 
                 $table->string('icode')->nullable(); // 
                 $table->date('vstdate')->nullable(); // 
