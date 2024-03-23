@@ -690,6 +690,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                         <li><a href="{{ url('upstm_sss_ti') }}">SSS ไต 3099</a></li>
                                         <li><a href="{{ url('upstm_ofc_ti') }}">OFC ไต 4011</a></li>
                                         <li><a href="{{ url('upstm_ofc_ti_ipd') }}">OFC ไต 4022</a></li>
+                                        <li><a href="{{ url('upstm_lgo_ti') }}">LGO ไต 8011</a></li>
                                         <li><a href="{{ url('upstm_ofc_opd') }}">OFC OPD 401</a></li>
                                         <li><a href="{{ url('upstm_ofc_ipd') }}">OFC IPD 402</a></li>
                                         <li><a href="{{ url('upstm_lgo_opd') }}">LGO OPD 801</a></li>

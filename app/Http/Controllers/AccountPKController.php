@@ -2808,7 +2808,7 @@ class AccountPKController extends Controller
             FROM acc_1102050101_4011 a 
             LEFT JOIN acc_stm_ti_total b ON b.hn = a.hn AND b.vstdate = a.vstdate
             WHERE b.STMdoc = "'.$id.'" AND b.HDflag IN("COC")
-               
+       
         ');
         // AND b.Total_amount IS NOT NULL 
         return view('account_pk.upstm_ofc_ti_detail',$data,[
@@ -2817,6 +2817,53 @@ class AccountPKController extends Controller
             'STMDoc'        =>     $id,  
         ]);
     }
+
+    public function upstm_lgo_ti(Request $request)
+    {
+        $datenow             = date('Y-m-d');
+        $startdate           = $request->startdate;
+        $enddate             = $request->enddate;        
+        $data['lgo_ti']     = DB::connection('mysql')->select('
+                SELECT b.STMDoc,SUM(b.pay_amount) as total 
+                FROM acc_1102050102_8011 a 
+                LEFT JOIN acc_stm_lgoti b ON b.hn = a.hn AND b.vstdate = a.vstdate
+              
+                GROUP BY b.STMDoc 
+                ORDER BY STMDoc DESC
+        ');     
+        // WHERE b.HDflag IN("COC")   
+        return view('account_pk.upstm_lgo_ti',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+        ]);
+    }
+    public function upstm_lgo_ti_detail(Request $request,$id)
+    {
+        $datenow             = date('Y-m-d');
+        $startdate           = $request->startdate;
+        $enddate             = $request->enddate; 
+        $data['lgo_ti']     = DB::connection('mysql')->select('
+                SELECT b.STMDoc,SUM(b.pay_amount) as total 
+                FROM acc_1102050102_8011 a 
+                LEFT JOIN acc_stm_lgoti b ON b.hn = a.hn AND b.vstdate = a.vstdate 
+                GROUP BY b.STMDoc 
+                ORDER BY STMDoc DESC
+        ');  
+        $data['datashow']     = DB::connection('mysql')->select('
+            SELECT a.vn,a.hn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit_total,b.STMdoc,b.pay_amount
+            FROM acc_1102050102_8011 a 
+            LEFT JOIN acc_stm_lgoti b ON b.hn = a.hn AND b.vstdate = a.vstdate
+            WHERE b.STMdoc = "'.$id.'"  
+            
+        ');
+        // AND b.Total_amount IS NOT NULL 
+        return view('account_pk.upstm_lgo_ti_detail',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'STMDoc'        =>     $id,  
+        ]);
+    }
+
     public function upstm_sss_ti(Request $request)
     {
         $datenow             = date('Y-m-d');
