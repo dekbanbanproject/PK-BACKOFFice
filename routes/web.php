@@ -1738,6 +1738,10 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'upstm_ucs_excel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_excel'])->name('acc.upstm_ucs_excel');//
     Route::match(['get','post'],'upstm_ucs_sendexcel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_sendexcel'])->name('acc.upstm_ucs_sendexcel');//
 
+    Route::match(['get','post'],'upstm_ucs_op',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_op'])->name('acc.upstm_ucs_op');//
+    Route::match(['get','post'],'upstm_ucs_op_saveexcel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_op_saveexcel'])->name('acc.upstm_ucs_op_saveexcel');//
+    Route::match(['get','post'],'upstm_ucs_op_sendexcel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_op_sendexcel'])->name('acc.upstm_ucs_op_sendexcel');//
+
     Route::match(['get','post'],'upstm_ucs_opd',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_opd'])->name('acc.upstm_ucs_opd');//
     Route::match(['get','post'],'upstm_ucs_detail_opd/{id}',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_detail_opd'])->name('acc.upstm_ucs_detail_opd');//
     Route::match(['get','post'],'upstm_ucs_detail_opd_216/{id}',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_detail_opd_216'])->name('acc.upstm_ucs_detail_opd_216');//
@@ -3066,8 +3070,10 @@ Route::match(['get','post'],'ofc_main_export',[App\Http\Controllers\Fdh_OfcContr
 Route::match(['get','post'],'lgo_main',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main'])->name('fdh.lgo_main');//
 Route::match(['get','post'],'lgo_main_process',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main_process'])->name('fdh.lgo_main_process');//
 Route::match(['get','post'],'lgo_main_export',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main_export'])->name('fdh.lgo_main_export');//
-
- 
+Route::match(['get','post'],'lgo_main_rep',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main_rep'])->name('fdh.lgo_main_rep');//
+Route::match(['get','post'],'lgo_main_repsave',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main_repsave'])->name('fdh.lgo_main_repsave');//
+Route::match(['get','post'],'lgo_main_repsenddata',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main_repsenddata'])->name('fdh.lgo_main_repsenddata');//
+Route::match(['get','post'],'lgo_main_report',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main_report'])->name('fdh.lgo_main_report');//
 
 
 // *******************FDH LGO *******************

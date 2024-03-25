@@ -33,6 +33,10 @@ return new class extends Migration
                 $table->string('nhso_adp_code')->nullable();// 
                 $table->string('projectcode')->nullable();// 
                 $table->string('debit')->nullable();// 
+
+                $table->string('debit_rep')->nullable();// 
+                $table->string('debit_stm')->nullable();// 
+                $table->string('STMdoc')->nullable();// 
                 $table->timestamps();
             }); 
         }

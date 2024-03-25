@@ -1069,7 +1069,7 @@ class Account202Controller extends Controller
                         SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
                         ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
                         ,sum(a.debit_total) as tung_looknee  
-                        FROM acc_debtor a 
+                        FROM acc_1102050101_202 a 
                         LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
                         WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                         AND a.account_code ="1102050101.202"
@@ -1084,7 +1084,7 @@ class Account202Controller extends Controller
                         SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
                         ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
                         ,sum(a.debit_total) as tung_looknee  
-                        FROM acc_debtor a 
+                        FROM acc_1102050101_202 a 
                         LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
                         WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                         AND a.account_code ="1102050101.202"

@@ -88,7 +88,7 @@ $pos = strrpos($url, '/') + 1;
             </div>
         </div>
     </div>
-    <form action="{{ url('lgo_main') }}" method="POST">
+    <form action="{{ url('lgo_main_report') }}" method="GET">
         @csrf
     <div class="row"> 
             <div class="col-md-3">
@@ -97,7 +97,7 @@ $pos = strrpos($url, '/') + 1;
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-6 text-end">
+            <div class="col-md-4 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control card_fdh_4" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
@@ -110,15 +110,15 @@ $pos = strrpos($url, '/') + 1;
                     </button>  
 
                     </form>
-                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('lgo_main_process')}}">
+                    {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('lgo_main_process')}}">
                         <i class="fa-solid fa-spinner text-success me-2"></i>
                         ส่งเคลม
-                    </button>
+                    </button> --}}
                    
-                    <a href="{{url('lgo_main_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4">
+                    {{-- <a href="{{url('lgo_main_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4">
                         <i class="fa-solid fa-file-export text-danger me-2"></i>
                         Export Txt
-                    </a> 
+                    </a>  --}}
                 </div> 
             </div>          
     </div>
@@ -138,7 +138,7 @@ $pos = strrpos($url, '/') + 1;
                                         <span class="d-none d-sm-block">LGO อปท.</span>    
                                     </a>
                                 </li>   
-                                <li class="nav-item">
+                                {{-- <li class="nav-item">
                                     <a class="nav-link" data-bs-toggle="tab" href="#OPD" role="tab">
                                         <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
                                         <span class="d-none d-sm-block">OPD</span>    
@@ -233,7 +233,7 @@ $pos = strrpos($url, '/') + 1;
                                         <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
                                         <span class="d-none d-sm-block">DRU</span>    
                                     </a>
-                                </li>
+                                </li> --}}
                                 
                             </ul>
                             <!-- Tab panes -->
@@ -243,13 +243,8 @@ $pos = strrpos($url, '/') + 1;
                                         <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                             <thead>
                                                 <tr style="font-size: 13px">
-                                                    <th width="5%" class="text-center"><input type="checkbox" class="fdhcheckbox" name="stamp" id="stamp"> </th> 
-                                                    <th class="text-center">ลำดับ</th> 
-                                                    {{-- <th class="text-center">
-                                                        <span class="bg-success badge me-2">{{ $count_no }}</span> 
-                                                        Approve Code
-                                                        <span class="bg-danger badge me-2">{{ $count_null }}</span> 
-                                                    </th> --}}
+                                         
+                                                    <th class="text-center">ลำดับ</th>  
                                                     <th class="text-center">cid</th>
                                                     <th class="text-center">hn</th>
                                                     <th class="text-center">ptname</th>  
@@ -258,8 +253,8 @@ $pos = strrpos($url, '/') + 1;
                                                     <th class="text-center">icd10</th> 
                                                  
                                                     <th class="text-center">price_lgo</th> 
-                                                    <th class="text-center">authen</th> 
-                                                    {{-- <th class="text-center">STMdoc</th>  --}}
+                                                    <th class="text-center">price_rep</th> 
+                                                    <th class="text-center">STMdoc</th> 
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -267,44 +262,26 @@ $pos = strrpos($url, '/') + 1;
                                                 @foreach ($d_fdh as $item)
                                                 <?php $number++; ?>
                     
-                                                    <tr height="20" style="font-size: 12px;">
-                                                        @if ($item->icd10 == '')
-                                                            <td class="text-center" width="5%">
-                                                                <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
-                                                            </td> 
-                                                        @else
-                                                            <td class="text-center" width="5%"><input type="checkbox" class="fdhcheckbox sub_chk" data-id="{{$item->d_fdh_id}}"> </td> 
-                                                        @endif
-                                                        <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td>
-                                                        {{-- <td class="text-center" width="15%">
-                                                            @if ($item->Apphos != NULL)
-                                                                <span class="bg-success badge me-2">{{ $item->Apphos }}</span> 
-                                                            @else
-                                                                <span class="bg-danger badge me-2">{{ $item->Apphos }}</span> 
-                                                            @endif
-                                                            
-                                                        </td>  --}}
+                                                    <tr height="20" style="font-size: 12px;"> 
+                                                        <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td> 
                                                         <td class="text-center" width="7%">  {{ $item->cid }}  </td>
                                                         <td class="text-center" width="8%">{{ $item->hn }}</td>
                                                         <td class="text-start">{{ $item->ptname }}</td>  
                                                         <td class="text-center" width="5%">{{ $item->pttype }}</td> 
                                                         <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
-                                                        <td class="text-center" width="5%">{{ $item->icd10 }}</td>
-   
+                                                        <td class="text-center" width="5%">{{ $item->icd10 }}</td> 
                                                         <td class="text-end" width="7%" style="font-size: 15px;color:blue">{{ number_format($item->debit, 2) }}</td> 
-                                                        <td class="text-center" width="10%">{{ $item->authen }}</td>                                                    
-                                                        {{-- <td class="text-center" width="10%">{{ $item->STMdoc }}</td>                                                     --}}
+                                                        <td class="text-center" width="5%" style="font-size: 15px;color:rgb(7, 121, 102)">{{ $item->debit_rep }}</td>                                                    
+                                                        <td class="text-center" width="10%">{{ $item->STMdoc }}</td>                                                    
                                                     </tr>
-                    
-                    
-                    
+                     
                                                 @endforeach
                     
                                             </tbody>
                                         </table>
                                     </p>
                                 </div>
-                                <div class="tab-pane" id="OPD" role="tabpanel">
+                                {{-- <div class="tab-pane" id="OPD" role="tabpanel">
                                     <p class="mb-0">
                                         <table id="example2" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                             <thead>
@@ -813,20 +790,9 @@ $pos = strrpos($url, '/') + 1;
                                                     <th class="text-center">QTY</th> 
                                                     <th class="text-center">RATE</th> 
                                                     <th class="text-center">SEQ</th> 
-                                                    {{-- <th class="text-center">CAGCODE</th> --}}
-                                                    {{-- <th class="text-center">DOSE</th> --}}
-                                                    {{-- <th class="text-center">CA_TYPE</th> --}}
-                                                    {{-- <th class="text-center">SERIALNO</th> --}}
-                                                    <th class="text-center">TOTCOPAY</th>
-                                                    {{-- <th class="text-center">USE_STATUS</th> --}}
-                                                    <th class="text-center">TOTAL</th>
-                                                    {{-- <th class="text-center">QTYDAY</th> --}}
-                                                    {{-- <th class="text-center">TMLTCODE</th> --}}
-                                                    {{-- <th class="text-center">STATUS1</th> --}}
-                                                    {{-- <th class="text-center">BI</th> --}}
-                                                    {{-- <th class="text-center">CLINIC</th> --}}
-                                                    {{-- <th class="text-center">ITEMSRC</th> --}}
-                                                    {{-- <th class="text-center">PROVIDER</th> --}}
+                                                    
+                                                    <th class="text-center">TOTCOPAY</th> 
+                                                    <th class="text-center">TOTAL</th> 
                                                     <th class="text-center">GRAVIDA</th>
                                                     <th class="text-center">GA_WEEK</th>
                                                     <th class="text-center">DCIP</th>
@@ -848,20 +814,10 @@ $pos = strrpos($url, '/') + 1;
                                                         <td class="text-center" >{{$itemadp->QTY }}</td>
                                                         <td class="text-center" >{{$itemadp->RATE }}</td>
                                                         <td class="text-center" >{{$itemadp->SEQ }}</td> 
-                                                        {{-- <td class="text-center" >{{$itemadp->CAGCODE }}</td>  --}}
-                                                        {{-- <td class="text-center" >{{$itemadp->DOSE }}</td>  --}}
-                                                        {{-- <td class="text-center" >{{$itemadp->CA_TYPE }}</td>  --}}
-                                                        {{-- <td class="text-center" >{{$itemadp->SERIALNO }}</td>  --}}
-                                                        <td class="text-center" >{{$itemadp->TOTCOPAY }}</td> 
-                                                        {{-- <td class="text-center" >{{$itemadp->USE_STATUS }}</td>  --}}
+                                                       
+                                                        <td class="text-center" >{{$itemadp->TOTCOPAY }}</td>  
                                                         <td class="text-center" >{{$itemadp->TOTAL }}</td> 
-                                                        {{-- <td class="text-center" >{{$itemadp->QTYDAY }}</td>  --}}
-                                                        {{-- <td class="text-center" >{{$itemadp->TMLTCODE }}</td>  --}}
-                                                        {{-- <td class="text-center" >{{$itemadp->STATUS1 }}</td>  --}}
-                                                        {{-- <td class="text-center" >{{$itemadp->BI }}</td>  --}}
-                                                        {{-- <td class="text-center" >{{$itemadp->CLINIC }}</td>  --}}
-                                                        {{-- <td class="text-center" >{{$itemadp->ITEMSRC }}</td>  --}}
-                                                        {{-- <td class="text-center" >{{$itemadp->PROVIDER }}</td>  --}}
+                                                        
                                                         <td class="text-center">{{$itemadp->GRAVIDA }}</td> 
                                                         <td class="text-center" >{{$itemadp->GA_WEEK }}</td> 
                                                         <td class="text-center" >{{$itemadp->DCIP }}</td> 
@@ -920,7 +876,7 @@ $pos = strrpos($url, '/') + 1;
                                             </tbody>
                                         </table>
                                     </p>
-                                </div>
+                                </div> --}}
 
 
                             </div>

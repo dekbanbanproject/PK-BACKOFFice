@@ -39,9 +39,9 @@ use App\Models\D_apiwalkin_ipd;
 use App\Models\D_apiwalkin_pat;
 use App\Models\D_apiwalkin_opd;
 use App\Models\D_walkin;
-use App\Models\D_walkin_drug;
-use App\Models\D_apiwalkin_irf;
-use App\Models\D_walkin_report;
+use App\Models\D_lgo_rep_excel;
+use App\Models\Acc_stm_lgoexcel;
+use App\Models\D_fdh;
 
 use App\Models\Fdh_ins;
 use App\Models\Fdh_pat;
@@ -114,7 +114,7 @@ class Fdh_LgoController extends Controller
                     'SELECT v.vn,o.an,v.cid,v.hn,concat(pt.pname,pt.fname," ",pt.lname) ptname
                         ,v.vstdate,v.pttype   
                         ,ptt.hipdata_code 
-                        ,v.income-v.paid_money-v.rcpt_money as price_lgo
+                        ,v.income-v.discount_money-v.rcpt_money as price_lgo
                         ,GROUP_CONCAT(DISTINCT ov.icd10 order by ov.diagtype) AS icd10,v.pdx
                         FROM vn_stat v
                         LEFT OUTER JOIN patient pt ON v.hn=pt.hn
@@ -123,54 +123,66 @@ class Fdh_LgoController extends Controller
                         LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype           
                         WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                         AND v.pttype in ("L1","L2","L3","L4","l5","l6")          
-                        AND o.an is null
-                        AND v.pdx <> ""
-                        GROUP BY v.vn 
-                ');                 
-                foreach ($data_main_ as $key => $value) {   
-                    $check_wa = D_lgo_801::where('vn',$value->vn)->count(); 
-                    if ($check_wa > 0) {                        
-                    } else {
-                        D_lgo_801::insert([
-                            'vn'                 => $value->vn,
-                            'hn'                 => $value->hn,
-                            'an'                 => $value->an, 
-                            'cid'                => $value->cid,
-                            'pttype'             => $value->pttype,
-                            'vstdate'            => $value->vstdate,
-                            'ptname'             => $value->ptname,
-                            'icd10'              => $value->icd10, 
-                            'price_lgo'          => $value->price_lgo,  
-                        ]);
-                    }  
-                    $check = D_claim::where('vn',$value->vn)->count();
-                    if ($check > 0) {
-                        D_claim::where('vn',$value->vn)->update([ 
-                            'sum_price'          => $value->price_lgo,  
-                        ]);
-                    } else {
-                        D_claim::insert([
-                            'vn'                => $value->vn,
-                            'hn'                => $value->hn,
-                            'an'                => $value->an,
-                            'cid'               => $value->cid,
-                            'pttype'            => $value->pttype,
-                            'ptname'            => $value->ptname,
-                            'vstdate'           => $value->vstdate,
-                            // 'hipdata_code'      => $value->hipdata_code,
-                            // 'qty'               => $value->qty,
-                            'sum_price'          => $value->price_lgo,
-                            'type'              => 'OPD',
-                            'nhso_adp_code'     => 'LGO',
-                            'claimdate'         => $date, 
-                            'userid'            => $iduser, 
-                        ]);
-                    }                      
-
+                        AND o.an is null 
+                        GROUP BY o.vn 
+                '); 
+                // AND v.pdx <> ""                
+                // foreach ($data_main_ as $key => $value) {   
+                   
+                //     $check = D_claim::where('vn',$value->vn)->count();
+                //     if ($check > 0) {
+                //         D_claim::where('vn',$value->vn)->update([ 
+                //             'sum_price'          => $value->price_lgo,  
+                //         ]);
+                //     } else {
+                //         D_claim::insert([
+                //             'vn'                => $value->vn,
+                //             'hn'                => $value->hn,
+                //             'an'                => $value->an,
+                //             'cid'               => $value->cid,
+                //             'pttype'            => $value->pttype,
+                //             'ptname'            => $value->ptname,
+                //             'vstdate'           => $value->vstdate,
+                //             // 'hipdata_code'      => $value->hipdata_code,
+                //             // 'qty'               => $value->qty,
+                //             'sum_price'          => $value->price_lgo,
+                //             'type'              => 'OPD',
+                //             'nhso_adp_code'     => 'LGO',
+                //             'claimdate'         => $date, 
+                //             'userid'            => $iduser, 
+                //         ]);
+                //     }   
+                //     $check_fdh = D_fdh::where('vn',$value->vn)->count();
+                //     if ($check_fdh > 0) {
+                //         D_fdh::where('vn',$value->vn)->update([  
+                //             'debit'        => $value->price_lgo
+                //         ]); 
+                //     } else {
+                //         D_fdh::insert([
+                //             'vn'           => $value->vn,
+                //             'hn'           => $value->hn,
+                //             'an'           => $value->an, 
+                //             'cid'          => $value->cid,
+                //             'pttype'       => $value->pttype,  
+                //             'ptname'       => $value->ptname, 
+                //             'vstdate'      => $value->vstdate, 
+                //             'icd10'        => $value->icd10,
+                //             'debit'        => $value->price_lgo
+                //         ]); 
+                //     }
                     
+                    
+                // } 
+                $data_authen_    = DB::connection('mysql')->select('SELECT hncode,cid,vstdate,claimcode FROM check_authen WHERE vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" '); 
+                foreach ($data_authen_ as $key => $v_up) {
+                    D_fdh::where('cid',$v_up->cid)->where('vstdate',$v_up->vstdate)->update([ 
+                        'authen'   => $v_up->claimcode,  
+                    ]);
                 } 
         }                
             $data['d_lgo_801'] = DB::connection('mysql')->select('SELECT * from d_lgo_801 WHERE active ="N" AND icd10 IS NOT NULL ORDER BY vn ASC');  
+            // $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N"  AND pttype IN("L1","L2","L3","L4","l5","l6") AND authen IS NOT NULL AND icd10 IS NOT NULL ORDER BY vn ASC');
+            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N"  AND pttype IN("L1","L2","L3","L4","l5","l6") AND icd10 IS NOT NULL ORDER BY vn ASC');
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="LGO_801"'); 
             $data['data_orf'] = DB::connection('mysql')->select('SELECT * from fdh_orf WHERE d_anaconda_id ="LGO_801"'); 
             $data['data_oop'] = DB::connection('mysql')->select('SELECT * from fdh_oop WHERE d_anaconda_id ="LGO_801"');
@@ -1295,6 +1307,199 @@ class Fdh_LgoController extends Controller
 
             return redirect()->route('fdh.lgo_main');
 
+    }
+
+    public function lgo_main_rep(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+            SELECT rep_a,vstdate_i,SUM(claim_true_af) as Sumprice,STMdoc,month(vstdate_i) as months
+            FROM d_lgo_rep_excel 
+            WHERE claim_true_af <> ""
+            GROUP BY rep_a
+            ');
+        $countc = DB::table('d_lgo_rep_excel')->count();
+        // dd($countc );
+        return view('lgo.lgo_main_rep',[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow,
+            'countc'        =>     $countc
+        ]);
+    }
+    public function lgo_main_repsave(Request $request)
+    { 
+            $this->validate($request, [
+                'file' => 'required|file|mimes:xls,xlsx'
+            ]);
+            $the_file = $request->file('file');
+            $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
+
+            try{
+                $spreadsheet = IOFactory::load($the_file->getRealPath()); 
+                $sheet        = $spreadsheet->setActiveSheetIndex(0);
+                $row_limit    = $sheet->getHighestDataRow();
+                $column_limit = $sheet->getHighestDataColumn();
+                $row_range    = range( 8, $row_limit );
+                $column_range = range( 'AO', $column_limit );
+                $startcount = 8;
+                // $row_range_namefile  = range( 9, $sheet->getCell( 'A' . $row )->getValue() );
+                $data = array();
+                foreach ($row_range as $row ) {
+
+                    $vst = $sheet->getCell( 'I' . $row )->getValue();
+                    // $starttime = substr($vst, 0, 5);
+                    $day = substr($vst,0,2);
+                    $mo = substr($vst,3,2);
+                    $year = substr($vst,6,4);
+                    $vstdate = $year.'-'.$mo.'-'.$day;
+
+                    $dch = $sheet->getCell( 'J' . $row )->getValue();
+                    // $starttime = substr($vst, 0, 5);
+                    $day2 = substr($dch,0,2);
+                    $mo2 = substr($dch,3,2);
+                    $year2 = substr($dch,6,4);
+                    $dchdate = $year2.'-'.$mo2.'-'.$day2;
+  
+                    $k = $sheet->getCell( 'K' . $row )->getValue();
+                    $del_k = str_replace(",","",$k);
+                    $l = $sheet->getCell( 'L' . $row )->getValue();
+                    $del_l = str_replace(",","",$l);
+                    $ad = $sheet->getCell( 'AD' . $row )->getValue();
+                    $del_ad = str_replace(",","",$ad);
+                    $ae = $sheet->getCell( 'AE' . $row )->getValue();
+                    $del_ae = str_replace(",","",$ae);
+                    $af = $sheet->getCell( 'AF' . $row )->getValue();
+                    $del_af = str_replace(",","",$af);
+                    $ag = $sheet->getCell( 'AG' . $row )->getValue();
+                    $del_ag = str_replace(",","",$ag);
+                    $ah = $sheet->getCell( 'AH' . $row )->getValue();
+                    $del_ah = str_replace(",","",$ah);
+                    $ai = $sheet->getCell( 'AI' . $row )->getValue();
+                    $del_ai = str_replace(",","",$ai);
+                    $an = $sheet->getCell( 'AN' . $row )->getValue();
+                    $del_an = str_replace(",","",$an);
+                    $ao = $sheet->getCell( 'AO' . $row )->getValue();
+                    $del_ao = str_replace(",","",$ao);
+                    $ap = $sheet->getCell( 'AP' . $row )->getValue();
+                    $del_ap = str_replace(",","",$ap);
+                    $aq = $sheet->getCell( 'AQ' . $row )->getValue();
+                    $del_aq = str_replace(",","",$aq);
+                    $ar = $sheet->getCell( 'AR' . $row )->getValue();
+                    $del_ar = str_replace(",","",$ar);
+                    $as = $sheet->getCell( 'AS' . $row )->getValue();
+                    $del_as = str_replace(",","",$as);
+                    $at = $sheet->getCell( 'AT' . $row )->getValue();
+                    $del_at = str_replace(",","",$at);
+                    $au = $sheet->getCell( 'AU' . $row )->getValue();
+                    $del_au = str_replace(",","",$au);
+                        $data[] = [
+                            'rep_a'                   =>$sheet->getCell( 'A' . $row )->getValue(),
+                            'no_b'                    =>$sheet->getCell( 'B' . $row )->getValue(),
+                            'tranid_c'                =>$sheet->getCell( 'C' . $row )->getValue(),
+                            'hn_d'                    =>$sheet->getCell( 'D' . $row )->getValue(),
+                            'an_e'                    =>$sheet->getCell( 'E' . $row )->getValue(),
+                            'cid_f'                   =>$sheet->getCell( 'F' . $row )->getValue(),
+                            'fullname_g'              =>$sheet->getCell( 'G' . $row )->getValue(),
+                            'type_h'                  =>$sheet->getCell( 'H' . $row )->getValue(),
+                            'vstdate_i'               =>$vstdate,
+                            'dchdate_j'               =>$dchdate, 
+                            'price1_k'                =>$del_k,
+                            'pp_spsch_l'              =>$del_l,
+                            'errorcode_m'             =>$sheet->getCell( 'M' . $row )->getValue(),
+                            'kongtoon_n'              =>$sheet->getCell( 'N' . $row )->getValue(),
+                            'typeservice_o'           =>$sheet->getCell( 'O' . $row )->getValue(),
+                            'refer_p'                 =>$sheet->getCell( 'P' . $row )->getValue(),
+                            'pttype_have_q'           =>$sheet->getCell( 'Q' . $row )->getValue(),
+                            'pttype_true_r'           =>$sheet->getCell( 'R' . $row )->getValue(),
+                            'mian_pttype_s'           =>$sheet->getCell( 'S' . $row )->getValue(),
+                            'secon_pttype_t'          =>$sheet->getCell( 'T' . $row )->getValue(),
+                            'href_u'                  =>$sheet->getCell( 'U' . $row )->getValue(),
+                            'HCODE_v'                 =>$sheet->getCell( 'V' . $row )->getValue(),
+                            'prov1_w'                 =>$sheet->getCell( 'W' . $row )->getValue(),
+                            'code_dep_x'              =>$sheet->getCell( 'X' . $row )->getValue(),
+                            'name_dep_y'              =>$sheet->getCell( 'Y' . $row )->getValue(),
+                            'proj_z'                  =>$sheet->getCell( 'Z' . $row )->getValue(),
+                            'pa_aa'                   =>$sheet->getCell( 'AA' . $row )->getValue(),
+                            'drg_ab'                  =>$sheet->getCell( 'AB' . $row )->getValue(),
+                            'rw_ac'                   =>$sheet->getCell( 'AC' . $row )->getValue(),
+                            'income_ad'               =>$del_ad,
+                            'pp_gep_ae'               =>$del_ae,
+                            'claim_true_af'           =>$del_af,
+                            'claim_false_ag'          =>$del_ag,
+                            'cash_money_ah'           =>$del_ah,
+                            'pay_ai'                  =>$del_ai,
+                            'ps_aj'                   =>$sheet->getCell( 'AJ' . $row )->getValue(),
+                            'ps_percent_ak'           =>$sheet->getCell( 'AK' . $row )->getValue(),
+                            'ccuf_al'                 =>$sheet->getCell( 'AL' . $row )->getValue(),
+                            'AdjRW_am'                =>$sheet->getCell( 'AM' . $row )->getValue(),
+                            'plb_an'                  =>$del_an,
+                            'IPLG_ao'                 =>$del_ao,
+                            'OPLG_ap'                 =>$del_ap,
+                            'PALG_aq'                 =>$del_aq,
+                            'INSTLG_ar'               =>$del_ar,
+                            'OTLG_as'                 =>$del_as,
+                            'PP_at'                   =>$del_at,
+                            'DRUG_au'                 =>$del_au,
+                            'IPLG2'                   =>$sheet->getCell( 'AV' . $row )->getValue(),
+                            'OPLG2'                   =>$sheet->getCell( 'AW' . $row )->getValue(),
+                            'PALG2'                   =>$sheet->getCell( 'AX' . $row )->getValue(),
+                            'INSTLG2'                 =>$sheet->getCell( 'AY' . $row )->getValue(),
+                            'OTLG2'                   =>$sheet->getCell( 'AZ' . $row )->getValue(),
+                            'ORS'                     =>$sheet->getCell( 'BA' . $row )->getValue(),
+                            'VA'                      =>$sheet->getCell( 'BB' . $row )->getValue(),
+                            'STMdoc'                  =>$file_
+                        ]; 
+                    $startcount++;
+                    
+                }
+                $for_insert = array_chunk($data, length:1000);
+                foreach ($for_insert as $key => $data_) {                     
+                    D_lgo_rep_excel::insert($data_);                       
+                }
+             
+            } catch (Exception $e) {
+                $error_code = $e->errorInfo[1];
+                return back()->withErrors('There was a problem uploading the data!');
+            }
+               return response()->json([
+                'status'    => '200',
+            ]);
+    }
+
+    public function lgo_main_repsenddata(Request $request)
+    {
+        $data_ = DB::connection('mysql')->select('
+            SELECT * FROM d_lgo_rep_excel
+            WHERE claim_true_af <> "" 
+        '); 
+        foreach ($data_ as $key => $value) {
+                $check = D_fdh::where('hn',$value->hn_d)->where('vstdate',$value->vstdate_i)->count();
+                if ($check  > 0) { 
+                    D_fdh::where('hn',$value->hn_d)->where('vstdate',$value->vstdate_i)
+                    ->update([ 
+                        'debit_rep'       => $value->claim_true_af, 
+                        'STMdoc'          => $value->STMdoc,
+                    ]); 
+                } 
+                 
+        }
+        D_lgo_rep_excel::truncate();
+      
+        return redirect()->back();
+    }
+    public function lgo_main_report(Request $request)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE pttype IN("L1","L2","L3","L4","l5","l6") AND vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" ORDER BY vn ASC');
+        
+        return view('lgo.lgo_main_report',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+        ]);
     }
      
 }

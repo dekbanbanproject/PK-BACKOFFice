@@ -319,7 +319,9 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     <span>OFC</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="true"> 
-                                    <li><a href="{{ url('ofc_main') }}">OFC OPD</a></li> 
+                                    <li><a href="{{ url('ofc_main') }}">OFC OPD CLAIM</a></li> 
+                                    <li><a href="{{ url('ofc_main_rep') }}">OFC REP</a></li> 
+                                    <li><a href="{{ url('ofc_main_report') }}">OFC REPORT</a></li> 
                                 </ul> 
                             </li>
 
@@ -329,7 +331,9 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     <span>LGO</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="true"> 
-                                    <li><a href="{{ url('lgo_main') }}">LGO OPD</a></li> 
+                                    <li><a href="{{ url('lgo_main') }}">LGO OPD CLAIM</a></li> 
+                                    <li><a href="{{ url('lgo_main_rep') }}">LGO REP</a></li> 
+                                    <li><a href="{{ url('lgo_main_report') }}">LGO REPORT</a></li> 
                                 </ul> 
                             </li>
                        

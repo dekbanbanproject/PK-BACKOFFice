@@ -235,7 +235,53 @@ class Fdh_walkinController extends Controller
         // Fdh_aer::where('d_anaconda_id','=','WALKIN')->delete();
         // Fdh_adp::where('d_anaconda_id','=','WALKIN')->delete();
         // Fdh_dru::where('d_anaconda_id','=','WALKIN')->delete();            
-        // Fdh_lvd::where('d_anaconda_id','=','WALKIN')->delete();  
+        // Fdh_lvd::where('d_anaconda_id','=','WALKIN')->delete(); 
+        $vn = $request->VN;
+        $iduser = Auth::user()->id; 
+        // $data_main_ = DB::connection('mysql2')->select(' 
+        //     SELECT v.hn,v.vn,i.an,v.vstdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.cid,v.pttype,group_concat(distinct oo.icd10) as icd10
+        //         ,h.hospcode,h.name as hospcode_name,ee.er_emergency_level_name ,v.income,v.uc_money,v.paid_money,v.rcpt_money,pt.hipdata_code
+        //         ,v.income-v.rcpt_money-v.discount_money as debit
+        //         FROM vn_stat v
+        //         LEFT OUTER JOIN referin r on r.vn = v.vn
+        //         LEFT OUTER JOIN oapp o on o.visit_vn = v.vn
+        //         LEFT OUTER JOIN ipt i on i.vn = v.vn
+        //         LEFT OUTER JOIN patient p on p.hn = v.hn
+        //         LEFT OUTER JOIN ovstdiag oo on oo.vn = v.vn  
+        //         LEFT OUTER JOIN hospcode h on h.hospcode = v.hospmain 
+        //         LEFT OUTER JOIN er_regist g on g.vn=v.vn 
+        //         LEFT OUTER JOIN er_emergency_level ee on ee.er_emergency_level_id = g.er_emergency_level_id
+        //         LEFT OUTER JOIN visit_pttype vv on vv.vn = v.vn
+        //         LEFT OUTER JOIN pttype pt on pt.pttype =v.pttype  
+        //         LEFT OUTER JOIN hpc11_ktb_approval hh on hh.pid = v.cid and hh.transaction_date = v.vstdate 
+                
+        //         WHERE v.vn BETWEEN "'.$vn.'"
+        //         AND i.an is null  
+        //         AND h.hospcode <> "10978" AND v.pdx <> "" AND oo.icd10 not like "c%"
+        //         and v.vn not in(select vn from pkbackoffice.d_walkin_drug where vn = v.vn)
+        //         AND pt.hipdata_code ="UCS"
+        //         GROUP BY v.vn 
+        // '); 
+        // foreach ($data_main_ as $key => $value) {   
+        //     $check_wa = D_fdh::where('vn',$value->vn)->where('projectcode','WALKIN')->count(); 
+        //     if ($check_wa > 0) { 
+        //     } else { 
+        //         D_fdh::insert([
+        //             'vn'           => $value->vn,
+        //             'hn'           => $value->hn,
+        //             'an'           => $value->an, 
+        //             'cid'          => $value->cid,
+        //             'pttype'       => $value->pttype,                           
+        //             'ptname'       => $value->ptname,
+        //             'vstdate'      => $value->vstdate,
+        //             // 'authen'       => $value->authen,
+        //             'projectcode'  => 'WALKIN', 
+        //             'icd10'        => $value->icd10,
+        //             'hospcode'     => $value->hospcode, 
+        //             'debit'        => $value->debit
+        //         ]);
+        //     }   
+        // }
 
         Fdh_ins::truncate();
         Fdh_pat::truncate();
@@ -254,8 +300,7 @@ class Fdh_walkinController extends Controller
         Fdh_dru::truncate();
         Fdh_lvd::truncate();
 
-        $vn = $request->VN;
-        $iduser = Auth::user()->id;
+       
         // $data_vn_1 = D_walkin::whereIn('d_walkin_id',explode(",",$id))->get();                
             // foreach ($data_vn_1 as $key => $va1) {
                 
@@ -2103,7 +2148,8 @@ class Fdh_walkinController extends Controller
         $objFopen_opd = fopen($file_d_opd, 'w');
      
         // $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC';
-        $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT';
+        // $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT';
+        $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC';
         fwrite($objFopen_opd, $opd_head_opd);
         $opd = DB::connection('mysql')->select('SELECT * from fdh_opd where d_anaconda_id = "WALKIN"');
         foreach ($opd as $key => $value3) {
@@ -2113,17 +2159,17 @@ class Fdh_walkinController extends Controller
             $o4 = $value3->TIMEOPD; 
             $o5 = $value3->SEQ; 
             $o6 = $value3->UUC; 
-            $o7 = $value3->DETAIL; 
-            $o8 = $value3->BTEMP; 
-            $o9 = $value3->SBP; 
-            $o10 = $value3->DBP; 
-            $o11 = $value3->PR; 
-            $o12 = $value3->RR; 
-            $o13 = $value3->OPTYPE; 
-            $o14 = $value3->TYPEIN;  
-            $o15 = $value3->TYPEOUT;
-            // $str_opd="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6; 
-            $str_opd ="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6."|".$o7."|".$o8."|".$o9."|".$o10."|".$o11."|".$o12."|".$o13."|".$o14."|".$o15;
+            // $o7 = $value3->DETAIL; 
+            // $o8 = $value3->BTEMP; 
+            // $o9 = $value3->SBP; 
+            // $o10 = $value3->DBP; 
+            // $o11 = $value3->PR; 
+            // $o12 = $value3->RR; 
+            // $o13 = $value3->OPTYPE; 
+            // $o14 = $value3->TYPEIN;  
+            // $o15 = $value3->TYPEOUT;
+            $str_opd="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6; 
+            // $str_opd ="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6."|".$o7."|".$o8."|".$o9."|".$o10."|".$o11."|".$o12."|".$o13."|".$o14."|".$o15;
             $str_opd_30 = preg_replace("/\n/", "\r\n", $str_opd); 
             $str_opd_31 = mb_convert_encoding($str_opd_30, 'UTF-8');   
             fwrite($objFopen_opd, $str_opd_31);  
@@ -2367,8 +2413,8 @@ class Fdh_walkinController extends Controller
         $objFopen_adp = fopen($file_d_adp, 'w'); 
         // $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP/E_screen|LMP|SP_ITEM';
         // $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP/E_screen|LMP|SP_ITEM';
-        $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP|LMP';
-        // $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE';
+        // $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP|LMP';
+        $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE';
         
         fwrite($objFopen_adp, $opd_head_adp);
         $adp = DB::connection('mysql')->select('SELECT * from fdh_adp where d_anaconda_id = "WALKIN"');
@@ -2390,19 +2436,19 @@ class Fdh_walkinController extends Controller
             $c15 = $value14->TOTAL;
             $c16 = $value14->QTYDAY;
             $c17 = $value14->TMLTCODE;
-            $c18 = $value14->STATUS1;
-            $c19 = $value14->BI;
-            $c20 = $value14->CLINIC;
-            $c21 = $value14->ITEMSRC;
-            $c22 = $value14->PROVIDER;
-            $c23 = $value14->GRAVIDA;
-            $c24 = $value14->GA_WEEK;
-            $c25 = $value14->DCIP;
-            $c26 = $value14->LMP;
+            // $c18 = $value14->STATUS1;
+            // $c19 = $value14->BI;
+            // $c20 = $value14->CLINIC;
+            // $c21 = $value14->ITEMSRC;
+            // $c22 = $value14->PROVIDER;
+            // $c23 = $value14->GRAVIDA;
+            // $c24 = $value14->GA_WEEK;
+            // $c25 = $value14->DCIP;
+            // $c26 = $value14->LMP;
             // $c27 = $value14->SP_ITEM;   
-            // $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17;        
+            $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17;        
             // $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17."|".$c18."|".$c19."|".$c20."|".$c21."|".$c22."|".$c23."|".$c24."|".$c25."|".$c26."|".$c27;
-            $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17."|".$c18."|".$c19."|".$c20."|".$c21."|".$c22."|".$c23."|".$c24."|".$c25."|".$c26;
+            // $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17."|".$c18."|".$c19."|".$c20."|".$c21."|".$c22."|".$c23."|".$c24."|".$c25."|".$c26;
            
             $str_adp_14 = preg_replace("/\n/", "\r\n", $str_adp); 
             $str_adp_142 = mb_convert_encoding($str_adp_14, 'UTF-8');   
