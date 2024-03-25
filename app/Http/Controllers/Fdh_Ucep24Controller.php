@@ -146,6 +146,7 @@ class Fdh_Ucep24Controller extends Controller
                             'pttype'       => $value2->pttype,                           
                             'ptname'       => $value2->ptname,
                             'vstdate'      => $value2->vstdate, 
+                            'dchdate'      => $value2->dchdate, 
                             'projectcode'  => 'UCEP24', 
                             'icd10'        => $value2->DIAG, 
                             'debit'        => $value2->debit
