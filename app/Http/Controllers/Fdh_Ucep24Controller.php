@@ -198,7 +198,7 @@ class Fdh_Ucep24Controller extends Controller
                 } 
         }              
         
-            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="UCEP24" AND authen IS NOT NULL AND icd10 IS NOT NULL ORDER BY vn ASC');
+            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="UCEP24" AND icd10 IS NOT NULL ORDER BY vn ASC');
             $data['d_ucep24_main'] = DB::connection('mysql')->select('SELECT * from d_ucep24_main WHERE active ="N" ORDER BY vn ASC');  
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="UCEP24"'); 
             $data['data_orf'] = DB::connection('mysql')->select('SELECT * from fdh_orf WHERE d_anaconda_id ="UCEP24"'); 
