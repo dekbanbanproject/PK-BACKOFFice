@@ -299,7 +299,6 @@ class Fdh_walkinController extends Controller
         Fdh_adp::truncate();
         Fdh_dru::truncate();
         Fdh_lvd::truncate();
-
        
         // $data_vn_1 = D_walkin::whereIn('d_walkin_id',explode(",",$id))->get();                
             // foreach ($data_vn_1 as $key => $va1) {
