@@ -135,7 +135,7 @@ class Fdh_Ucep24Controller extends Controller
                         ORDER BY i.an;
                 ');                 
                 foreach ($data_main_ as $key => $value2) { 
-                    $check_wa = D_fdh::where('vn',$value2->vn)->where('projectcode','UCEP24')->count(); 
+                    $check_wa = D_fdh::where('an',$value2->an)->where('projectcode','UCEP24')->count(); 
                     if ($check_wa > 0) { 
                     } else { 
                         D_fdh::insert([
