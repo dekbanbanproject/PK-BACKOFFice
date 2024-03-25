@@ -820,24 +820,24 @@ class Fdh_Ucep24Controller extends Controller
                 'AMOUNT'      => $val->qty
             ]);  
             
-            $check = Fdh_adp::where('AN',$val->an)->where('CODE','UCEP24')->where('d_anaconda_id',"UCEP24")->count();
-            if ($check > 0) {                   
-            } else {
-                Fdh_adp::insert([
-                    'HN'             => $val->hn, 
-                    'AN'             => $val->an, 
-                    'DATEOPD'        => $val->vstdate,  
-                    'TYPE'           => '5', 
-                    'CODE'           => 'UCEP24', 
-                    'QTY'            => '1', 
-                    'RATE'           => '0', 
-                    'TOTCOPAY'       => '0', 
-                    'TOTAL'          => '0', 
-                    'SP_ITEM'        => '01', 
-                    'user_id'        => $iduser,
-                    'd_anaconda_id'  => 'UCEP24'
-                ]);
-            }   
+            // $check = Fdh_adp::where('AN',$val->an)->where('CODE','UCEP24')->where('d_anaconda_id',"UCEP24")->count();
+            // if ($check > 0) {                   
+            // } else {
+            //     Fdh_adp::insert([
+            //         'HN'             => $val->hn, 
+            //         'AN'             => $val->an, 
+            //         'DATEOPD'        => $val->vstdate,  
+            //         'TYPE'           => '5', 
+            //         'CODE'           => 'UCEP24', 
+            //         'QTY'            => '1', 
+            //         'RATE'           => '0', 
+            //         'TOTCOPAY'       => '0', 
+            //         'TOTAL'          => '0', 
+            //         'SP_ITEM'        => '01', 
+            //         'user_id'        => $iduser,
+            //         'd_anaconda_id'  => 'UCEP24'
+            //     ]);
+            // }   
         }
              
         Fdh_adp::where('SP_ITEM','=','')->where('d_anaconda_id',"UCEP24")->delete();
