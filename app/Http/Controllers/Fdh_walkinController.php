@@ -1118,7 +1118,7 @@ class Fdh_walkinController extends Controller
                         INNER JOIN icd101 i on i.code = o.icd10
                         WHERE v.vn IN("'.$va1->vn.'") 
                 ');
-             
+                // GROUP BY v.vn,o.diagtype
                 foreach ($data_odx_ as $va_04) { 
                     Fdh_odx::insert([
                         'HN'                => $va_04->HN,
@@ -1221,6 +1221,7 @@ class Fdh_walkinController extends Controller
                         INNER JOIN icd101 i on i.code = o.icd10
                         WHERE ip.vn IN("'.$va1->vn.'")
                 ');
+                // GROUP BY ip.an,o.diagtype
                 foreach ($data_idx_ as $va_08) { 
                     Fdh_idx::insert([
                         'AN'                => $va_08->AN,  

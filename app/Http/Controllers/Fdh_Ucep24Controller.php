@@ -241,8 +241,8 @@ class Fdh_Ucep24Controller extends Controller
         
         $id = $request->ids;
         $iduser = Auth::user()->id;
-        $data_vn_1 = D_ucep24_main::whereIn('d_ucep24_main_id',explode(",",$id))->get();
-                
+        // $data_vn_1 = D_ucep24_main::whereIn('d_ucep24_main_id',explode(",",$id))->get();
+        $data_vn_1 = D_fdh::whereIn('d_fdh_id',explode(",",$id))->get(); 
          foreach ($data_vn_1 as $key => $va1) {
                 
                 //D_ins OK
@@ -340,7 +340,7 @@ class Fdh_Ucep24Controller extends Controller
                 $data_opd = DB::connection('mysql2')->select('
                     SELECT  v.hn HN,v.spclty CLINIC,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
                     ,concat(substr(o.vsttime,1,2),substr(o.vsttime,4,2)) TIMEOPD,v.vn SEQ
-                    ,"1" UUC ,oc.cc as DETAIL,oc.temperature as BTEMP,oc.bps as SBP,oc.bpd as DBP,""PR,""RR
+                    ,"1" UUC ,"" as DETAIL,oc.temperature as BTEMP,oc.bps as SBP,oc.bpd as DBP,""PR,""RR
                     ,""OPTYPE
                     ,ot.export_code as TYPEIN,st.export_code as TYPEOUT
                     FROM ovst o
@@ -351,8 +351,10 @@ class Fdh_Ucep24Controller extends Controller
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn
                     LEFT OUTER JOIN ovstist ot on ot.ovstist = o.ovstist  
                     LEFT OUTER JOIN ovstost st on st.ovstost = o.ovstost  
-                    WHERE v.vn IN("'.$va1->vn.'")                 
+                    WHERE o.vn IN("'.$va1->vn.'")        
+                    GROUP BY o.vn         
                 '); 
+                // oc.cc
                 foreach ($data_opd as $val3) {       
                     Fdh_opd::insert([
                         'HN'                => $val3->HN,
@@ -409,7 +411,7 @@ class Fdh_Ucep24Controller extends Controller
                         FROM vn_stat v
                         LEFT OUTER JOIN ovstdiag o on o.vn = v.vn
                         LEFT OUTER JOIN doctor d on d.`code` = o.doctor
-                    
+                        INNER JOIN icd101 i on i.code = o.icd10
                         WHERE v.vn IN("'.$va1->vn.'") 
                         GROUP BY v.vn,o.diagtype
                 ');
@@ -512,12 +514,13 @@ class Fdh_Ucep24Controller extends Controller
                         FROM ipt ip
                         LEFT OUTER JOIN iptdiag o on o.an = ip.an
                         LEFT OUTER JOIN doctor d on d.`code` = o.doctor                        
-                      
+                        INNER JOIN icd101 i on i.code = o.icd10
                         WHERE ip.vn IN("'.$va1->vn.'")
-                        GROUP BY ip.an,o.diagtype
+                       
                 ');
                 // LEFT OUTER JOIN ipt ip on ip.an = v.an
                 // INNER JOIN icd101 i on i.code = o.icd10
+                // GROUP BY ip.an,o.diagtype
                 foreach ($data_idx_ as $va_08) { 
                     Fdh_idx::insert([
                         'AN'                => $va_08->AN,  
@@ -841,7 +844,11 @@ class Fdh_Ucep24Controller extends Controller
         Fdh_dru::where('SP_ITEM','=',null)->where('d_anaconda_id',"UCEP24")->delete();
         Fdh_adp::where('CODE','=','XXXXXX')->delete();
         
-        D_ucep24_main::whereIn('d_ucep24_main_id',explode(",",$id))
+        // D_ucep24_main::whereIn('d_ucep24_main_id',explode(",",$id))
+        // ->update([
+        //     'active' => 'Y'
+        // ]);
+        D_fdh::whereIn('d_fdh_id',explode(",",$id))
         ->update([
             'active' => 'Y'
         ]);
