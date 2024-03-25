@@ -247,34 +247,39 @@ $pos = strrpos($url, '/') + 1;
                                                     <th class="text-center">ลำดับ</th>
                                                     <th class="text-center">an</th>
                                                     <th class="text-center">hn</th>
-                                                    <th class="text-center">vn</th>  
-                                                    <th class="text-center">cid</th> 
+                                                    <th class="text-center">cid</th>  
+                                                    <th class="text-center">vstdate</th> 
                                                     <th class="text-center">pttype</th> 
-                                                    <th class="text-center">dchdate</th> 
+                                                    <th class="text-center">icd10</th>  
+                                                    <th class="text-center">Authen</th> 
+                                                    <th class="text-center">projectcode</th> 
                                                     <th class="text-center">ptname</th> 
+                                                    <th class="text-center">debit</th> 
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php $number = 0; ?>
-                                                @foreach ($d_ucep24_main as $item)
+                                                @foreach ($d_fdh as $item)
                                                 <?php $number++; ?>
                     
                                                     <tr height="20" style="font-size: 12px;">
-                                                        @if ($item->ptname == '')
+                                                        @if ($item->icd10 == '')
                                                             <td class="text-center" width="5%">
                                                                 <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
                                                             </td> 
                                                         @else
-                                                            <td class="text-center" width="5%"><input type="checkbox" class="fdhcheckbox sub_chk" data-id="{{$item->d_ucep24_main_id}}"> </td> 
-                                                        @endif
-                                                        <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td>
-                                                        <td class="text-center" width="10%">{{ $item->an }}  </td>
-                                                        <td class="text-center" width="10%">{{ $item->hn }}</td>
-                                                        <td class="text-center" width="10%">{{ $item->vn }}</td>  
-                                                        <td class="text-center" width="10%">{{ $item->cid }}</td> 
-                                                        <td class="text-center" width="10%">{{ $item->pttype }}</td> 
-                                                        <td class="text-center" width="10%">{{ $item->dchdate }}</td> 
-                                                        <td class="p-2" >{{ $item->ptname }}</td> 
+                                                            <td class="text-center" width="5%"><input type="checkbox" class="fdhcheckbox sub_chk" data-id="{{$item->d_fdh_id}}"> </td> 
+                                                        @endif 
+                                                        <td class="text-center" width="10%">{{ $item->an }}</td>
+                                                        <td class="text-center" width="5%">{{ $item->hn }}</td>
+                                                        <td class="text-center" width="10%">{{ $item->cid }}</td>  
+                                                        <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
+                                                        <td class="text-center" width="5%">{{ $item->pttype }}</td> 
+                                                        <td class="text-center" width="7%">{{ $item->icd10 }}</td>                                                        
+                                                        <td class="text-center" width="7%">{{ $item->authen }}</td> 
+                                                        <td class="text-center" width="5%">{{ $item->projectcode }}</td> 
+                                                        <td class="text-start">{{ $item->ptname }}</td> 
+                                                        <td class="text-center" width="8%">{{ $item->debit }}</td> 
                                                     </tr>
                     
                     

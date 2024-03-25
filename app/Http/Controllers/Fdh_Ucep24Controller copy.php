@@ -145,13 +145,31 @@ class Fdh_Ucep24Controller extends Controller
                             'cid'          => $value->cid,
                             'pttype'       => $value->pttype,                           
                             'ptname'       => $value->ptname,
-                            'vstdate'      => $value->vstdate, 
+                            'vstdate'      => $value->vstdate,
+                            // 'authen'       => $value->authen,
                             'projectcode'  => 'UCEP24', 
-                            'icd10'        => $value->DIAG, 
+                            'icd10'        => $value->DIAG,
+                            // 'hospcode'     => $value->hospcode, 
                             'debit'        => $value->debit
                         ]);
                     }       
- 
+
+                    // $check_ = D_ucep24_main::where('vn',$value2->vn)->count();                      
+                    // if ($check_ > 0) { 
+                    // } else {
+                    //     D_ucep24_main::insert([
+                    //         'vn'                => $value2->vn,
+                    //         'hn'                => $value2->hn,
+                    //         'an'                => $value2->an, 
+                    //         'cid'               => $value2->cid,
+                    //         'vstdate'           => $value2->vstdate, 
+                    //         'dchdate'           => $value2->dchdate, 
+                    //         'ptname'            => $value2->ptname, 
+                    //         'pttype'            => $value2->pttype, 
+                    //     ]); 
+                    // }
+                    
+                   
                 }   
                 $data_date_one = DB::connection('mysql')->select('SELECT vn,an,vstdate FROM d_ucep24_main GROUP BY an'); 
                 foreach ($data_date_one as $key => $v_opitem_one) {
@@ -188,7 +206,71 @@ class Fdh_Ucep24Controller extends Controller
                         ]);
                     } 
                 }
-                
+                // $data_main_ = DB::connection('mysql2')->select(
+                //     'SELECT v.vn,o.an,v.cid,v.hn,concat(pt.pname,pt.fname," ",pt.lname) ptname
+                //             ,v.vstdate,v.pttype  ,rd.sss_approval_code AS "Apphos",v.inc04 as xray
+                //             ,rd.amount AS price_ofc,v.income,ptt.hipdata_code 
+                //             ,group_concat(distinct hh.appr_code,":",hh.transaction_amount,"/") AS AppKTB 
+                //             ,GROUP_CONCAT(DISTINCT ov.icd10 order by ov.diagtype) AS icd10,v.pdx
+                //             FROM vn_stat v
+                //             LEFT OUTER JOIN patient pt ON v.hn=pt.hn
+                //             LEFT OUTER JOIN ovstdiag ov ON v.vn=ov.vn
+                //             LEFT OUTER JOIN ovst o ON v.vn=o.vn
+                //             LEFT OUTER JOIN opdscreen op ON v.vn = op.vn
+                //             LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype 
+                //             LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn
+                //             LEFT OUTER JOIN hpc11_ktb_approval hh on hh.pid = pt.cid and hh.transaction_date = v.vstdate 
+                //             LEFT OUTER JOIN ipt i on i.vn = v.vn                        
+                //         WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                //         AND v.pttype in ("O1","O2","O3","O4","O5")                    
+                //         AND v.pttype not in ("OF","FO") AND rd.sss_approval_code <> ""                         
+                //         AND o.an is null
+                //         AND v.pdx <> ""
+                //         GROUP BY v.vn 
+                // ');                 
+                // foreach ($data_main_ as $key => $value) {   
+                //     $check_wa = D_ofc_401::where('vn',$value->vn)->count(); 
+                //     if ($check_wa > 0) {                        
+                //     } else {
+                //         D_ofc_401::insert([
+                //             'vn'                 => $value->vn,
+                //             'hn'                 => $value->hn,
+                //             'an'                 => $value->an, 
+                //             'cid'                => $value->cid,
+                //             'pttype'             => $value->pttype,
+                //             'vstdate'            => $value->vstdate,
+                //             'ptname'             => $value->ptname,
+                //             'Apphos'             => $value->Apphos,
+                //             'Appktb'             => $value->AppKTB,
+                //             'price_ofc'          => $value->price_ofc, 
+                //             'icd10'              => $value->icd10,
+                //             'pdx'                => $value->pdx,
+                //         ]);
+                //     }  
+                //     $check = D_claim::where('vn',$value->vn)->count();
+                //     if ($check > 0) {
+                //         D_claim::where('vn',$value->vn)->update([ 
+                //             'sum_price'          => $value->price_ofc,  
+                //         ]);
+                //     } else {
+                //         D_claim::insert([
+                //             'vn'                => $value->vn,
+                //             'hn'                => $value->hn,
+                //             'an'                => $value->an,
+                //             'cid'               => $value->cid,
+                //             'pttype'            => $value->pttype,
+                //             'ptname'            => $value->ptname,
+                //             'vstdate'           => $value->vstdate,
+                //             'hipdata_code'      => $value->hipdata_code,
+                //             // 'qty'               => $value->qty,
+                //             'sum_price'          => $value->price_ofc,
+                //             'type'              => 'OPD',
+                //             'nhso_adp_code'     => 'OFC',
+                //             'claimdate'         => $date, 
+                //             'userid'            => $iduser, 
+                //         ]);
+                //     }  
+                // } 
                 $data_authen_    = DB::connection('mysql')->select('SELECT hncode,cid,vstdate,claimcode FROM check_authen WHERE vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" '); 
                 foreach ($data_authen_ as $key => $v_up) {
                     D_fdh::where('cid',$v_up->cid)->where('vstdate',$v_up->vstdate)->update([ 
@@ -196,8 +278,9 @@ class Fdh_Ucep24Controller extends Controller
                     ]);
                 } 
         }              
-        
-            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="UCEP24" AND authen IS NOT NULL AND icd10 IS NOT NULL ORDER BY vn ASC');
+        // $data_main = DB::connection('mysql')->select('SELECT * from d_ucep24_main');  
+        // $data = DB::connection('mysql')->select('SELECT * from d_ucep24 group by an');  
+            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="WALKIN" AND authen IS NOT NULL AND icd10 IS NOT NULL ORDER BY vn ASC');
             $data['d_ucep24_main'] = DB::connection('mysql')->select('SELECT * from d_ucep24_main WHERE active ="N" ORDER BY vn ASC');  
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="UCEP24"'); 
             $data['data_orf'] = DB::connection('mysql')->select('SELECT * from fdh_orf WHERE d_anaconda_id ="UCEP24"'); 
