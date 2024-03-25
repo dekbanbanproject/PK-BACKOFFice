@@ -135,20 +135,20 @@ class Fdh_Ucep24Controller extends Controller
                         ORDER BY i.an;
                 ');                 
                 foreach ($data_main_ as $key => $value2) { 
-                    $check_wa = D_fdh::where('vn',$value->vn)->where('projectcode','UCEP24')->count(); 
+                    $check_wa = D_fdh::where('vn',$value2->vn)->where('projectcode','UCEP24')->count(); 
                     if ($check_wa > 0) { 
                     } else { 
                         D_fdh::insert([
-                            'vn'           => $value->vn,
-                            'hn'           => $value->hn,
-                            'an'           => $value->an, 
-                            'cid'          => $value->cid,
-                            'pttype'       => $value->pttype,                           
-                            'ptname'       => $value->ptname,
-                            'vstdate'      => $value->vstdate, 
+                            'vn'           => $value2->vn,
+                            'hn'           => $value2->hn,
+                            'an'           => $value2->an, 
+                            'cid'          => $value2->cid,
+                            'pttype'       => $value2->pttype,                           
+                            'ptname'       => $value2->ptname,
+                            'vstdate'      => $value2->vstdate, 
                             'projectcode'  => 'UCEP24', 
-                            'icd10'        => $value->DIAG, 
-                            'debit'        => $value->debit
+                            'icd10'        => $value2->DIAG, 
+                            'debit'        => $value2->debit
                         ]);
                     }       
  
