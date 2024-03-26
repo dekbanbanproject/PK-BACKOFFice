@@ -358,7 +358,7 @@ class Fdh_StpController extends Controller
                 $data_opd = DB::connection('mysql2')->select('
                     SELECT  v.hn HN,v.spclty CLINIC,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
                         ,concat(substr(o.vsttime,1,2),substr(o.vsttime,4,2)) TIMEOPD,v.vn SEQ
-                        ,"1" UUC ,"" DETAIL,oc.temperature as BTEMP,oc.bps as SBP,oc.bpd as DBP,""PR,""RR
+                        ,"1" UUC ,oc.cc DETAIL,oc.temperature as BTEMP,oc.bps as SBP,oc.bpd as DBP,""PR,""RR
                         ,""OPTYPE
                         ,ot.export_code as TYPEIN,st.export_code as TYPEOUT
                         FROM ovst o
