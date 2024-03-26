@@ -88,19 +88,19 @@ $pos = strrpos($url, '/') + 1;
             </div>
         </div>
     </div>
-    <form action="{{ url('walkin') }}" method="POST">
+    <form action="{{ url('stp') }}" method="POST">
         @csrf
     <div class="row"> 
             <div class="col-md-3">
-                <h4 class="card-title" style="color:rgba(21, 177, 164, 0.871)">Detail WalkIn List</h4>
-                <p class="card-title-desc">รายละเอียดข้อมูล WalkIn List</p>
+                <h4 class="card-title" style="color:rgba(21, 177, 164, 0.871)">Detail STP List</h4>
+                <p class="card-title-desc">รายละเอียดข้อมูล STP List</p>
             </div>
             {{-- <div class="col"></div> --}}
             <div class="col-md-2">
                 <input type="text" name="VN" id="VN" class="form-control card_fdh_4" placeholder="VN"/> 
             </div>
             <div class="col-md-1 text-start"> 
-                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim_vn" data-url="{{url('walkin_process_vn')}}">
+                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim_vn" data-url="{{url('stp_process_vn')}}">
                     <i class="fa-solid fa-spinner text-success me-2"></i>
                     ส่งเคลม
                 </button>
@@ -119,12 +119,12 @@ $pos = strrpos($url, '/') + 1;
                     </button>  
 
                     </form>
-                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('walkin_process')}}">
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('stp_process')}}">
                         <i class="fa-solid fa-spinner text-success me-2"></i>
                         ส่งเคลม
                     </button>
                    
-                    <a href="{{url('walkin_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4">
+                    <a href="{{url('stp_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4">
                         <i class="fa-solid fa-file-export text-danger me-2"></i>
                         Export Txt
                     </a> 
@@ -144,7 +144,7 @@ $pos = strrpos($url, '/') + 1;
                                 <li class="nav-item">
                                     <a class="nav-link active" data-bs-toggle="tab" href="#Main" role="tab">
                                         <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                        <span class="d-none d-sm-block">WalkIn</span>    
+                                        <span class="d-none d-sm-block">STP</span>    
                                     </a>
                                 </li>   
                                 <li class="nav-item">
@@ -1130,7 +1130,7 @@ $pos = strrpos($url, '/') + 1;
                                 $("#spinner").show(); //Load button clicked show spinner 
                                 
                                 $.ajax({
-                                    url: "{{ route('claim.walkin_process_vn') }}",
+                                    url: "{{ route('fdh.stp_process_vn') }}",
                                     type: "POST",
                                     dataType: 'json',
                                     data: {

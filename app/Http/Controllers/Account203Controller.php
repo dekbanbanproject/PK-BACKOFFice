@@ -801,7 +801,7 @@ class Account203Controller extends Controller
  
         $data = DB::select('
                 SELECT 
-                U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.hospcode,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
+                U1.ct_price,U1.uc_money,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.hospcode,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
                 from acc_1102050101_203 U1             
                 WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"
                 GROUP BY U1.vn 

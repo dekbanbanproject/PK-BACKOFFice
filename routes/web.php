@@ -3029,6 +3029,11 @@ Route::match(['get','post'],'walkin_exportapi',[App\Http\Controllers\Fdh_walkinC
 Route::match(['get','post'],'walkin_sendapi',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_sendapi'])->name('claim.walkin_sendapi');//
 Route::match(['get','post'],'walkin_report',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_report'])->name('claim.walkin_report');//
 
+Route::match(['get','post'],'stp',[App\Http\Controllers\Fdh_StpController::class, 'stp'])->name('fdh.stp');//
+Route::match(['get','post'],'stp_process_vn',[App\Http\Controllers\Fdh_StpController::class, 'stp_process_vn'])->name('fdh.stp_process_vn');//
+Route::match(['get','post'],'stp_process',[App\Http\Controllers\Fdh_StpController::class, 'stp_process'])->name('fdh.stp_process');//
+Route::match(['get','post'],'stp_export',[App\Http\Controllers\Fdh_StpController::class, 'stp_export'])->name('fdh.stp_export');//
+
 Route::match(['get','post'],'ucep24_main',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main'])->name('claim.ucep24_main');//
 Route::match(['get','post'],'ucep24_main_process',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main_process'])->name('claim.ucep24_main_process');//
 Route::match(['get','post'],'ucep24_main_export',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main_export'])->name('claim.ucep24_main_export');//
