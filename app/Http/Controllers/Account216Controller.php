@@ -127,10 +127,10 @@ class Account216Controller extends Controller
                     SELECT MONTH(a.vstdate) as months,YEAR(a.vstdate) as years
                     ,count(DISTINCT a.vn) as total_vn,l.MONTH_NAME
                     ,sum(a.debit_total) as tung_looknee  
-                    FROM acc_1102050101_217 a 
+                    FROM acc_1102050101_216 a 
                     LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.vstdate)
                     WHERE a.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                    AND a.account_code ="1102050101.217"
+                    AND a.account_code ="1102050101.216"
                     GROUP BY months ORDER BY a.vstdate DESC
             ');   
             // $datashow = DB::select('
@@ -493,19 +493,24 @@ class Account216Controller extends Controller
         $data['users'] = User::get();
 
         $datashow = DB::select('
-        
+            SELECT *             
+            FROM acc_1102050101_216            
+            WHERE month(vstdate) = "'.$months.'" and year(vstdate) = "'.$year.'" 
+            AND stm_money IS NOT NULL
+            GROUP BY vn
 
-            SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,s.dmis_money2
-            ,a.income_group,s.inst,s.hc,s.hc_drug,s.ae,s.ae_drug,s.STMdoc,a.debit_total,s.ip_paytrue as STM202
-            ,s.hc_drug + s.hc + s.ae_drug + s.inst + s.ae as stm216
-            ,s.total_approve STM_TOTAL
-            from acc_1102050101_216 a
-            LEFT JOIN acc_stm_ucs s ON s.hn = a.hn AND s.vstdate = a.vstdate
-            WHERE month(a.vstdate) = "'.$months.'" and year(a.vstdate) = "'.$year.'"
-            
-            AND (s.hc_drug+ s.hc+s.ae_drug+s.inst+s.ae <> 0 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.ae <> "")
-            group by a.vn
+           
         ');
+        // SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,s.dmis_money2
+        // ,a.income_group,s.inst,s.hc,s.hc_drug,s.ae,s.ae_drug,s.STMdoc,a.debit_total,s.ip_paytrue as STM202
+        // ,s.hc_drug + s.hc + s.ae_drug + s.inst + s.ae as stm216
+        // ,s.total_approve STM_TOTAL
+        // from acc_1102050101_216 a
+        // LEFT JOIN acc_stm_ucs s ON s.hn = a.hn AND s.vstdate = a.vstdate
+        // WHERE month(a.vstdate) = "'.$months.'" and year(a.vstdate) = "'.$year.'"        
+        // AND (s.hc_drug+ s.hc+s.ae_drug+s.inst+s.ae <> 0 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.ae <> "")
+        // group by a.vn
+
         // AND s.rep IS NOT NULL
        
             return view('account_216.account_pkucs216_stm', $data, [
@@ -524,17 +529,25 @@ class Account216Controller extends Controller
         // dd($id);
         $data['users'] = User::get();
 
-        $data = DB::select('
-                SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,s.dmis_money2,s.total_approve,a.income_group,s.inst,s.ip_paytrue
-                ,s.hc_drug + s.hc + s.ae_drug + s.inst + s.ae  as stm216
-                from acc_1102050101_216 a
-                LEFT JOIN acc_stm_ucs s ON s.hn = a.hn AND s.vstdate = a.vstdate
-                WHERE a.status ="N"
-                AND month(a.vstdate) = "'.$months.'" and year(a.vstdate) = "'.$year.'"
-                AND (s.hc_drug+ s.hc+s.ae_drug+s.inst+s.ae < 1 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.ae is null)
-                
-                group by a.vn
+        $data = DB::connection('mysql')->select('  
+            SELECT *             
+            FROM acc_1102050101_216            
+            WHERE month(vstdate) = "'.$months.'" and year(vstdate) = "'.$year.'" 
+            AND stm_money IS NULL
+            GROUP BY vn
         ');
+
+        // $data = DB::select('
+        //         SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,s.dmis_money2,s.total_approve,a.income_group,s.inst,s.ip_paytrue
+        //         ,s.hc_drug + s.hc + s.ae_drug + s.inst + s.ae  as stm216
+        //         from acc_1102050101_216 a
+        //         LEFT JOIN acc_stm_ucs s ON s.hn = a.hn AND s.vstdate = a.vstdate
+        //         WHERE a.status ="N"
+        //         AND month(a.vstdate) = "'.$months.'" and year(a.vstdate) = "'.$year.'"
+        //         AND (s.hc_drug+ s.hc+s.ae_drug+s.inst+s.ae < 1 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.ae is null)
+                
+        //         group by a.vn
+        // ');
         // AND (s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug = 0 OR s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug is null)
 
         return view('account_216.account_pkucs216_stmnull', $data, [

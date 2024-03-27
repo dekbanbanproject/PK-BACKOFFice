@@ -148,12 +148,14 @@
                                                 $datas = DB::select('
                                                     SELECT count(DISTINCT vn) as Can
                                                         ,SUM(debit_total) as sumdebit
-                                                        from acc_debtor
-                                                            WHERE account_code="1102050101.217"
+                                                        FROM acc_debtor
+                                                        
+                                                            WHERE account_code="1102050101.216" 
                                                             AND stamp = "N"
-                                                            and month(vstdate) = "'.$item->months.'"
-                                                            and year(vstdate) = "'.$item->years.'";
+                                                            AND month(vstdate) = "'.$item->months.'"
+                                                            AND year(vstdate) = "'.$item->years.'"
                                                 ');
+                                                // 
                                                 foreach ($datas as $key => $value) {
                                                     $count_N = $value->Can;
                                                     $sum_N = $value->sumdebit;
@@ -189,7 +191,7 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end mt-2 me-2">
-                                                    <a href="{{url('account_pkucs217')}}" target="_blank">
+                                                    <a href="{{url('account_pkucs216')}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง">
                                                             <h6 class="text-end">{{$count_N}} Visit</h6>
                                                         </div>
@@ -228,7 +230,7 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end me-2">
-                                                    <a href="{{url('account_pkucs217_detail/'.$item->months.'/'.$item->years)}}" target="_blank">
+                                                    <a href="{{url('account_pkucs216_detail/'.$item->months.'/'.$item->years)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover">
                                                             <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$item->total_vn}} Visit">
                                                                 {{ number_format($item->tung_looknee, 2) }}
@@ -249,7 +251,7 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end me-2">
-                                                    <a href="{{url('account_pkucs217_stm/'.$item->months.'/'.$item->years)}}" target="_blank">
+                                                    <a href="{{url('account_pkucs216_stm/'.$item->months.'/'.$item->years)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover">
                                                             <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$stm_count}} Visit">
                                                                     {{ number_format($stm_ip217, 2) }}
@@ -271,7 +273,7 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end me-2">
-                                                    <a href="{{url('account_pkucs217_stmnull/'.$item->months.'/'.$item->years)}}" target="_blank">
+                                                    <a href="{{url('account_pkucs216_stmnull/'.$item->months.'/'.$item->years)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover">
                                                             <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$count_yokma_alls}} Visit">
                                                                     {{ number_format($total_yokma_alls, 2) }}

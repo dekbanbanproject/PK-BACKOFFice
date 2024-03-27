@@ -124,11 +124,12 @@ $yb = date('Y') + 542;
                                     <th class="text-center" >cid</th>
                                     <th class="text-center">ptname</th> 
                                     <th class="text-center">vstdate</th>   
-                                    <th class="text-center">ลูกหนี้</th> 
+                                    <th class="text-center">ลูกหนี้</th>  
+                                    <th class="text-center">ส่วนต่าง</th> 
                                     <th class="text-center">Stm 216</th> 
-                                    {{-- <th class="text-center">ส่วนต่าง</th>  --}}
-                                    <th class="text-center">Stm 202</th> 
-                                    <th class="text-center">ยอดชดเชยทั้งสิ้น</th>  
+                                    {{-- <th class="text-center">Stm FS</th>  --}}
+                                    <th class="text-center">ยอดชดเชย</th>  
+                                    <th class="text-center">STMdoc</th> 
                                    
                                 </tr>
                             </thead>
@@ -144,32 +145,32 @@ $yb = date('Y') + 542;
                                                 <td class="text-center" width="8%">{{ $item->cid }}</td>  
                                                 <td class="p-2" width="10%">{{ $item->ptname }}</td>  
                                                 <td class="text-center" width="6%">{{ $item->vstdate }}</td>  
-                                                <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>                                                
-                                                <td class="text-end" style="color:rgb(184, 12, 169)" width="7%">{{ number_format(($item->stm216),2)}}</td> 
-                                                <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($item->ip_paytrue,2)}}</td> 
-                                                <td class="text-end" style="color:rgb(9, 196, 180)" width="8%">{{ number_format($item->total_approve,2)}}</td>  
-                                                 
-                                                {{-- <td class="text-end" width="10%"> 
-                                                    <button type="button" class="btn btn-icon btn-shadow btn-dashed btn-outline-primary" data-bs-toggle="modal" data-bs-target="#DetailModal{{ $item->an }}" data-bs-placement="right" title="ค่าใช้จ่าย">{{ number_format($item->debit,2)}} </button> 
-                                                </td>  --}}
+                                                <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td> 
+                                                <td class="text-end" style="color:rgb(184, 12, 169)" width="7%">{{ number_format(($item->debit_total-$item->stm_money),2)}}</td> 
+                                                <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($item->stm_money,2)}}</td> 
+                                                {{-- <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($item->stm_money,2)}}</td>  --}}
+                                                <td class="text-end" style="color:rgb(9, 196, 180)" width="8%">{{ number_format($item->stm_total,2)}}</td>  
+                                                <td class="p-2" width="10%">{{ $item->STMdoc }}</td>  
                                     </tr>
                                         <?php
-                                            $total1 = $total1 + $item->debit_total; 
-                                            $total2 = $total2 + $item->stm216;
-                                            $total3 = $total3 + $item->ip_paytrue;
-                                            $total4 = $total4 + $item->total_approve;
+                                              $total1 = $total1 + ($item->debit_total); 
+                                            $total2 = $total2 + ($item->debit_total-$item->stm_money);
+                                            $total3 = $total3 + ($item->stm_money);
+                                            $total4 = $total4 + $item->stm_total;
                                         ?>
  
                                 @endforeach  
                                
                             </tbody>
-                                        <tr style="background-color: #f3fca1">
-                                            <td colspan="6" class="text-end" style="background-color: #ff9d9d"></td>
-                                            <td class="text-end" style="background-color: rgb(73, 147, 231)"><label for="" style="color: #FFFFFF">{{ number_format($total1,2)}}</label></td>
-                                            <td class="text-end" style="background-color: rgb(184, 12, 169)"><label for="" style="color: #FFFFFF">{{ number_format($total2,2)}}</label></td>
-                                            <td class="text-end" style="background-color: rgb(216, 95, 14)"><label for="" style="color: #FFFFFF">{{ number_format($total3,2)}}</label></td> 
-                                            <td class="text-end" style="background-color: rgb(9, 196, 180)"><label for="" style="color: #FFFFFF">{{ number_format($total4,2)}}</label></td>  
-                                        </tr>  
+                            <tr style="background-color: #f3fca1">
+                                <td colspan="6" class="text-end" style="background-color: #fca1a1"></td>
+                                <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label> </td> 
+                                <td class="text-center" style="background-color: #FCA533"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
+                                <td class="text-center" style="background-color: #8340f0" ><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td>
+                                <td class="text-center" style="background-color: #f08640"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label> </td> 
+                                {{-- <td class="text-center" style="background-color: rgb(9, 196, 180)"><label for="" style="color: #FFFFFF">{{ number_format($total5, 2) }}</label> </td>  --}}
+                                <td colspan="1" class="text-end" style="background-color: #fca1a1"></td>
+                            </tr>  
                         </table>
                     </div>
                     </div>
