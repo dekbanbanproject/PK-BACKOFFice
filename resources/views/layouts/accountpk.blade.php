@@ -439,7 +439,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_401_dash') }}">dashboard</a></li>
                                             <li><a href="{{ url('account_401_pull') }}">ดึงลูกหนี้</a></li>
-                                      
+                                            <li><a href="{{ url('account_401_search') }}">ค้นหาลูกหนี้</a></li>
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">402-ลูกหนี้ค่ารักษา-เบิกจ่ายตรงกรมบัญชีกลาง IP</a>

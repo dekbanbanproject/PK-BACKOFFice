@@ -121,10 +121,10 @@
                                         <td class="text-center" width="5%">{{ $item->pttype }}</td>
                                         
                                         <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td> 
-                                        @if ($item->pricereq_all < $item->debit_total)
-                                            <td class="text-end" style="color:rgb(243, 74, 45)" width="7%"> {{ number_format($item->pricereq_all, 2) }}</td>
+                                        @if ($item->stm_money < $item->debit_total)
+                                            <td class="text-end" style="color:rgb(243, 74, 45)" width="7%"> {{ number_format($item->stm_money, 2) }}</td>
                                         @else
-                                            <td class="text-end" style="color:rgb(32, 216, 124)" width="7%"> {{ number_format($item->pricereq_all, 2) }}</td>
+                                            <td class="text-end" style="color:rgb(32, 216, 124)" width="7%"> {{ number_format($item->stm_money, 2) }}</td>
                                         @endif
                                         <td class="text-center" width="12%">{{ $item->STMdoc }}</td>
                                     </tr>

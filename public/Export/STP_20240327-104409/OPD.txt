@@ -1,2 +1,0 @@
-HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT
-0223100|01|20240112|0708|670112070813|1|มารับยาคลินิกเบาหวาน  มาเจาะเลือด FBS,BUN,Cr,Electrolyte, LDL ,HbA1c ,Urine Alb/sugar  ตามแพทย์นัดและรับยาต่อเนื่อง F/U 3เดือน  รอบเอว  85     ซม.|36.6|9.99|9.99|0.00|0.00|1|2|1

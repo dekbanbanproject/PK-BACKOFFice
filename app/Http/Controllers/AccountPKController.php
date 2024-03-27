@@ -3656,13 +3656,13 @@ class AccountPKController extends Controller
     }
     function upstm_ucs_op_saveexcel(Request $request)
     { 
-        // $this->validate($request, [
-        //     'file' => 'required|file|mimes:xls,xlsx'
-        // ]);
+        $this->validate($request, [
+            'file' => 'required|file|mimes:xls,xlsx'
+        ]);
         $the_file = $request->file('file'); 
         $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
 
-        dd($the_file);
+        // dd($the_file);
             try{
                
                 // Cheet 1
