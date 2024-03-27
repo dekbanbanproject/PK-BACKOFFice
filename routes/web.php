@@ -1739,7 +1739,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'upstm_ucs_sendexcel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_sendexcel'])->name('acc.upstm_ucs_sendexcel');//
 
     Route::match(['get','post'],'upstm_ucs_op',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_op'])->name('acc.upstm_ucs_op');//
-    Route::match(['get','post'],'upstm_ucs_op_saveexcel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_op_saveexcel'])->name('acc.upstm_ucs_op_saveexcel');//
+    Route::match(['get','post'],'upstm_ucs_opsaveexcel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_opsaveexcel'])->name('acc.upstm_ucs_opsaveexcel');//
     Route::match(['get','post'],'upstm_ucs_op_sendexcel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_op_sendexcel'])->name('acc.upstm_ucs_op_sendexcel');//
 
     Route::match(['get','post'],'upstm_ucs_opd',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_opd'])->name('acc.upstm_ucs_opd');//
@@ -1939,6 +1939,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_209_destroy',[App\Http\Controllers\Account209Controller::class, 'account_209_destroy'])->name('acc.account_209_destroy');//
 
     Route::match(['get','post'],'account_pkucs216_pull',[App\Http\Controllers\Account216Controller::class, 'account_pkucs216_pull'])->name('acc.account_pkucs216_pull');//
+    Route::match(['get','post'],'account_pkucs216_search',[App\Http\Controllers\Account216Controller::class, 'account_pkucs216_search'])->name('acc.account_pkucs216_search');//
     Route::match(['get','post'],'account_pkucs216_checksit',[App\Http\Controllers\Account216Controller::class, 'account_pkucs216_checksit'])->name('acc.account_pkucs216_checksit');//
     Route::match(['get','post'],'account_pkucs216_pulldata',[App\Http\Controllers\Account216Controller::class, 'account_pkucs216_pulldata'])->name('acc.account_pkucs216_pulldata');//
     Route::match(['get','post'],'account_pkucs216_dash',[App\Http\Controllers\Account216Controller::class, 'account_pkucs216_dash'])->name('acc.account_pkucs216_dash');// 

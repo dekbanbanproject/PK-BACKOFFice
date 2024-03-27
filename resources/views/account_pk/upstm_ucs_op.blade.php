@@ -102,15 +102,15 @@
             <div class="col-xl-8 col-md-6">
                 <div class="card cardacc">
                     <div class="grid-menu-col">
-                        <form action="{{ route('acc.upstm_ucs_op_saveexcel') }}" method="POST" enctype="multipart/form-data"> 
+                        <form method="POST" action="{{ route('acc.upstm_ucs_opsaveexcel') }}" enctype="multipart/form-data"> 
                             @csrf
 
                             <div class="row">
                                 <div class="col"></div>
                                 <div class="col-md-8">
                                     <div class="mb-3 mt-3">
-                                        <label for="formFileLg" class="form-label">UP STM EXCEL => UP STM => ส่งข้อมูล</label>
-                                        <input class="form-control form-control-lg" id="formFileLg" name="file"
+                                        <label for="upload_file" class="form-label">UP STM EXCEL => UP STM => ส่งข้อมูล</label>
+                                        <input class="form-control form-control-lg" id="upload_file" name="upload_file"
                                             type="file" required>
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     </div>
@@ -120,7 +120,7 @@
                                                 ส่งข้อมูล
                                         </a>
                                     @else
-                                        <button type="submit"
+                                        <button type="SUBMIT"
                                             class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                             <i class="fa-solid fa-cloud-arrow-up me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="UP STM"></i>
                                             UP STM
@@ -272,6 +272,9 @@
             $('#datepicker2').datepicker({
                 format: 'yyyy-mm-dd'
             });
+            //  $.ajaxSetup({
+            //     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+            // });
 
             var bar = $('.bar');
             var percent = $('.percent');
@@ -286,8 +289,9 @@
                     bar.width(percentVal);
                     percent.html(percentVal);
                 },
-                complete: function(xhr) { 
-                    Swal.fire({
+                complete: function(data) { 
+                    if (data.status == 200) {
+                        Swal.fire({
                         title: 'UP STM สำเร็จ',
                         text: "You UP STM success",
                         icon: 'success',
@@ -300,6 +304,10 @@
                             window.location = "{{ url('upstm_ucs_op') }}";
                         }
                     })
+                    } else {
+                        
+                    }
+                    
                 }
             })
 

@@ -3355,6 +3355,7 @@ class AccountPKController extends Controller
                         'total_approve'         => $del_al, 
                         'va'                    =>$sheet->getCell( 'AM' . $row )->getValue(),
                         'covid'                 =>$sheet->getCell( 'AN' . $row )->getValue(),
+                        // 'ao'                    =>$sheet->getCell( 'AO' . $row )->getValue(),
                         'STMdoc'                =>$file_ 
                     ];
                     $startcount++; 
@@ -3474,6 +3475,7 @@ class AccountPKController extends Controller
                         'total_approve'         => $del_al2, 
                         'va'                    =>$sheet2->getCell( 'AM' . $row2 )->getValue(),
                         'covid'                 =>$sheet2->getCell( 'AN' . $row2 )->getValue(),
+                        // 'ao'                    =>$sheet->getCell( 'AO' . $row )->getValue(),
                         'STMdoc'                =>$file_ 
                     ];
                     $startcount2++; 
@@ -3655,24 +3657,35 @@ class AccountPKController extends Controller
             'countc'        =>     $countc
         ]);
     }
-    function upstm_ucs_op_saveexcel(Request $request)
+    function upstm_ucs_opsaveexcel(Request $request)
     { 
-        $this->validate($request, [
-            'file' => 'required|file|mimes:xls,xlsx'
-        ]);
-        $the_file = $request->file('file'); 
-        $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
-
+         // $this->validate($request, [
+        //     'file' => 'required|file|mimes:xls,xlsx'
+        // ]);
+        $the_file = $request->file('upload_file'); 
+        $file_ = $the_file->getClientOriginalName();
+        // $file_ = $request->file('upload_file')->getClientOriginalName(); //ชื่อไฟล์
+        // if($request->hasFile('upload_file')){
+        //     $the_file = $request->file('upload_file');
+        //     $file_ = $the_file->getClientOriginalName();
+        // }
         // dd($the_file);
             try{
-               
-                // Cheet 1
+                // $a = array('2','3');
+                // foreach($a as $value){
+                //     $table_insert = $sss[0];
+                //     $sheet_read = $sss[1];
+                //     // code($sheet_read)
+                //     // insert_table $table_insert
+                // }
+
+                // Cheet 2
                 $spreadsheet = IOFactory::load($the_file->getRealPath()); 
                 $sheet        = $spreadsheet->setActiveSheetIndex(2);
                 $row_limit    = $sheet->getHighestDataRow();
                 $column_limit = $sheet->getHighestDataColumn();
                 $row_range    = range( 15, $row_limit );
-                $column_range = range( 'AO', $column_limit );
+                // $column_range = range( 'AO', $column_limit );
                 $startcount = 15;
                 $data = array();
                 foreach ($row_range as $row ) {
@@ -3772,6 +3785,7 @@ class AccountPKController extends Controller
                         'total_approve'         => $del_al, 
                         'va'                    =>$sheet->getCell( 'AM' . $row )->getValue(),
                         'covid'                 =>$sheet->getCell( 'AN' . $row )->getValue(),
+                        // 'ao'                    =>$sheet->getCell( 'AO' . $row )->getValue(),
                         'STMdoc'                =>$file_ 
                     ];
                     $startcount++; 
@@ -3779,7 +3793,7 @@ class AccountPKController extends Controller
                 }
                 // DB::table('acc_stm_ucs_excel')->insert($data); 
 
-                $for_insert = array_chunk($data, length:1000);
+                $for_insert = array_chunk($data, length:5000);
                 foreach ($for_insert as $key => $data_) {
                     Acc_stm_ucs_excel::insert($data_); 
                 }
@@ -3792,7 +3806,7 @@ class AccountPKController extends Controller
                 $row_limit2    = $sheet2->getHighestDataRow();
                 $column_limit2 = $sheet2->getHighestDataColumn();
                 $row_range2    = range( 15, $row_limit2 );
-                $column_range2 = range( 'AO', $column_limit2 );
+                // $column_range2 = range( 'AO', $column_limit2 );
                 $startcount2 = 15;
                 $data2 = array();
                 foreach ($row_range2 as $row2 ) {
@@ -3891,13 +3905,14 @@ class AccountPKController extends Controller
                         'total_approve'         => $del_al2, 
                         'va'                    =>$sheet2->getCell( 'AM' . $row2 )->getValue(),
                         'covid'                 =>$sheet2->getCell( 'AN' . $row2 )->getValue(),
+                        // 'ao'                    =>$sheet->getCell( 'AO' . $row )->getValue(),
                         'STMdoc'                =>$file_ 
                     ];
                     $startcount2++; 
 
                 }
-          
-                $for_insert2 = array_chunk($data2, length:1000);
+                // DB::table('acc_stm_ucs_excel')->Transaction::insert($data2); 
+                $for_insert2 = array_chunk($data2, length:5000);
                 foreach ($for_insert2 as $key => $data2_) {
                     Acc_stm_ucs_excel::insert($data2_); 
                 }
