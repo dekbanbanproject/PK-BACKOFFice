@@ -359,7 +359,7 @@ class Fdh_StpController extends Controller
                     SELECT  v.hn HN,v.spclty CLINIC,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
                         ,concat(substr(o.vsttime,1,2),substr(o.vsttime,4,2)) TIMEOPD,v.vn SEQ
                         ,"1" UUC ,oc.cc DETAIL,oc.temperature as BTEMP,oc.bps as SBP,oc.bpd as DBP,""PR,""RR
-                        ,""OPTYPE
+                        ,st.export_code as OPTYPE
                         ,ot.export_code as TYPEIN,st.export_code as TYPEOUT
                         FROM ovst o
                         LEFT OUTER JOIN vn_stat v on o.vn = v.vn 
@@ -642,18 +642,20 @@ class Fdh_StpController extends Controller
                 } 
                  //D_aer OK
                 $data_aer_ = DB::connection('mysql2')->select('
-                        SELECT v.hn HN ,i.an AN ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD 
+                        SELECT v.hn HN ,o.an AN ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD 
                         ,c.claimcode AUTHAE
-                        ,"" AEDATE,"" AETIME,"" AETYPE,"" REFER_NO,"" REFMAINI ,"" IREFTYPE,"" REFMAINO,"" OREFTYPE,"" UCAE,"" EMTYPE,v.vn SEQ ,"" AESTATUS,"" DALERT,"" TALERT
-                        FROM vn_stat v
-                        LEFT OUTER JOIN ipt i on i.vn = v.vn
+                        ,"" AEDATE,"" AETIME,"" AETYPE,ro.refer_number REFER_NO,(SELECT hospitalcode FROM opdconfig) REFMAINI ,ro.refer_type IREFTYPE,ro.refer_hospcode REFMAINO,"" OREFTYPE,st.export_code UCAE,"" EMTYPE,o.vn SEQ ,"" AESTATUS,"" DALERT,"" TALERT
+                        FROM er_regist r 
+                        LEFT OUTER JOIN vn_stat v on v.vn = r.vn 
+                        LEFT OUTER JOIN referout ro on ro.vn = r.vn
                         LEFT OUTER JOIN ovst o on o.vn = v.vn
-                        LEFT OUTER JOIN visit_pttype vv on vv.vn = v.vn
+                        LEFT OUTER JOIN visit_pttype vv on vv.vn = r.vn
                         LEFT OUTER JOIN pttype pt on pt.pttype =v.pttype
+                        LEFT OUTER JOIN ovstost st on st.ovstost = o.ovstost 
                         LEFT OUTER JOIN pkbackoffice.check_authen c On c.cid = v.cid AND c.vstdate = v.vstdate
-                        WHERE v.vn IN("'.$vn.'") and i.an is null
-                        AND i.an is null
-                        GROUP BY v.vn
+                        WHERE r.vn IN("'.$vn.'")  
+                        AND o.an is null
+                        GROUP BY r.vn
                          UNION ALL
                         SELECT a.hn HN,a.an AN,DATE_FORMAT(vs.vstdate,"%Y%m%d") DATEOPD,c.claimcode AUTHAE
                         ,"" AEDATE,"" AETIME,"" AETYPE,"" REFER_NO,"" REFMAINI ,"" IREFTYPE,"" REFMAINO,"" OREFTYPE,"" UCAE,"" EMTYPE,"" SEQ ,"" AESTATUS,"" DALERT,"" TALERT
@@ -692,12 +694,12 @@ class Fdh_StpController extends Controller
                 //D_adp
                 $data_adp_ = DB::connection('mysql2')->select(' 
                         SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
-                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
+                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,DATE_FORMAT("0000-00-00","%Y%m%d") LMP,""SP_ITEM,icode ,vstdate
                         FROM
                         (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,sum(v.QTY) QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
                         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,if(n.nhso_adp_code is null,"1","2") as ITEMSRC
-                        ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
+                        ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,DATE_FORMAT("0000-00-00","%Y%m%d") LMP,""SP_ITEM,v.icode,v.vstdate
                         FROM opitemrece v
                         JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null 
                         LEFT OUTER JOIN ipt i on i.an = v.an
@@ -707,10 +709,10 @@ class Fdh_StpController extends Controller
                         GROUP BY an,CODE,rate
                         UNION
                         SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
-                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
+                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,DATE_FORMAT("0000-00-00","%Y%m%d") LMP ,""SP_ITEM,icode ,vstdate
                         FROM
                         (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,sum(v.QTY) QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
-                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,if(n.nhso_adp_code is null,"1","2") as ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
+                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,if(n.nhso_adp_code is null,"1","2") as ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,DATE_FORMAT("0000-00-00","%Y%m%d") LMP ,""SP_ITEM,v.icode,v.vstdate
                         FROM opitemrece v
                         JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null 
                         LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
@@ -1565,8 +1567,8 @@ class Fdh_StpController extends Controller
         $objFopen_opd = fopen($file_d_opd, 'w');
      
         // $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC';
-        // $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT';
-        $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC';
+        $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT';
+        // $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL';
         fwrite($objFopen_opd, $opd_head_opd);
         $opd = DB::connection('mysql')->select('SELECT * from fdh_opd where d_anaconda_id = "STP"');
         foreach ($opd as $key => $value3) {
@@ -1576,17 +1578,18 @@ class Fdh_StpController extends Controller
             $o4 = $value3->TIMEOPD; 
             $o5 = $value3->SEQ; 
             $o6 = $value3->UUC; 
-            // $o7 = $value3->DETAIL; 
-            // $o8 = $value3->BTEMP; 
-            // $o9 = $value3->SBP; 
-            // $o10 = $value3->DBP; 
-            // $o11 = $value3->PR; 
-            // $o12 = $value3->RR; 
-            // $o13 = $value3->OPTYPE; 
-            // $o14 = $value3->TYPEIN;  
-            // $o15 = $value3->TYPEOUT;
-            $str_opd="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6; 
-            // $str_opd ="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6."|".$o7."|".$o8."|".$o9."|".$o10."|".$o11."|".$o12."|".$o13."|".$o14."|".$o15;
+            $o7 = $value3->DETAIL; 
+            $o8 = $value3->BTEMP; 
+            $o9 = $value3->SBP; 
+            $o10 = $value3->DBP; 
+            $o11 = $value3->PR; 
+            $o12 = $value3->RR; 
+            $o13 = $value3->OPTYPE; 
+            $o14 = $value3->TYPEIN;  
+            $o15 = $value3->TYPEOUT;
+            // $str_opd="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6; 
+            // $str_opd="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6."|".$o7; 
+            $str_opd ="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6."|".$o7."|".$o8."|".$o9."|".$o10."|".$o11."|".$o12."|".$o13."|".$o14."|".$o15;
             $str_opd_30 = preg_replace("/\n/", "\r\n", $str_opd); 
             $str_opd_31 = mb_convert_encoding($str_opd_30, 'UTF-8');   
             fwrite($objFopen_opd, $str_opd_31);  

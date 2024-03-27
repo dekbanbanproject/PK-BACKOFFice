@@ -147,8 +147,10 @@ class MoveaccountController extends Controller
             Acc_1102050101_309::where('vn', $vn)->delete();
         } elseif ($pang == '1102050101.310') {
             Acc_1102050101_310::where('an', $an)->delete();
+        
         } elseif ($pang == '1102050101.401') {
             Acc_1102050101_401::where('vn', $vn)->delete();
+            
         } elseif ($pang == '1102050101.402') {
             Acc_1102050101_402::where('an', $an)->delete();
         } elseif ($pang == '1102050101.2166') {

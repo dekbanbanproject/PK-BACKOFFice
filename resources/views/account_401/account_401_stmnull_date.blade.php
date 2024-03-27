@@ -99,7 +99,7 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
-                                    <th class="text-center" width="5%">repno</th> 
+                                    {{-- <th class="text-center" width="5%">repno</th>  --}}
                                     <th class="text-center" >vn</th>
                                     <th class="text-center" >hn</th>
                                     <th class="text-center" >cid</th>
@@ -117,21 +117,20 @@
                                     <?php $number++; ?>
                                     <tr height="20" style="font-size: 14px;">
                                         <td class="text-font" style="text-align: center;" width="4%">{{ $number++ }} </td> 
-                                        <td class="text-center" width="8%">{{ $item->vn }}</td>
-                                        <td class="text-center" width="8%">{{ $item->an }}</td>
+                                        <td class="text-center" width="8%">{{ $item->vn }}</td> 
                                         <td class="text-center" width="5%">{{ $item->hn }}</td>
                                         <td class="text-center" width="10%">{{ $item->cid }}</td>
                                         <td class="p-2">{{ $item->ptname }}</td>
-                                        <td class="text-center" width="7%">{{ $item->vstdate }}</td>
-                                        {{-- <td class="text-center" width="7%">{{ $item->dchdate }}</td> --}}
-                                        <td class="text-center" width="5%">{{ $item->pttype }}</td>
-                                        
+                                        <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
+                                        <td class="text-center" width="5%">{{ $item->pttype }}</td> 
                                         <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td> 
+                                        
                                         @if ($item->pricereq_all < $item->debit_total)
                                             <td class="text-end" style="color:rgb(243, 74, 45)" width="7%"> {{ number_format($item->pricereq_all, 2) }}</td>
                                         @else
                                             <td class="text-end" style="color:rgb(32, 216, 124)" width="7%"> {{ number_format($item->pricereq_all, 2) }}</td>
                                         @endif
+
                                         <td class="text-center" width="12%">{{ $item->STMdoc }}</td>
                                     </tr>
  
