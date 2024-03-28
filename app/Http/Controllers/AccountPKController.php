@@ -3619,6 +3619,7 @@ class AccountPKController extends Controller
                                 'STMDoc'          => $value->STMdoc,
                                 'va'              => $value->va,
                         ]);
+                        
                     }else if ($value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug > "0") {
                         Acc_1102050101_217::where('an',$value->an) 
                             ->update([
