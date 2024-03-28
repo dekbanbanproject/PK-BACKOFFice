@@ -146,7 +146,6 @@
             <div class="col"></div>
         </div>
 
-
         <div class="row">
 
             <div class="col"></div>
@@ -212,8 +211,8 @@
                 </div>
             </div>
             <div class="col"></div>
-        </div>
 
+        </div>
 
         {{-- <form action="{{ route('acc.upstm_hn') }}" method="POST" id="Upstmti" enctype="multipart/form-data">
             @csrf --}}
@@ -258,10 +257,11 @@
 
     </div>
 
-
 @endsection
 @section('footer')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+
     <script>
         $(document).ready(function() {
             $('#example').DataTable();
@@ -272,6 +272,7 @@
             $('#datepicker2').datepicker({
                 format: 'yyyy-mm-dd'
             });
+
             //  $.ajaxSetup({
             //     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
             // });
@@ -360,7 +361,7 @@
                 });
             });
  
-
         });
     </script>
+
 @endsection
