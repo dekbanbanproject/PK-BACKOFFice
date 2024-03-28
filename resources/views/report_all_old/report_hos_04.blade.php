@@ -1,5 +1,5 @@
 @extends('layouts.reportall')
-@section('title', 'PK-BACKOFFice || Report-(Died) จำนวนผู้ป่วยที่เสียชีวิตใน รพ ด้วย IPD unexpected dead')
+@section('title', 'PK-OFFICE || Report-(Died) จำนวนผู้ป่วยที่เสียชีวิตใน รพ ด้วย soft skin and soft tissue infection')
 
 @section('content')
     <script>
@@ -92,13 +92,13 @@
 
 
 
-            <form action="{{ url('report_hos_03') }}" method="GET">
+            <form action="{{ url('report_hos_04') }}" method="GET">
                 @csrf
 
             <div class="row"> 
                 <div class="col-md-3">
                     <h5 class="card-title" style="color:blueviolet">ตัวชี้วัดสำคัญใน โรงพยาบาล</h5>
-                    <p class="card-title-desc">(Died) จำนวนผู้ป่วยที่เสียชีวิตใน รพ ด้วย IPD unexpected dead</p>
+                    <p class="card-title-desc">(Died) จำนวนผู้ป่วยที่เสียชีวิตใน รพ ด้วย soft skin and soft tissue infection</p>
                 </div>
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
@@ -137,12 +137,12 @@
                                             <th class="text-center">death_diag_2</th> 
                                             <th class="text-center">death_diag_3</th>
                                             <th class="text-center">death_diag_4</th>                                            
-                                            <th class="text-center">แพทย์</th>
+                                            <th class="text-center">an</th>
                                             <th class="text-center">regdate</th>
                                             <th class="text-center">dchdate</th>
                                             <th class="text-center">admdate</th>
-                                            <th class="text-center">firstward</th>
-                                            <th class="text-center">wardname</th> 
+                                            <th class="text-center">wardname</th>
+                                            <th class="text-center">doctorname</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -153,17 +153,17 @@
                                                 <td class="text-center" width="5%">{{$item->hn}} </td> 
                                                 <td class="text-center" width="2%">{{ $item->death_date }}</td> 
                                                 <td class="text-start"  width="5%">{{ $item->ptname }}</td> 
-                                                <td class="text-start"  width="5%">{{ $item->sexname }}</td>                                                
+                                                <td class="text-center"  width="5%">{{ $item->sexname }}</td>                                                
                                                 <td class="text-center" width="3%" >{{ $item->death_diag_1 }}</td> 
                                                 <td class="text-center" width="3%">{{ $item->death_diag_2 }}</td> 
                                                 <td class="text-center" width="3%">{{ $item->death_diag_3 }}</td> 
                                                 <td class="text-center" width="3%">{{ $item->death_diag_4 }}</td> 
-                                                <td class="text-start"  width="4%">{{ $item->name }}</td> 
+                                                <td class="text-start"  width="4%">{{ $item->an }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->regdate }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->dchdate }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->admdate }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->firstward }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->wardname }}</td>  
+                                                <td class="text-center" width="5%">{{ $item->wardname }}</td> 
+                                                <td class="text-start" width="5%">{{ $item->doctorname }}</td>  
                                             </tr>
                                         @endforeach
                                     </tbody>

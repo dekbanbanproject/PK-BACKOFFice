@@ -7,18 +7,19 @@
             window.location.href = '{{ route('index') }}';
         }
     </script>
+
     <?php
-    if (Auth::check()) {
-        $type = Auth::user()->type;
-        $iduser = Auth::user()->id;
-    } else {
-        echo "<body onload=\"TypeAdmin()\"></body>";
-        exit();
-    }
-    $url = Request::url();
-    $pos = strrpos($url, '/') + 1;
-    $ynow = date('Y') + 543;
-    $yb = date('Y') + 542;
+        if (Auth::check()) {
+            $type = Auth::user()->type;
+            $iduser = Auth::user()->id;
+        } else {
+            echo "<body onload=\"TypeAdmin()\"></body>";
+            exit();
+        }
+        $url = Request::url();
+        $pos = strrpos($url, '/') + 1;
+        $ynow = date('Y') + 543;
+        $yb = date('Y') + 542;
     ?>
 
     <style>
@@ -76,12 +77,14 @@
             color: black;
         }
     </style>
+
     <?php
-    use App\Http\Controllers\StaticController;
-    use Illuminate\Support\Facades\DB;
-    $count_meettingroom = StaticController::count_meettingroom();
+        use App\Http\Controllers\StaticController;
+        use Illuminate\Support\Facades\DB;
+        $count_meettingroom = StaticController::count_meettingroom();
     ?>
     <div class="tabs-animation">
+
         <div class="row text-center">
             <div id="overlay">
                 <div class="cv-spinner">
@@ -89,6 +92,7 @@
                 </div>
             </div> 
         </div> 
+
         <div id="preloader">
             <div id="status">
                 <div class="spinner"> 
@@ -102,37 +106,35 @@
             <div class="col-xl-8 col-md-6">
                 <div class="card cardacc">
                     <div class="grid-menu-col">
-                        <form method="POST" action="{{ route('acc.upstm_ucs_opsaveexcel') }}" enctype="multipart/form-data"> 
+                        <form method="POST" action="{{ route('acc.upstm_ucsopdsave') }}" enctype="multipart/form-data"> 
                             @csrf
-
                             <div class="row">
                                 <div class="col"></div>
                                 <div class="col-md-8">
                                     <div class="mb-3 mt-3">
-                                        <label for="upload_file" class="form-label">UP STM EXCEL => UP STM => ส่งข้อมูล</label>
-                                        <input class="form-control form-control-lg" id="upload_file" name="upload_file"
-                                            type="file" required>
+                                        <label for="file" class="form-label">UP STM EXCEL => UP STM => ส่งข้อมูล</label>
+                                        <input class="form-control form-control-lg" id="file" name="file" type="file" required>
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     </div>
-                                    @if ($countc > 0)
-                                        <a href="{{ url('upstm_ucs_op_sendexcel') }}" class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
-                                            <i class="fa-solid fa-file-import me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="ส่งข้อมูล"></i>
-                                                ส่งข้อมูล
-                                        </a>
-                                    @else
-                                        <button type="SUBMIT"
-                                            class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                    {{-- @if ($countc < 0) --}}
+                                       
+                                        <button type="submit" class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                             <i class="fa-solid fa-cloud-arrow-up me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="UP STM"></i>
                                             UP STM
                                         </button>
-                                    @endif
+                                    {{-- @else --}}
+                                        <a href="{{ url('upstm_ucsopdsend') }}" class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
+                                            <i class="fa-solid fa-file-import me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="ส่งข้อมูล"></i>
+                                                ส่งข้อมูล
+                                        </a>
+                                    {{-- @endif --}}
                                 </div>
                                 <div class="col"></div>
                             </div>
                         </form>
                     </div>
                 </div>
-                {{-- <br> --}}
+              
                 <div class="form-group">
                     <div class="progress" style="height: 50px;">
                        <div class="bar"></div>
@@ -141,9 +143,11 @@
                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"> </div> --}}
                     </div>
                 </div> 
+
                 <br> 
             </div>
             <div class="col"></div>
+
         </div>
 
         <div class="row">
@@ -291,22 +295,29 @@
                     percent.html(percentVal);
                 },
                 complete: function(data) { 
-                    if (data.status == 200) {
-                        Swal.fire({
-                        title: 'UP STM สำเร็จ',
-                        text: "You UP STM success",
-                        icon: 'success',
-                        showCancelButton: false,
-                        confirmButtonColor: '#06D177',
-                        // cancelButtonColor: '#d33',
-                        confirmButtonText: 'เรียบร้อย'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location = "{{ url('upstm_ucs_op') }}";
-                        }
-                    })
+                    if (data.status == 100) {
+                            Swal.fire({
+                            title: 'ไม่เจอไฟล์',
+                            text: "File IS NULL",
+                            icon: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#06D177',
+                            // cancelButtonColor: '#d33', 
+                        })
                     } else {
-                        
+                        Swal.fire({
+                            title: 'UP STM สำเร็จ',
+                            text: "You UP STM success",
+                            icon: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#06D177',
+                            // cancelButtonColor: '#d33',
+                            confirmButtonText: 'เรียบร้อย'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = "{{ url('upstm_ucsopd') }}";
+                            }
+                        })
                     }
                     
                 }

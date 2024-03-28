@@ -93,6 +93,7 @@ return array(
     'App\\Http\\Controllers\\AccountController' => $baseDir . '/app/Http/Controllers/AccountController.php',
     'App\\Http\\Controllers\\AccountPKController' => $baseDir . '/app/Http/Controllers/AccountPKController.php',
     'App\\Http\\Controllers\\AccountPlanController' => $baseDir . '/app/Http/Controllers/AccountPlanController.php',
+    'App\\Http\\Controllers\\AccountSTMController' => $baseDir . '/app/Http/Controllers/AccountSTMController.php',
     'App\\Http\\Controllers\\AccountsettingController' => $baseDir . '/app/Http/Controllers/AccountsettingController.php',
     'App\\Http\\Controllers\\AdminPersonController' => $baseDir . '/app/Http/Controllers/AdminPersonController.php',
     'App\\Http\\Controllers\\AipnController' => $baseDir . '/app/Http/Controllers/AipnController.php',

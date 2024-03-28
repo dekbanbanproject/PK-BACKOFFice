@@ -1738,9 +1738,9 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'upstm_ucs_excel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_excel'])->name('acc.upstm_ucs_excel');//
     Route::match(['get','post'],'upstm_ucs_sendexcel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_sendexcel'])->name('acc.upstm_ucs_sendexcel');//
 
-    Route::match(['get','post'],'upstm_ucs_op',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_op'])->name('acc.upstm_ucs_op');//
-    Route::match(['get','post'],'upstm_ucs_opsaveexcel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_opsaveexcel'])->name('acc.upstm_ucs_opsaveexcel');//
-    Route::match(['get','post'],'upstm_ucs_op_sendexcel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_op_sendexcel'])->name('acc.upstm_ucs_op_sendexcel');//
+    Route::match(['get','post'],'upstm_ucsopd',[App\Http\Controllers\AccountSTMController::class, 'upstm_ucsopd'])->name('acc.upstm_ucsopd');//
+    Route::match(['get','post'],'upstm_ucsopdsave',[App\Http\Controllers\AccountSTMController::class, 'upstm_ucsopdsave'])->name('acc.upstm_ucsopdsave');//
+    Route::match(['get','post'],'upstm_ucsopdsend',[App\Http\Controllers\AccountSTMController::class, 'upstm_ucsopdsend'])->name('acc.upstm_ucsopdsend');//
 
     Route::match(['get','post'],'upstm_ucs_opd',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_opd'])->name('acc.upstm_ucs_opd');//
     Route::match(['get','post'],'upstm_ucs_detail_opd/{id}',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_detail_opd'])->name('acc.upstm_ucs_detail_opd');//
@@ -3088,4 +3088,8 @@ Route::match(['get','post'],'lgo_main_report',[App\Http\Controllers\Fdh_LgoContr
 // Route::match(['get','post'],'lgo_main_process',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main_process'])->name('fdh.lgo_main_process');//
 // Route::match(['get','post'],'lgo_main_export',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main_export'])->name('fdh.lgo_main_export');//
 
+Route::match(['get','post'],'report_db',[App\Http\Controllers\ReportSxController::class, 'report_db'])->name('re.report_db');
+Route::match(['get','post'],'report_sx',[App\Http\Controllers\ReportSxController::class, 'report_sx'])->name('re.report_sx');
+Route::match(['get','post'],'report_hos_sx/{id}',[App\Http\Controllers\ReportSxController::class, 'report_hos_sx'])->name('re.report_hos_sx');
+// Route::match(['get','post'],'report_hos_sx',[App\Http\Controllers\ReportSxController::class, 'report_hos_sx'])->name('re.report_hos_sx');
 });

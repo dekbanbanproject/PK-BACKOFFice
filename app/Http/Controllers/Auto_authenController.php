@@ -61,7 +61,7 @@ use App\Models\Acc_debtor;
 use App\Models\Check_sit_auto_claim;
 use App\Models\Db_year;
 use App\Models\Db_authen;
-use App\Models\Db_authen_detail;
+use App\Models\Check_authen_shoot;
 use App\Models\Check_authen;
 use App\Models\Check_sithos_auto;
 use App\Models\Check_sit_tiauto;
@@ -403,6 +403,7 @@ class Auto_authenController extends Controller
 
                                 } else {
                                     $checkcs = Check_authen::where('claimcode','=',$claimCode)->where('cid','=',$personalId)->count();
+                                    
                                     if ($checkcs > 0) {                                       
                                         // Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->where('claimcode','=',NULL)->update([
                                         //     'claimcode'       => $claimCode,
@@ -432,7 +433,7 @@ class Auto_authenController extends Controller
                                             'requestauthen'              => $sourceChannel,
                                             'authentication'             => $claimAuthen, 
                                         ]);
-
+ 
                                         // Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->update([
                                         //     'claimcode'       => $claimCode,
                                         //     'claimtype'       => $claimType,
@@ -441,7 +442,31 @@ class Auto_authenController extends Controller
                                         //     'authentication'  => $claimAuthen,
                                         // ]);  
                                     }
-
+                                    $checkcs_shoot = Check_authen_shoot::where('claimcode','=',$claimCode)->where('cid','=',$personalId)->count();
+                                    if ($checkcs_shoot > 0) {                                       
+                                        
+                                    } else {
+                                        Check_authen_shoot::create([
+                                            'cid'                        => $personalId,
+                                            'fullname'                   => $patientName,
+                                            'hosname'                    => $hname,
+                                            'hcode'                      => $hmain,
+                                            'vstdate'                    => $checkdate,
+                                            'regdate'                    => $checkdate,
+                                            'claimcode'                  => $claimCode,
+                                            'claimtype'                  => $claimType,
+                                            'birthday'                   => $birthdate,
+                                            'homtel'                     => $tel,
+                                            'repcode'                    => $claimStatus,
+                                            'hncode'                     => $hnCode,
+                                            'servicerep'                 => $patientType,
+                                            'servicename'                => $claimTypeName,
+                                            'mainpttype'                 => $mainInsclWithName,
+                                            'subpttype'                  => $subInsclName,
+                                            'requestauthen'              => $sourceChannel,
+                                            'authentication'             => $claimAuthen, 
+                                        ]); 
+                                    }
                                
                                 }
                     }

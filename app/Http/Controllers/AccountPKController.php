@@ -3233,9 +3233,9 @@ class AccountPKController extends Controller
     }
     function upstm_ucs_excel(Request $request)
     { 
-        // $this->validate($request, [
-        //     'file' => 'required|file|mimes:xls,xlsx'
-        // ]);
+        $this->validate($request, [
+            'file' => 'required|file|mimes:xls,xlsx'
+        ]);
         $the_file = $request->file('file'); 
         $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
 
@@ -3502,10 +3502,7 @@ class AccountPKController extends Controller
     public function upstm_ucs_sendexcel(Request $request)
     {
         try{
-            $data_ = DB::connection('mysql')->select('
-                SELECT *
-                FROM acc_stm_ucs_excel
-            ');
+            $data_ = DB::connection('mysql')->select('SELECT * FROM acc_stm_ucs_excel WHERE cid IS NOT NULL');
             foreach ($data_ as $key => $value) {
                 if ($value->cid != '') {
                     $check = Acc_stm_ucs::where('tranid','=',$value->tranid)->count();
@@ -3611,6 +3608,17 @@ class AccountPKController extends Controller
                                 'STMdoc'          => $value->STMdoc,
                                 'va'              => $value->va,
                         ]);
+
+                        Acc_1102050101_216::where('hn',$value->hn)->where('vstdate',$value->vstdate)
+                            ->update([
+                                'status'          => 'Y',
+                                'stm_rep'         => $value->debit, 
+                                'stm_rcpno'       => $value->rep.'-'.$value->repno,
+                                'stm_trainid'     => $value->tranid,
+                                'stm_total'       => $value->total_approve,
+                                'STMDoc'          => $value->STMdoc,
+                                'va'              => $value->va,
+                        ]);
                     }else if ($value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug > "0") {
                         Acc_1102050101_217::where('an',$value->an) 
                             ->update([
@@ -3623,8 +3631,46 @@ class AccountPKController extends Controller
                                 'STMdoc'          => $value->STMdoc,
                                 'va'              => $value->va,
                         ]);
+
+                        Acc_1102050101_216::where('hn',$value->hn)->where('vstdate',$value->vstdate)
+                            ->update([
+                                'status'          => 'Y',
+                                'stm_rep'         => $value->debit,
+                                'stm_money'       => $value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug,
+                                'stm_rcpno'       => $value->rep.'-'.$value->repno,
+                                'stm_trainid'     => $value->tranid,
+                                'stm_total'       => $value->total_approve,
+                                'STMDoc'          => $value->STMdoc,
+                                'va'              => $value->va,
+                        ]);
                     } else {    
                     }
+
+                    // if ($value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug == "0") {
+                    //     Acc_1102050101_216::where('hn',$value->hn)->where('vstdate',$value->vstdate)
+                    //         ->update([
+                    //             'status'          => 'Y',
+                    //             'stm_rep'         => $value->debit, 
+                    //             'stm_rcpno'       => $value->rep.'-'.$value->repno,
+                    //             'stm_trainid'     => $value->tranid,
+                    //             'stm_total'       => $value->total_approve,
+                    //             'STMDoc'          => $value->STMdoc,
+                    //             'va'              => $value->va,
+                    //     ]);
+                    // }else if ($value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug > "0") {
+                    //     Acc_1102050101_216::where('hn',$value->hn)->where('vstdate',$value->vstdate)
+                    //         ->update([
+                    //             'status'          => 'Y',
+                    //             'stm_rep'         => $value->debit,
+                    //             'stm_money'       => $value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug,
+                    //             'stm_rcpno'       => $value->rep.'-'.$value->repno,
+                    //             'stm_trainid'     => $value->tranid,
+                    //             'stm_total'       => $value->total_approve,
+                    //             'STMDoc'          => $value->STMdoc,
+                    //             'va'              => $value->va,
+                    //     ]);
+                    // } else {    
+                    // }
                     
                     
 
@@ -3662,14 +3708,14 @@ class AccountPKController extends Controller
          // $this->validate($request, [
         //     'file' => 'required|file|mimes:xls,xlsx'
         // ]);
-        $the_file = $request->file('upload_file'); 
-        $file_ = $the_file->getClientOriginalName();
+        $the_file_ = $request->file('file'); 
+        // $file_ = $the_file->getClientOriginalName();
         // $file_ = $request->file('upload_file')->getClientOriginalName(); //ชื่อไฟล์
-        // if($request->hasFile('upload_file')){
-        //     $the_file = $request->file('upload_file');
-        //     $file_ = $the_file->getClientOriginalName();
-        // }
-        // dd($the_file);
+        if($request->hasFile('file')){
+            $the_file = $request->file('file');
+            $file_ = $the_file->getClientOriginalName();
+        }
+        // dd($file);
             try{
                 // $a = array('2','3');
                 // foreach($a as $value){
@@ -3680,7 +3726,7 @@ class AccountPKController extends Controller
                 // }
 
                 // Cheet 2
-                $spreadsheet = IOFactory::load($the_file->getRealPath()); 
+                $spreadsheet = IOFactory::load($the_file_->getRealPath()); 
                 $sheet        = $spreadsheet->setActiveSheetIndex(2);
                 $row_limit    = $sheet->getHighestDataRow();
                 $column_limit = $sheet->getHighestDataColumn();
@@ -3801,121 +3847,121 @@ class AccountPKController extends Controller
 
                 
                 // Cheet 3
-                $spreadsheet2 = IOFactory::load($the_file->getRealPath()); 
-                $sheet2        = $spreadsheet2->setActiveSheetIndex(3);
-                $row_limit2    = $sheet2->getHighestDataRow();
-                $column_limit2 = $sheet2->getHighestDataColumn();
-                $row_range2    = range( 15, $row_limit2 );
-                // $column_range2 = range( 'AO', $column_limit2 );
-                $startcount2 = 15;
-                $data2 = array();
-                foreach ($row_range2 as $row2 ) {
-                    $vst2 = $sheet2->getCell( 'H' . $row2 )->getValue();  
-                    $day2 = substr($vst2,0,2);
-                    $mo2 = substr($vst2,3,2);
-                    $year2 = substr($vst2,6,4);
-                    $vstdate2 = $year2.'-'.$mo2.'-'.$day2;
+                // $spreadsheet2 = IOFactory::load($the_file_->getRealPath()); 
+                // $sheet2        = $spreadsheet2->setActiveSheetIndex(3);
+                // $row_limit2    = $sheet2->getHighestDataRow();
+                // $column_limit2 = $sheet2->getHighestDataColumn();
+                // $row_range2    = range( 15, $row_limit2 );
+                // // $column_range2 = range( 'AO', $column_limit2 );
+                // $startcount2 = 15;
+                // $data2 = array();
+                // foreach ($row_range2 as $row2 ) {
+                //     $vst2 = $sheet2->getCell( 'H' . $row2 )->getValue();  
+                //     $day2 = substr($vst2,0,2);
+                //     $mo2 = substr($vst2,3,2);
+                //     $year2 = substr($vst2,6,4);
+                //     $vstdate2 = $year2.'-'.$mo2.'-'.$day2;
 
-                    $reg2 = $sheet2->getCell( 'I' . $row2 )->getValue(); 
-                    $regday2 = substr($reg2, 0, 2);
-                    $regmo2 = substr($reg2, 3, 2);
-                    $regyear2 = substr($reg2, 6, 4);
-                    $dchdate2 = $regyear2.'-'.$regmo2.'-'.$regday2;
+                //     $reg2 = $sheet2->getCell( 'I' . $row2 )->getValue(); 
+                //     $regday2 = substr($reg2, 0, 2);
+                //     $regmo2 = substr($reg2, 3, 2);
+                //     $regyear2 = substr($reg2, 6, 4);
+                //     $dchdate2 = $regyear2.'-'.$regmo2.'-'.$regday2;
 
-                    $ss = $sheet2->getCell( 'S' . $row2 )->getValue();
-                    $del_ss = str_replace(",","",$ss);
-                    $tt = $sheet2->getCell( 'T' . $row2 )->getValue();
-                    $del_tt = str_replace(",","",$tt);
-                    $uu = $sheet2->getCell( 'U' . $row2 )->getValue();
-                    $del_uu = str_replace(",","",$uu);
-                    $vv= $sheet2->getCell( 'V' . $row2 )->getValue();
-                    $del_vv = str_replace(",","",$vv);
-                    $ww = $sheet2->getCell( 'W' . $row2 )->getValue();
-                    $del_ww = str_replace(",","",$ww);
-                    $xx = $sheet2->getCell( 'X' . $row2 )->getValue();
-                    $del_xx = str_replace(",","",$xx);
-                    $yy = $sheet2->getCell( 'Y' . $row2 )->getValue();
-                    $del_yy = str_replace(",","",$yy);
-                    $zz = $sheet2->getCell( 'Z' . $row2 )->getValue();
-                    $del_zz = str_replace(",","",$zz);
-                    $aa2 = $sheet2->getCell( 'AA' . $row2 )->getValue();
-                    $del_aa2 = str_replace(",","",$aa2);
-                    $ab2 = $sheet2->getCell( 'AB' . $row2 )->getValue();
-                    $del_ab2 = str_replace(",","",$ab2);
-                    $ac2 = $sheet2->getCell( 'AC' . $row2 )->getValue();
-                    $del_ac2 = str_replace(",","",$ac2);
-                    $ad2 = $sheet2->getCell( 'AD' . $row2 )->getValue();
-                    $del_ad2 = str_replace(",","",$ad2);
-                    $ae2 = $sheet2->getCell( 'AE' . $row2 )->getValue();
-                    $del_ae2 = str_replace(",","",$ae2);
-                    $af2= $sheet2->getCell( 'AF' . $row2 )->getValue();
-                    $del_af2 = str_replace(",","",$af2);
-                    $ag2 = $sheet2->getCell( 'AG' . $row2 )->getValue();
-                    $del_ag2 = str_replace(",","",$ag2);
-                    $ah2 = $sheet2->getCell( 'AH' . $row2 )->getValue();
-                    $del_ah2 = str_replace(",","",$ah2);
-                    $ai2 = $sheet2->getCell( 'AI' . $row2 )->getValue();
-                    $del_ai2 = str_replace(",","",$ai2);
-                    $aj2 = $sheet2->getCell( 'AJ' . $row2 )->getValue();
-                    $del_aj2 = str_replace(",","",$aj2);
-                    $ak2 = $sheet2->getCell( 'AK' . $row2 )->getValue();
-                    $del_ak2 = str_replace(",","",$ak2);
-                    $al2 = $sheet2->getCell( 'AL' . $row2 )->getValue();
-                    $del_al2 = str_replace(",","",$al2);
+                //     $ss = $sheet2->getCell( 'S' . $row2 )->getValue();
+                //     $del_ss = str_replace(",","",$ss);
+                //     $tt = $sheet2->getCell( 'T' . $row2 )->getValue();
+                //     $del_tt = str_replace(",","",$tt);
+                //     $uu = $sheet2->getCell( 'U' . $row2 )->getValue();
+                //     $del_uu = str_replace(",","",$uu);
+                //     $vv= $sheet2->getCell( 'V' . $row2 )->getValue();
+                //     $del_vv = str_replace(",","",$vv);
+                //     $ww = $sheet2->getCell( 'W' . $row2 )->getValue();
+                //     $del_ww = str_replace(",","",$ww);
+                //     $xx = $sheet2->getCell( 'X' . $row2 )->getValue();
+                //     $del_xx = str_replace(",","",$xx);
+                //     $yy = $sheet2->getCell( 'Y' . $row2 )->getValue();
+                //     $del_yy = str_replace(",","",$yy);
+                //     $zz = $sheet2->getCell( 'Z' . $row2 )->getValue();
+                //     $del_zz = str_replace(",","",$zz);
+                //     $aa2 = $sheet2->getCell( 'AA' . $row2 )->getValue();
+                //     $del_aa2 = str_replace(",","",$aa2);
+                //     $ab2 = $sheet2->getCell( 'AB' . $row2 )->getValue();
+                //     $del_ab2 = str_replace(",","",$ab2);
+                //     $ac2 = $sheet2->getCell( 'AC' . $row2 )->getValue();
+                //     $del_ac2 = str_replace(",","",$ac2);
+                //     $ad2 = $sheet2->getCell( 'AD' . $row2 )->getValue();
+                //     $del_ad2 = str_replace(",","",$ad2);
+                //     $ae2 = $sheet2->getCell( 'AE' . $row2 )->getValue();
+                //     $del_ae2 = str_replace(",","",$ae2);
+                //     $af2= $sheet2->getCell( 'AF' . $row2 )->getValue();
+                //     $del_af2 = str_replace(",","",$af2);
+                //     $ag2 = $sheet2->getCell( 'AG' . $row2 )->getValue();
+                //     $del_ag2 = str_replace(",","",$ag2);
+                //     $ah2 = $sheet2->getCell( 'AH' . $row2 )->getValue();
+                //     $del_ah2 = str_replace(",","",$ah2);
+                //     $ai2 = $sheet2->getCell( 'AI' . $row2 )->getValue();
+                //     $del_ai2 = str_replace(",","",$ai2);
+                //     $aj2 = $sheet2->getCell( 'AJ' . $row2 )->getValue();
+                //     $del_aj2 = str_replace(",","",$aj2);
+                //     $ak2 = $sheet2->getCell( 'AK' . $row2 )->getValue();
+                //     $del_ak2 = str_replace(",","",$ak2);
+                //     $al2 = $sheet2->getCell( 'AL' . $row2 )->getValue();
+                //     $del_al2 = str_replace(",","",$al2);
 
  
-                    $data2[] = [
-                        'rep'                   =>$sheet2->getCell( 'A' . $row2 )->getValue(),
-                        'repno'                 =>$sheet2->getCell( 'B' . $row2 )->getValue(),
-                        'tranid'                =>$sheet2->getCell( 'C' . $row2 )->getValue(),
-                        'hn'                    =>$sheet2->getCell( 'D' . $row2 )->getValue(),
-                        'an'                    =>$sheet2->getCell( 'E' . $row2 )->getValue(),
-                        'cid'                   =>$sheet2->getCell( 'F' . $row2 )->getValue(),
-                        'fullname'              =>$sheet2->getCell( 'G' . $row2 )->getValue(), 
-                        'vstdate'               =>$vstdate2,
-                        'dchdate'               =>$dchdate2, 
-                        'maininscl'             =>$sheet2->getCell( 'J' . $row2 )->getValue(),
-                        'projectcode'           =>$sheet2->getCell( 'K' . $row2 )->getValue(),
-                        'debit'                 =>$sheet2->getCell( 'L' . $row2 )->getValue(),
-                        'debit_prb'             =>$sheet2->getCell( 'M' . $row2 )->getValue(),
-                        'adjrw'                 =>$sheet2->getCell( 'N' . $row2 )->getValue(),
-                        'ps1'                   =>$sheet2->getCell( 'O' . $row2 )->getValue(),
-                        'ps2'                   =>$sheet2->getCell( 'P' . $row2 )->getValue(),
-                        'ccuf'                  =>$sheet2->getCell( 'Q' . $row2 )->getValue(),
-                        'adjrw2'                =>$sheet2->getCell( 'R' . $row2 )->getValue(), 
-                        'pay_money'             => $del_ss,
-                        'pay_slip'              => $del_tt,
-                        'pay_after'             => $del_uu,
-                        'op'                    => $del_vv,
-                        'ip_pay1'               => $del_ww,
-                        'ip_paytrue'            => $del_xx,
-                        'hc'                    => $del_yy,
-                        'hc_drug'               => $del_zz,
-                        'ae'                    => $del_aa2,
-                        'ae_drug'               => $del_ab2,
-                        'inst'                  => $del_ac2,
-                        'dmis_money1'           => $del_ad2,
-                        'dmis_money2'           => $del_ae2,
-                        'dmis_drug'             => $del_af2,
-                        'palliative_care'       => $del_ag2,
-                        'dmishd'                => $del_ah2,
-                        'pp'                    => $del_ai2,
-                        'fs'                    => $del_aj2,
-                        'opbkk'                 => $del_ak2,
-                        'total_approve'         => $del_al2, 
-                        'va'                    =>$sheet2->getCell( 'AM' . $row2 )->getValue(),
-                        'covid'                 =>$sheet2->getCell( 'AN' . $row2 )->getValue(),
-                        // 'ao'                    =>$sheet->getCell( 'AO' . $row )->getValue(),
-                        'STMdoc'                =>$file_ 
-                    ];
-                    $startcount2++; 
+                //     $data2[] = [
+                //         'rep'                   =>$sheet2->getCell( 'A' . $row2 )->getValue(),
+                //         'repno'                 =>$sheet2->getCell( 'B' . $row2 )->getValue(),
+                //         'tranid'                =>$sheet2->getCell( 'C' . $row2 )->getValue(),
+                //         'hn'                    =>$sheet2->getCell( 'D' . $row2 )->getValue(),
+                //         'an'                    =>$sheet2->getCell( 'E' . $row2 )->getValue(),
+                //         'cid'                   =>$sheet2->getCell( 'F' . $row2 )->getValue(),
+                //         'fullname'              =>$sheet2->getCell( 'G' . $row2 )->getValue(), 
+                //         'vstdate'               =>$vstdate2,
+                //         'dchdate'               =>$dchdate2, 
+                //         'maininscl'             =>$sheet2->getCell( 'J' . $row2 )->getValue(),
+                //         'projectcode'           =>$sheet2->getCell( 'K' . $row2 )->getValue(),
+                //         'debit'                 =>$sheet2->getCell( 'L' . $row2 )->getValue(),
+                //         'debit_prb'             =>$sheet2->getCell( 'M' . $row2 )->getValue(),
+                //         'adjrw'                 =>$sheet2->getCell( 'N' . $row2 )->getValue(),
+                //         'ps1'                   =>$sheet2->getCell( 'O' . $row2 )->getValue(),
+                //         'ps2'                   =>$sheet2->getCell( 'P' . $row2 )->getValue(),
+                //         'ccuf'                  =>$sheet2->getCell( 'Q' . $row2 )->getValue(),
+                //         'adjrw2'                =>$sheet2->getCell( 'R' . $row2 )->getValue(), 
+                //         'pay_money'             => $del_ss,
+                //         'pay_slip'              => $del_tt,
+                //         'pay_after'             => $del_uu,
+                //         'op'                    => $del_vv,
+                //         'ip_pay1'               => $del_ww,
+                //         'ip_paytrue'            => $del_xx,
+                //         'hc'                    => $del_yy,
+                //         'hc_drug'               => $del_zz,
+                //         'ae'                    => $del_aa2,
+                //         'ae_drug'               => $del_ab2,
+                //         'inst'                  => $del_ac2,
+                //         'dmis_money1'           => $del_ad2,
+                //         'dmis_money2'           => $del_ae2,
+                //         'dmis_drug'             => $del_af2,
+                //         'palliative_care'       => $del_ag2,
+                //         'dmishd'                => $del_ah2,
+                //         'pp'                    => $del_ai2,
+                //         'fs'                    => $del_aj2,
+                //         'opbkk'                 => $del_ak2,
+                //         'total_approve'         => $del_al2, 
+                //         'va'                    =>$sheet2->getCell( 'AM' . $row2 )->getValue(),
+                //         'covid'                 =>$sheet2->getCell( 'AN' . $row2 )->getValue(),
+                //         // 'ao'                    =>$sheet->getCell( 'AO' . $row )->getValue(),
+                //         'STMdoc'                =>$file_ 
+                //     ];
+                //     $startcount2++; 
 
-                }
-                // DB::table('acc_stm_ucs_excel')->Transaction::insert($data2); 
-                $for_insert2 = array_chunk($data2, length:5000);
-                foreach ($for_insert2 as $key => $data2_) {
-                    Acc_stm_ucs_excel::insert($data2_); 
-                }
+                // }
+                // // DB::table('acc_stm_ucs_excel')->Transaction::insert($data2); 
+                // $for_insert2 = array_chunk($data2, length:5000);
+                // foreach ($for_insert2 as $key => $data2_) {
+                //     Acc_stm_ucs_excel::insert($data2_); 
+                // }
 
 
 

@@ -102,17 +102,14 @@
             <div class="col-xl-8 col-md-6">
                 <div class="card cardacc">
                     <div class="grid-menu-col">
-                        <form action="{{ route('acc.upstm_ucs_excel') }}" method="POST" enctype="multipart/form-data">
-                            {{-- <form action="{{ route('acc.upstm_ucs_excel') }}" method="POST" id="Upstm" enctype="multipart/form-data"> --}}
+                        <form action="{{ route('acc.upstm_ucs_excel') }}" method="POST" enctype="multipart/form-data"> 
                             @csrf
-
                             <div class="row">
                                 <div class="col"></div>
                                 <div class="col-md-8">
                                     <div class="mb-3 mt-3">
                                         <label for="formFileLg" class="form-label">UP STM EXCEL => UP STM => ส่งข้อมูล</label>
-                                        <input class="form-control form-control-lg" id="formFileLg" name="file"
-                                            type="file" required>
+                                        <input class="form-control form-control-lg" id="formFileLg" name="file" type="file" required>
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     </div>
                                     @if ($countc > 0)
@@ -145,8 +142,8 @@
                 <br> 
             </div>
             <div class="col"></div>
-        </div>
 
+        </div>
 
         <div class="row">
 
@@ -155,10 +152,8 @@
                 <div class="card p-3 cardacc">
                     <div class="grid-menu-col">
 
-                        <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
-                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                            {{-- <table id="example" class="table table-striped table-bordered "
-                            style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                        <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                          
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
@@ -215,7 +210,6 @@
             <div class="col"></div>
         </div>
 
-
         {{-- <form action="{{ route('acc.upstm_hn') }}" method="POST" id="Upstmti" enctype="multipart/form-data">
             @csrf --}}
         {{-- <div class="row">
@@ -262,7 +256,7 @@
 
 @endsection
 @section('footer')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#example').DataTable();
@@ -287,20 +281,44 @@
                     bar.width(percentVal);
                     percent.html(percentVal);
                 },
-                complete: function(xhr) { 
-                    Swal.fire({
-                        title: 'UP STM สำเร็จ',
-                        text: "You UP STM success",
-                        icon: 'success',
-                        showCancelButton: false,
-                        confirmButtonColor: '#06D177',
-                        // cancelButtonColor: '#d33',
-                        confirmButtonText: 'เรียบร้อย'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location = "{{ url('upstm_ucs') }}";
-                        }
-                    })
+                complete: function(data) { 
+                    if (data.status == 100) {
+                            Swal.fire({
+                            title: 'ไม่เจอไฟล์',
+                            text: "File IS NULL",
+                            icon: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#06D177',
+                            // cancelButtonColor: '#d33', 
+                        })
+                    } else {
+                        Swal.fire({
+                            title: 'UP STM สำเร็จ',
+                            text: "You UP STM success",
+                            icon: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#06D177',
+                            // cancelButtonColor: '#d33',
+                            confirmButtonText: 'เรียบร้อย'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = "{{ url('upstm_ucs') }}";
+                            }
+                        })
+                    }
+                    // Swal.fire({
+                    //     title: 'UP STM สำเร็จ',
+                    //     text: "You UP STM success",
+                    //     icon: 'success',
+                    //     showCancelButton: false,
+                    //     confirmButtonColor: '#06D177',
+                    //     // cancelButtonColor: '#d33',
+                    //     confirmButtonText: 'เรียบร้อย'
+                    // }).then((result) => {
+                    //     if (result.isConfirmed) {
+                    //         window.location = "{{ url('upstm_ucs') }}";
+                    //     }
+                    // })
                 }
             })
 
