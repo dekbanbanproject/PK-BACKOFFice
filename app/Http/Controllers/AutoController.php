@@ -41,7 +41,7 @@ use App\Models\Ssop_dispenseditems;
 use App\Models\Ssop_dispensing;
 use App\Models\Ssop_billtran;
 use App\Models\Ssop_billitems;
-use App\Models\Claim_ssop;
+use App\Models\Checksitall;
 use App\Models\Claim_sixteen_dru;
 use App\Models\claim_sixteen_adp;
 use App\Models\Claim_sixteen_cha;
@@ -1745,6 +1745,161 @@ class AutoController extends Controller
                 }
  
         return view('auto.inst_opitemrece');
+    }
+
+    public function pull_hosallauto(Request $request)
+    {      
+        $date = date('Y-m-d');     
+            $data_sits = DB::connection('mysql2')->select('
+                SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,p.pname,p.fname,concat(p.pname,p.fname," ",p.lname) as fullname,op.name as staffname,p.hometel,v.pdx,s.cc
+                ,pt.nhso_code,o.hospmain,o.hospsub,p.birthday
+                ,o.staff,op.name as sname
+                ,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
+                FROM ovst o
+                LEFT JOIN vn_stat v on v.vn = o.vn
+                LEFT JOIN opdscreen s ON s.vn = o.vn
+                LEFT JOIN patient p on p.hn=o.hn
+                LEFT JOIN pttype pt on pt.pttype=o.pttype
+                LEFT JOIN opduser op on op.loginname = o.staff
+                WHERE o.vstdate = "'.$date.'"
+                AND p.birthday <> "'.$date.'"
+                GROUP BY o.vn    
+            ');  
+        
+            foreach ($data_sits as $key => $value) {
+                $check = Checksitall::where('vn', $value->vn)->count();
+
+                if ($check > 0) {
+            
+                } else {
+                    Checksitall::insert([
+                        'vn'         => $value->vn,
+                        'an'         => $value->an,
+                        'hn'         => $value->hn,
+                        'cid'        => $value->cid,
+                        'vstdate'    => $value->vstdate,
+                        'hometel'    => $value->hometel,
+                        'vsttime'    => $value->vsttime,
+                        'fullname'   => $value->fullname,
+                        'pttype'     => $value->pttype,
+                        'hospmain'   => $value->hospmain,
+                        'hospsub'    => $value->hospsub,
+                        'main_dep'   => $value->main_dep,
+                        'staff'      => $value->staff,
+                        'staff_name' => $value->staffname,
+                        'debit'      => $value->debit,
+                        'pdx'        => $value->pdx,
+                        'cc'         => $value->cc
+                    ]);
+
+                }
+
+            }
+           
+            return view('auto.pull_hosallauto');
+    }
+    public function check_allsit_day(Request $request)
+    {
+        $datestart = $request->startdate;
+        $dateend = $request->enddate;
+ 
+            $data_sit = DB::connection('mysql')->select('
+                SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,k.department,c.pdx,c.cc
+              
+                FROM checksitall c
+                LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+
+                WHERE c.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'" 
+                GROUP BY c.vn
+            ');
+ 
+        return view('authen.check_allsit_day',[
+            'data_sit'    => $data_sit,
+            'start'     => $datestart,
+            'end'        => $dateend,
+        ]);
+    }
+
+    public function check_allsit_day_send(Request $request)
+    {
+        $datestart = $request->datestart;
+        $dateend = $request->dateend;
+        $date = date('Y-m-d');
+        
+        $data_sitss = DB::connection('mysql')->select('SELECT vn,an,cid,vstdate,dchdate FROM checksitall WHERE active = "N" GROUP BY vn');
+ 
+        $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
+        foreach ($token_data as $key => $value) { 
+            $cid_    = $value->cid;
+            $token_  = $value->token;
+        }
+        foreach ($data_sitss as $key => $item) {
+            $pids = $item->cid;
+            $vn   = $item->vn; 
+            $an   = $item->an; 
+                
+                    $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
+                        array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1',"trace" => 1,"exceptions" => 0,"cache_wsdl" => 0)
+                        );
+                        $params = array(
+                            'sequence' => array(
+                                "user_person_id"   => "$cid_",
+                                "smctoken"         => "$token_",
+                                // "user_person_id" => "$value->cid",
+                                // "smctoken"       => "$value->token",
+                                "person_id"        => "$pids"
+                        )
+                    );
+                    $contents = $client->__soapCall('searchCurrentByPID',$params);
+                    foreach ($contents as $v) {
+                        @$status = $v->status ;
+                        @$maininscl = $v->maininscl;
+                        @$startdate = $v->startdate;
+                        @$hmain = $v->hmain ;
+                        @$subinscl = $v->subinscl ;
+                        @$person_id_nhso = $v->person_id;
+
+                        @$hmain_op = $v->hmain_op;  //"10978"
+                        @$hmain_op_name = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
+                        @$hsub = $v->hsub;    //"04047"
+                        @$hsub_name = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
+                        @$subinscl_name = $v->subinscl_name ; //"ช่วงอายุ 12-59 ปี"
+
+                        IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
+                            $date = date("Y-m-d");
+                          
+                            Checksitall::where('vn', $vn)
+                            ->update([
+                                'status'         => 'จำหน่าย/เสียชีวิต',
+                                'maininscl'      => @$maininscl,
+                                'pttype_spsch'   => @$subinscl,
+                                'hmain'          => @$hmain,
+                                'subinscl'       => @$subinscl, 
+                                'active'         => 'Y'
+                            ]);
+                            
+                        }elseif(@$maininscl !="" || @$subinscl !=""){
+                            Checksitall::where('vn', $vn)
+                           ->update([
+                               'status'         => @$status,
+                               'maininscl'      => @$maininscl,
+                               'pttype_spsch'   => @$subinscl,
+                               'hmain'          => @$hmain,
+                               'subinscl'       => @$subinscl,
+                               'active'         => 'Y'
+                           ]); 
+                                    
+                        }
+
+                    }
+           
+        }
+
+        return response()->json([
+
+           'status'    => '200'
+       ]);
+
     }
 
 

@@ -8,13 +8,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Check_authen_shoot extends Authenticatable
+class Checksitall extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     
-    protected $connection = 'mysql12';
-    protected $table = 'check_authen_shoot';
-    protected $primaryKey = 'check_authen_id';
+    // protected $connection = 'mysql3';
+    protected $table = 'checksitall';
+    protected $primaryKey = 'checksitall_id';
     protected $fillable = [  
         'hcode',
         'hosname',  

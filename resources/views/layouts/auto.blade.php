@@ -382,7 +382,12 @@
                                     <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                                 </a>
                                 <ul class="mm-show">
-                                
+                                    <li>
+                                        <a href="{{ url('pull_hosallauto') }}" target="_blank">
+                                            <i class="metismenu-icon"></i>
+                                             Pull Data ALL PTTYPE Auto 
+                                        </a>
+                                    </li>
                                     <li>
                                         <a href="{{ url('pull_hosauto') }}" target="_blank">
                                             <i class="metismenu-icon"></i>

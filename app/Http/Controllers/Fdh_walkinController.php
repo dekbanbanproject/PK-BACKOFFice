@@ -195,7 +195,7 @@ class Fdh_walkinController extends Controller
                         ]);
                     } 
         }         
-            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="WALKIN" AND authen IS NOT NULL AND icd10 IS NOT NULL AND debit < "1" ORDER BY vn ASC');        
+            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="WALKIN" AND authen IS NOT NULL AND icd10 IS NOT NULL AND debit > "1" ORDER BY vn ASC');        
             // $data['d_walkin'] = DB::connection('mysql')->select('SELECT * from d_walkin WHERE active ="N" AND authen IS NOT NULL ORDER BY vn ASC');  
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="WALKIN"'); 
             $data['data_orf'] = DB::connection('mysql')->select('SELECT * from fdh_orf WHERE d_anaconda_id ="WALKIN"'); 
@@ -2072,7 +2072,7 @@ class Fdh_walkinController extends Controller
 
         header("Content-type: text/txt");
         header("Cache-Control: no-store, no-cache");
-        header('Content-Disposition: attachment; filename="content.txt"; charset=tis-620″ ;');
+        header('Content-Disposition: attachment; filename="content.txt";');
 
         //1 ins.txt
         $file_d_ins = "Export/".$folder."/INS.txt";
@@ -2605,5 +2605,54 @@ class Fdh_walkinController extends Controller
             return redirect()->route('claim.walkin');
 
     }
-     
+    // public function walkin_export_zip(Request $request)
+    // {
+    //     $sss_date_now = date("Y-m-d");
+    //     $sss_time_now = date("H:i:s");
+    //      #ตัดขีด, ตัด : ออก
+    //      $pattern_date = '/-/i';
+    //      $sss_date_now_preg = preg_replace($pattern_date, '', $sss_date_now);
+    //      $pattern_time = '/:/i';
+    //      $sss_time_now_preg = preg_replace($pattern_time, '', $sss_time_now);
+    //      #ตัดขีด, ตัด : ออก
+ 
+    //       #delete file in folder ทั้งหมด
+    //      $file = new Filesystem;
+    //      $file->cleanDirectory('Export'); //ทั้งหมด
+    //      // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
+    //     //  $folder='WALKIN_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+    //     //  $folder='WALKIN_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+    //     // $pathdir =  "Export/".$folder."/";
+    //     // $zipcreated = $folder.".zip";
+
+    //     $pathdir =  "Export/".$folder."/";
+    //         $zipcreated = $folder.".zip";
+
+    //         $newzip = new ZipArchive;
+    //         if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
+    //         $dir = opendir($pathdir);
+            
+    //         while($file = readdir($dir)) {
+    //             if(is_file($pathdir.$file)) {
+    //                 $newzip -> addFile($pathdir.$file, $file);
+    //             }
+    //         }
+    //         $newzip ->close();
+    //                 if (file_exists($zipcreated)) {
+    //                     header('Content-Type: application/zip');
+    //                     header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
+    //                     header('Content-Length: ' . filesize($zipcreated));
+    //                     flush();
+    //                     readfile($zipcreated); 
+    //                     unlink($zipcreated);   
+    //                     $files = glob($pathdir . '/*');   
+    //                     foreach($files as $file) {   
+    //                         if(is_file($file)) {      
+    //                             // unlink($file); 
+    //                         } 
+    //                     }                      
+    //                     return redirect()->route('claim.walkin');                    
+    //                 }
+    //         } 
+    // }
 }

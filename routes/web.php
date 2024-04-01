@@ -169,7 +169,10 @@ Route::match(['get','post'],'checksit_hosauto',[App\Http\Controllers\AutoControl
 Route::match(['get','post'],'pull_hosauto',[App\Http\Controllers\AutoController::class, 'pull_hosauto'])->name('auto.pull_hosauto');//
 Route::match(['get','post'],'checksit_auto',[App\Http\Controllers\AutoController::class, 'checksit_auto'])->name('auto.checksit_auto');//
 
- 
+Route::match(['get','post'],'pull_hosallauto',[App\Http\Controllers\AutoController::class, 'pull_hosallauto'])->name('auto.pull_hosallauto');//
+Route::match(['get','post'],'checksitall_auto',[App\Http\Controllers\AutoController::class, 'checksitall_auto'])->name('auto.checksitall_auto');//
+Route::match(['get','post'],'check_allsit_day',[App\Http\Controllers\AutoController::class, 'check_allsit_day'])->name('auto.check_allsit_day');//
+Route::match(['get','post'],'check_allsit_day_send',[App\Http\Controllers\AutoController::class, 'check_allsit_day_send'])->name('auto.check_allsit_day_send');//
 
 Route::match(['get','post'],'pullauthen_spsch',[App\Http\Controllers\Auto_authenController::class, 'pullauthen_spsch'])->name('auto.pullauthen_spsch');//
 Route::match(['get','post'],'updaet_authen_to_checksitauto',[App\Http\Controllers\Auto_authenController::class, 'updaet_authen_to_checksitauto'])->name('auto.updaet_authen_to_checksitauto');//
@@ -3030,6 +3033,7 @@ Route::match(['get','post'],'walkin_export',[App\Http\Controllers\Fdh_walkinCont
 Route::match(['get','post'],'walkin_exportapi',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_exportapi'])->name('claim.walkin_exportapi');//
 Route::match(['get','post'],'walkin_sendapi',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_sendapi'])->name('claim.walkin_sendapi');//
 Route::match(['get','post'],'walkin_report',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_report'])->name('claim.walkin_report');//
+Route::match(['get','post'],'walkin_export_zip',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_export_zip'])->name('claim.walkin_export_zip');//
 
 Route::match(['get','post'],'stp',[App\Http\Controllers\Fdh_StpController::class, 'stp'])->name('fdh.stp');//
 Route::match(['get','post'],'stp_process_vn',[App\Http\Controllers\Fdh_StpController::class, 'stp_process_vn'])->name('fdh.stp_process_vn');//
