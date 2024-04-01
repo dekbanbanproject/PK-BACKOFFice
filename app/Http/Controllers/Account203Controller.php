@@ -291,10 +291,10 @@ class Account203Controller extends Controller
                         ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3009143" AND vn = v.vn) THEN "1000" 
                         ELSE "0.00" 
                         END as debit_multiphase
-                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011265" AND vn = v.vn) THEN "1000" 
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011265" AND vn = v.vn) THEN "1100" 
                         ELSE "0.00" 
                         END as debit_drug100
-                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011266" AND vn = v.vn) THEN "1000" 
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011266" AND vn = v.vn) THEN "1100" 
                         ELSE "0.00" 
                         END as debit_drug150
 
@@ -339,10 +339,10 @@ class Account203Controller extends Controller
                         ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3009143" AND vn = v.vn) THEN "1000" 
                         ELSE "0.00" 
                         END as debit_multiphase
-                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011265" AND vn = v.vn) THEN "1000" 
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011265" AND vn = v.vn) THEN "1100" 
                         ELSE "0.00" 
                         END as debit_drug100
-                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011266" AND vn = v.vn) THEN "1000" 
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011266" AND vn = v.vn) THEN "1100" 
                         ELSE "0.00" 
                         END as debit_drug150
 
