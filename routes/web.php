@@ -174,6 +174,9 @@ Route::match(['get','post'],'checksitall_auto',[App\Http\Controllers\AutoControl
 Route::match(['get','post'],'check_allsit_day',[App\Http\Controllers\AutoController::class, 'check_allsit_day'])->name('auto.check_allsit_day');//
 Route::match(['get','post'],'check_allsit_day_send',[App\Http\Controllers\AutoController::class, 'check_allsit_day_send'])->name('auto.check_allsit_day_send');//
 
+Route::match(['get','post'],'pullauthen_spschtohos',[App\Http\Controllers\Auto_authenController::class, 'pullauthen_spschtohos'])->name('auto.pullauthen_spschtohos');//
+Route::match(['get','post'],'updateauthen_spschtohos',[App\Http\Controllers\Auto_authenController::class, 'updateauthen_spschtohos'])->name('auto.updateauthen_spschtohos');//
+Route::match(['get','post'],'updateauthen_tispschtohos',[App\Http\Controllers\Auto_authenController::class, 'updateauthen_tispschtohos'])->name('auto.updateauthen_tispschtohos');//
 Route::match(['get','post'],'pullauthen_spsch',[App\Http\Controllers\Auto_authenController::class, 'pullauthen_spsch'])->name('auto.pullauthen_spsch');//
 Route::match(['get','post'],'updaet_authen_to_checksitauto',[App\Http\Controllers\Auto_authenController::class, 'updaet_authen_to_checksitauto'])->name('auto.updaet_authen_to_checksitauto');//
 Route::match(['get','post'],'checksithos_auto',[App\Http\Controllers\Auto_authenController::class, 'checksithos_auto'])->name('auto.checksithos_auto');//
@@ -2503,6 +2506,7 @@ Route::middleware(['type'])->group(function(){
 
   Route::match(['get','post'],'account_nopaid',[App\Http\Controllers\AccountController::class, 'account_nopaid'])->name('acc.account_nopaid');//
   Route::match(['get','post'],'account_nopaid_sub/{months}/{year}',[App\Http\Controllers\AccountController::class, 'account_nopaid_sub'])->name('acc.account_nopaid_sub');//
+  Route::match(['get','post'],'account_nopaid_subpay/{months}/{year}',[App\Http\Controllers\AccountController::class, 'account_nopaid_subpay'])->name('acc.account_nopaid_subpay');//
   // Route::match(['get','post'],'account_nopaid_moneysub/{months}/{year}',[App\Http\Controllers\AccountController::class, 'account_nopaid_moneysub'])->name('acc.account_nopaid_moneysub');//
 
   Route::match(['get','post'],'account_nopaid_ip',[App\Http\Controllers\AccountController::class, 'account_nopaid_ip'])->name('acc.account_nopaid_ip');//

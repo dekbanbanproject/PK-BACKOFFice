@@ -401,6 +401,18 @@
                                         </a>
                                     </li>
                                     <li>
+                                        <a href="{{ url('updateauthen_spschtohos') }}" target="_blank">
+                                            <i class="metismenu-icon"></i>
+                                             Update vn To spsch Auto 
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url('updateauthen_tispschtohos') }}" target="_blank">
+                                            <i class="metismenu-icon"></i>
+                                             Update vn TI To spsch Auto 
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a href="{{ url('pullauthen_spsch') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
                                             Authen Spsch Auto

@@ -291,11 +291,8 @@ class Auto_authenController extends Controller
 
     }
 
-
-
     public function pullauthen_spsch(Request $request)
-    {
-        
+    {        
         $date_now = date('Y-m-d');
         $date_start = "2023-12-12";
         $date_end = "2023-09-21";
@@ -504,6 +501,40 @@ class Auto_authenController extends Controller
 
     }
 
+    public function updateauthen_spschtohos(Request $request)
+    {        
+        $date_now = date('Y-m-d'); 
+        $date_start = "2023-12-12";
+        $data_ = DB::connection('mysql2')->select('
+            SELECT vn,cid,vstdate
+            FROM vn_stat   
+            WHERE vstdate BETWEEN "2024-03-06" AND "2024-03-15"
+            AND pttype NOT IN("M1","M2","M3","M4","M5","M6")
+        '); 
+        // WHERE vstdate = "'.$date_now.'"
+        foreach ($data_ as $key => $value) {
+            Check_authen_hos::where('cid','=',$value->cid)->where('vstdate','=',$value->vstdate)->where('claimtype','=','PG0060001')->update(['vn'=>$value->vn]);  
+        }
+
+        return view('auto.updateauthen_spschtohos');
+    }
+    // updateauthen_tispschtohos
+    public function updateauthen_tispschtohos(Request $request)
+    {        
+        $date_now = date('Y-m-d'); 
+        $data_ = DB::connection('mysql2')->select('
+            SELECT vn,cid,vstdate
+            FROM vn_stat   
+            WHERE vstdate BETWEEN "2024-03-06" AND "2024-03-15"
+            AND pttype IN("M1","M2","M3","M4","M5","M6")
+        '); 
+        foreach ($data_ as $key => $value) {
+            Check_authen_hos::where('cid','=',$value->cid)->where('vstdate','=',$value->vstdate)->where('claimtype','=','PG0130001')->update(['vn'=>$value->vn]);  
+        }
+
+        return view('auto.updateauthen_tispschtohos');
+    }
+
     public function updaet_authen_to_checksitauto(Request $request)
     {
         $date_now = date('Y-m-d');
@@ -540,8 +571,6 @@ class Auto_authenController extends Controller
         return view('auto.updaet_authen_to_checksitauto');
 
     }
-
-
     public function checksithos_auto(Request $request)
     {
         $date_now = date('Y-m-d');
@@ -598,9 +627,7 @@ class Auto_authenController extends Controller
 
     }
 
-
-    // ไตเทียม
-    
+    // ไตเทียม    
     public function pullauthen_tispsch(Request $request)
     {
         $date_now = date('Y-m-d');

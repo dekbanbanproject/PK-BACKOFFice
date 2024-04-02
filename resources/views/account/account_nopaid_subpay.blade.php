@@ -107,57 +107,52 @@ $pos = strrpos($url, '/') + 1;
             <div class="col-md-12">
                 <div class="card cardfinan"> 
                     <div class="card-body"> 
-                        {{-- <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
-                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">ลำดับ</th> 
-                                    <th class="text-center" >vn</th>
-                                    <th class="text-center" >hn</th>
-                                    <th class="text-center" >cid</th>
-                                    <th class="text-center">ptname</th> 
-                                    <th class="text-center">vstdate</th>  
-                                    <th class="text-center">pttype</th> 
-                                    <th class="text-center">แผนก</th>
-                                    <th class="text-center">income</th> 
-                                    <th class="text-center">ต้องชำระ</th> 
-                                    <th class="text-center">ชำระแล้ว</th> 
-                                    <th class="text-center">ต้องลงค้าง</th> 
-                                    <th class="text-center">Finance No.</th>  
-                                    <th class="text-center">total_amount</th> 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $number = 0; ?>
-                                @foreach ($datashow as $item)
-                                    <?php $number++; ?>
-                                
-                                        <tr height="20" style="font-size: 14px;">
-                                            <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td>  
-                                            <td class="text-center" width="6%">{{ $item->vn }}</td> 
-                                            <td class="text-center" width="4%">{{ $item->hn }}</td>   
-                                            <td class="text-center" width="6%">{{ $item->cid }}</td>  
-                                            <td class="p-2">{{ $item->ptname }}</td>  
-                                            <td class="text-center" width="6%">{{ $item->vstdate }}</td>   
-                                            <td class="text-center" width="4%">{{ $item->pttype }}</td> 
-                                            <td class="p-2" width="10%">{{ $item->department }}</td> 
-                                            <td class="text-end" style="color:rgb(73, 147, 231)" width="5%">{{ number_format($item->income,2)}}</td> 
-                                            <td class="text-end" style="color:rgb(243, 61, 55)" width="5%">{{ number_format($item->paid_money,2)}}</td> 
-                                            <td class="text-end" style="color:rgb(125, 202, 23)" width="5%">{{ number_format($item->rcpt_money,2)}}</td> 
-                                            <td class="text-end" style="color:rgb(235, 146, 30)" width="5%">{{ number_format($item->remain_money,2)}}</td>  
-                                            
-                                            @if ($item->book_number == '')
-                                            <td class="text-center" width="7%"></td>
-                                            @else
-                                            <td class="text-center" width="7%">{{ $item->book_number }}/{{ $item->finance_number }}</td> 
-                                            @endif
-                                            <td class="text-center" width="7%">{{ $item->total_amount }}</td> 
-                                        </tr> 
-                                @endforeach
+                            {{-- <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                            <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">ลำดับ</th> 
+                                        <th class="text-center" >vn</th>
+                                        <th class="text-center" >hn</th>
+                                        <th class="text-center" >cid</th>
+                                        <th class="text-center">ptname</th> 
+                                        <th class="text-center">vstdate</th>  
+                                        <th class="text-center">pttype</th> 
+                                        <th class="text-center">แผนก</th>
+                                        <th class="text-center">income</th> 
+                                        <th class="text-center">ต้องชำระ</th> 
+                                        <th class="text-center">ชำระแล้ว</th> 
+                                        <th class="text-center">ต้องลงค้าง</th> 
+                                        <th class="text-center">Finance No.</th>  
+                                        <th class="text-center">total_amount</th> 
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $number = 0; ?>
+                                    @foreach ($datashow as $item)
+                                        <?php $number++; ?>
+                                    
+                                            <tr height="20" style="font-size: 14px;">
+                                                <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td>  
+                                                <td class="text-center" width="6%">{{ $item->vn }}</td> 
+                                                <td class="text-center" width="4%">{{ $item->hn }}</td>   
+                                                <td class="text-center" width="6%">{{ $item->cid }}</td>  
+                                                <td class="p-2">{{ $item->ptname }}</td>  
+                                                <td class="text-center" width="6%">{{ $item->vstdate }}</td>   
+                                                <td class="text-center" width="4%">{{ $item->pttype }}</td> 
+                                                <td class="p-2" width="10%">{{ $item->department }}</td> 
+                                                <td class="text-end" style="color:rgb(73, 147, 231)" width="5%">{{ number_format($item->income,2)}}</td> 
+                                                <td class="text-end" style="color:rgb(243, 61, 55)" width="5%">{{ number_format($item->paid_money,2)}}</td> 
+                                                <td class="text-end" style="color:rgb(125, 202, 23)" width="5%">{{ number_format($item->rcpt_money,2)}}</td> 
+                                                <td class="text-end" style="color:rgb(235, 146, 30)" width="5%">{{ number_format($item->remain_money,2)}}</td>  
+                                                <td class="text-center" width="7%">{{ $item->book_number }}/{{ $item->finance_number }}</td>
+                                                <td class="text-center" width="7%">{{ $item->total_amount }}</td> 
+                                            </tr> 
+                                    @endforeach
 
-                            </tbody>
-                        </table>
-                </div>
+                                </tbody>
+                            </table>
+                    </div>
                 </div>
             </div>
 
@@ -171,6 +166,7 @@ $pos = strrpos($url, '/') + 1;
 
     <script>
         $(document).ready(function() {
+
             var table = $('#example').DataTable({
                 scrollY: '60vh',
                 scrollCollapse: true,

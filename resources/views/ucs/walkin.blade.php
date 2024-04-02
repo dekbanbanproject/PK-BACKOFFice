@@ -268,6 +268,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <th class="text-center">projectcode</th> 
                                                     <th class="text-center">ptname</th> 
                                                     <th class="text-center">debit</th> 
+                                                    <th class="text-center">สถานะ</th> 
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -276,7 +277,7 @@ $pos = strrpos($url, '/') + 1;
                                                 <?php $number++; ?>
                     
                                                     <tr height="20" style="font-size: 12px;">
-                                                        @if ($item->icd10 == '' || $item->debit < '1')
+                                                        @if ($item->icd10 == '' || $item->authen == '')
                                                             <td class="text-center" width="5%">
                                                                 <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
                                                             </td> 
@@ -289,12 +290,25 @@ $pos = strrpos($url, '/') + 1;
                                                         <td class="text-center" width="10%">{{ $item->cid }}</td>  
                                                         <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
                                                         <td class="text-center" width="5%">{{ $item->pttype }}</td> 
-                                                        <td class="text-center" width="7%">{{ $item->icd10 }}</td> 
-                                                       
+
+                                                        @if ($item->icd10 == '')
+                                                            <td class="text-center" width="7%" style="background-color: rgb(250, 159, 174)">{{ $item->icd10 }}</td> 
+                                                        @else
+                                                            <td class="text-center" width="7%">{{ $item->icd10 }}</td> 
+                                                        @endif
+
+                                                        @if ($item->authen == '')
+                                                        <td class="text-center" width="7%" style="background-color: rgb(172, 113, 250)">{{ $item->authen }}</td> 
+                                                    @else
                                                         <td class="text-center" width="7%">{{ $item->authen }}</td> 
+                                                    @endif
+                                                        
+                                                       
+                                                       
                                                         <td class="text-center" width="5%">{{ $item->projectcode }}</td> 
                                                         <td class="text-start">{{ $item->ptname }}</td> 
                                                         <td class="text-center" width="8%">{{ $item->debit }}</td> 
+                                                        <td class="text-center" width="5%">{{ $item->active_status }}</td> 
                                                     </tr>
                     
                     

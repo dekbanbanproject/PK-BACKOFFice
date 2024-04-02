@@ -119,7 +119,7 @@ class Fdh_walkinController extends Controller
                 $data_main_ = DB::connection('mysql2')->select(' 
                     SELECT v.hn,v.vn,i.an,v.vstdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.cid,v.pttype,group_concat(distinct oo.icd10) as icd10
                         ,h.hospcode,h.name as hospcode_name,ee.er_emergency_level_name ,v.income,v.uc_money,v.paid_money,v.rcpt_money,pt.hipdata_code
-                        ,v.income-v.rcpt_money-v.discount_money as debit
+                        ,v.income-v.rcpt_money-v.discount_money as debit,ov.name as active_status
                         FROM vn_stat v
                         LEFT OUTER JOIN referin r on r.vn = v.vn
                         LEFT OUTER JOIN oapp o on o.visit_vn = v.vn
@@ -132,11 +132,13 @@ class Fdh_walkinController extends Controller
                         LEFT OUTER JOIN visit_pttype vv on vv.vn = v.vn
                         LEFT OUTER JOIN pttype pt on pt.pttype =v.pttype  
                         LEFT OUTER JOIN hpc11_ktb_approval hh on hh.pid = v.cid and hh.transaction_date = v.vstdate 
+                        LEFT OUTER JOIN ovst ot on ot.vn = v.vn
+                        LEFT OUTER JOIN ovstost ov on ov.ovstost = ot.ovstost
                         
                         WHERE v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                         AND i.an is null 
                         AND v.pttype in("W2","W1","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81")  
-                        AND h.hospcode <> "10978" AND v.pdx <> "" AND oo.icd10 not like "c%"
+                        AND h.hospcode <> "10978"  
                         and v.vn not in(select vn from pkbackoffice.d_walkin_drug where vn = v.vn)
                         AND pt.hipdata_code ="UCS"
                         GROUP BY v.vn 
@@ -146,6 +148,12 @@ class Fdh_walkinController extends Controller
                 foreach ($data_main_ as $key => $value) {   
                     $check_wa = D_fdh::where('vn',$value->vn)->where('projectcode','WALKIN')->count(); 
                     if ($check_wa > 0) { 
+                        D_fdh::where('vn',$value->vn)->where('projectcode','WALKIN')->update([ 
+                            'an'             => $value->an,    
+                            'icd10'          => $value->icd10,  
+                            'debit'          => $value->debit,
+                            'active_status'  => $value->active_status
+                        ]);
                     } else { 
                         D_fdh::insert([
                             'vn'           => $value->vn,
@@ -159,7 +167,8 @@ class Fdh_walkinController extends Controller
                             'projectcode'  => 'WALKIN', 
                             'icd10'        => $value->icd10,
                             'hospcode'     => $value->hospcode, 
-                            'debit'        => $value->debit
+                            'debit'        => $value->debit,
+                            'active_status'  => $value->active_status
                         ]);
                     }                      
 
@@ -194,8 +203,9 @@ class Fdh_walkinController extends Controller
                             'authen'   => $v_up->claimcode,  
                         ]);
                     } 
-        }         
-            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="WALKIN" AND authen IS NOT NULL AND icd10 IS NOT NULL AND debit > "1" ORDER BY vn ASC');        
+        }   
+            // $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="WALKIN" AND authen IS NOT NULL AND icd10 IS NOT NULL AND debit > "1" ORDER BY vn ASC');        
+            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="WALKIN" AND debit > "1" AND vstdate = "'.$date.'" ORDER BY vn ASC');        
             // $data['d_walkin'] = DB::connection('mysql')->select('SELECT * from d_walkin WHERE active ="N" AND authen IS NOT NULL ORDER BY vn ASC');  
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="WALKIN"'); 
             $data['data_orf'] = DB::connection('mysql')->select('SELECT * from fdh_orf WHERE d_anaconda_id ="WALKIN"'); 
