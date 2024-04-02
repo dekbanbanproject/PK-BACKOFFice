@@ -87,7 +87,8 @@
             @csrf
             <div class="row "> 
                 <div class="col-md-4">
-                    <h4 class="card-title">Detail </h4>
+                  
+                    <h4 class="card-title" style="color:rgba(21, 177, 164, 0.871)">   Detail Overdue OPD</h4>
                     <p class="card-title-desc">รายละเอียดข้อมูล Visit ที่มีรายการค่าใช้จ่าย แต่ไม่มีการออกใบเสร็จ หรือลงค้าง OPD</p>
                 </div>
                 <div class="col"></div>
@@ -178,7 +179,7 @@
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end me-2">  
                                                     <a href="{{url('account_nopaid_sub/'.$item->months.'/'.$item->year)}}" target="_blank">
-                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ที่ต้องตั้ง {{$item->count_vn}} Visit" >
+                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ต้องลงค้าง {{$item->count_vn}} Visit" >
                                                             {{$item->count_vn}} Visit
                                                             <i class="fa-brands fa-btc text-secondary ms-2 me-2"></i>
                                                         </p> 
@@ -254,7 +255,7 @@
                                                 </div>
                                                 <div class="col-md-4 text-start mt-2">
                                                     <p class="text-muted mb-0">
-                                                        คงค้าง
+                                                        ต้องลงค้าง
                                                     </p>
                                                 </div>
                                                 <div class="col"></div>

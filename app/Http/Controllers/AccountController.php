@@ -2104,32 +2104,37 @@ class AccountController extends Controller
 
     public function account_nopaid_ip(Request $request)
     {
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-
-        $date = date('Y-m-d');
-        $y = date('Y') + 543;
+        $budget_year   = $request->budget_year;            
+        $datenow       = date("Y-m-d");
+        $y             = date('Y') + 543;
+        $dabudget_year = DB::table('budget_year')->where('active','=',true)->get(); 
+        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d'); 
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-        $newDate = date('Y-m-d', strtotime($date . ' -3 months')); //ย้อนหลัง 5 เดือน
-        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-        $yearnew = date('Y')+1;
-        $yearold = date('Y')-1;
-        $start = (''.$yearold.'-10-01');
-        $end = (''.$yearnew.'-09-30'); 
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี        
+        $months_now = date('m');
+        $year_now = date('Y'); 
 
-        if ($startdate != '') {
-            $datashow = DB::connection('mysql10')->select('
-                SELECT YEAR(a.dchdate) as year,MONTH(a.dchdate) as months 
-                    ,SUM(a.paid_money) AS sum_paid_money
-                    ,COUNT(DISTINCT a.an) AS count_an,l.MONTH_NAME
-                    FROM hos.an_stat a 
-                    LEFT JOIN hos.pttype t on t.pttype=a.pttype
-                    LEFT JOIN leave_month l on l.MONTH_ID = MONTH(a.dchdate)
-                    left outer join hos.ipt i on i.an = a.an
-                    left outer join hos.rcpt_print r on r.vn = i.vn
+        if ($budget_year == '') {
+            $yearnew = date('Y');
+            $year_old = date('Y')-1;
+            $months_old  = ('10');
+            $startdate = (''.$year_old.'-10-01');
+            $enddate = (''.$yearnew.'-09-30');
+            $datashow = DB::connection('mysql10')->select(
+                'SELECT YEAR(a.dchdate) as year,MONTH(a.dchdate) as months 
+                    ,SUM(a.income) AS sum_income,SUM(a.paid_money) AS sum_paid_money,SUM(a.rcpt_money) AS sum_rcpt_money
+                    ,COUNT(DISTINCT a.an) AS count_an,l.MONTH_NAME,SUM(a.paid_money)-SUM(a.rcpt_money) as sum_Total
+                FROM an_stat a 
+                LEFT JOIN pttype t on t.pttype=a.pttype
+                LEFT JOIN leave_month l on l.MONTH_ID = MONTH(a.dchdate)
+                left outer join ipt i on i.an = a.an
+                left outer join rcpt_print r on r.vn = i.vn
                     WHERE a.dchdate BETWEEN "' . $startdate . '" and "' . $enddate . '" 
-                    AND (a.paid_money > 0 and a.rcpt_money = 0 and a.remain_money = 0)
-                    
+                    AND (a.paid_money > 0 and a.rcpt_money = "0.000" and a.remain_money = "0.000") 
+                    GROUP BY date_format(a.dchdate, "%M")
+                    ORDER BY a.dchdate desc 
             ');
             // GROUP BY MONTH(a.dchdate)
             // ORDER BY a.dchdate desc  
@@ -2138,26 +2143,32 @@ class AccountController extends Controller
             // AND a.rcpno_list = """"
             // AND (a.paid_money>0 and a.rcpt_money=0 and a.remain_money=0)
         } else {
-            $datashow = DB::connection('mysql10')->select('
-                SELECT YEAR(a.dchdate) as year,MONTH(a.dchdate) as months 
-                    ,SUM(a.paid_money) AS sum_paid_money
-                    ,COUNT(DISTINCT a.an) AS count_an,l.MONTH_NAME
-                    FROM hos.an_stat a 
-                    LEFT JOIN hos.pttype t on t.pttype=a.pttype
-                    LEFT JOIN leave_month l on l.MONTH_ID = MONTH(a.dchdate)
-                    left outer join hos.ipt i on i.an = a.an
-                    left outer join hos.rcpt_print r on r.vn = i.vn
-                    WHERE a.dchdate BETWEEN "' . $start . '" and "' . $end . '"
-                    AND (a.paid_money > 0 and a.rcpt_money = 0 and a.remain_money = 0)
-                    GROUP BY MONTH(a.dchdate)
-                    ORDER BY a.dchdate desc limit 6 
+            $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
+            $startdate    = $bg->date_begin;
+            $enddate      = $bg->date_end;
+            $datashow = DB::connection('mysql10')->select(
+                'SELECT YEAR(a.dchdate) as year,MONTH(a.dchdate) as months 
+                    ,SUM(a.income) AS sum_income,SUM(a.paid_money) AS sum_paid_money,SUM(a.rcpt_money) AS sum_rcpt_money
+                    ,COUNT(DISTINCT a.an) AS count_an,l.MONTH_NAME,SUM(a.paid_money)-SUM(a.rcpt_money) as sum_Total
+                FROM an_stat a 
+                LEFT JOIN pttype t on t.pttype=a.pttype
+                LEFT JOIN leave_month l on l.MONTH_ID = MONTH(a.dchdate)
+                left outer join ipt i on i.an = a.an
+                left outer join rcpt_print r on r.vn = i.vn
+                    WHERE a.dchdate BETWEEN "' . $startdate . '" and "' . $enddate . '" 
+                    AND (a.paid_money > 0 and a.rcpt_money = "0.000" and a.remain_money = "0.000") 
+                    GROUP BY date_format(a.dchdate, "%M")
+                    ORDER BY a.dchdate desc 
             ');
         }
         // AND (a.paid_money>0 and a.rcpt_money=0 )        
         return view('account.account_nopaid_ip', [
-            'datashow'   =>  $datashow, 
-            'startdate'  =>  $startdate,
-            'enddate'    =>  $enddate, 
+            'startdate'        =>  $startdate,
+            'enddate'          =>  $enddate, 
+            'datashow'         =>  $datashow,
+            'dabudget_year'    =>  $dabudget_year,
+            'budget_year'      =>  $budget_year,
+            'y'                =>  $y,
         ]);
     }
     public function account_nopaid_sub_ip(Request $request,$months,$year)
@@ -2172,10 +2183,10 @@ class AccountController extends Controller
                 FROM an_stat a
                 left outer join patient p on p.hn=a.hn
                 left outer join pttype t on t.pttype=a.pttype
-                left outer join hos.ipt i on i.an = a.an
-                left outer join hos.rcpt_print r on r.vn = i.vn
+                left outer join ipt i on i.an = a.an
+                left outer join rcpt_print r on r.vn = i.vn
                 left outer join ovst o on o.an = a.an
-                left outer join hos.kskdepartment k on k.depcode = o.main_dep
+                left outer join kskdepartment k on k.depcode = o.main_dep
                 WHERE YEAR(a.dchdate) = "' . $year . '" AND MONTH(a.dchdate) = "' . $months . '"
                 
                 AND (a.paid_money > 0 and a.rcpt_money = 0) 

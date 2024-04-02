@@ -508,7 +508,7 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql2')->select('
             SELECT vn,cid,vstdate
             FROM vn_stat   
-            WHERE vstdate BETWEEN "2024-03-06" AND "2024-03-15"
+            WHERE vstdate BETWEEN "2024-03-16" AND "2024-04-02"
             AND pttype NOT IN("M1","M2","M3","M4","M5","M6")
         '); 
         // WHERE vstdate = "'.$date_now.'"
@@ -525,7 +525,7 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql2')->select('
             SELECT vn,cid,vstdate
             FROM vn_stat   
-            WHERE vstdate BETWEEN "2024-03-06" AND "2024-03-15"
+            WHERE vstdate BETWEEN "2024-03-16" AND "2024-04-02"
             AND pttype IN("M1","M2","M3","M4","M5","M6")
         '); 
         foreach ($data_ as $key => $value) {
