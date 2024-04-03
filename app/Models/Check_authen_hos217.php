@@ -13,7 +13,7 @@ class Check_authen_hos217 extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
     
     protected $connection = 'mysql2';
-    protected $table = 'Check_authen_hos';
+    protected $table = 'check_authen_hos';
     protected $primaryKey = 'check_authen_id';
     protected $fillable = [  
         'hcode',
