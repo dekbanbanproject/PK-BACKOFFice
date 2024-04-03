@@ -110,11 +110,16 @@ $pos = strrpos($url, '/') + 1;
                     </button>  
 
                     </form>
+
+                   
                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('ucep24_main_process')}}">
                         <i class="fa-solid fa-spinner text-success me-2"></i>
-                        ส่งเคลม
+                        ประมวลผล
                     </button>
-                   
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-warning Updatedata" >
+                        <i class="fa-solid fa-spinner text-warning me-2"></i> 
+                        Update Ucep24
+                    </button>
                     <a href="{{url('ucep24_main_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4">
                         <i class="fa-solid fa-file-export text-danger me-2"></i>
                         Export Txt
@@ -962,60 +967,60 @@ $pos = strrpos($url, '/') + 1;
         });
         $("#spinner-div").hide(); //Request is complete so hide spinner
        
-        $('#Processdata').click(function() {
-                var datepicker = $('#datepicker').val(); 
-                var datepicker2 = $('#datepicker2').val(); 
-                Swal.fire({
-                        title: 'ต้องการประมวลผลข้อมูลใช่ไหม ?',
-                        text: "You Warn Process Data!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, pull it!'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                $("#overlay").fadeIn(300);　
-                                $("#spinner").show(); //Load button clicked show spinner 
+        // $('#Processdata').click(function() {
+        //         var datepicker = $('#datepicker').val(); 
+        //         var datepicker2 = $('#datepicker2').val(); 
+        //         Swal.fire({
+        //                 title: 'ต้องการประมวลผลข้อมูลใช่ไหม ?',
+        //                 text: "You Warn Process Data!",
+        //                 icon: 'warning',
+        //                 showCancelButton: true,
+        //                 confirmButtonColor: '#3085d6',
+        //                 cancelButtonColor: '#d33',
+        //                 confirmButtonText: 'Yes, pull it!'
+        //                 }).then((result) => {
+        //                     if (result.isConfirmed) {
+        //                         $("#overlay").fadeIn(300);　
+        //                         $("#spinner").show(); //Load button clicked show spinner 
                                 
-                                $.ajax({
-                                    url: "{{ route('claim.walkin_process') }}",
-                                    type: "POST",
-                                    dataType: 'json',
-                                    data: {
-                                        datepicker,
-                                        datepicker2                        
-                                    },
-                                    success: function(data) {
-                                        if (data.status == 200) { 
-                                            Swal.fire({
-                                                title: 'ประมวลผลข้อมูลสำเร็จ',
-                                                text: "You Process data success",
-                                                icon: 'success',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#06D177',
-                                                confirmButtonText: 'เรียบร้อย'
-                                            }).then((result) => {
-                                                if (result
-                                                    .isConfirmed) {
-                                                    console.log(
-                                                        data);
-                                                    window.location.reload();
-                                                    $('#spinner').hide();//Request is complete so hide spinner
-                                                        setTimeout(function(){
-                                                            $("#overlay").fadeOut(300);
-                                                        },500);
-                                                }
-                                            })
-                                        } else {
+        //                         $.ajax({
+        //                             url: "{{ route('claim.walkin_process') }}",
+        //                             type: "POST",
+        //                             dataType: 'json',
+        //                             data: {
+        //                                 datepicker,
+        //                                 datepicker2                        
+        //                             },
+        //                             success: function(data) {
+        //                                 if (data.status == 200) { 
+        //                                     Swal.fire({
+        //                                         title: 'ประมวลผลข้อมูลสำเร็จ',
+        //                                         text: "You Process data success",
+        //                                         icon: 'success',
+        //                                         showCancelButton: false,
+        //                                         confirmButtonColor: '#06D177',
+        //                                         confirmButtonText: 'เรียบร้อย'
+        //                                     }).then((result) => {
+        //                                         if (result
+        //                                             .isConfirmed) {
+        //                                             console.log(
+        //                                                 data);
+        //                                             window.location.reload();
+        //                                             $('#spinner').hide();//Request is complete so hide spinner
+        //                                                 setTimeout(function(){
+        //                                                     $("#overlay").fadeOut(300);
+        //                                                 },500);
+        //                                         }
+        //                                     })
+        //                                 } else {
                                             
-                                        }
-                                    },
-                                });
+        //                                 }
+        //                             },
+        //                         });
                                 
-                            }
-                })
-        });
+        //                     }
+        //         })
+        // });
 
         $('.Claim').on('click', function(e) {
             // alert('oo');
@@ -1098,6 +1103,78 @@ $pos = strrpos($url, '/') + 1;
                     }) 
                 // var check = confirm("Are you want ?");  
             }
+        });
+
+        $('.Updatedata').click(function() {  
+                var months = $('#months').val();
+                var year = $('#year').val();
+                // alert(months);
+                Swal.fire({
+                        title: 'ต้องการอัพเดท UCEP24 ใช่ไหม ?',
+                        text: "You Update UCEP24 Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, Update it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show();  
+                                
+                                $.ajax({
+                                    url: "{{ url('ucep24_main_update') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {months,year},
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({
+                                                title: 'อัพเดทข้อมูลสำเร็จ',
+                                                text: "You Update data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+
+                                        } else if (data.status == 100) { 
+                                            // Swal.fire({
+                                            //     title: 'ยังไม่ได้ลงเลขที่หนังสือ',
+                                            //     text: "Please enter the number of the book.",
+                                            //     icon: 'warning',
+                                            //     showCancelButton: false,
+                                            //     confirmButtonColor: '#06D177',
+                                            //     confirmButtonText: 'เรียบร้อย'
+                                            // }).then((result) => {
+                                            //     if (result
+                                            //         .isConfirmed) {
+                                            //         console.log(
+                                            //             data);
+                                            //         window.location.reload();
+                                                   
+                                            //     }
+                                            // })
+                                            
+                                        } else {
+                                            
+                                        }
+                                    },
+                                });
+                                
+                            }
+                    })
         });
         
     });

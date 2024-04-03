@@ -175,8 +175,12 @@ Route::match(['get','post'],'check_allsit_day',[App\Http\Controllers\AutoControl
 Route::match(['get','post'],'check_allsit_day_send',[App\Http\Controllers\AutoController::class, 'check_allsit_day_send'])->name('auto.check_allsit_day_send');//
 
 Route::match(['get','post'],'pullauthen_spschtohos',[App\Http\Controllers\Auto_authenController::class, 'pullauthen_spschtohos'])->name('auto.pullauthen_spschtohos');//
-Route::match(['get','post'],'updateauthen_spschtohos',[App\Http\Controllers\Auto_authenController::class, 'updateauthen_spschtohos'])->name('auto.updateauthen_spschtohos');//
-Route::match(['get','post'],'updateauthen_tispschtohos',[App\Http\Controllers\Auto_authenController::class, 'updateauthen_tispschtohos'])->name('auto.updateauthen_tispschtohos');//
+Route::match(['get','post'],'updateauthen_spschtohos',[App\Http\Controllers\Auto_authenController::class, 'updateauthen_spschtohos'])->name('auto.updateauthen_spschtohos');//205
+Route::match(['get','post'],'updateauthen_spschtohos217',[App\Http\Controllers\Auto_authenController::class, 'updateauthen_spschtohos217'])->name('auto.updateauthen_spschtohos217');//217
+Route::match(['get','post'],'updateauthen_tispschtohos',[App\Http\Controllers\Auto_authenController::class, 'updateauthen_tispschtohos'])->name('auto.updateauthen_tispschtohos');// 205
+Route::match(['get','post'],'updateauthen_tispschtohos217',[App\Http\Controllers\Auto_authenController::class, 'updateauthen_tispschtohos217'])->name('auto.updateauthen_tispschtohos217');// 217
+Route::match(['get','post'],'updateauthen_spschtochecksitauto',[App\Http\Controllers\Auto_authenController::class, 'updateauthen_spschtochecksitauto'])->name('auto.updateauthen_spschtochecksitauto');//217
+
 Route::match(['get','post'],'pullauthen_spsch',[App\Http\Controllers\Auto_authenController::class, 'pullauthen_spsch'])->name('auto.pullauthen_spsch');//
 Route::match(['get','post'],'updaet_authen_to_checksitauto',[App\Http\Controllers\Auto_authenController::class, 'updaet_authen_to_checksitauto'])->name('auto.updaet_authen_to_checksitauto');//
 Route::match(['get','post'],'checksithos_auto',[App\Http\Controllers\Auto_authenController::class, 'checksithos_auto'])->name('auto.checksithos_auto');//
@@ -3044,9 +3048,10 @@ Route::match(['get','post'],'stp_process_vn',[App\Http\Controllers\Fdh_StpContro
 Route::match(['get','post'],'stp_process',[App\Http\Controllers\Fdh_StpController::class, 'stp_process'])->name('fdh.stp_process');//
 Route::match(['get','post'],'stp_export',[App\Http\Controllers\Fdh_StpController::class, 'stp_export'])->name('fdh.stp_export');//
 
-Route::match(['get','post'],'ucep24_main',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main'])->name('claim.ucep24_main');//
-Route::match(['get','post'],'ucep24_main_process',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main_process'])->name('claim.ucep24_main_process');//
-Route::match(['get','post'],'ucep24_main_export',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main_export'])->name('claim.ucep24_main_export');//
+Route::match(['get','post'],'ucep24_main',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main'])->name('fdh.ucep24_main');//
+Route::match(['get','post'],'ucep24_main_process',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main_process'])->name('fdh.ucep24_main_process');//
+Route::match(['get','post'],'ucep24_main_update',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main_update'])->name('fdh.ucep24_main_update');//
+Route::match(['get','post'],'ucep24_main_export',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main_export'])->name('fdh.ucep24_main_export');//
 
 Route::match(['get','post'],'fdh_ppfs_12001',[App\Http\Controllers\Fdh_PPfs12001Controller::class, 'fdh_ppfs_12001'])->name('fdh.fdh_ppfs_12001');//
 Route::match(['get','post'],'fdh_ppfs_12001_process',[App\Http\Controllers\Fdh_PPfs12001Controller::class, 'fdh_ppfs_12001_process'])->name('fdh.fdh_ppfs_12001_process');//

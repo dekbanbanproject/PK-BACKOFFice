@@ -8,7 +8,7 @@
             <div class="col-lg-12 col-xl-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
-                        Update VN To Spsch Auto
+                        Update VN 205 To Spsch Auto
                         <div class="btn-actions-pane-right">
                             <div role="group" class="btn-group-sm btn-group">
                                 <button class="active btn btn-focus">สปสช</button>

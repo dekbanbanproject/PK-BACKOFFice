@@ -401,15 +401,33 @@
                                         </a>
                                     </li>
                                     <li>
+                                        <a href="{{ url('updateauthen_spschtochecksitauto') }}" target="_blank">
+                                            <i class="metismenu-icon"></i>
+                                            Update Claimcode To Checksit Auto
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a href="{{ url('updateauthen_spschtohos') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
-                                             Update vn To spsch Auto 
+                                             Update vn 205 To spsch Auto 
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{{ url('updateauthen_tispschtohos') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
-                                             Update vn TI To spsch Auto 
+                                             Update vn 205 TI To spsch Auto 
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url('updateauthen_spschtohos217') }}" target="_blank">
+                                            <i class="metismenu-icon"></i>
+                                             Update vn 217 To spsch Auto 
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url('updateauthen_tispschtohos217') }}" target="_blank">
+                                            <i class="metismenu-icon"></i>
+                                             Update vn 217 TI To spsch Auto 
                                         </a>
                                     </li>
                                     <li>

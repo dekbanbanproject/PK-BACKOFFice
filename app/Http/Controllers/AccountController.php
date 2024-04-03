@@ -1968,14 +1968,16 @@ class AccountController extends Controller
                     LEFT OUTER JOIN ovst o on o.vn = v.vn
                     LEFT JOIN patient p on p.hn=v.hn 
                     LEFT JOIN leave_month l on l.MONTH_ID = MONTH(v.vstdate)
+                    left outer join rcpt_print r on v.vn = r.vn
                     WHERE v.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '" 
                     AND (v.paid_money <> v.rcpt_money)
                     AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","P1")
-                    AND v.rcpt_money <> 30 
+                    AND (v.income - v.rcpt_money) <> v.remain_money
                     GROUP BY date_format(v.vstdate, "%M") 
                     ORDER BY v.vstdate desc 
             ');
-             
+            // AND v.rcpt_money <> 30
+            // ((v.income - v.rcpt_money) == v.remain_money)
         } else {
             $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
             $startdate    = $bg->date_begin;
@@ -1987,6 +1989,7 @@ class AccountController extends Controller
                     LEFT OUTER JOIN ovst o on o.vn = v.vn
                     LEFT JOIN patient p on p.hn=v.hn 
                     LEFT JOIN leave_month l on l.MONTH_ID = MONTH(v.vstdate)
+                    left outer join rcpt_print r on v.vn = r.vn
                     WHERE v.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '" 
                     AND (v.paid_money <> v.rcpt_money)
                     AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","P1")
@@ -1995,6 +1998,7 @@ class AccountController extends Controller
                     ORDER BY v.vstdate desc  
             ');
         } 
+        // AND (v.income - v.rcpt_money) <> v.remain_money
         return view('account.account_nopaid', [ 
             'startdate'        =>  $startdate,
             'enddate'          =>  $enddate, 
@@ -2009,24 +2013,24 @@ class AccountController extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate; 
 
-        if ($startdate != '') {
-            $datashow = DB::connection('mysql10')->select(' 
-                SELECT v.vn, v.income,v.cid, v.hn, v.vstdate,o.vsttime,o.main_dep,k.department, v.pdx, v.pttype,concat(p.pname,p.fname," ",p.lname) ptname,o.staff
-                ,r.bill_date_time,r.finance_number,r.rcpno,r.bill_amount,r.user,r.book_number,r.total_amount,v.paid_money,v.rcpt_money,v.remain_money
-                FROM vn_stat v
-                left outer join ovst o on o.vn = v.vn
-                left outer join kskdepartment k on k.depcode = o.main_dep
-                LEFT JOIN patient p on p.hn=v.hn
-                LEFT JOIN pttype t on t.pttype=v.pttype
-                left outer join rcpt_print r on v.vn = r.vn
-                WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"  
-                AND (v.paid_money <> v.rcpt_money)
-                AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","P1")
-                AND v.rcpt_money <> 30 
-                GROUP BY v.vn
+        // if ($startdate != '') {
+        //     $datashow = DB::connection('mysql10')->select(' 
+        //         SELECT v.vn, v.income,v.cid, v.hn, v.vstdate,o.vsttime,o.main_dep,k.department, v.pdx, v.pttype,concat(p.pname,p.fname," ",p.lname) ptname,o.staff
+        //         ,r.bill_date_time,r.finance_number,r.rcpno,r.bill_amount,r.user,r.book_number,r.total_amount,v.paid_money,v.rcpt_money,v.remain_money
+        //         FROM vn_stat v
+        //         left outer join ovst o on o.vn = v.vn
+        //         left outer join kskdepartment k on k.depcode = o.main_dep
+        //         LEFT JOIN patient p on p.hn=v.hn
+        //         LEFT JOIN pttype t on t.pttype=v.pttype
+        //         left outer join rcpt_print r on v.vn = r.vn
+        //         WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"  
+        //         AND (v.paid_money <> v.rcpt_money)
+        //         AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","P1")
+        //         AND v.rcpt_money <> 30 
+        //         GROUP BY v.vn
            
-            ');
-        } else {
+        //     ');
+        // } else {
             $datashow = DB::connection('mysql10')->select(' 
                 SELECT v.vn, v.income,v.cid, v.hn, v.vstdate,o.vsttime,o.main_dep,k.department, v.pdx, v.pttype,concat(p.pname,p.fname," ",p.lname) ptname,o.staff
                 ,r.bill_date_time,r.finance_number,r.rcpno,r.bill_amount,r.user,r.book_number,r.total_amount,v.paid_money,v.rcpt_money,v.remain_money
@@ -2043,8 +2047,8 @@ class AccountController extends Controller
                 GROUP BY v.vn
            
             ');
-        }
-         
+        // }
+        // AND v.rcpt_money <> 30 
         return view('account.account_nopaid_sub', [
             'datashow'   =>  $datashow, 
             'startdate'  =>  $startdate,

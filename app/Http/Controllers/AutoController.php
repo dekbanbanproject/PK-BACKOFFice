@@ -146,7 +146,7 @@ class AutoController extends Controller
         // foreach ($data_check as $key => $val) {
         //     $check_hos = Check_sit_auto::where('vn', $val->vn)->count();
         // }       
-
+        $date = date('Y-m-d'); 
             $data_sits = DB::connection('mysql3')->select('
                 SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,op.name as staffname,p.hometel
                     ,pt.nhso_code,o.hospmain,o.hospsub
@@ -157,7 +157,7 @@ class AutoController extends Controller
                     join patient p on p.hn=o.hn
                     JOIN pttype pt on pt.pttype=o.pttype
                     JOIN opduser op on op.loginname = o.staff
-                    WHERE o.vstdate = "2023-07-22" 
+                    WHERE o.vstdate = "'.$date.'"
                   
                     AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6")
                     group by o.vn
@@ -1028,7 +1028,7 @@ class AutoController extends Controller
                 LEFT JOIN patient p on p.hn=o.hn
                 LEFT JOIN pttype pt on pt.pttype=o.pttype
                 LEFT JOIN opduser op on op.loginname = o.staff
-                WHERE o.vstdate = CURDATE() 
+                WHERE o.vstdate = "'.$date.'"
                 AND p.nationality = "99" 
                 group by o.vn
                     
@@ -1071,7 +1071,7 @@ class AutoController extends Controller
         $data_sitss = DB::connection('mysql')->select('
             SELECT cid,vn,an,vstdate
             FROM checksit_hos 
-            WHERE vstdate = CURDATE()
+            WHERE vstdate = "'.$date.'"
             AND subinscl IS NULL
             ORDER BY vstdate desc
             LIMIT 100
@@ -1192,7 +1192,8 @@ class AutoController extends Controller
     // ***************** Check_sit_auto   // ดึงข้อมูลมาไว้เช็คสิทธิ์***************************
    
     public function pull_hosauto(Request $request)
-    {          
+    {        
+        $date = date('Y-m-d');  
             $data_sits = DB::connection('mysql2')->select('
                 SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,p.pname,p.fname,concat(p.pname,p.fname," ",p.lname) as fullname,op.name as staffname,p.hometel,v.pdx,s.cc
                 ,pt.nhso_code,o.hospmain,o.hospsub,p.birthday
@@ -1204,11 +1205,11 @@ class AutoController extends Controller
                 LEFT JOIN patient p on p.hn=o.hn
                 LEFT JOIN pttype pt on pt.pttype=o.pttype
                 LEFT JOIN opduser op on op.loginname = o.staff
-                WHERE o.vstdate = CURDATE()
+                WHERE o.vstdate ="'.$date.'"
                 AND o.main_dep NOT IN("011","036","107")
                 AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10")
                 AND p.nationality = "99"
-                AND p.birthday <> CURDATE()
+                AND p.birthday <> "'.$date.'"
                 GROUP BY o.vn   
                 
             ');  
@@ -1268,11 +1269,11 @@ class AutoController extends Controller
                     LEFT JOIN patient p on p.hn=o.hn
                     LEFT JOIN pttype pt on pt.pttype=o.pttype
                     LEFT JOIN opduser op on op.loginname = o.staff                     
-                    WHERE o.vstdate = CURDATE()
+                    WHERE o.vstdate ="'.$date.'"
                     
                     AND o.pttype IN("M1","M2","M3","M4","M5","M6")
                     AND p.nationality = "99"
-                    AND p.birthday <> CURDATE()
+                    AND p.birthday <> "'.$date.'"
                     group by o.vn
                     
             ');
@@ -1333,13 +1334,14 @@ class AutoController extends Controller
         $data_sitss = DB::connection('mysql')->select('
             SELECT cid,vn,an
             FROM check_sit_auto
-            WHERE vstdate = CURDATE()
+            WHERE vstdate = "'.$date.'"
             AND subinscl IS NULL
-            LIMIT 30
+            LIMIT 50
         ');
         // WHERE vstdate = CURDATE()
         // BETWEEN "2024-02-03" AND "2024-02-15"
         // $token_data = DB::connection('mysql')->select('SELECT cid,token FROM ssop_token');
+        // $token_data = DB::connection('mysql10')->select('SELECT cid,token FROM hos.nhso_token where token <> ""');
         $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
         foreach ($token_data as $key => $value) { 
             $cid_    = $value->cid;
