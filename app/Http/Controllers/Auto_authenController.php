@@ -507,7 +507,7 @@ class Auto_authenController extends Controller
         // WHERE vstdate = "2024-03-12"
         // WHERE vstdate = "'.$date_now.'"
         foreach ($data_ as $key => $value) {
-            $checknull = Check_authen_hos::where('vn',NULL)->count();
+            $checknull = Check_authen_hos::whereNull('vn')->count();
             if ($checknull > 0) {
                 Check_authen_hos::where('cid','=',$value->cid)->where('vstdate','=',$value->vstdate)->where('claimtype','=','PG0060001')->update(['vn'=>$value->vn]);  
             } else { 
@@ -534,7 +534,7 @@ class Auto_authenController extends Controller
         // WHERE vstdate = "'.$date_now.'"
         foreach ($data_ as $key => $value) { 
         
-            $checknull217 = Check_authen_hos217::where('vn',NULL)->count();
+            $checknull217 = Check_authen_hos217::whereNull('vn')->count();
             if ($checknull217 > 0) {
                 Check_authen_hos217::where('cid','=',$value->cid)->where('vstdate','=',$value->vstdate)->where('claimtype','=','PG0060001')->update(['vn'=>$value->vn]);  
             } else { 
@@ -555,7 +555,7 @@ class Auto_authenController extends Controller
             GROUP BY v.vn
         '); 
         foreach ($data_ as $key => $value) {
-            $checknull = Check_authen_hos::where('vn',NULL)->count();
+            $checknull = Check_authen_hos::whereNull('vn')->count();
             if ($checknull > 0) {
                 Check_authen_hos::where('cid','=',$value->cid)->where('vstdate','=',$value->vstdate)->where('claimtype','=','PG0130001')->update(['vn'=>$value->vn]);  
             } else {
@@ -578,7 +578,7 @@ class Auto_authenController extends Controller
         '); 
         foreach ($data_ as $key => $value) {
             
-            $checknull217 = Check_authen_hos217::where('vn',NULL)->count();
+            $checknull217 = Check_authen_hos217::whereNull('vn')->count();
             if ($checknull217 > 0) {
                 Check_authen_hos217::where('cid','=',$value->cid)->where('vstdate','=',$value->vstdate)->where('claimtype','=','PG0130001')->update(['vn'=>$value->vn]);  
             } else {
@@ -595,16 +595,18 @@ class Auto_authenController extends Controller
     {        
         $date_now = date('Y-m-d');  
         $data_ = DB::connection('mysql2')->select('
-            SELECT vn,cid,vstdate,claimcode,claimtype
+            SELECT vn,cid,hncode,vstdate,claimcode,claimtype
             FROM check_authen_hos  
             WHERE vstdate = "'.$date_now.'" 
             GROUP BY vn 
         '); 
  
         foreach ($data_ as $key => $value) {
-            $checknull = Check_sit_auto::where('claimcode',NULL)->count();
+            $checknull = Check_sit_auto::whereNull('claimcode')->count();
+            // ->whereNull('claimcode')
             if ($checknull > 0) {
-                Check_sit_auto::where('vn','=',$value->vn)->update(['claimcode'=>$value->claimcode,'claimtype'=>$value->claimtype]);  
+                Check_sit_auto::where('vn','=',$value->vn)
+                ->update(['claimcode'=>$value->claimcode,'claimtype'=>$value->claimtype]);  
             } else { 
             } 
             
