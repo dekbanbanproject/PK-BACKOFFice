@@ -595,7 +595,7 @@ class Auto_authenController extends Controller
     {        
         $date_now = date('Y-m-d');  
         $data_ = DB::connection('mysql2')->select('
-            SELECT vn,cid,hncode,vstdate,claimcode,claimtype
+            SELECT vn,cid,hncode,vstdate,claimcode,claimtype,servicerep,servicename,authentication
             FROM check_authen_hos  
             WHERE vstdate = "'.$date_now.'" 
             GROUP BY vn 
@@ -606,7 +606,14 @@ class Auto_authenController extends Controller
             // ->whereNull('claimcode')
             if ($checknull > 0) {
                 Check_sit_auto::where('vn','=',$value->vn)
-                ->update(['claimcode'=>$value->claimcode,'claimtype'=>$value->claimtype]);  
+                ->update([
+                    'claimcode'        =>$value->claimcode,
+                    'claimtype'        =>$value->claimtype,
+                    'servicerep'       => $value->servicerep,
+                    'servicename'      => $value->servicename,
+                    'authentication'   => $value->authentication,
+                   
+                ]);  
             } else { 
             } 
             
