@@ -148,7 +148,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <th width="5%" class="text-center"><input type="checkbox" class="fdhcheckbox" name="stamp" id="stamp"> </th> 
                                                     {{-- <th class="text-center">ลำดับ</th> --}}
                                                     <th class="text-center">vn</th>
-                                                    <th class="text-center">an</th>
+                                                    {{-- <th class="text-center">an</th> --}}
                                                     <th class="text-center">hn</th>
                                                     <th class="text-center">cid</th>  
                                                     <th class="text-center">vstdate</th> 
@@ -178,7 +178,7 @@ $pos = strrpos($url, '/') + 1;
                                                         @endif
                                                         {{-- <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td> --}}
                                                         <td class="text-center" width="8%">{{ $item->vn }}  </td>
-                                                        <td class="text-center" width="8%">{{ $item->an }}  </td>
+                                                        {{-- <td class="text-center" width="8%">{{ $item->an }}  </td> --}}
                                                         <td class="text-center" width="5%">{{ $item->hn }}</td>
                                                         <td class="text-center" width="10%">{{ $item->cid }}</td>  
                                                         <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
