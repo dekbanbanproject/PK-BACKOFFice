@@ -3033,7 +3033,13 @@ Route::match(['get','post'],'fdh_data',[App\Http\Controllers\FdhController::clas
 Route::match(['get','post'],'fdh_data_process',[App\Http\Controllers\FdhController::class, 'fdh_data_process'])->name('claim.fdh_data_process');//
 Route::match(['get','post'],'fdh_data_export',[App\Http\Controllers\FdhController::class, 'fdh_data_export'])->name('claim.fdh_data_export');//
 
+Route::match(['get','post'],'fdh_report_rep',[App\Http\Controllers\FdhController::class, 'fdh_report_rep'])->name('fdh.fdh_report_rep');// 
+
 // *******************FDH UCS *******************
+Route::match(['get','post'],'fdh_rep',[App\Http\Controllers\Fdh_RepController::class, 'fdh_rep'])->name('fdh.fdh_rep');//
+Route::match(['get','post'],'fdh_rep_save',[App\Http\Controllers\Fdh_RepController::class, 'fdh_rep_save'])->name('fdh.fdh_rep_save');//
+Route::match(['get','post'],'fdh_rep_send',[App\Http\Controllers\Fdh_RepController::class, 'fdh_rep_send'])->name('fdh.fdh_rep_send');//
+
 Route::match(['get','post'],'walkin',[App\Http\Controllers\Fdh_walkinController::class, 'walkin'])->name('claim.walkin');//
 Route::match(['get','post'],'walkin_process_vn',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_process_vn'])->name('claim.walkin_process_vn');//
 Route::match(['get','post'],'walkin_process',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_process'])->name('claim.walkin_process');//

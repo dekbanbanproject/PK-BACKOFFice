@@ -159,7 +159,7 @@ $pos = strrpos($url, '/') + 1;
                                                 @if (($item->income - $item->rcpt_money) == $item->remain_money) 
                                                     <td class="text-end" style="background-color: aquamarine" width="5%">0.00</td> 
                                                 @else
-                                                    <td class="text-end" style="color:rgb(243, 61, 55);font-size: 14px;" width="5%">{{ number_format($item->income-$item->rcpt_money,2)}}</td> 
+                                                    <td class="text-end" style="color:rgb(243, 61, 55);font-size: 14px;" width="5%">{{ number_format($item->paid_money-$item->rcpt_money,2)}}</td> 
                                                 @endif
 
                                                 @if ($item->book_number == '')

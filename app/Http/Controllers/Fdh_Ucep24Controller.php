@@ -154,7 +154,7 @@ class Fdh_Ucep24Controller extends Controller
                     }       
  
                 }   
-                $data_date_one = DB::connection('mysql')->select('SELECT vn,an,vstdate FROM d_ucep24_main GROUP BY an'); 
+                $data_date_one = DB::connection('mysql')->select('SELECT vn,an,hn,vstdate,dchdate FROM d_fdh WHERE vstdate IS NOT NULL GROUP BY an'); 
                 foreach ($data_date_one as $key => $v_opitem_one) {
                     $opitem = DB::connection('mysql2')->select('
                         SELECT i.vn,o.an,o.hn,pp.cid,concat(pp.pname,pp.fname," ",pp.lname) ptname,o.rxdate,o.rxtime,i.dchdate,s.icode,s.name as namelist,s.strength,s.units ,o.qty,o.unitprice,o.sum_price,o.paidst,pt.pttype,pt.hipdata_code   
@@ -190,12 +190,12 @@ class Fdh_Ucep24Controller extends Controller
                     } 
                 }
                 
-                $data_authen_    = DB::connection('mysql')->select('SELECT hncode,cid,vstdate,claimcode FROM check_authen WHERE vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" '); 
-                foreach ($data_authen_ as $key => $v_up) {
-                    D_fdh::where('cid',$v_up->cid)->where('vstdate',$v_up->vstdate)->update([ 
-                        'authen'   => $v_up->claimcode,  
-                    ]);
-                } 
+                // $data_authen_    = DB::connection('mysql')->select('SELECT hncode,cid,vstdate,claimcode FROM check_authen WHERE vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" '); 
+                // foreach ($data_authen_ as $key => $v_up) {
+                //     D_fdh::where('cid',$v_up->cid)->where('vstdate',$v_up->vstdate)->update([ 
+                //         'authen'   => $v_up->claimcode,  
+                //     ]);
+                // } 
         }              
         
             $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="UCEP24" AND icd10 IS NOT NULL ORDER BY vn ASC');
@@ -828,34 +828,16 @@ class Fdh_Ucep24Controller extends Controller
          }
            
 
-        $data_ = DB::connection('mysql')->select('SELECT vn,an,hn,DATE_FORMAT(vstdate,"%Y%m%d") as vstdate,dchdate,icode,qty FROM d_ucep24'); 
-        $iduser = Auth::user()->id;
-        foreach ($data_ as $key => $val) {   
-            Fdh_dru::where('AN',$val->an)->where('DID',$val->icode)->where('d_anaconda_id',"UCEP24") 
-            ->update([
-                'SP_ITEM'     => '01',
-                'AMOUNT'      => $val->qty
-            ]);  
-            
-            // $check = Fdh_adp::where('AN',$val->an)->where('CODE','UCEP24')->where('d_anaconda_id',"UCEP24")->count();
-            // if ($check > 0) {                   
-            // } else {
-            //     Fdh_adp::insert([
-            //         'HN'             => $val->hn, 
-            //         'AN'             => $val->an, 
-            //         'DATEOPD'        => $val->vstdate,  
-            //         'TYPE'           => '5', 
-            //         'CODE'           => 'UCEP24', 
-            //         'QTY'            => '1', 
-            //         'RATE'           => '0', 
-            //         'TOTCOPAY'       => '0', 
-            //         'TOTAL'          => '0', 
-            //         'SP_ITEM'        => '01', 
-            //         'user_id'        => $iduser,
-            //         'd_anaconda_id'  => 'UCEP24'
-            //     ]);
-            // }   
-        }
+        // $data_ = DB::connection('mysql')->select('SELECT vn,an,hn,DATE_FORMAT(vstdate,"%Y%m%d") as vstdate,dchdate,icode,qty FROM d_ucep24'); 
+        // $iduser = Auth::user()->id;
+        // foreach ($data_ as $key => $val) {   
+        //     Fdh_dru::where('AN',$val->an)->where('DID',$val->icode)->where('d_anaconda_id',"UCEP24") 
+        //     ->update([
+        //         'SP_ITEM'     => '01',
+        //         'AMOUNT'      => $val->qty
+        //     ]);  
+           
+        // }
              
         // Fdh_adp::where('SP_ITEM','=','')->where('d_anaconda_id',"UCEP24")->delete();
         // Fdh_adp::where('QTY','=',['',null])->where('SP_ITEM','=','01')->where('d_anaconda_id',"UCEP24")->delete();
@@ -877,7 +859,7 @@ class Fdh_Ucep24Controller extends Controller
     }
     public function ucep24_main_update(Request $request)
     {   
-            $data_ = DB::connection('mysql')->select('SELECT vn,an,hn,vstdate,dchdate,icode,qty FROM d_ucep24'); 
+            $data_ = DB::connection('mysql')->select('SELECT vn,an,hn,vstdate,dchdate,icode,qty FROM d_ucep24 WHERE an <> ""'); 
             foreach ($data_ as $key => $val) {                
                 // D_adp::where('AN',$val->an)->where('icode',$val->icode)
                 // ->update([
@@ -891,7 +873,7 @@ class Fdh_Ucep24Controller extends Controller
                 ]);                
             }
             
-            $dataucep_ = DB::connection('mysql')->select('SELECT vn,an,hn,DATE_FORMAT(vstdate,"%Y%m%d") vstdate,dchdate,icode FROM d_ucep24');
+            $dataucep_ = DB::connection('mysql')->select('SELECT vn,an,hn,DATE_FORMAT(vstdate,"%Y%m%d") vstdate,dchdate,icode FROM d_ucep24 WHERE an <> "" GROUP BY an');
             $iduser = Auth::user()->id;
             foreach ($dataucep_ as $key => $value_up) {
                 $check = Fdh_adp::where('AN',$value_up->an)->where('CODE','UCEP24')->where('d_anaconda_id',"UCEP24")->count();

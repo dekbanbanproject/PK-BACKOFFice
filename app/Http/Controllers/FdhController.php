@@ -130,6 +130,28 @@ use Illuminate\Filesystem\Filesystem;
 
 class FdhController extends Controller
 { 
+    public function fdh_report_rep(Request $request)
+    {
+            $startdate = $request->startdate;
+            $enddate = $request->enddate; 
+            $data['users']     = User::get();  
+            $date = date('Y-m-d'); 
+            $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+            $newDate = date('Y-m-d', strtotime($date . ' -2 months')); //ย้อนหลัง 2 เดือน
+            $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+
+            if ($startdate == '') {  
+                $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="R" AND  vstdate BETWEEN "'.$newDate.'" and "'.$date.'" ORDER BY vn ASC');             
+            } else {
+                $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="R" AND  vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" ORDER BY vn ASC'); 
+                    
+            }  
+
+        return view('fdh.fdh_report_rep',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+        ]);
+    }
     public function fdh_dashboard(Request $request)
     {
             $startdate = $request->startdate;

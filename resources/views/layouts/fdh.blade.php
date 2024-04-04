@@ -259,6 +259,11 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <span>FDH</span> 
                             </a> 
                         </li> 
+                        <li><a href="{{ url('fdh_report_rep') }}">    
+                            <i class="fa-solid fa-chart-line text-success"></i>
+                            <span>FDH REP REPORT</span> 
+                        </a> 
+                    </li> 
                         {{-- @if ($permiss_ofc != 0)                           
                             <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">
@@ -290,6 +295,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     <span>UCS</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="true"> 
+                                    <li><a href="{{ url('fdh_rep') }}">FDH REP</a></li> 
                                     <li><a href="{{ url('walkin') }}">WlakIN</a></li> 
                                     <li><a href="{{ url('ucep24_main') }}">Ucep-24</a></li> 
                                     <li><a href="{{ url('stp') }}">STP</a></li> 
