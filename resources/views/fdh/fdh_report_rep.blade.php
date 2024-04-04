@@ -188,10 +188,10 @@ $pos = strrpos($url, '/') + 1;
                                                         <td class="text-center" width="5%">{{ $item->icd10 }}</td> 
                                                         <td class="text-center" width="7%">{{ $item->authen }}</td> 
                                                         <td class="text-center" width="7%">{{ $item->debit }}</td> 
-                                                        @if ($item->debit == $item->debit_rep)
+                                                        @if ($item->debit != $item->debit_rep)
                                                         <td class="text-center" width="7%" style="color:#E9540F">{{ $item->debit_rep }}</td> 
                                                         @else
-                                                        <td class="text-center" width="7%">{{ $item->debit_rep }}</td> 
+                                                        <td class="text-center" width="7%" style="color:#05978b">{{ $item->debit_rep }}</td> 
                                                         @endif
                                                        
                                                         <td class="text-center" width="5%">{{ $item->error_code }}</td> 
