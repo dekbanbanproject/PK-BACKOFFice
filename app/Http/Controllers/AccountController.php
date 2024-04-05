@@ -13,7 +13,7 @@ use App\Models\Account_percen;
 use App\Models\Account_listpercen;
 use App\Models\Account_monthlydebt;
 use App\Models\Account_creditor;
-use App\Models\Plan_type;
+use App\Models\F_finance_opd;
 use App\Models\Plan_vision;
 use App\Models\Plan_mission;
 use App\Models\Plan_strategic;
@@ -1953,7 +1953,7 @@ class AccountController extends Controller
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี        
         $months_now = date('m');
         $year_now = date('Y'); 
-
+        $iduser = Auth::user()->id;
         if ($budget_year == '') {
             $yearnew = date('Y');
             $year_old = date('Y')-1;
@@ -1976,11 +1976,41 @@ class AccountController extends Controller
                     GROUP BY date_format(v.vstdate, "%M") 
                     ORDER BY v.vstdate desc 
             ');
-            // AND v.rcpt_money <> 30
-            // ((v.income - v.rcpt_money) == v.remain_money)
+            foreach ($datashow as $key => $value) {
+                $check_ = F_finance_opd::where('year',$value->year)->where('months',$value->months)->count(); 
+                if ($check_ > 0) {
+                    F_finance_opd::where('year',$value->year)->where('months',$value->months)->update([ 
+                        'count_vn'          => $value->count_vn,
+                        'sum_income'        => $value->sum_income,
+                        'sum_paid_money'    => $value->sum_paid_money,
+                        'sum_rcpt_money'    => $value->sum_rcpt_money,
+                        'sum_Total'         => $value->sum_Total,
+                        'user_id'           => $iduser
+                    ]);
+                } else {
+                    F_finance_opd::insert([
+                        'year'              => $value->year,
+                        'months'            => $value->months,
+                        'months_name'       => $value->MONTH_NAME,
+                        'count_vn'          => $value->count_vn,
+                        'sum_income'        => $value->sum_income,
+                        'sum_paid_money'    => $value->sum_paid_money,
+                        'sum_rcpt_money'    => $value->sum_rcpt_money,
+                        'sum_Total'         => $value->sum_Total,
+                        'user_id'           => $iduser
+                    ]);
+                }    
+            }
+           
+            $data['f_finance_opd']  = DB::connection('mysql')->select('SELECT * from f_finance_opd WHERE year = date_format("' . $startdate . '", "%Y")');  
+            
         } else {
             $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
             $startdate    = $bg->date_begin;
+            $enddate      = $bg->date_end;
+            $months_now = date('m');
+            $year_now = date('Y'); 
+            $startdate    =  date_format($bg->date_begin, "%Y");
             $enddate      = $bg->date_end;
             $datashow = DB::connection('mysql10')->select(
                 'SELECT YEAR(v.vstdate) as year,MONTH(v.vstdate) as months,l.MONTH_NAME,COUNT(DISTINCT v.vn) AS count_vn,SUM(v.income) AS sum_income
@@ -1996,10 +2026,39 @@ class AccountController extends Controller
                     AND v.rcpt_money <> 30 
                     GROUP BY date_format(v.vstdate, "%M")
                     ORDER BY v.vstdate desc  
-            ');
+            '); 
+            foreach ($datashow as $key => $value2) {
+                $check2_ = F_finance_opd::where('year',$value2->year)->where('months',$value2->months)->count(); 
+                if ($check2_ > 0) {
+                    F_finance_opd::where('year',$value2->year)->where('months',$value2->months)->update([ 
+                        'count_vn'          => $value2->count_vn,
+                        'sum_income'        => $value2->sum_income,
+                        'sum_paid_money'    => $value2->sum_paid_money,
+                        'sum_rcpt_money'    => $value2->sum_rcpt_money,
+                        'sum_Total'         => $value2->sum_Total,
+                        'user_id'           => $iduser
+                    ]);
+                } else {
+                    F_finance_opd::insert([
+                        'year'              => $value2->year,
+                        'months'            => $value2->months,
+                        'months_name'       => $value2->MONTH_NAME,
+                        'count_vn'          => $value2->count_vn,
+                        'sum_income'        => $value2->sum_income,
+                        'sum_paid_money'    => $value2->sum_paid_money,
+                        'sum_rcpt_money'    => $value2->sum_rcpt_money,
+                        'sum_Total'         => $value2->sum_Total,
+                        'user_id'           => $iduser
+                    ]);
+                }
+                
+                
+            }
+            $data['f_finance_opd']  = DB::connection('mysql')->select('SELECT * from f_finance_opd WHERE year = date_format("' . $startdate . '", "%Y")'); 
+
         } 
         // AND (v.income - v.rcpt_money) <> v.remain_money
-        return view('account.account_nopaid', [ 
+        return view('account.account_nopaid',$data, [ 
             'startdate'        =>  $startdate,
             'enddate'          =>  $enddate, 
             'datashow'         =>  $datashow,

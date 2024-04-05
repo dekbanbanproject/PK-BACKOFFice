@@ -3091,6 +3091,7 @@ Route::match(['get','post'],'fdh_ppfs_30015',[App\Http\Controllers\Fdh_PPfs30015
 Route::match(['get','post'],'fdh_ppfs_30015_process',[App\Http\Controllers\Fdh_PPfs30015Controller::class, 'fdh_ppfs_30015_process'])->name('fdh.fdh_ppfs_30015_process');//
 Route::match(['get','post'],'fdh_ppfs_30015_export',[App\Http\Controllers\Fdh_PPfs30015Controller::class, 'fdh_ppfs_30015_export'])->name('fdh.fdh_ppfs_30015_export');//
 
+Route::match(['get','post'],'ipd',[App\Http\Controllers\Fdh_IpdController::class, 'ipd'])->name('fdh.ipd');//
 // *******************FDH OFC *******************
 Route::match(['get','post'],'ofc_main',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main'])->name('claim.ofc_main');//
 Route::match(['get','post'],'ofc_main_process',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main_process'])->name('claim.ofc_main_process');//

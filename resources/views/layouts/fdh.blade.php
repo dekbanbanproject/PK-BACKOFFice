@@ -299,6 +299,15 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     <li><a href="{{ url('walkin') }}">WlakIN</a></li> 
                                     <li><a href="{{ url('ucep24_main') }}">Ucep-24</a></li> 
                                     <li><a href="{{ url('stp') }}">STP</a></li> 
+                                    <li><a href="javascript: void(0);" class="has-arrow">IPD</a>
+                                        <ul class="sub-menu" aria-expanded="true">
+                                            <li><a href="{{ url('fdh_ppfs_12001') }}">12001-คัดกรองสุขภาพจิต 15-34ปี</a></li>
+                                            {{-- <li><a href="{{ url('fdh_ppfs_12002') }}">12002-คัดกรองสุขภาพจิต 35-59ปี</a></li> --}}
+                                            {{-- <li><a href="{{ url('fdh_ppfs_12003') }}">12003-เจาะเลือดจากหลอดเลือดดำ 35-59ปี</a></li> --}}
+                                            {{-- <li><a href="{{ url('fdh_ppfs_12004') }}">12004-เจาะเลือดจากหลอดเลือดดำ 45-59ปี</a></li> --}}
+                                            {{-- <li><a href="{{ url('fdh_ppfs_2206') }}">2206-7 แว่นตาเด็ก</a></li>  --}}
+                                        </ul>
+                                    </li> 
                                     <li><a href="javascript: void(0);" class="has-arrow">PPFS-67</a>
                                         <ul class="sub-menu" aria-expanded="true">
                                             <li><a href="{{ url('fdh_ppfs_12001') }}">12001-คัดกรองสุขภาพจิต 15-34ปี</a></li>
