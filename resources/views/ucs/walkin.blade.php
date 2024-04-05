@@ -263,6 +263,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <th class="text-center">cid</th>  
                                                     <th class="text-center">vstdate</th> 
                                                     <th class="text-center">pttype</th> 
+                                                    <th class="text-center">hospcode</th> 
                                                     <th class="text-center">icd10</th>  
                                                     <th class="text-center">Authen</th> 
                                                     <th class="text-center">projectcode</th> 
@@ -290,7 +291,7 @@ $pos = strrpos($url, '/') + 1;
                                                         <td class="text-center" width="10%">{{ $item->cid }}</td>  
                                                         <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
                                                         <td class="text-center" width="5%">{{ $item->pttype }}</td> 
-
+                                                        <td class="text-center" width="5%">{{ $item->hospcode }}</td> 
                                                         @if ($item->icd10 == '')
                                                             <td class="text-center" width="7%" style="background-color: rgb(250, 159, 174)">{{ $item->icd10 }}</td> 
                                                         @else

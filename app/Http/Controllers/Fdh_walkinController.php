@@ -106,7 +106,7 @@ class Fdh_walkinController extends Controller
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
         if ($startdate == '') {   
-            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="WALKIN" AND debit > "1" ORDER BY vn DESC LIMIT 300');             
+            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="WALKIN" AND debit > "1" ORDER BY vn DESC LIMIT 500');             
         } else {
                 $iduser = Auth::user()->id;
                 // D_walkin::truncate();  
@@ -2496,44 +2496,7 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_lvd, $str_lvd_152);
          }
          fclose($objFopen_lvd); 
-
-        //16 dru.txt
-        // $file_d_dru = "Export/".$folder."/DRU.txt";
-        // $objFopen_dru = fopen($file_d_dru, 'w'); 
-        // $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGTYPE|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
-        // fwrite($objFopen_dru, $opd_head_dru);
-        // $dru = DB::connection('mysql')->select('
-        //     SELECT * from d_dru where d_anaconda_id = "OFC_401"
-        // ');
-        // foreach ($dru as $key => $value7) {
-        //     $g1 = $value7->HCODE;
-        //     $g2 = $value7->HN;
-        //     $g3 = $value7->AN;
-        //     $g4 = $value7->CLINIC;
-        //     $g5 = $value7->PERSON_ID;
-        //     $g6 = $value7->DATE_SERV;
-        //     $g7 = $value7->DID;
-        //     $g8 = $value7->DIDNAME;
-        //     $g9 = $value7->AMOUNT;
-        //     $g10 = $value7->DRUGPRIC;
-        //     $g11 = $value7->DRUGCOST;
-        //     $g12 = $value7->DIDSTD;
-        //     $g13 = $value7->UNIT;
-        //     $g14 = $value7->UNIT_PACK;
-        //     $g15 = $value7->SEQ;
-        //     $g16 = $value7->DRUGREMARK;
-        //     $g17 = $value7->PA_NO;
-        //     $g18 = $value7->TOTCOPAY;
-        //     $g19 = $value7->USE_STATUS;
-        //     $g20 = $value7->TOTAL;
-        //     $g21 = $value7->SIGCODE;
-        //     $g22 = $value7->SIGTEXT;  
-        //     $g23 = $value7->SIGTEXT;      
-        //     $str_dru="\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g16."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22."|".$g23;
-        //     $ansitxt_dru = iconv('UTF-8', 'TIS-620', $str_dru); 
-        //     fwrite($objFopen_dru, $ansitxt_dru); 
-        // }
-        // fclose($objFopen_dru); 
+ 
         
         //16 dru.txt
         $file_d_dru = "Export/".$folder."/DRU.txt";
@@ -2588,87 +2551,87 @@ class Fdh_walkinController extends Controller
 
 
 
-            // $pathdir =  "Export/".$folder."/";
-            // $zipcreated = $folder.".zip";
+            $pathdir =  "Export/".$folder."/";
+            $zipcreated = $folder.".zip";
 
-            // $newzip = new ZipArchive;
-            // if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
-            // $dir = opendir($pathdir);
+            $newzip = new ZipArchive;
+            if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
+            $dir = opendir($pathdir);
             
-            // while($file = readdir($dir)) {
-            //     if(is_file($pathdir.$file)) {
-            //         $newzip -> addFile($pathdir.$file, $file);
-            //     }
-            // }
-            // $newzip ->close();
-            //         if (file_exists($zipcreated)) {
-            //             header('Content-Type: application/zip');
-            //             header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
-            //             header('Content-Length: ' . filesize($zipcreated));
-            //             flush();
-            //             readfile($zipcreated); 
-            //             unlink($zipcreated);   
-            //             $files = glob($pathdir . '/*');   
-            //             foreach($files as $file) {   
-            //                 if(is_file($file)) {      
-            //                     // unlink($file); 
-            //                 } 
-            //             }                      
-            //             return redirect()->route('claim.walkin');                    
-            //         }
-            // } 
+            while($file = readdir($dir)) {
+                if(is_file($pathdir.$file)) {
+                    $newzip -> addFile($pathdir.$file, $file);
+                }
+            }
+            $newzip ->close();
+                    if (file_exists($zipcreated)) {
+                        header('Content-Type: application/zip');
+                        header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
+                        header('Content-Length: ' . filesize($zipcreated));
+                        flush();
+                        readfile($zipcreated); 
+                        unlink($zipcreated);   
+                        $files = glob($pathdir . '/*');   
+                        foreach($files as $file) {   
+                            if(is_file($file)) {      
+                                // unlink($file); 
+                            } 
+                        }                      
+                        return redirect()->route('claim.walkin');                    
+                    }
+            } 
 
             return redirect()->route('claim.walkin');
 
     }
-    // public function walkin_export_zip(Request $request)
-    // {
-    //     $sss_date_now = date("Y-m-d");
-    //     $sss_time_now = date("H:i:s");
-    //      #ตัดขีด, ตัด : ออก
-    //      $pattern_date = '/-/i';
-    //      $sss_date_now_preg = preg_replace($pattern_date, '', $sss_date_now);
-    //      $pattern_time = '/:/i';
-    //      $sss_time_now_preg = preg_replace($pattern_time, '', $sss_time_now);
-    //      #ตัดขีด, ตัด : ออก
+    public function walkin_export_zip(Request $request)
+    {
+        $sss_date_now = date("Y-m-d");
+        $sss_time_now = date("H:i:s");
+         #ตัดขีด, ตัด : ออก
+         $pattern_date = '/-/i';
+         $sss_date_now_preg = preg_replace($pattern_date, '', $sss_date_now);
+         $pattern_time = '/:/i';
+         $sss_time_now_preg = preg_replace($pattern_time, '', $sss_time_now);
+         #ตัดขีด, ตัด : ออก
  
-    //       #delete file in folder ทั้งหมด
-    //      $file = new Filesystem;
-    //      $file->cleanDirectory('Export'); //ทั้งหมด
-    //      // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
-    //     //  $folder='WALKIN_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
-    //     //  $folder='WALKIN_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
-    //     // $pathdir =  "Export/".$folder."/";
-    //     // $zipcreated = $folder.".zip";
+          #delete file in folder ทั้งหมด
+         $file = new Filesystem;
+         $file->cleanDirectory('Export'); //ทั้งหมด
+         // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
+        //  $folder='WALKIN_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+        //  $folder='WALKIN_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+        // $pathdir =  "Export/".$folder."/";
+        // $zipcreated = $folder.".zip";
 
-    //     $pathdir =  "Export/".$folder."/";
-    //         $zipcreated = $folder.".zip";
+        // $pathdir =  "Export/".$folder."/";
+        //     $zipcreated = $folder.".zip";
 
-    //         $newzip = new ZipArchive;
-    //         if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
-    //         $dir = opendir($pathdir);
+        //     $newzip = new ZipArchive;
+        //     if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
+        //     $dir = opendir($pathdir);
             
-    //         while($file = readdir($dir)) {
-    //             if(is_file($pathdir.$file)) {
-    //                 $newzip -> addFile($pathdir.$file, $file);
-    //             }
-    //         }
-    //         $newzip ->close();
-    //                 if (file_exists($zipcreated)) {
-    //                     header('Content-Type: application/zip');
-    //                     header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
-    //                     header('Content-Length: ' . filesize($zipcreated));
-    //                     flush();
-    //                     readfile($zipcreated); 
-    //                     unlink($zipcreated);   
-    //                     $files = glob($pathdir . '/*');   
-    //                     foreach($files as $file) {   
-    //                         if(is_file($file)) {      
-    //                             // unlink($file); 
-    //                         } 
-    //                     }                      
-    //                     return redirect()->route('claim.walkin');                    
-    //                 }
-    //         } 
-    // }
+        //     while($file = readdir($dir)) {
+        //         if(is_file($pathdir.$file)) {
+        //             $newzip -> addFile($pathdir.$file, $file);
+        //         }
+        //     }
+        //     $newzip ->close();
+        //             if (file_exists($zipcreated)) {
+        //                 header('Content-Type: application/zip');
+        //                 header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
+        //                 header('Content-Length: ' . filesize($zipcreated));
+        //                 flush();
+        //                 readfile($zipcreated); 
+        //                 unlink($zipcreated);   
+        //                 $files = glob($pathdir . '/*');   
+        //                 foreach($files as $file) {   
+        //                     if(is_file($file)) {      
+        //                         // unlink($file); 
+        //                     } 
+        //                 }                      
+        //                 return redirect()->route('claim.walkin');                    
+        //             }
+        //     } 
+    }
 }

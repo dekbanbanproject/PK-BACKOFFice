@@ -145,7 +145,7 @@ $pos = strrpos($url, '/') + 1;
                                         <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                             <thead>
                                                 <tr style="font-size: 13px">
-                                                    <th width="5%" class="text-center"><input type="checkbox" class="fdhcheckbox" name="stamp" id="stamp"> </th> 
+                                                    {{-- <th width="5%" class="text-center"><input type="checkbox" class="fdhcheckbox" name="stamp" id="stamp"> </th>  --}}
                                                     {{-- <th class="text-center">ลำดับ</th> --}}
                                                     <th class="text-center">vn</th>
                                                     {{-- <th class="text-center">an</th> --}}
@@ -169,13 +169,13 @@ $pos = strrpos($url, '/') + 1;
                                                 <?php $number++; ?>
                     
                                                     <tr height="20" style="font-size: 12px;">
-                                                        @if ($item->icd10 == '')
+                                                        {{-- @if ($item->icd10 == '')
                                                             <td class="text-center" width="5%">
                                                                 <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
                                                             </td> 
                                                         @else
                                                             <td class="text-center" width="5%"><input type="checkbox" class="fdhcheckbox sub_chk" data-id="{{$item->d_fdh_id}}"> </td> 
-                                                        @endif
+                                                        @endif --}}
                                                         {{-- <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td> --}}
                                                         <td class="text-center" width="8%">{{ $item->vn }}  </td>
                                                         {{-- <td class="text-center" width="8%">{{ $item->an }}  </td> --}}

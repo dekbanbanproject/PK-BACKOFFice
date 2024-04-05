@@ -1981,6 +1981,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_301_dashsub/{startdate}/{enddate}',[App\Http\Controllers\Account301Controller::class, 'account_301_dashsub'])->name('acc.account_301_dashsub');//
     Route::match(['get','post'],'account_301_dashsubdetail/{months}/{year}',[App\Http\Controllers\Account301Controller::class, 'account_301_dashsubdetail'])->name('acc.account_301_dashsubdetail');//
     Route::match(['get','post'],'account_301_pull',[App\Http\Controllers\Account301Controller::class, 'account_301_pull'])->name('acc.account_301_pull');//
+    Route::match(['get','post'],'account_301_checksit',[App\Http\Controllers\Account301Controller::class, 'account_301_checksit'])->name('acc.account_301_checksit');//
     Route::match(['get','post'],'account_301_pulldata',[App\Http\Controllers\Account301Controller::class, 'account_301_pulldata'])->name('acc.account_301_pulldata');//
     Route::match(['get','post'],'account_301/{months}/{year}',[App\Http\Controllers\Account301Controller::class, 'account_301'])->name('acc.account_301');//
     Route::match(['get','post'],'account_301_detail/{startdate}/{enddate}',[App\Http\Controllers\Account301Controller::class, 'account_301_detail'])->name('acc.account_301_detail');//
@@ -1998,12 +1999,11 @@ Route::middleware(['type'])->group(function(){
 
     // Route::match(['get','post'],'account_3012_pull',[App\Http\Controllers\Account3011Controller::class, 'account_3012_pull'])->name('acc.account_3012_pull');// 
 
-
-
     Route::match(['get','post'],'account_302_dash',[App\Http\Controllers\Account302Controller::class, 'account_302_dash'])->name('acc.account_302_dash');//
     Route::match(['get','post'],'account_302_dashsub/{startdate}/{enddate}',[App\Http\Controllers\Account302Controller::class, 'account_302_dashsub'])->name('acc.account_302_dashsub');//
     Route::match(['get','post'],'account_302_dashsubdetail/{months}/{year}',[App\Http\Controllers\Account302Controller::class, 'account_302_dashsubdetail'])->name('acc.account_302_dashsubdetail');//
     Route::match(['get','post'],'account_302_pull',[App\Http\Controllers\Account302Controller::class, 'account_302_pull'])->name('acc.account_302_pull');//
+    Route::match(['get','post'],'account_302_checksit',[App\Http\Controllers\Account302Controller::class, 'account_302_checksit'])->name('acc.account_302_checksit');//
     Route::match(['get','post'],'account_302_pulldata',[App\Http\Controllers\Account302Controller::class, 'account_302_pulldata'])->name('acc.account_302_pulldata');//
     Route::match(['get','post'],'account_302/{months}/{year}',[App\Http\Controllers\Account302Controller::class, 'account_302'])->name('acc.account_302');//
     Route::match(['get','post'],'account_302_detail/{startdate}/{enddate}',[App\Http\Controllers\Account302Controller::class, 'account_302_detail'])->name('acc.account_302_detail');//
@@ -2014,6 +2014,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_302_destroy_all',[App\Http\Controllers\Account302Controller::class, 'account_302_destroy_all'])->name('acc.account_302_destroy_all');// 
 
     Route::match(['get','post'],'account_304_pull',[App\Http\Controllers\Account304Controller::class, 'account_304_pull'])->name('acc.account_304_pull');//
+    Route::match(['get','post'],'account_304_checksit',[App\Http\Controllers\Account304Controller::class, 'account_304_checksit'])->name('acc.account_304_checksit');//
     Route::match(['get','post'],'account_304_pulldata',[App\Http\Controllers\Account304Controller::class, 'account_304_pulldata'])->name('acc.account_304_pulldata');//
     Route::match(['get','post'],'account_304_dash',[App\Http\Controllers\Account304Controller::class, 'account_304_dash'])->name('acc.account_304_dash');//
     Route::match(['get','post'],'account_304/{months}/{year}',[App\Http\Controllers\Account304Controller::class, 'account_304'])->name('acc.account_304');//
@@ -2027,6 +2028,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_304_destroy_all',[App\Http\Controllers\Account304Controller::class, 'account_304_destroy_all'])->name('acc.account_304_destroy_all');// 
 
     Route::match(['get','post'],'account_307_pull',[App\Http\Controllers\Account307Controller::class, 'account_307_pull'])->name('acc.account_307_pull');//
+    Route::match(['get','post'],'account_307_checksit',[App\Http\Controllers\Account307Controller::class, 'account_307_checksit'])->name('acc.account_307_checksit');//
     Route::match(['get','post'],'account_307_pull_m/{months}/{year}',[App\Http\Controllers\Account307Controller::class, 'account_307_pull_m'])->name('acc.account_307_pull_m');//
     Route::match(['get','post'],'account_307_pulldata',[App\Http\Controllers\Account307Controller::class, 'account_307_pulldata'])->name('acc.account_307_pulldata');//
     Route::match(['get','post'],'account_307_dash',[App\Http\Controllers\Account307Controller::class, 'account_307_dash'])->name('acc.account_307_dash');//
@@ -2055,6 +2057,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_308_destroy_all',[App\Http\Controllers\Account308Controller::class, 'account_308_destroy_all'])->name('acc.account_308_destroy_all');// 
 
     Route::match(['get','post'],'account_309_pull',[App\Http\Controllers\Account309Controller::class, 'account_309_pull'])->name('acc.account_309_pull');//
+    Route::match(['get','post'],'account_309_checksit',[App\Http\Controllers\Account309Controller::class, 'account_309_checksit'])->name('acc.account_309_checksit');//
     Route::match(['get','post'],'account_309_pulldata',[App\Http\Controllers\Account309Controller::class, 'account_309_pulldata'])->name('acc.account_309_pulldata');//
     Route::match(['get','post'],'account_309_dash',[App\Http\Controllers\Account309Controller::class, 'account_309_dash'])->name('acc.account_309_dash');//
     Route::match(['get','post'],'account_309/{months}/{year}',[App\Http\Controllers\Account309Controller::class, 'account_309'])->name('acc.account_309');//
@@ -2072,6 +2075,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_310_dashsubdetail/{months}/{year}',[App\Http\Controllers\Account310Controller::class, 'account_310_dashsubdetail'])->name('acc.account_310_dashsubdetail');//
     Route::match(['get','post'],'account_310_detail_date',[App\Http\Controllers\Account310Controller::class, 'account_310_detail_date'])->name('acc.account_310_detail_date');//
     Route::match(['get','post'],'account_310_pull',[App\Http\Controllers\Account310Controller::class, 'account_310_pull'])->name('acc.account_310_pull');//
+    Route::match(['get','post'],'account_310_checksit',[App\Http\Controllers\Account310Controller::class, 'account_310_checksit'])->name('acc.account_310_checksit');//
     Route::match(['get','post'],'account_310_pulldata',[App\Http\Controllers\Account310Controller::class, 'account_310_pulldata'])->name('acc.account_310_pulldata');//
     Route::match(['get','post'],'account_310/{months}/{year}',[App\Http\Controllers\Account310Controller::class, 'account_310'])->name('acc.account_310');//
     Route::match(['get','post'],'account_310_detail/{startdate}/{enddate}',[App\Http\Controllers\Account310Controller::class, 'account_310_detail'])->name('acc.account_310_detail');//

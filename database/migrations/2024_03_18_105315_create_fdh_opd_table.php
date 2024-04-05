@@ -19,6 +19,7 @@ return new class extends Migration
                 $table->string('HN',length: 15)->nullable();//
                 $table->string('CLINIC',length: 5)->nullable();//
                 $table->string('DATEOPD',length: 8)->nullable();// 
+                // $table->date('DATEOPD')->nullable();// 
                 $table->string('TIMEOPD',length: 4)->nullable();//  
                 $table->string('SEQ',length: 15)->nullable(); //             
                 $table->string('UUC',length: 1)->nullable(); // 

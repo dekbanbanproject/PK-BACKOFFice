@@ -175,13 +175,14 @@ class Account309Controller extends Controller
         if ($startdate == '') {
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $acc_debtor = DB::select('
-                SELECT a.*,c.subinscl from acc_debtor a
-                left join checksit_hos c on c.vn = a.vn
-                WHERE a.account_code="1102050101.309"
-                AND a.stamp = "N"
-                order by a.vstdate desc;
+                SELECT * from acc_debtor 
+               
+                WHERE account_code="1102050101.309"
+                AND stamp = "N"
+                order by vstdate desc;
 
             ');
+            // left join checksit_hos c on c.vn = a.vn
             // and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
         } else {
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
@@ -201,38 +202,27 @@ class Account309Controller extends Controller
         $enddate = $request->datepicker2;
         // Acc_opitemrece::truncate();
             $acc_debtor = DB::connection('mysql2')->select('   
-                    SELECT o.vn,ifnull(o.an,"") as an,o.hn,pt.cid as cid
-                    ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
-                    ,o.vstdate as vstdate 
-                    ,o.vsttime ,v.hospmain,op.income as income_group  
-                    ,ptt.pttype_eclaim_id
-                    ,vp.pttype
-                    ,e.code as acc_code
-                    ,e.ar_opd as account_code
-                    ,e.name as account_name
-                    ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
-                    ,v.rcpno_list as rcpno
-                    ,vp.nhso_ownright_pid
-                    ,format(vp.nhso_ownright_pid-v.uc_money,2) as sauntang
-                    ,v.income-v.discount_money-v.rcpt_money as looknee
-                    ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
+                    SELECT o.vn,ifnull(o.an,"") as an,o.hn,pt.cid as cid,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+                    ,o.vstdate as vstdate,o.vsttime ,v.hospmain,op.income as income_group,ptt.pttype_eclaim_id,vp.pttype,e.code as acc_code
+                    ,e.ar_opd as account_code,e.name as account_name,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
+                    ,v.rcpno_list as rcpno,vp.nhso_ownright_pid,format(vp.nhso_ownright_pid-v.uc_money,2) as sauntang
+                    ,v.income-v.discount_money-v.rcpt_money as looknee,if(op.icode IN ("3010058"),sum_price,0) as fokliad
                     ,sum(if(op.income="02",sum_price,0)) as debit_instument
                     ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
                     ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
                     ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
                     ,vp.max_debt_amount
-                    from ovst o
-                    left join vn_stat v on v.vn=o.vn
-                    left join patient pt on pt.hn=o.hn
+                    FROM ovst o
+                    LEFT JOIN vn_stat v on v.vn=o.vn
+                    LEFT JOIN patient pt on pt.hn=o.hn
                     LEFT JOIN visit_pttype vp on vp.vn = v.vn
                     LEFT JOIN pttype ptt on o.pttype=ptt.pttype
                     LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
                     LEFT JOIN opitemrece op ON op.vn = o.vn
-                    WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                  
+                    WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"                  
                     AND vp.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.309")
                     AND v.income <> 0
-                    and (o.an="" or o.an is null)
+                    AND (o.an="" or o.an is null)
                     GROUP BY o.vn
             ');
             // AND vp.pttype = "14" 
@@ -271,13 +261,93 @@ class Account309Controller extends Controller
                             'max_debt_amount'    => $value->max_debt_amount,
                             'acc_debtor_userid'  => Auth::user()->id
                         ]);
-                    }
- 
+                    } 
             }
             return response()->json([
 
                 'status'    => '200'
             ]);
+    }
+    public function account_309_checksit(Request $request)
+    {
+        $datestart = $request->datestart;
+        $dateend = $request->dateend;
+        $date = date('Y-m-d');
+        
+        $data_sitss = DB::connection('mysql')->select('SELECT vn,an,cid,vstdate,dchdate FROM acc_debtor WHERE account_code="1102050101.309" AND stamp = "N" GROUP BY vn');
+      
+        $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
+        foreach ($token_data as $key => $value) { 
+            $cid_    = $value->cid;
+            $token_  = $value->token;
+        }
+        foreach ($data_sitss as $key => $item) {
+            $pids = $item->cid;
+            $vn   = $item->vn; 
+            $an   = $item->an; 
+                // $token_data = DB::connection('mysql10')->select('SELECT cid,token FROM hos.nhso_token where token <> ""');
+                // foreach ($token_data as $key => $value) { 
+                    $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
+                        array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1',"trace" => 1,"exceptions" => 0,"cache_wsdl" => 0)
+                        );
+                        $params = array(
+                            'sequence' => array(
+                                "user_person_id"   => "$cid_",
+                                "smctoken"         => "$token_",
+                                // "user_person_id" => "$value->cid",
+                                // "smctoken"       => "$value->token",
+                                "person_id"        => "$pids"
+                        )
+                    );
+                    $contents = $client->__soapCall('searchCurrentByPID',$params);
+                    foreach ($contents as $v) {
+                        @$status = $v->status ;
+                        @$maininscl = $v->maininscl;
+                        @$startdate = $v->startdate;
+                        @$hmain = $v->hmain ;
+                        @$subinscl = $v->subinscl ;
+                        @$person_id_nhso = $v->person_id;
+
+                        @$hmain_op = $v->hmain_op;  //"10978"
+                        @$hmain_op_name = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
+                        @$hsub = $v->hsub;    //"04047"
+                        @$hsub_name = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
+                        @$subinscl_name = $v->subinscl_name ; //"ช่วงอายุ 12-59 ปี"
+
+                        IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
+                            $date = date("Y-m-d");
+                          
+                            Acc_debtor::where('vn', $vn)
+                            ->update([
+                                'status'         => 'จำหน่าย/เสียชีวิต',
+                                'maininscl'      => @$maininscl,
+                                'pttype_spsch'   => @$subinscl,
+                                'hmain'          => @$hmain,
+                                'subinscl'       => @$subinscl, 
+                            ]);
+                            
+                        }elseif(@$maininscl !="" || @$subinscl !=""){
+                           Acc_debtor::where('vn', $vn)
+                           ->update([
+                               'status'         => @$status,
+                               'maininscl'      => @$maininscl,
+                               'pttype_spsch'   => @$subinscl,
+                               'hmain'          => @$hmain,
+                               'subinscl'       => @$subinscl,
+                           
+                           ]); 
+                                    
+                        }
+
+                    }
+           
+        }
+
+        return response()->json([
+
+           'status'    => '200'
+       ]);
+
     }
     public function account_309_stam(Request $request)
     {

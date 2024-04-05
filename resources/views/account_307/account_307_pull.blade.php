@@ -123,7 +123,11 @@
                                 <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
                             </div> --}}
                             <div class="col"></div>
-                            <div class="col-md-2 text-end">
+                            <div class="col-md-3 text-end">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-info cardacc" id="Check_sit">
+                                    <i class="fa-solid fa-user me-2"></i>
+                                    ตรวจสอบสิทธิ์
+                                </button>
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_307_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
@@ -160,13 +164,13 @@
                                         @foreach ($acc_debtor as $item) 
                                             <tr id="tr_{{$item->acc_debtor_id}}">                                                  
                                                 <td class="text-center" width="5%">{{ $i++ }}</td>  
-                                                @if ($item->debit_total < '1')
+                                                {{-- @if ($item->debit_total < '1')
                                                     <td class="text-center" width="5%">
                                                         <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
                                                     </td> 
-                                                @else
+                                                @else --}}
                                                     <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
-                                                @endif
+                                                {{-- @endif --}}
                                                 {{-- <td class="text-center" width="5%"><input type="checkbox" class="cardacc sub_chk" data-id="{{$item->acc_debtor_id}}"> </td>  --}}
 
                                                 <td class="text-center" width="5%">{{ $item->vn }}</td> 
@@ -355,6 +359,61 @@
                                 });
                                 
                             }
+                })
+            });
+
+            $('#Check_sit').click(function() {
+                var datepicker = $('#datepicker').val(); 
+                var datepicker2 = $('#datepicker2').val(); 
+                //    alert(datepicker);
+                Swal.fire({
+                        title: 'ต้องการตรวจสอบสอทธิ์ใช่ไหม ?',
+                        text: "You Check Sit Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, pull it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner-div").show(); //Load button clicked show spinner 
+                            $.ajax({
+                                url: "{{ route('acc.account_307_checksit') }}",
+                                type: "POST",
+                                dataType: 'json',
+                                data: {
+                                    datepicker,
+                                    datepicker2                        
+                                },
+                                success: function(data) {
+                                    if (data.status == 200) { 
+                                        Swal.fire({
+                                            title: 'เช็คสิทธิ์สำเร็จ',
+                                            text: "You Check sit success",
+                                            icon: 'success',
+                                            showCancelButton: false,
+                                            confirmButtonColor: '#06D177',
+                                            confirmButtonText: 'เรียบร้อย'
+                                        }).then((result) => {
+                                            if (result
+                                                .isConfirmed) {
+                                                console.log(
+                                                    data);
+                                                window.location.reload();
+                                                $('#spinner-div').hide();//Request is complete so hide spinner
+                                                    setTimeout(function(){
+                                                        $("#overlay").fadeOut(300);
+                                                    },500);
+                                            }
+                                        })
+                                    } else {
+                                        
+                                    }
+
+                                },
+                            });
+                        }
                 })
             });
 

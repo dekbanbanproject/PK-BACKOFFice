@@ -294,9 +294,9 @@ class Auto_authenController extends Controller
     public function pullauthen_spsch(Request $request)
     {        
         $date_now = date('Y-m-d');
-        $date_start = "2023-12-12";
-        $date_end = "2023-09-21";
-        $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=transId,desc";
+        $date_start = "2024-03-22";
+        $date_end = "2024-09-21";
+        $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_start&claimDateTo=$date_start&page=0&size=1000&sort=transId,desc";
         // $url = "https://authenservice.nhso.go.th/authencode/api/erm-reg-claim?claimStatus=E&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=claimDate,desc";
 
         // dd($url);https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=2023-05-09&claimDateTo=2023-05-09
