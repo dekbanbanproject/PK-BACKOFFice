@@ -826,8 +826,6 @@ class Fdh_Ucep24Controller extends Controller
                 } 
  
          }
-           
-
         // $data_ = DB::connection('mysql')->select('SELECT vn,an,hn,DATE_FORMAT(vstdate,"%Y%m%d") as vstdate,dchdate,icode,qty FROM d_ucep24'); 
         // $iduser = Auth::user()->id;
         // foreach ($data_ as $key => $val) {   
