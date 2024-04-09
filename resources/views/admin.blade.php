@@ -832,7 +832,7 @@
                                             <a href="{{ url('techservice') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
-                                                        <img src="{{ asset('images/cctv1.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                                        <img src="{{ asset('images/cctv1.png') }}" height="70px" width="90px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>
