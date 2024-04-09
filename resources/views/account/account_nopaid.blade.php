@@ -209,6 +209,7 @@
                                                     <td class="text-center" width="10%">{{ number_format($item2->sum_paid_money, 2) }}</td>   
                                                     <td class="text-center" width="10%" style="color:rgb(7, 167, 113)">{{ number_format($item2->sum_rcpt_money, 2) }}</td> 
                                                     <td class="text-center" width="10%" style="color:rgb(202, 55, 29)">
+                                                        {{-- {{ number_format($item2->sum_Total, 2) }} --}}
                                                         <a href="{{url('account_nopaid_sub/'.$item2->months.'/'.$item2->year)}}" target="_blank">{{ number_format($item2->sum_Total, 2) }} </a>  
                                                     </td> 
                                                 </tr>
