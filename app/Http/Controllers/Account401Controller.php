@@ -534,15 +534,19 @@ class Account401Controller extends Controller
         $data['users'] = User::get();
         if ($startdate =='') {
            $datashow = DB::select(' 
-               SELECT * from acc_1102050101_401 
-               WHERE vstdate BETWEEN "'.$new_day.'" AND  "'.$date.'" 
-               
+               SELECT * from acc_1102050101_401 a 
+               LEFT OUTER JOIN d_fdh d ON d.vn = a.vn
+               WHERE a.vstdate BETWEEN "'.$new_day.'" AND  "'.$date.'" 
+              
+               GROUP BY a.vn
            ');
         } else {
            $datashow = DB::select(' 
-               SELECT * from acc_1102050101_401 
-               WHERE vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" 
+               SELECT * from acc_1102050101_401 a
+               LEFT OUTER JOIN d_fdh d ON d.vn = a.vn
+               WHERE a.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" 
                
+               GROUP BY a.vn
            ');
         }
          

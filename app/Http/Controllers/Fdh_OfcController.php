@@ -115,7 +115,7 @@ class Fdh_OfcController extends Controller
                             ,v.vstdate,v.pttype  ,rd.sss_approval_code AS "Apphos",v.inc04 as xray,h.hospcode,h.name as hospcode_name
                             ,rd.amount AS price_ofc,v.income,ptt.hipdata_code 
                             ,group_concat(distinct hh.appr_code,":",hh.transaction_amount,"/") AS AppKTB 
-                            ,GROUP_CONCAT(DISTINCT ov.icd10 order by ov.diagtype) AS icd10,v.pdx,ovv.name as active_status
+                            ,GROUP_CONCAT(DISTINCT ov.icd10 order by ov.diagtype) AS icd10,v.pdx,ovv.name as active_status,v.income-v.discount_money-v.rcpt_money as debit
                             FROM vn_stat v
                             LEFT OUTER JOIN patient pt ON v.hn=pt.hn
                             LEFT OUTER JOIN ovstdiag ov ON v.vn=ov.vn
@@ -162,7 +162,8 @@ class Fdh_OfcController extends Controller
                         D_fdh::where('vn',$value->vn)->where('projectcode','OFC')->update([ 
                             'an'             => $value->an,    
                             'icd10'          => $value->icd10,  
-                            'debit'          => $value->price_ofc,
+                            'debit'          => $value->debit,
+                            'price_ofc'      => $value->price_ofc,
                             'active_status'  => $value->active_status,
                             'authen'         => $value->Apphos
                         ]);
@@ -179,7 +180,8 @@ class Fdh_OfcController extends Controller
                             'projectcode'  => 'OFC', 
                             'icd10'        => $value->icd10,
                             'hospcode'     => $value->hospcode, 
-                            'debit'        => $value->price_ofc,
+                            'debit'        => $value->debit,
+                            'price_ofc'      => $value->price_ofc,
                             'active_status'  => $value->active_status
                         ]);
                     } 
@@ -210,8 +212,9 @@ class Fdh_OfcController extends Controller
 
                     
                 } 
-        }                
-            $data['d_ofc_401'] = DB::connection('mysql')->select('SELECT * from d_ofc_401 WHERE active ="N" AND Apphos IS NOT NULL ORDER BY vn ASC');  
+        }   
+            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="OFC" AND debit > 0  ORDER BY vn DESC LIMIT 500');              
+            // $data['d_fdh'] = DB::connection('mysql')->select('SELECT * from d_ofc_401 WHERE active ="N" AND Apphos IS NOT NULL ORDER BY vn ASC');     AND authen IS NOT NULL
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="OFC_401"'); 
             $data['data_orf'] = DB::connection('mysql')->select('SELECT * from fdh_orf WHERE d_anaconda_id ="OFC_401"'); 
             $data['data_oop'] = DB::connection('mysql')->select('SELECT * from fdh_oop WHERE d_anaconda_id ="OFC_401"');
@@ -227,8 +230,9 @@ class Fdh_OfcController extends Controller
             $data['data_cha'] = DB::connection('mysql')->select('SELECT * from fdh_cha WHERE d_anaconda_id ="OFC_401"');
             $data['data_ins'] = DB::connection('mysql')->select('SELECT * from fdh_ins WHERE d_anaconda_id ="OFC_401"');
             $data['data_dru'] = DB::connection('mysql')->select('SELECT * from fdh_dru WHERE d_anaconda_id ="OFC_401"');
-            $data['count_no'] = D_ofc_401::where('Apphos','<>','')->where('active','=','N')->count();
-            $data['count_null'] = D_ofc_401::where('Apphos','=',Null)->where('active','=','N')->count();
+            // $data['count_no'] = D_fdh::where('authen','<>','')->where('active','=','N')->where('projectcode','=','OFC')->count();
+            $data['count_no'] = D_fdh::where('authen','<>','')->where('active','=','N')->where('projectcode','=','OFC')->where('debit','>','0')->count();
+            $data['count_null'] = D_fdh::where('authen','=',NULL)->where('active','=','N')->where('projectcode','=','OFC')->where('debit','>','0')->count();
         return view('ofc.ofc_main',$data,[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate, 
@@ -255,8 +259,9 @@ class Fdh_OfcController extends Controller
         
         $id = $request->ids;
         $iduser = Auth::user()->id;
-        $data_vn_1 = D_ofc_401::whereIn('d_ofc_401_id',explode(",",$id))->get();
-                
+        // $data_vn_1 = D_ofc_401::whereIn('d_ofc_401_id',explode(",",$id))->get();
+        $data_vn_1 = D_fdh::whereIn('d_fdh_id',explode(",",$id))->get();
+
          foreach ($data_vn_1 as $key => $va1) {
                 
                 //D_ins OK
@@ -809,11 +814,15 @@ class Fdh_OfcController extends Controller
                 } 
  
          }
-         D_ofc_401::whereIn('d_ofc_401_id',explode(",",$id))
+                D_fdh::whereIn('d_fdh_id',explode(",",$id))
                 ->update([
                     'active' => 'Y'
                 ]);
-        Fdh_adp::where('CODE','=','XXXXXX')->delete();
+                //  D_ofc_401::whereIn('d_ofc_401_id',explode(",",$id))
+                //         ->update([
+                //             'active' => 'Y'
+                //         ]);
+                // Fdh_adp::where('CODE','=','XXXXXX')->delete();
 
         return response()->json([
              'status'    => '200'

@@ -3058,6 +3058,12 @@ Route::match(['get','post'],'stp_process_vn',[App\Http\Controllers\Fdh_StpContro
 Route::match(['get','post'],'stp_process',[App\Http\Controllers\Fdh_StpController::class, 'stp_process'])->name('fdh.stp_process');//
 Route::match(['get','post'],'stp_export',[App\Http\Controllers\Fdh_StpController::class, 'stp_export'])->name('fdh.stp_export');//
 
+Route::match(['get','post'],'fdh_ipd',[App\Http\Controllers\Fdh_IpdController::class, 'fdh_ipd'])->name('fdh.fdh_ipd');//
+Route::match(['get','post'],'fdh_ipd_an',[App\Http\Controllers\Fdh_IpdController::class, 'fdh_ipd_an'])->name('fdh.fdh_ipd_an');//
+Route::match(['get','post'],'fdh_ipd_process',[App\Http\Controllers\Fdh_IpdController::class, 'fdh_ipd_process'])->name('fdh.fdh_ipd_process');//
+Route::match(['get','post'],'fdh_ipd_export',[App\Http\Controllers\Fdh_IpdController::class, 'fdh_ipd_export'])->name('fdh.fdh_ipd_export');//
+Route::match(['get','post'],'fdh_ipd_zip',[App\Http\Controllers\Fdh_IpdController::class, 'fdh_ipd_zip'])->name('fdh.fdh_ipd_zip');//
+
 Route::match(['get','post'],'ucep24_main',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main'])->name('fdh.ucep24_main');//
 Route::match(['get','post'],'ucep24_main_process',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main_process'])->name('fdh.ucep24_main_process');//
 Route::match(['get','post'],'ucep24_main_update',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main_update'])->name('fdh.ucep24_main_update');//

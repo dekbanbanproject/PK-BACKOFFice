@@ -128,7 +128,7 @@
                                     <th class="text-center">ลูกหนี้</th>  
                                     <th class="text-center">ส่วนต่าง</th> 
                                     <th class="text-center">Stm 401</th> 
-                                    {{-- <th class="text-center">ชดเชย</th>   --}}
+                                    <th class="text-center">สถานะ</th>  
                                     <th class="text-center">STMdoc</th> 
                                 </tr>
                             </thead>
@@ -156,6 +156,7 @@
                                         <td class="text-end" style="color:rgb(184, 12, 169)" width="6%">{{ number_format(($item->debit_total-$item->stm_money),2)}}</td> 
                                         <td class="text-end" style="color:rgb(216, 95, 14)" width="6%">{{ number_format($item->stm_money,2)}}</td> 
                                         {{-- <td class="text-end" style="color:rgb(9, 196, 180)" width="6%">{{ number_format($item->stm_total,2)}}</td>   --}}
+                                        <td class="text-center" width="6%">{{ $item->projectcode }}</td>
                                         <td class="p-2" width="9%">{{ $item->STMDoc }}</td>  
                                     
                                     </tr>

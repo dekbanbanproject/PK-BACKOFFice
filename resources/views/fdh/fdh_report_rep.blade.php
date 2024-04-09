@@ -169,22 +169,13 @@ $pos = strrpos($url, '/') + 1;
                                                 <?php $number = 0; ?>
                                                 @foreach ($d_fdh as $item)
                                                 <?php $number++; ?>
-                    
-                                                    <tr height="20" style="font-size: 12px;">
-                                                        {{-- @if ($item->icd10 == '')
-                                                            <td class="text-center" width="5%">
-                                                                <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
-                                                            </td> 
-                                                        @else
-                                                            <td class="text-center" width="5%"><input type="checkbox" class="fdhcheckbox sub_chk" data-id="{{$item->d_fdh_id}}"> </td> 
-                                                        @endif --}}
-                                                        {{-- <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td> --}}
-                                                        <td class="text-center" width="8%">{{ $item->vn }}  </td>
-                                                        {{-- <td class="text-center" width="8%">{{ $item->an }}  </td> --}}
+
+                                                @if ($item->STMdoc == '')
+                                                <tr height="20" style="font-size: 12px;background-color: rgb(255, 193, 193)"> 
+                                                    <td class="text-center" width="8%">{{ $item->vn }}  </td> 
                                                         <td class="text-center" width="5%">{{ $item->hn }}</td>
                                                         <td class="text-center" width="10%">{{ $item->cid }}</td>  
-                                                        <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
-                                                        {{-- <td class="text-center" width="7%">{{ $item->dchdate }}</td>  --}}
+                                                        <td class="text-center" width="7%">{{ $item->vstdate }}</td>  
                                                         <td class="text-center" width="5%">{{ $item->pttype }}</td>    
                                                         <td class="text-start">{{ $item->ptname }}</td>  
                                                         <td class="text-center" width="5%">{{ $item->icd10 }}</td> 
@@ -199,6 +190,29 @@ $pos = strrpos($url, '/') + 1;
                                                         <td class="text-center" width="5%">{{ $item->error_code }}</td> 
                                                         <td class="text-center" width="10%">{{ $item->STMdoc }}</td> 
                                                     </tr> 
+                                                @else
+                                                    <tr height="20" style="font-size: 12px;"> 
+                                                        <td class="text-center" width="8%">{{ $item->vn }}  </td> 
+                                                        <td class="text-center" width="5%">{{ $item->hn }}</td>
+                                                        <td class="text-center" width="10%">{{ $item->cid }}</td>  
+                                                        <td class="text-center" width="7%">{{ $item->vstdate }}</td>  
+                                                        <td class="text-center" width="5%">{{ $item->pttype }}</td>    
+                                                        <td class="text-start">{{ $item->ptname }}</td>  
+                                                        <td class="text-center" width="5%">{{ $item->icd10 }}</td> 
+                                                        <td class="text-center" width="7%">{{ $item->authen }}</td> 
+                                                        <td class="text-center" width="7%">{{ $item->debit }}</td> 
+                                                        @if ($item->debit != $item->debit_rep)
+                                                        <td class="text-center" width="7%" style="color:#E9540F">{{ $item->debit_rep }}</td> 
+                                                        @else
+                                                        <td class="text-center" width="7%" style="color:#05978b">{{ $item->debit_rep }}</td> 
+                                                        @endif
+                                                    
+                                                        <td class="text-center" width="5%">{{ $item->error_code }}</td> 
+                                                        <td class="text-center" width="10%">{{ $item->STMdoc }}</td> 
+                                                    </tr> 
+                                                @endif
+                    
+                                                    
                     
                                                 @endforeach
                     

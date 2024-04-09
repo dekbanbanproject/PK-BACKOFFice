@@ -141,9 +141,10 @@ class FdhController extends Controller
             $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
 
             if ($startdate == '') {  
-                $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="R" AND  vstdate BETWEEN "'.$newDate.'" and "'.$date.'" ORDER BY vn ASC');             
+                // $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="R" AND  vstdate BETWEEN "'.$newDate.'" and "'.$date.'" ORDER BY vn ASC'); 
+                $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE vstdate BETWEEN "'.$newweek.'" and "'.$date.'" ORDER BY vn ASC');              
             } else {
-                $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="R" AND  vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" ORDER BY vn ASC'); 
+                $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" ORDER BY vn ASC'); 
                     
             }  
 

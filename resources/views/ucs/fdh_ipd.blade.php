@@ -1,5 +1,5 @@
 @extends('layouts.fdh')
-@section('title', 'PK-OFFICE || OFC')
+@section('title', 'PK-OFFICE || UCS')
 @section('content')
 <script>
     function TypeAdmin() {
@@ -88,16 +88,25 @@ $pos = strrpos($url, '/') + 1;
             </div>
         </div>
     </div>
-    <form action="{{ url('ofc_main') }}" method="POST">
+    <form action="{{ url('fdh_ipd') }}" method="POST">
         @csrf
     <div class="row"> 
             <div class="col-md-3">
-                <h4 class="card-title" style="color:rgba(21, 177, 164, 0.871)">Detail OFC List</h4>
-                <p class="card-title-desc">รายละเอียดข้อมูล OFC ข้าราชการ</p>
+                <h4 class="card-title" style="color:rgba(21, 177, 164, 0.871)">Detail IPD List</h4>
+                <p class="card-title-desc">รายละเอียดข้อมูล IPD List</p>
             </div>
-            <div class="col"></div>
+            {{-- <div class="col"></div> --}}
+            <div class="col-md-2">
+                <input type="text" name="AN" id="AN" class="form-control card_fdh_4" placeholder="AN"/> 
+            </div>
+            <div class="col-md-1 text-start"> 
+                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim_vn" data-url="{{url('fdh_ipd_an')}}">
+                    <i class="fa-solid fa-spinner text-success me-2"></i>
+                    ส่งเคลม
+                </button>
+            </div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-6 text-end">
+            <div class="col-md-5 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control card_fdh_4" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
@@ -110,14 +119,18 @@ $pos = strrpos($url, '/') + 1;
                     </button>  
 
                     </form>
-                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('ofc_main_process')}}">
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('fdh_ipd_process')}}">
                         <i class="fa-solid fa-spinner text-success me-2"></i>
                         ส่งเคลม
                     </button>
                    
-                    <a href="{{url('ofc_main_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4">
+                    <a href="{{url('fdh_ipd_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4">
                         <i class="fa-solid fa-file-export text-danger me-2"></i>
                         Export Txt
+                    </a> 
+                    <a href="{{url('fdh_ipd_zip')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4">
+                        <i class="fa-solid fa-file-export text-danger me-2"></i>
+                        Zip Txt
                     </a> 
                 </div> 
             </div>          
@@ -135,7 +148,7 @@ $pos = strrpos($url, '/') + 1;
                                 <li class="nav-item">
                                     <a class="nav-link active" data-bs-toggle="tab" href="#Main" role="tab">
                                         <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                        <span class="d-none d-sm-block">OFC ข้าราชการ</span>    
+                                        <span class="d-none d-sm-block">WalkIn</span>    
                                     </a>
                                 </li>   
                                 <li class="nav-item">
@@ -244,20 +257,20 @@ $pos = strrpos($url, '/') + 1;
                                             <thead>
                                                 <tr style="font-size: 13px">
                                                     <th width="5%" class="text-center"><input type="checkbox" class="fdhcheckbox" name="stamp" id="stamp"> </th> 
-                                                    <th class="text-center">ลำดับ</th> 
-                                                    <th class="text-center">
-                                                        <span class="bg-success badge me-2">{{ $count_no }}</span> 
-                                                        Approve Code
-                                                        <span class="bg-danger badge me-2">{{ $count_null }}</span> 
-                                                    </th>
-                                                    <th class="text-center">cid</th>
+                                                    {{-- <th class="text-center">ลำดับ</th> --}}
+                                                    <th class="text-center">vn</th>
+                                                    <th class="text-center">an</th>
                                                     <th class="text-center">hn</th>
-                                                    <th class="text-center">ptname</th>  
+                                                    <th class="text-center">cid</th>  
+                                                    <th class="text-center">dchdate</th> 
                                                     <th class="text-center">pttype</th> 
-                                                    <th class="text-center">vstdate</th> 
-                                                    <th class="text-center">icd10</th> 
-                                                    <th class="text-center">debit</th>                                                     
-                                                    <th class="text-center">Price OFC</th> 
+                                                    {{-- <th class="text-center">hospcode</th>  --}}
+                                                    <th class="text-center">icd10</th>  
+                                                    {{-- <th class="text-center">Authen</th>  --}}
+                                                    {{-- <th class="text-center">projectcode</th>  --}}
+                                                    <th class="text-center">ptname</th> 
+                                                    <th class="text-center">debit</th> 
+                                                    <th class="text-center">ยามะเร็ง</th> 
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -266,39 +279,40 @@ $pos = strrpos($url, '/') + 1;
                                                 <?php $number++; ?>
                     
                                                     <tr height="20" style="font-size: 12px;">
-                                                        {{-- @if ($item->icd10 == '')
-                                                            <td class="text-center" width="5%">
-                                                                <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
-                                                            </td> 
-                                                        @else
-                                                            <td class="text-center" width="5%"><input type="checkbox" class="fdhcheckbox sub_chk" data-id="{{$item->d_fdh_id}}"> </td> 
-                                                        @endif --}}
-
-                                                        @if ($item->icd10 == '' || $item->authen == '')
+                                                        @if ($item->icd10 == '')
                                                             <td class="text-center" width="5%">
                                                                 <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
                                                             </td> 
                                                         @else
                                                             <td class="text-center" width="5%"><input type="checkbox" class="fdhcheckbox sub_chk" data-id="{{$item->d_fdh_id}}"> </td> 
                                                         @endif
-
-                                                        <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td>
-                                                        <td class="text-center" width="15%">
-                                                            @if ($item->authen != NULL)
-                                                                <span class="bg-success badge me-2">{{ $item->authen }}</span> 
-                                                            @else
-                                                                <span class="bg-danger badge me-2">000000000</span> 
-                                                            @endif
-                                                            
-                                                        </td> 
-                                                        <td class="text-center" width="7%">  {{ $item->cid }}  </td>
-                                                        <td class="text-center" width="8%">{{ $item->hn }}</td>
-                                                        <td class="text-start">{{ $item->ptname }}</td>  
+                                                        {{-- <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td> --}}
+                                                        <td class="text-center" width="10%">  {{ $item->vn }}  </td>
+                                                        <td class="text-center" width="10%">  {{ $item->an }}  </td>
+                                                        <td class="text-center" width="5%">{{ $item->hn }}</td>
+                                                        <td class="text-center" width="10%">{{ $item->cid }}</td>  
+                                                        <td class="text-center" width="7%">{{ $item->dchdate }}</td> 
                                                         <td class="text-center" width="5%">{{ $item->pttype }}</td> 
-                                                        <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
-                                                        <td class="text-center" width="5%">{{ $item->icd10 }}</td>
-                                                        <td class="text-center" width="5%">{{ number_format($item->debit, 2) }}</td>                                                    
-                                                        <td class="text-end" width="7%" style="font-size: 15px;color:blue">{{ number_format($item->price_ofc, 2) }}</td> 
+                                                        {{-- <td class="text-center" width="5%">{{ $item->hospcode }}</td>  --}}
+                                                        @if ($item->icd10 == '')
+                                                            <td class="text-center" width="7%" style="background-color: rgb(250, 159, 174)">{{ $item->icd10 }}</td> 
+                                                        @else
+                                                            <td class="text-center" width="7%">{{ $item->icd10 }}</td> 
+                                                        @endif
+
+                                                        {{-- @if ($item->authen == '')
+                                                        <td class="text-center" width="7%" style="background-color: rgb(172, 113, 250)">{{ $item->authen }}</td> 
+                                                    @else
+                                                        <td class="text-center" width="7%">{{ $item->authen }}</td> 
+                                                    @endif --}}
+                                                        
+                                                       
+                                                       
+                                                        {{-- <td class="text-center" width="5%">{{ $item->projectcode }}</td>  --}}
+                                                        <td class="text-start">{{ $item->ptname }}</td> 
+                                                        <td class="text-center" width="8%">{{ $item->debit }}</td> 
+                                                        <td class="text-center" width="8%">{{ $item->debit_drug }}</td> 
+                                                        {{-- <td class="text-center" width="5%">{{ $item->active_status }}</td>  --}}
                                                     </tr>
                     
                     
@@ -945,13 +959,14 @@ $pos = strrpos($url, '/') + 1;
 
 <script>
     $(document).ready(function() {
+
         var table = $('#example').DataTable({
                 scrollY: '60vh',
                 scrollCollapse: true,
                 scrollX: true,
                 "autoWidth": false,
-                "pageLength": 100,
-                "lengthMenu": [10,100,150,200,300,400,500],
+                "pageLength": 10,
+                "lengthMenu": [10,25,50,100,150,200,300,400,500],
         });
 
         $('#datepicker').datepicker({
@@ -998,7 +1013,7 @@ $pos = strrpos($url, '/') + 1;
                                 $("#spinner").show(); //Load button clicked show spinner 
                                 
                                 $.ajax({
-                                    url: "{{ route('claim.walkin_process') }}",
+                                    url: "{{ route('fdh.fdh_ipd_process') }}",
                                     type: "POST",
                                     dataType: 'json',
                                     data: {
@@ -1117,6 +1132,62 @@ $pos = strrpos($url, '/') + 1;
                     }) 
                 // var check = confirm("Are you want ?");  
             }
+        });
+
+        $('.Claim_vn').on('click', function(e) {
+            
+            var VN = $('#VN').val();  
+
+                Swal.fire({
+                    title: 'Are you Want Claim sure?',
+                    text: "คุณต้องการ Claim รายการนี้ใช่ไหม!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, Claim it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+                                
+                                $.ajax({
+                                    url: "{{ route('claim.walkin_process_vn') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {
+                                        VN                         
+                                    },
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({
+                                                title: 'ส่งข้อมูลเคลมสำเร็จ',
+                                                    text: "You Claim data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+                                        } else {
+                                            
+                                        }
+                                    },
+                                });
+                                
+                            }
+                })
+           
         });
         
     });
