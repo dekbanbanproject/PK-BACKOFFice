@@ -2003,6 +2003,24 @@ class AccountController extends Controller
             }
            
             $data['f_finance_opd']  = DB::connection('mysql')->select('SELECT * from f_finance_opd WHERE year = date_format("' . $startdate . '", "%Y")');  
+            $data['main_dep'] = DB::connection('mysql10')->select(
+                    'SELECT YEAR(v.vstdate) as year,MONTH(v.vstdate) as months,l.MONTH_NAME,o.main_dep,k.department  
+                    ,COUNT(DISTINCT v.vn) AS count_vn,SUM(v.income) AS sum_income
+                    ,SUM(v.paid_money) AS sum_paid_money,SUM(v.rcpt_money) AS sum_rcpt_money
+                    ,SUM(v.paid_money)-SUM(v.rcpt_money) as sum_Total
+                    FROM vn_stat v
+                    LEFT OUTER JOIN ovst o on o.vn = v.vn
+                    LEFT JOIN patient p on p.hn=v.hn 
+                    LEFT JOIN leave_month l on l.MONTH_ID = MONTH(v.vstdate)
+                    LEFT OUTER JOIN rcpt_print r on v.vn = r.vn
+                    LEFT OUTER JOIN kskdepartment k ON k.depcode = o.main_dep
+                    WHERE v.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '" 
+                    AND (v.paid_money <> v.rcpt_money)
+                    AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","P1")
+                    AND (v.income - v.rcpt_money) <> v.remain_money 
+                    GROUP BY o.main_dep
+                    ORDER BY v.vstdate desc 
+            ');
             
         } else {
             $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
@@ -2055,6 +2073,24 @@ class AccountController extends Controller
                 
             }
             $data['f_finance_opd']  = DB::connection('mysql')->select('SELECT * from f_finance_opd WHERE year = date_format("' . $startdate . '", "%Y")'); 
+            $data['main_dep'] = DB::connection('mysql10')->select(
+                    'SELECT YEAR(v.vstdate) as year,MONTH(v.vstdate) as months,l.MONTH_NAME,o.main_dep,k.department  
+                    ,COUNT(DISTINCT v.vn) AS count_vn,SUM(v.income) AS sum_income
+                    ,SUM(v.paid_money) AS sum_paid_money,SUM(v.rcpt_money) AS sum_rcpt_money
+                    ,SUM(v.paid_money)-SUM(v.rcpt_money) as sum_Total
+                    FROM vn_stat v
+                    LEFT OUTER JOIN ovst o on o.vn = v.vn
+                    LEFT JOIN patient p on p.hn=v.hn 
+                    LEFT JOIN leave_month l on l.MONTH_ID = MONTH(v.vstdate)
+                    LEFT OUTER JOIN rcpt_print r on v.vn = r.vn
+                    LEFT OUTER JOIN kskdepartment k ON k.depcode = o.main_dep
+                    WHERE v.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '" 
+                    AND (v.paid_money <> v.rcpt_money)
+                    AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","P1")
+                    AND (v.income - v.rcpt_money) <> v.remain_money 
+                    GROUP BY o.main_dep
+                    ORDER BY v.vstdate desc 
+            ');
 
         } 
         // AND (v.income - v.rcpt_money) <> v.remain_money

@@ -128,7 +128,7 @@ class CtrepController extends Controller
         $date = date('Y-m-d');
         $y = date('Y') + 543;
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-        $newDate = date('Y-m-d', strtotime($date . ' -2 months')); //ย้อนหลัง 2 เดือน
+        $newDate = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 2 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
         $yearnew = date('Y')+1;
         $yearold = date('Y');
@@ -214,11 +214,13 @@ class CtrepController extends Controller
                     SELECT a_ct_scan_id,vn,hn,cid,order_date,order_time,order_date_time,request_date,ptname,xray_list,confirm_all,department,department_code
                     ,department_name,pttype,ptty_spsch,xray_order_number,xray_price,total_price,department_list,priority_name,STMdoc,user_id,active
                     FROM a_ct_scan 
-                    WHERE request_date BETWEEN "2024-02-01" AND "2024-02-15"
-                  
+                    WHERE request_date BETWEEN "' . $newDate . '" AND "' . $date . '" 
+                    
                     GROUP BY vn
                     ORDER BY request_date ASC
                 '); 
+                // WHERE date_format(request_date, "%M") 
+                // WHERE request_date BETWEEN "' . $newDate . '" AND "' . $date . '" 
                 // BETWEEN "'.$newDate.'" and "'.$date.'"
                 // AND active = "N"
                 // WHERE request_date BETWEEN "' . $newDate . '" AND "' . $date . '"

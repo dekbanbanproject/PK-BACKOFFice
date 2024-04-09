@@ -142,7 +142,9 @@ $pos = strrpos($url, '/') + 1;
                             <div class="tab-content text-muted">
                                 <div class="tab-pane active" id="Main" role="tabpanel">
                                     <p class="mb-0">
-                                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
+                                        style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                                             <thead>
                                                 <tr style="font-size: 13px">
                                                     {{-- <th width="5%" class="text-center"><input type="checkbox" class="fdhcheckbox" name="stamp" id="stamp"> </th>  --}}

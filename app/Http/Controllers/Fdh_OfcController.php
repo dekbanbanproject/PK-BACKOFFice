@@ -62,7 +62,7 @@ use App\Models\Fdh_lvd;
 use App\Models\D_ofc_401;
 use App\Models\D_dru_out;
 use App\Models\D_ofc_repexcel;
-use App\Models\D_ofc_rep;
+use App\Models\D_fdh;
 
 use Auth;
 use GuzzleHttp\Client;
@@ -112,26 +112,31 @@ class Fdh_OfcController extends Controller
                
                 $data_main_ = DB::connection('mysql2')->select(
                     'SELECT v.vn,o.an,v.cid,v.hn,concat(pt.pname,pt.fname," ",pt.lname) ptname
-                            ,v.vstdate,v.pttype  ,rd.sss_approval_code AS "Apphos",v.inc04 as xray
+                            ,v.vstdate,v.pttype  ,rd.sss_approval_code AS "Apphos",v.inc04 as xray,h.hospcode,h.name as hospcode_name
                             ,rd.amount AS price_ofc,v.income,ptt.hipdata_code 
                             ,group_concat(distinct hh.appr_code,":",hh.transaction_amount,"/") AS AppKTB 
-                            ,GROUP_CONCAT(DISTINCT ov.icd10 order by ov.diagtype) AS icd10,v.pdx
+                            ,GROUP_CONCAT(DISTINCT ov.icd10 order by ov.diagtype) AS icd10,v.pdx,ovv.name as active_status
                             FROM vn_stat v
                             LEFT OUTER JOIN patient pt ON v.hn=pt.hn
                             LEFT OUTER JOIN ovstdiag ov ON v.vn=ov.vn
                             LEFT OUTER JOIN ovst o ON v.vn=o.vn
+                            LEFT OUTER JOIN hospcode h on h.hospcode = v.hospmain
                             LEFT OUTER JOIN opdscreen op ON v.vn = op.vn
                             LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype 
                             LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn
                             LEFT OUTER JOIN hpc11_ktb_approval hh on hh.pid = pt.cid and hh.transaction_date = v.vstdate 
-                            LEFT OUTER JOIN ipt i on i.vn = v.vn                        
+                            LEFT OUTER JOIN ipt i on i.vn = v.vn          
+                            LEFT OUTER JOIN ovst ot on ot.vn = v.vn
+                            LEFT OUTER JOIN ovstost ovv on ovv.ovstost = ot.ovstost
+
                         WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                         AND v.pttype in ("O1","O2","O3","O4","O5")                    
-                        AND v.pttype not in ("OF","FO") AND rd.sss_approval_code <> ""                         
+                        AND v.pttype not in ("OF","FO")                          
                         AND o.an is null
                         AND v.pdx <> ""
                         GROUP BY v.vn 
-                ');                 
+                ');  
+                // AND rd.sss_approval_code <> ""               
                 foreach ($data_main_ as $key => $value) {   
                     $check_wa = D_ofc_401::where('vn',$value->vn)->count(); 
                     if ($check_wa > 0) {                        
@@ -151,6 +156,34 @@ class Fdh_OfcController extends Controller
                             'pdx'                => $value->pdx,
                         ]);
                     }  
+
+                    $check_ofc = D_fdh::where('vn',$value->vn)->where('projectcode','OFC')->count(); 
+                    if ($check_ofc > 0) { 
+                        D_fdh::where('vn',$value->vn)->where('projectcode','OFC')->update([ 
+                            'an'             => $value->an,    
+                            'icd10'          => $value->icd10,  
+                            'debit'          => $value->price_ofc,
+                            'active_status'  => $value->active_status,
+                            'authen'         => $value->Apphos
+                        ]);
+                    } else { 
+                        D_fdh::insert([
+                            'vn'           => $value->vn,
+                            'hn'           => $value->hn,
+                            'an'           => $value->an, 
+                            'cid'          => $value->cid,
+                            'pttype'       => $value->pttype,                           
+                            'ptname'       => $value->ptname,
+                            'vstdate'      => $value->vstdate,
+                            'authen'       => $value->Apphos,
+                            'projectcode'  => 'OFC', 
+                            'icd10'        => $value->icd10,
+                            'hospcode'     => $value->hospcode, 
+                            'debit'        => $value->price_ofc,
+                            'active_status'  => $value->active_status
+                        ]);
+                    } 
+
                     $check = D_claim::where('vn',$value->vn)->count();
                     if ($check > 0) {
                         D_claim::where('vn',$value->vn)->update([ 

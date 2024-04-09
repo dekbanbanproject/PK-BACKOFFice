@@ -193,14 +193,26 @@
                                             <tr>                                          
                                                 <th width="5%" class="text-center">ลำดับ</th>   
                                                 <th class="p-2">แผนก</th> 
-                                                <th class="text-center" width="10%">income</th> 
-                                                <th class="text-center" width="10%">ต้องชำระ</th> 
-                                                <th class="text-center" width="10%">ชำระแล้ว</th> 
-                                                <th class="text-center" width="10%">ค้างชำระ</th> 
-                                                <th class="text-center" width="10%">ต้องลงค้าง</th> 
+                                                <th class="text-center" >income</th>
+                                                <th class="text-center" >ต้องชำระ</th>
+                                                <th class="text-center">ชำระแล้ว</th>
+                                                <th class="text-center">ต้องลงค้าง</th> 
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <?php $i = 1; ?>
+                                            @foreach ($main_dep as $item2)  
+                                                <tr style="font-size: 13px">                                                  
+                                                    <td class="text-center" width="5%">{{ $i++ }}</td>  
+                                                    <td class="p-2" >{{$item2->department}}</td>  
+                                                    <td class="text-center" width="10%">{{ number_format($item2->sum_income, 2) }}</td> 
+                                                    <td class="text-center" width="10%">{{ number_format($item2->sum_paid_money, 2) }}</td>   
+                                                    <td class="text-center" width="10%" style="color:rgb(7, 167, 113)">{{ number_format($item2->sum_rcpt_money, 2) }}</td> 
+                                                    <td class="text-center" width="10%" style="color:rgb(202, 55, 29)">
+                                                        <a href="{{url('account_nopaid_sub/'.$item2->months.'/'.$item2->year)}}" target="_blank">{{ number_format($item2->sum_Total, 2) }} </a>  
+                                                    </td> 
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>

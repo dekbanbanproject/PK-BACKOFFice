@@ -218,6 +218,7 @@
                                             <th class="text-center">CXR+CT</th> 
                                             <th class="text-center">ค่าใช้จ่ายรวม</th> 
                                             <th class="text-center">สถานะ</th> 
+                                            <th class="text-center">กรณีไม่มี</th> 
                                             <th class="text-center">STMdoc</th> 
                                         </tr>
                                     </thead>
@@ -277,12 +278,18 @@
                                                                 <span class="bg-danger badge me-2">{{ $item->active }}</span> 
                                                             </td> 
                                                         @endif
+                                                        <td class="text-center" width="5%">  
+                                                            <button type="button" style="width: 100%" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#MoneyModal_no{{ $item->cid }}" data-bs-toggle="tooltip" data-bs-placement="right" title="รายละเอียด">  
+                                                                <i class="fa-regular fa-heart me-2" style="font-size:17px;color: rgb(240, 127, 22)"></i> 
+                                                            </button> 
+                                                        </td>
                                                         <td class="p-2" >{{ $item->STMdoc }}</td> 
                                                     </tr>
                                                         <?php  
                                                             $data_sub = DB::select('SELECT * FROM a_ct_scan WHERE vn = "'.$item->vn.'" ');  
                                                             $data_sub_visit = DB::select('SELECT * FROM a_ct_scan_visit WHERE vn = "'.$item->vn.'" '); 
-                                                            $data_subsub = DB::select('SELECT * FROM a_ct_item_check WHERE ct_date = "'.$item->request_date.'" AND cid = "'.$item->cid.'" ');   
+                                                            $data_subsub = DB::select('SELECT * FROM a_ct_item_check WHERE ct_date = "'.$item->request_date.'" AND cid = "'.$item->cid.'" '); 
+                                                            $data_subsub_no = DB::select('SELECT * FROM a_ct_item_check WHERE cid = "'.$item->cid.'" ');  
                                                             // $data_subsub = DB::select('SELECT * FROM a_ct_item_check WHERE cid = "'.$item->cid.'" '); 
                                                         ?>  
                                                         <div class="modal fade" id="MoneyModal_2{{ $item->vn }}" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true"> 
@@ -320,8 +327,6 @@
                                                                     <hr class="mb-3">
 
 
-
-
                                                                     <hr class="mt-4">
                                                                     <div class="row mt-4 mb-4" style="font-size:15px;color:rgb(11, 150, 80)">  
                                                                         {{-- <div class="col"></div> --}}
@@ -350,10 +355,6 @@
                                                                         </div>
                                                                     @endforeach 
                                                                     <hr>
-
-
-
-
 
 
                                                                     <form class="custom-validation" action="{{ route('ct.ct_rep_confirm') }}" method="POST" enctype="multipart/form-data">
@@ -435,6 +436,45 @@
                                                             </div>
                                                         </div> 
                                                     </div>
+
+                                                    <div class="modal fade" id="MoneyModal_no{{ $item->cid }}" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true"> 
+                                                        <div class="modal-dialog modal-dialog-slideout">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                เทียบรายการจาก HOS และ CT
+                                                            </div>
+                                                            <div class="modal-body"> 
+                                                                <div class="row mt-4 mb-4" style="font-size:15px;color:red">   
+                                                                    <div class="col-md-1 text-center">ct_date</div>
+                                                                    <div class="col-md-1 text-center">hn</div>
+                                                                    <div class="col-md-1 text-center">cid</div> 
+                                                                    <div class="col-md-2 text-center">ptname</div>   
+                                                                    <div class="col-md-1 text-center">pttypename</div>
+                                                                    <div class="col-md-1 text-center">ward </div> 
+                                                                    <div class="col-md-3 text-center">ct_check</div> 
+                                                                    <div class="col-md-1 text-center">total_price</div> 
+                                                                    <div class="col-md-1 text-center">sumprice</div>  
+                                                                </div>
+                                                                <?php $iiii = 1; ?>
+                                                                @foreach ($data_subsub_no as $vvv)
+                                                                    <hr>
+                                                                    <div class="row" style="font-size:12px;height: 12px;">  
+                                                                        <div class="col-md-1 text-start">{{ $vvv->ct_date}}</div>
+                                                                        <div class="col-md-1 text-start">{{ $vvv->hn}}</div>
+                                                                        <div class="col-md-1 text-start">{{ $vvv->cid}}</div>
+                                                                        <div class="col-md-2 text-start">{{ $vvv->ptname}}</div>
+                                                                        <div class="col-md-1 text-start">{{ $vvv->pttypename}}</div>
+                                                                        <div class="col-md-1 text-start">{{ $vvv->ward}}</div>
+                                                                        <div class="col-md-3 text-start">{{ $vvv->ct_check}}</div>
+                                                                        <div class="col-md-1 text-start">{{ $vvv->total_price_check}}</div>
+                                                                        <div class="col-md-1 text-start">{{ $vvv->sumprice}}</div>
+                                                                    </div>
+                                                                @endforeach 
+                                                            </div>
+                                                            <div class="modal-footer"> 
+                                                            </div>
+                                                        </div>
+                                                    </div>                                            
                                             {{-- @endif --}}
                                         @endforeach
                                     </tbody>
