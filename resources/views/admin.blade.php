@@ -825,14 +825,14 @@
                                         <div class="flex-grow-1">
                                             <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="" target="_blank">
-                                                <h5 class="text-start mb-2">Tecnicial-Service</h5>
+                                                <h5 class="text-start mb-2">CCTV</h5>
                                             </a>
                                         </div>
                                         <div class="avatar ms-2">
                                             <a href="{{ url('techservice') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
-                                                        <img src="{{ asset('images/techserevice.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                                        <img src="{{ asset('images/cctv1.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>
