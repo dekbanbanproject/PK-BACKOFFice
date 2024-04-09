@@ -3028,6 +3028,8 @@ Route::match(['get','post'],'tb_main_detail/{id}',[App\Http\Controllers\TbContro
 // ************** Tecnicial-Service ****************************
 Route::match(['get','post'],'techservice',[App\Http\Controllers\TechserviceController::class, 'techservice'])->name('tec.techservice');//
 
+// ************** CCTV-Service ****************************
+Route::match(['get','post'],'cctv',[App\Http\Controllers\TechserviceController::class, 'cctv'])->name('tec.cctv');//
 
 // ************** FDH ****************************
 Route::match(['get','post'],'fdh_dashboard',[App\Http\Controllers\FdhController::class, 'fdh_dashboard'])->name('fdh.fdh_dashboard');// 
