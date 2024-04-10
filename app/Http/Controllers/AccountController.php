@@ -1960,7 +1960,7 @@ class AccountController extends Controller
             $months_old  = ('10');
             $startdate = (''.$year_old.'-10-01');
             $enddate = (''.$yearnew.'-09-30');
-            $datashow = DB::connection('mysql10')->select(
+            $datashow = DB::connection('mysql2')->select(
                 'SELECT YEAR(v.vstdate) as year,MONTH(v.vstdate) as months,l.MONTH_NAME,COUNT(DISTINCT v.vn) AS count_vn,SUM(v.income) AS sum_income
                     ,SUM(v.paid_money) AS sum_paid_money,SUM(v.rcpt_money) AS sum_rcpt_money
                     ,SUM(v.paid_money)-SUM(v.rcpt_money) as sum_Total
@@ -1976,34 +1976,34 @@ class AccountController extends Controller
                     GROUP BY date_format(v.vstdate, "%M") 
                     ORDER BY v.vstdate desc 
             ');
-            foreach ($datashow as $key => $value) {
-                $check_ = F_finance_opd::where('year',$value->year)->where('months',$value->months)->count(); 
-                if ($check_ > 0) {
-                    F_finance_opd::where('year',$value->year)->where('months',$value->months)->update([ 
-                        'count_vn'          => $value->count_vn,
-                        'sum_income'        => $value->sum_income,
-                        'sum_paid_money'    => $value->sum_paid_money,
-                        'sum_rcpt_money'    => $value->sum_rcpt_money,
-                        'sum_Total'         => $value->sum_Total,
-                        'user_id'           => $iduser
-                    ]);
-                } else {
-                    F_finance_opd::insert([
-                        'year'              => $value->year,
-                        'months'            => $value->months,
-                        'months_name'       => $value->MONTH_NAME,
-                        'count_vn'          => $value->count_vn,
-                        'sum_income'        => $value->sum_income,
-                        'sum_paid_money'    => $value->sum_paid_money,
-                        'sum_rcpt_money'    => $value->sum_rcpt_money,
-                        'sum_Total'         => $value->sum_Total,
-                        'user_id'           => $iduser
-                    ]);
-                }    
-            }
+            // foreach ($datashow as $key => $value) {
+            //     $check_ = F_finance_opd::where('year',$value->year)->where('months',$value->months)->count(); 
+            //     if ($check_ > 0) {
+            //         F_finance_opd::where('year',$value->year)->where('months',$value->months)->update([ 
+            //             'count_vn'          => $value->count_vn,
+            //             'sum_income'        => $value->sum_income,
+            //             'sum_paid_money'    => $value->sum_paid_money,
+            //             'sum_rcpt_money'    => $value->sum_rcpt_money,
+            //             'sum_Total'         => $value->sum_Total,
+            //             'user_id'           => $iduser
+            //         ]);
+            //     } else {
+            //         F_finance_opd::insert([
+            //             'year'              => $value->year,
+            //             'months'            => $value->months,
+            //             'months_name'       => $value->MONTH_NAME,
+            //             'count_vn'          => $value->count_vn,
+            //             'sum_income'        => $value->sum_income,
+            //             'sum_paid_money'    => $value->sum_paid_money,
+            //             'sum_rcpt_money'    => $value->sum_rcpt_money,
+            //             'sum_Total'         => $value->sum_Total,
+            //             'user_id'           => $iduser
+            //         ]);
+            //     }    
+            // }
            
             $data['f_finance_opd']  = DB::connection('mysql')->select('SELECT * from f_finance_opd WHERE year = date_format("' . $startdate . '", "%Y")');  
-            $data['main_dep'] = DB::connection('mysql10')->select(
+            $data['main_dep'] = DB::connection('mysql2')->select(
                     'SELECT YEAR(v.vstdate) as year,MONTH(v.vstdate) as months,l.MONTH_NAME,o.main_dep,k.department  
                     ,COUNT(DISTINCT v.vn) AS count_vn,SUM(v.income) AS sum_income
                     ,SUM(v.paid_money) AS sum_paid_money,SUM(v.rcpt_money) AS sum_rcpt_money
@@ -2030,7 +2030,7 @@ class AccountController extends Controller
             $year_now = date('Y'); 
             $startdate    =  date_format($bg->date_begin, "%Y");
             $enddate      = $bg->date_end;
-            $datashow = DB::connection('mysql10')->select(
+            $datashow = DB::connection('mysql2')->select(
                 'SELECT YEAR(v.vstdate) as year,MONTH(v.vstdate) as months,l.MONTH_NAME,COUNT(DISTINCT v.vn) AS count_vn,SUM(v.income) AS sum_income
                     ,SUM(v.paid_money) AS sum_paid_money,SUM(v.rcpt_money) AS sum_rcpt_money,SUM(v.paid_money)-SUM(v.rcpt_money) as sum_Total
                     FROM vn_stat v
@@ -2045,35 +2045,35 @@ class AccountController extends Controller
                     GROUP BY date_format(v.vstdate, "%M")
                     ORDER BY v.vstdate desc  
             '); 
-            foreach ($datashow as $key => $value2) {
-                $check2_ = F_finance_opd::where('year',$value2->year)->where('months',$value2->months)->count(); 
-                if ($check2_ > 0) {
-                    F_finance_opd::where('year',$value2->year)->where('months',$value2->months)->update([ 
-                        'count_vn'          => $value2->count_vn,
-                        'sum_income'        => $value2->sum_income,
-                        'sum_paid_money'    => $value2->sum_paid_money,
-                        'sum_rcpt_money'    => $value2->sum_rcpt_money,
-                        'sum_Total'         => $value2->sum_Total,
-                        'user_id'           => $iduser
-                    ]);
-                } else {
-                    F_finance_opd::insert([
-                        'year'              => $value2->year,
-                        'months'            => $value2->months,
-                        'months_name'       => $value2->MONTH_NAME,
-                        'count_vn'          => $value2->count_vn,
-                        'sum_income'        => $value2->sum_income,
-                        'sum_paid_money'    => $value2->sum_paid_money,
-                        'sum_rcpt_money'    => $value2->sum_rcpt_money,
-                        'sum_Total'         => $value2->sum_Total,
-                        'user_id'           => $iduser
-                    ]);
-                }
+            // foreach ($datashow as $key => $value2) {
+            //     $check2_ = F_finance_opd::where('year',$value2->year)->where('months',$value2->months)->count(); 
+            //     if ($check2_ > 0) {
+            //         F_finance_opd::where('year',$value2->year)->where('months',$value2->months)->update([ 
+            //             'count_vn'          => $value2->count_vn,
+            //             'sum_income'        => $value2->sum_income,
+            //             'sum_paid_money'    => $value2->sum_paid_money,
+            //             'sum_rcpt_money'    => $value2->sum_rcpt_money,
+            //             'sum_Total'         => $value2->sum_Total,
+            //             'user_id'           => $iduser
+            //         ]);
+            //     } else {
+            //         F_finance_opd::insert([
+            //             'year'              => $value2->year,
+            //             'months'            => $value2->months,
+            //             'months_name'       => $value2->MONTH_NAME,
+            //             'count_vn'          => $value2->count_vn,
+            //             'sum_income'        => $value2->sum_income,
+            //             'sum_paid_money'    => $value2->sum_paid_money,
+            //             'sum_rcpt_money'    => $value2->sum_rcpt_money,
+            //             'sum_Total'         => $value2->sum_Total,
+            //             'user_id'           => $iduser
+            //         ]);
+            //     }
                 
                 
-            }
+            // }
             $data['f_finance_opd']  = DB::connection('mysql')->select('SELECT * from f_finance_opd WHERE year = date_format("' . $startdate . '", "%Y")'); 
-            $data['main_dep'] = DB::connection('mysql10')->select(
+            $data['main_dep'] = DB::connection('mysql2')->select(
                     'SELECT YEAR(v.vstdate) as year,MONTH(v.vstdate) as months,l.MONTH_NAME,o.main_dep,k.department  
                     ,COUNT(DISTINCT v.vn) AS count_vn,SUM(v.income) AS sum_income
                     ,SUM(v.paid_money) AS sum_paid_money,SUM(v.rcpt_money) AS sum_rcpt_money

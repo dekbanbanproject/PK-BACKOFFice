@@ -1495,8 +1495,8 @@ class Fdh_IpdController extends Controller
         #ตัดขีด, ตัด : ออก
 
          #delete file in folder ทั้งหมด
-        $file = new Filesystem;
-        $file->cleanDirectory('Export'); //ทั้งหมด
+        $file_ = new Filesystem;
+        $file_->cleanDirectory('Export'); //ทั้งหมด
         // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
         $folder='IPD_NORED_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
 
@@ -2003,52 +2003,38 @@ class Fdh_IpdController extends Controller
     }
     public function walkin_export_zip(Request $request)
     {
-        $sss_date_now = date("Y-m-d");
-        $sss_time_now = date("H:i:s");
-         #ตัดขีด, ตัด : ออก
-         $pattern_date = '/-/i';
-         $sss_date_now_preg = preg_replace($pattern_date, '', $sss_date_now);
-         $pattern_time = '/:/i';
-         $sss_time_now_preg = preg_replace($pattern_time, '', $sss_time_now);
-         #ตัดขีด, ตัด : ออก
- 
-          #delete file in folder ทั้งหมด
-         $file = new Filesystem;
-         $file->cleanDirectory('Export'); //ทั้งหมด
-         // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
-        //  $folder='WALKIN_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
-        //  $folder='WALKIN_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
-        // $pathdir =  "Export/".$folder."/";
-        // $zipcreated = $folder.".zip";
+  
+            #delete file in folder ทั้งหมด
+            $file = new Filesystem;
+            $file->cleanDirectory('Export'); //ทั้งหมด 
+            $pathdir =  "Export/".$folder."/";
+            $zipcreated = $folder.".zip";
 
-        // $pathdir =  "Export/".$folder."/";
-        //     $zipcreated = $folder.".zip";
-
-        //     $newzip = new ZipArchive;
-        //     if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
-        //     $dir = opendir($pathdir);
+            $newzip = new ZipArchive;
+            if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
+            $dir = opendir($pathdir);
             
-        //     while($file = readdir($dir)) {
-        //         if(is_file($pathdir.$file)) {
-        //             $newzip -> addFile($pathdir.$file, $file);
-        //         }
-        //     }
-        //     $newzip ->close();
-        //             if (file_exists($zipcreated)) {
-        //                 header('Content-Type: application/zip');
-        //                 header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
-        //                 header('Content-Length: ' . filesize($zipcreated));
-        //                 flush();
-        //                 readfile($zipcreated); 
-        //                 unlink($zipcreated);   
-        //                 $files = glob($pathdir . '/*');   
-        //                 foreach($files as $file) {   
-        //                     if(is_file($file)) {      
-        //                         // unlink($file); 
-        //                     } 
-        //                 }                      
-        //                 return redirect()->route('claim.walkin');                    
-        //             }
-        //     } 
+            while($file = readdir($dir)) {
+                if(is_file($pathdir.$file)) {
+                    $newzip -> addFile($pathdir.$file, $file);
+                }
+            }
+            $newzip ->close();
+                    if (file_exists($zipcreated)) {
+                        header('Content-Type: application/zip');
+                        header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
+                        header('Content-Length: ' . filesize($zipcreated));
+                        flush();
+                        readfile($zipcreated); 
+                        unlink($zipcreated);   
+                        $files = glob($pathdir . '/*');   
+                        foreach($files as $file) {   
+                            if(is_file($file)) {      
+                                // unlink($file); 
+                            } 
+                        }                      
+                        return redirect()->route('fdh.fdh_ipd');                    
+                    }
+            } 
     }
 }

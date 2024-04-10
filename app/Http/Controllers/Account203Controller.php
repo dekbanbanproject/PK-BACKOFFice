@@ -267,6 +267,8 @@ class Account203Controller extends Controller
     public function account_203_pulldata(Request $request)
     {
         $datenow = date('Y-m-d');
+        $datetimenow = date('Y-m-d H:i:s');
+        
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2; 
             $acc_debtor = DB::connection('mysql2')->select(' 
@@ -275,6 +277,7 @@ class Account203Controller extends Controller
                         SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,i.dchdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,ro.icd10 as referin_no,h.name as hospmain
                         ,"07" as acc_code,"1102050101.203" as account_code,"UC นอก CUP ในจังหวัด" as account_name,v.pdx,v.dx0
                         ,v.income,v.uc_money ,v.discount_money,v.rcpt_money,v.paid_money  
+                        ,ov.name as active_status 
 
                         ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3009147" AND vn = v.vn) THEN "1200" 
                         ELSE "0.00" 
@@ -311,6 +314,8 @@ class Account203Controller extends Controller
                         left outer join hospcode h on h.hospcode = v.hospmain 
                         left outer join referin ro on ro.vn = v.vn 
                         left outer join opitemrece om on om.vn = v.vn  
+                        LEFT OUTER JOIN ovst ot on ot.vn = v.vn
+                        LEFT OUTER JOIN ovstost ov on ov.ovstost = ot.ovstost
                         where v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                         and i.an is null AND v.uc_money <> 0 AND p.nationality = "99"   
                         and v.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.203" AND opdipd ="OPD")
@@ -323,7 +328,7 @@ class Account203Controller extends Controller
                         SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,i.dchdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,ro.icd10 as referin_no,h.name as hospmain
                         ,"07" as acc_code,"1102050101.203" as account_code,"UC นอก CUP ในจังหวัด" as account_name,v.pdx,v.dx0
                         ,v.income,v.uc_money ,v.discount_money,v.rcpt_money,v.paid_money  
-
+                        ,ov.name as active_status 
                         ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3009147" AND vn = v.vn) THEN "1200" 
                         ELSE "0.00" 
                         END as debit_without
@@ -359,6 +364,8 @@ class Account203Controller extends Controller
                         left outer join hospcode h on h.hospcode = v.hospmain 
                         left outer join referin ro on ro.vn = v.vn 
                         left outer join opitemrece om on om.vn = v.vn 
+                        LEFT OUTER JOIN ovst ot on ot.vn = v.vn
+                        LEFT OUTER JOIN ovstost ov on ov.ovstost = ot.ovstost
                         where v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                         and i.an is null AND v.uc_money <> 0  AND p.nationality = "99"  
                         and v.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.203" AND opdipd ="OPD")
@@ -437,7 +444,10 @@ class Account203Controller extends Controller
                             'ct_price'           => ($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150), 
                             'ct_sumprice'        => '100',  
                             'sauntang'           => ($value->uc_money)-($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150)-('100'), 
-                            'acc_debtor_userid'  => Auth::user()->id
+                            'acc_debtor_userid'  => Auth::user()->id,
+                            'date_pull'          => $datetimenow,
+                            'active_status'      => $value->active_status,
+                            'referin_no'         => $value->referin_no,
                         ]);
                     // } 
                 }                

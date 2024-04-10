@@ -148,7 +148,8 @@
                                         </thead>
                                         <tbody>
                                             <?php $i = 1; ?>
-                                            @foreach ($f_finance_opd as $item) 
+                                            @foreach ($datashow as $item) 
+                                            {{-- @foreach ($f_finance_opd as $item)  --}}
                                                 <?php 
                                                     $y = $item->year;
                                                     $ynew = $y + 543; 

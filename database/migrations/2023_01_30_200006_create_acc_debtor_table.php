@@ -87,6 +87,9 @@ return new class extends Migration
                 $table->string('ct_sumprice')->nullable();// 
                 $table->string('approval_code')->nullable();// 
                 $table->string('price_ofc')->nullable();// 
+                $table->dateTime('date_pull')->nullable();//
+                $table->string('active_status')->nullable();// 
+                $table->string('referin_no')->nullable();// 
                 $table->timestamps();
             });
         }
