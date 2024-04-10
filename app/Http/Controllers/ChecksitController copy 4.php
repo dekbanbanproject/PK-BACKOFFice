@@ -59,8 +59,7 @@ use App\Models\Check_authen;
 use App\Models\acc_1102050101_4022;
 use App\Models\Visit_pttype_authen_report;
 use App\Models\Db_authen_detail;
-use App\Models\Check_authen_excel;
-use App\Models\check_authen_new;
+use App\Models\Api_neweclaim;
 use Auth;
 use ZipArchive;
 use Storage;
@@ -238,7 +237,62 @@ class ChecksitController extends Controller
         $authen = $request->authen;
         $datestart = $request->startdate;
         $dateend = $request->enddate;
-         
+        
+        // dd($authen);
+        // if($datestart != '' && $authen != '' && $dateend != '' ) {
+        //     $data_sit = DB::connection('mysql')->select('
+        //         SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,c.staff_name,k.department
+        //         FROM check_sit_auto c
+        //         LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+        //         WHERE c.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
+        //         AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
+        //         AND c.main_dep NOT IN("011","036","107")  
+        //         GROUP BY c.vn
+        //     ');
+      
+        // }elseif($authen != '' && $datestart == '') {
+        //     $data_sit = DB::connection('mysql')->select('
+        //         SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,c.staff_name,k.department
+        //         FROM check_sit_auto c
+        //         LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+        //         WHERE c.vstdate = CURDATE()
+        //         AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
+        //         AND c.main_dep NOT IN("011","036","107") 
+        //         GROUP BY c.vn
+        //     '); 
+        // }elseif($datestart != '' && $authen != '') {
+        //     $data_sit = DB::connection('mysql')->select('
+        //         SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,c.staff_name,k.department
+        //         FROM check_sit_auto c
+        //         LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+        //         WHERE c.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
+        //         AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
+        //         AND c.main_dep NOT IN("011","036","107")  
+        //         GROUP BY c.vn
+        //     ');      
+        // }elseif($datestart != '') {
+        //     $data_sit = DB::connection('mysql')->select('
+        //         SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,c.staff_name,k.department
+        //         FROM check_sit_auto c
+        //         LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+        //         WHERE c.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
+        //         AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
+        //         AND c.main_dep NOT IN("011","036","107") AND c.claimcode IS NULL
+        //         GROUP BY c.vn
+        //     ');     
+        // }else{
+        //     $data_sit = DB::connection('mysql')->select('
+        //         SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,c.staff_name,k.department
+        //         FROM check_sit_auto c
+        //         LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+        //         WHERE c.vstdate = CURDATE()
+        //         AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
+        //         AND c.main_dep NOT IN("011","036","107") AND c.claimcode IS NULL
+        //         GROUP BY c.vn
+        //     ');
+ 
+        // }
+
         $data_sit = DB::connection('mysql')->select('
             SELECT * 
             FROM check_sit_auto c
@@ -254,26 +308,6 @@ class ChecksitController extends Controller
             'authen'       => $authen, 
         ]);
     }
-    public function import_authen_day(Request $request)
-    { 
-        $datenow = date('Y-m-d');
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        $datashow = DB::connection('mysql')->select('
-            SELECT rep,vstdate,SUM(ip_paytrue) as Sumprice,STMdoc,month(vstdate) as months
-            FROM acc_stm_ucs_excel
-            GROUP BY rep
-            ');
-        $countc = DB::table('acc_stm_ucs_excel')->count();
-         
-        return view('authen.import_authen_day',[
-            'datashow'        => $datashow,
-            'startdate'       => $startdate,
-            'enddate'         => $enddate, 
-            'countc'          => $countc
-        ]);
-    }
-    
     
      
      public function check_sit_daysitauto(Request $request)
