@@ -294,10 +294,11 @@ class Auto_authenController extends Controller
     public function pullauthen_spsch(Request $request)
     {        
         $date_now = date('Y-m-d');
-        $date_start = "2024-04-02";
-        // $date_start = "2024-04-03";
+        $date_start = "2024-03-22";
+        $date_end = "2024-09-21";
         $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_start&claimDateTo=$date_start&page=0&size=1000&sort=transId,desc";
         // $url = "https://authenservice.nhso.go.th/authencode/api/erm-reg-claim?claimStatus=E&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=claimDate,desc";
+
         // dd($url);https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=2023-05-09&claimDateTo=2023-05-09
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -311,13 +312,13 @@ class Auto_authenController extends Controller
                 'Accept: application/json, text/plain, */*',
                 'Accept-Language: th-TH,th;q=0.9,en-US;q=0.8,en;q=0.7',
                 'Connection: keep-alive',
-                'Cookie: SESSION=ZDliYWY4YTEtOWU4Mi00YmEwLTg2ODctY2Q0Y2NjODk5NWUy; TS01bfdc7f=013bd252cb85ce79fee3d31f0c9c16c0d40571b089107cb767097ea2eb0a02fbb1e19f92dfad001968c3c63e994fd35f9345d3a94dedbf4ca04ed425b2fa2ac893d1e574ed; _ga_RD7G4LWTPR=GS1.1.1692756773.3.0.1692756785.48.0.0; _ga_HXZ8WDL874=GS1.1.1701230559.3.1.1701231434.0.0.0; _ga_TRYKLSJ30C=GS1.1.1705463233.18.1.1705463429.0.0.0; _ga=GA1.1.1692725233.1681974953; _ga_HMTQRNS74Y=GS1.3.1711349202.9.1.1711349342.0.0.0; _ga_FQ47EJ77W8=GS1.1.1711521699.12.0.1711521699.0.0.0; _ga_RSYZ8B7GPX=GS1.1.1711607402.11.1.1711607635.0.0.0; dtCookie=v_4_srv_1_sn_E640715B263EB0F7F8C019755F5930E9_perc_100000_ol_0_mul_1_app-3A3e6dee03b6d85468_0; TS0117aec7=013bd252cb2813ce21e5a5062692f327eefd606013eb1b2fb4c45153c791b2b4b179462665915644c6f138ff14dbe1fd3fcf4ca4b334f3a1570360fda58ed943219362fddc; _ga_5LJ60MBV5D=GS1.1.1712718647.266.1.1712721610.0.0.0; __cflb=04dToSWzC9foxLK9TYVM4AQkF9gVE9vpbSfNZBbKdo; TS01e88bc2=013bd252cbb7eb22f42431bfa3a1a726a62cbdb043a4b07d2aea15e3f51e736ad18d8626a9dd053bc2856a40f7d5556e2540fc213b',
+                'Cookie: SESSION=ZDliYWY4YTEtOWU4Mi00YmEwLTg2ODctY2Q0Y2NjODk5NWUy; TS01bfdc7f=013bd252cb2f635ea275a9e2adb4f56d3ff24dc90de5421d2173da01a971bc0b2d397ab2bfbe08ef0e379c3946b8487cf4049afe9f2b340d8ce29a35f07f94b37287acd9c2; _ga_B75N90LD24=GS1.1.1665019756.2.0.1665019757.0.0.0; _ga=GA1.3.1794349612.1664942850; TS01e88bc2=013bd252cb8ac81a003458f85ce451e7bd5f66e6a3930b33701914767e3e8af7b92898dd63a6258beec555bbfe4b8681911d19bf0c; SESSION=YmI4MjUyNjYtODY5YS00NWFmLTlmZGItYTU5OWYzZmJmZWNh; TS01bfdc7f=013bd252cbc4ce3230a1e9bdc06904807c8155bd7d0a8060898777cf88368faf4a94f2098f920d5bbd729fbf29d55a388f507d977a65a3dbb3b950b754491e7a240f8f72eb; TS01e88bc2=013bd252cbe2073feef8c43b65869a02b9b370d9108007ac6a34a07f6ae0a96b2967486387a6a0575c46811259afa688d09b5dfd21',
                 'Referer: https://authenservice.nhso.go.th/authencode/',
                 'Sec-Fetch-Dest: empty',
                 'Sec-Fetch-Mode: cors',
                 'Sec-Fetch-Site: same-origin',
                 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
-                'sec-ch-ua: "Google Chrome";v="123", "Not:A-Brand";v="8", "Chromium";v="123"',
+                'sec-ch-ua: "Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
                 'sec-ch-ua-mobile: ?0',
                 'sec-ch-ua-platform: "Windows"'
             ),
@@ -370,38 +371,38 @@ class Auto_authenController extends Controller
             // dd($transId);
                 $datenow = date("Y-m-d");
  
-                        // $checkcs = Check_authen::where('claimcode','=',$claimCode)->count();
-                        // if ($checkcs > 0) {                                       
-                        //     // Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->where('claimcode','=',NULL)->update([
-                        //     //     'claimcode'       => $claimCode,
-                        //     //     'claimtype'       => $claimType,
-                        //     //     'servicerep'      => $patientType,
-                        //     //     'servicename'     => $claimTypeName,
-                        //     //     'authentication'  => $claimAuthen,
-                        //     // ]);  
-                        // } else {
-                        //     Check_authen::create([
-                        //         'cid'                        => $personalId,
-                        //         'fullname'                   => $patientName,
-                        //         'hosname'                    => $hname,
-                        //         'hcode'                      => $hmain,
-                        //         'vstdate'                    => $checkdate,
-                        //         'regdate'                    => $checkdate,
-                        //         'claimcode'                  => $claimCode,
-                        //         'claimtype'                  => $claimType,
-                        //         'birthday'                   => $birthdate,
-                        //         'homtel'                     => $tel,
-                        //         'repcode'                    => $claimStatus,
-                        //         'hncode'                     => $hnCode,
-                        //         'servicerep'                 => $patientType,
-                        //         'servicename'                => $claimTypeName,
-                        //         'mainpttype'                 => $mainInsclWithName,
-                        //         'subpttype'                  => $subInsclName,
-                        //         'requestauthen'              => $sourceChannel,
-                        //         'authentication'             => $claimAuthen, 
-                        //     ]);
+                        $checkcs = Check_authen::where('claimcode','=',$claimCode)->count();
+                        if ($checkcs > 0) {                                       
+                            // Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->where('claimcode','=',NULL)->update([
+                            //     'claimcode'       => $claimCode,
+                            //     'claimtype'       => $claimType,
+                            //     'servicerep'      => $patientType,
+                            //     'servicename'     => $claimTypeName,
+                            //     'authentication'  => $claimAuthen,
+                            // ]);  
+                        } else {
+                            Check_authen::create([
+                                'cid'                        => $personalId,
+                                'fullname'                   => $patientName,
+                                'hosname'                    => $hname,
+                                'hcode'                      => $hmain,
+                                'vstdate'                    => $checkdate,
+                                'regdate'                    => $checkdate,
+                                'claimcode'                  => $claimCode,
+                                'claimtype'                  => $claimType,
+                                'birthday'                   => $birthdate,
+                                'homtel'                     => $tel,
+                                'repcode'                    => $claimStatus,
+                                'hncode'                     => $hnCode,
+                                'servicerep'                 => $patientType,
+                                'servicename'                => $claimTypeName,
+                                'mainpttype'                 => $mainInsclWithName,
+                                'subpttype'                  => $subInsclName,
+                                'requestauthen'              => $sourceChannel,
+                                'authentication'             => $claimAuthen, 
+                            ]);
 
-                        // }
+                        }
                         // $checkcs_shoot = Check_authen_shoot::where('claimcode','=',$claimCode)->where('cid','=',$personalId)->count();
                         // $checkcs_shoot = Check_authen_shoot::where('claimcode','=',$claimCode)->count();
                         // if ($checkcs_shoot > 0) {                                     
@@ -431,26 +432,7 @@ class Auto_authenController extends Controller
                         // $checkcs_shoot = Check_authen_hos::where('claimcode','=',$claimCode)->where('cid','=',$personalId)->count();
                         $checkcs_hos = Check_authen_hos::where('claimcode','=',$claimCode)->count();
                         if ($checkcs_hos > 0) {                                     
-                            // Check_authen_hos::where('claimcode','=',$claimCode)->update([
-                            //     'cid'                        => $personalId,
-                            //     'fullname'                   => $patientName,
-                            //     'hosname'                    => $hname,
-                            //     'hcode'                      => $hmain,
-                            //     'vstdate'                    => $checkdate,
-                            //     'regdate'                    => $checkdate,
-                            //     'claimcode'                  => $claimCode,
-                            //     'claimtype'                  => $claimType,
-                            //     'birthday'                   => $birthdate,
-                            //     'homtel'                     => $tel,
-                            //     'repcode'                    => $claimStatus,
-                            //     'hncode'                     => $hnCode,
-                            //     'servicerep'                 => $patientType,
-                            //     'servicename'                => $claimTypeName,
-                            //     'mainpttype'                 => $mainInsclWithName,
-                            //     'subpttype'                  => $subInsclName,
-                            //     'requestauthen'              => $sourceChannel,
-                            //     'authentication'             => $claimAuthen, 
-                            // ]); 
+                            
                         } else {
                             Check_authen_hos::create([
                                 'cid'                        => $personalId,
@@ -476,26 +458,26 @@ class Auto_authenController extends Controller
 
                         $checkcs_hos217 = Check_authen_hos217::where('claimcode','=',$claimCode)->count();
                         if ($checkcs_hos217 > 0) {                                     
-                            // Check_authen_hos217::where('claimcode','=',$claimCode)->update([
-                            //     'cid'                        => $personalId,
-                            //     'fullname'                   => $patientName,
-                            //     'hosname'                    => $hname,
-                            //     'hcode'                      => $hmain,
-                            //     'vstdate'                    => $checkdate,
-                            //     'regdate'                    => $checkdate,
-                            //     'claimcode'                  => $claimCode,
-                            //     'claimtype'                  => $claimType,
-                            //     'birthday'                   => $birthdate,
-                            //     'homtel'                     => $tel,
-                            //     'repcode'                    => $claimStatus,
-                            //     'hncode'                     => $hnCode,
-                            //     'servicerep'                 => $patientType,
-                            //     'servicename'                => $claimTypeName,
-                            //     'mainpttype'                 => $mainInsclWithName,
-                            //     'subpttype'                  => $subInsclName,
-                            //     'requestauthen'              => $sourceChannel,
-                            //     'authentication'             => $claimAuthen, 
-                            // ]); 
+                            Check_authen_hos217::where('claimcode','=',$claimCode)->update([
+                                'cid'                        => $personalId,
+                                'fullname'                   => $patientName,
+                                'hosname'                    => $hname,
+                                'hcode'                      => $hmain,
+                                'vstdate'                    => $checkdate,
+                                'regdate'                    => $checkdate,
+                                'claimcode'                  => $claimCode,
+                                'claimtype'                  => $claimType,
+                                'birthday'                   => $birthdate,
+                                'homtel'                     => $tel,
+                                'repcode'                    => $claimStatus,
+                                'hncode'                     => $hnCode,
+                                'servicerep'                 => $patientType,
+                                'servicename'                => $claimTypeName,
+                                'mainpttype'                 => $mainInsclWithName,
+                                'subpttype'                  => $subInsclName,
+                                'requestauthen'              => $sourceChannel,
+                                'authentication'             => $claimAuthen, 
+                            ]); 
                         } else {
                             Check_authen_hos217::create([
                                 'cid'                        => $personalId,
@@ -535,16 +517,21 @@ class Auto_authenController extends Controller
         $date_now = date('Y-m-d'); 
         $date_start = "2023-12-12";
         $data_ = DB::connection('mysql2')->select('
-            SELECT vn,hn,cid,vstdate
+            SELECT vn,cid,vstdate
             FROM vn_stat   
-            WHERE vstdate = "2024-04-02" 
+            WHERE vstdate = "'.$date_now.'" 
             AND pttype NOT IN("M1","M2","M3","M4","M5","M6")
         '); 
         // WHERE vstdate BETWEEN "2024-03-12" AND "2024-03-12"
-        // WHERE vstdate = "2024-04-01"
+        // WHERE vstdate = "2024-03-12"
         // WHERE vstdate = "'.$date_now.'"
-        foreach ($data_ as $key => $value) { 
-                Check_authen_hos::where('cid','=',$value->cid)->where('vstdate','=',$value->vstdate)->where('claimtype','=','PG0060001')->update(['vn'=>$value->vn,'hncode'=>$value->hn]);  
+        foreach ($data_ as $key => $value) {
+            $checknull = Check_authen_hos::whereNull('vn')->count();
+            if ($checknull > 0) {
+                Check_authen_hos::where('cid','=',$value->cid)->where('vstdate','=',$value->vstdate)->where('claimtype','=','PG0060001')->update(['vn'=>$value->vn]);  
+            } else { 
+            } 
+            
         }
 
         return view('auto.updateauthen_spschtohos');
@@ -557,13 +544,23 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql2')->select('
             SELECT v.vn,v.cid,v.hn,v.vstdate
             FROM vn_stat v  
-            WHERE v.vstdate = "2024-04-02"   
-            AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6")          
+            WHERE v.vstdate = "'.$date_now.'" 
+            AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6")
             GROUP BY v.vn
-        ');  
-        foreach ($data_ as $key => $value) {     
-                Check_authen_hos217::where('cid','=',$value->cid)->where('vstdate','=',$value->vstdate)->where('claimtype','=','PG0060001')->update(['vn'=>$value->vn,'hncode'=>$value->hn]);  
+        '); 
+        // WHERE vstdate BETWEEN "2024-03-12" AND "2024-03-12"
+        // WHERE vstdate = "2024-03-12"
+        // WHERE vstdate = "'.$date_now.'"
+        foreach ($data_ as $key => $value) { 
+        
+            // $checknull217 = Check_authen_hos217::whereNull('vn')->count();
+            $checknull217 = Check_authen_hos217::where('vn',NULL)->count();
+            if ($checknull217 > 0) {
+                Check_authen_hos217::where('cid','=',$value->cid)->where('vstdate','=',$value->vstdate)->where('claimtype','=','PG0060001')->update(['vn'=>$value->vn]);  
+            } else { 
+            } 
         }
+
         return view('auto.updateauthen_spschtohos217');
     }
     // updateauthen_tispschtohos 205
@@ -573,12 +570,18 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql2')->select('
             SELECT v.vn,v.cid,v.hn,v.vstdate
             FROM vn_stat v  
-            WHERE v.vstdate = "2024-04-02"
+            WHERE v.vstdate = "'.$date_now.'"
             AND v.pttype IN("M1","M2","M3","M4","M5","M6")
             GROUP BY v.vn
         '); 
-        foreach ($data_ as $key => $value) { 
-                Check_authen_hos::where('cid','=',$value->cid)->where('vstdate','=',$value->vstdate)->where('claimtype','=','PG0130001')->update(['vn'=>$value->vn,'hncode'=>$value->hn]);  
+        foreach ($data_ as $key => $value) {
+            // $checknull = Check_authen_hos::whereNull('vn')->count();
+            $checknull = Check_authen_hos::where('vn',NULL)->count();
+            if ($checknull > 0) {
+                Check_authen_hos::where('cid','=',$value->cid)->where('vstdate','=',$value->vstdate)->where('claimtype','=','PG0130001')->update(['vn'=>$value->vn]);  
+            } else {
+                # code...
+            } 
         }
 
         return view('auto.updateauthen_tispschtohos');
@@ -590,13 +593,20 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql2')->select('
             SELECT v.vn,v.cid,v.hn,v.vstdate
             FROM vn_stat v  
-            WHERE v.vstdate = "2024-04-02"
+            WHERE v.vstdate = "'.$date_now.'"
             AND v.pttype IN("M1","M2","M3","M4","M5","M6")
             GROUP BY v.vn
         '); 
-        foreach ($data_ as $key => $value) { 
-                Check_authen_hos217::where('cid','=',$value->cid)->where('vstdate','=',$value->vstdate)->where('claimtype','=','PG0130001')->update(['vn'=>$value->vn,'hncode'=>$value->hn]);  
-           }
+        foreach ($data_ as $key => $value) {
+            
+            $checknull217 = Check_authen_hos217::where('vn',NULL)->count();
+            if ($checknull217 > 0) {
+                Check_authen_hos217::where('cid','=',$value->cid)->where('vstdate','=',$value->vstdate)->where('claimtype','=','PG0130001')->update(['vn'=>$value->vn]);  
+            } else {
+                # code...
+            }
+            
+        }
 
         return view('auto.updateauthen_tispschtohos217');
     }
@@ -632,6 +642,7 @@ class Auto_authenController extends Controller
 
         return view('auto.updateauthen_spschtochecksitauto');
     }
+
     public function updaet_authen_to_checksitauto(Request $request)
     {
         $date_now = date('Y-m-d');
@@ -723,6 +734,7 @@ class Auto_authenController extends Controller
         return view('auto.checksithos_auto');
 
     }
+
     // ไตเทียม    
     public function pullauthen_tispsch(Request $request)
     {

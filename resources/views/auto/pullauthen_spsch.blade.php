@@ -62,7 +62,7 @@
         $('#success').hide(); 
         window.setTimeout(function() {             
             window.location.reload();
-        },10000); 
+        },3000); 
         $(document).ajaxStart(function() {
         
             }).ajaxSuccess(function() {

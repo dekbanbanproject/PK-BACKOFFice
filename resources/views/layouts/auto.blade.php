@@ -385,13 +385,13 @@
                                     <li>
                                         <a href="{{ url('pull_hosallauto') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
-                                             Pull Data ALL PTTYPE Auto 
+                                             Pull ALL Pttype Auto 
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{{ url('pull_hosauto') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
-                                             Pull Data Auto 
+                                             Pull hos Auto 
                                         </a>
                                     </li>
                                     <li>
@@ -404,6 +404,12 @@
                                         <a href="{{ url('updateauthen_spschtochecksitauto') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
                                             Update Claimcode To Checksit Auto
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url('pullauthen_spsch') }}" target="_blank">
+                                            <i class="metismenu-icon"></i>
+                                            Authen Spsch Auto
                                         </a>
                                     </li>
                                     <li>
@@ -430,12 +436,7 @@
                                              Update vn 217 TI To spsch Auto 
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="{{ url('pullauthen_spsch') }}" target="_blank">
-                                            <i class="metismenu-icon"></i>
-                                            Authen Spsch Auto
-                                        </a>
-                                    </li>
+                                   
                                     <li>
                                         <a href="{{ url('updaet_authen_to_checksitauto') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
