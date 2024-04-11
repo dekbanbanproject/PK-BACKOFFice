@@ -298,6 +298,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     <li><a href="{{ url('fdh_rep') }}">FDH REP</a></li> 
                                     <li><a href="{{ url('walkin') }}">WlakIN</a></li> 
                                     <li><a href="{{ url('ucep24_main') }}">Ucep-24</a></li> 
+                                    <li><a href="{{ url('hpv') }}">HPV</a></li> 
                                     <li><a href="{{ url('stp') }}">STP</a></li> 
                                     <li><a href="{{ url('fdh_ipd') }}">IPD-ไม่เอาสีแดง</a></li> 
                                     {{-- <li><a href="javascript: void(0);" class="has-arrow">IPD</a>

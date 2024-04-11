@@ -393,8 +393,7 @@ class ChecksitController extends Controller
                         $add->staff_service    = $value->staff_service;
                         $add->date_editauthen  = $value->date_editauthen;
                         $add->name_editauthen  = $value->name_editauthen;
-                        $add->comment          = $value->comment;
-                        // $add->STMdoc           = $value->STMdoc;  
+                        $add->comment          = $value->comment;  
                         $add->save(); 
 
                         $add2 = new Check_authen_hos217();
@@ -421,26 +420,10 @@ class ChecksitController extends Controller
                         $add2->staff_service    = $value->staff_service;
                         $add2->date_editauthen  = $value->date_editauthen;
                         $add2->name_editauthen  = $value->name_editauthen;
-                        $add2->comment          = $value->comment;
-                        // $add->STMdoc           = $value->STMdoc;  
+                        $add2->comment          = $value->comment; 
                         $add2->save(); 
                       
                     } 
-
-                    // if ($value->ip_paytrue == "0.00") {
-                    //     Acc_1102050101_202::where('an',$value->an) 
-                    //         ->update([
-                    //             'status'          => 'Y',
-                    //             'stm_rep'         => $value->debit,
-                    //             // 'stm_money'       => $value->ip_paytrue,
-                    //             'stm_rcpno'       => $value->rep.'-'.$value->repno,
-                    //             'stm_trainid'     => $value->tranid,
-                    //             'stm_total'       => $value->total_approve,
-                    //             'STMdoc'          => $value->STMdoc,
-                    //             'va'              => $value->va,
-                    //     ]); 
-                    // } else {
-                    // }
  
  
                 } else {

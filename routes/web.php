@@ -3049,6 +3049,12 @@ Route::match(['get','post'],'fdh_rep',[App\Http\Controllers\Fdh_RepController::c
 Route::match(['get','post'],'fdh_rep_save',[App\Http\Controllers\Fdh_RepController::class, 'fdh_rep_save'])->name('fdh.fdh_rep_save');//
 Route::match(['get','post'],'fdh_rep_send',[App\Http\Controllers\Fdh_RepController::class, 'fdh_rep_send'])->name('fdh.fdh_rep_send');//
 
+Route::match(['get','post'],'hpv',[App\Http\Controllers\Fdh_HpvController::class, 'hpv'])->name('fdh.hpv');//
+Route::match(['get','post'],'hpv_process_vn',[App\Http\Controllers\Fdh_HpvController::class, 'hpv_process_vn'])->name('fdh.hpv_process_vn');//
+Route::match(['get','post'],'hpv_process',[App\Http\Controllers\Fdh_HpvController::class, 'hpv_process'])->name('fdh.hpv_process');//
+Route::match(['get','post'],'hpv_export',[App\Http\Controllers\Fdh_HpvController::class, 'hpv_export'])->name('fdh.hpv_export');//
+Route::match(['get','post'],'hpv_zip',[App\Http\Controllers\Fdh_HpvController::class, 'hpv_zip'])->name('fdh.hpv_zip');//
+
 Route::match(['get','post'],'walkin',[App\Http\Controllers\Fdh_walkinController::class, 'walkin'])->name('claim.walkin');//
 Route::match(['get','post'],'walkin_process_vn',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_process_vn'])->name('claim.walkin_process_vn');//
 Route::match(['get','post'],'walkin_process',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_process'])->name('claim.walkin_process');//
