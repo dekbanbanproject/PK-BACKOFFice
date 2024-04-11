@@ -39,6 +39,7 @@ return new class extends Migration
                 $table->date('date_editauthen')->nullable();//วันที่แก้ไข Authen Cod
                 $table->string('name_editauthen')->nullable();//ชื่อผู้ที่แก้ใข Authen Code
                 $table->string('comment')->nullable();  //หมายเหตุการยกเลิก
+                $table->string('STMdoc')->nullable(); 
                 $table->timestamps();
             });
         }

@@ -56,9 +56,9 @@ use App\Models\Claim_sixteen_ins;
 use App\Models\Claim_temp_ssop;
 use App\Models\Claim_sixteen_opd;
 use App\Models\Check_authen;
-use App\Models\acc_1102050101_4022;
+use App\Models\Check_authen_hos217;
 use App\Models\Visit_pttype_authen_report;
-use App\Models\Db_authen_detail;
+use App\Models\Check_authen_hos;
 use App\Models\Check_authen_excel;
 use App\Models\check_authen_new;
 use Auth;
@@ -260,11 +260,11 @@ class ChecksitController extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate;
         $datashow = DB::connection('mysql')->select('
-            SELECT rep,vstdate,SUM(ip_paytrue) as Sumprice,STMdoc,month(vstdate) as months
-            FROM acc_stm_ucs_excel
-            GROUP BY rep
+            SELECT *
+            FROM check_authen_excel
+            GROUP BY claimcode
             ');
-        $countc = DB::table('acc_stm_ucs_excel')->count();
+        $countc = DB::table('check_authen_excel')->count();
          
         return view('authen.import_authen_day',[
             'datashow'        => $datashow,
@@ -272,6 +272,186 @@ class ChecksitController extends Controller
             'enddate'         => $enddate, 
             'countc'          => $countc
         ]);
+    }
+    function import_authen_daysave(Request $request)
+    { 
+        $this->validate($request, [
+            'file' => 'required|file|mimes:xls,xlsx'
+        ]);
+        $the_file = $request->file('file'); 
+        $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์ 
+        // dd($the_file);
+            try{
+                 
+                // Cheet 2
+                $spreadsheet = IOFactory::load($the_file->getRealPath()); 
+                $sheet        = $spreadsheet->setActiveSheetIndex(0);
+                $row_limit    = $sheet->getHighestDataRow();
+                $column_limit = $sheet->getHighestDataColumn();
+                $row_range    = range( 2, $row_limit );
+                $column_range = range( 'Y', $column_limit );
+                $startcount = 2;
+                $data = array();
+                foreach ($row_range as $row ) {
+                    $vst = $sheet->getCell( 'P' . $row )->getValue();  
+                    $day = substr($vst,0,2);
+                    $mo = substr($vst,3,2);
+                    $year = substr($vst,6,4);
+                    $vstdate = $year.'-'.$mo.'-'.$day;
+
+                    $reg = $sheet->getCell( 'Q' . $row )->getValue(); 
+                    $regday = substr($reg, 0, 2);
+                    $regmo = substr($reg, 3, 2);
+                    $regyear = substr($reg, 6, 4);
+                    $datesave = $regyear.'-'.$regmo.'-'.$regday; 
+ 
+                    $data[] = [
+                        'hcode'                   =>$sheet->getCell( 'A' . $row )->getValue(),
+                        'hosname'                 =>$sheet->getCell( 'B' . $row )->getValue(),
+                        'cid'                     =>$sheet->getCell( 'C' . $row )->getValue(),
+                        'fullname'                =>$sheet->getCell( 'D' . $row )->getValue(),
+                        'birthday'                =>$sheet->getCell( 'E' . $row )->getValue(),
+                        'homtel'                  =>$sheet->getCell( 'F' . $row )->getValue(),
+                        'mainpttype'              =>$sheet->getCell( 'G' . $row )->getValue(), 
+                        'subpttype'               =>$sheet->getCell( 'H' . $row )->getValue(),
+                        'repcode'                 =>$sheet->getCell( 'I' . $row )->getValue(),                       
+                        'claimcode'               =>$sheet->getCell( 'J' . $row )->getValue(),
+                        'servicerep'              =>$sheet->getCell( 'K' . $row )->getValue(),
+                        'claimtype'               =>$sheet->getCell( 'L' . $row )->getValue(),
+                        'servicename'             =>$sheet->getCell( 'M' . $row )->getValue(),
+                        'hncode'                  =>$sheet->getCell( 'N' . $row )->getValue(),
+                        'ancode'                  =>$sheet->getCell( 'O' . $row )->getValue(),
+                        'vstdate'                 =>$vstdate,
+                        'regdate'                 =>$datesave,                        
+                        'status'                  =>$sheet->getCell( 'R' . $row )->getValue(),  
+                        'requestauthen'           =>$sheet->getCell( 'S' . $row )->getValue(),
+                        'authentication'          =>$sheet->getCell( 'T' . $row )->getValue(),
+                        'staff_service'           =>$sheet->getCell( 'U' . $row )->getValue(),
+                        'date_editauthen'         =>$sheet->getCell( 'V' . $row )->getValue(),
+                        'name_editauthen'         =>$sheet->getCell( 'W' . $row )->getValue(),
+                        'comment'                 =>$sheet->getCell( 'X' . $row )->getValue(),
+                        'STMdoc'                  =>$file_ 
+                    ];
+                    $startcount++; 
+                }
+                // DB::table('acc_stm_ucs_excel')->insert($data); 
+
+                $for_insert = array_chunk($data, length:1000);
+                foreach ($for_insert as $key => $data_) {
+                    Check_authen_excel::insert($data_); 
+                }
+                // Acc_stm_ucs_excel::insert($data); 
+ 
+ 
+            } catch (Exception $e) {
+                $error_code = $e->errorInfo[1];
+                return back()->withErrors('There was a problem uploading the data!');
+            }
+            // return back()->withSuccess('Great! Data has been successfully uploaded.');
+            return response()->json([
+            'status'    => '200',
+        ]);
+    }
+    public function import_authen_daysend(Request $request)
+    {
+        try{
+            $data_ = DB::connection('mysql')->select('SELECT * FROM check_authen_excel WHERE claimcode IS NOT NULL');
+            foreach ($data_ as $key => $value) {
+                if ($value->cid != '') {
+                    $check = Check_authen_hos::where('claimcode','=',$value->claimcode)->count();
+                    if ($check > 0) {
+                        Check_authen_hos::where('claimcode',$value->claimcode) 
+                            ->update([ 
+                                    'claimtype'     => $value->claimtype, 
+                            ]); 
+                        Check_authen_hos217::where('claimcode',$value->claimcode) 
+                            ->update([ 
+                                    'claimtype'     => $value->claimtype, 
+                            ]); 
+                    } else {
+                        $add = new Check_authen_hos();
+                        $add->hcode            = $value->hcode;
+                        $add->hosname          = $value->hosname;
+                        $add->cid              = $value->cid;
+                        $add->fullname         = $value->fullname;
+                        $add->birthday         = $value->birthday;
+                        $add->homtel           = $value->homtel;
+                        $add->mainpttype       = $value->mainpttype;
+                        $add->subpttype        = $value->subpttype;
+                        $add->repcode          = $value->repcode;
+                        $add->claimcode        = $value->claimcode;
+                        $add->servicerep       = $value->servicerep;
+                        $add->claimtype        = $value->claimtype;
+                        $add->servicename      = $value->servicename;
+                        $add->hncode           = $value->hncode;
+                        $add->ancode           = $value->ancode;
+                        $add->vstdate          = $value->vstdate; 
+                        $add->regdate          = $value->regdate;
+                        $add->status           = $value->status;
+                        $add->requestauthen    = $value->requestauthen;
+                        $add->authentication   = $value->authentication;
+                        $add->staff_service    = $value->staff_service;
+                        $add->date_editauthen  = $value->date_editauthen;
+                        $add->name_editauthen  = $value->name_editauthen;
+                        $add->comment          = $value->comment;
+                        // $add->STMdoc           = $value->STMdoc;  
+                        $add->save(); 
+
+                        $add2 = new Check_authen_hos217();
+                        $add2->hcode            = $value->hcode;
+                        $add2->hosname          = $value->hosname;
+                        $add2->cid              = $value->cid;
+                        $add2->fullname         = $value->fullname;
+                        $add2->birthday         = $value->birthday;
+                        $add2->homtel           = $value->homtel;
+                        $add2->mainpttype       = $value->mainpttype;
+                        $add2->subpttype        = $value->subpttype;
+                        $add2->repcode          = $value->repcode;
+                        $add2->claimcode        = $value->claimcode;
+                        $add2->servicerep       = $value->servicerep;
+                        $add2->claimtype        = $value->claimtype;
+                        $add2->servicename      = $value->servicename;
+                        $add2->hncode           = $value->hncode;
+                        $add2->ancode           = $value->ancode;
+                        $add2->vstdate          = $value->vstdate; 
+                        $add2->regdate          = $value->regdate;
+                        $add2->status           = $value->status;
+                        $add2->requestauthen    = $value->requestauthen;
+                        $add2->authentication   = $value->authentication;
+                        $add2->staff_service    = $value->staff_service;
+                        $add2->date_editauthen  = $value->date_editauthen;
+                        $add2->name_editauthen  = $value->name_editauthen;
+                        $add2->comment          = $value->comment;
+                        // $add->STMdoc           = $value->STMdoc;  
+                        $add2->save(); 
+                      
+                    } 
+
+                    // if ($value->ip_paytrue == "0.00") {
+                    //     Acc_1102050101_202::where('an',$value->an) 
+                    //         ->update([
+                    //             'status'          => 'Y',
+                    //             'stm_rep'         => $value->debit,
+                    //             // 'stm_money'       => $value->ip_paytrue,
+                    //             'stm_rcpno'       => $value->rep.'-'.$value->repno,
+                    //             'stm_trainid'     => $value->tranid,
+                    //             'stm_total'       => $value->total_approve,
+                    //             'STMdoc'          => $value->STMdoc,
+                    //             'va'              => $value->va,
+                    //     ]); 
+                    // } else {
+                    // }
+ 
+ 
+                } else {
+                }
+            }
+            } catch (Exception $e) {
+                $error_code = $e->errorInfo[1];
+                return back()->withErrors('There was a problem uploading the data!');
+            }
+            Check_authen_excel::truncate();
+        return redirect()->back();
     }
     
     

@@ -126,59 +126,43 @@
 
         </div>
 
-        {{-- <div class="row">
+        <div class="row">
 
             <div class="col"></div>
             <div class="col-xl-8 col-md-6">
                 <div class="card p-3 cardacc">
                     <div class="grid-menu-col">
-
-                        <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                          
+                        {{-- datatable-buttons --}}
+                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                           
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
-                                    <th class="text-center">rep</th>
-                                    <th class="text-center">months</th>
-                                    <th class="text-center">filename</th>
-
+                                    <th class="text-center">hcode</th>
+                                    <th class="text-center">cid</th>
+                                    <th class="text-center">fullname</th>
+                                    <th class="text-center">homtel</th>
+                                    <th class="text-center">claimcode</th>
+                                    <th class="text-center">claimtype</th>
+                                    <th class="text-center">vstdate</th>
+                                    <th class="text-center">hncode</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $number = 0;
                                 $total1 = 0; ?>
                                 @foreach ($datashow as $item)
-                                    <?php $number++; ?>
-
-                                    <tr height="20" style="font-size: 14px;color:rgb(235, 6, 6)">
-                                        <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
-                                        <td class="text-center" width="10%" style="color:rgb(248, 12, 12)"> {{ $item->rep }}</td>
-                                        @if ($item->months == '1')
-                                        <td width="10%" class="text-center" >มกราคม </td>
-                                    @elseif ($item->months == '2')
-                                        <td width="10%" class="text-center">กุมภาพันธ์  </td>
-                                    @elseif ($item->months == '3')
-                                        <td width="10%" class="text-center">มีนาคม  </td>
-                                    @elseif ($item->months == '4')
-                                        <td width="10%" class="text-center">เมษายน </td>
-                                    @elseif ($item->months == '5')
-                                        <td width="10%" class="text-center">พฤษภาคม</td>
-                                    @elseif ($item->months == '6')
-                                        <td width="10%" class="text-center">มิถุนายน </td>
-                                    @elseif ($item->months == '7')
-                                        <td width="10%" class="text-center">กรกฎาคม</td>
-                                    @elseif ($item->months == '8')
-                                        <td width="10%" class="text-center">สิงหาคม </td>
-                                    @elseif ($item->months == '9')
-                                        <td width="10%" class="text-center">กันยายน </td>
-                                    @elseif ($item->months == '10')
-                                        <td width="10%" class="text-center">ตุลาคม </td>
-                                    @elseif ($item->months == '11')
-                                        <td width="10%" class="text-center">พฤษจิกายน </td>
-                                    @else
-                                        <td width="10%" class="text-center">ธันวาคม</td>
-                                    @endif
-                                        <td class="text-end" style="color:rgb(248, 12, 12)" width="7%"> {{ $item->STMdoc }}</td>
+                                    <?php $number++; ?> 
+                                    <tr height="14">
+                                        <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td>
+                                        <td class="text-center" width="7%"> {{ $item->hcode }}</td> 
+                                        <td class="text-end"width="7%"> {{ $item->cid }}</td>
+                                        <td class="p-2"> {{ $item->fullname }}</td>
+                                        <td class="text-end" width="7%"> {{ $item->homtel }}</td>
+                                        <td class="text-end" width="7%"> {{ $item->claimcode }}</td>
+                                        <td class="text-end" width="7%"> {{ $item->claimtype }}</td>
+                                        <td class="text-end" width="7%"> {{ $item->vstdate }}</td>
+                                        <td class="text-end" width="7%"> {{ $item->hncode }}</td>
                                     </tr>
                                 @endforeach
 
@@ -189,7 +173,7 @@
                 </div>
             </div>
             <div class="col"></div>
-        </div> --}}
+        </div>
  
     </div>
 
@@ -242,7 +226,7 @@
                             confirmButtonText: 'เรียบร้อย'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                window.location = "{{ url('upstm_ucs') }}";
+                                window.location = "{{ url('import_authen_day') }}";
                             }
                         })
                     }
