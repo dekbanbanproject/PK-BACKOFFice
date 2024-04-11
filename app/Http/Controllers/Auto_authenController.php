@@ -296,7 +296,7 @@ class Auto_authenController extends Controller
         $date_now = date('Y-m-d');
         $date_start = "2024-04-02";
         // $date_start = "2024-04-03";
-        $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_start&claimDateTo=$date_start&page=0&size=1000&sort=transId,desc";
+        $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=transId,desc";
         // $url = "https://authenservice.nhso.go.th/authencode/api/erm-reg-claim?claimStatus=E&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=claimDate,desc";
         // dd($url);https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=2023-05-09&claimDateTo=2023-05-09
         $curl = curl_init();
@@ -537,11 +537,11 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql2')->select('
             SELECT vn,hn,cid,vstdate
             FROM vn_stat   
-            WHERE vstdate = "2024-04-02" 
+            WHERE vstdate = "'.$date_now.'" 
             AND pttype NOT IN("M1","M2","M3","M4","M5","M6")
         '); 
         // WHERE vstdate BETWEEN "2024-03-12" AND "2024-03-12"
-        // WHERE vstdate = "2024-04-01"
+        // WHERE vstdate = "2024-04-02"
         // WHERE vstdate = "'.$date_now.'"
         foreach ($data_ as $key => $value) { 
                 Check_authen_hos::where('cid','=',$value->cid)->where('vstdate','=',$value->vstdate)->where('claimtype','=','PG0060001')->update(['vn'=>$value->vn,'hncode'=>$value->hn]);  
@@ -557,7 +557,7 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql2')->select('
             SELECT v.vn,v.cid,v.hn,v.vstdate
             FROM vn_stat v  
-            WHERE v.vstdate = "2024-04-02"   
+            WHERE v.vstdate = "'.$date_now.'"  
             AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6")          
             GROUP BY v.vn
         ');  
@@ -573,7 +573,7 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql2')->select('
             SELECT v.vn,v.cid,v.hn,v.vstdate
             FROM vn_stat v  
-            WHERE v.vstdate = "2024-04-02"
+            WHERE v.vstdate = "'.$date_now.'"
             AND v.pttype IN("M1","M2","M3","M4","M5","M6")
             GROUP BY v.vn
         '); 
@@ -590,7 +590,7 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql2')->select('
             SELECT v.vn,v.cid,v.hn,v.vstdate
             FROM vn_stat v  
-            WHERE v.vstdate = "2024-04-02"
+            WHERE v.vstdate = "'.$date_now.'"
             AND v.pttype IN("M1","M2","M3","M4","M5","M6")
             GROUP BY v.vn
         '); 
