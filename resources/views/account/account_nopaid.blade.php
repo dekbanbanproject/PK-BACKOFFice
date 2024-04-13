@@ -156,7 +156,7 @@
                                                 ?>
                                                 <tr style="font-size: 13px">                                                  
                                                     <td class="text-center" width="5%">{{ $i++ }}</td>  
-                                                    <td class="p-2" >{{$item->months_name}} {{$item->year}}</td>  
+                                                    <td class="p-2" >{{$item->MONTH_NAME}} {{$item->year}}</td>  
                                                     <td class="text-center" width="10%">{{ number_format($item->sum_income, 2) }}</td> 
                                                     <td class="text-center" width="10%">{{ number_format($item->sum_paid_money, 2) }}</td>   
                                                     <td class="text-center" width="10%" style="color:rgb(7, 167, 113)">{{ number_format($item->sum_rcpt_money, 2) }}</td> 
