@@ -296,13 +296,13 @@ class ChecksitController extends Controller
                     $vst = $sheet->getCell( 'P' . $row )->getValue();  
                     $day = substr($vst,0,2);
                     $mo = substr($vst,3,2);
-                    $year = substr($vst,6,4);
+                    $year = substr($vst,6,4)-543;
                     $vstdate = $year.'-'.$mo.'-'.$day;
 
                     $reg = $sheet->getCell( 'Q' . $row )->getValue(); 
                     $regday = substr($reg, 0, 2);
                     $regmo = substr($reg, 3, 2);
-                    $regyear = substr($reg, 6, 4);
+                    $regyear = substr($reg, 6, 4)-543;
                     $datesave = $regyear.'-'.$regmo.'-'.$regday; 
  
                     $data[] = [
