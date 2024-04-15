@@ -81,9 +81,13 @@
                 <p class="card-title-desc">รายละเอียดกล้องวงจรปิด</p>
             </div>
             <div class="col"></div>
-            <div class="col-md-1 text-end mt-2">วันที่</div>
+            {{-- <div class="col-md-1 text-end mt-2">วันที่</div> --}}
             <div class="col-md-4 text-end">
-                <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                <a href="{{url('cctv_add')}}" class="ladda-button me-2 btn-pill btn btn-primary cardacc">
+                    <i class="fa-solid fa-file-export text-white me-2"></i>
+                   เพิ่มรายการ
+                </a>  
+                {{-- <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
                     <input type="text" class="form-control cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
@@ -92,8 +96,8 @@
                             <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>ค้นหา</span>
                             <span class="ladda-spinner"></span>
                         </button> 
-            </div> 
-        </div>
+                </div>  --}}
+            </div>
     </div>  
         
         <div class="row">
@@ -141,6 +145,7 @@
                                             <th class="text-center" >article_year</th> 
                                             <th class="text-center">category</th>  
                                             <th class="text-center">หน่วยงาน</th>  
+                                            <th class="text-center">จัดการ</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -150,9 +155,9 @@
                                                 <td class="text-center" width="5%">{{ $i++ }}</td>  
                                               
                                                 @if ( $item->article_img == Null )
-                                                <td class="text-center" width="10%"><img src="{{asset('images/default-image.jpg')}}" id="edit_upload_preview" height="70px" width="70px" alt="Image" class="img-thumbnail"></td> 
+                                                <td class="text-center" width="10%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="40px" width="40px" alt="Image" class="img-thumbnail"></td> 
                                                 @else
-                                                <td class="text-center" width="10%"><img src="{{asset('storage/org/'.$item->article_img)}}" id="edit_upload_preview" height="70px" width="70px" alt="Image" class="img-thumbnail">  </td>                                
+                                                <td class="text-center" width="10%"><img src="{{asset('storage/article/'.$item->article_img)}}" height="40px" width="40px" alt="Image" class="img-thumbnail">  </td>                                
                                                 @endif
 
                                                 <td class="text-center" width="10%">{{ $item->article_num }}</td>  
@@ -160,7 +165,39 @@
                                                 <td class="text-center" width="5%">{{ $item->article_year }}</td>   
                                                 <td class="text-center" width="10%">{{ $item->article_categoryname }}</td>   
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="20%">{{ $item->article_deb_subsub_name }}</td>  
-                                               
+                                                <td class="text-center" width="5%">
+
+                                                    <div class="dropdown d-inline-block">
+                                                        <button type="button" aria-haspopup="true" aria-expanded="false"
+                                                            data-bs-toggle="dropdown"
+                                                            class="me-2 dropdown-toggle btn btn-outline-secondary btn-sm">
+                                                            ทำรายการ
+                                                        </button>
+                                                        <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-hover-link dropdown-menu">
+                                                            {{-- <button type="button"class="dropdown-item menu edit_button" data-id="{{ $item->article_id }}" data-bs-toggle="modal"
+                                                                data-bs-target="#EditModal">
+                                                                <i class="fa-solid fa-pen-to-square ms-2 me-2 text-warning"></i>
+                                                                <label for="" style="font-size:13px;color: rgb(255, 185, 34)">แก้ไข</label>
+                                                            </button> --}}
+                                                            <a class="dropdown-item text-warning" href="{{ url('cctv_list/' . $item->article_id) }}" style="font-size:13px" target="blank">
+                                                                <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
+                                                                <span>แก้ไข</span>
+                                                            </a>
+                                                            <div class="dropdown-divider"></div>
+                                                            {{-- <a class="dropdown-item text-primary" href="{{ url('cctv_list/' . $item->article_id) }}" style="font-size:13px" target="blank">
+                                                                <i class="fa-solid fa-clipboard-check me-2 text-primary" style="font-size:13px"></i>
+                                                                <span>เพิ่มรายการ</span>
+                                                            </a> --}}
+                                                            <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="article_destroy({{ $item->article_id }})"
+                                                                data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="ลบ">
+                                                                <i class="fa-solid fa-trash-can me-2 mb-1"></i>
+                                                                <label for="" style="color: rgb(255, 2, 2);font-size:13px">ลบ</label>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+
+                                                </td>
+
                                             </tr>
                                         @endforeach
                                     </tbody>
