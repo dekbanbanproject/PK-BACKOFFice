@@ -537,7 +537,7 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql2')->select('
             SELECT vn,hn,cid,vstdate
             FROM vn_stat   
-            WHERE vstdate = "2024-04-11"
+            WHERE vstdate BETWEEN "2024-04-12" AND "2024-04-13"
             AND pttype NOT IN("M1","M2","M3","M4","M5","M6")
         '); 
         // WHERE vstdate BETWEEN "2024-03-12" AND "2024-03-12"
@@ -557,7 +557,7 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql2')->select('
             SELECT v.vn,v.cid,v.hn,v.vstdate
             FROM vn_stat v  
-            WHERE v.vstdate = "2024-04-11"  
+            WHERE v.vstdate BETWEEN "2024-04-12" AND "2024-04-13" 
             AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6")          
             GROUP BY v.vn
         ');  
@@ -573,7 +573,7 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql2')->select('
             SELECT v.vn,v.cid,v.hn,v.vstdate
             FROM vn_stat v  
-            WHERE v.vstdate = "2024-04-11"
+            WHERE v.vstdate BETWEEN "2024-04-12" AND "2024-04-13"
             AND v.pttype IN("M1","M2","M3","M4","M5","M6")
             GROUP BY v.vn
         '); 
@@ -590,7 +590,7 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql2')->select('
             SELECT v.vn,v.cid,v.hn,v.vstdate
             FROM vn_stat v  
-            WHERE v.vstdate = "2024-04-11"
+            WHERE v.vstdate BETWEEN "2024-04-12" AND "2024-04-13"
             AND v.pttype IN("M1","M2","M3","M4","M5","M6")
             GROUP BY v.vn
         '); 
@@ -608,7 +608,7 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql2')->select('
             SELECT vn,cid,hncode,vstdate,claimcode,claimtype,servicerep,servicename,authentication
             FROM check_authen_hos  
-            WHERE vstdate = "2024-04-11"
+            WHERE vstdate BETWEEN "2024-04-12" AND "2024-04-13"
        
         '); 
         // GROUP BY vn 
@@ -635,7 +635,7 @@ class Auto_authenController extends Controller
     public function updaet_authen_to_checksitauto(Request $request)
     {
         $date_now = date('Y-m-d');
-        $date_start = "2023-12-12";
+        $date_start = "2024-04-12";
         $date_end = "2566-07-22";        
         // $data_ = Check_authen
         // $count = Check_sit_auto::where('vn','<>','')->count(); 
@@ -643,7 +643,7 @@ class Auto_authenController extends Controller
                 SELECT c.cid,c.vstdate,c.claimcode,c.claimtype,c.servicerep,c.servicename,c.authentication ,ca.claimcode as Caclaimcode
                 FROM check_authen c   
                 LEFT JOIN check_sit_auto ca ON ca.cid = c.cid and c.vstdate = ca.vstdate
-                WHERE c.vstdate = "'.$date_now.'"
+                WHERE c.vstdate = "'.$date_start.'"
                 AND c.claimtype = "PG0060001"  
                 AND ca.claimcode IS NULL
         '); 
@@ -671,13 +671,13 @@ class Auto_authenController extends Controller
     public function checksithos_auto(Request $request)
     {
         $date_now = date('Y-m-d');
-        $date_start = "2023-08-14";
+        $date_start = "2024-04-12";
         $date_end = "2566-07-22";
         
         $data_ = DB::connection('mysql')->select('
             SELECT vn,an,hn,cid,vstdate,hometel,vsttime,fullname,pttype,hospmain,hospsub,main_dep,staff,staff_name,claimcode,claimtype,servicerep,servicename,authentication,debit 
             FROM check_sit_auto   
-            WHERE vstdate = CURDATE()  
+            WHERE vstdate = "'.date_now.'" 
             LIMIT 100    
         '); 
         foreach ($data_ as $key => $value) {   
