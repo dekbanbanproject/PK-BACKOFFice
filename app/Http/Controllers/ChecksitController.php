@@ -433,7 +433,7 @@ class ChecksitController extends Controller
                 $error_code = $e->errorInfo[1];
                 return back()->withErrors('There was a problem uploading the data!');
             }
-            // Check_authen_excel::truncate();
+            Check_authen_excel::truncate();
         return redirect()->back();
     }
     
