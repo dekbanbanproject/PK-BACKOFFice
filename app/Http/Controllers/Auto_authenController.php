@@ -537,10 +537,10 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql2')->select('
             SELECT vn,hn,cid,vstdate
             FROM vn_stat   
-            WHERE vstdate BETWEEN "2024-04-12" AND "2024-04-13"
+            WHERE vstdate BETWEEN "2024-04-14" AND "2024-04-15"
             AND pttype NOT IN("M1","M2","M3","M4","M5","M6")
         '); 
-        // WHERE vstdate BETWEEN "2024-03-12" AND "2024-03-12"
+     
         // WHERE vstdate = "2024-04-02"
         // WHERE vstdate = "'.$date_now.'"
         foreach ($data_ as $key => $value) { 
@@ -557,7 +557,7 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql2')->select('
             SELECT v.vn,v.cid,v.hn,v.vstdate
             FROM vn_stat v  
-            WHERE v.vstdate BETWEEN "2024-04-12" AND "2024-04-13" 
+            WHERE v.vstdate BETWEEN "2024-04-14" AND "2024-04-15"
             AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6")          
             GROUP BY v.vn
         ');  
@@ -573,7 +573,7 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql2')->select('
             SELECT v.vn,v.cid,v.hn,v.vstdate
             FROM vn_stat v  
-            WHERE v.vstdate BETWEEN "2024-04-12" AND "2024-04-13"
+            WHERE v.vstdate BETWEEN "2024-04-14" AND "2024-04-15"
             AND v.pttype IN("M1","M2","M3","M4","M5","M6")
             GROUP BY v.vn
         '); 
@@ -590,7 +590,7 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql2')->select('
             SELECT v.vn,v.cid,v.hn,v.vstdate
             FROM vn_stat v  
-            WHERE v.vstdate BETWEEN "2024-04-12" AND "2024-04-13"
+            WHERE v.vstdate BETWEEN "2024-04-14" AND "2024-04-15"
             AND v.pttype IN("M1","M2","M3","M4","M5","M6")
             GROUP BY v.vn
         '); 
@@ -608,7 +608,7 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql2')->select('
             SELECT vn,cid,hncode,vstdate,claimcode,claimtype,servicerep,servicename,authentication
             FROM check_authen_hos  
-            WHERE vstdate BETWEEN "2024-04-12" AND "2024-04-13"
+            WHERE vstdate BETWEEN "2024-04-14" AND "2024-04-15"
        
         '); 
         // GROUP BY vn 
@@ -643,7 +643,7 @@ class Auto_authenController extends Controller
                 SELECT c.cid,c.vstdate,c.claimcode,c.claimtype,c.servicerep,c.servicename,c.authentication ,ca.claimcode as Caclaimcode
                 FROM check_authen c   
                 LEFT JOIN check_sit_auto ca ON ca.cid = c.cid and c.vstdate = ca.vstdate
-                WHERE c.vstdate BETWEEN "2024-04-12" AND "2024-04-13"
+                WHERE c.vstdate BETWEEN "2024-04-14" AND "2024-04-15"
                 AND c.claimtype = "PG0060001"  
                 AND ca.claimcode IS NULL
         '); 

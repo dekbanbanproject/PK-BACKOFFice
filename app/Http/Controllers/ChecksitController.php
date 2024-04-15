@@ -359,16 +359,16 @@ class ChecksitController extends Controller
             foreach ($data_ as $key => $value) {
                 if ($value->cid != '') {
                     $check = Check_authen_hos::where('claimcode','=',$value->claimcode)->count();
-                    // if ($check > 0) {
-                    //     Check_authen_hos::where('claimcode',$value->claimcode) 
-                    //         ->update([ 
-                    //                 'claimtype'     => $value->claimtype, 
-                    //         ]); 
-                    //     Check_authen_hos217::where('claimcode',$value->claimcode) 
-                    //         ->update([ 
-                    //                 'claimtype'     => $value->claimtype, 
-                    //         ]); 
-                    // } else {
+                    if ($check > 0) {
+                        Check_authen_hos::where('claimcode',$value->claimcode) 
+                            ->update([ 
+                                    'claimtype'     => $value->claimtype, 
+                            ]); 
+                        Check_authen_hos217::where('claimcode',$value->claimcode) 
+                            ->update([ 
+                                    'claimtype'     => $value->claimtype, 
+                            ]); 
+                    } else {
                         $add = new Check_authen_hos();
                         $add->hcode            = $value->hcode;
                         $add->hosname          = $value->hosname;
@@ -423,7 +423,7 @@ class ChecksitController extends Controller
                         $add2->comment          = $value->comment; 
                         $add2->save(); 
                       
-                //     } 
+                    } 
  
  
                 } else {
@@ -433,7 +433,7 @@ class ChecksitController extends Controller
                 $error_code = $e->errorInfo[1];
                 return back()->withErrors('There was a problem uploading the data!');
             }
-            // Check_authen_excel::truncate();
+            Check_authen_excel::truncate();
         return redirect()->back();
     }
     
