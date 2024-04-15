@@ -3038,6 +3038,9 @@ Route::match(['get','post'],'cctv_add',[App\Http\Controllers\TechserviceControll
 Route::match(['get','post'],'cctv_edit/{id}',[App\Http\Controllers\TechserviceController::class, 'cctv_edit'])->name('tec.cctv_edit');//
 Route::match(['get','post'],'cctv_save',[App\Http\Controllers\TechserviceController::class, 'cctv_save'])->name('tec.cctv_save');//
 Route::match(['get','post'],'cctv_update',[App\Http\Controllers\TechserviceController::class, 'cctv_update'])->name('tec.cctv_update');//
+Route::delete('cctv_destroy/{id}',[App\Http\Controllers\TechserviceController::class, 'cctv_destroy'])->name('tec.cctv_destroy');//
+
+Route::match(['get','post'],'cctv_report',[App\Http\Controllers\TechserviceController::class, 'cctv_report'])->name('tec.cctv_report');//
 
 // ************** FDH ****************************
 Route::match(['get','post'],'fdh_dashboard',[App\Http\Controllers\FdhController::class, 'fdh_dashboard'])->name('fdh.fdh_dashboard');// 

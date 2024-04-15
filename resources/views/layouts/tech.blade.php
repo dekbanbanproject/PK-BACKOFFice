@@ -271,8 +271,8 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                             <ul class="sub-menu" aria-expanded="true"> 
                                 <li><a href="javascript: void(0);" class="has-arrow">รายการกล้อง CCTV </a>
                                     <ul class="sub-menu" aria-expanded="true"> 
-                                        <li><a href="{{ url('cctv_list') }}">CCTV</a></li>
-                                        {{-- <li><a href="{{ url('account_501_pull') }}">ดึงลูกหนี้</a></li> --}}
+                                        <li><a href="{{ url('cctv_list') }}">cctv</a></li>
+                                        <li><a href="{{ url('cctv_report') }}">report cctv</a></li>
                                        
                                     </ul>
                                 </li>

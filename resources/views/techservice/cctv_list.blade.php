@@ -6,6 +6,45 @@
         function TypeAdmin() {
             window.location.href = '{{ route('index') }}';
         }
+        function cctv_destroy(article_id) {
+            Swal.fire({
+                title: 'ต้องการลบใช่ไหม?',
+                text: "ข้อมูลนี้จะถูกลบไปเลย !!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ใช่, ลบเดี๋ยวนี้ !',
+                cancelButtonText: 'ไม่, ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ url('cctv_destroy') }}" + '/' + article_id,
+                        type: 'DELETE',
+                        data: {
+                            _token: $("input[name=_token]").val()
+                        },
+                        success: function(response) {
+                            Swal.fire({
+                                title: 'ลบข้อมูล!',
+                                text: "You Delet data success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                // cancelButtonColor: '#d33',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $("#sid" + article_id).remove();
+                                    // window.location.reload();
+                                    window.location = "{{ url('cctv_list') }}";
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
     </script>
     <?php
     if (Auth::check()) {
@@ -133,8 +172,8 @@
 
                         <p class="mb-0">
                             <div class="table-responsive">
-                                <table id="example" class="table table-hover table-sm dt-responsive nowrap"
-                                style=" border-spacing: 0; width: 100%;">
+                                <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                {{-- <table id="example" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;"> --}}
                                     <thead>
                                         <tr>
                                           
@@ -179,7 +218,7 @@
                                                                 <i class="fa-solid fa-pen-to-square ms-2 me-2 text-warning"></i>
                                                                 <label for="" style="font-size:13px;color: rgb(255, 185, 34)">แก้ไข</label>
                                                             </button> --}}
-                                                            <a class="dropdown-item text-warning" href="{{ url('cctv_list/' . $item->article_id) }}" style="font-size:13px" target="blank">
+                                                            <a class="dropdown-item text-warning" href="{{ url('cctv_edit/' . $item->article_id) }}" style="font-size:13px" target="blank">
                                                                 <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
                                                                 <span>แก้ไข</span>
                                                             </a>
@@ -188,7 +227,7 @@
                                                                 <i class="fa-solid fa-clipboard-check me-2 text-primary" style="font-size:13px"></i>
                                                                 <span>เพิ่มรายการ</span>
                                                             </a> --}}
-                                                            <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="article_destroy({{ $item->article_id }})"
+                                                            <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="cctv_destroy({{ $item->article_id }})"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="ลบ">
                                                                 <i class="fa-solid fa-trash-can me-2 mb-1"></i>
                                                                 <label for="" style="color: rgb(255, 2, 2);font-size:13px">ลบ</label>
