@@ -225,7 +225,7 @@
                                                     <div class="dropdown d-inline-block">
                                                         <button type="button" aria-haspopup="true" aria-expanded="false"
                                                             data-bs-toggle="dropdown"
-                                                            class="me-2 dropdown-toggle btn btn-outline-secondary btn-sm">
+                                                            class="dropdown-toggle btn btn-outline-secondary btn-sm">
                                                             ทำรายการ
                                                         </button>
                                                         <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-hover-link dropdown-menu">
