@@ -178,6 +178,7 @@
                                         <tr>
                                           
                                             <th width="5%" class="text-center">ลำดับ</th>  
+                                            <th class="text-center" width="5%">สถานะ</th> 
                                             <th class="text-center" width="5%">รูปภาพ</th>  
                                             <th class="text-center" width="5%">article_num</th>  
                                             <th class="text-center" >article_name</th>
@@ -192,11 +193,26 @@
                                         @foreach ($datashow as $item) 
                                             <tr id="tr_{{$item->article_id}}">                                                  
                                                 <td class="text-center" width="5%">{{ $i++ }}</td>  
+                                                <td class="text-center" width="7%">
+                                                    @if ($item->article_status_id == '1')
+                                                        <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning">ถูกยืม</span>
+                                                    @elseif ($item->article_status_id == '2')
+                                                        <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">ส่งซ่อม</span>
+                                                    @elseif ($item->article_status_id == '3')
+                                                        <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">ปกติ</span>
+                                                    @elseif ($item->article_status_id == '4')
+                                                        <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">ระหว่างซ่อม</span>
+                                                    @elseif ($item->article_status_id == '5')
+                                                        <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary">รอจำหน่าย</span>
+                                                    @else
+                                                        <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">จำหน่าย</span>
+                                                    @endif
+                                                </td>
                                               
                                                 @if ( $item->article_img == Null )
-                                                <td class="text-center" width="10%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="40px" width="40px" alt="Image" class="img-thumbnail"></td> 
+                                                <td class="text-center" width="7%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="40px" width="40px" alt="Image" class="img-thumbnail"></td> 
                                                 @else
-                                                <td class="text-center" width="10%"><img src="{{asset('storage/article/'.$item->article_img)}}" height="40px" width="40px" alt="Image" class="img-thumbnail">  </td>                                
+                                                <td class="text-center" width="7%"><img src="{{asset('storage/article/'.$item->article_img)}}" height="40px" width="40px" alt="Image" class="img-thumbnail">  </td>                                
                                                 @endif
 
                                                 <td class="text-center" width="10%">{{ $item->article_num }}</td>  
