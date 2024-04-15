@@ -87,7 +87,7 @@ date_default_timezone_set("Asia/Bangkok");
 
 class TechserviceController extends Controller
  { 
-    public function techservice(Request $request)
+    public function cctv(Request $request)
     {
         $datenow = date('Y-m-d');
         $months = date('m');
@@ -120,10 +120,31 @@ class TechserviceController extends Controller
             ');
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
         }
-        return view('techservice.techservice',[
+        return view('techservice.cctv',[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
             'acc_debtor'    =>     $acc_debtor,
+        ]);
+    }
+    public function cctv_list(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $months = date('m');
+        $year = date('Y');
+        // dd($year);
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $id = $request->id;
+        if ($id == '') {
+            // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
+            $datashow = DB::select('SELECT * from article_data WHERE cctv="Y" order by article_id desc'); 
+        } else {
+            $datashow = DB::select('SELECT * from article_data WHERE cctv="Y" AND article_id ="'.$id.'" order by article_id desc'); 
+        }
+        return view('techservice.cctv_list',[
+            'startdate'   =>     $startdate,
+            'enddate'     =>     $enddate,
+            'datashow'    =>     $datashow,
         ]);
     }
      

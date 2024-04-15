@@ -3033,6 +3033,7 @@ Route::match(['get','post'],'techservice',[App\Http\Controllers\TechserviceContr
 
 // ************** CCTV-Service ****************************
 Route::match(['get','post'],'cctv',[App\Http\Controllers\TechserviceController::class, 'cctv'])->name('tec.cctv');//
+Route::match(['get','post'],'cctv_list',[App\Http\Controllers\TechserviceController::class, 'cctv_list'])->name('tec.cctv_list');//
 
 // ************** FDH ****************************
 Route::match(['get','post'],'fdh_dashboard',[App\Http\Controllers\FdhController::class, 'fdh_dashboard'])->name('fdh.fdh_dashboard');// 

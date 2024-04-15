@@ -269,10 +269,10 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <span>maintenance</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true"> 
-                                <li><a href="javascript: void(0);" class="has-arrow">501-คนต่างด้าวและแรงงานต่างด้าว OP </a>
+                                <li><a href="javascript: void(0);" class="has-arrow">รายการกล้อง CCTV </a>
                                     <ul class="sub-menu" aria-expanded="true"> 
-                                        <li><a href="{{ url('account_501_dash') }}">dashboard</a></li>
-                                        <li><a href="{{ url('account_501_pull') }}">ดึงลูกหนี้</a></li>
+                                        <li><a href="{{ url('cctv_list') }}">CCTV</a></li>
+                                        {{-- <li><a href="{{ url('account_501_pull') }}">ดึงลูกหนี้</a></li> --}}
                                        
                                     </ul>
                                 </li>
