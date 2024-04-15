@@ -643,7 +643,7 @@ class Auto_authenController extends Controller
                 SELECT c.cid,c.vstdate,c.claimcode,c.claimtype,c.servicerep,c.servicename,c.authentication ,ca.claimcode as Caclaimcode
                 FROM check_authen c   
                 LEFT JOIN check_sit_auto ca ON ca.cid = c.cid and c.vstdate = ca.vstdate
-                WHERE c.vstdate = "'.$date_start.'"
+                WHERE c.vstdate BETWEEN "2024-04-12" AND "2024-04-13"
                 AND c.claimtype = "PG0060001"  
                 AND ca.claimcode IS NULL
         '); 
