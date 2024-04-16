@@ -86,6 +86,12 @@ return new class extends Migration
             $table->string('medical_typecat_id')->nullable(); //
             $table->string('article_type_id')->nullable(); // 
             $table->string('cctv')->nullable(); // 
+            $table->string('cctv_location')->nullable(); // ตำแหน่งกล้องวงจรปิด
+            $table->string('cctv_location_detail')->nullable(); // รัศมีครอบคลุม
+            $table->string('cctv_type')->nullable(); // ชนิด
+            $table->string('cctv_code')->nullable(); // รหัสกล้อง
+            $table->string('cctv_monitor')->nullable(); // หมายเหตุ/ช่องในจอ
+            $table->enum('cctv_status', ['0', '1'])->default('0')->nullable();//
             $table->timestamps('created_at')->useCurrent();
             $table->timestamps('updated_at')->nullable();
         });

@@ -385,10 +385,18 @@ $count_article = StaticController::count_article();
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <select id="article_status_id" name="article_status_id"
+                                            <select id="cctv_status" name="cctv_status"
                                                 class="form-select form-select-lg" style="width: 100%">
-                                                <option value=""></option>
-                                                @foreach ($article_status as $te)
+                                               
+                                                @if ($dataedits->cctv_status == '0')
+                                                    <option value="0" selected>ปกติ</option>
+                                                    <option value="1">ชำรุด</option>
+                                                @else
+                                                    <option value="0">ปกติ</option>
+                                                    <option value="1" selected>ชำรุด</option>
+                                                @endif
+                                                {{-- cctv_status --}}
+                                                {{-- @foreach ($article_status as $te)
                                                     @if ($dataedits->article_status_id == $te->article_status_id)
                                                         <option value="{{ $te->article_status_id }}" selected>
                                                             {{ $te->article_status_name }} </option>
@@ -396,7 +404,7 @@ $count_article = StaticController::count_article();
                                                         <option value="{{ $te->article_status_id }}">
                                                             {{ $te->article_status_name }} </option>
                                                     @endif
-                                                @endforeach
+                                                @endforeach --}}
                                             </select>
                                         </div>
                                     </div>

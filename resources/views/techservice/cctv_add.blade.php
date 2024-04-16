@@ -391,13 +391,13 @@ $loter = $date.''.$time
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <select id="article_status_id" name="article_status_id"
-                                                class="form-select form-select-lg" style="width: 100%">
-                                                <option value=""></option>
-                                                @foreach ($article_status as $te)
+                                            <select id="cctv_status" name="cctv_status" class="form-select form-select-lg" style="width: 100%">
+                                                <option value="0">ปกติ</option>
+                                                <option value="1">ชำรุด</option>
+                                                {{-- @foreach ($article_status as $te)
                                                     <option value="{{ $te->article_status_id }}">
                                                         {{ $te->article_status_name }} </option>
-                                                @endforeach
+                                                @endforeach --}}
                                             </select>
                                         </div>
                                     </div>

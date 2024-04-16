@@ -194,18 +194,19 @@
                                             <tr id="tr_{{$item->article_id}}">                                                  
                                                 <td class="text-center" width="5%">{{ $i++ }}</td>  
                                                 <td class="text-center" width="7%">
-                                                    @if ($item->article_status_id == '1')
-                                                        <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning">ถูกยืม</span>
-                                                    @elseif ($item->article_status_id == '2')
+                                                    @if ($item->cctv_status == '0')
+                                                        <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">ปกติ</span>
+                                                        {{-- <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning">ถูกยืม</span> --}}
+                                                    {{-- @elseif ($item->article_status_id == '2')
                                                         <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">ส่งซ่อม</span>
                                                     @elseif ($item->article_status_id == '3')
                                                         <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">ปกติ</span>
                                                     @elseif ($item->article_status_id == '4')
                                                         <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">ระหว่างซ่อม</span>
                                                     @elseif ($item->article_status_id == '5')
-                                                        <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary">รอจำหน่าย</span>
+                                                        <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary">รอจำหน่าย</span> --}}
                                                     @else
-                                                        <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">จำหน่าย</span>
+                                                        <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">ชำรุด</span>
                                                     @endif
                                                 </td>
                                               

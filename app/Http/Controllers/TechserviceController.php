@@ -196,6 +196,7 @@ class TechserviceController extends Controller
         $add->store_id             = $request->input('store_id');
         $add->article_claim        = $request->input('article_claim');
         $add->article_used         = $request->input('article_used');
+        $add->cctv_status          = $request->input('cctv_status');
         $add->cctv                 = 'Y';
         $branid = $request->input('article_brand_id');
         if ($branid != '') {
@@ -248,15 +249,15 @@ class TechserviceController extends Controller
             $add->article_deb_subsub_name = '';
         }
 
-        $staid = $request->input('article_status_id');
-        if ($staid != '') {
-            $stasave = DB::table('article_status')->where('article_status_id', '=', $staid)->first();
-            $add->article_status_id = $stasave->article_status_id;
-            $add->article_status_name = $stasave->article_status_name;
-        } else {
-            $add->article_status_id = '';
-            $add->article_status_name = '';
-        }
+        // $staid = $request->input('article_status_id');
+        // if ($staid != '') {
+        //     $stasave = DB::table('article_status')->where('article_status_id', '=', $staid)->first();
+        //     $add->article_status_id = $stasave->article_status_id;
+        //     $add->article_status_name = $stasave->article_status_name;
+        // } else {
+        //     $add->article_status_id = '';
+        //     $add->article_status_name = '';
+        // }
 
         $uniid = $request->input('article_unit_id');
         if ($uniid != '') {
@@ -354,8 +355,8 @@ class TechserviceController extends Controller
         $update->store_id = $request->input('store_id');
         $update->article_claim = $request->input('article_claim');
         $update->article_used = $request->input('article_used');
-        $update->article_status_id = $request->input('article_status_id');
-
+        // $update->article_status_id = $request->input('article_status_id');
+        $update->cctv_status          = $request->input('cctv_status');
         $branid = $request->input('article_brand_id');
         if ($branid != '') {
             $bransave = DB::table('product_brand')->where('brand_id', '=', $branid)->first();
