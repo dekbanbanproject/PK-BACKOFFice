@@ -157,8 +157,7 @@ class Auto_authenController extends Controller
             foreach ($data_ti as $key => $val) {
                 $check = Check_sit_tiauto::where('vn', $val->vn)->count();
 
-                if ($check > 0) {
-                    
+                if ($check > 0) {                    
                 } else {
                     Check_sit_tiauto::insert([
                         'vn'         => $val->vn,
@@ -177,9 +176,7 @@ class Auto_authenController extends Controller
                         'staff_name' => $val->staffname,
                         'debit'      => $val->debit
                     ]);
-
                 }
-
             }
             return view('auto.pull_hosauto');
     }
@@ -323,20 +320,16 @@ class Auto_authenController extends Controller
                 'sec-ch-ua-platform: "Windows"'
             ),
         ));
-
         $response = curl_exec($curl);
         curl_close($curl);
         // dd($curl);
         $contents = $response;
         // dd($contents);
         $result = json_decode($contents, true);
-
         @$content = $result['content'];
         // dd($content);
-
         foreach ($content as $key => $value) {
             $transId = $value['transId'];
-
             isset( $value['hmain'] ) ? $hmain = $value['hmain'] : $hmain = "";
             isset( $value['hname'] ) ? $hname = $value['hname'] : $hname = "";
             isset( $value['personalId'] ) ? $personalId = $value['personalId'] : $personalId = "";
@@ -364,13 +357,11 @@ class Auto_authenController extends Controller
             isset( $value['createBy'] ) ? $createBy = $value['createBy'] : $createBy = "";
             isset( $value['mainInsclWithName'] ) ? $mainInsclWithName = $value['mainInsclWithName'] : $mainInsclWithName = "";
             isset( $value['sourceChannel'] ) ? $sourceChannel = $value['sourceChannel'] : $sourceChannel = "";
-
             $claimDate = explode("T",$value['claimDate']);
             $checkdate = $claimDate[0];
             $checktime = $claimDate[1];
             // dd($transId);
-                $datenow = date("Y-m-d");
- 
+                $datenow = date("Y-m-d"); 
                         // $checkcs = Check_authen::where('claimcode','=',$claimCode)->count();
                         // if ($checkcs > 0) {                                       
                         //     // Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->where('claimcode','=',NULL)->update([
@@ -401,12 +392,10 @@ class Auto_authenController extends Controller
                         //         'requestauthen'              => $sourceChannel,
                         //         'authentication'             => $claimAuthen, 
                         //     ]);
-
                         // }
                         // $checkcs_shoot = Check_authen_shoot::where('claimcode','=',$claimCode)->where('cid','=',$personalId)->count();
                         // $checkcs_shoot = Check_authen_shoot::where('claimcode','=',$claimCode)->count();
-                        // if ($checkcs_shoot > 0) {                                     
-                            
+                        // if ($checkcs_shoot > 0) { 
                         // } else {
                         //     Check_authen_shoot::create([
                         //         'cid'                        => $personalId,
@@ -474,7 +463,6 @@ class Auto_authenController extends Controller
                                 'authentication'             => $claimAuthen, 
                             ]); 
                         }
-
                         $checkcs_hos217 = Check_authen_hos217::where('claimcode','=',$claimCode)->count();
                         if ($checkcs_hos217 > 0) {                                     
                             // Check_authen_hos217::where('claimcode','=',$claimCode)->update([
@@ -518,8 +506,7 @@ class Auto_authenController extends Controller
                                 'requestauthen'              => $sourceChannel,
                                 'authentication'             => $claimAuthen, 
                             ]); 
-                        }
-                    
+                        }                    
                     // }
         }
 
@@ -527,7 +514,6 @@ class Auto_authenController extends Controller
             'response'  => $response,
             'result'  => $result,
         ]);
-
     }
 
     // updateauthen_spschtohos 205
