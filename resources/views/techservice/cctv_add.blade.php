@@ -387,7 +387,7 @@ $loter = $date.''.$time
                                     </div>
 
                                     <div class="col-md-2 text-end">
-                                        <label for="article_status_id">สถานะ </label>
+                                        <label for="cctv_status">สถานะ </label>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -597,7 +597,7 @@ $loter = $date.''.$time
               placeholder:"--เลือก--",
               allowClear:true
           });
-          $('#article_status_id').select2({
+          $('#cctv_status').select2({
               placeholder:"--สถานะ--",
               allowClear:true
           });  

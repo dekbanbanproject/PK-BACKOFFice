@@ -621,7 +621,7 @@ $count_article = StaticController::count_article();
               placeholder:"--เลือก--",
               allowClear:true
           });
-          $('#article_status_id').select2({
+          $('#cctv_status').select2({
               placeholder:"--สถานะ--",
               allowClear:true
           });  
