@@ -140,7 +140,7 @@ $pos = strrpos($url, '/') + 1;
                                 <li class="nav-item">
                                     <a class="nav-link active" data-bs-toggle="tab" href="#Main" role="tab">
                                         <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                        <span class="d-none d-sm-block">WalkIn</span>    
+                                        <span class="d-none d-sm-block">UCEP24</span>    
                                     </a>
                                 </li>   
                                 <li class="nav-item">
