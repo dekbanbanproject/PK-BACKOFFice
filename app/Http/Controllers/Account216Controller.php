@@ -332,15 +332,18 @@ class Account216Controller extends Controller
                 WHEN sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) > 0 THEN v.income	
                 WHEN  vp.pttype_number ="2" AND vp.pttype NOT IN ("31","33","36","39") AND vp.max_debt_amount = "" OR sum(if(op.income="02",sum_price,0)) > 0 THEN 
                 (sum(if(op.income="02",sum_price,0))) +
-                (sum(if(op.icode IN("1560016","1540073","1530005","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))     
+                (sum(if(op.icode IN("1560016","1540073","1530005","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0))) -
+                (sum(if(s.nhso_adp_code like "82%",sum_price,0)))     
                 WHEN vp.pttype_number ="2" AND vp.pttype NOT IN ("31","33","36","39") AND vp.max_debt_amount <> "" THEN vp.max_debt_amount  		
                 ELSE                 
                 (sum(if(op.income="02",sum_price,0))) +
-                (sum(if(op.icode IN("1560016","1540073","1530005","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))   
+                (sum(if(op.icode IN("1560016","1540073","1530005","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0))) -
+                (sum(if(s.nhso_adp_code like "82%",sum_price,0)))  
                 END as debit
                                                 
                 ,v.income-v.discount_money-v.rcpt_money as debit2
                  
+                ,sum(if(s.nhso_adp_code like "82%",sum_price,0)) as debit_pikan
                 ,sum(if(op.income="02",sum_price,0)) as debit_instument
                 ,sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0)) as debit_drug
                 ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
@@ -354,15 +357,20 @@ class Account216Controller extends Controller
                 LEFT OUTER JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
                 LEFT OUTER JOIN opitemrece op ON op.vn = o.vn
                 LEFT OUTER JOIN s_drugitems s on s.icode = op.icode
+               
                 WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                 AND v.income-v.discount_money-v.rcpt_money <> 0
                 AND vp.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.216")                
                 AND NOT(s.name like "Portex tube%")
+        
                 AND op.icode NOT IN("3003661","3003662","3003336","3002896","3002897","3002898","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3003608","3010102","3010353")                                
                 AND (o.an="" or o.an is null)
                 GROUP BY v.vn'
         ); 
-        // AND NOT(s.name like "CT%" OR s.name like "Portex tube%")
+        // AND NOT(s.nhso_adp_code like "82%")
+        // LEFT OUTER JOIN nondrugitems nn on nn.icode = op.icode
+        //      AND NOT(nn.nhso_adp_code like "82%")
+        // AND NOT(s.name like "CT%" OR s.name like "Portex tube%")AND NOT(s.nhso_adp_code like "82%" AND s.nhso_adp_type_id = "2")
         // AND op.icode NOT IN(SELECT no_icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.216" AND no_icode <> "")
         // AND op.icode NOT IN("3003661","3003662","3003336","3002896","3002897","3002898","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3003608","3010102","3010353")
         // AND op.icode NOT like "c%"

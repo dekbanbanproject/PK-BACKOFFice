@@ -131,7 +131,7 @@ class Fdh_HpvController extends Controller
                         WHERE v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                         AND o.an is null 
                         and ll.lab_items_code IN("1790","1882","1884","1886") 
-                        group by o.vn;
+                        group by o.vn
                 ');  
                 // ,ca.claimcode as authen
                 // LEFT OUTER JOIN pkbackoffice.check_authen ca on ca.cid = v.cid AND ca.vstdate = v.vstdate               
@@ -1813,9 +1813,9 @@ class Fdh_HpvController extends Controller
         $file_d_adp = "Export/".$folder."/ADP.txt";
         $objFopen_adp = fopen($file_d_adp, 'w'); 
         // $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP/E_screen|LMP|SP_ITEM';
-        // $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP/E_screen|LMP|SP_ITEM';
-        // $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP|LMP';
-        $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE';
+        $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP/E_screen|LMP|SP_ITEM';
+        // $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP/E_screen|LMP';
+        // $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE';
         
         fwrite($objFopen_adp, $opd_head_adp);
         $adp = DB::connection('mysql')->select('SELECT * from fdh_adp where d_anaconda_id = "HPV"');
@@ -1837,18 +1837,18 @@ class Fdh_HpvController extends Controller
             $c15 = $value14->TOTAL;
             $c16 = $value14->QTYDAY;
             $c17 = $value14->TMLTCODE;
-            // $c18 = $value14->STATUS1;
-            // $c19 = $value14->BI;
-            // $c20 = $value14->CLINIC;
-            // $c21 = $value14->ITEMSRC;
-            // $c22 = $value14->PROVIDER;
-            // $c23 = $value14->GRAVIDA;
-            // $c24 = $value14->GA_WEEK;
-            // $c25 = $value14->DCIP;
-            // $c26 = $value14->LMP;
-            // $c27 = $value14->SP_ITEM;   
-            $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17;        
-            // $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17."|".$c18."|".$c19."|".$c20."|".$c21."|".$c22."|".$c23."|".$c24."|".$c25."|".$c26."|".$c27;
+            $c18 = $value14->STATUS1;
+            $c19 = $value14->BI;
+            $c20 = $value14->CLINIC;
+            $c21 = $value14->ITEMSRC;
+            $c22 = $value14->PROVIDER;
+            $c23 = $value14->GRAVIDA;
+            $c24 = $value14->GA_WEEK;
+            $c25 = $value14->DCIP;
+            $c26 = $value14->LMP;
+            $c27 = $value14->SP_ITEM;   
+            // $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17;        
+            $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17."|".$c18."|".$c19."|".$c20."|".$c21."|".$c22."|".$c23."|".$c24."|".$c25."|".$c26."|".$c27;
             // $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17."|".$c18."|".$c19."|".$c20."|".$c21."|".$c22."|".$c23."|".$c24."|".$c25."|".$c26;
            
             $str_adp_14 = preg_replace("/\n/", "\r\n", $str_adp); 
