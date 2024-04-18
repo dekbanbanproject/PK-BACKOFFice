@@ -70,15 +70,15 @@
             });
             setTimeout(function(){
                 // $('.progress-bar').css({width: "0%"});
-                $i = 1000
+                $i = 10000
                 setTimeout(function(){
                     // $('#success').html(data);
-                }, 1000);
+                }, 10000);
                 $('#start').show(); 
                 $('#success').hide(); 
-                $('.progress-bar').css({width: "5%"});
+                $('.progress-bar').css({width: "10%"});
                               
-            }, 10000);
+            }, 30000);
             $('.progress-bar').css({width: "100%"});
             $('#start').hide(); 
             $('#success').show(); 

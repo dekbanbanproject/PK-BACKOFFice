@@ -89,7 +89,7 @@
                                                 <i class="pe-7s-check btn-icon-wrapper"></i>ตรวจสอบสิทธิ์
                                             </button> --}}
                                             <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Check_sit">
-                                                <i class="pe-7s-check btn-icon-wrapper text-success me-2"></i>
+                                                <i class="pe-7s-check btn-icon-wrapper text-primary me-2"></i>
                                                 ตรวจสอบสิทธิ์
                                             </button>
                                     </div>
