@@ -163,6 +163,8 @@ Route::match(['get','post'],'inst_opitemrece',[App\Http\Controllers\AutoControll
 
 // Checksit_hos   // เช็คสิทธิ์ สปสช เอาทุกสิทธิ์ 
 Route::match(['get','post'],'pull_Checksit_hosauto',[App\Http\Controllers\AutoController::class, 'pull_Checksit_hosauto'])->name('auto.pull_Checksit_hosauto');//
+Route::match(['get','post'],'checksit_pullhosmanual',[App\Http\Controllers\AutoController::class, 'checksit_pullhosmanual'])->name('manual.checksit_pullhosmanual');// ดึงข้อมูลแบบ Manual
+Route::match(['get','post'],'checksit_hosmanual',[App\Http\Controllers\AutoController::class, 'checksit_hosmanual'])->name('manual.checksit_hosmanual');// ตรวจสิทธิ์ข้อมูลแบบ Manual
 Route::match(['get','post'],'checksit_hosauto',[App\Http\Controllers\AutoController::class, 'checksit_hosauto'])->name('auto.checksit_hosauto');//
 
 // Check_sit_auto   // เช็คสิทธิ์ สปสช
