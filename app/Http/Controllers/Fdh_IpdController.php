@@ -12,7 +12,7 @@ use App\Models\Ot_one;
 use PDF;
 use setasign\Fpdi\Fpdi;
 use App\Models\Budget_year;
-use Illuminate\Support\Facades\File;
+// use Illuminate\Support\Facades\File;
 use DataTables;
 use Intervention\Image\ImageManagerStatic as Image;
 // use Barryvdh\DomPDF\Facade\Pdf;
@@ -59,6 +59,7 @@ use App\Models\Fdh_ipd;
 use App\Models\Fdh_aer;
 use App\Models\Fdh_irf;
 use App\Models\Fdh_lvd;
+use App\Models\Fdh_sesion;
 
 
 use Auth;
@@ -77,6 +78,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use PhpOffice\PhpSpreadsheet\IOFactory; 
+use File;
 use ZipArchive;  
 use Illuminate\Support\Facades\Redirect;
 use PhpParser\Node\Stmt\If_;
@@ -106,11 +108,11 @@ class Fdh_IpdController extends Controller
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
         if ($startdate == '') {   
-            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="IPD-NORED" AND debit > "1" ORDER BY vn DESC LIMIT 500');             
+            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="IPD_NORED" AND debit > "1" ORDER BY vn DESC LIMIT 500');             
         } else {
                 $iduser = Auth::user()->id;
-                // D_walkin::truncate();  
-                 
+                // Fdh_sesion::where('d_anaconda_id','IPD_NORED')->delete();  
+                Fdh_sesion::truncate();
                 $data_main_ = DB::connection('mysql2')->select(' 
                         SELECT 
                         ip.vn,a.hn,a.an,pt.cid,a.regdate,a.dchdate,group_concat(distinct it2.pttype) as pttype,p.hipdata_code,ip.pttype as ip_pttype,concat(pt.pname,pt.fname," ",pt.lname) as ptname
@@ -140,9 +142,9 @@ class Fdh_IpdController extends Controller
                 // ,ca.claimcode as authen
                 // LEFT OUTER JOIN pkbackoffice.check_authen ca on ca.cid = v.cid AND ca.vstdate = v.vstdate               
                 foreach ($data_main_ as $key => $value) {   
-                    $check_wa = D_fdh::where('an',$value->an)->where('projectcode','IPD-NORED')->count(); 
+                    $check_wa = D_fdh::where('an',$value->an)->where('projectcode','IPD_NORED')->count(); 
                     if ($check_wa > 0) { 
-                        D_fdh::where('an',$value->an)->where('projectcode','IPD-NORED')->update([ 
+                        D_fdh::where('an',$value->an)->where('projectcode','IPD_NORED')->update([ 
                             'an'             => $value->an,  
                             'dchdate'        => $value->dchdate,  
                             'icd10'          => $value->icd10,  
@@ -160,7 +162,7 @@ class Fdh_IpdController extends Controller
                             'ptname'       => $value->ptname,
                             'dchdate'      => $value->dchdate,
                             'debit_drug'   => $value->debit_drug,
-                            'projectcode'  => 'IPD-NORED', 
+                            'projectcode'  => 'IPD_NORED', 
                             'icd10'        => $value->icd10,
                             'hospmain'     => $value->hospmain, 
                             'debit'        => $value->debit,
@@ -170,26 +172,46 @@ class Fdh_IpdController extends Controller
  
                 } 
                 
+                $s_date_now = date("Y-m-d");
+                $s_time_now = date("H:i:s");
 
-                $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'" AND active ="N" AND projectcode ="IPD-NORED" AND debit > "1" ORDER BY an ASC');  
+                #ตัดขีด, ตัด : ออก
+                $pattern_date = '/-/i';
+                $s_date_now_preg = preg_replace($pattern_date, '', $s_date_now);
+                $pattern_time = '/:/i';
+                $s_time_now_preg = preg_replace($pattern_time, '', $s_time_now);
+                #ตัดขีด, ตัด : ออก
+                $folder_name='IPD_NORED_'.$s_date_now_preg.'_'.$s_time_now_preg;
+                 
+
+                Fdh_sesion::insert([
+                    'folder_name'      => $folder_name,
+                    'd_anaconda_id'    => 'IPD_NORED',
+                    'date_save'        => $s_date_now,
+                    'time_save'        => $s_time_now,
+                    'userid'           => $iduser  
+                ]);
+
+
+                $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'" AND active ="N" AND projectcode ="IPD_NORED" AND debit > "1" ORDER BY an ASC');  
 
         }   
             
-            $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="IPD-NORED"'); 
-            $data['data_orf'] = DB::connection('mysql')->select('SELECT * from fdh_orf WHERE d_anaconda_id ="IPD-NORED"'); 
-            $data['data_oop'] = DB::connection('mysql')->select('SELECT * from fdh_oop WHERE d_anaconda_id ="IPD-NORED"');
-            $data['data_odx'] = DB::connection('mysql')->select('SELECT * from fdh_odx WHERE d_anaconda_id ="IPD-NORED"');
-            $data['data_idx'] = DB::connection('mysql')->select('SELECT * from fdh_idx WHERE d_anaconda_id ="IPD-NORED"');
-            $data['data_ipd'] = DB::connection('mysql')->select('SELECT * from fdh_ipd WHERE d_anaconda_id ="IPD-NORED"');
-            $data['data_irf'] = DB::connection('mysql')->select('SELECT * from fdh_irf WHERE d_anaconda_id ="IPD-NORED"');
-            $data['data_aer'] = DB::connection('mysql')->select('SELECT * from fdh_aer WHERE d_anaconda_id ="IPD-NORED"');
-            $data['data_iop'] = DB::connection('mysql')->select('SELECT * from fdh_iop WHERE d_anaconda_id ="IPD-NORED"');
-            $data['data_adp'] = DB::connection('mysql')->select('SELECT * from fdh_adp WHERE d_anaconda_id ="IPD-NORED"');
-            $data['data_pat'] = DB::connection('mysql')->select('SELECT * from fdh_pat WHERE d_anaconda_id ="IPD-NORED"');
-            $data['data_cht'] = DB::connection('mysql')->select('SELECT * from fdh_cht WHERE d_anaconda_id ="IPD-NORED"');
-            $data['data_cha'] = DB::connection('mysql')->select('SELECT * from fdh_cha WHERE d_anaconda_id ="IPD-NORED"');
-            $data['data_ins'] = DB::connection('mysql')->select('SELECT * from fdh_ins WHERE d_anaconda_id ="IPD-NORED"');
-            $data['data_dru'] = DB::connection('mysql')->select('SELECT * from fdh_dru WHERE d_anaconda_id ="IPD-NORED"');
+            $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="IPD_NORED"'); 
+            $data['data_orf'] = DB::connection('mysql')->select('SELECT * from fdh_orf WHERE d_anaconda_id ="IPD_NORED"'); 
+            $data['data_oop'] = DB::connection('mysql')->select('SELECT * from fdh_oop WHERE d_anaconda_id ="IPD_NORED"');
+            $data['data_odx'] = DB::connection('mysql')->select('SELECT * from fdh_odx WHERE d_anaconda_id ="IPD_NORED"');
+            $data['data_idx'] = DB::connection('mysql')->select('SELECT * from fdh_idx WHERE d_anaconda_id ="IPD_NORED"');
+            $data['data_ipd'] = DB::connection('mysql')->select('SELECT * from fdh_ipd WHERE d_anaconda_id ="IPD_NORED"');
+            $data['data_irf'] = DB::connection('mysql')->select('SELECT * from fdh_irf WHERE d_anaconda_id ="IPD_NORED"');
+            $data['data_aer'] = DB::connection('mysql')->select('SELECT * from fdh_aer WHERE d_anaconda_id ="IPD_NORED"');
+            $data['data_iop'] = DB::connection('mysql')->select('SELECT * from fdh_iop WHERE d_anaconda_id ="IPD_NORED"');
+            $data['data_adp'] = DB::connection('mysql')->select('SELECT * from fdh_adp WHERE d_anaconda_id ="IPD_NORED"');
+            $data['data_pat'] = DB::connection('mysql')->select('SELECT * from fdh_pat WHERE d_anaconda_id ="IPD_NORED"');
+            $data['data_cht'] = DB::connection('mysql')->select('SELECT * from fdh_cht WHERE d_anaconda_id ="IPD_NORED"');
+            $data['data_cha'] = DB::connection('mysql')->select('SELECT * from fdh_cha WHERE d_anaconda_id ="IPD_NORED"');
+            $data['data_ins'] = DB::connection('mysql')->select('SELECT * from fdh_ins WHERE d_anaconda_id ="IPD_NORED"');
+            $data['data_dru'] = DB::connection('mysql')->select('SELECT * from fdh_dru WHERE d_anaconda_id ="IPD_NORED"');
 
         return view('ucs.fdh_ipd',$data,[
             'startdate'     =>     $startdate,
@@ -886,22 +908,22 @@ class Fdh_IpdController extends Controller
     }   
     public function fdh_ipd_process(Request $request)
     {  
-        Fdh_ins::where('d_anaconda_id','=','IPD-NORED')->delete();
-        Fdh_pat::where('d_anaconda_id','=','IPD-NORED')->delete();
-        Fdh_opd::where('d_anaconda_id','=','IPD-NORED')->delete();
-        Fdh_orf::where('d_anaconda_id','=','IPD-NORED')->delete();
-        Fdh_odx::where('d_anaconda_id','=','IPD-NORED')->delete();
-        Fdh_oop::where('d_anaconda_id','=','IPD-NORED')->delete();
-        Fdh_ipd::where('d_anaconda_id','=','IPD-NORED')->delete();
-        Fdh_irf::where('d_anaconda_id','=','IPD-NORED')->delete();
-        Fdh_idx::where('d_anaconda_id','=','IPD-NORED')->delete(); 
-        Fdh_iop::where('d_anaconda_id','=','IPD-NORED')->delete();
-        Fdh_cht::where('d_anaconda_id','=','IPD-NORED')->delete();
-        Fdh_cha::where('d_anaconda_id','=','IPD-NORED')->delete();
-        Fdh_aer::where('d_anaconda_id','=','IPD-NORED')->delete();
-        Fdh_adp::where('d_anaconda_id','=','IPD-NORED')->delete();
-        Fdh_dru::where('d_anaconda_id','=','IPD-NORED')->delete();            
-        Fdh_lvd::where('d_anaconda_id','=','IPD-NORED')->delete();           
+        Fdh_ins::where('d_anaconda_id','=','IPD_NORED')->delete();
+        Fdh_pat::where('d_anaconda_id','=','IPD_NORED')->delete();
+        Fdh_opd::where('d_anaconda_id','=','IPD_NORED')->delete();
+        Fdh_orf::where('d_anaconda_id','=','IPD_NORED')->delete();
+        Fdh_odx::where('d_anaconda_id','=','IPD_NORED')->delete();
+        Fdh_oop::where('d_anaconda_id','=','IPD_NORED')->delete();
+        Fdh_ipd::where('d_anaconda_id','=','IPD_NORED')->delete();
+        Fdh_irf::where('d_anaconda_id','=','IPD_NORED')->delete();
+        Fdh_idx::where('d_anaconda_id','=','IPD_NORED')->delete(); 
+        Fdh_iop::where('d_anaconda_id','=','IPD_NORED')->delete();
+        Fdh_cht::where('d_anaconda_id','=','IPD_NORED')->delete();
+        Fdh_cha::where('d_anaconda_id','=','IPD_NORED')->delete();
+        Fdh_aer::where('d_anaconda_id','=','IPD_NORED')->delete();
+        Fdh_adp::where('d_anaconda_id','=','IPD_NORED')->delete();
+        Fdh_dru::where('d_anaconda_id','=','IPD_NORED')->delete();            
+        Fdh_lvd::where('d_anaconda_id','=','IPD_NORED')->delete();           
  
 
         $id = $request->ids;
@@ -956,7 +978,7 @@ class Fdh_IpdController extends Controller
                         'HTYPE'             => $va_01->HTYPE,
 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'IPD-NORED'
+                        'd_anaconda_id'     => 'IPD_NORED'
                     ]);
                 }
                 //D_pat OK
@@ -974,7 +996,7 @@ class Fdh_IpdController extends Controller
                     GROUP BY v.hn
                 ');
                 foreach ($data_pat_ as $va_02) {
-                    $check_hn = Fdh_pat::where('hn',$va_02->HN)->where('d_anaconda_id','=','IPD-NORED')->count();
+                    $check_hn = Fdh_pat::where('hn',$va_02->HN)->where('d_anaconda_id','=','IPD_NORED')->count();
                     if ($check_hn > 0) { 
                     } else {
                         Fdh_pat::insert([
@@ -995,7 +1017,7 @@ class Fdh_IpdController extends Controller
                             'IDTYPE'             => $va_02->IDTYPE,
         
                             'user_id'            => $iduser,
-                            'd_anaconda_id'      => 'IPD-NORED'
+                            'd_anaconda_id'      => 'IPD_NORED'
                         ]);
                     }
                     
@@ -1006,8 +1028,8 @@ class Fdh_IpdController extends Controller
                 $data_opd = DB::connection('mysql2')->select(
                     'SELECT  v.hn HN,v.spclty CLINIC,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
                         ,concat(substr(o.vsttime,1,2),substr(o.vsttime,4,2)) TIMEOPD,v.vn SEQ
-                        ,"1" UUC ,"" DETAIL,oc.temperature as BTEMP,oc.bps as SBP,oc.bpd as DBP,""PR,""RR
-                        ,""OPTYPE
+                        ,"1" UUC ,oc.cc DETAIL,oc.temperature as BTEMP,oc.bps as SBP,oc.bpd as DBP,oc.pulse as PR,oc.rr as RR
+                        ,"" OPTYPE
                         ,ot.export_code as TYPEIN,st.export_code as TYPEOUT
                         FROM ovst o
                         LEFT OUTER JOIN vn_stat v on o.vn = v.vn 
@@ -1039,7 +1061,7 @@ class Fdh_IpdController extends Controller
                         'TYPEIN'            => $val3->TYPEIN, 
                         'TYPEOUT'           => $val3->TYPEOUT, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'IPD-NORED'
+                        'd_anaconda_id'     => 'IPD_NORED'
                     ]);
                 }
 
@@ -1067,7 +1089,7 @@ class Fdh_IpdController extends Controller
                         'SEQ'               => $va_03->SEQ, 
                         'REFERDATE'         => $va_03->REFERDATE, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'IPD-NORED'
+                        'd_anaconda_id'     => 'IPD_NORED'
                     ]);
                 }
                  // D_odx OK
@@ -1093,7 +1115,7 @@ class Fdh_IpdController extends Controller
                         'PERSON_ID'         => $va_04->PERSON_ID, 
                         'SEQ'               => $va_04->SEQ, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'IPD-NORED'
+                        'd_anaconda_id'     => 'IPD_NORED'
                     ]);
                     
                 }
@@ -1120,7 +1142,7 @@ class Fdh_IpdController extends Controller
                         'SEQ'               => $va_05->SEQ, 
                         'SERVPRICE'         => $va_05->SERVPRICE, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'IPD-NORED'
+                        'd_anaconda_id'     => 'IPD_NORED'
                     ]);
                     
                 }
@@ -1152,7 +1174,7 @@ class Fdh_IpdController extends Controller
                         'UUC'               => $va_06->UUC, 
                         'SVCTYPE'           => $va_06->SVCTYPE, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'IPD-NORED'
+                        'd_anaconda_id'     => 'IPD_NORED'
                     ]);
                 }
                 
@@ -1172,7 +1194,7 @@ class Fdh_IpdController extends Controller
                         'REFER'              => $va_07->REFER,
                         'REFERTYPE'          => $va_07->REFERTYPE,
                         'user_id'            => $iduser,
-                        'd_anaconda_id'      => 'IPD-NORED',
+                        'd_anaconda_id'      => 'IPD_NORED',
                     ]);                     
                 }                 
                 //D_idx OK 
@@ -1193,7 +1215,7 @@ class Fdh_IpdController extends Controller
                         'DXTYPE'            => $va_08->DXTYPE,
                         'DRDX'              => $va_08->DRDX, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'IPD-NORED'
+                        'd_anaconda_id'     => 'IPD_NORED'
                     ]);
                             
                 }
@@ -1219,7 +1241,7 @@ class Fdh_IpdController extends Controller
                         'DATEOUT'           => $va_09->DATEOUT,
                         'TIMEOUT'           => $va_09->TIMEOUT,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'IPD-NORED'
+                        'd_anaconda_id'     => 'IPD_NORED'
                     ]);
                 }
                 //D_cht OK
@@ -1248,7 +1270,7 @@ class Fdh_IpdController extends Controller
                         'INVOICE_NO'        => $va_10->INVOICE_NO,
                         'INVOICE_LT'        => $va_10->INVOICE_LT,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'IPD-NORED'
+                        'd_anaconda_id'     => 'IPD_NORED'
                     ]);
                 }
                 //D_cha OK
@@ -1289,7 +1311,7 @@ class Fdh_IpdController extends Controller
                         'PERSON_ID'         => $va_11->PERSON_ID,
                         'SEQ'               => $va_11->SEQ, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'IPD-NORED'
+                        'd_anaconda_id'     => 'IPD_NORED'
                     ]);
                 } 
                  //D_aer OK
@@ -1337,7 +1359,7 @@ class Fdh_IpdController extends Controller
                         'DALERT'            => $va_12->DALERT,
                         'TALERT'            => $va_12->TALERT,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'IPD-NORED'
+                        'd_anaconda_id'     => 'IPD_NORED'
                     ]);
                 } 
                 //D_adp
@@ -1402,7 +1424,7 @@ class Fdh_IpdController extends Controller
                         'icode'                => $va_13->icode,
                         'vstdate'              => $va_13->vstdate,
                         'user_id'              => $iduser,
-                        'd_anaconda_id'        => 'IPD-NORED'
+                        'd_anaconda_id'        => 'IPD_NORED'
                     ]);
                 } 
                 //D_dru OK
@@ -1466,7 +1488,7 @@ class Fdh_IpdController extends Controller
                         'PROVIDER'       => $va_14->PROVIDER,
                         'vstdate'        => $va_14->vstdate,   
                         'user_id'        => $iduser,
-                        'd_anaconda_id'  => 'IPD-NORED'
+                        'd_anaconda_id'  => 'IPD_NORED'
                     ]);
                 } 
  
@@ -1485,10 +1507,10 @@ class Fdh_IpdController extends Controller
     public function fdh_ipd_updateprojectcode(Request $request)
     {   
           
-            $dataprojectcode_ = DB::connection('mysql')->select('SELECT o.SEQ,a.AN,a.HN FROM fdh_aer a LEFT JOIN fdh_opd o On o.HN = a.HN WHERE a.d_anaconda_id = "IPD-NORED" GROUP BY a.AN');
+            $dataprojectcode_ = DB::connection('mysql')->select('SELECT o.SEQ,a.AN,a.HN FROM fdh_aer a LEFT JOIN fdh_opd o On o.HN = a.HN WHERE a.d_anaconda_id = "IPD_NORED" GROUP BY a.AN');
             $iduser = Auth::user()->id;
             foreach ($dataprojectcode_ as $key => $value_up) {
-                $check = Fdh_aer::where('AN',$value_up->AN)->where('d_anaconda_id',"IPD-NORED")->count();
+                $check = Fdh_aer::where('AN',$value_up->AN)->where('d_anaconda_id',"IPD_NORED")->count();
                 if ($check > 0) {
                     Fdh_aer::where('AN',$value_up->AN)->update([
                         'UCAE'      => 'E',
@@ -1496,7 +1518,14 @@ class Fdh_IpdController extends Controller
                         'SEQ'       => $value_up->SEQ
                     ]); 
                 }else{
-                }    
+                }  
+                $check2 = Fdh_opd::where('SEQ',$value_up->SEQ)->where('d_anaconda_id',"IPD_NORED")->count();  
+                if ($check2 > 0) {
+                    Fdh_opd::where('SEQ',$value_up->SEQ)->update([ 
+                        'OPTYPE'    => '3', 
+                    ]); 
+                }else{
+                }  
             }
             
             return response()->json([
@@ -1510,19 +1539,25 @@ class Fdh_IpdController extends Controller
         $sss_time_now = date("H:i:s");
 
         #ตัดขีด, ตัด : ออก
-        $pattern_date = '/-/i';
-        $sss_date_now_preg = preg_replace($pattern_date, '', $sss_date_now);
-        $pattern_time = '/:/i';
-        $sss_time_now_preg = preg_replace($pattern_time, '', $sss_time_now);
+        // $pattern_date = '/-/i';
+        // $sss_date_now_preg = preg_replace($pattern_date, '', $sss_date_now);
+        // $pattern_time = '/:/i';
+        // $sss_time_now_preg = preg_replace($pattern_time, '', $sss_time_now);
         #ตัดขีด, ตัด : ออก
 
-         #delete file in folder ทั้งหมด
+        #delete file in folder ทั้งหมด
         $file_ = new Filesystem;
         $file_->cleanDirectory('Export'); //ทั้งหมด
         // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
-        $folder='IPD_NORED_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+        // $folder='IPD_NORED_'.$sss_date_now_preg.'_'.$sss_time_now_preg;
 
-         mkdir ('Export/'.$folder, 0777, true);  //Web
+        $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "IPD_NORED"');
+        foreach ($dataexport_ as $key => $v_export) {
+            $folder_ = $v_export->folder_name;
+        }
+        $folder = $folder_;
+
+        mkdir ('Export/'.$folder, 0777, true);  //Web
         //  mkdir ('C:Export/'.$folder, 0777, true); //localhost
 
         header("Content-type: text/txt");
@@ -1538,7 +1573,7 @@ class Fdh_IpdController extends Controller
         // $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
         // $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
         fwrite($objFopen_ins, $opd_head); 
-        $ins = DB::connection('mysql')->select('SELECT * from fdh_ins where d_anaconda_id = "IPD-NORED"');
+        $ins = DB::connection('mysql')->select('SELECT * from fdh_ins where d_anaconda_id = "IPD_NORED"');
         foreach ($ins as $key => $value1) {
             $a1  = $value1->HN;
             $a2  = $value1->INSCL;
@@ -1576,7 +1611,7 @@ class Fdh_IpdController extends Controller
         // $opd_head_pat = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
         $opd_head_pat = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
         fwrite($objFopen_pat, $opd_head_pat);
-        $pat = DB::connection('mysql')->select('SELECT * from fdh_pat where d_anaconda_id = "IPD-NORED"');
+        $pat = DB::connection('mysql')->select('SELECT * from fdh_pat where d_anaconda_id = "IPD_NORED"');
         foreach ($pat as $key => $value2) {
             $i1  = $value2->HCODE;
             $i2  = $value2->HN;
@@ -1609,7 +1644,7 @@ class Fdh_IpdController extends Controller
         // $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT';
         $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC';
         fwrite($objFopen_opd, $opd_head_opd);
-        $opd = DB::connection('mysql')->select('SELECT * from fdh_opd where d_anaconda_id = "IPD-NORED"');
+        $opd = DB::connection('mysql')->select('SELECT * from fdh_opd where d_anaconda_id = "IPD_NORED"');
         foreach ($opd as $key => $value3) {
             $o1 = $value3->HN;
             $o2 = $value3->CLINIC;
@@ -1640,7 +1675,7 @@ class Fdh_IpdController extends Controller
         $objFopen_orf = fopen($file_d_orf, 'w'); 
         $opd_head_orf = 'HN|DATEOPD|CLINIC|REFER|REFERTYPE|SEQ|REFERDATE';
         fwrite($objFopen_orf, $opd_head_orf);
-        $orf = DB::connection('mysql')->select('SELECT * from fdh_orf where d_anaconda_id = "IPD-NORED"');
+        $orf = DB::connection('mysql')->select('SELECT * from fdh_orf where d_anaconda_id = "IPD_NORED"');
         foreach ($orf as $key => $value4) {
             $p1 = $value4->HN;
             $p2 = $value4->DATEOPD;
@@ -1661,7 +1696,7 @@ class Fdh_IpdController extends Controller
         $objFopen_odx = fopen($file_d_odx, 'w'); 
         $opd_head_odx = 'HN|DATEDX|CLINIC|DIAG|DXTYPE|DRDX|PERSON_ID|SEQ';
         fwrite($objFopen_odx, $opd_head_odx);
-        $odx = DB::connection('mysql')->select('SELECT * from fdh_odx where d_anaconda_id = "IPD-NORED"');
+        $odx = DB::connection('mysql')->select('SELECT * from fdh_odx where d_anaconda_id = "IPD_NORED"');
         foreach ($odx as $key => $value5) {
             $m1 = $value5->HN;
             $m2 = $value5->DATEDX;
@@ -1683,7 +1718,7 @@ class Fdh_IpdController extends Controller
         $objFopen_oop = fopen($file_d_oop, 'w'); 
         $opd_head_oop = 'HN|DATEOPD|CLINIC|OPER|DROPID|PERSON_ID|SEQ|SERVPRICE';
         fwrite($objFopen_oop, $opd_head_oop);
-        $oop = DB::connection('mysql')->select('SELECT * from fdh_oop where d_anaconda_id = "IPD-NORED"');
+        $oop = DB::connection('mysql')->select('SELECT * from fdh_oop where d_anaconda_id = "IPD_NORED"');
         foreach ($oop as $key => $value6) {
             $n1 = $value6->HN;
             $n2 = $value6->DATEOPD;
@@ -1706,7 +1741,7 @@ class Fdh_IpdController extends Controller
         $objFopen_ipd = fopen($file_d_ipd, 'w'); 
         $opd_head_ipd = 'HN|AN|DATEADM|TIMEADM|DATEDSC|TIMEDSC|DISCHS|DISCHT|WARDDSC|DEPT|ADM_W|UUC|SVCTYPE';
         fwrite($objFopen_ipd, $opd_head_ipd);
-        $ipd = DB::connection('mysql')->select('SELECT * from fdh_ipd where d_anaconda_id = "IPD-NORED"');
+        $ipd = DB::connection('mysql')->select('SELECT * from fdh_ipd where d_anaconda_id = "IPD_NORED"');
         foreach ($ipd as $key => $value7) {
             $j1 = $value7->HN;
             $j2 = $value7->AN;
@@ -1733,7 +1768,7 @@ class Fdh_IpdController extends Controller
         $objFopen_irf = fopen($file_d_irf, 'w'); 
         $opd_head_irf = 'AN|REFER|REFERTYPE';
         fwrite($objFopen_irf, $opd_head_irf);
-        $irf = DB::connection('mysql')->select('SELECT * from fdh_irf where d_anaconda_id = "IPD-NORED"');
+        $irf = DB::connection('mysql')->select('SELECT * from fdh_irf where d_anaconda_id = "IPD_NORED"');
         foreach ($irf as $key => $value8) {
             $k1 = $value8->AN;
             $k2 = $value8->REFER;
@@ -1750,7 +1785,7 @@ class Fdh_IpdController extends Controller
         $objFopen_idx = fopen($file_d_idx, 'w'); 
         $opd_head_idx = 'AN|DIAG|DXTYPE|DRDX';
         fwrite($objFopen_idx, $opd_head_idx);
-        $idx = DB::connection('mysql')->select('SELECT * from fdh_idx where d_anaconda_id = "IPD-NORED"');
+        $idx = DB::connection('mysql')->select('SELECT * from fdh_idx where d_anaconda_id = "IPD_NORED"');
         foreach ($idx as $key => $value9) {
             $h1 = $value9->AN;
             $h2 = $value9->DIAG;
@@ -1768,7 +1803,7 @@ class Fdh_IpdController extends Controller
         $objFopen_iop = fopen($file_d_iop, 'w'); 
         $opd_head_iop = 'AN|OPER|OPTYPE|DROPID|DATEIN|TIMEIN|DATEOUT|TIMEOUT';
         fwrite($objFopen_iop, $opd_head_iop);
-        $iop = DB::connection('mysql')->select('SELECT * from fdh_iop where d_anaconda_id = "IPD-NORED"');
+        $iop = DB::connection('mysql')->select('SELECT * from fdh_iop where d_anaconda_id = "IPD_NORED"');
         foreach ($iop as $key => $value10) {
             $b1 = $value10->AN;
             $b2 = $value10->OPER;
@@ -1791,7 +1826,7 @@ class Fdh_IpdController extends Controller
         $opd_head_cht = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ|OPD_MEMO|INVOICE_NO|INVOICE_LT';
         // $opd_head_cht = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ';
         fwrite($objFopen_cht, $opd_head_cht);
-        $cht = DB::connection('mysql')->select('SELECT * from fdh_cht where d_anaconda_id = "IPD-NORED"');
+        $cht = DB::connection('mysql')->select('SELECT * from fdh_cht where d_anaconda_id = "IPD_NORED"');
         foreach ($cht as $key => $value11) {
             $f1 = $value11->HN;
             $f2 = $value11->AN;
@@ -1817,7 +1852,7 @@ class Fdh_IpdController extends Controller
         $objFopen_cha = fopen($file_d_cha, 'w'); 
         $opd_head_cha = 'HN|AN|DATE|CHRGITEM|AMOUNT|PERSON_ID|SEQ';
         fwrite($objFopen_cha, $opd_head_cha);
-        $cha = DB::connection('mysql')->select('SELECT * from fdh_cha where d_anaconda_id = "IPD-NORED"');
+        $cha = DB::connection('mysql')->select('SELECT * from fdh_cha where d_anaconda_id = "IPD_NORED"');
         foreach ($cha as $key => $value12) {
             $e1 = $value12->HN;
             $e2 = $value12->AN;
@@ -1838,7 +1873,7 @@ class Fdh_IpdController extends Controller
          $objFopen_aer = fopen($file_d_aer, 'w'); 
          $opd_head_aer = 'HN|AN|DATEOPD|AUTHAE|AEDATE|AETIME|AETYPE|REFER_NO|REFMAINI|IREFTYPE|REFMAINO|OREFTYPE|UCAE|EMTYPE|SEQ|AESTATUS|DALERT|TALERT';
          fwrite($objFopen_aer, $opd_head_aer);
-         $aer = DB::connection('mysql')->select('SELECT * from fdh_aer where d_anaconda_id = "IPD-NORED"');
+         $aer = DB::connection('mysql')->select('SELECT * from fdh_aer where d_anaconda_id = "IPD_NORED"');
          foreach ($aer as $key => $value13) {
              $d1 = $value13->HN;
              $d2 = $value13->AN;
@@ -1875,7 +1910,7 @@ class Fdh_IpdController extends Controller
         $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE';
         
         fwrite($objFopen_adp, $opd_head_adp);
-        $adp = DB::connection('mysql')->select('SELECT * from fdh_adp where d_anaconda_id = "IPD-NORED"');
+        $adp = DB::connection('mysql')->select('SELECT * from fdh_adp where d_anaconda_id = "IPD_NORED"');
         foreach ($adp as $key => $value14) {
             $c1  = $value14->HN;
             $c2  = $value14->AN;
@@ -1919,7 +1954,7 @@ class Fdh_IpdController extends Controller
          $objFopen_lvd = fopen($file_d_lvd, 'w'); 
          $opd_head_lvd = 'SEQLVD|AN|DATEOUT|TIMEOUT|DATEIN|TIMEIN|QTYDAY';
          fwrite($objFopen_lvd, $opd_head_lvd);
-         $lvd = DB::connection('mysql')->select('SELECT * from fdh_lvd where d_anaconda_id = "IPD-NORED"');
+         $lvd = DB::connection('mysql')->select('SELECT * from fdh_lvd where d_anaconda_id = "IPD_NORED"');
          foreach ($lvd as $key => $value15) {
              $L1 = $value15->SEQLVD;
              $L2 = $value15->AN;
@@ -1945,7 +1980,7 @@ class Fdh_IpdController extends Controller
         $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRICE|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
         fwrite($objFopen_dru, $opd_head_dru);
         // fwrite($objFopen_dru_utf, $opd_head_dru);
-        $dru = DB::connection('mysql')->select('SELECT * from fdh_dru where d_anaconda_id = "IPD-NORED"');
+        $dru = DB::connection('mysql')->select('SELECT * from fdh_dru where d_anaconda_id = "IPD_NORED"');
         foreach ($dru as $key => $value16) {
             $g1 = $value16->HCODE;
             $g2 = $value16->HN;
@@ -2023,40 +2058,25 @@ class Fdh_IpdController extends Controller
             return redirect()->route('fdh.fdh_ipd');
 
     }
-    public function walkin_export_zip(Request $request)
-    {
-  
-            #delete file in folder ทั้งหมด
-            $file = new Filesystem;
-            $file->cleanDirectory('Export'); //ทั้งหมด 
-            $pathdir =  "Export/".$folder."/";
-            $zipcreated = $folder.".zip";
-
-            $newzip = new ZipArchive;
-            if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
-            $dir = opendir($pathdir);
-            
-            while($file = readdir($dir)) {
-                if(is_file($pathdir.$file)) {
-                    $newzip -> addFile($pathdir.$file, $file);
-                }
+    public function fdh_ipd_zip(Request $request)
+    {  
+            $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "IPD_NORED"');
+            foreach ($dataexport_ as $key => $v_export) {
+                $folder = $v_export->folder_name;
             }
-            $newzip ->close();
-                    if (file_exists($zipcreated)) {
-                        header('Content-Type: application/zip');
-                        header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
-                        header('Content-Length: ' . filesize($zipcreated));
-                        flush();
-                        readfile($zipcreated); 
-                        unlink($zipcreated);   
-                        $files = glob($pathdir . '/*');   
-                        foreach($files as $file) {   
-                            if(is_file($file)) {      
-                                // unlink($file); 
-                            } 
-                        }                      
-                        return redirect()->route('fdh.fdh_ipd');                    
-                    }
-            } 
+            $filename = $folder.".zip";
+
+            $zip = new ZipArchive;
+            if($zip->open(public_path($filename), ZipArchive::CREATE ) === TRUE)
+             { 
+                $files = File::files(public_path("Export/".$folder."/"));
+                foreach ($files as $key => $value) {
+                    $relativenameInZipFile = basename($value);
+                    $zip->addFile($value,$relativenameInZipFile); 
+                }
+                $zip->close();
+            }
+            return response()->download(public_path($filename));
+             
     }
 }

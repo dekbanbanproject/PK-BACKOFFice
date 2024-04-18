@@ -535,15 +535,16 @@ class Account401Controller extends Controller
         if ($startdate =='') {
            $datashow = DB::select(' 
                SELECT * from acc_1102050101_401 a 
-               LEFT OUTER JOIN d_fdh d ON d.vn = a.vn
+             
                WHERE a.vstdate BETWEEN "'.$new_day.'" AND  "'.$date.'" 
               
                GROUP BY a.vn
            ');
+        //    LEFT OUTER JOIN d_fdh d ON d.vn = a.vn
         } else {
            $datashow = DB::select(' 
                SELECT * from acc_1102050101_401 a
-               LEFT OUTER JOIN d_fdh d ON d.vn = a.vn
+             
                WHERE a.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" 
                
                GROUP BY a.vn
