@@ -30,6 +30,7 @@ return new class extends Migration
                 $table->string('authen')->nullable();// 
                 $table->string('icd10')->nullable();// 
                 $table->string('hospcode')->nullable();// 
+                $table->string('hospmain')->nullable();// 
                 $table->string('nhso_adp_code')->nullable();// 
                 $table->string('projectcode')->nullable();// 
                 $table->string('debit')->nullable();// 

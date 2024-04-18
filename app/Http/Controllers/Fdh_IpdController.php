@@ -114,7 +114,7 @@ class Fdh_IpdController extends Controller
                 $data_main_ = DB::connection('mysql2')->select(' 
                         SELECT 
                         ip.vn,a.hn,a.an,pt.cid,a.regdate,a.dchdate,group_concat(distinct it2.pttype) as pttype,p.hipdata_code,ip.pttype as ip_pttype,concat(pt.pname,pt.fname," ",pt.lname) as ptname
-                        ,o1.icode,a.pdx ,em.er_emergency_level_name ,a.dx0,a.dx1,a.dx2,a.dx3,a.dx4,group_concat(distinct im.icd10 order by im.diagtype desc) as icd10,a.inc08 
+                        ,o1.icode,a.pdx ,em.er_emergency_level_name ,a.dx0,a.dx1,a.dx2,a.dx3,a.dx4,group_concat(distinct im.icd10 order by im.diagtype desc) as icd10,a.inc08,it2.hospmain
                         ,a.income,a.uc_money,a.paid_money,a.rcpt_money,a.discount_money,sum(distinct o1.sum_price) Covid_19
                         ,a.income - a.discount_money-a.rcpt_money as debit ,ip.rfrocs,ip.rfrolct,r.name as senddoctor_audit
                         ,group_concat(distinct im.diagnosis_note) as approve_audit,it2.nhso_ownright_name as comment,im.staff 
@@ -144,10 +144,10 @@ class Fdh_IpdController extends Controller
                     if ($check_wa > 0) { 
                         D_fdh::where('an',$value->an)->where('projectcode','IPD-NORED')->update([ 
                             'an'             => $value->an,  
-                            'dchdate'      => $value->dchdate,  
+                            'dchdate'        => $value->dchdate,  
                             'icd10'          => $value->icd10,  
                             'debit'          => $value->debit,
-                            // 'active_status'  => $value->active_status,
+                            'hospmain'       => $value->hospmain, 
                             'debit_drug'     => $value->debit_drug
                         ]);
                     } else { 
@@ -162,7 +162,7 @@ class Fdh_IpdController extends Controller
                             'debit_drug'   => $value->debit_drug,
                             'projectcode'  => 'IPD-NORED', 
                             'icd10'        => $value->icd10,
-                            // 'hospcode'     => $value->hospcode, 
+                            'hospmain'     => $value->hospmain, 
                             'debit'        => $value->debit,
                             // 'active_status'  => $value->active_status
                         ]);
@@ -1480,6 +1480,28 @@ class Fdh_IpdController extends Controller
         return response()->json([
              'status'    => '200'
         ]);
+    }
+
+    public function fdh_ipd_updateprojectcode(Request $request)
+    {   
+          
+            $dataprojectcode_ = DB::connection('mysql')->select('SELECT o.SEQ,a.AN,a.HN FROM fdh_aer a LEFT JOIN fdh_opd o On o.HN = a.HN WHERE a.d_anaconda_id = "IPD-NORED" GROUP BY a.AN');
+            $iduser = Auth::user()->id;
+            foreach ($dataprojectcode_ as $key => $value_up) {
+                $check = Fdh_aer::where('AN',$value_up->AN)->where('d_anaconda_id',"IPD-NORED")->count();
+                if ($check > 0) {
+                    Fdh_aer::where('AN',$value_up->AN)->update([
+                        'UCAE'      => 'E',
+                        'EMTYPE'    => '1',
+                        'SEQ'       => $value_up->SEQ
+                    ]); 
+                }else{
+                }    
+            }
+            
+            return response()->json([
+                'status'    => '200'
+            ]);
     }
     
     public function fdh_ipd_export(Request $request)

@@ -119,10 +119,17 @@ $pos = strrpos($url, '/') + 1;
                     </button>  
 
                     </form>
+
                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('fdh_ipd_process')}}">
                         <i class="fa-solid fa-spinner text-success me-2"></i>
                         ส่งเคลม
                     </button>
+                    {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-warning card_fdh_4 UpdateProject" data-url="{{url('fdh_ipd_updateprojectcode')}}"> --}}
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary card_fdh_4" id="UpdateProject">
+                        <i class="fa-solid fa-spinner text-secondary me-2"></i>
+                         Update AE
+                    </button>
+                   
                    
                     <a href="{{url('fdh_ipd_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4">
                         <i class="fa-solid fa-file-export text-danger me-2"></i>
@@ -264,7 +271,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <th class="text-center">cid</th>  
                                                     <th class="text-center">dchdate</th> 
                                                     <th class="text-center">pttype</th> 
-                                                    {{-- <th class="text-center">hospcode</th>  --}}
+                                                    <th class="text-center">hospmain</th> 
                                                     <th class="text-center">icd10</th>  
                                                     {{-- <th class="text-center">Authen</th>  --}}
                                                     {{-- <th class="text-center">projectcode</th>  --}}
@@ -293,7 +300,7 @@ $pos = strrpos($url, '/') + 1;
                                                         <td class="text-center" width="10%">{{ $item->cid }}</td>  
                                                         <td class="text-center" width="7%">{{ $item->dchdate }}</td> 
                                                         <td class="text-center" width="5%">{{ $item->pttype }}</td> 
-                                                        {{-- <td class="text-center" width="5%">{{ $item->hospcode }}</td>  --}}
+                                                        <td class="text-center" width="5%">{{ $item->hospmain }}</td> 
                                                         @if ($item->icd10 == '')
                                                             <td class="text-center" width="7%" style="background-color: rgb(250, 159, 174)">{{ $item->icd10 }}</td> 
                                                         @else
@@ -1049,6 +1056,142 @@ $pos = strrpos($url, '/') + 1;
                                 
                             }
                 })
+        });
+
+        $('#UpdateProject').click(function() {
+                var datepicker = $('#datepicker').val(); 
+                var datepicker2 = $('#datepicker2').val(); 
+                Swal.fire({
+                        title: 'Are you Want Update ProjectCode sure?',
+                        text: "คุณต้องการ Update ProjectCode รายการนี้ใช่ไหม!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, pull it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+                                
+                                $.ajax({
+                                    url: "{{ route('fdh.fdh_ipd_updateprojectcode') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {
+                                        datepicker,
+                                        datepicker2                        
+                                    },
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({
+                                                title: 'Update ProjectCode สำเร็จ',
+                                                    text: "You Update ProjectCode success",
+                                                    icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+                                        } else {
+                                            
+                                        }
+                                    },
+                                });
+                                
+                            }
+                })
+        });
+
+        $('.UpdateProject2222').on('click', function(e) {
+       
+            var allValls = []; 
+            $(".sub_chk:checked").each(function () {
+                allValls.push($(this).attr('data-id'));
+            });
+            if (allValls.length <= 0) { 
+                Swal.fire({
+                    title: 'คุณยังไม่ได้เลือกรายการ ?',
+                    text: "กรุณาเลือกรายการก่อน",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33', 
+                    }).then((result) => {
+                    
+                    })
+            } else {
+                Swal.fire({
+                    title: 'Are you Want Update ProjectCode sure?',
+                    text: "คุณต้องการ Update ProjectCode รายการนี้ใช่ไหม!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Update ProjectCode it.!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            var check = true;
+                            if (check == true) {
+                                var join_selected_values = allValls.join(",");
+                                // alert(join_selected_values);
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+
+                                $.ajax({
+                                    url:$(this).data('url'),
+                                    type: 'POST',
+                                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                                    data: 'ids='+join_selected_values,
+                                    success:function(data){ 
+                                            if (data.status == 200) {
+                                                // $(".sub_destroy:checked").each(function () {
+                                                $(".sub_chk:checked").each(function () {
+                                                    $(this).parents("tr").remove();
+                                                });
+                                                Swal.fire({
+                                                    title: 'Update ProjectCode สำเร็จ',
+                                                    text: "You Update ProjectCode success",
+                                                    icon: 'success',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#06D177',
+                                                    confirmButtonText: 'เรียบร้อย'
+                                                }).then((result) => {
+                                                    if (result
+                                                        .isConfirmed) {
+                                                        console.log(
+                                                            data);
+                                                        window.location.reload();
+                                                        $('#spinner').hide();//Request is complete so hide spinner
+                                                    setTimeout(function(){
+                                                        $("#overlay").fadeOut(300);
+                                                    },500);
+                                                    }
+                                                })
+                                            } else {
+                                                
+                                            }
+                                                
+                                    }
+                                });
+                                $.each(allValls,function (index,value) {
+                                    $('table tr').filter("[data-row-id='"+value+"']").remove();
+                                });
+                            }
+                        }
+                    }) 
+                // var check = confirm("Are you want ?");  
+            }
         });
 
         $('.Claim').on('click', function(e) {
