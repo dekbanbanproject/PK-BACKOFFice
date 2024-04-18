@@ -139,9 +139,9 @@ class TechserviceController extends Controller
         $id = $request->id;
         if ($id == '') {
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
-            $datashow = DB::select('SELECT * from article_data WHERE cctv="Y" order by article_id desc'); 
+            $datashow = DB::select('SELECT * from article_data WHERE cctv="Y" order by article_id ASC'); 
         } else {
-            $datashow = DB::select('SELECT * from article_data WHERE cctv="Y" AND article_id ="'.$id.'" order by article_id desc'); 
+            $datashow = DB::select('SELECT * from article_data WHERE cctv="Y" AND article_id ="'.$id.'" order by article_id ASC'); 
         }
         return view('techservice.cctv_list',[
             'startdate'   =>     $startdate,

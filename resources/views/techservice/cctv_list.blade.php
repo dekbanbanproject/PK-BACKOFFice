@@ -177,13 +177,13 @@
                                     <thead>
                                         <tr>
                                           
-                                            <th width="5%" class="text-center">ลำดับ</th>  
-                                            <th class="text-center" width="5%">สถานะ</th> 
-                                            <th class="text-center" width="5%">รูปภาพ</th>  
-                                            <th class="text-center" width="5%">article_num</th>  
-                                            <th class="text-center" >article_name</th>
-                                            <th class="text-center" >article_year</th> 
-                                            <th class="text-center">category</th>  
+                                            <th width="3%" class="text-center">ลำดับ</th>  
+                                            <th class="text-center" width="3%">สถานะ</th> 
+                                            <th class="text-center" width="3%">รูปภาพ</th>  
+                                            <th class="text-center" width="5%">รหัสกล้อง</th>  
+                                            <th class="text-center" >ตำแหน่งกล้องวงจรปิด</th>
+                                            <th class="text-center" >รัศมีครอบคลุม</th> 
+                                            <th class="text-center">ช่องในจอ</th>  
                                             <th class="text-center">หน่วยงาน</th>  
                                             <th class="text-center">จัดการ</th> 
                                         </tr>
@@ -192,8 +192,8 @@
                                         <?php $i = 1; ?>
                                         @foreach ($datashow as $item) 
                                             <tr id="tr_{{$item->article_id}}">                                                  
-                                                <td class="text-center" width="5%">{{ $i++ }}</td>  
-                                                <td class="text-center" width="7%">
+                                                <td class="text-center" width="3%">{{ $i++ }}</td>  
+                                                <td class="text-center" width="3%">
                                                     @if ($item->cctv_status == '0')
                                                         <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">ปกติ</span>
                                                         {{-- <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning">ถูกยืม</span> --}}
@@ -211,15 +211,15 @@
                                                 </td>
                                               
                                                 @if ( $item->article_img == Null )
-                                                <td class="text-center" width="7%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="40px" width="40px" alt="Image" class="img-thumbnail"></td> 
+                                                <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="40px" width="40px" alt="Image" class="img-thumbnail"></td> 
                                                 @else
-                                                <td class="text-center" width="7%"><img src="{{asset('storage/article/'.$item->article_img)}}" height="40px" width="40px" alt="Image" class="img-thumbnail">  </td>                                
+                                                <td class="text-center" width="3%"><img src="{{asset('storage/article/'.$item->article_img)}}" height="40px" width="40px" alt="Image" class="img-thumbnail">  </td>                                
                                                 @endif
 
-                                                <td class="text-center" width="10%">{{ $item->article_num }}</td>  
-                                                <td class="p-2">{{ $item->article_name }}</td>  
-                                                <td class="text-center" width="5%">{{ $item->article_year }}</td>   
-                                                <td class="text-center" width="10%">{{ $item->article_categoryname }}</td>   
+                                                <td class="text-center" width="5%">{{ $item->cctv_code }}</td>  
+                                                <td class="p-2">{{ $item->cctv_location }}</td>  
+                                                <td class="p-2">{{ $item->cctv_location_detail }}</td>   
+                                                <td class="text-center" width="5%">{{ $item->cctv_monitor }}</td>   
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="20%">{{ $item->article_deb_subsub_name }}</td>  
                                                 <td class="text-center" width="5%">
 
