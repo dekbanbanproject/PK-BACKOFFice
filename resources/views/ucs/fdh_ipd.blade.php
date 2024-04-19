@@ -91,7 +91,7 @@ $pos = strrpos($url, '/') + 1;
     <form action="{{ url('fdh_ipd') }}" method="POST">
         @csrf
     <div class="row"> 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <h4 class="card-title" style="color:rgba(21, 177, 164, 0.871)">Detail IPD List</h4>
                 <p class="card-title-desc">รายละเอียดข้อมูล IPD List</p>
             </div>
@@ -101,12 +101,12 @@ $pos = strrpos($url, '/') + 1;
             </div>
             <div class="col-md-1 text-start"> 
                 <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim_vn" data-url="{{url('fdh_ipd_an')}}">
-                    <i class="fa-solid fa-spinner text-success me-2"></i>
+                    <i class="fa-solid fa-spinner text-success"></i>
                     ส่งเคลม
                 </button>
             </div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-5 text-end">
+            <div class="col-md-6 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control card_fdh_4" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
@@ -114,31 +114,31 @@ $pos = strrpos($url, '/') + 1;
                         data-date-language="th-th" value="{{ $enddate }}"/>  
         
                     <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                        <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
+                        <i class="fa-solid fa-magnifying-glass text-info"></i>
                         ค้นหา
                     </button>  
 
                     </form>
 
                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('fdh_ipd_process')}}">
-                        <i class="fa-solid fa-spinner text-success me-2"></i>
+                        <i class="fa-solid fa-spinner text-success"></i>
                         ส่งเคลม
                     </button>
                     {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-warning card_fdh_4 UpdateProject" data-url="{{url('fdh_ipd_updateprojectcode')}}"> --}}
                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary card_fdh_4" id="UpdateProject">
-                        <i class="fa-solid fa-spinner text-secondary me-2"></i>
+                        <i class="fa-solid fa-spinner text-secondary"></i>
                          Update AE
                     </button>
                    
                    
                     <a href="{{url('fdh_ipd_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4">
-                        <i class="fa-solid fa-file-export text-danger me-2"></i>
+                        <i class="fa-solid fa-file-export text-danger"></i>
                         Export Txt
                     </a> 
-                    <a href="{{url('fdh_ipd_zip')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4">
+                    {{-- <a href="{{url('fdh_ipd_zip')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4">
                         <i class="fa-solid fa-file-export text-danger me-2"></i>
                         Zip Txt
-                    </a> 
+                    </a>  --}}
                 </div> 
             </div>          
     </div>

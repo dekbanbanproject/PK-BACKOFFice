@@ -62,7 +62,7 @@ use App\Models\Fdh_lvd;
 use App\Models\D_ofc_401;
 use App\Models\D_dru_out;
 use App\Models\D_ofc_repexcel;
-use App\Models\D_ofc_rep;
+use App\Models\Fdh_sesion;
 use App\Models\D_ucep24_main;
 use App\Models\D_ucep24;
 
@@ -111,6 +111,7 @@ class Fdh_Ucep24Controller extends Controller
         } else {
                 $iduser = Auth::user()->id; 
                 // D_ucep24_main::truncate();
+                Fdh_sesion::where('d_anaconda_id','=','UCEP24')->delete(); 
                 D_ucep24::truncate();
                 $data_main_ = DB::connection('mysql2')->select('   
                         SELECT i.vn,o.an,o.hn,pt.cid,i.pttype,CONCAT(pt.pname,pt.fname," ",pt.lname) ptname,o.vstdate,i.dchdate,p.hipdata_code,o.qty,o.sum_price,i1.icd10 as DIAG
@@ -130,10 +131,11 @@ class Fdh_Ucep24Controller extends Controller
                         and o.paidst ="02"
                         and p.hipdata_code ="ucs" 
                         and e.er_emergency_level_id in("1","2")  
-                        AND i1.icd10 <> "" AND o.qty <> 0                     
+                         AND o.qty <> 0                     
                         group BY i.an
                         ORDER BY i.an;
-                ');                 
+                ');  
+                // AND i1.icd10 <> ""               
                 foreach ($data_main_ as $key => $value2) { 
                     $check_wa = D_fdh::where('an',$value2->an)->where('projectcode','UCEP24')->count(); 
                     if ($check_wa > 0) { 
@@ -196,9 +198,29 @@ class Fdh_Ucep24Controller extends Controller
                 //         'authen'   => $v_up->claimcode,  
                 //     ]);
                 // } 
+                $s_date_now = date("Y-m-d");
+                $s_time_now = date("H:i:s");
+
+                #ตัดขีด, ตัด : ออก
+                $pattern_date = '/-/i';
+                $s_date_now_preg = preg_replace($pattern_date, '', $s_date_now);
+                $pattern_time = '/:/i';
+                $s_time_now_preg = preg_replace($pattern_time, '', $s_time_now);
+                #ตัดขีด, ตัด : ออก
+                $folder_name='UCEP24_'.$s_date_now_preg.'_'.$s_time_now_preg;
+                 
+
+                Fdh_sesion::insert([
+                    'folder_name'      => $folder_name,
+                    'd_anaconda_id'    => 'UCEP24',
+                    'date_save'        => $s_date_now,
+                    'time_save'        => $s_time_now,
+                    'userid'           => $iduser  
+                ]);
         }              
         
-            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="UCEP24" AND icd10 IS NOT NULL ORDER BY vn ASC');
+            // $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="UCEP24" AND icd10 IS NOT NULL ORDER BY vn ASC');
+            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="UCEP24" ORDER BY an ASC');
             $data['d_ucep24_main'] = DB::connection('mysql')->select('SELECT * from d_ucep24_main WHERE active ="N" ORDER BY vn ASC');  
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="UCEP24"'); 
             $data['data_orf'] = DB::connection('mysql')->select('SELECT * from fdh_orf WHERE d_anaconda_id ="UCEP24"'); 
@@ -341,7 +363,7 @@ class Fdh_Ucep24Controller extends Controller
                 $data_opd = DB::connection('mysql2')->select(
                     'SELECT  v.hn HN,v.spclty CLINIC,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
                         ,concat(substr(o.vsttime,1,2),substr(o.vsttime,4,2)) TIMEOPD,v.vn SEQ
-                        ,"1" UUC ,"" DETAIL,oc.temperature as BTEMP,oc.bps as SBP,oc.bpd as DBP,""PR,""RR
+                        ,"1" UUC ,oc.cc DETAIL,oc.temperature as BTEMP,oc.bps as SBP,oc.bpd as DBP,oc.pulse as PR,oc.rr as RR
                         ,""OPTYPE
                         ,ot.export_code as TYPEIN,st.export_code as TYPEOUT
                         FROM ovst o
@@ -690,7 +712,7 @@ class Fdh_Ucep24Controller extends Controller
                         ,if(v.an is null,v.vn,"") SEQ
                         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC
-                        ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
+                        ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,DATE_FORMAT("0000-00-00","%Y%m%d") LMP ,""SP_ITEM,v.icode,v.vstdate
                         FROM opitemrece v
                         JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null 
                         LEFT OUTER JOIN ipt i on i.an = v.an
@@ -707,14 +729,13 @@ class Fdh_Ucep24Controller extends Controller
                     SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,DATE_FORMAT("0000-00-00","%Y%m%d") LMP,"01"SP_ITEM,icode ,vstdate
                         FROM
-                        (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE 
-                         
+                        (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE                          
                        
                         ,(SELECT sum(qty) from pkbackoffice.d_ucep24 where an = v.an and icode = v.icode) as QTY 
                         ,(SELECT sum(sum_price) from pkbackoffice.d_ucep24 where an = v.an and icode = v.icode) as RATE
                         
                         ,if(v.an is null,v.vn,"") SEQ
-                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
+                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,DATE_FORMAT("0000-00-00","%Y%m%d") LMP,""SP_ITEM,v.icode,v.vstdate
                         FROM opitemrece v
                         JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null 
                         inner join pkbackoffice.d_ucep24 u on u.icode = v.icode
@@ -841,7 +862,7 @@ class Fdh_Ucep24Controller extends Controller
         // Fdh_adp::where('QTY','=',['',null])->where('SP_ITEM','=','01')->where('d_anaconda_id',"UCEP24")->delete();
         // Fdh_dru::where('SP_ITEM','=',null)->where('d_anaconda_id',"UCEP24")->delete();
         Fdh_adp::where('CODE','=','XXXXXX')->delete();
-        
+        Fdh_dru::whereIn('DID',[1550027, 1650087,1590016,1500101,1590018,1660100,1640078,1640058,1640076])->delete();
         // D_ucep24_main::whereIn('d_ucep24_main_id',explode(",",$id))
         // ->update([
         //     'active' => 'Y'
@@ -857,31 +878,26 @@ class Fdh_Ucep24Controller extends Controller
     }
     public function ucep24_main_update(Request $request)
     {   
-            $data_ = DB::connection('mysql')->select('SELECT vn,an,hn,vstdate,dchdate,icode,qty FROM d_ucep24 WHERE an <> ""'); 
-            foreach ($data_ as $key => $val) {                
-                // D_adp::where('AN',$val->an)->where('icode',$val->icode)
-                // ->update([
-                //     'SP_ITEM' => '01'
-                // ]);
-                Fdh_dru::where('AN',$val->an)->where('DID',$val->icode)->where('d_anaconda_id',"UCEP24")
-                // D_dru::where('AN',$val->an)->where('DID',$val->icode)->where('vstdate',$val->vstdate)
-                ->update([
-                    'SP_ITEM'     => '01',
-                    'AMOUNT'      => $val->qty
-                ]);                
-            }
+            // $data_ = DB::connection('mysql')->select('SELECT vn,an,hn,vstdate,dchdate,icode,qty FROM d_ucep24 WHERE an <> "" AND qty > 0'); 
+            // foreach ($data_ as $key => $val) {   
+            //     Fdh_dru::where('AN',$val->an)->where('DID',$val->icode)->where('d_anaconda_id',"UCEP24") 
+            //     ->update([
+            //         'SP_ITEM'     => '01',
+            //         'AMOUNT'      => $val->qty
+            //     ]);                
+            // }
             
-            $dataucep_ = DB::connection('mysql')->select('SELECT vn,an,hn,DATE_FORMAT(vstdate,"%Y%m%d") vstdate,dchdate,icode FROM d_ucep24 WHERE an <> "" GROUP BY an');
+            $dataucep_ = DB::connection('mysql')->select('SELECT * FROM fdh_adp WHERE AN <> "" AND d_anaconda_id="UCEP24" GROUP BY AN');
             $iduser = Auth::user()->id;
             foreach ($dataucep_ as $key => $value_up) {
-                $check = Fdh_adp::where('AN',$value_up->an)->where('CODE','UCEP24')->where('d_anaconda_id',"UCEP24")->count();
+                $check = Fdh_adp::where('AN',$value_up->AN)->where('CODE','UCEP24')->where('d_anaconda_id',"UCEP24")->count();
                 if ($check > 0) {
                     # code...
                 } else {
                     Fdh_adp::insert([
-                        'HN'             => $value_up->hn, 
-                        'AN'             => $value_up->an, 
-                        'DATEOPD'        => $value_up->vstdate,  
+                        'HN'             => $value_up->HN, 
+                        'AN'             => $value_up->AN, 
+                        'DATEOPD'        => $value_up->DATEOPD,  
                         'TYPE'           => '5', 
                         'CODE'           => 'UCEP24', 
                         'QTY'            => '1', 
@@ -892,7 +908,16 @@ class Fdh_Ucep24Controller extends Controller
                         'user_id'        => $iduser,
                         'd_anaconda_id'  => 'UCEP24'
                     ]);
-                }    
+                }   
+                
+                $data_ = DB::connection('mysql')->select('SELECT vn,an,hn,vstdate,dchdate,icode,qty FROM d_ucep24 WHERE an = "'.$value_up->AN.'" AND qty > 0'); 
+                foreach ($data_ as $key => $val) {   
+                    Fdh_dru::where('AN',$val->an)->where('DID',$val->icode)->where('d_anaconda_id',"UCEP24") 
+                    ->update([
+                        'SP_ITEM'     => '01',
+                        'AMOUNT'      => $val->qty
+                    ]);                
+                }
             }
             // icode
             Fdh_adp::where('SP_ITEM','=','')->where('d_anaconda_id',"UCEP24")->delete();
@@ -919,7 +944,12 @@ class Fdh_Ucep24Controller extends Controller
         $file = new Filesystem;
         $file->cleanDirectory('Export'); //ทั้งหมด
         // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
-        $folder='UCEP24_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+        // $folder='UCEP24_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+        $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "UCEP24"');
+        foreach ($dataexport_ as $key => $v_export) {
+            $folder_ = $v_export->folder_name;
+        }
+        $folder = $folder_;
 
          mkdir ('Export/'.$folder, 0777, true);  //Web
         //  mkdir ('C:Export/'.$folder, 0777, true); //localhost
@@ -1340,7 +1370,8 @@ class Fdh_Ucep24Controller extends Controller
         // $objFopen_dru_utf = fopen($file_d_dru, 'w');
         // $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER|SP_ITEM';
         // $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRICE|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
-        $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER|SP_ITEM';
+        $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
+        // $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER|SP_ITEM';
         fwrite($objFopen_dru, $opd_head_dru);
         // fwrite($objFopen_dru_utf, $opd_head_dru);
         $dru = DB::connection('mysql')->select('SELECT * from fdh_dru where d_anaconda_id = "UCEP24"');
@@ -1369,8 +1400,8 @@ class Fdh_Ucep24Controller extends Controller
             $g22 = $value16->SIGCODE;
             $g23 = $value16->SIGTEXT;  
             $g24 = $value16->PROVIDER; 
-            $g25 = $value16->SP_ITEM;      
-            $str_dru="\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22."|".$g23."|".$g24."|".$g25;
+            // $g25 = $value16->SP_ITEM;      
+            $str_dru="\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22."|".$g23."|".$g24;
             $ansitxt_dru = iconv('UTF-8', 'UTF-8', $str_dru);
             
             $str_dru_16 = preg_replace("/\n/", "\r\n", $str_dru); 

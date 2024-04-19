@@ -58,7 +58,7 @@
 </head>
 <style>
     .modal-dialog {
-            max-width: 80%;
+            max-width: 40%;
         }
         .modal-dialog-slideout {
             min-height: 100%;
@@ -112,24 +112,6 @@
             border: 30px solid teal; 
             box-shadow: 0 0 10px teal; 
         }
-        $position-values: (
-            0: 0,
-            50: 50%,
-            100: 100%
-        );
-        .modal-loginflex {
-            display: -webkit-flex;
-            display: -moz-flex;
-            display: -ms-flexbox;
-            display: -o-flex;
-            display: flex;
-            flex-flow:column nowrap; /*Add this */
-            justify-content: center;
-            -ms-justify-content: center;
-            -ms-flex-pack: center;
-            align-items: center;
-            }
-
 </style>
 
 <body>
@@ -987,125 +969,67 @@
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-slideout">
             <div class="modal-content"> 
-                    <div class="modal-body">
-                        <form method="POST" action="{{ route('login') }}">
-                            @csrf
-                            <br><br><br><br> 
-                           
-                               
-                                <div class="container mt-5"> 
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="d-flex justify-content-center">
-                                                <span>
-                                                    <img src="{{ asset('images/logo_350.jpg') }}" width="200" height="200" alt="IMG"><br><br> 
-                                                </span>
-
-                                              
-                                                  
-                                            </div>
-                                        </div> 
-                                    </div>
-                                    <div class="row mt-3">
-                                        <div class="col"></div>
-                                        <div class="col-md-5">
-                                            <div class="mb-3">
-                                                <div class="wrap-input100 validate-input" data-validate = "กรุณาใส่ Username">
-                                                    <input type="text" class="form-control input100" name="username" id="username" placeholder="Username" required>
-                                                </div>
-                                            </div>
-                                        </div> 
-                                        <div class="col"></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col"></div>
-                                        <div class="col-md-5">
-                                            <div class="mb-3">
-                                                <div class="wrap-input100 validate-input" data-validate = "กรุณาใส่ Password">
-                                                    <input type="password" class="form-control input100" name="password" id="password" placeholder="Password" required>
-                                                </div>
-                                            </div>
-                                        </div> 
-                                        <div class="col"></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col"></div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <button type="submit" class="login100-form-btn">
-                                                    Login
-                                                </button>
-                                              </div>
-                                        </div> 
-                                        <div class="col"></div>
-                                    </div>
-                                    <div class="text-center p-t-12">
-                                        <span class="txt1">
-                                            Forgot
-                                        </span>
-                                        <a class="txt2" href="#">
-                                            Username / Password?
-                                        </a>
-                                    </div>
-                                    <div class="text-center p-t-20">
-                                        <a class="txt2" href="#">
-                                            Create your Account
-                                            <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
-                                        </a>
-                                    </div>
-
-                                </div>   
-                                {{-- </div> --}}
-                                        {{-- <span class="login100-form-title">
+                    <div class="modal-body p-0">
+                                   
+                        <div class="limiter">
+                            <div class="container">
+                            {{-- <div class="container-login100"> --}}
+                                {{-- <div class="wrap-login100 dcheckbox"> --}}
+                                <div class="wrap-login100">
+                                    
+                                    {{-- <div class="login100-pic js-tilt" data-tilt> 
+                                        <img src="{{ asset('images/team.png') }}" width="500" height="250" alt="IMG">
+                                    </div>  --}}
+                                    <form method="POST" action="{{ route('login') }}" class="login100-form validate-form">
+                                        @csrf
+                                        {{-- <img src="{{ asset('images/logo_350.jpg') }}" width="100" height="100" alt="IMG">
+                                        <br> --}}
+                                        <span class="login100-form-title">
                                             <img src="{{ asset('images/logo_350.jpg') }}" width="120" height="120" alt="IMG"><br><br>
                                             เข้าสู่ระบบ
-                                        </span> --}}
+                                        </span>
                     
-                                        {{-- <div class="wrap-input100 validate-input" data-validate = "Username is required">
+                                        <div class="wrap-input100 validate-input" data-validate = "Username is required">
                                             <input class="input100" type="text" name="username" id="username" placeholder="Username">
                                             <span class="focus-input100"></span>
                                             <span class="symbol-input100">
                                                 <i class="fa fa-user" aria-hidden="true"></i>
                                             </span>
-                                        </div> --}}
+                                        </div>
                     
-                                        {{-- <div class="wrap-input100 validate-input" data-validate = "Password is required">
+                                        <div class="wrap-input100 validate-input" data-validate = "Password is required">
                                             <input class="input100" type="password" name="password" id="password" placeholder="Password">
                                             <span class="focus-input100"></span>
                                             <span class="symbol-input100">
                                                 <i class="fa fa-lock" aria-hidden="true"></i>
                                             </span>
-                                        </div> --}}
+                                        </div>
                                         
-                                        {{-- <div class="container-login100-form-btn">
+                                        <div class="container-login100-form-btn">
                                             <button type="submit" class="login100-form-btn">
                                                 Login
                                             </button>
                                         </div>
-                     --}}
-                                        {{-- <div class="text-center p-t-12">
+                    
+                                        <div class="text-center p-t-12">
                                             <span class="txt1">
                                                 Forgot
                                             </span>
                                             <a class="txt2" href="#">
                                                 Username / Password?
                                             </a>
-                                        </div> --}}
+                                        </div>
                     
-                                        {{-- <div class="text-center p-t-26">
+                                        <div class="text-center p-t-26">
                                             <a class="txt2" href="#">
                                                 Create your Account
                                                 <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
                                             </a>
                                         </div>
-                                    --}}
-
-
-
-                                </form>     
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                    
-
                     </div>         
             </div>
         </div>

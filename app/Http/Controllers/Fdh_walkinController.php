@@ -19,7 +19,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 use App\Exports\OtExport;
 // use App\Imports\UsersImport;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Models\Department;
+use App\Models\Fdh_sesion;
 use App\Models\Departmentsub;
 use App\Models\Departmentsubsub;
 use App\Models\Position; 
@@ -111,6 +111,7 @@ class Fdh_walkinController extends Controller
                 $iduser = Auth::user()->id;
                 // D_walkin::truncate();  
                 D_walkin_drug::truncate(); 
+                Fdh_sesion::where('d_anaconda_id','=','WALKIN')->delete(); 
                 $data_main_drug = DB::connection('mysql2')->select('SELECT vn  FROM opitemrece WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND icode in ("3010755","3003179","3011264") AND an is null');  
                 foreach ($data_main_drug as $key => $val_drug) {
                     D_walkin_drug::insert([
@@ -205,6 +206,25 @@ class Fdh_walkinController extends Controller
                 //         'authen'   => $v_up->claimcode,  
                 //     ]);
                 // } 
+                $s_date_now = date("Y-m-d");
+                $s_time_now = date("H:i:s");
+
+                #ตัดขีด, ตัด : ออก
+                $pattern_date = '/-/i';
+                $s_date_now_preg = preg_replace($pattern_date, '', $s_date_now);
+                $pattern_time = '/:/i';
+                $s_time_now_preg = preg_replace($pattern_time, '', $s_time_now);
+                #ตัดขีด, ตัด : ออก
+                $folder_name='WALKIN_'.$s_date_now_preg.'_'.$s_time_now_preg;
+                 
+
+                Fdh_sesion::insert([
+                    'folder_name'      => $folder_name,
+                    'd_anaconda_id'    => 'WALKIN',
+                    'date_save'        => $s_date_now,
+                    'time_save'        => $s_time_now,
+                    'userid'           => $iduser  
+                ]);
 
                 $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" AND active ="N" AND projectcode ="WALKIN" AND debit > "1" ORDER BY vn ASC');  
 
@@ -1331,7 +1351,7 @@ class Fdh_walkinController extends Controller
                         LEFT OUTER JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id 
                         LEFT OUTER JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id 
                         WHERE ip.vn IN("'.$va1->vn.'")  
-                        GROUP BY v.an,CHRGITEM; 
+                        GROUP BY v.an,CHRGITEM 
                 ');
                 foreach ($data_cha_ as $va_11) {
                     Fdh_cha::insert([
@@ -1397,12 +1417,12 @@ class Fdh_walkinController extends Controller
                 //D_adp
                 $data_adp_ = DB::connection('mysql2')->select(
                     'SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
-                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"" LMP ,""SP_ITEM,icode ,vstdate
+                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,DATE_FORMAT("0000-00-00","%Y%m%d") LMP,""SP_ITEM,icode ,vstdate
                         FROM
                         (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,sum(v.QTY) QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
                         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,if(n.nhso_adp_code is null,"1","2") as ITEMSRC
-                        ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"" LMP ,""SP_ITEM,v.icode,v.vstdate
+                        ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,DATE_FORMAT("0000-00-00","%Y%m%d") LMP,""SP_ITEM,v.icode,v.vstdate
                         FROM opitemrece v
                         JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null 
                         LEFT OUTER JOIN ipt i on i.an = v.an
@@ -1412,10 +1432,10 @@ class Fdh_walkinController extends Controller
                         GROUP BY an,CODE,rate
                         UNION
                         SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
-                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"" LMP ,""SP_ITEM,icode ,vstdate
+                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,DATE_FORMAT("0000-00-00","%Y%m%d") LMP,""SP_ITEM,icode ,vstdate
                         FROM
                         (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,sum(v.QTY) QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
-                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,if(n.nhso_adp_code is null,"1","2") as ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"" LMP ,""SP_ITEM,v.icode,v.vstdate
+                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,if(n.nhso_adp_code is null,"1","2") as ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,DATE_FORMAT("0000-00-00","%Y%m%d") LMP,""SP_ITEM,v.icode,v.vstdate
                         FROM opitemrece v
                         JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null 
                         LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
@@ -2081,7 +2101,12 @@ class Fdh_walkinController extends Controller
         $file = new Filesystem;
         $file->cleanDirectory('Export'); //ทั้งหมด
         // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
-        $folder='WALKIN_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+        // $folder='WALKIN_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+        $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "WALKIN"');
+        foreach ($dataexport_ as $key => $v_export) {
+            $folder_ = $v_export->folder_name;
+        }
+        $folder = $folder_;
 
          mkdir ('Export/'.$folder, 0777, true);  //Web
         //  mkdir ('C:Export/'.$folder, 0777, true); //localhost

@@ -3121,9 +3121,10 @@ Route::match(['get','post'],'fdh_ppfs_30015_export',[App\Http\Controllers\Fdh_PP
 
 Route::match(['get','post'],'ipd',[App\Http\Controllers\Fdh_IpdController::class, 'ipd'])->name('fdh.ipd');//
 // *******************FDH OFC *******************
-Route::match(['get','post'],'ofc_main',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main'])->name('claim.ofc_main');//
-Route::match(['get','post'],'ofc_main_process',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main_process'])->name('claim.ofc_main_process');//
-Route::match(['get','post'],'ofc_main_export',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main_export'])->name('claim.ofc_main_export');//
+Route::match(['get','post'],'ofc_main',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main'])->name('fdh.ofc_main');//
+Route::match(['get','post'],'ofc_main_process',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main_process'])->name('fdh.ofc_main_process');//
+Route::match(['get','post'],'ofc_main_export',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main_export'])->name('fdh.ofc_main_export');//
+Route::match(['get','post'],'ofc_main_zip',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main_zip'])->name('fdh.ofc_main_zip');//
 
 // *******************FDH LGO *******************
 Route::match(['get','post'],'lgo_main',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main'])->name('fdh.lgo_main');//

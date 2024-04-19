@@ -113,15 +113,15 @@ $pos = strrpos($url, '/') + 1;
 
                    
                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('ucep24_main_process')}}">
-                        <i class="fa-solid fa-spinner text-success me-2"></i>
+                        <i class="fa-solid fa-spinner text-success"></i>
                         ประมวลผล
                     </button>
                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-warning Updatedata" >
-                        <i class="fa-solid fa-spinner text-warning me-2"></i> 
+                        <i class="fa-solid fa-spinner text-warning"></i> 
                         Update Ucep24
                     </button>
                     <a href="{{url('ucep24_main_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4">
-                        <i class="fa-solid fa-file-export text-danger me-2"></i>
+                        <i class="fa-solid fa-file-export text-danger"></i>
                         Export Txt
                     </a> 
                 </div> 
