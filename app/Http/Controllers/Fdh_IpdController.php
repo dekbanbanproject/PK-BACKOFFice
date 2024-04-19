@@ -111,8 +111,8 @@ class Fdh_IpdController extends Controller
             $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="IPD_NORED" AND debit > "1" ORDER BY vn DESC LIMIT 500');             
         } else {
                 $iduser = Auth::user()->id;
-                // Fdh_sesion::where('d_anaconda_id','IPD_NORED')->delete();  
-                Fdh_sesion::truncate();
+                Fdh_sesion::where('d_anaconda_id','IPD_NORED')->delete();  
+                // Fdh_sesion::truncate();
                 $data_main_ = DB::connection('mysql2')->select(' 
                         SELECT 
                         ip.vn,a.hn,a.an,pt.cid,a.regdate,a.dchdate,group_concat(distinct it2.pttype) as pttype,p.hipdata_code,ip.pttype as ip_pttype,concat(pt.pname,pt.fname," ",pt.lname) as ptname
@@ -1497,7 +1497,9 @@ class Fdh_IpdController extends Controller
         D_fdh::whereIn('d_fdh_id',explode(",",$id))
                 ->update([
                     'active' => 'Y'
-                ]);
+        ]);
+        Fdh_dru::whereIn('DID',[1550027, 1650087,1590016,1500101,1590018,1660100,1640078,1640058,1640076])->delete();
+                // delete from hshooterdb.h_dru where DID IN('1550027','1650087','1590016','1500101','1590018','1660100','1640078','1640058','1640076');
         Fdh_adp::where('CODE','=','XXXXXX')->delete();
         return response()->json([
              'status'    => '200'
