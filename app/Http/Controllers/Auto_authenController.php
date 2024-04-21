@@ -520,11 +520,11 @@ class Auto_authenController extends Controller
     public function updateauthen_spschtohos(Request $request)
     {        
         $date_now = date('Y-m-d'); 
-        $date_start = "2023-12-12";
+        $date_start = "2024-04-21";
         $data_ = DB::connection('mysql2')->select('
             SELECT vn,hn,cid,vstdate
             FROM vn_stat   
-            WHERE vstdate = "'.$date_now.'"
+            WHERE vstdate = "'.$date_start.'"
             AND pttype NOT IN("M1","M2","M3","M4","M5","M6")
         '); 
      
@@ -540,11 +540,11 @@ class Auto_authenController extends Controller
     public function updateauthen_spschtohos217(Request $request)
     {        
         $date_now = date('Y-m-d'); 
-        $date_start = "2023-12-12";
+        $date_start = "2024-04-21";
         $data_ = DB::connection('mysql2')->select('
             SELECT v.vn,v.cid,v.hn,v.vstdate
             FROM vn_stat v  
-            WHERE v.vstdate = "'.$date_now.'"
+            WHERE v.vstdate = "'.$date_start.'"
             AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6")          
             GROUP BY v.vn
         ');  
@@ -557,10 +557,11 @@ class Auto_authenController extends Controller
     public function updateauthen_tispschtohos(Request $request)
     {        
         $date_now = date('Y-m-d'); 
+        $date_start = "2024-04-21";
         $data_ = DB::connection('mysql2')->select('
             SELECT v.vn,v.cid,v.hn,v.vstdate
             FROM vn_stat v  
-            WHERE v.vstdate = "'.$date_now.'"
+            WHERE v.vstdate = "'.$date_start.'"
             AND v.pttype IN("M1","M2","M3","M4","M5","M6")
             GROUP BY v.vn
         '); 
@@ -574,10 +575,11 @@ class Auto_authenController extends Controller
     public function updateauthen_tispschtohos217(Request $request)
     {        
         $date_now = date('Y-m-d'); 
+        $date_start = "2024-04-21";
         $data_ = DB::connection('mysql2')->select('
             SELECT v.vn,v.cid,v.hn,v.vstdate
             FROM vn_stat v  
-            WHERE v.vstdate = "'.$date_now.'"
+            WHERE v.vstdate = "'.$date_start.'"
             AND v.pttype IN("M1","M2","M3","M4","M5","M6")
             GROUP BY v.vn
         '); 
@@ -591,11 +593,12 @@ class Auto_authenController extends Controller
     // updateauthen_spschtohos 217
     public function updateauthen_spschtochecksitauto(Request $request)
     {        
-        $date_now = date('Y-m-d');  
+        $date_now = date('Y-m-d'); 
+        $date_start = "2024-04-21"; 
         $data_ = DB::connection('mysql2')->select('
             SELECT vn,cid,hncode,vstdate,claimcode,claimtype,servicerep,servicename,authentication
             FROM check_authen_hos  
-            WHERE vstdate = "'.$date_now.'"
+            WHERE vstdate = "'.$date_start.'"
        
         '); 
         // GROUP BY vn 
@@ -622,7 +625,7 @@ class Auto_authenController extends Controller
     public function updaet_authen_to_checksitauto(Request $request)
     {
         $date_now = date('Y-m-d');
-        $date_start = "2024-04-12";
+        $date_start = "2024-04-21";
         $date_end = "2566-07-22";        
         // $data_ = Check_authen
         // $count = Check_sit_auto::where('vn','<>','')->count(); 
@@ -630,7 +633,7 @@ class Auto_authenController extends Controller
                 SELECT c.cid,c.vstdate,c.claimcode,c.claimtype,c.servicerep,c.servicename,c.authentication ,ca.claimcode as Caclaimcode
                 FROM check_authen c   
                 LEFT JOIN check_sit_auto ca ON ca.cid = c.cid and c.vstdate = ca.vstdate
-                WHERE c.vstdate = "'.$date_now.'"
+                WHERE c.vstdate = "'.$date_start.'"
                 AND c.claimtype = "PG0060001"  
                 AND ca.claimcode IS NULL
         '); 
