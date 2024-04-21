@@ -338,7 +338,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_pkucs217_dash') }}">dashboard</a></li>
                                             <li><a href="{{ url('account_pkucs217_pull') }}">ดึงลูกหนี้</a></li>
-                                        
+                                            <li><a href="{{ url('account_pkucs217_search') }}">ค้นหาลูกหนี้</a> </li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -464,28 +464,28 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_801_dash') }}">dashboard</a></li>
                                             <li><a href="{{ url('account_801_pull') }}">ดึงลูกหนี้</a></li>
-                                      
+                                            <li><a href="{{ url('account_801_search') }}">ค้นหาลูกหนี้</a></li>
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">802-ลูกหนี้ค่ารักษา-เบิกจ่ายตรงอปท.IP</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_802_dash') }}">dashboard</a></li>
                                             <li><a href="{{ url('account_802_pull') }}">ดึงลูกหนี้</a></li>
-                                     
+                                            <li><a href="{{ url('account_802_search') }}">ค้นหาลูกหนี้</a></li>
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">803-ลูกหนี้ค่ารักษา-เบิกจ่ายตรงอปท.รูปแบบพิเศษ OP</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_803_dash') }}">dashboard</a></li>
                                             <li><a href="{{ url('account_803_pull') }}">ดึงลูกหนี้</a></li>
-                                      
+                                            <li><a href="{{ url('account_803_search') }}">ค้นหาลูกหนี้</a></li>
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">804-ลูกหนี้ค่ารักษา-เบิกจ่ายตรงอปท.รูปแบบพิเศษ IP</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_804_dash') }}">dashboard</a></li>
                                             <li><a href="{{ url('account_804_pull') }}">ดึงลูกหนี้</a></li>
-                                          
+                                            <li><a href="{{ url('account_804_search') }}">ค้นหาลูกหนี้</a></li>
                                         </ul>
                                     </li>
                                 </ul>

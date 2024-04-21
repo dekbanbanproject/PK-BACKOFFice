@@ -520,7 +520,7 @@ class Auto_authenController extends Controller
     public function updateauthen_spschtohos(Request $request)
     {        
         $date_now = date('Y-m-d'); 
-        $date_start = "2024-04-21";
+        $date_start = "2024-04-20";
         $data_ = DB::connection('mysql2')->select('
             SELECT vn,hn,cid,vstdate
             FROM vn_stat   
@@ -540,7 +540,7 @@ class Auto_authenController extends Controller
     public function updateauthen_spschtohos217(Request $request)
     {        
         $date_now = date('Y-m-d'); 
-        $date_start = "2024-04-21";
+        $date_start = "2024-04-20";
         $data_ = DB::connection('mysql2')->select('
             SELECT v.vn,v.cid,v.hn,v.vstdate
             FROM vn_stat v  
@@ -557,7 +557,7 @@ class Auto_authenController extends Controller
     public function updateauthen_tispschtohos(Request $request)
     {        
         $date_now = date('Y-m-d'); 
-        $date_start = "2024-04-21";
+        $date_start = "2024-04-20";
         $data_ = DB::connection('mysql2')->select('
             SELECT v.vn,v.cid,v.hn,v.vstdate
             FROM vn_stat v  
@@ -575,7 +575,7 @@ class Auto_authenController extends Controller
     public function updateauthen_tispschtohos217(Request $request)
     {        
         $date_now = date('Y-m-d'); 
-        $date_start = "2024-04-21";
+        $date_start = "2024-04-20";
         $data_ = DB::connection('mysql2')->select('
             SELECT v.vn,v.cid,v.hn,v.vstdate
             FROM vn_stat v  
@@ -594,7 +594,7 @@ class Auto_authenController extends Controller
     public function updateauthen_spschtochecksitauto(Request $request)
     {        
         $date_now = date('Y-m-d'); 
-        $date_start = "2024-04-21"; 
+        $date_start = "2024-04-20"; 
         $data_ = DB::connection('mysql2')->select('
             SELECT vn,cid,hncode,vstdate,claimcode,claimtype,servicerep,servicename,authentication
             FROM check_authen_hos  
@@ -625,7 +625,7 @@ class Auto_authenController extends Controller
     public function updaet_authen_to_checksitauto(Request $request)
     {
         $date_now = date('Y-m-d');
-        $date_start = "2024-04-21";
+        $date_start = "2024-04-20";
         $date_end = "2566-07-22";        
         // $data_ = Check_authen
         // $count = Check_sit_auto::where('vn','<>','')->count(); 

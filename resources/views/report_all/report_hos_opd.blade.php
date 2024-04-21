@@ -1550,7 +1550,7 @@
                                                                 <td class="text-center" width="3%">{{$item85->t2}}</td>
                                                                 <td class="text-center" width="5%">{{$item85->t1}}</td>
                                                                 <td class="text-center" width="3%">{{$item85->age_y}}</td>
-                                                                <td class="text-center" width="5%">{{$item85->regdate>}}</td>                                
+                                                                <td class="text-center" width="5%">{{$item85->regdate}}</td>                                
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
@@ -1560,7 +1560,7 @@
                                     </div>
                                 </div>
                         @elseif ($id == 86)
-                                <form action="{{ url('report_hos_opd/'.$id) }}" method="GET">
+                                {{-- <form action="{{ url('report_hos_opd/'.$id) }}" method="GET">
                                     @csrf 
                                     <div class="row"> 
                                         <div class="col-md-3">
@@ -1631,7 +1631,7 @@
                                             </div> 
                                         </div> 
                                     </div>
-                                </div>
+                                </div> --}}
                         @elseif ($id == 87)
                                 <form action="{{ url('report_hos_opd/'.$id) }}" method="GET">
                                     @csrf 
@@ -1789,6 +1789,7 @@
                                         </div> 
                                     </div>
                                 </div>
+                        
                         @elseif ($id == 90)
                                 <form action="{{ url('report_hos_opd/'.$id) }}" method="GET">
                                     @csrf 

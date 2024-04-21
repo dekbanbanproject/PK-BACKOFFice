@@ -1968,6 +1968,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_216_destroy',[App\Http\Controllers\Account216Controller::class, 'account_216_destroy'])->name('acc.account_216_destroy');//
 
     Route::match(['get','post'],'account_pkucs217_pull',[App\Http\Controllers\Account217Controller::class, 'account_pkucs217_pull'])->name('acc.account_pkucs217_pull');//
+    Route::match(['get','post'],'account_pkucs217_search',[App\Http\Controllers\Account217Controller::class, 'account_pkucs217_search'])->name('acc.account_pkucs217_search');//
     Route::match(['get','post'],'account_pkucs217_checksit',[App\Http\Controllers\Account217Controller::class, 'account_pkucs217_checksit'])->name('acc.account_pkucs217_checksit');//
     Route::match(['get','post'],'account_pkucs217_pulldata',[App\Http\Controllers\Account217Controller::class, 'account_pkucs217_pulldata'])->name('acc.account_pkucs217_pulldata');//
     Route::match(['get','post'],'account_pkucs217_dash',[App\Http\Controllers\Account217Controller::class, 'account_pkucs217_dash'])->name('acc.account_pkucs217_dash');//
@@ -2290,6 +2291,7 @@ Route::middleware(['type'])->group(function(){
 
     Route::match(['get','post'],'account_801_dash',[App\Http\Controllers\Account801Controller::class, 'account_801_dash'])->name('acc.account_801_dash');//
     Route::match(['get','post'],'account_801_pull',[App\Http\Controllers\Account801Controller::class, 'account_801_pull'])->name('acc.account_801_pull');//
+    Route::match(['get','post'],'account_801_search',[App\Http\Controllers\Account801Controller::class, 'account_801_search'])->name('acc.account_801_search');//
     Route::match(['get','post'],'account_801_pulldata',[App\Http\Controllers\Account801Controller::class, 'account_801_pulldata'])->name('acc.account_801_pulldata');// 
     Route::match(['get','post'],'account_801_detail/{months}/{year}',[App\Http\Controllers\Account801Controller::class, 'account_801_detail'])->name('acc.account_801_detail');//
     Route::match(['get','post'],'account_801_stm/{months}/{year}',[App\Http\Controllers\Account801Controller::class, 'account_801_stm'])->name('acc.account_801_stm');//
@@ -2311,6 +2313,7 @@ Route::middleware(['type'])->group(function(){
 
     Route::match(['get','post'],'account_802_dash',[App\Http\Controllers\Account802Controller::class, 'account_802_dash'])->name('acc.account_802_dash');//
     Route::match(['get','post'],'account_802_pull',[App\Http\Controllers\Account802Controller::class, 'account_802_pull'])->name('acc.account_802_pull');//
+    Route::match(['get','post'],'account_802_search',[App\Http\Controllers\Account802Controller::class, 'account_802_search'])->name('acc.account_802_search');//
     Route::match(['get','post'],'account_802_pulldata',[App\Http\Controllers\Account802Controller::class, 'account_802_pulldata'])->name('acc.account_802_pulldata');//
     Route::match(['get','post'],'account_802/{months}/{year}',[App\Http\Controllers\Account802Controller::class, 'account_802'])->name('acc.account_802');//
     Route::match(['get','post'],'account_802_detail/{months}/{year}',[App\Http\Controllers\Account802Controller::class, 'account_802_detail'])->name('acc.account_802_detail');//
@@ -2325,6 +2328,7 @@ Route::middleware(['type'])->group(function(){
 
     Route::match(['get','post'],'account_803_dash',[App\Http\Controllers\Account803Controller::class, 'account_803_dash'])->name('acc.account_803_dash');//
     Route::match(['get','post'],'account_803_pull',[App\Http\Controllers\Account803Controller::class, 'account_803_pull'])->name('acc.account_803_pull');//
+    Route::match(['get','post'],'account_803_search',[App\Http\Controllers\Account803Controller::class, 'account_803_search'])->name('acc.account_803_search');//
     Route::match(['get','post'],'account_803_checksit',[App\Http\Controllers\Account803Controller::class, 'account_803_checksit'])->name('acc.account_803_checksit');//
     Route::match(['get','post'],'account_803_pulldata',[App\Http\Controllers\Account803Controller::class, 'account_803_pulldata'])->name('acc.account_803_pulldata');// 
     Route::match(['get','post'],'account_803_detail/{months}/{year}',[App\Http\Controllers\Account803Controller::class, 'account_803_detail'])->name('acc.account_803_detail');//
@@ -2338,6 +2342,7 @@ Route::middleware(['type'])->group(function(){
 
     Route::match(['get','post'],'account_804_dash',[App\Http\Controllers\Account804Controller::class, 'account_804_dash'])->name('acc.account_804_dash');//
     Route::match(['get','post'],'account_804_pull',[App\Http\Controllers\Account804Controller::class, 'account_804_pull'])->name('acc.account_804_pull');//
+    Route::match(['get','post'],'account_804_search',[App\Http\Controllers\Account804Controller::class, 'account_804_search'])->name('acc.account_804_search');//
     Route::match(['get','post'],'account_804_checksit',[App\Http\Controllers\Account804Controller::class, 'account_804_checksit'])->name('acc.account_804_checksit');//
     Route::match(['get','post'],'account_804_pulldata',[App\Http\Controllers\Account804Controller::class, 'account_804_pulldata'])->name('acc.account_804_pulldata');// 
     Route::match(['get','post'],'account_804_detail/{months}/{year}',[App\Http\Controllers\Account804Controller::class, 'account_804_detail'])->name('acc.account_804_detail');//
@@ -3017,13 +3022,13 @@ Route::match(['get','post'],'env_vendor_update',[App\Http\Controllers\EnvControl
 Route::match(['get','post'],'env_vendor_destroy/{id}',[App\Http\Controllers\EnvController::class, 'env_env_vendor_destroy'])->name('env.env_vendor_destroy');//ลบข้อมูล
 
 // ************** Report ****************************
-Route::match(['get','post'],'report_db',[App\Http\Controllers\ReportNewController::class, 'report_db'])->name('re.report_db');
-Route::match(['get','post'],'report_hos',[App\Http\Controllers\ReportNewController::class, 'report_hos'])->name('re.report_hos');
-Route::match(['get','post'],'report_hos_new/{id}',[App\Http\Controllers\ReportNewController::class, 'report_hos_new'])->name('re.report_hos_new');
+// Route::match(['get','post'],'report_db',[App\Http\Controllers\ReportNewController::class, 'report_db'])->name('re.report_db');
+// Route::match(['get','post'],'report_hos',[App\Http\Controllers\ReportNewController::class, 'report_hos'])->name('re.report_hos');
+// Route::match(['get','post'],'report_hos_new/{id}',[App\Http\Controllers\ReportNewController::class, 'report_hos_new'])->name('re.report_hos_new');
 
-Route::match(['get','post'],'report_db',[App\Http\Controllers\ReportMedController::class, 'report_db'])->name('re.report_db');
-Route::match(['get','post'],'report_med',[App\Http\Controllers\ReportMedController::class, 'report_med'])->name('re.report_med');
-Route::match(['get','post'],'report_hos_med/{id}',[App\Http\Controllers\ReportMedController::class, 'report_hos_med'])->name('re.report_hos_med');
+// Route::match(['get','post'],'report_db',[App\Http\Controllers\ReportMedController::class, 'report_db'])->name('re.report_db');
+// Route::match(['get','post'],'report_med',[App\Http\Controllers\ReportMedController::class, 'report_med'])->name('re.report_med');
+// Route::match(['get','post'],'report_hos_med/{id}',[App\Http\Controllers\ReportMedController::class, 'report_hos_med'])->name('re.report_hos_med');
  
 // ************** TB ****************************
 Route::match(['get','post'],'tb_main',[App\Http\Controllers\TbController::class, 'tb_main'])->name('re.tb_main');
@@ -3145,4 +3150,29 @@ Route::match(['get','post'],'report_db',[App\Http\Controllers\ReportSxController
 Route::match(['get','post'],'report_sx',[App\Http\Controllers\ReportSxController::class, 'report_sx'])->name('re.report_sx');
 Route::match(['get','post'],'report_hos_sx/{id}',[App\Http\Controllers\ReportSxController::class, 'report_hos_sx'])->name('re.report_hos_sx');
 // Route::match(['get','post'],'report_hos_sx',[App\Http\Controllers\ReportSxController::class, 'report_hos_sx'])->name('re.report_hos_sx');
+
+
+
+// ************** Report ****************************
+Route::match(['get','post'],'report_db',[App\Http\Controllers\ReportNewController::class, 'report_db'])->name('re.report_db');
+Route::match(['get','post'],'report_hos',[App\Http\Controllers\ReportNewController::class, 'report_hos'])->name('re.report_hos');
+Route::match(['get','post'],'report_hos_new/{id}',[App\Http\Controllers\ReportNewController::class, 'report_hos_new'])->name('re.report_hos_new');
+
+Route::match(['get','post'],'report_db',[App\Http\Controllers\ReportMedController::class, 'report_db'])->name('re.report_db');
+Route::match(['get','post'],'report_med',[App\Http\Controllers\ReportMedController::class, 'report_med'])->name('re.report_med');
+Route::match(['get','post'],'report_hos_med/{id}',[App\Http\Controllers\ReportMedController::class, 'report_hos_med'])->name('re.report_hos_med');
+ 
+Route::match(['get','post'],'report_db',[App\Http\Controllers\ReportOpdController::class, 'report_db'])->name('re.report_db');
+Route::match(['get','post'],'report_opd',[App\Http\Controllers\ReportOpdController::class, 'report_opd'])->name('re.report_opd');
+Route::match(['get','post'],'report_hos_opd/{id}',[App\Http\Controllers\ReportOpdController::class, 'report_hos_opd'])->name('re.report_hos_opd'); 
+
+Route::match(['get','post'],'report_db',[App\Http\Controllers\ReportSxController::class, 'report_db'])->name('re.report_db');
+Route::match(['get','post'],'report_sx',[App\Http\Controllers\ReportSxController::class, 'report_sx'])->name('re.report_sx');
+Route::match(['get','post'],'report_hos_sx/{id}',[App\Http\Controllers\ReportSxController::class, 'report_hos_sx'])->name('re.report_hos_sx');
+
+
+
+
+
+
 });

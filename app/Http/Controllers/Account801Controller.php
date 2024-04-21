@@ -297,6 +297,39 @@ class Account801Controller extends Controller
             'status'    => '200'
         ]);
     }
+    public function account_801_search (Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $date = date('Y-m-d'); 
+        $new_day = date('Y-m-d', strtotime($date . ' -5 day')); //ย้อนหลัง 1 วัน
+        $data['users'] = User::get();
+        if ($startdate =='') {
+           $datashow = DB::select(' 
+           SELECT U1.*,U2.claim_true_af,U2.STMdoc 
+           from acc_1102050102_801 U1
+           LEFT JOIN acc_stm_lgo U2 ON U2.cid_f = U1.cid AND U2.vstdate_i = U1.vstdate 
+               WHERE vstdate BETWEEN "'.$new_day.'" AND  "'.$date.'" 
+               group by U1.vn 
+           ');
+        } else {
+           $datashow = DB::select(' 
+           SELECT U1.*,U2.claim_true_af,U2.STMdoc 
+           from acc_1102050102_801 U1
+               LEFT JOIN acc_stm_lgo U2 ON U2.cid_f = U1.cid AND U2.vstdate_i = U1.vstdate 
+               WHERE vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"  
+               group by U1.vn
+           ');
+        } 
+        return view('account_801.account_801_search ', $data, [
+            'startdate'     => $startdate,
+            'enddate'       => $enddate,
+            'datashow'      => $datashow,
+            'startdate'     => $startdate,
+            'enddate'       => $enddate
+        ]);
+    }
     public function account_801_detail(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');

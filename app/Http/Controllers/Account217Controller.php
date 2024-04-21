@@ -645,6 +645,33 @@ class Account217Controller extends Controller
             'y'                =>  $y,
         ]);
     }
+    public function account_pkucs217_search(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $date = date('Y-m-d'); 
+        $new_day = date('Y-m-d', strtotime($date . ' -5 day')); //ย้อนหลัง 1 วัน
+        $data['users'] = User::get();
+        if ($startdate =='') {
+           $datashow = DB::select(' 
+               SELECT * from acc_1102050101_217 
+               WHERE dchdate BETWEEN "'.$new_day.'" AND  "'.$date.'"  
+           ');
+        } else {
+           $datashow = DB::select(' 
+               SELECT * from acc_1102050101_217
+               WHERE dchdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"  
+           ');
+        } 
+        return view('account_217.account_pkucs217_search', $data, [
+            'startdate'     => $startdate,
+            'enddate'       => $enddate,
+            'datashow'      => $datashow,
+            'startdate'     => $startdate,
+            'enddate'       => $enddate
+        ]);
+    }
     public function account_pkucs217(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');
