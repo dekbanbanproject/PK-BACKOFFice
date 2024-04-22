@@ -39,7 +39,7 @@ use App\Models\D_apiwalkin_ipd;
 use App\Models\D_apiwalkin_pat;
 use App\Models\D_apiwalkin_opd;
 use App\Models\D_walkin;
-use App\Models\D_walkin_drug;
+use App\Models\Fdh_sesion;
 use App\Models\D_fdh;
 use App\Models\D_walkin_report;
 
@@ -106,7 +106,7 @@ class Fdh_HpvController extends Controller
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
         if ($startdate == '') {   
-            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND nhso_adp_code ="1B0046_01" AND debit > "1" ORDER BY vn DESC LIMIT 500');             
+            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND nhso_adp_code ="1B0046_0" AND debit > "1" ORDER BY vn DESC LIMIT 500');             
         } else {
                 $iduser = Auth::user()->id;
                 // D_walkin::truncate();  
@@ -136,9 +136,9 @@ class Fdh_HpvController extends Controller
                 // ,ca.claimcode as authen
                 // LEFT OUTER JOIN pkbackoffice.check_authen ca on ca.cid = v.cid AND ca.vstdate = v.vstdate               
                 foreach ($data_main_ as $key => $value) {   
-                    $check_wa = D_fdh::where('vn',$value->vn)->where('nhso_adp_code','1B0046_01')->count(); 
+                    $check_wa = D_fdh::where('vn',$value->vn)->where('nhso_adp_code','1B0046_0')->count(); 
                     if ($check_wa > 0) { 
-                        D_fdh::where('vn',$value->vn)->where('nhso_adp_code','1B0046_01')->update([  
+                        D_fdh::where('vn',$value->vn)->where('nhso_adp_code','1B0046_0')->update([  
                             'icd10'          => $value->icd10,  
                             'debit'          => $value->debit,
                             'active_status'  => $value->active_status, 
@@ -151,7 +151,7 @@ class Fdh_HpvController extends Controller
                             'pttype'       => $value->pttype,                           
                             'ptname'       => $value->ptname,
                             'vstdate'      => $value->vstdate, 
-                            'nhso_adp_code'  => '1B0046_01', 
+                            'nhso_adp_code'  => '1B0046_0', 
                             'icd10'        => $value->icd10, 
                             'debit'        => $value->debit,
                             'active_status'  => $value->active_status
@@ -161,7 +161,7 @@ class Fdh_HpvController extends Controller
                 } 
                 
 
-                $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" AND active ="N" AND nhso_adp_code ="1B0046_01" AND debit > "1" ORDER BY vn ASC');  
+                $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" AND active ="N" AND nhso_adp_code ="1B0046_0" AND debit > "1" ORDER BY vn ASC');  
 
         }   
             
@@ -831,7 +831,29 @@ class Fdh_HpvController extends Controller
         Fdh_aer::where('d_anaconda_id','=','HPV')->delete();
         Fdh_adp::where('d_anaconda_id','=','HPV')->delete();
         Fdh_dru::where('d_anaconda_id','=','HPV')->delete();            
-        Fdh_lvd::where('d_anaconda_id','=','HPV')->delete();           
+        Fdh_lvd::where('d_anaconda_id','=','HPV')->delete();  
+        
+        Fdh_sesion::where('d_anaconda_id','=','HPV')->delete();  
+        $iduser = Auth::user()->id;
+        $s_date_now = date("Y-m-d");
+        $s_time_now = date("H:i:s");
+
+        #ตัดขีด, ตัด : ออก
+        $pattern_date = '/-/i';
+        $s_date_now_preg = preg_replace($pattern_date, '', $s_date_now);
+        $pattern_time = '/:/i';
+        $s_time_now_preg = preg_replace($pattern_time, '', $s_time_now);
+        #ตัดขีด, ตัด : ออก
+        $folder_name='HPV_'.$s_date_now_preg.'_'.$s_time_now_preg;
+            
+
+        Fdh_sesion::insert([
+            'folder_name'      => $folder_name,
+            'd_anaconda_id'    => 'HPV',
+            'date_save'        => $s_date_now,
+            'time_save'        => $s_time_now,
+            'userid'           => $iduser  
+        ]);
      
         $id = $request->ids;
         $iduser = Auth::user()->id;
@@ -903,7 +925,7 @@ class Fdh_HpvController extends Controller
                     GROUP BY v.hn
                 ');
                 foreach ($data_pat_ as $va_02) {
-                    $check_hn = Fdh_pat::where('hn',$va_02->HN)->where('d_anaconda_id','=','WALKIN')->count();
+                    $check_hn = Fdh_pat::where('hn',$va_02->HN)->where('d_anaconda_id','=','HPV')->count();
                     if ($check_hn > 0) { 
                     } else {
                         Fdh_pat::insert([
@@ -1407,7 +1429,7 @@ class Fdh_HpvController extends Controller
                 'AN'                   => $v_sub->AN,
                 'DATEOPD'              => $v_sub->DATEOPD,
                 'TYPE'                 => '4',
-                'CODE'                 => '1B0046_01',
+                'CODE'                 => '1B0046_0',
                 'QTY'                  => '1',
                 'RATE'                 => '420',
                 'SEQ'                  => $v_sub->SEQ,
@@ -1427,7 +1449,8 @@ class Fdh_HpvController extends Controller
                 'PROVIDER'             => $v_sub->PROVIDER,
                 'GRAVIDA'              => $v_sub->GRAVIDA,
                 'GA_WEEK'              => $v_sub->GA_WEEK,
-                'DCIP'                 => $v_sub->DCIP,
+                // 'DCIP'                 => $v_sub->DCIP,
+                'DCIP'                 => '29',
                 'LMP'                  => $v_sub->LMP,
                 'SP_ITEM'              => $v_sub->SP_ITEM,
                 'icode'                => $v_sub->icode,
@@ -1463,7 +1486,12 @@ class Fdh_HpvController extends Controller
         $file = new Filesystem;
         $file->cleanDirectory('Export'); //ทั้งหมด
         // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
-        $folder='HPV_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+        // $folder='HPV_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+        $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "HPV"');
+        foreach ($dataexport_ as $key => $v_export) {
+            $folder_ = $v_export->folder_name;
+        }
+        $folder = $folder_;
 
          mkdir ('Export/'.$folder, 0777, true);  //Web
         //  mkdir ('C:Export/'.$folder, 0777, true); //localhost
@@ -1813,7 +1841,7 @@ class Fdh_HpvController extends Controller
         $file_d_adp = "Export/".$folder."/ADP.txt";
         $objFopen_adp = fopen($file_d_adp, 'w'); 
         // $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP/E_screen|LMP|SP_ITEM';
-        $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP/E_screen|LMP|SP_ITEM';
+           $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP/E_screen|LMP|SP_ITEM';
         // $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP/E_screen|LMP';
         // $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE';
         

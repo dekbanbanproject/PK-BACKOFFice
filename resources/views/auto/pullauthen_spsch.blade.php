@@ -62,7 +62,7 @@
         $('#success').hide(); 
         window.setTimeout(function() {             
             window.location.reload();
-        },10000); 
+        },1000); 
         $(document).ajaxStart(function() {
         
             }).ajaxSuccess(function() {
@@ -70,15 +70,15 @@
             });
             setTimeout(function(){
                 // $('.progress-bar').css({width: "0%"});
-                $i = 10000
+                $i = 1000
                 setTimeout(function(){
                     // $('#success').html(data);
-                }, 10000);
+                }, 1000);
                 $('#start').show(); 
                 $('#success').hide(); 
                 $('.progress-bar').css({width: "10%"});
                               
-            }, 20000);
+            }, 10000);
             $('.progress-bar').css({width: "100%"});
             $('#start').hide(); 
             $('#success').show(); 

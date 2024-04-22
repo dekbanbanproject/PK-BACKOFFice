@@ -667,7 +667,7 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql')->select('
             SELECT vn,an,hn,cid,vstdate,hometel,vsttime,fullname,pttype,hospmain,hospsub,main_dep,staff,staff_name,claimcode,claimtype,servicerep,servicename,authentication,debit 
             FROM check_sit_auto   
-            WHERE vstdate = "'.date_now.'" 
+            WHERE vstdate = "'.$date_now.'" 
             LIMIT 100    
         '); 
         foreach ($data_ as $key => $value) {   
