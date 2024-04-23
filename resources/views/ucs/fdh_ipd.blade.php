@@ -124,6 +124,10 @@ $pos = strrpos($url, '/') + 1;
                         <i class="fa-solid fa-spinner text-success"></i>
                         ส่งเคลม
                     </button>
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-warning card_fdh_4 Claim" data-url="{{url('fdh_ipdods_process')}}">
+                        <i class="fa-solid fa-spinner text-warning"></i>
+                        ส่งเคลม ODS
+                    </button>
                     {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-warning card_fdh_4 UpdateProject" data-url="{{url('fdh_ipd_updateprojectcode')}}"> --}}
                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary card_fdh_4" id="UpdateProject">
                         <i class="fa-solid fa-spinner text-secondary"></i>

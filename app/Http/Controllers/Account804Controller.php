@@ -379,6 +379,39 @@ class Account804Controller extends Controller
             'enddate'       =>     $enddate
         ]);
     }
+    public function account_804_search (Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $date = date('Y-m-d'); 
+        $new_day = date('Y-m-d', strtotime($date . ' -5 day')); //ย้อนหลัง 1 วัน
+        $data['users'] = User::get();
+        if ($startdate =='') {
+           $datashow = DB::select(' 
+           SELECT U1.*,U2.claim_true_af,U2.STMdoc 
+           from acc_1102050102_804 U1
+           LEFT JOIN acc_stm_lgo U2 ON U2.an_e = U1.an
+               WHERE dchdate BETWEEN "'.$new_day.'" AND  "'.$date.'" 
+               group by U1.an 
+           ');
+        } else {
+           $datashow = DB::select(' 
+           SELECT U1.*,U2.claim_true_af,U2.STMdoc 
+           from acc_1102050102_804 U1
+           LEFT JOIN acc_stm_lgo U2 ON U2.an_e = U1.an
+               WHERE dchdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"  
+               group by U1.an
+           ');
+        } 
+        return view('account_804.account_804_search ', $data, [
+            'startdate'     => $startdate,
+            'enddate'       => $enddate,
+            'datashow'      => $datashow,
+            'startdate'     => $startdate,
+            'enddate'       => $enddate
+        ]);
+    }
     public function account_804_stm(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');        

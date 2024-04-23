@@ -3087,6 +3087,7 @@ Route::match(['get','post'],'stp_export',[App\Http\Controllers\Fdh_StpController
 Route::match(['get','post'],'fdh_ipd',[App\Http\Controllers\Fdh_IpdController::class, 'fdh_ipd'])->name('fdh.fdh_ipd');//
 Route::match(['get','post'],'fdh_ipd_an',[App\Http\Controllers\Fdh_IpdController::class, 'fdh_ipd_an'])->name('fdh.fdh_ipd_an');//
 Route::match(['get','post'],'fdh_ipd_process',[App\Http\Controllers\Fdh_IpdController::class, 'fdh_ipd_process'])->name('fdh.fdh_ipd_process');//
+Route::match(['get','post'],'fdh_ipdods_process',[App\Http\Controllers\Fdh_IpdController::class, 'fdh_ipdods_process'])->name('fdh.fdh_ipdods_process');//
 Route::match(['get','post'],'fdh_ipd_updateprojectcode',[App\Http\Controllers\Fdh_IpdController::class, 'fdh_ipd_updateprojectcode'])->name('fdh.fdh_ipd_updateprojectcode');//
 Route::match(['get','post'],'fdh_ipd_export',[App\Http\Controllers\Fdh_IpdController::class, 'fdh_ipd_export'])->name('fdh.fdh_ipd_export');//
 Route::match(['get','post'],'fdh_ipd_zip',[App\Http\Controllers\Fdh_IpdController::class, 'fdh_ipd_zip'])->name('fdh.fdh_ipd_zip');//
