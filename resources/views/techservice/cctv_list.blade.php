@@ -225,12 +225,16 @@
                                                         echo $Pi;
                                                         
                                                     ?> --}}
-                                                 
-                                            
+                                                 {{-- <?php
+                                                  $generator = new \Picqer\Barcode\BarcodeGeneratorJPG();
+                                                 $Pii = '<img src="data:image/jpeg;base64,'.base64_encode(QrCode::format('png')->size(256)->generate(" $item->article_num ")) . '" height="40px" width="95%" >';
+                                                 echo $Pii;
+                                             ?> --}}
+                                             {{-- {!!$Pii!!} --}}
                                                     {{-- {!! QrCode::size(200)->generate(asset('storage/article/'.$item->article_num)); !!} --}}
-                                                    {!!QrCode::size(150)->generate(" $item->article_num ")!!} 
+                                                    {!!QrCode::size(50)->generate(" $item->article_num ")!!} 
                                                    
-                                                    
+                                                    {{-- <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(256)->generate(" $item->article_num ")) !!} "> --}}
 
                                                 {{-- </div> --}}
 
