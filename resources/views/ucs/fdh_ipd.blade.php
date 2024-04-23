@@ -273,7 +273,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <th class="text-center">pttype</th> 
                                                     <th class="text-center">hospmain</th> 
                                                     <th class="text-center">icd10</th>  
-                                                    {{-- <th class="text-center">Authen</th>  --}}
+                                                    <th class="text-center">ODS</th> 
                                                     {{-- <th class="text-center">projectcode</th>  --}}
                                                     <th class="text-center">ptname</th> 
                                                     <th class="text-center">debit</th> 
@@ -297,7 +297,8 @@ $pos = strrpos($url, '/') + 1;
                                                         <td class="text-center" width="10%">  {{ $item->vn }}  </td>
                                                         <td class="text-center" width="10%">  {{ $item->an }}  </td>
                                                         <td class="text-center" width="5%">{{ $item->hn }}</td>
-                                                        <td class="text-center" width="10%">{{ $item->cid }}</td>  
+                                                        <td class="text-center" width="10%">{{ $item->cid }}</td> 
+                                                      
                                                         <td class="text-center" width="7%">{{ $item->dchdate }}</td> 
                                                         <td class="text-center" width="5%">{{ $item->pttype }}</td> 
                                                         <td class="text-center" width="5%">{{ $item->hospmain }}</td> 
@@ -306,16 +307,18 @@ $pos = strrpos($url, '/') + 1;
                                                         @else
                                                             <td class="text-center" width="7%">{{ $item->icd10 }}</td> 
                                                         @endif
-
                                                         {{-- @if ($item->authen == '')
-                                                        <td class="text-center" width="7%" style="background-color: rgb(172, 113, 250)">{{ $item->authen }}</td> 
-                                                    @else
-                                                        <td class="text-center" width="7%">{{ $item->authen }}</td> 
-                                                    @endif --}}
-                                                        
-                                                       
-                                                       
+                                                            <td class="text-center" width="7%" style="background-color: rgb(172, 113, 250)">{{ $item->authen }}</td> 
+                                                        @else
+                                                            <td class="text-center" width="7%">{{ $item->authen }}</td> 
+                                                        @endif --}}                                                         
                                                         {{-- <td class="text-center" width="5%">{{ $item->projectcode }}</td>  --}}
+                                                        
+                                                        @if ($item->ods == 'Y')
+                                                            <td class="text-center" width="5%" style="background-color: rgb(20, 194, 142)">{{ $item->ods }}</td> 
+                                                        @else
+                                                            <td class="text-center" width="5%">{{ $item->ods }}</td> 
+                                                        @endif
                                                         <td class="text-start">{{ $item->ptname }}</td> 
                                                         <td class="text-center" width="8%">{{ $item->debit }}</td> 
                                                         <td class="text-center" width="8%">{{ $item->debit_drug }}</td> 

@@ -85,6 +85,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Http\Controllers\Checksit_reportController;
 
+date_default_timezone_set("Asia/Bangkok");
 
 class ChecksitController extends Controller
 {
@@ -1355,12 +1356,12 @@ class ChecksitController extends Controller
         $data['count_all'] = $report->Count_CheckAuthen_all($year); //ข้อมูลแยกรายเดือน
         $data['count_authen'] = $report->Count_CheckAuthen($year); // Authen
         $data['count_authen_null'] = $report->Count_CheckAuthen_Null($year); // ไม่ Authen
+        $date_now = date('Y-m-d');
 
         $data_year2 = DB::connection('mysql')->select('
             SELECT month,year,countvn,authen_opd
             FROM db_authen
-            WHERE year = "'.$y.'" and authen_opd <> 0
-           
+            WHERE year = "'.$y.'" and authen_opd <> 0 
         ');
         $data_year3 = DB::connection('mysql')->select('
                 SELECT
@@ -1378,18 +1379,14 @@ class ChecksitController extends Controller
                 GROUP BY day
                 ORDER BY c.vstdate DESC
         ');
-        $data_staff = DB::connection('mysql')->select('
-                SELECT
-                 MONTH(c.vstdate) as month
-                ,YEAR(c.vstdate) as year
-                ,DAY(c.vstdate) as day
-				,c.staff,c.staff_name
-                ,COUNT(DISTINCT c.vn) as countvn
-                ,COUNT(c.claimcode) as Authen
-                ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
-                from check_sit_auto c
+
+        // dd($date_now);
+        $data_staff_new = DB::connection('mysql')->select(
+            'SELECT MONTH(c.vstdate) as month,YEAR(c.vstdate) as year,DAY(c.vstdate) as day
+				,c.staff,c.staff_name,COUNT(DISTINCT c.vn) as countvn,COUNT(c.claimcode) as Authen,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
+                FROM check_sit_auto c
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-                WHERE c.vstdate = "'.$date.'"
+                WHERE c.vstdate = "'.$date_now.'"
                 AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
                 AND c.main_dep NOT IN("011","036","107")
                 GROUP BY c.staff
@@ -1457,11 +1454,12 @@ class ChecksitController extends Controller
             AND c.main_dep NOT IN("011","036","107")
             GROUP BY month
         ');
+        // dd($data_staff_new);
 
         return view('dashboard.check_dashboard',$data,[
             'data_year2'       => $data_year2,
             'data_year3'       => $data_year3,
-            'data_staff'       => $data_staff,
+            'data_staff_new'   => $data_staff_new,
             'data_dep'         => $data_dep,
             'data_staff_max'   => $data_staff_max,
             'data_type'        => $data_type,

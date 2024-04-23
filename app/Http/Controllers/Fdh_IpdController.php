@@ -110,12 +110,11 @@ class Fdh_IpdController extends Controller
         if ($startdate == '') {   
             $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="IPD_NORED" AND debit > "1" ORDER BY vn DESC LIMIT 500');             
         } else {
-                $iduser = Auth::user()->id;
-                 
+                $iduser = Auth::user()->id;                 
                 // Fdh_sesion::truncate();
                 $data_main_ = DB::connection('mysql2')->select(' 
                         SELECT 
-                        ip.vn,a.hn,a.an,pt.cid,a.regdate,a.dchdate,group_concat(distinct it2.pttype) as pttype,p.hipdata_code,ip.pttype as ip_pttype,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+                        ip.vn,a.hn,a.an,pt.cid,a.regdate,a.dchdate,group_concat(distinct it2.pttype) as pttype,p.hipdata_code,ip.pttype as ip_pttype,concat(pt.pname,pt.fname," ",pt.lname) as ptname,a.spclty
                         ,o1.icode,a.pdx ,em.er_emergency_level_name ,a.dx0,a.dx1,a.dx2,a.dx3,a.dx4,group_concat(distinct im.icd10 order by im.diagtype desc) as icd10,a.inc08,it2.hospmain
                         ,a.income,a.uc_money,a.paid_money,a.rcpt_money,a.discount_money,sum(distinct o1.sum_price) Covid_19
                         ,a.income - a.discount_money-a.rcpt_money as debit ,ip.rfrocs,ip.rfrolct,r.name as senddoctor_audit
@@ -144,33 +143,68 @@ class Fdh_IpdController extends Controller
                 foreach ($data_main_ as $key => $value) {   
                     $check_wa = D_fdh::where('an',$value->an)->where('projectcode','IPD_NORED')->count(); 
                     if ($check_wa > 0) { 
-                        D_fdh::where('an',$value->an)->where('projectcode','IPD_NORED')->update([ 
-                            'an'             => $value->an,  
-                            'dchdate'        => $value->dchdate,  
-                            'icd10'          => $value->icd10,  
-                            'debit'          => $value->debit,
-                            'hospmain'       => $value->hospmain, 
-                            'debit_drug'     => $value->debit_drug
-                        ]);
+                        if ($value->spclty == '26') {
+                            D_fdh::where('an',$value->an)->where('projectcode','IPD_NORED')->update([ 
+                                'an'             => $value->an,  
+                                'dchdate'        => $value->dchdate,  
+                                'icd10'          => $value->icd10,  
+                                'debit'          => $value->debit,
+                                'hospmain'       => $value->hospmain, 
+                                'debit_drug'     => $value->debit_drug,
+                                'ods'            => 'Y'
+                            ]);
+                        } else {
+                            D_fdh::where('an',$value->an)->where('projectcode','IPD_NORED')->update([ 
+                                'an'             => $value->an,  
+                                'dchdate'        => $value->dchdate,  
+                                'icd10'          => $value->icd10,  
+                                'debit'          => $value->debit,
+                                'hospmain'       => $value->hospmain, 
+                                'debit_drug'     => $value->debit_drug, 
+                            ]);
+                        }
+                        
+                       
                     } else { 
-                        D_fdh::insert([
-                            'vn'           => $value->vn,
-                            'hn'           => $value->hn,
-                            'an'           => $value->an, 
-                            'cid'          => $value->cid,
-                            'pttype'       => $value->pttype,                           
-                            'ptname'       => $value->ptname,
-                            'dchdate'      => $value->dchdate,
-                            'debit_drug'   => $value->debit_drug,
-                            'projectcode'  => 'IPD_NORED', 
-                            'icd10'        => $value->icd10,
-                            'hospmain'     => $value->hospmain, 
-                            'debit'        => $value->debit,
-                            // 'active_status'  => $value->active_status
-                        ]);
+                        if ($value->spclty == '26') { 
+                            D_fdh::insert([
+                                'vn'           => $value->vn,
+                                'hn'           => $value->hn,
+                                'an'           => $value->an, 
+                                'cid'          => $value->cid,
+                                'pttype'       => $value->pttype,                           
+                                'ptname'       => $value->ptname,
+                                'dchdate'      => $value->dchdate,
+                                'debit_drug'   => $value->debit_drug,
+                                'projectcode'  => 'IPD_NORED', 
+                                'icd10'        => $value->icd10,
+                                'hospmain'     => $value->hospmain, 
+                                'debit'        => $value->debit,
+                                'ods'          => 'Y'
+                            ]);
+                        } else {
+                            D_fdh::insert([
+                                'vn'           => $value->vn,
+                                'hn'           => $value->hn,
+                                'an'           => $value->an, 
+                                'cid'          => $value->cid,
+                                'pttype'       => $value->pttype,                           
+                                'ptname'       => $value->ptname,
+                                'dchdate'      => $value->dchdate,
+                                'debit_drug'   => $value->debit_drug,
+                                'projectcode'  => 'IPD_NORED', 
+                                'icd10'        => $value->icd10,
+                                'hospmain'     => $value->hospmain, 
+                                'debit'        => $value->debit,
+                                // 'active_status'  => $value->active_status
+                            ]);
+                        }
+                       
                     }                      
  
                 } 
+
+
                 
                 $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'" AND active ="N" AND projectcode ="IPD_NORED" AND debit > "1" ORDER BY an ASC');  
 
@@ -801,13 +835,13 @@ class Fdh_IpdController extends Controller
 
    
      
-    // D_fdh::whereIn('d_fdh_id',explode(",",$id))
-    //         ->update([
-    //             'active' => 'Y'
-    // ]);
-    Fdh_dru::whereIn('DID',[1550027, 1650087,1590016,1500101,1590018,1660100,1640078,1640058,1640076])->delete();
-            // delete from hshooterdb.h_dru where DID IN('1550027','1650087','1590016','1500101','1590018','1660100','1640078','1640058','1640076');
-    Fdh_adp::where('CODE','=','XXXXXX')->delete();
+        // D_fdh::whereIn('d_fdh_id',explode(",",$id))
+        //         ->update([
+        //             'active' => 'Y'
+        // ]);
+        Fdh_dru::whereIn('DID',[1550027, 1650087,1590016,1500101,1590018,1660100,1640078,1640058,1640076])->delete();
+                // delete from hshooterdb.h_dru where DID IN('1550027','1650087','1590016','1500101','1590018','1660100','1640078','1640058','1640076');
+        Fdh_adp::where('CODE','=','XXXXXX')->delete();
         return response()->json([
              'status'    => '200'
         ]);

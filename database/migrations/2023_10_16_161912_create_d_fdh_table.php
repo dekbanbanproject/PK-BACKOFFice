@@ -40,6 +40,7 @@ return new class extends Migration
                 $table->string('debit_rep')->nullable();// 
                 $table->string('debit_stm')->nullable();// 
                 $table->string('STMdoc')->nullable();// 
+                $table->enum('ods', ['N','Y'])->default('N')->nullable();
                 $table->timestamps();
             }); 
         }
