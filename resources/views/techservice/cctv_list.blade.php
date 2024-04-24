@@ -179,7 +179,8 @@
                                           
                                             <th width="3%" class="text-center">ลำดับ</th>  
                                             <th class="text-center" width="3%">สถานะ</th> 
-                                            <th class="text-center" width="3%">รูปภาพ</th>  
+                                            <th class="text-center" width="3%">รูปภาพ</th> 
+                                            <th class="text-center" width="5%">QRcode</th>  
                                             <th class="text-center" width="5%">รหัสกล้อง</th>  
                                             <th class="text-center" >ตำแหน่งกล้องวงจรปิด</th>
                                             <th class="text-center" >รัศมีครอบคลุม</th> 
@@ -215,6 +216,34 @@
                                                 @else
                                                 <td class="text-center" width="3%"><img src="{{asset('storage/article/'.$item->article_img)}}" height="40px" width="40px" alt="Image" class="img-thumbnail">  </td>                                
                                                 @endif
+
+                                                <td class="text-center" width="5%">
+                                                {{-- <div class="form-group"> --}}
+                                                    {{-- <?php
+                                                        $generator = new \Picqer\Barcode\BarcodeGeneratorJPG();
+                                                        $Pi = '<img src="data:image/jpeg;base64,' . base64_encode($generator->getBarcode($item->article_num, $generator::TYPE_CODE_128,2,30)) . '" height="40px" width="95%" > ';
+                                                        echo $Pi;
+                                                        
+                                                    ?> --}}
+                                                 {{-- <?php
+                                                  $generator = new \Picqer\Barcode\BarcodeGeneratorJPG();
+                                                 $Pii = '<img src="data:image/jpeg;base64,'.base64_encode(QrCode::format('png')->size(256)->generate(" $item->article_num ")) . '" height="40px" width="95%" >';
+                                                 echo $Pii;
+                                             ?> --}}
+                                             {{-- {!!$Pii!!} --}}
+                                                    {{-- {!! QrCode::size(200)->generate(asset('storage/article/'.$item->article_num)); !!} --}}
+                                                    {!!QrCode::size(50)->generate(" $item->article_num ")!!} 
+                                                   
+                                                    {{-- <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(256)->generate(" $item->article_num ")) !!} "> --}}
+
+                                                {{-- </div> --}}
+
+
+
+                                                </td> 
+
+
+
 
                                                 <td class="text-center" width="5%">{{ $item->cctv_code }}</td>  
                                                 <td class="p-2">{{ $item->cctv_location }}</td>  

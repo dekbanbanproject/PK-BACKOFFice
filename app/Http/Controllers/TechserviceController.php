@@ -140,6 +140,9 @@ class TechserviceController extends Controller
         if ($id == '') {
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $datashow = DB::select('SELECT * from article_data WHERE cctv="Y" order by article_id ASC'); 
+            // $qrCodes = [];
+            // $qrCodes['simple'] = QrCode::size(150)->generate('https://minhazulmin.github.io/');
+
         } else {
             $datashow = DB::select('SELECT * from article_data WHERE cctv="Y" AND article_id ="'.$id.'" order by article_id ASC'); 
         }
