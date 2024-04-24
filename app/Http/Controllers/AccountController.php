@@ -307,7 +307,7 @@ class AccountController extends Controller
                 select left(DATEADM,4) as monyear,mid(dateadm,5,2) as months,count(distinct m.opdseq) as errorc
                 from eclaimdb.m_registerdata m
                 LEFT JOIN hshooterdb.m_stm s on s.vn = m.opdseq
-                LEFT JOIN hos.vn_stat v on v.vn = m.opdseq
+                LEFT JOIN vn_stat v on v.vn = m.opdseq
                 left outer join hos.ktb_edc_transaction k on k.vn = v.vn
                 left outer join rcpt_print r on r.vn =v.vn
                 left outer join rcpt_debt r1 on r1.vn =v.vn

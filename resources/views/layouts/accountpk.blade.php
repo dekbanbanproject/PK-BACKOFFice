@@ -446,7 +446,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_402_dash') }}">dashboard</a></li>
                                             <li><a href="{{ url('account_402_pull') }}">ดึงลูกหนี้</a></li>
-                                        
+                                            <li><a href="{{ url('account_402_search') }}">ค้นหาลูกหนี้</a></li>
                                         </ul>
                                     </li>
                                 </ul>

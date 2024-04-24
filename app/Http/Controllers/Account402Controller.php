@@ -343,6 +343,40 @@ class Account402Controller extends Controller
             'status'    => '200'
         ]);
     }
+    public function account_402_search (Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $date = date('Y-m-d'); 
+        $new_day = date('Y-m-d', strtotime($date . ' -5 day')); //ย้อนหลัง 1 วัน
+        $data['users'] = User::get();
+        if ($startdate =='') {
+           $datashow = DB::select(' 
+           SELECT U1.* 
+           from acc_1102050101_402 U1
+          
+               WHERE dchdate BETWEEN "'.$new_day.'" AND  "'.$date.'" 
+               group by U1.an 
+           ');
+        //    LEFT JOIN acc_stm_ofc U2 on U2.an = U1.an 
+        } else {
+           $datashow = DB::select(' 
+           SELECT U1.* 
+           from acc_1102050101_402 U1
+         
+               WHERE dchdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"  
+               group by U1.an
+           ');
+        } 
+        return view('account_402.account_402_search ', $data, [
+            'startdate'     => $startdate,
+            'enddate'       => $enddate,
+            'datashow'      => $datashow,
+            'startdate'     => $startdate,
+            'enddate'       => $enddate
+        ]);
+    }
     public function account_402_destroy_all(Request $request)
     {
         $id = $request->ids;

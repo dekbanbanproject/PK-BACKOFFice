@@ -2111,6 +2111,7 @@ Route::middleware(['type'])->group(function(){
 
     Route::match(['get','post'],'account_402_dash',[App\Http\Controllers\Account402Controller::class, 'account_402_dash'])->name('acc.account_402_dash');//
     Route::match(['get','post'],'account_402_pull',[App\Http\Controllers\Account402Controller::class, 'account_402_pull'])->name('acc.account_402_pull');//
+    Route::match(['get','post'],'account_402_search',[App\Http\Controllers\Account402Controller::class, 'account_402_search'])->name('acc.account_402_search');//
     Route::match(['get','post'],'account_402_pulldata',[App\Http\Controllers\Account402Controller::class, 'account_402_pulldata'])->name('acc.account_402_pulldata');//
     Route::match(['get','post'],'account_402/{months}/{year}',[App\Http\Controllers\Account402Controller::class, 'account_402'])->name('acc.account_402');//
     Route::match(['get','post'],'account_402_detail/{months}/{year}',[App\Http\Controllers\Account402Controller::class, 'account_402_detail'])->name('acc.account_402_detail');//
@@ -3129,6 +3130,7 @@ Route::match(['get','post'],'ipd',[App\Http\Controllers\Fdh_IpdController::class
 // *******************FDH OFC *******************
 Route::match(['get','post'],'ofc_main',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main'])->name('fdh.ofc_main');//
 Route::match(['get','post'],'ofc_main_process',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main_process'])->name('fdh.ofc_main_process');//
+Route::match(['get','post'],'ofc_main_active',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main_active'])->name('fdh.ofc_main_active');//
 Route::match(['get','post'],'ofc_main_export',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main_export'])->name('fdh.ofc_main_export');//
 Route::match(['get','post'],'ofc_main_zip',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main_zip'])->name('fdh.ofc_main_zip');//
 
@@ -3171,9 +3173,11 @@ Route::match(['get','post'],'report_db',[App\Http\Controllers\ReportSxController
 Route::match(['get','post'],'report_sx',[App\Http\Controllers\ReportSxController::class, 'report_sx'])->name('re.report_sx');
 Route::match(['get','post'],'report_hos_sx/{id}',[App\Http\Controllers\ReportSxController::class, 'report_hos_sx'])->name('re.report_hos_sx');
 
-
-
-
+Route::match(['get','post'],'pre_audit',[App\Http\Controllers\PreauditController::class, 'pre_audit'])->name('audit.pre_audit');
+Route::match(['get','post'],'pre_audit_process_a',[App\Http\Controllers\PreauditController::class, 'pre_audit_process_a'])->name('audit.pre_audit_process_a');
+Route::match(['get','post'],'audit_approve_code',[App\Http\Controllers\PreauditController::class, 'audit_approve_code'])->name('audit.audit_approve_code');
+Route::match(['get','post'],'pre_audit_approve_detail/{month}/{year}',[App\Http\Controllers\PreauditController::class, 'pre_audit'])->name('audit.pre_audit');
+Route::match(['get','post'],'pre_audit_chart',[App\Http\Controllers\PreauditController::class, 'pre_audit_chart'])->name('audit.pre_audit_chart');
 
 
 });

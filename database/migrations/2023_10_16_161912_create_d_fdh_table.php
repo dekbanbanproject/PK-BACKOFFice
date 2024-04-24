@@ -28,19 +28,27 @@ return new class extends Migration
                 $table->date('vstdate')->nullable();//  
                 $table->date('dchdate')->nullable();// 
                 $table->string('authen')->nullable();// 
+                $table->string('pdx')->nullable();// 
                 $table->string('icd10')->nullable();// 
                 $table->string('hospcode')->nullable();// 
                 $table->string('hospmain')->nullable();// 
                 $table->string('nhso_adp_code')->nullable();// 
                 $table->string('projectcode')->nullable();// 
+                $table->string('paid_money')->nullable();// ชำระเงินเอง
                 $table->string('debit')->nullable();// 
                 $table->string('price_ofc')->nullable();// 
+                $table->string('AppKTB')->nullable();// 
+                $table->string('edc')->nullable();// 
+                $table->string('rcpno')->nullable();//ใบเสร็จ
+                $table->string('rramont')->nullable();// ปิดลูกหนี้     
                 $table->string('debit_drug')->nullable();// 
                 $table->string('error_code')->nullable();// 
                 $table->string('debit_rep')->nullable();// 
                 $table->string('debit_stm')->nullable();// 
                 $table->string('STMdoc')->nullable();// 
                 $table->enum('ods', ['N','Y'])->default('N')->nullable();
+                $table->string('error_c')->nullable();// 
+                $table->string('cc')->nullable();// 
                 $table->timestamps();
             }); 
         }

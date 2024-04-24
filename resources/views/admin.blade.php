@@ -121,6 +121,34 @@
         </div>
 
         <div class="row">
+            <div class="col-xl-3 col-md-3">
+                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(250, 128, 124)">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover rounded-pill">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                            <a href="{{ url('pre_audit') }}" target="_blank">
+                                                <h5 class="text-start mb-2">PRE-AUDIT</h5>
+                                            </a>
+                                        </div>
+                                        <div class="avatar ms-2">
+                                            <a href="{{ url('pre_audit') }}" target="_blank">
+                                                <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill"> 
+                                                        <img src="{{ asset('images/user.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             @if ($countpesmiss_per != 0)   
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(236, 188, 198)">
@@ -220,7 +248,7 @@
             </div>
             @endif
     
-            @if ($countpesmiss_book != 0)  
+            {{-- @if ($countpesmiss_book != 0)  
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(245, 176, 250)">
                     <div class="grid-menu-col">
@@ -236,8 +264,7 @@
                                             <a href="{{ url('book/bookmake_index') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                    {{-- <i class="fa-solid fa-3x fa-book-open-reader font-size-25"
-                                                        style="color: rgb(194, 137, 199)"></i> --}}
+                                                   
                                                         <img src="{{ asset('images/document.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
@@ -249,7 +276,7 @@
                     </div>
                 </div>
             </div>
-            @endif
+            @endif --}}
             
             @if ($countpesmiss_plan != 0)  
             <div class="col-xl-3 col-md-3">
@@ -317,7 +344,7 @@
             </div>
             @endif
     
-            @if ($countpesmiss_com != 0)  
+            {{-- @if ($countpesmiss_com != 0)  
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(171, 175, 173)">
                     <div class="grid-menu-col">
@@ -335,8 +362,7 @@
                                             <a href="{{ url('computer/com_staff_calenda') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                    {{-- <i class="fa-solid fa-3x fa-computer font-size-25 "
-                                                        style="color: rgb(143, 145, 144)"></i> --}}
+                                                   
                                                         <img src="{{ asset('images/computer.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
@@ -348,7 +374,7 @@
                     </div>
                 </div>
             </div>
-            @endif
+            @endif --}}
     
             @if ($countpesmiss_medical != 0)  
             <div class="col-xl-3 col-md-3">
@@ -784,7 +810,7 @@
             </div>
             @endif
 
-            <div class="col-xl-3 col-md-3">
+            {{-- <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
                     style="background-color: rgba(241, 188, 90, 0.74)">
                     <div class="grid-menu-col">
@@ -812,7 +838,7 @@
                         </div>
                     </div>
                 </div> 
-            </div>
+            </div> --}}
 
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"

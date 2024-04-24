@@ -115,8 +115,9 @@ class Fdh_OfcController extends Controller
                  
                 $data_main_ = DB::connection('mysql2')->select(
                     'SELECT v.vn,o.an,v.cid,v.hn,concat(pt.pname,pt.fname," ",pt.lname) ptname
-                            ,v.vstdate,v.pttype  ,rd.sss_approval_code AS "Apphos",v.inc04 as xray,h.hospcode,h.name as hospcode_name
-                            ,rd.amount AS price_ofc,v.income,ptt.hipdata_code 
+                            ,v.vstdate,v.pttype ,IFNULL(rd.sss_approval_code,k.approval_code) as Apphos,v.inc04 as xray,h.hospcode,h.name as hospcode_name
+                            ,rd.amount AS price_ofc,v.income,ptt.hipdata_code
+                            ,group_concat(distinct k.amount) as edc,r.rcpno,rd.amount as rramont,v.paid_money,op.cc
                             ,group_concat(distinct hh.appr_code,":",hh.transaction_amount,"/") AS AppKTB 
                             ,GROUP_CONCAT(DISTINCT ov.icd10 order by ov.diagtype) AS icd10,v.pdx,ovv.name as active_status,v.income-v.discount_money-v.rcpt_money as debit
                             FROM vn_stat v
@@ -126,8 +127,10 @@ class Fdh_OfcController extends Controller
                             LEFT OUTER JOIN hospcode h on h.hospcode = v.hospmain
                             LEFT OUTER JOIN opdscreen op ON v.vn = op.vn
                             LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype 
+                            LEFT OUTER JOIN rcpt_print r on r.vn =v.vn
                             LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn
                             LEFT OUTER JOIN hpc11_ktb_approval hh on hh.pid = pt.cid and hh.transaction_date = v.vstdate 
+                            LEFT OUTER JOIN ktb_edc_transaction k on k.vn = v.vn 
                             LEFT OUTER JOIN ipt i on i.vn = v.vn          
                             LEFT OUTER JOIN ovst ot on ot.vn = v.vn
                             LEFT OUTER JOIN ovstost ovv on ovv.ovstost = ot.ovstost
@@ -135,41 +138,26 @@ class Fdh_OfcController extends Controller
                         WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                         AND v.pttype in ("O1","O2","O3","O4","O5")                    
                         AND v.pttype not in ("OF","FO")                          
-                        AND o.an is null
-                        
+                        AND o.an is null 
                         GROUP BY v.vn 
-                ');  
-                // AND v.pdx <> ""
-                // AND rd.sss_approval_code <> ""               
-                foreach ($data_main_ as $key => $value) {   
-                    $check_wa = D_ofc_401::where('vn',$value->vn)->count(); 
-                    if ($check_wa > 0) {                        
-                    } else {
-                        D_ofc_401::insert([
-                            'vn'                 => $value->vn,
-                            'hn'                 => $value->hn,
-                            'an'                 => $value->an, 
-                            'cid'                => $value->cid,
-                            'pttype'             => $value->pttype,
-                            'vstdate'            => $value->vstdate,
-                            'ptname'             => $value->ptname,
-                            'Apphos'             => $value->Apphos,
-                            'Appktb'             => $value->AppKTB,
-                            'price_ofc'          => $value->price_ofc, 
-                            'icd10'              => $value->icd10,
-                            'pdx'                => $value->pdx,
-                        ]);
-                    }  
+                ');              
+                foreach ($data_main_ as $key => $value) {    
 
                     $check_ofc = D_fdh::where('vn',$value->vn)->where('projectcode','OFC')->count(); 
                     if ($check_ofc > 0) { 
                         D_fdh::where('vn',$value->vn)->where('projectcode','OFC')->update([ 
                             'an'             => $value->an,    
-                            'icd10'          => $value->icd10,  
+                            'pdx'            => $value->pdx,  
+                            'icd10'          => $value->icd10, 
                             'debit'          => $value->debit,
                             'price_ofc'      => $value->price_ofc,
                             'active_status'  => $value->active_status,
-                            'authen'         => $value->Apphos
+                            'authen'         => $value->Apphos,
+                            'AppKTB'         => $value->AppKTB,
+                            'edc'            => $value->edc,
+                            'rcpno'          => $value->rcpno,
+                            'paid_money'     => $value->paid_money,
+                            'cc'             => $value->cc
                         ]);
                     } else { 
                         D_fdh::insert([
@@ -181,12 +169,18 @@ class Fdh_OfcController extends Controller
                             'ptname'       => $value->ptname,
                             'vstdate'      => $value->vstdate,
                             'authen'       => $value->Apphos,
+                            'AppKTB'       => $value->AppKTB,
+                            'edc'          => $value->edc,
+                            'rcpno'        => $value->rcpno,
+                            'paid_money'   => $value->paid_money,
                             'projectcode'  => 'OFC', 
+                            'pdx'          => $value->pdx,  
                             'icd10'        => $value->icd10,
                             'hospcode'     => $value->hospcode, 
                             'debit'        => $value->debit,
                             'price_ofc'      => $value->price_ofc,
-                            'active_status'  => $value->active_status
+                            'active_status'  => $value->active_status,
+                            'cc'             => $value->cc
                         ]);
                     } 
 
@@ -1363,35 +1357,35 @@ class Fdh_OfcController extends Controller
         //  fwrite($objFopen_lab, $opd_head_lab);
         //  fclose($objFopen_lab);
 
-            // $pathdir =  "Export/".$folder."/";
-            // $zipcreated = $folder.".zip";
+            $pathdir =  "Export/".$folder."/";
+            $zipcreated = $folder.".zip";
 
-            // $newzip = new ZipArchive;
-            // if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
-            // $dir = opendir($pathdir);
+            $newzip = new ZipArchive;
+            if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
+            $dir = opendir($pathdir);
             
-            // while($file = readdir($dir)) {
-            //     if(is_file($pathdir.$file)) {
-            //         $newzip -> addFile($pathdir.$file, $file);
-            //     }
-            // }
-            // $newzip ->close();
-            //         if (file_exists($zipcreated)) {
-            //             header('Content-Type: application/zip');
-            //             header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
-            //             header('Content-Length: ' . filesize($zipcreated));
-            //             flush();
-            //             readfile($zipcreated); 
-            //             unlink($zipcreated);   
-            //             $files = glob($pathdir . '/*');   
-            //             foreach($files as $file) {   
-            //                 if(is_file($file)) {      
-            //                     // unlink($file); 
-            //                 } 
-            //             }                      
-            //             return redirect()->route('fdh.ofc_main');                    
-            //         }
-            // } 
+            while($file = readdir($dir)) {
+                if(is_file($pathdir.$file)) {
+                    $newzip -> addFile($pathdir.$file, $file);
+                }
+            }
+            $newzip ->close();
+                    if (file_exists($zipcreated)) {
+                        header('Content-Type: application/zip');
+                        header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
+                        header('Content-Length: ' . filesize($zipcreated));
+                        flush();
+                        readfile($zipcreated); 
+                        unlink($zipcreated);   
+                        $files = glob($pathdir . '/*');   
+                        foreach($files as $file) {   
+                            if(is_file($file)) {      
+                                // unlink($file); 
+                            } 
+                        }                      
+                        return redirect()->route('fdh.ofc_main');                    
+                    }
+            } 
 
             return redirect()->route('fdh.ofc_main');
  
@@ -1416,6 +1410,16 @@ class Fdh_OfcController extends Controller
             }
             return response()->download(public_path($filename));
              
+    }
+
+    public function ofc_main_active(Request $request)
+    {
+        $id = $request->ids;
+        // D_fdh::whereIn('acc_debtor_id',explode(",",$id))->delete(); 
+        D_fdh::whereIn('d_fdh_id',explode(",",$id))->update(['active' => 'N']);              
+        return response()->json([
+            'status'    => '200'
+        ]);
     }
      
 }
