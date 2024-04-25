@@ -46,6 +46,8 @@ return new class extends Migration
                 $table->string('debit_rep')->nullable();// 
                 $table->string('debit_stm')->nullable();// 
                 $table->string('STMdoc')->nullable();// 
+                $table->string('covid')->nullable();//
+                $table->string('labcovid')->nullable();//
                 $table->enum('ods', ['N','Y'])->default('N')->nullable();
                 $table->string('error_c')->nullable();// 
                 $table->string('cc')->nullable();// 

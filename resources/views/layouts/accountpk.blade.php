@@ -682,7 +682,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <li><a href="javascript: void(0);" class="has-arrow">REPORT STM ALL</a>
                                     <ul class="sub-menu" aria-expanded="true"> 
                                         {{-- <li><a href="{{ url('upstm_all') }}">STM ALL</a></li> --}}
-                                        <li><a href="{{ url('upstm_ucs_opd') }}">UCS OPD 201</a></li>
+                                        {{-- <li><a href="{{ url('upstm_ucs_opd') }}">UCS OPD 201</a></li> --}}
                                         <li><a href="{{ url('upstm_ucs_ipd') }}">UCS IPD 202</a></li>
                                         <li><a href="{{ url('upstm_ucs_opd216') }}">UCS OPD 216</a></li>
                                         <li><a href="{{ url('upstm_ucs_ipd217') }}">UCS IPD 217</a></li>
@@ -700,7 +700,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     </ul>
                                 </li>
 
-                                {{-- <li><a href="{{ url('upstm_ucsopd') }}">UCS(Excel-OPD)</a></li> --}}
+                                <li><a href="{{ url('upstm_ucsopd') }}">UCS(Excel-OPD)</a></li>
                                 <li><a href="{{ url('upstm_ucs') }}">UCS(Excel-IPD)OK</a></li>
                                 <li><a href="{{ url('upstm_ofcexcel') }}">OFC(Excel)OK</a></li> 
                                 <li><a href="{{ url('upstm_bkkexcel') }}">BKK(Excel)OK</a></li> 

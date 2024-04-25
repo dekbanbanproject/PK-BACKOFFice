@@ -3134,6 +3134,12 @@ Route::match(['get','post'],'ofc_main_active',[App\Http\Controllers\Fdh_OfcContr
 Route::match(['get','post'],'ofc_main_export',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main_export'])->name('fdh.ofc_main_export');//
 Route::match(['get','post'],'ofc_main_zip',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main_zip'])->name('fdh.ofc_main_zip');//
 
+Route::match(['get','post'],'ofc_ipd',[App\Http\Controllers\Fdh_OfcipdController::class, 'ofc_ipd'])->name('fdh.ofc_ipd');//
+Route::match(['get','post'],'ofc_ipd_process',[App\Http\Controllers\Fdh_OfcipdController::class, 'ofc_ipd_process'])->name('fdh.ofc_ipd_process');//
+Route::match(['get','post'],'ofc_ipd_active',[App\Http\Controllers\Fdh_OfcipdController::class, 'ofc_ipd_active'])->name('fdh.ofc_ipd_active');//
+Route::match(['get','post'],'ofc_ipd_export',[App\Http\Controllers\Fdh_OfcipdController::class, 'ofc_ipd_export'])->name('fdh.ofc_ipd_export');//
+Route::match(['get','post'],'ofc_ipd_zip',[App\Http\Controllers\Fdh_OfcipdController::class, 'ofc_ipd_zip'])->name('fdh.ofc_ipd_zip');//
+
 // *******************FDH LGO *******************
 Route::match(['get','post'],'lgo_main',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main'])->name('fdh.lgo_main');//
 Route::match(['get','post'],'lgo_main_process',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main_process'])->name('fdh.lgo_main_process');//

@@ -2478,7 +2478,7 @@ class AccountPKController extends Controller
         $enddate             = $request->enddate;
      
         $data['datashow']     = DB::connection('mysql')->select('
-            SELECT b.STMDoc ,SUM(b.hc_drug)+SUM(b.hc)+SUM(b.ae_drug)+SUM(b.inst)+SUM(b.dmis_money2)+SUM(b.dmis_drug) as total 
+            SELECT b.STMDoc ,SUM(b.hc_drug)+SUM(b.hc)+SUM(b.ae_drug)+SUM(b.inst)+SUM(b.dmis_money2)+SUM(b.dmis_drug)+ SUM(b.ae) as total 
             FROM acc_1102050101_216 a 
             LEFT JOIN acc_stm_ucs b ON b.cid = a.cid AND b.vstdate = a.vstdate
             WHERE b.STMDoc LIKE "STM_10978_OPU%" 
@@ -3609,16 +3609,16 @@ class AccountPKController extends Controller
                                 'va'              => $value->va,
                         ]);
 
-                        Acc_1102050101_216::where('hn',$value->hn)->where('vstdate',$value->vstdate)
-                            ->update([
-                                'status'          => 'Y',
-                                'stm_rep'         => $value->debit, 
-                                'stm_rcpno'       => $value->rep.'-'.$value->repno,
-                                'stm_trainid'     => $value->tranid,
-                                'stm_total'       => $value->total_approve,
-                                'STMDoc'          => $value->STMdoc,
-                                'va'              => $value->va,
-                        ]);
+                        // Acc_1102050101_216::where('hn',$value->hn)->where('vstdate',$value->vstdate)
+                        //     ->update([
+                        //         'status'          => 'Y',
+                        //         'stm_rep'         => $value->debit, 
+                        //         'stm_rcpno'       => $value->rep.'-'.$value->repno,
+                        //         'stm_trainid'     => $value->tranid,
+                        //         'stm_total'       => $value->total_approve,
+                        //         'STMDoc'          => $value->STMdoc,
+                        //         'va'              => $value->va,
+                        // ]);
                         
                     }else if ($value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug > "0") {
                         Acc_1102050101_217::where('an',$value->an) 
@@ -3633,17 +3633,17 @@ class AccountPKController extends Controller
                                 'va'              => $value->va,
                         ]);
 
-                        Acc_1102050101_216::where('hn',$value->hn)->where('vstdate',$value->vstdate)
-                            ->update([
-                                'status'          => 'Y',
-                                'stm_rep'         => $value->debit,
-                                'stm_money'       => $value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug,
-                                'stm_rcpno'       => $value->rep.'-'.$value->repno,
-                                'stm_trainid'     => $value->tranid,
-                                'stm_total'       => $value->total_approve,
-                                'STMDoc'          => $value->STMdoc,
-                                'va'              => $value->va,
-                        ]);
+                        // Acc_1102050101_216::where('hn',$value->hn)->where('vstdate',$value->vstdate)
+                        //     ->update([
+                        //         'status'          => 'Y',
+                        //         'stm_rep'         => $value->debit,
+                        //         'stm_money'       => $value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug,
+                        //         'stm_rcpno'       => $value->rep.'-'.$value->repno,
+                        //         'stm_trainid'     => $value->tranid,
+                        //         'stm_total'       => $value->total_approve,
+                        //         'STMDoc'          => $value->STMdoc,
+                        //         'va'              => $value->va,
+                        // ]);
                     } else {    
                     }
 
