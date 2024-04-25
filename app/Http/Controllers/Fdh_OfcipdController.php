@@ -1302,35 +1302,35 @@ class Fdh_OfcipdController extends Controller
         //  fwrite($objFopen_lab, $opd_head_lab);
         //  fclose($objFopen_lab);
 
-            $pathdir =  "Export/".$folder."/";
-            $zipcreated = $folder.".zip";
+        $pathdir =  "Export/".$folder."/";
+        $zipcreated = $folder.".zip";
 
-            $newzip = new ZipArchive;
-            if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
-            $dir = opendir($pathdir);
-            
-            while($file = readdir($dir)) {
-                if(is_file($pathdir.$file)) {
-                    $newzip -> addFile($pathdir.$file, $file);
-                }
+        $newzip = new ZipArchive;
+        if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
+        $dir = opendir($pathdir);
+        
+        while($file = readdir($dir)) {
+            if(is_file($pathdir.$file)) {
+                $newzip -> addFile($pathdir.$file, $file);
             }
-            $newzip ->close();
-                    if (file_exists($zipcreated)) {
-                        header('Content-Type: application/zip');
-                        header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
-                        header('Content-Length: ' . filesize($zipcreated));
-                        flush();
-                        readfile($zipcreated); 
-                        unlink($zipcreated);   
-                        $files = glob($pathdir . '/*');   
-                        foreach($files as $file) {   
-                            if(is_file($file)) {      
-                                // unlink($file); 
-                            } 
-                        }                      
-                        return redirect()->route('fdh.ofc_ipd');                    
-                    }
-            } 
+        }
+        $newzip ->close();
+                if (file_exists($zipcreated)) {
+                    header('Content-Type: application/zip');
+                    header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
+                    header('Content-Length: ' . filesize($zipcreated));
+                    flush();
+                    readfile($zipcreated); 
+                    unlink($zipcreated);   
+                    $files = glob($pathdir . '/*');   
+                    foreach($files as $file) {   
+                        if(is_file($file)) {      
+                            // unlink($file); 
+                        } 
+                    }                      
+                    return redirect()->route('fdh.ofc_ipd');                    
+                }
+        } 
 
             return redirect()->route('fdh.ofc_ipd');
  
