@@ -115,7 +115,7 @@ class Fdh_Ucep24Controller extends Controller
                 D_ucep24::truncate();
                 $data_main_ = DB::connection('mysql2')->select('   
                         SELECT i.vn,o.an,o.hn,pt.cid,i.pttype,CONCAT(pt.pname,pt.fname," ",pt.lname) ptname,o.vstdate,i.dchdate,p.hipdata_code,o.qty,o.sum_price,i1.icd10 as DIAG
-                        ,aa.income-aa.rcpt_money-aa.discount_money as debit
+                        ,aa.paid_money,aa.income-aa.rcpt_money-aa.discount_money as debit
                         FROM ipt i
                         LEFT JOIN an_stat aa on aa.an = i.an 
                         LEFT JOIN opitemrece o on i.an = o.an 
@@ -139,6 +139,12 @@ class Fdh_Ucep24Controller extends Controller
                 foreach ($data_main_ as $key => $value2) { 
                     $check_wa = D_fdh::where('an',$value2->an)->where('projectcode','UCEP24')->count(); 
                     if ($check_wa > 0) { 
+                        D_fdh::where('an',$value2->an)->where('projectcode','UCEP24')->update([  
+                            'icd10'          => $value2->DIAG, 
+                            'debit'          => $value2->debit,  
+                            'paid_money'     => $value2->paid_money,
+                            // 'cc'             => $value2->cc
+                        ]);
                     } else { 
                         D_fdh::insert([
                             'vn'           => $value2->vn,
@@ -149,6 +155,7 @@ class Fdh_Ucep24Controller extends Controller
                             'ptname'       => $value2->ptname,
                             'vstdate'      => $value2->vstdate, 
                             'dchdate'      => $value2->dchdate, 
+                            'paid_money'   => $value2->paid_money,
                             'projectcode'  => 'UCEP24', 
                             'icd10'        => $value2->DIAG, 
                             'debit'        => $value2->debit

@@ -259,6 +259,7 @@ $pos = strrpos($url, '/') + 1;
                                                     {{-- <th class="text-center">Authen</th>  --}}
                                                     <th class="text-center">projectcode</th> 
                                                     <th class="text-center">ptname</th> 
+                                                    <th class="text-center">paid_money</th> 
                                                     <th class="text-center">debit</th> 
                                                 </tr>
                                             </thead>
@@ -284,7 +285,8 @@ $pos = strrpos($url, '/') + 1;
                                                         {{-- <td class="text-center" width="7%">{{ $item->authen }}</td>  --}}
                                                         <td class="text-center" width="5%">{{ $item->projectcode }}</td> 
                                                         <td class="text-start">{{ $item->ptname }}</td> 
-                                                        <td class="text-center" width="8%">{{ $item->debit }}</td> 
+                                                        <td class="text-center" width="8%">{{ number_format($item->paid_money, 2) }}</td> 
+                                                        <td class="text-center" width="8%">{{ number_format($item->debit, 2) }}</td> 
                                                     </tr>
                     
                     
