@@ -1328,11 +1328,11 @@ class Fdh_OfcipdController extends Controller
                                 // unlink($file); 
                             } 
                         }                      
-                        return redirect()->route('fdh.ofc_main');                    
+                        return redirect()->route('fdh.ofc_ipd');                    
                     }
             } 
 
-            return redirect()->route('fdh.ofc_main');
+            return redirect()->route('fdh.ofc_ipd');
  
     }
     public function ofc_main_zip(Request $request)
