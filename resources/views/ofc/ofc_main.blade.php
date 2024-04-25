@@ -122,10 +122,10 @@ $pos = strrpos($url, '/') + 1;
                         <i class="fa-solid fa-3 text-danger me-2"></i>
                         Export Txt
                     </a> 
-                    {{-- <a href="{{url('ofc_main_zip')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary card_fdh_4"> 
+                    <a href="{{url('ofc_main_zip')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary card_fdh_4"> 
                         <i class="fa-solid fa-4 text-primary me-2"></i>
                         Zip Txt
-                    </a> --}}
+                    </a>
                 </div> 
             </div>          
     </div>

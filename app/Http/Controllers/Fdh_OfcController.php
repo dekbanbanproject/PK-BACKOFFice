@@ -269,7 +269,7 @@ class Fdh_OfcController extends Controller
         $pattern_time = '/:/i';
         $s_time_now_preg = preg_replace($pattern_time, '', $s_time_now);
         #ตัดขีด, ตัด : ออก
-        $folder_name='OFC_'.$s_date_now_preg.'_'.$s_time_now_preg;
+        $folder_name='OFCOPD_'.$s_date_now_preg.'_'.$s_time_now_preg;
             
 
         Fdh_sesion::insert([
@@ -882,9 +882,7 @@ class Fdh_OfcController extends Controller
         #delete file in folder ทั้งหมด
         $file_ = new Filesystem;
         $file_->cleanDirectory('Export'); //ทั้งหมด
-        // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
-        // $folder='IPD_NORED_'.$sss_date_now_preg.'_'.$sss_time_now_preg;
-
+      
         $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "OFC_401"');
         foreach ($dataexport_ as $key => $v_export) {
             $folder_ = $v_export->folder_name;
@@ -896,7 +894,7 @@ class Fdh_OfcController extends Controller
 
         header("Content-type: text/txt");
         header("Cache-Control: no-store, no-cache");
-        header('Content-Disposition: attachment; filename="content.txt";');
+        header('Content-Disposition: attachment; filename="content.txt"; charset=tis-620″ ;');
 
        //1 ins.txt
        $file_d_ins = "Export/".$folder."/INS.txt";
@@ -1240,8 +1238,8 @@ class Fdh_OfcController extends Controller
        $objFopen_adp = fopen($file_d_adp, 'w'); 
        // $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP/E_screen|LMP|SP_ITEM';
        // $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP/E_screen|LMP|SP_ITEM';
-       // $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP|LMP';
-       $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE';
+       $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP|LMP';
+    //    $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE';
        
        fwrite($objFopen_adp, $opd_head_adp);
        $adp = DB::connection('mysql')->select('SELECT * from fdh_adp where d_anaconda_id = "OFC_401"');
@@ -1263,18 +1261,18 @@ class Fdh_OfcController extends Controller
            $c15 = $value14->TOTAL;
            $c16 = $value14->QTYDAY;
            $c17 = $value14->TMLTCODE;
-           // $c18 = $value14->STATUS1;
-           // $c19 = $value14->BI;
-           // $c20 = $value14->CLINIC;
-           // $c21 = $value14->ITEMSRC;
-           // $c22 = $value14->PROVIDER;
-           // $c23 = $value14->GRAVIDA;
-           // $c24 = $value14->GA_WEEK;
-           // $c25 = $value14->DCIP;
-           // $c26 = $value14->LMP;
+           $c18 = $value14->STATUS1;
+           $c19 = $value14->BI;
+           $c20 = $value14->CLINIC;
+           $c21 = $value14->ITEMSRC;
+           $c22 = $value14->PROVIDER;
+           $c23 = $value14->GRAVIDA;
+           $c24 = $value14->GA_WEEK;
+           $c25 = $value14->DCIP;
+           $c26 = $value14->LMP;
            // $c27 = $value14->SP_ITEM;   
-           $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17;        
-           // $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17."|".$c18."|".$c19."|".$c20."|".$c21."|".$c22."|".$c23."|".$c24."|".$c25."|".$c26."|".$c27;
+        //    $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17;        
+           $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17."|".$c18."|".$c19."|".$c20."|".$c21."|".$c22."|".$c23."|".$c24."|".$c25."|".$c26;
            // $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17."|".$c18."|".$c19."|".$c20."|".$c21."|".$c22."|".$c23."|".$c24."|".$c25."|".$c26;
           
            $str_adp_14 = preg_replace("/\n/", "\r\n", $str_adp); 

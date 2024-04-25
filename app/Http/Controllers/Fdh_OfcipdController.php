@@ -841,7 +841,7 @@ class Fdh_OfcipdController extends Controller
 
         header("Content-type: text/txt");
         header("Cache-Control: no-store, no-cache");
-        header('Content-Disposition: attachment; filename="content.txt";');
+        header('Content-Disposition: attachment; filename="content.txt"; charset=tis-620″ ;');
 
        //1 ins.txt
        $file_d_ins = "Export/".$folder."/INS.txt";
