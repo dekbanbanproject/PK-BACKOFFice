@@ -60,7 +60,7 @@ use App\Models\Building;
 use App\Models\Product_budget;
 use App\Models\Product_method;
 use App\Models\Product_buy;
-use App\Models\Users_prefix;
+use App\Models\Fdh_ofc_rep;
 use App\Models\D_fdh_opd;
 use App\Models\D_fdh_ipd;
 use App\Models\D_fdh;
@@ -100,7 +100,7 @@ use App\Models\Fdh_ipd;
 use App\Models\Fdh_aer;
 use App\Models\Fdh_irf;
 use App\Models\Fdh_lvd; 
-use App\Models\D_dru_out;
+use App\Models\Fdh_ofc_repexcel;
 use App\Models\D_fdh_rep;
 use App\Models\D_fdh_repexcel;
 use Auth;
@@ -483,6 +483,277 @@ class Fdh_RepController extends Controller
                 return back()->withErrors('There was a problem uploading the data!');
             }
             D_fdh_repexcel::truncate();
+        return redirect()->back();
+    }
+
+    public function ofc_rep(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+            SELECT A,I,SUM(BB) as Sumprice,STMdoc,month(I) as months
+            FROM fdh_ofc_repexcel
+            GROUP BY A
+            ');
+            // d_fdh_repexcel
+        $countc = DB::table('fdh_ofc_repexcel')->count();  
+        $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND authen IS NOT NULL AND icd10 IS NOT NULL ORDER BY vn ASC');  
+             
+        return view('fdh.ofc_rep',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow,
+            'countc'        =>     $countc
+        ]);
+    }
+    function ofc_rep_save(Request $request)
+    { 
+        $this->validate($request, [
+            'file' => 'required|file|mimes:xls,xlsx'
+        ]);
+        $the_file = $request->file('file'); 
+        $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
+
+        // dd($the_file);
+            try{ 
+                // Cheet 2
+                $spreadsheet = IOFactory::load($the_file->getRealPath()); 
+                $sheet        = $spreadsheet->setActiveSheetIndex(0);
+                $row_limit    = $sheet->getHighestDataRow();
+                $column_limit = $sheet->getHighestDataColumn();
+                $row_range    = range( 8, $row_limit );
+                $column_range = range( 'DM', $column_limit );
+                $startcount = 8;
+                $data = array();
+                foreach ($row_range as $row ) {
+                    $vst = $sheet->getCell( 'I' . $row )->getValue();  
+                    $day = substr($vst,0,2);
+                    $mo = substr($vst,3,2);
+                    $year = substr($vst,6,4);
+                    $vstdate = $year.'-'.$mo.'-'.$day;
+
+                    $reg = $sheet->getCell( 'J' . $row )->getValue(); 
+                    $regday = substr($reg, 0, 2);
+                    $regmo = substr($reg, 3, 2);
+                    $regyear = substr($reg, 6, 4);
+                    $dchdate = $regyear.'-'.$regmo.'-'.$regday;
+
+                    $k = $sheet->getCell( 'K' . $row )->getValue();
+                    $del_k = str_replace(",","",$k);
+                    $l = $sheet->getCell( 'L' . $row )->getValue();
+                    $del_l = str_replace(",","",$l);
+
+                    $ad = $sheet->getCell( 'AD' . $row )->getValue();
+                    $del_ad = str_replace(",","",$ad);
+                    $ae = $sheet->getCell( 'AE' . $row )->getValue();
+                    $del_ae = str_replace(",","",$ae);
+                    $af = $sheet->getCell( 'AF' . $row )->getValue();
+                    $del_af = str_replace(",","",$af);
+                    $ag = $sheet->getCell( 'AG' . $row )->getValue();
+                    $del_ag = str_replace(",","",$ag);
+                    $ah = $sheet->getCell( 'AH' . $row )->getValue();
+                    $del_ah = str_replace(",","",$ah);
+                    $ai = $sheet->getCell( 'AI' . $row )->getValue();
+                    $del_ai = str_replace(",","",$ai);
+                   
+
+
+                    // $am = $sheet->getCell( 'AM' . $row )->getValue();
+                    // $del_am = str_replace(",","",$am);
+                    $an = $sheet->getCell( 'AN' . $row )->getValue();
+                    $del_an = str_replace(",","",$an);
+                    $ao = $sheet->getCell( 'AO' . $row )->getValue();
+                    $del_ao = str_replace(",","",$ao);
+                    $ap = $sheet->getCell( 'AP' . $row )->getValue();
+                    $del_ap= str_replace(",","",$ap);
+                    $aq = $sheet->getCell( 'AQ' . $row )->getValue();
+                    $del_aq = str_replace(",","",$aq);
+                    $ar = $sheet->getCell( 'AR' . $row )->getValue();
+                    $del_ar = str_replace(",","",$ar);
+                    $as = $sheet->getCell( 'AS' . $row )->getValue();
+                    $del_as = str_replace(",","",$as);
+                    $at = $sheet->getCell( 'AT' . $row )->getValue();
+                    $del_at = str_replace(",","",$at);
+                    $au = $sheet->getCell( 'AU' . $row )->getValue();
+                    $del_au = str_replace(",","",$au);
+                    $av = $sheet->getCell( 'AV' . $row )->getValue();
+                    $del_av = str_replace(",","",$av);
+                    
+                   
+ 
+                    $data[] = [
+                        'A'            =>$sheet->getCell( 'A' . $row )->getValue(),
+                        'B'            =>$sheet->getCell( 'B' . $row )->getValue(),
+                        'C'            =>$sheet->getCell( 'C' . $row )->getValue(),
+                        'D'            =>$sheet->getCell( 'D' . $row )->getValue(),
+                        'E'            =>$sheet->getCell( 'E' . $row )->getValue(),
+                        'F'            =>$sheet->getCell( 'F' . $row )->getValue(),
+                        'G'            =>$sheet->getCell( 'G' . $row )->getValue(), 
+                        'H'            =>$sheet->getCell( 'H' . $row )->getValue(),
+                        'I'            =>$vstdate,
+                        'J'            =>$dchdate,
+                        'K'            =>$del_k,
+                        'L'            =>$del_l,                        
+                        'M'            =>$sheet->getCell( 'M' . $row )->getValue(),
+                        'N'            =>$sheet->getCell( 'N' . $row )->getValue(),
+                        'O'            =>$sheet->getCell( 'O' . $row )->getValue(),
+                        'P'            =>$sheet->getCell( 'P' . $row )->getValue(),
+                        'Q'            =>$sheet->getCell( 'Q' . $row )->getValue(),
+                        'R'            =>$sheet->getCell( 'R' . $row )->getValue(),
+                        'S'            =>$sheet->getCell( 'S' . $row )->getValue(),
+                        'T'            =>$sheet->getCell( 'T' . $row )->getValue(),
+                        'U'            =>$sheet->getCell( 'U' . $row )->getValue(),
+                        'V'            =>$sheet->getCell( 'V' . $row )->getValue(),
+                        'W'            =>$sheet->getCell( 'W' . $row )->getValue(),
+                        'X'            =>$sheet->getCell( 'X' . $row )->getValue(),
+                        'Y'            =>$sheet->getCell( 'Y' . $row )->getValue(),
+                        'Z'            =>$sheet->getCell( 'Z' . $row )->getValue(),
+                        'AA'            =>$sheet->getCell( 'AA' . $row )->getValue(),
+                        'AB'            =>$sheet->getCell( 'AB' . $row )->getValue(),
+                        'AC'            =>$sheet->getCell( 'AC' . $row )->getValue(),
+                       
+                        'AD'            =>$del_ad,
+                        'AE'            =>$del_ae,
+                        'AF'            =>$del_af,
+                        'AG'            =>$del_ag,
+                        'AH'            =>$del_ah,
+                        'AI'            =>$del_ai,
+
+                        'AJ'            =>$sheet->getCell( 'AJ' . $row )->getValue(),
+                        'AK'            =>$sheet->getCell( 'AK' . $row )->getValue(),
+                        'AL'            =>$sheet->getCell( 'AL' . $row )->getValue(),
+                        'AM'            =>$sheet->getCell( 'AM' . $row )->getValue(),
+                        'AN'            =>$del_an,
+                        'AO'            =>$del_ao,
+                        'AP'            =>$del_ap,
+                        'AQ'            =>$del_aq,
+                        'AR'            =>$del_ar,
+                        'AS'            =>$sheet->getCell( 'AS' . $row )->getValue(),
+                        'AT'            =>$sheet->getCell( 'AT' . $row )->getValue(),
+                        'AU'            =>$sheet->getCell( 'AU' . $row )->getValue(),
+                        'AV'            =>$sheet->getCell( 'AV' . $row )->getValue(),
+                        'AW'            =>$sheet->getCell( 'AW' . $row )->getValue(),                       
+                        'AX'            =>$sheet->getCell( 'AX' . $row )->getValue(), 
+                        'AY'            =>$sheet->getCell( 'AY' . $row )->getValue(),                        
+                        'AZ'            =>$sheet->getCell( 'AZ' . $row )->getValue(),
+                        'BA'            =>$sheet->getCell( 'BA' . $row )->getValue(),
+                        'BB'            =>$sheet->getCell( 'BB' . $row )->getValue(),
+                        'BC'            =>$sheet->getCell( 'BC' . $row )->getValue(),
+                        'BD'            =>$sheet->getCell( 'BD' . $row )->getValue(),
+                        
+                        'STMdoc'        =>$file_ 
+                    ];
+                    $startcount++; 
+
+                }
+                // DB::table('acc_stm_ucs_excel')->insert($data); 
+
+                $for_insert = array_chunk($data, length:1000);
+                foreach ($for_insert as $key => $data_) {
+                    Fdh_ofc_repexcel::insert($data_); 
+                }
+                // Acc_stm_ucs_excel::insert($data); 
+ 
+
+            } catch (Exception $e) {
+                $error_code = $e->errorInfo[1];
+                return back()->withErrors('There was a problem uploading the data!');
+            }
+            // return back()->withSuccess('Great! Data has been successfully uploaded.');
+            return response()->json([
+            'status'    => '200',
+        ]);
+    }
+
+    public function ofc_rep_send(Request $request)
+    {
+        try{
+            $data_ = DB::connection('mysql')->select('SELECT * FROM fdh_ofc_repexcel WHERE F IS NOT NULL');
+            foreach ($data_ as $key => $value) {
+                if ($value->F != '') {
+                    $check = Fdh_ofc_rep::where('C','=',$value->C)->count();
+                    if ($check > 0) {
+                    } else {
+                        $add = new Fdh_ofc_rep();
+                        $add->A        = $value->A;
+                        $add->B        = $value->B;
+                        $add->C        = $value->C;
+                        $add->D        = $value->D;
+                        $add->E        = $value->E;
+                        $add->F        = $value->F;
+                        $add->G        = $value->G;
+                        $add->H        = $value->H;
+                        $add->I        = $value->I;
+                        $add->J        = $value->J;
+                        $add->K        = $value->K;
+                        $add->L        = $value->L;
+                        $add->M        = $value->M;
+                        $add->N        = $value->N;
+                        $add->O        = $value->O;
+                        $add->P        = $value->P;
+                        $add->Q        = $value->Q;
+                        $add->R        = $value->R;
+                        $add->S        = $value->S;
+                        $add->T        = $value->T;
+                        $add->U        = $value->U;
+                        $add->V        = $value->V;
+                        $add->W        = $value->W;
+                        $add->X        = $value->X;
+                        $add->Y        = $value->Y;
+                        $add->Z        = $value->Z;
+                        $add->AA       = $value->AA;
+                        $add->AB       = $value->AB;
+                        $add->AC       = $value->AC;
+                        $add->AD       = $value->AD;
+                        $add->AE       = $value->AE;
+                        $add->AF       = $value->AF;
+                        $add->AG       = $value->AG;
+                        $add->AH       = $value->AH;
+                        $add->AI       = $value->AI;
+                        $add->AJ       = $value->AJ;
+                        $add->AK       = $value->AK;
+                        $add->AL       = $value->AL;
+                        $add->AM       = $value->AM;
+                        $add->AN       = $value->AN;
+                        $add->AO       = $value->AO;
+                        $add->AP       = $value->AP;
+                        $add->AQ       = $value->AQ;
+                        $add->AR       = $value->AR;
+                        $add->AS       = $value->AS;
+                        $add->AT       = $value->AT;
+                        $add->AU       = $value->AU;
+                        $add->AV       = $value->AV;
+                        $add->AW       = $value->AW;
+                        $add->AX       = $value->AX;
+                        $add->AY       = $value->AY;
+                        $add->AZ       = $value->AZ;
+                        $add->BA       = $value->BA;
+                        $add->BB       = $value->BB;
+                        $add->BC       = $value->BC;
+                        $add->BD       = $value->BD;
+                        
+                        $add->STMdoc   = $value->STMdoc;
+                        $add->save();  
+                    }  
+                    
+                        D_fdh::where('cid',$value->F)->where('vstdate',$value->I) 
+                            ->update([
+                                'active'          => 'R',
+                                'debit_rep'       => $value->AF,
+                                'error_code'      => $value->M,
+                                'STMdoc'          => $value->STMdoc, 
+                        ]);
+                    
+                   
+                } else {
+                }
+            }
+            } catch (Exception $e) {
+                $error_code = $e->errorInfo[1];
+                return back()->withErrors('There was a problem uploading the data!');
+            }
+            Fdh_ofc_repexcel::truncate();
         return redirect()->back();
     }
     

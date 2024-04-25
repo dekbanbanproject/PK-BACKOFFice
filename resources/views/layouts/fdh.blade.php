@@ -336,7 +336,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <ul class="sub-menu" aria-expanded="true"> 
                                     <li><a href="{{ url('ofc_main') }}">OFC OPD CLAIM</a></li> 
                                     <li><a href="{{ url('ofc_ipd') }}">OFC IPD CLAIM</a></li> 
-                                    <li><a href="{{ url('ofc_main_rep') }}">OFC REP</a></li> 
+                                    <li><a href="{{ url('ofc_rep') }}">OFC REP</a></li> 
                                     <li><a href="{{ url('ofc_main_report') }}">OFC REPORT</a></li> 
                                 </ul> 
                             </li>

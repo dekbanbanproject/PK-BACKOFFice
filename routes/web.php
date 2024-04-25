@@ -3065,6 +3065,10 @@ Route::match(['get','post'],'fdh_rep',[App\Http\Controllers\Fdh_RepController::c
 Route::match(['get','post'],'fdh_rep_save',[App\Http\Controllers\Fdh_RepController::class, 'fdh_rep_save'])->name('fdh.fdh_rep_save');//
 Route::match(['get','post'],'fdh_rep_send',[App\Http\Controllers\Fdh_RepController::class, 'fdh_rep_send'])->name('fdh.fdh_rep_send');//
 
+Route::match(['get','post'],'ofc_rep',[App\Http\Controllers\Fdh_RepController::class, 'ofc_rep'])->name('fdh.ofc_rep');//
+Route::match(['get','post'],'ofc_rep_save',[App\Http\Controllers\Fdh_RepController::class, 'ofc_rep_save'])->name('fdh.ofc_rep_save');//
+Route::match(['get','post'],'ofc_rep_send',[App\Http\Controllers\Fdh_RepController::class, 'ofc_rep_send'])->name('fdh.ofc_rep_send');//
+
 Route::match(['get','post'],'hpv',[App\Http\Controllers\Fdh_HpvController::class, 'hpv'])->name('fdh.hpv');//
 Route::match(['get','post'],'hpv_process_vn',[App\Http\Controllers\Fdh_HpvController::class, 'hpv_process_vn'])->name('fdh.hpv_process_vn');//
 Route::match(['get','post'],'hpv_process',[App\Http\Controllers\Fdh_HpvController::class, 'hpv_process'])->name('fdh.hpv_process');//
@@ -3133,6 +3137,7 @@ Route::match(['get','post'],'ofc_main_process',[App\Http\Controllers\Fdh_OfcCont
 Route::match(['get','post'],'ofc_main_active',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main_active'])->name('fdh.ofc_main_active');//
 Route::match(['get','post'],'ofc_main_export',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main_export'])->name('fdh.ofc_main_export');//
 Route::match(['get','post'],'ofc_main_zip',[App\Http\Controllers\Fdh_OfcController::class, 'ofc_main_zip'])->name('fdh.ofc_main_zip');//
+
 
 Route::match(['get','post'],'ofc_ipd',[App\Http\Controllers\Fdh_OfcipdController::class, 'ofc_ipd'])->name('fdh.ofc_ipd');//
 Route::match(['get','post'],'ofc_ipd_process',[App\Http\Controllers\Fdh_OfcipdController::class, 'ofc_ipd_process'])->name('fdh.ofc_ipd_process');//
