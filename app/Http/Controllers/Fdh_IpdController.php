@@ -3271,4 +3271,36 @@ class Fdh_IpdController extends Controller
             return response()->download(public_path($filename));
              
     }
+
+    public function fdh_ipd_irfupdate(Request $request)
+    {   
+            Fdh_irf::where('AN','=',$request->AN)
+                ->update([
+                    'REFER'      =>$request->REFER,
+                    'REFERTYPE'  =>$request->REFERTYPE
+                ]);  
+                return redirect()->route('fdh.fdh_ipd');
+    }
+    public function fdh_ipd_aerupdate(Request $request)
+    {   
+            Fdh_aer::where('AN','=',$request->AN)
+                ->update([
+                    'HN'            =>$request->HN,
+                    'DATEOPD'       =>$request->DATEOPD,
+                    'AUTHAE'        =>$request->AUTHAE,
+                    'AEDATE'        =>$request->AEDATE,
+                    'AETIME'        =>$request->AETIME,
+                    'AETYPE'        =>$request->AETYPE,
+                    'REFER_NO'      =>$request->REFER_NO,
+                    'REFMAINI'      =>$request->REFMAINI,
+                    'IREFTYPE'      =>$request->IREFTYPE,
+                    'REFMAINO'      =>$request->REFMAINO,
+                    'OREFTYPE'      =>$request->OREFTYPE,
+                    'UCAE'          =>$request->UCAE,
+                    'EMTYPE'        =>$request->EMTYPE,
+                    'SEQ'           =>$request->SEQ,
+                    'AESTATUS'      =>$request->AESTATUS, 
+                ]);  
+                return redirect()->route('fdh.fdh_ipd');
+    }
 }

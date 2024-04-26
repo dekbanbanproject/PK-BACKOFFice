@@ -3097,6 +3097,8 @@ Route::match(['get','post'],'fdh_ipd_updateprojectcode',[App\Http\Controllers\Fd
 Route::match(['get','post'],'fdh_ipd_export',[App\Http\Controllers\Fdh_IpdController::class, 'fdh_ipd_export'])->name('fdh.fdh_ipd_export');//
 Route::match(['get','post'],'fdh_ipd_zip',[App\Http\Controllers\Fdh_IpdController::class, 'fdh_ipd_zip'])->name('fdh.fdh_ipd_zip');//
 Route::match(['get','post'],'fdh_ipdprb_process',[App\Http\Controllers\Fdh_IpdController::class, 'fdh_ipdprb_process'])->name('fdh.fdh_ipdprb_process');//
+Route::match(['get','post'],'fdh_ipd_irfupdate',[App\Http\Controllers\Fdh_IpdController::class, 'fdh_ipd_irfupdate'])->name('fdh.fdh_ipd_irfupdate');//
+Route::match(['get','post'],'fdh_ipd_aerupdate',[App\Http\Controllers\Fdh_IpdController::class, 'fdh_ipd_aerupdate'])->name('fdh.fdh_ipd_aerupdate');//
 
 Route::match(['get','post'],'ucep24_main',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main'])->name('fdh.ucep24_main');//
 Route::match(['get','post'],'ucep24_main_process',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main_process'])->name('fdh.ucep24_main_process');//

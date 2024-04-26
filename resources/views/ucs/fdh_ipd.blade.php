@@ -563,10 +563,50 @@ $pos = strrpos($url, '/') + 1;
                                                 <?php $f++; ?> 
                                                     <tr height="20" style="font-size: 12px;">
                                                         <td class="text-font" style="text-align: center;" width="5%">{{ $f }}</td>
-                                                        <td class="text-center" width="10%">{{ $itemirf->AN }}</td>
+                                                        <td class="text-center" width="10%">
+                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#irfModal{{$itemirf->fdh_irf_id}}">
+                                                                {{ $itemirf->AN }}
+                                                              </button> 
+                                                        </td>
                                                         <td class="text-center" width="10%">{{ $itemirf->REFER }}</td>
                                                         <td class="text-center" width="5%">{{ $itemirf->REFERTYPE }}</td> 
                                                     </tr>  
+
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="irfModal{{$itemirf->fdh_irf_id}}" tabindex="-1" aria-labelledby="irfModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                <h5 class="modal-title" id="irfModalLabel">แก้ไข IRF</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <form action="{{ route('fdh.fdh_ipd_irfupdate') }}" method="POST">
+                                                                    @csrf
+                                                                <div class="modal-body">
+                                                                  
+                                                                            <div class="row">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="mb-3"> 
+                                                                                        <input type="text" class="form-control" id="exampleFormControlInput1" id="AN" name="AN" placeholder="AN" value="{{$itemirf->AN}}">
+                                                                                    </div>
+                                                                                    <div class="mb-3"> 
+                                                                                        <input type="text" class="form-control" id="exampleFormControlInput1" id="REFER" name="REFER" placeholder="REFER" value="{{$itemirf->REFER}}">
+                                                                                    </div>
+                                                                                    <div class="mb-3"> 
+                                                                                        <input type="text" class="form-control" id="exampleFormControlInput1" id="REFERTYPE" name="REFERTYPE" placeholder="REFERTYPE" value="{{$itemirf->REFERTYPE}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                    
+                                                                </div>
+                                                                <div class="modal-footer"> 
+                                                                    <button type="submit" class="btn btn-primary">Update</button>
+                                                                </div>
+                                                            </form>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+ 
                                                 @endforeach 
                                             </tbody>
                                         </table>
@@ -606,7 +646,11 @@ $pos = strrpos($url, '/') + 1;
                                                     <tr height="20" style="font-size: 12px;">
                                                         <td class="text-font" style="text-align: center;" width="5%">{{ $g}}</td>
                                                         <td class="text-center" width="7%">{{ $itemaer->HN }}</td>
-                                                        <td class="text-center" width="7%">{{ $itemaer->AN }}</td>
+                                                        <td class="text-center" width="7%">
+                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#aerModal{{$itemaer->fdh_aer_id}}">
+                                                                {{ $itemaer->AN }}
+                                                              </button> 
+                                                        </td>
                                                         <td class="text-center" width="7%">{{ $itemaer->DATEOPD }}</td>
                                                         <td class="text-center" >{{ $itemaer->AUTHAE }}</td> 
                                                         <td class="text-center" >{{ $itemaer->AEDATE }}</td> 
@@ -624,6 +668,142 @@ $pos = strrpos($url, '/') + 1;
                                                         <td class="text-center" >{{ $itemaer->DALERT }}</td> 
                                                         <td class="text-center" >{{ $itemaer->TALERT }}</td>  
                                                     </tr>  
+
+                                                     <!-- Modal -->
+                                                     <div class="modal fade" id="aerModal{{$itemaer->fdh_aer_id}}" tabindex="-1" aria-labelledby="irfModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog modal-xl">
+                                                        <div class="modal-content modal-xl">
+                                                            <div class="modal-header">
+                                                            <h5 class="modal-title" id="irfModalLabel">แก้ไข IRF</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <form action="{{ route('fdh.fdh_ipd_aerupdate') }}" method="POST">
+                                                                @csrf
+                                                            <div class="modal-body">
+                                                              
+                                                                        <div class="row">
+                                                                            <div class="col-md-3">
+                                                                                <div class="mb-3"> 
+                                                                                    <label for="exampleFormControlInput1" class="form-label">HN</label>
+                                                                                    <input type="text" class="form-control" id="exampleFormControlInput1" id="HN" name="HN" placeholder="HN" value="{{$itemaer->HN}}" readonly>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-3">
+                                                                                <div class="mb-3"> 
+                                                                                    <label for="exampleFormControlInput1" class="form-label">AN</label>
+                                                                                    <input type="text" class="form-control" id="exampleFormControlInput1" id="AN" name="AN" placeholder="AN" value="{{$itemaer->AN}}" readonly>
+                                                                                </div>
+                                                                            </div>
+                                                                       
+                                                                            <div class="col-md-3">
+                                                                                <div class="mb-3"> 
+                                                                                    <label for="exampleFormControlInput1" class="form-label">DATEOPD =>ตัวอย่าง => 20240313</label>
+                                                                                    <input type="text" class="form-control" id="exampleFormControlInput1" id="DATEOPD" name="DATEOPD" placeholder="DATEOPD" value="{{$itemaer->DATEOPD}}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-3">
+                                                                                <div class="mb-3"> 
+                                                                                    <label for="exampleFormControlInput1" class="form-label">AUTHAE =>ตัวอย่าง =>PP1392280929</label>
+                                                                                    <input type="text" class="form-control" id="exampleFormControlInput1" id="AUTHAE" name="AUTHAE" placeholder="AUTHAE" value="{{$itemaer->AUTHAE}}">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+                                                                            <div class="col-md-3">
+                                                                                <div class="mb-3"> 
+                                                                                    <label for="exampleFormControlInput1" class="form-label">AEDATE =>ตัวอย่าง =>20240313</label>
+                                                                                    <input type="text" class="form-control" id="exampleFormControlInput1" id="AEDATE" name="AEDATE" placeholder="AEDATE" value="{{$itemaer->AEDATE}}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-3">
+                                                                                <div class="mb-3"> 
+                                                                                    <label for="exampleFormControlInput1" class="form-label">AETIME =>ตัวอย่าง => 1030</label>
+                                                                                    <input type="text" class="form-control" id="exampleFormControlInput1" id="AETIME" name="AETIME" placeholder="AETIME" value="{{$itemaer->AETIME}}">
+                                                                                </div>
+                                                                            </div>
+                                                                      
+                                                                            <div class="col-md-3">
+                                                                                <div class="mb-3"> 
+                                                                                    <label for="exampleFormControlInput1" class="form-label">AETYPE =>ตัวอย่าง => สทธการรกษาอน กรณอบตเหต V = 
+                                                                                        ใช พรบ. ผประสบภยจากรถ 0 = ใช 
+                                                                                        พรบ. กองทนเงนทดแทน B = ใชทง
+                                                                                         พรบ. ผประสบภย และ พรบ. กองทน
+                                                                                         เงน ทดแทน</label>
+                                                                                    <input type="text" class="form-control" id="exampleFormControlInput1" id="AETYPE" name="AETYPE" placeholder="AETYPE" value="{{$itemaer->AETYPE}}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-3">
+                                                                                <div class="mb-3"> 
+                                                                                    <label for="exampleFormControlInput1" class="form-label">REFER_NO =>ตัวอย่าง => </label>
+                                                                                    <input type="text" class="form-control" id="exampleFormControlInput1" id="REFER_NO" name="REFER_NO" placeholder="REFER_NO" value="{{$itemaer->REFER_NO}}">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div> 
+                                                                        <div class="row">
+                                                                            <div class="col-md-3">
+                                                                                <div class="mb-3"> 
+                                                                                    <label for="exampleFormControlInput1" class="form-label">REFMAINI =>ตัวอย่าง => </label>
+                                                                                    <input type="text" class="form-control" id="exampleFormControlInput1" id="REFMAINI" name="REFMAINI" placeholder="REFMAINI" value="{{$itemaer->REFMAINI}}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-3">
+                                                                                <div class="mb-3"> 
+                                                                                    <label for="exampleFormControlInput1" class="form-label">IREFTYPE =>ตัวอย่าง => </label>
+                                                                                    <input type="text" class="form-control" id="exampleFormControlInput1" id="IREFTYPE" name="IREFTYPE" placeholder="IREFTYPE" value="{{$itemaer->IREFTYPE}}">
+                                                                                </div>
+                                                                            </div>
+                                                                    
+                                                                            <div class="col-md-3">
+                                                                                <div class="mb-3"> 
+                                                                                    <label for="exampleFormControlInput1" class="form-label">REFMAINO =>ตัวอย่าง =>  </label>
+                                                                                    <input type="text" class="form-control" id="exampleFormControlInput1" id="REFMAINO" name="REFMAINO" placeholder="REFMAINO" value="{{$itemaer->REFMAINO}}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-3">
+                                                                                <div class="mb-3"> 
+                                                                                    <label for="exampleFormControlInput1" class="form-label">OREFTYPE =>ตัวอย่าง => </label>
+                                                                                    <input type="text" class="form-control" id="exampleFormControlInput1" id="OREFTYPE" name="OREFTYPE" placeholder="OREFTYPE" value="{{$itemaer->OREFTYPE}}">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-3">
+                                                                                <div class="mb-3"> 
+                                                                                    <label for="exampleFormControlInput1" class="form-label">UCAE =>ตัวอย่าง =>  </label>
+                                                                                    <input type="text" class="form-control" id="exampleFormControlInput1" id="UCAE" name="UCAE" placeholder="UCAE" value="{{$itemaer->UCAE}}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-3">
+                                                                                <div class="mb-3"> 
+                                                                                    <label for="exampleFormControlInput1" class="form-label">EMTYPE =>ตัวอย่าง => </label>
+                                                                                    <input type="text" class="form-control" id="exampleFormControlInput1" id="EMTYPE" name="EMTYPE" placeholder="EMTYPE" value="{{$itemaer->EMTYPE}}">
+                                                                                </div>
+                                                                            </div>
+                                                                      
+                                                                            <div class="col-md-3">
+                                                                                <div class="mb-3"> 
+                                                                                    <label for="exampleFormControlInput1" class="form-label">SEQ =>ตัวอย่าง =>  </label>
+                                                                                    <input type="text" class="form-control" id="exampleFormControlInput1" id="SEQ" name="SEQ" placeholder="SEQ" value="{{$itemaer->SEQ}}" readonly>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-3">
+                                                                                <div class="mb-3"> 
+                                                                                    <label for="exampleFormControlInput1" class="form-label">AESTATUS =>ตัวอย่าง => </label>
+                                                                                    <input type="text" class="form-control" id="exampleFormControlInput1" id="AESTATUS" name="AESTATUS" placeholder="AESTATUS" value="{{$itemaer->AESTATUS}}">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                
+                                                            </div>
+                                                            <div class="modal-footer"> 
+                                                                <button type="submit" class="btn btn-primary">Update</button>
+                                                            </div>
+                                                        </form>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+
                                                 @endforeach 
                                             </tbody>
                                         </table>
