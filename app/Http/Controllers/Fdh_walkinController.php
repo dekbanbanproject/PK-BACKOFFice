@@ -1232,7 +1232,7 @@ class Fdh_walkinController extends Controller
                 
                 //D_irf OK
                 $data_irf_ = DB::connection('mysql2')->select(
-                    'SELECT a.an AN,ifnull(o.refer_hospcode,oo.refer_hospcode) REFER,"0100" REFERTYPE
+                    'SELECT a.an AN,ifnull(o.refer_hospcode,oo.refer_hospcode) REFER,"2" REFERTYPE
                         FROM an_stat a
                         LEFT OUTER JOIN ipt ip on ip.an = a.an
                         LEFT OUTER JOIN referout o on o.vn = a.an

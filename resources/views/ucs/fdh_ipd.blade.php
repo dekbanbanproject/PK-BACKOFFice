@@ -133,7 +133,10 @@ $pos = strrpos($url, '/') + 1;
                         <i class="fa-solid fa-spinner text-secondary"></i>
                          Update AE
                     </button>
-                   
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary card_fdh_4 Claim" data-url="{{url('fdh_ipdprb_process')}}">
+                        <i class="fa-solid fa-spinner text-primary"></i>
+                        ส่วนเกิน พรบ
+                    </button>
                    
                     <a href="{{url('fdh_ipd_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4">
                         <i class="fa-solid fa-file-export text-danger"></i>

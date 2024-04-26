@@ -287,7 +287,7 @@ class CtrepController extends Controller
                         LEFT OUTER JOIN patient p on p.hn=x.hn  
                         LEFT JOIN vn_stat v on v.vn = x.vn   
                         LEFT JOIN ipt i on i.an = x.an 
-                        LEFT OUTER JOIN xray_items xi on xi.xray_items_code=x.xray_items_code  
+                        LEFT OUTER JOIN xray_items xi on xi.xray_items_code = x.xray_items_code  
                         LEFT JOIN xray_head xh on xh.vn = x.vn
                         LEFT JOIN xray_head xt on xt.vn = x.an 
                         LEFT OUTER JOIN xray_priority y on y.xray_priority_id = xh.xray_priority_id 

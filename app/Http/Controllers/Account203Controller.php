@@ -300,7 +300,8 @@ class Account203Controller extends Controller
                         ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011266" AND vn = v.vn) THEN "1100" 
                         ELSE "0.00" 
                         END as debit_drug150
-
+                        
+                        ,(SELECT SUM(rcptamt) sumprice FROM incoth WHERE income <> "08" AND vn = v.vn) AS price_noct
                         ,case
                         when v.uc_money < 1000 then v.uc_money
                         else "1000"
@@ -316,6 +317,8 @@ class Account203Controller extends Controller
                         left outer join opitemrece om on om.vn = v.vn  
                         LEFT OUTER JOIN ovst ot on ot.vn = v.vn
                         LEFT OUTER JOIN ovstost ov on ov.ovstost = ot.ovstost
+                        LEFT OUTER JOIN xray_report x on x.vn = v.vn 
+			            LEFT OUTER JOIN xray_items xi on xi.xray_items_code = x.xray_items_code 
                         where v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                         and i.an is null AND v.uc_money <> 0 AND p.nationality = "99"   
                         and v.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.203" AND opdipd ="OPD")
@@ -350,7 +353,8 @@ class Account203Controller extends Controller
                         ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011266" AND vn = v.vn) THEN "1100" 
                         ELSE "0.00" 
                         END as debit_drug150
-
+                        
+                        ,(SELECT SUM(rcptamt) sumprice FROM incoth WHERE income <> "08" AND vn = v.vn) AS price_noct
                         ,case
                         when v.uc_money < 700 then v.uc_money
                         else "700"
@@ -366,6 +370,8 @@ class Account203Controller extends Controller
                         left outer join opitemrece om on om.vn = v.vn 
                         LEFT OUTER JOIN ovst ot on ot.vn = v.vn
                         LEFT OUTER JOIN ovstost ov on ov.ovstost = ot.ovstost
+                        LEFT OUTER JOIN xray_report x on x.vn = v.vn 
+			            LEFT OUTER JOIN xray_items xi on xi.xray_items_code = x.xray_items_code 
                         where v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                         and i.an is null AND v.uc_money <> 0  AND p.nationality = "99"  
                         and v.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.203" AND opdipd ="OPD")
@@ -379,44 +385,47 @@ class Account203Controller extends Controller
                         AND v.dx5 NOT BETWEEN "E110" AND "E149" AND v.dx5 NOT BETWEEN "J440" AND "J449" AND v.dx5 NOT BETWEEN "I10" AND "I159"
                         group by v.vn
                     ) As Refer 
-            ');                    
+            ');         
+            // ,(SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode NOT IN("3009147","3009148","3010860","3009187","3009143","3011265","3011266") AND vn = v.vn) as pricenoct           
             foreach ($acc_debtor as $key => $value) { 
                 $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.203')->count();
 
                 if ($check > 0 ) { 
                 } else {
-                    // if ($value->toklong = "700") {
-                    //     Acc_debtor::insert([
-                    //         'hn'                 => $value->hn,
-                    //         'an'                 => $value->an,
-                    //         'vn'                 => $value->vn,
-                    //         'cid'                => $value->cid,
-                    //         'ptname'             => $value->ptname,
-                    //         'pttype'             => $value->pttype,
-                    //         'vstdate'            => $value->vstdate,
-                    //         'dchdate'            => $value->dchdate,
-                    //         'acc_code'           => $value->acc_code,
-                    //         'account_code'       => $value->account_code,
-                    //         'account_name'       => $value->account_name, 
-                    //         'hospcode'           => $value->hospcode,
-                    //         'income'             => $value->income,
-                    //         'uc_money'           => $value->uc_money,
-                    //         'discount_money'     => $value->discount_money,
-                    //         'paid_money'         => $value->paid_money,
-                    //         'rcpt_money'         => $value->rcpt_money,
-                    //         'debit'              => $value->uc_money, 
-                    //         'debit_total'        => $value->toklong,
-                    //         // 'debit_total'        => $value->toklong-$value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150, 
-                    //         'referin_no'         => $value->referin_no, 
-                    //         'pdx'                => $value->pdx, 
-                    //         'dx0'                => $value->dx0, 
-                    //         'cc'                 => $value->cc, 
-                    //         'ct_price'           => ($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150), 
-                    //         'ct_sumprice'        => '100',  
-                    //         'sauntang'           => ($value->uc_money)-($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150)-('100'), 
-                    //         'acc_debtor_userid'  => Auth::user()->id
-                    //     ]);
-                    // } else {
+                    if ($value->debit_without > 0 || $value->debit_with > 0 || $value->debit_upper > 0 || $value->debit_lower > 0 || $value->debit_multiphase > 0 || $value->debit_drug100 > 0 || $value->debit_drug150 > 0) {
+                        Acc_debtor::insert([
+                            'hn'                 => $value->hn,
+                            'an'                 => $value->an,
+                            'vn'                 => $value->vn,
+                            'cid'                => $value->cid,
+                            'ptname'             => $value->ptname,
+                            'pttype'             => $value->pttype,
+                            'vstdate'            => $value->vstdate,
+                            'dchdate'            => $value->dchdate,
+                            'acc_code'           => $value->acc_code,
+                            'account_code'       => $value->account_code,
+                            'account_name'       => $value->account_name, 
+                            'hospcode'           => $value->hospcode,
+                            'income'             => $value->income,
+                            'uc_money'           => $value->uc_money,
+                            'discount_money'     => $value->discount_money,
+                            'paid_money'         => $value->paid_money,
+                            'rcpt_money'         => $value->rcpt_money,
+                            'debit'              => $value->uc_money, 
+                            'debit_total'        => $value->price_noct, 
+                            'referin_no'         => $value->referin_no, 
+                            'pdx'                => $value->pdx, 
+                            'dx0'                => $value->dx0, 
+                            'cc'                 => $value->cc, 
+                            'ct_price'           => ($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150), 
+                            'ct_sumprice'        => '100',  
+                            'sauntang'           => ($value->uc_money)-($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150)-('100'), 
+                            'acc_debtor_userid'  => Auth::user()->id,
+                            'date_pull'          => $datetimenow,
+                            'active_status'      => $value->active_status,
+                            'referin_no'         => $value->referin_no,
+                        ]);
+                    }else{
                         Acc_debtor::insert([
                             'hn'                 => $value->hn,
                             'an'                 => $value->an,
@@ -449,6 +458,72 @@ class Account203Controller extends Controller
                             'active_status'      => $value->active_status,
                             'referin_no'         => $value->referin_no,
                         ]);
+                     
+                    }
+                    // if ($value->toklong = "700") {
+                    //     Acc_debtor::insert([
+                    //         'hn'                 => $value->hn,
+                    //         'an'                 => $value->an,
+                    //         'vn'                 => $value->vn,
+                    //         'cid'                => $value->cid,
+                    //         'ptname'             => $value->ptname,
+                    //         'pttype'             => $value->pttype,
+                    //         'vstdate'            => $value->vstdate,
+                    //         'dchdate'            => $value->dchdate,
+                    //         'acc_code'           => $value->acc_code,
+                    //         'account_code'       => $value->account_code,
+                    //         'account_name'       => $value->account_name, 
+                    //         'hospcode'           => $value->hospcode,
+                    //         'income'             => $value->income,
+                    //         'uc_money'           => $value->uc_money,
+                    //         'discount_money'     => $value->discount_money,
+                    //         'paid_money'         => $value->paid_money,
+                    //         'rcpt_money'         => $value->rcpt_money,
+                    //         'debit'              => $value->uc_money, 
+                    //         'debit_total'        => $value->toklong,
+                    //         // 'debit_total'        => $value->toklong-$value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150, 
+                    //         'referin_no'         => $value->referin_no, 
+                    //         'pdx'                => $value->pdx, 
+                    //         'dx0'                => $value->dx0, 
+                    //         'cc'                 => $value->cc, 
+                    //         'ct_price'           => ($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150), 
+                    //         'ct_sumprice'        => '100',  
+                    //         'sauntang'           => ($value->uc_money)-($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150)-('100'), 
+                    //         'acc_debtor_userid'  => Auth::user()->id
+                    //     ]);
+                    // } else {
+                        // Acc_debtor::insert([
+                        //     'hn'                 => $value->hn,
+                        //     'an'                 => $value->an,
+                        //     'vn'                 => $value->vn,
+                        //     'cid'                => $value->cid,
+                        //     'ptname'             => $value->ptname,
+                        //     'pttype'             => $value->pttype,
+                        //     'vstdate'            => $value->vstdate,
+                        //     'dchdate'            => $value->dchdate,
+                        //     'acc_code'           => $value->acc_code,
+                        //     'account_code'       => $value->account_code,
+                        //     'account_name'       => $value->account_name, 
+                        //     'hospcode'           => $value->hospcode,
+                        //     'income'             => $value->income,
+                        //     'uc_money'           => $value->uc_money,
+                        //     'discount_money'     => $value->discount_money,
+                        //     'paid_money'         => $value->paid_money,
+                        //     'rcpt_money'         => $value->rcpt_money,
+                        //     'debit'              => $value->uc_money, 
+                        //     'debit_total'        => $value->toklong, 
+                        //     'referin_no'         => $value->referin_no, 
+                        //     'pdx'                => $value->pdx, 
+                        //     'dx0'                => $value->dx0, 
+                        //     'cc'                 => $value->cc, 
+                        //     'ct_price'           => ($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150), 
+                        //     'ct_sumprice'        => '100',  
+                        //     'sauntang'           => ($value->uc_money)-($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150)-('100'), 
+                        //     'acc_debtor_userid'  => Auth::user()->id,
+                        //     'date_pull'          => $datetimenow,
+                        //     'active_status'      => $value->active_status,
+                        //     'referin_no'         => $value->referin_no,
+                        // ]);
                     // } 
                 }                
                     // $data2_ = DB::connection('mysql2')->select('
