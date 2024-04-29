@@ -147,6 +147,7 @@
                             <i class="fa-solid fa-arrow-up-right-from-square text-success me-2"></i>
                             ส่งออก
                         </button>  --}}
+                        
                         <a href="{{ url('aipn_export') }}" class="btn-icon btn-shadow btn-dashed btn btn-outline-success"> <i class="fa-solid fa-arrow-up-right-from-square text-success me-2"></i>ส่งออก</a>
                         <a href="{{ url('aipn_zip') }}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>
                          
