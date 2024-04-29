@@ -173,30 +173,30 @@
                                 <?php $i = 1; ?>
                                 @foreach ($datashow as $item)  
                                     <?php 
-                                        $data_claim_ = DB::connection('mysql3')->select(' 
-                                            SELECT year(v.dchdate) as year,month(v.dchdate) as months,count(distinct vp.an) as an 
+                                        // $data_claim_ = DB::connection('mysql3')->select(' 
+                                        //     SELECT year(v.dchdate) as year,month(v.dchdate) as months,count(distinct vp.an) as an 
                                                
-                                                    FROM opitemrece o
-                                                    inner join an_stat v on v.an=o.an
-                                                    left outer join ipt_pttype vp on vp.an = o.an  
-                                                    left outer join pttype pt on pt.pttype = o.pttype
-                                                    left outer join hospcode h on h.hospcode = vp.hospmain
-                                                    LEFT JOIN nondrugitems n on n.icode = o.icode
-                                                    LEFT JOIN eclaimdb.l_instrumentitem l on l.`CODE` = n.billcode and l.MAININSCL="sss" 
-                                                    WHERE month(v.dchdate) = "'.$item->months.'"  and year(v.dchdate) = "'.$item->year.'"
-                                                    and o.income="02" 
-                                                    and o.pttype="a7"
-                                                    and n.billcode not in (select `CODE` from eclaimdb.l_instrumentitem where `CODE`= l.`CODE`)
-                                                    and n.billcode like "8%"
-                                                    and n.billcode not in("8608","8628","8361","8543","8152","8660")
-                                                    and vp.nhso_docno is not null 
-                                                    group by month(v.dchdate)                                                                                               
+                                        //             FROM opitemrece o
+                                        //             inner join an_stat v on v.an=o.an
+                                        //             left outer join ipt_pttype vp on vp.an = o.an  
+                                        //             left outer join pttype pt on pt.pttype = o.pttype
+                                        //             left outer join hospcode h on h.hospcode = vp.hospmain
+                                        //             LEFT JOIN nondrugitems n on n.icode = o.icode
+                                        //             LEFT JOIN eclaimdb.l_instrumentitem l on l.`CODE` = n.billcode and l.MAININSCL="sss" 
+                                        //             WHERE month(v.dchdate) = "'.$item->months.'"  and year(v.dchdate) = "'.$item->year.'"
+                                        //             and o.income="02" 
+                                        //             and o.pttype="a7"
+                                        //             and n.billcode not in (select `CODE` from eclaimdb.l_instrumentitem where `CODE`= l.`CODE`)
+                                        //             and n.billcode like "8%"
+                                        //             and n.billcode not in("8608","8628","8361","8543","8152","8660")
+                                        //             and vp.nhso_docno is not null 
+                                        //             group by month(v.dchdate)                                                                                               
                                                   
-                                            '); 
-                                            // group by month(v.dchdate),v.an 
-                                            foreach ($data_claim_ as $key => $value) {
-                                                $claim = $value->an;
-                                            }
+                                        //     '); 
+                                    
+                                        //     foreach ($data_claim_ as $key => $value) {
+                                        //         $claim = $value->an;
+                                        //     }
                                     ?>                                                   
                                         <tr>
                                             <td>{{$i++ }}</td>
@@ -232,10 +232,10 @@
                                                 <a href="{{url('ipd_chai_vn/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item->an }}</a> 
                                             </td> 
                                             <td class="text-center">
-                                                <a href="{{url('ipd_chai_rep/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $claim}}</a>  
+                                                <a href="{{url('ipd_chai_rep/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item->claim}}</a>  
                                              </td>                                            
                                             <td class="text-center" >
-                                                <a href="{{url('ipd_chai_norep/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item->an - $claim}}</a> 
+                                                <a href="{{url('ipd_chai_norep/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{$item->noclaim}}</a> 
                                                 {{-- {{ $item->disvn }} --}}
                                             </td>   
                                             <td class="text-center">{{ $item->summony }}</td>  

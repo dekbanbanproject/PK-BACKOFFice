@@ -40,7 +40,7 @@
 
         <div class="row"> 
             <div class="col"></div>
-            <div class="col-md-1 text-end">สิทธิ์</div>
+            {{-- <div class="col-md-1 text-end">สิทธิ์</div>
             <div class="col-md-2 text-center">
                 <select name="pttype" id="pttype" class="form-control" required> 
                     <option value=""></option>
@@ -53,7 +53,7 @@
                         
                     @endforeach
                 </select>
-            </div>
+            </div> --}}
             <div class="col-md-1 text-end">วันที่</div>
             <div class="col-md-4 text-center">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
@@ -136,8 +136,10 @@
                             
                         </div>
                         <div class="table-responsive mt-2">
-                            <table id="example2" class="table table-striped table-bordered dt-responsive nowrap"
-                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
+                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            {{-- <table id="example2" class="table table-striped table-bordered dt-responsive nowrap"
+                                style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                                 <thead>
                                     <tr>
                                         <th width="5%" class="text-center">ลำดับ</th>

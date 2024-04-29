@@ -105,7 +105,8 @@ $pos = strrpos($url, '/') + 1;
                         data-date-language="th-th" value="{{ $enddate }}"/>  
         
                     <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                        <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
+                        {{-- <i class="fa-solid fa-magnifying-glass text-info me-2"></i> --}}
+                        <i class="fa-solid fa-1 text-info me-2"></i>
                         ค้นหา
                     </button>  
 
@@ -113,16 +114,24 @@ $pos = strrpos($url, '/') + 1;
 
                    
                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('ucep24_main_process')}}">
-                        <i class="fa-solid fa-spinner text-success"></i>
+                        {{-- <i class="fa-solid fa-spinner text-success"></i> --}}                       
+                        <i class="fa-solid fa-2 text-success me-2"></i>
                         ประมวลผล
                     </button>
                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-warning Updatedata" >
-                        <i class="fa-solid fa-spinner text-warning"></i> 
+                        {{-- <i class="fa-solid fa-spinner text-warning"></i>  --}}
+                        <i class="fa-solid fa-3 text-warning me-2"></i>
                         Update Ucep24
                     </button>
                     <a href="{{url('ucep24_main_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4">
-                        <i class="fa-solid fa-file-export text-danger"></i>
+                        {{-- <i class="fa-solid fa-file-export text-danger"></i> --}}
+                        <i class="fa-solid fa-4 text-danger me-2"></i>
                         Export Txt
+                    </a> 
+                    <a href="{{url('ucep24_main_zip')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary card_fdh_4">
+                        {{-- <i class="fa-solid fa-file-export text-danger me-2"></i> --}}
+                        <i class="fa-solid fa-5 text-primary me-2"></i>
+                        Zip Txt
                     </a> 
                 </div> 
             </div>          

@@ -300,6 +300,9 @@ class Account203Controller extends Controller
                         ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011266" AND vn = v.vn) THEN "1100" 
                         ELSE "0.00" 
                         END as debit_drug150
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3009178","3009148") AND vn = v.vn) THEN "2500" 
+                        ELSE "0.00" 
+                        END as ct_cwith_bwith
                         
                         ,(SELECT SUM(rcptamt) sumprice FROM incoth WHERE income <> "08" AND vn = v.vn) AS price_noct
                         ,case
@@ -332,6 +335,7 @@ class Account203Controller extends Controller
                         ,"07" as acc_code,"1102050101.203" as account_code,"UC นอก CUP ในจังหวัด" as account_name,v.pdx,v.dx0
                         ,v.income,v.uc_money ,v.discount_money,v.rcpt_money,v.paid_money  
                         ,ov.name as active_status 
+                        
                         ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3009147" AND vn = v.vn) THEN "1200" 
                         ELSE "0.00" 
                         END as debit_without
@@ -353,6 +357,9 @@ class Account203Controller extends Controller
                         ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011266" AND vn = v.vn) THEN "1100" 
                         ELSE "0.00" 
                         END as debit_drug150
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3009178","3009148") AND vn = v.vn) THEN "2500" 
+                        ELSE "0.00" 
+                        END as ct_cwith_bwith
                         
                         ,(SELECT SUM(rcptamt) sumprice FROM incoth WHERE income <> "08" AND vn = v.vn) AS price_noct
                         ,case
@@ -392,7 +399,7 @@ class Account203Controller extends Controller
 
                 if ($check > 0 ) { 
                 } else {
-                    if ($value->debit_without > 0 || $value->debit_with > 0 || $value->debit_upper > 0 || $value->debit_lower > 0 || $value->debit_multiphase > 0 || $value->debit_drug100 > 0 || $value->debit_drug150 > 0) {
+                    if ($value->debit_without > 0 || $value->debit_with > 0 || $value->debit_upper > 0 || $value->debit_lower > 0 || $value->debit_multiphase > 0 || $value->debit_drug100 > 0 || $value->debit_drug150 > 0 || $value->ct_cwith_bwith > 0) {
                         Acc_debtor::insert([
                             'hn'                 => $value->hn,
                             'an'                 => $value->an,
@@ -417,9 +424,9 @@ class Account203Controller extends Controller
                             'pdx'                => $value->pdx, 
                             'dx0'                => $value->dx0, 
                             'cc'                 => $value->cc, 
-                            'ct_price'           => ($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150), 
+                            'ct_price'           => ($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150+$value->ct_cwith_bwith), 
                             'ct_sumprice'        => '100',  
-                            'sauntang'           => ($value->uc_money)-($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150)-('100'), 
+                            'sauntang'           => ($value->uc_money)-($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150+$value->ct_cwith_bwith)-('100'), 
                             'acc_debtor_userid'  => Auth::user()->id,
                             'date_pull'          => $datetimenow,
                             'active_status'      => $value->active_status,
@@ -450,9 +457,9 @@ class Account203Controller extends Controller
                             'pdx'                => $value->pdx, 
                             'dx0'                => $value->dx0, 
                             'cc'                 => $value->cc, 
-                            'ct_price'           => ($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150), 
+                            'ct_price'           => ($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150+$value->ct_cwith_bwith), 
                             'ct_sumprice'        => '100',  
-                            'sauntang'           => ($value->uc_money)-($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150)-('100'), 
+                            'sauntang'           => ($value->uc_money)-($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150+$value->ct_cwith_bwith)-('100'), 
                             'acc_debtor_userid'  => Auth::user()->id,
                             'date_pull'          => $datetimenow,
                             'active_status'      => $value->active_status,

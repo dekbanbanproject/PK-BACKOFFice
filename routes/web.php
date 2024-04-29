@@ -2019,6 +2019,16 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_302_stam',[App\Http\Controllers\Account302Controller::class, 'account_302_stam'])->name('acc.account_302_stam');//  stamp IPD
     Route::match(['get','post'],'account_302_destroy_all',[App\Http\Controllers\Account302Controller::class, 'account_302_destroy_all'])->name('acc.account_302_destroy_all');// 
 
+    Route::match(['get','post'],'account_303_dash',[App\Http\Controllers\Account303Controller::class, 'account_303_dash'])->name('acc.account_303_dash');// 
+    Route::match(['get','post'],'account_303_pull',[App\Http\Controllers\Account303Controller::class, 'account_303_pull'])->name('acc.account_303_pull');//
+    Route::match(['get','post'],'account_303_checksit',[App\Http\Controllers\Account303Controller::class, 'account_303_checksit'])->name('acc.account_303_checksit');//
+    Route::match(['get','post'],'account_303_pulldata',[App\Http\Controllers\Account303Controller::class, 'account_303_pulldata'])->name('acc.account_303_pulldata');// 
+    Route::match(['get','post'],'account_303_detail/{startdate}/{enddate}',[App\Http\Controllers\Account303Controller::class, 'account_303_detail'])->name('acc.account_303_detail');//
+    Route::match(['get','post'],'account_303_detail_date',[App\Http\Controllers\Account303Controller::class, 'account_303_detail_date'])->name('acc.account_303_detail_date');// 
+    Route::match(['get','post'],'account_303_stam',[App\Http\Controllers\Account303Controller::class, 'account_303_stam'])->name('acc.account_303_stam');//  stamp IPD
+    Route::match(['get','post'],'account_303_destroy_all',[App\Http\Controllers\Account303Controller::class, 'account_303_destroy_all'])->name('acc.account_303_destroy_all');// 
+    Route::match(['get','post'],'account_303_search',[App\Http\Controllers\Account303Controller::class, 'account_303_search'])->name('acc.account_303_search');// 
+    
     Route::match(['get','post'],'account_304_pull',[App\Http\Controllers\Account304Controller::class, 'account_304_pull'])->name('acc.account_304_pull');//
     Route::match(['get','post'],'account_304_checksit',[App\Http\Controllers\Account304Controller::class, 'account_304_checksit'])->name('acc.account_304_checksit');//
     Route::match(['get','post'],'account_304_pulldata',[App\Http\Controllers\Account304Controller::class, 'account_304_pulldata'])->name('acc.account_304_pulldata');//
@@ -3104,6 +3114,7 @@ Route::match(['get','post'],'ucep24_main',[App\Http\Controllers\Fdh_Ucep24Contro
 Route::match(['get','post'],'ucep24_main_process',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main_process'])->name('fdh.ucep24_main_process');//
 Route::match(['get','post'],'ucep24_main_update',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main_update'])->name('fdh.ucep24_main_update');//
 Route::match(['get','post'],'ucep24_main_export',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main_export'])->name('fdh.ucep24_main_export');//
+Route::match(['get','post'],'ucep24_main_zip',[App\Http\Controllers\Fdh_Ucep24Controller::class, 'ucep24_main_zip'])->name('fdh.ucep24_main_zip');//
 
 Route::match(['get','post'],'fdh_ppfs_12001',[App\Http\Controllers\Fdh_PPfs12001Controller::class, 'fdh_ppfs_12001'])->name('fdh.fdh_ppfs_12001');//
 Route::match(['get','post'],'fdh_ppfs_12001_process',[App\Http\Controllers\Fdh_PPfs12001Controller::class, 'fdh_ppfs_12001_process'])->name('fdh.fdh_ppfs_12001_process');//

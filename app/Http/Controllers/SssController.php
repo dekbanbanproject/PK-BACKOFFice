@@ -674,7 +674,6 @@ class SssController extends Controller
                                 ,count(distinct vp.vn) as repvn
                                 ,count(distinct o.vn,o.icode)- count(distinct vp.vn) as norep
                                 ,sum(o.sum_price) as summony
-
                                 FROM opitemrece o
                                 left join vn_stat v on v.vn=o.vn
                                 left outer join visit_pttype vp on vp.vn = o.vn
@@ -685,23 +684,21 @@ class SssController extends Controller
                                 left join patient p on p.hn = v.hn
                                 WHERE o.vstdate between "'.$startdate.'" AND "'.$enddate.'"
                                 and o.income="02" 
-                                and v.pttype="a7"
+                                and v.pttype="A7"
                                 and n.billcode  not in (select `CODE` from eclaimdb.l_instrumentitem where `CODE`= l.`CODE`)
                                 and n.billcode like "8%"
                                 and n.billcode not in ("8608","8307")
-                                and o.an is null 
-                                
+                                and o.an is null                                 
                                 group by month(o.vstdate)
-                                order by o.vstdate
-                        
-                        '); 
-                
+                                order by o.vstdate                        
+                        ');                 
                 } else {
                         $datashow = DB::connection('mysql3')->select('
                                 SELECT year(v.dchdate) as year,month(v.dchdate) as months,count(distinct o.an) as an
-                                ,count(distinct vp.an) as claim
-                                ,count(distinct o.an,o.icode)- count(distinct vp.an) as noclaim
+                                ,if(COUNT(vp.nhso_ownright_pid) > "0",COUNT(vp.nhso_ownright_pid),"0") as claim
+                                ,count(v.an) - if(COUNT(vp.nhso_ownright_pid) > "0",COUNT(vp.nhso_ownright_pid),"0") as noclaim
                                 ,sum(o.sum_price) as summony
+                               
                                 FROM opitemrece o
                                 inner join an_stat v on v.an=o.an
                                 left outer join ipt_pttype vp on vp.an = o.an  
@@ -709,18 +706,15 @@ class SssController extends Controller
                                 left outer join hospcode h on h.hospcode = vp.hospmain
                                 LEFT JOIN nondrugitems n on n.icode = o.icode
                                 LEFT JOIN eclaimdb.l_instrumentitem l on l.`CODE` = n.billcode and l.MAININSCL="sss" 
-                                WHERE v.dchdate between "'.$startdate.'" AND "'.$enddate.'"
-                                
+                                WHERE v.dchdate between "'.$startdate.'" AND "'.$enddate.'"                                
                                 and o.income="02" 
                                 and v.pttype="a7"
                                 and n.billcode not in (select `CODE` from eclaimdb.l_instrumentitem where `CODE`= l.`CODE`)
                                 and n.billcode like "8%"
-                                and n.billcode not in("8608","8628","8361","8543","8152","8660")
-                            
+                                and n.billcode not in("8608","8628","8361","8543","8152","8660")                            
                                 group by month(v.dchdate) 
                         '); 
-                }
-                
+                }                
                 
                 return view('sss.opd_chai_list',[
                 'datashow'       =>  $datashow,

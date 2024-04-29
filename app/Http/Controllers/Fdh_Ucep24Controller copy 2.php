@@ -936,7 +936,17 @@ class Fdh_Ucep24Controller extends Controller
             ]);
     }
     public function ucep24_main_export(Request $request)
-    { 
+    {
+        // $sss_date_now = date("Y-m-d");
+        // $sss_time_now = date("H:i:s");
+
+        // #ตัดขีด, ตัด : ออก
+        // $pattern_date = '/-/i';
+        // $sss_date_now_preg = preg_replace($pattern_date, '', $sss_date_now);
+        // $pattern_time = '/:/i';
+        // $sss_time_now_preg = preg_replace($pattern_time, '', $sss_time_now);
+        // #ตัดขีด, ตัด : ออก
+
          #delete file in folder ทั้งหมด
         $file = new Filesystem;
         $file->cleanDirectory('Export'); //ทั้งหมด
@@ -1399,7 +1409,7 @@ class Fdh_Ucep24Controller extends Controller
             $g24 = $value16->PROVIDER; 
             $g25 = $value16->SP_ITEM;      
             $str_dru="\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22."|".$g23."|".$g24."|".$g25;
-            $ansitxt_dru = iconv('UTF-8', 'UTF-8', $str_dru);
+            // $ansitxt_dru = iconv('UTF-8', 'UTF-8', $str_dru);
             
             $str_dru_16 = preg_replace("/\n/", "\r\n", $str_dru); 
             $str_dru_162 = mb_convert_encoding($str_dru_16, 'UTF-8');   
@@ -1448,27 +1458,6 @@ class Fdh_Ucep24Controller extends Controller
 
             return redirect()->route('claim.ucep24_main');
 
-    }
-    public function ucep24_main_zip(Request $request)
-    {  
-            $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "UCEP24"');
-            foreach ($dataexport_ as $key => $v_export) {
-                $folder = $v_export->folder_name;
-            }
-            $filename = $folder.".zip";
-
-            $zip = new ZipArchive;
-            if($zip->open(public_path($filename), ZipArchive::CREATE ) === TRUE)
-             { 
-                $files = File::files(public_path("Export/".$folder."/"));
-                foreach ($files as $key => $value) {
-                    $relativenameInZipFile = basename($value);
-                    $zip->addFile($value,$relativenameInZipFile); 
-                }
-                $zip->close();
-            }
-            return response()->download(public_path($filename));
-             
     }
      
 }

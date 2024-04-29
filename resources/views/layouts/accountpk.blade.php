@@ -388,6 +388,13 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                             <li><a href="{{ url('account_302_detail_date') }}">ลูกหนี้</a></li>
                                         </ul>
                                     </li>
+                                    <li><a href="javascript: void(0);" class="has-arrow">303-OPนอกเครือข่าย สังกัด สป.สธ.</a>
+                                        <ul class="sub-menu" aria-expanded="true"> 
+                                            <li><a href="{{ url('account_303_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_303_pull') }}">ดึงลูกหนี้</a></li>
+                                            <li><a href="{{ url('account_303_search') }}">ค้นหาลูกหนี้</a></li>
+                                        </ul>
+                                    </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">304-IPเครือข่าย</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_304_dash') }}">dashboard</a></li>

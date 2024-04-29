@@ -162,11 +162,12 @@ class OpipController extends Controller
                     left join patient p on p.hn =o.hn
                     where v.income >"0"
                     AND v.vstdate between "'.$startdate.'" and "'.$enddate.'"
-                    AND v.pttype = "'.$pttype_.'"
+                   
                     group by a.an
                     order by v.vstdate 
             '); 
         }
+        // AND v.pttype = "'.$pttype_.'"
         // group by a.an 
         // and year(v.vstdate) = "'.$year.'"
         // AND month(v.vstdate) = "'.$month.'"
