@@ -186,7 +186,8 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                         <i class="ri-menu-2-line align-middle" style="color: rgb(255, 255, 255)"></i>
                     </button>
                     <a href="{{url('techservice')}}">
-                        <h4 style="color:rgb(255, 255, 255)" class="mt-4">Tecnicial-Service</h4>
+                        <h4 style="color:rgb(255, 255, 255)" class="mt-4">CCTV-CAMERA</h4>
+                        {{-- <h4 style="color:rgb(255, 255, 255)" class="mt-4">Tecnicial-Service</h4> --}}
                     </a>
                    
                     <?php
