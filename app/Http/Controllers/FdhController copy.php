@@ -1755,75 +1755,145 @@ class FdhController extends Controller
     }
 
     public function fdh_mini_dataset_apicliam(Request $request)
-    {   
-        $id = $request->ids;
+    {         
+        // $data_send = DB::connection('mysql')->select('SELECT * from fdh_mini_dataset WHERE active ="N" AND invoice_number IS NOT NULL '); 
+        // foreach ($data_send as $key => $value) {
+        //     # code...
+        // }
+       
         $iduser = Auth::user()->id;
-        $data_vn_1 = Fdh_mini_dataset::whereIn('fdh_mini_dataset_id',explode(",",$id))->get();
-         
-        foreach ($data_vn_1 as $key => $val) {
-            $service_date_time    = $val->service_date_time;         
-            $service_datetime_     = substr($service_date_time,0,16);
-            $cid_                  = $val->cid;
-            $hcode_                = $val->hcode;
-            $total_amout_          = $val->total_amout;
-            $invoice_number_       = $val->invoice_number;
-            $vn_                   = $val->vn;
-            // dd($service_datetime);
+        $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE user_id = "'.$iduser.'"');  
+        foreach ($data_token_ as $key => $val_to) {
+            $username     = $val_to->api_neweclaim_user;
+            $password     = $val_to->api_neweclaim_pass;
+            $token        = $val_to->api_neweclaim_token;
+        } 
 
-            $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE user_id = "'.$iduser.'"');  
-            foreach ($data_token_ as $key => $val_to) { 
-                $token        = $val_to->api_neweclaim_token;
-            }  
+            // $username        = 'pradit.10978';
+            // $password        = '8Uk&8Fr&'; 
+            // $password_hash   = strtoupper(hash_hmac('sha256',$password,'$jwt@moph#'));  
+            // $curl = curl_init();
+            // curl_setopt_array($curl, array(
+            // CURLOPT_URL => 'https://fdh.moph.go.th/token?Action=get_moph_access_token&user='.$username.'&password_hash='.$password_hash.'&hospital_code=10978',
+            // CURLOPT_RETURNTRANSFER => true,
+            // CURLOPT_ENCODING => '',
+            // CURLOPT_MAXREDIRS => 10,
+            // CURLOPT_TIMEOUT => 0,
+            // CURLOPT_FOLLOWLOCATION => true,
+            // CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            // CURLOPT_CUSTOMREQUEST => 'POST',
+            // CURLOPT_HTTPHEADER => array(
+            //     'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
+            // ),
+            // ));
+            // $token = curl_exec($curl);
+            // dd($token); 
+            // curl_close($curl); 
+        // dd($token);
+            // $curl = curl_init();
+            // curl_setopt_array($curl, array(
+            // CURLOPT_URL => 'https://fdh.moph.go.th/api/v1/reservation&service_date_time=2024-04-30 10:22&cid=3361000895876&hcode=10978&total_amount=250&invoice_number=728592&hcode=670430102247',
+            // CURLOPT_RETURNTRANSFER => true,
+            // CURLOPT_ENCODING => '',
+            // CURLOPT_MAXREDIRS => 10,
+            // CURLOPT_TIMEOUT => 0,
+            // CURLOPT_FOLLOWLOCATION => true,
+            // CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            // CURLOPT_CUSTOMREQUEST => 'POST',
+            // CURLOPT_HTTPHEADER => array(
+            //     'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
+            // ),
+            // ));
+            // $token = curl_exec($curl);
+            // // dd($token); 
+            // curl_close($curl);
+            // 'Authorization : Bearer'.$token, 
+            // dd($password_hash);   
+            //   $postData_send = [
+            //     'service_date_time'   => '2024-04-30 10:22',
+            //     'cid'                 => '3361000895876',
+            //     'hcode'               => '10978',
+            //     'total_amout'         => '250',
+            //     'invoice_number'      => '728592',
+            //     'vn'                  => '670430102247',
+            // ]; 
+            // $response = Http::withHeaders([ 
+            //     'Authorization : Bearer ' .$token, 
+            //     'Content-type: application/json',                
+            // ])->POST('https://fdh.moph.go.th/api/v1/reservation', $postData_send); 
+            // $response = Http::withHeaders([  
+            //     'Content-Type: application/json', 
+            //     'Authorization: Bearer '.$token,               
+            // ])->POST('https://fdh.moph.go.th/api/v1/reservation', [
+            //     'service_date_time'   =>  '2024-04-30 07:38',
+            //     'cid'                 =>  '3470500411167',
+            //     'hcode'               => '10978',
+            //     'total_amout'         => '992.5',
+            //     'invoice_number'      => '728604',
+            //     'vn'                  => '670430073821',
+            // ]);    
+            // // $status = $response->json('status');
+            // $message = $response->json('message');
+            // // $data = $response->json('data');
+            // dd($message);
+            // https://uat-fdh.inet.co.th/api/v1/reservation
+            // https://fdh.moph.go.th/api/v1/reservation            
+            // 'User-Agent:<platform>/<version><10978>' 
+            // $curl = curl_init();
+            // $postData_send = [
+            //     'service_date_time'   => '2024-04-30 10:22',
+            //     'cid'                 => '3361000895876',
+            //     'hcode'               => '10978',
+            //     'total_amout'         => '250',
+            //     'invoice_number'      => '728592',
+            //     'vn'                  => '670430102247',
+            // ]; 
+            // // $headers_send  = [
+            // //     'Authorization : Bearer '.$token,
+            // //     'Content-Type: application/json' 
+            // // ];                  
 
-            $curl = curl_init();            
+            $curl = curl_init();
+            
             curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://fdh.moph.go.th/api/v1/reservation',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS =>'{
-                    "service_date_time": '.$service_datetime_.',
-                    "cid": '.$cid_.',
-                    "hcode": '.$hcode_.',
-                    "total_amout": '.$total_amout_.',
-                    "invoice_number": '.$invoice_number_.',
-                    "vn": '.$vn_.',
-                }',
-                // CURLOPT_HTTPHEADER => array(
-                //     'Content-Type: application/json',
-                //     'Authorization: Bearer '.$token,
-                //     'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
-                // ),
-                CURLOPT_HTTPHEADER => array(
-                    'Content-Type: application/json',
-                    'Authorization: Bearer eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwcmFkaXQuMTA5NzhAMTA5NzgiLCJpYXQiOjE3MTQ0OTc3MDEsImV4cCI6MTcxNDUwODUwMSwiaXNzIjoiTU9QSCBBY2NvdW50IENlbnRlciIsImF1ZCI6Ik1PUEggQVBJIiwiY2xpZW50Ijp7InVzZXJfaWQiOjQyNSwidXNlcl9oYXNoIjoiMjlGMEQzRTY0ODlFM0ZCMkFGNDlBQzZCMkUxOUUyMTE3RTQ1OEVGNEVFRUQyMEJFNDRDMTNEMTgzREUxRTAwRDhCQ0FGMyIsImxvZ2luIjoicHJhZGl0LjEwOTc4IiwibmFtZSI6IuC4m-C4o-C4sOC4lOC4tOC4qeC4kOC5jCDguKPguLDguKvguLIiLCJob3NwaXRhbF9uYW1lIjoi4LmC4Lij4LiH4Lie4Lii4Liy4Lia4Liy4Lil4Lig4Li54LmA4LiC4Li14Lii4Lin4LmA4LiJ4Lil4Li04Lih4Lie4Lij4Liw4LmA4LiB4Li14Lii4Lij4LiV4Li0IiwiaG9zcGl0YWxfY29kZSI6IjEwOTc4IiwiZW1haWwiOiJkZWtiYW5iYW5wcm9qZWN0QGdtYWlsLmNvbSIsImFjY291bnRfYWN0aXZhdGVkIjp0cnVlLCJhY2NvdW50X3N1c3BlbmRlZCI6ZmFsc2UsImxhc3RfY2hhbmdlX3Bhc3N3b3JkIjoxNjk1ODQwOTgyLCJsYXN0X2NvbmZpcm1fb3RwIjoxNzE0NDcxODE3LCJjaWRfaGFzaCI6IkI4REQ0NUQ1NjZBODdFMTRGRkNCQjlEMjY2MjNFMTQ5OjM3IiwiY2lkX2VuY3J5cHQiOiI0ODY0OEI1NjJENjU2NkFCRTlGQTUyMjlFRDY1MDRFMTI2NzQ5N0RBODlBNTdBQzYyRjg3RTM0MjNGMjU2REE1MUUzNDE1QjY3Q0M4MTZDM0ZDQjBBRkUxQ0IiLCJjaWRfYWVzIjoiZmpNRjFrdjlZRjQvUUJSUGxBNnhvZz09IiwiY2xpZW50X2lwIjoiNDkuMjMxLjI0OS4xMTYiLCJzY29wZSI6W3siY29kZSI6Ik1PUEhfQ0xBSU06MSJ9LHsiY29kZSI6Ik1PUEhfQ0xBSU1fQVBJOjEifSx7ImNvZGUiOiJNT1BIX0NMQUlNX0FETUlOOjEifV0sInJvbGUiOlsibW9waC1hcGkiXSwic2NvcGVfbGlzdCI6IltNT1BIX0NMQUlNOjFdW01PUEhfQ0xBSU1fQVBJOjFdW01PUEhfQ0xBSU1fQURNSU46MV0iLCJhY2Nlc3NfY29kZV9sZXZlbDEiOiInJyIsImFjY2Vzc19jb2RlX2xldmVsMiI6IicnIiwiYWNjZXNzX2NvZGVfbGV2ZWwzIjoiJyciLCJhY2Nlc3NfY29kZV9sZXZlbDQiOiInJyIsImFjY2Vzc19jb2RlX2xldmVsNSI6IicnIn19.heFwY03Kb7I-n78y5y3pXe126J1IDdrXgGEAGFj7hsI_B-x98Nso2jcA_05-xgvLkN7n15UaiRxKqSPiiisUUd7MMOVvzSEFlNgkxfnjLch4IdTPhtZFadkWO3Gh08gVoCQIF0NzLmVScqCwDpxmy3g7bqVVMe1IDcK9plx7cJs6X3wN_DAEv6AZo_RUNfCvG3TNvbmOaUZ7NcW971BM5mV-2NFWrFctXPuOtGI1Fn5qxcBYSNKq2Zc2aRA5d7p-5wecYyCX5VYZsiyZml_Ya2rtvwSIJIAxmcHloWr70TM2zFpb2HySgtbPBauSL60J9-sNwo11dBrPXH6UmhYJ82RwNCVXRcyxQuzgU6JfERehZ2ulKGrvtKr4rOTGe-VutDBqnsp0bESmPKRahCkUDCqhGOnZOD5thU5CMIGGQN9PjTtMR4e0js8rlfMNsZapn69qGQ1G70KHYxwfzWNjzC44O7hDB981drIaYzDOEDKNZXBDciIX8dfjGCtO7cWu58zoRVzyV9kccm3XxJO-yv9HL2U2yoU1sW504UPFnXrBupxoAitMHbqs3U17mP8RmJjYWLgjoeWx3CIZAtXsgFqramDLXV-LNjpik3KyIeH-8xQ8Q1MvIXUJdrHiXwlO-t3_NoabYMswitdDA6AVK1MtqKUWcbdchfHcUkS65Jg',
-                    'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
-                  ),
+              CURLOPT_URL => 'https://fdh.moph.go.th/api/v1/reservation',
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_ENCODING => '',
+              CURLOPT_MAXREDIRS => 10,
+              CURLOPT_TIMEOUT => 0,
+              CURLOPT_FOLLOWLOCATION => true,
+              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+              CURLOPT_CUSTOMREQUEST => 'POST',
+              CURLOPT_POSTFIELDS =>'{
+                "service_date_time": "2024-04-30 07:38",
+                "cid": "3470500411167",
+                "hcode": "10978",
+                "total_amout": "992.5",
+                "invoice_number": "728604",
+                "vn": "670430073821"
+            }',
+              CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                'Authorization: Bearer '.$token,
+                'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
+              ),
             ));
             
             $response = curl_exec($curl);
             // dd($response);
             curl_close($curl);
-            // $contents = $response;
-            // dd($contents);
-            $result = json_decode($response, true);
-            $error = $result['error'];
-            @$message = $result['message'];
-            @$status = $result['status'];
-            @$data = $result['data'];
-            dd($result);
-            //  dd(@$data);
-            // return response()->json([
-            //     'status'     => '200'
-            // ]);
-        } 
-        // return response()->json([
-        //     'status'     => '200'
-        // ]); 
+            echo $response;
+            
+            // CURLOPT_HTTPHEADER => array(
+            //     'Content-Type: application/json',
+            //     'Authorization: Bearer eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwcmFkaXQuMTA5NzhAMTA5NzgiLCJpYXQiOjE3MTQ0OTM4NDIsImV4cCI6MTcxNDUwNDY0MiwiaXNzIjoiTU9QSCBBY2NvdW50IENlbnRlciIsImF1ZCI6Ik1PUEggQVBJIiwiY2xpZW50Ijp7InVzZXJfaWQiOjQyNSwidXNlcl9oYXNoIjoiMjlGMEQzRTY0ODlFM0ZCMkFGNDlBQzZCMkUxOUUyMTE3RTQ1OEVGNEVFRUQyMEJFNDRDMTNEMTgzREUxRTAwRDhCQ0FGMyIsImxvZ2luIjoicHJhZGl0LjEwOTc4IiwibmFtZSI6IuC4m-C4o-C4sOC4lOC4tOC4qeC4kOC5jCDguKPguLDguKvguLIiLCJob3NwaXRhbF9uYW1lIjoi4LmC4Lij4LiH4Lie4Lii4Liy4Lia4Liy4Lil4Lig4Li54LmA4LiC4Li14Lii4Lin4LmA4LiJ4Lil4Li04Lih4Lie4Lij4Liw4LmA4LiB4Li14Lii4Lij4LiV4Li0IiwiaG9zcGl0YWxfY29kZSI6IjEwOTc4IiwiZW1haWwiOiJkZWtiYW5iYW5wcm9qZWN0QGdtYWlsLmNvbSIsImFjY291bnRfYWN0aXZhdGVkIjp0cnVlLCJhY2NvdW50X3N1c3BlbmRlZCI6ZmFsc2UsImxhc3RfY2hhbmdlX3Bhc3N3b3JkIjoxNjk1ODQwOTgyLCJsYXN0X2NvbmZpcm1fb3RwIjoxNzE0NDcxODE3LCJjaWRfaGFzaCI6IkI4REQ0NUQ1NjZBODdFMTRGRkNCQjlEMjY2MjNFMTQ5OjM3IiwiY2lkX2VuY3J5cHQiOiI0ODY0OEI1NjJENjU2NkFCRTlGQTUyMjlFRDY1MDRFMTI2NzQ5N0RBODlBNTdBQzYyRjg3RTM0MjNGMjU2REE1MUUzNDE1QjY3Q0M4MTZDM0ZDQjBBRkUxQ0IiLCJjaWRfYWVzIjoiZmpNRjFrdjlZRjQvUUJSUGxBNnhvZz09IiwiY2xpZW50X2lwIjoiNDkuMjMxLjI0OS4xMTYiLCJzY29wZSI6W3siY29kZSI6Ik1PUEhfQ0xBSU06MSJ9LHsiY29kZSI6Ik1PUEhfQ0xBSU1fQVBJOjEifSx7ImNvZGUiOiJNT1BIX0NMQUlNX0FETUlOOjEifV0sInJvbGUiOlsibW9waC1hcGkiXSwic2NvcGVfbGlzdCI6IltNT1BIX0NMQUlNOjFdW01PUEhfQ0xBSU1fQVBJOjFdW01PUEhfQ0xBSU1fQURNSU46MV0iLCJhY2Nlc3NfY29kZV9sZXZlbDEiOiInJyIsImFjY2Vzc19jb2RlX2xldmVsMiI6IicnIiwiYWNjZXNzX2NvZGVfbGV2ZWwzIjoiJyciLCJhY2Nlc3NfY29kZV9sZXZlbDQiOiInJyIsImFjY2Vzc19jb2RlX2xldmVsNSI6IicnIn19.fLOf5Txb6QSNPRHs-tJiciCrNzJXCqAl5SH5wR56-uIFX7iG6XtZJaB7xuHQXjpsrmcoz8IhD3vz3W3zvpWpg4rq3pytS4MHeiNzdruMTkgIt8xt3ECW3SWfS5SOt3-zeHefvvxuy2GXQ8rtGZkkZo0rah1smy53rfJmfCfEhNSopKfRcV4RsswyHn0ZNh5DO0KcJVBShSVNJCUHcm8AEAz5J9aAs8Leqb4WLLG__mlEZLUrJxBv8FjWL-EpPdqmDnohwsQ8ma2KlJeymEmPsLX6S05AnQT2MxLnGEcXAAkq3dLFqMvQXnafd-Bxj6kudW9JxQeBDPAPXi0My4_gItE_9Kbu0sUc6oPiiDJV7tgY4294sbkk9rZ6APTa2ggLiuf8gz5cRlFTZL-thwjjGFK39w-0vtJRg0qIUZzZ55vQ9nSZyaUQlG6A0lZV1LfSMHPMq9IW5tHhNHSwUvwu5EyFSG12ukin8dR4hdoI-XCYBOppNU-VuUam9Q9cOn9p2c7AM55KWVY_AfyvTCX1CwDV1eNDsaG9ZgAZJ30l714VHgbnJKdWCmuGdHBkh2fl8JqWwFZIQBD4DiACchupSOsEQJ07K_OzvLa8LSToOIauKcNsOXGg01LyokXXTX4QNSfeMrZ004mbU39HLjOLXvF_bfFtjywB_jemsYBIZS8',
+            //     'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
+            //   ),
+            // ));
+         
+        return response()->json([
+            'status'     => '200'
+        ]); 
 
     }
     

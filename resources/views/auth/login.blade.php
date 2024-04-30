@@ -58,7 +58,7 @@
 </head>
 <style>
     .modal-dialog {
-            max-width: 80%;
+            max-width: 60%;
         }
         .modal-dialog-slideout {
             min-height: 100%;

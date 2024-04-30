@@ -163,19 +163,19 @@ class Fdh_Ucep24Controller extends Controller
                     }       
  
                 }   
-                $data_date_one = DB::connection('mysql')->select('SELECT vn,an,hn,vstdate,dchdate FROM d_fdh WHERE vstdate IS NOT NULL GROUP BY an'); 
+                $data_date_one = DB::connection('mysql')->select('SELECT vn,an,hn,vstdate,dchdate FROM d_fdh WHERE dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"AND projectcode ="UCEP24" GROUP BY an'); 
                 foreach ($data_date_one as $key => $v_opitem_one) {
                     $opitem = DB::connection('mysql2')->select('
-                        SELECT i.vn,o.an,o.hn,pp.cid,concat(pp.pname,pp.fname," ",pp.lname) ptname,o.rxdate,o.rxtime,i.dchdate,s.icode,s.name as namelist,s.strength,s.units ,o.qty,o.unitprice,o.sum_price,o.paidst,pt.pttype,pt.hipdata_code   
+                        SELECT i.vn,o.an,o.hn,pp.cid,concat(pp.pname,pp.fname," ",pp.lname) ptname,o.rxdate,o.rxtime,i.dchdate,s.icode,s.name as namelist ,o.qty,o.unitprice,o.sum_price,o.paidst,pt.pttype,pt.hipdata_code   
                             FROM opitemrece o  
                             LEFT OUTER JOIN ipt i on i.an = o.an 
                             LEFT OUTER JOIN patient pp on pp.hn = o.hn
                             LEFT OUTER JOIN s_drugitems s on s.icode = o.icode  
                             LEFT OUTER JOIN paidst p on p.paidst = o.paidst  
                             LEFT OUTER JOIN pttype pt on pt.pttype = o.pttype  
-                            WHERE o.an = "'.$v_opitem_one->an.'" 
-                            AND o.rxdate = "'.$v_opitem_one->vstdate.'" 
-                            ORDER BY o.rxdate,o.rxtime
+                            WHERE i.an = "'.$v_opitem_one->an.'" 
+                            AND i.dchdate = "'.$v_opitem_one->dchdate.'" 
+                            ORDER BY i.dchdate,o.rxtime
                     ');
                     foreach ($opitem as $key => $v_item) {                     
                         D_ucep24::insert([
@@ -205,25 +205,25 @@ class Fdh_Ucep24Controller extends Controller
                 //         'authen'   => $v_up->claimcode,  
                 //     ]);
                 // } 
-                $s_date_now = date("Y-m-d");
-                $s_time_now = date("H:i:s");
+                // $s_date_now = date("Y-m-d");
+                // $s_time_now = date("H:i:s");
 
-                #ตัดขีด, ตัด : ออก
-                $pattern_date = '/-/i';
-                $s_date_now_preg = preg_replace($pattern_date, '', $s_date_now);
-                $pattern_time = '/:/i';
-                $s_time_now_preg = preg_replace($pattern_time, '', $s_time_now);
-                #ตัดขีด, ตัด : ออก
-                $folder_name='UCEP24_'.$s_date_now_preg.'_'.$s_time_now_preg;
+                // #ตัดขีด, ตัด : ออก
+                // $pattern_date = '/-/i';
+                // $s_date_now_preg = preg_replace($pattern_date, '', $s_date_now);
+                // $pattern_time = '/:/i';
+                // $s_time_now_preg = preg_replace($pattern_time, '', $s_time_now);
+                // #ตัดขีด, ตัด : ออก
+                // $folder_name='UCEP24_'.$s_date_now_preg.'_'.$s_time_now_preg;
                  
 
-                Fdh_sesion::insert([
-                    'folder_name'      => $folder_name,
-                    'd_anaconda_id'    => 'UCEP24',
-                    'date_save'        => $s_date_now,
-                    'time_save'        => $s_time_now,
-                    'userid'           => $iduser  
-                ]);
+                // Fdh_sesion::insert([
+                //     'folder_name'      => $folder_name,
+                //     'd_anaconda_id'    => 'UCEP24',
+                //     'date_save'        => $s_date_now,
+                //     'time_save'        => $s_time_now,
+                //     'userid'           => $iduser  
+                // ]);
         }              
         
             // $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="UCEP24" AND icd10 IS NOT NULL ORDER BY vn ASC');
@@ -267,10 +267,29 @@ class Fdh_Ucep24Controller extends Controller
         Fdh_aer::where('d_anaconda_id','=','UCEP24')->delete();
         Fdh_adp::where('d_anaconda_id','=','UCEP24')->delete();
         Fdh_dru::where('d_anaconda_id','=','UCEP24')->delete();            
-        Fdh_lvd::where('d_anaconda_id','=','UCEP24')->delete();           
-        
+        Fdh_lvd::where('d_anaconda_id','=','UCEP24')->delete();  
         $id = $request->ids;
         $iduser = Auth::user()->id;
+        $s_date_now = date("Y-m-d");
+        $s_time_now = date("H:i:s");
+
+        #ตัดขีด, ตัด : ออก
+        $pattern_date = '/-/i';
+        $s_date_now_preg = preg_replace($pattern_date, '', $s_date_now);
+        $pattern_time = '/:/i';
+        $s_time_now_preg = preg_replace($pattern_time, '', $s_time_now);
+        #ตัดขีด, ตัด : ออก
+        $folder_name='UCEP24_'.$s_date_now_preg.'_'.$s_time_now_preg;
+         
+
+        Fdh_sesion::insert([
+            'folder_name'      => $folder_name,
+            'd_anaconda_id'    => 'UCEP24',
+            'date_save'        => $s_date_now,
+            'time_save'        => $s_time_now,
+            'userid'           => $iduser  
+        ]);
+                
         // $data_vn_1 = D_ucep24_main::whereIn('d_ucep24_main_id',explode(",",$id))->get();
         $data_vn_1 = D_fdh::whereIn('d_fdh_id',explode(",",$id))->get(); 
          foreach ($data_vn_1 as $key => $va1) {
@@ -868,7 +887,7 @@ class Fdh_Ucep24Controller extends Controller
         // Fdh_adp::where('SP_ITEM','=','')->where('d_anaconda_id',"UCEP24")->delete();
         // Fdh_adp::where('QTY','=',['',null])->where('SP_ITEM','=','01')->where('d_anaconda_id',"UCEP24")->delete();
         // Fdh_dru::where('SP_ITEM','=',null)->where('d_anaconda_id',"UCEP24")->delete();
-        Fdh_adp::where('CODE','=','XXXXXX')->delete();
+        // Fdh_adp::where('CODE','=','XXXXXX')->delete();
         Fdh_dru::whereIn('DID',[1550027, 1650087,1590016,1500101,1590018,1660100,1640078,1640058,1640076])->delete();
         // D_ucep24_main::whereIn('d_ucep24_main_id',explode(",",$id))
         // ->update([
@@ -1442,11 +1461,11 @@ class Fdh_Ucep24Controller extends Controller
                             // unlink($file); 
                         } 
                     }                      
-                    return redirect()->route('claim.ucep24_main');                    
+                    return redirect()->route('fdh.ucep24_main');                    
                 }
         } 
 
-            return redirect()->route('claim.ucep24_main');
+            return redirect()->route('fdh.ucep24_main');
 
     }
     public function ucep24_main_zip(Request $request)

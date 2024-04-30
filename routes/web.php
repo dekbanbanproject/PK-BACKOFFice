@@ -3204,5 +3204,10 @@ Route::match(['get','post'],'audit_approve_code',[App\Http\Controllers\PreauditC
 Route::match(['get','post'],'pre_audit_approve_detail/{month}/{year}',[App\Http\Controllers\PreauditController::class, 'pre_audit'])->name('audit.pre_audit');
 Route::match(['get','post'],'pre_audit_chart',[App\Http\Controllers\PreauditController::class, 'pre_audit_chart'])->name('audit.pre_audit_chart');
 
+Route::match(['get','post'],'fdh_mini_dataset',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset'])->name('fdh.fdh_mini_dataset');
+Route::match(['get','post'],'fdh_mini_dataset_api',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_api'])->name('fdh.fdh_mini_dataset_api');
+Route::match(['get','post'],'fdh_mini_dataset_pull',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pull'])->name('fdh.fdh_mini_dataset_pull');
+Route::match(['get','post'],'fdh_mini_dataset_apicliam',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_apicliam'])->name('fdh.fdh_mini_dataset_apicliam');
+
 
 });

@@ -259,11 +259,26 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <span>FDH</span> 
                             </a> 
                         </li> 
+                        {{-- <li><a href="{{ url('fdh_mini_dataset') }}">    
+                                <i class="fa-solid fa-fingerprint text-info"></i>
+                                <span>FDH MINI DATASET</span> 
+                            </a> 
+                        </li>  --}}
                         <li><a href="{{ url('fdh_report_rep') }}">    
                             <i class="fa-solid fa-chart-line text-success"></i>
                             <span>FDH REP REPORT</span> 
                         </a> 
-                    </li> 
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                 <i class="fa-solid fa-sack-dollar text-success"></i>
+                                <span>FDH MINI DATASET</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true"> 
+                                <li><a href="{{ url('fdh_mini_dataset') }}">FDH AUTH MINI</a></li> 
+                                <li><a href="{{ url('fdh_mini_dataset_pull') }}">FDH PULL DATA</a></li> 
+                            </ul> 
+                        </li>
+                        
                         {{-- @if ($permiss_ofc != 0)                           
                             <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">
