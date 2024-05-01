@@ -1301,7 +1301,7 @@ class Fdh_HpvController extends Controller
                         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,if(n.nhso_adp_code is null,"1","2") as ITEMSRC
                         ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"" LMP ,""SP_ITEM,v.icode,v.vstdate
                         FROM opitemrece v
-                        JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null 
+                        JOIN nondrugitems n on n.icode = v.icode  
                         LEFT OUTER JOIN ipt i on i.an = v.an
                         AND i.an is not NULL 
                         WHERE i.vn IN("'.$va1->vn.'")
@@ -1314,13 +1314,14 @@ class Fdh_HpvController extends Controller
                         (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,sum(v.QTY) QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
                         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,if(n.nhso_adp_code is null,"1","2") as ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"" LMP ,""SP_ITEM,v.icode,v.vstdate
                         FROM opitemrece v
-                        JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null 
+                        JOIN nondrugitems n on n.icode = v.icode  
                         LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
                         WHERE vv.vn IN("'.$va1->vn.'")
                         AND v.an is NULL
                         GROUP BY vv.vn,n.nhso_adp_code,rate) b 
                         GROUP BY seq,CODE,rate; 
-                ');                 
+                ');    
+                // JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null             
                 foreach ($data_adp_ as $va_13) {
                     Fdh_adp::insert([
                         'HN'                   => $va_13->HN,
@@ -1464,7 +1465,7 @@ class Fdh_HpvController extends Controller
                 ->update([
                     'active' => 'Y'
                 ]);
-        Fdh_adp::where('CODE','=','XXXXXX')->delete();
+        // Fdh_adp::where('CODE','=','XXXXXX')->delete();
         return response()->json([
              'status'    => '200'
         ]);

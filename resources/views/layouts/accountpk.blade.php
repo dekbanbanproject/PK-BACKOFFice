@@ -377,7 +377,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_3013_dash') }}">dashboard</a></li>
                                             <li><a href="{{ url('account_3013_pull') }}">ดึงลูกหนี้</a> </li>
-                                            <li><a href="{{ url('account_3013_detail_date') }}">ลูกหนี้</a> </li>
+                                            <li><a href="{{ url('account_3013_search') }}">ค้นหาลูกหนี้</a> </li>
                                         </ul>
                                     </li>
                                    

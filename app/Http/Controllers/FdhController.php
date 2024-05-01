@@ -912,7 +912,7 @@ class FdhController extends Controller
                         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,if(n.nhso_adp_code is null,"1","2") as ITEMSRC
                         ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"" LMP ,""SP_ITEM,v.icode,v.vstdate
                         FROM opitemrece v
-                        JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null 
+                        JOIN nondrugitems n on n.icode = v.icode  
                         LEFT OUTER JOIN ipt i on i.an = v.an
                         AND i.an is not NULL 
                         WHERE i.vn IN("'.$va1->vn.'")
@@ -925,7 +925,7 @@ class FdhController extends Controller
                         (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,sum(v.QTY) QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
                         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,if(n.nhso_adp_code is null,"1","2") as ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"" LMP ,""SP_ITEM,v.icode,v.vstdate
                         FROM opitemrece v
-                        JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null 
+                        JOIN nondrugitems n on n.icode = v.icode  
                         LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
                         WHERE vv.vn IN("'.$va1->vn.'")
                         AND v.an is NULL
@@ -1593,44 +1593,46 @@ class FdhController extends Controller
         $password = $request->password;
      
         if ($ip == '::1') {
-                // $postData_send =  [
-                //     'username'        =>  $username,
-                //     'password'        =>  $password 
-                // ]; 
-                // $headers_send  = [    
-                //     'User-Agent:<platform>/<version> <10978>',        
-                //     'Content-Type: application/json'  
-                // ];
-                // $ch = curl_init();
-                // $password_hash = strtoupper(hash_hmac('sha256',$password,'$jwt@moph#'));
-                // curl_setopt($ch, CURLOPT_URL,"https://fdh.moph.go.th/token?Action=get_moph_access_token");
-                // curl_setopt($ch, CURLOPT_POST, 1);
-                // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData_send, JSON_UNESCAPED_SLASHES));
-                // curl_setopt($ch, CURLOPT_HTTPHEADER, $headers_send);
+            $username        = $request->username;
+            $password        = $request->password;  
+            $password_hash   = strtoupper(hash_hmac('sha256',$password,'$jwt@moph#'));  
 
-                // $server_output     = curl_exec ($ch);
-                // $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                // // dd($statusCode);  
-                // $content = $server_output;
-                // $result = json_decode($content, true);
-              
-                // @$token = $result['token'];
-                // dd($token);  
-                // $check = Api_neweclaim::where('api_neweclaim_user',$username)->where('api_neweclaim_pass',$password_hash)->count();
-                // if ($check > 0) { 
-                //     Api_neweclaim::where('api_neweclaim_user',$username)->update([ 
-                //         'api_neweclaim_token'       => @$token,
-                //         'user_id'                   => Auth::user()->id,
-                //     ]); 
-                // } else {
-                //     Api_neweclaim::insert([
-                //         'api_neweclaim_user'        => $username,
-                //         'api_neweclaim_pass'        => $password_hash,
-                //         'api_neweclaim_token'       => @$token,
-                //         'user_id'                   => Auth::user()->id,
-                //     ]); 
-                // }
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://fdh.moph.go.th/token?Action=get_moph_access_token&user='.$username.'&password_hash='.$password_hash.'&hospital_code=10978',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_HTTPHEADER => array(
+                'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
+            ),
+            ));
+            $token = curl_exec($curl);
+            // dd($token); 
+            curl_close($curl);            
+         
+            $check = Api_neweclaim::where('api_neweclaim_user',$username)->where('api_neweclaim_pass',$password)->count();
+            if ($check > 0) { 
+                Api_neweclaim::where('api_neweclaim_user',$username)->update([ 
+                    'api_neweclaim_token'       => $token,
+                    'user_id'                   => Auth::user()->id,
+                    'password_hash'             => $password_hash,
+                    'hospital_code'             => '10978',
+                ]); 
+            } else {
+                Api_neweclaim::insert([
+                    'api_neweclaim_user'        => $username,
+                    'api_neweclaim_pass'        => $password,
+                    'api_neweclaim_token'       => $token,
+                    'password_hash'             => $password_hash,
+                    'hospital_code'             => '10978',
+                    'user_id'                   => Auth::user()->id,
+                ]); 
+            }
         } else {
 
             $username        = $request->username;
@@ -1772,8 +1774,9 @@ class FdhController extends Controller
 
             $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE user_id = "'.$iduser.'"');  
             foreach ($data_token_ as $key => $val_to) { 
-                $token        = $val_to->api_neweclaim_token;
+                $token_   = $val_to->api_neweclaim_token;
             }  
+            $token = $token_;
 
             $curl = curl_init();            
             curl_setopt_array($curl, array(
@@ -1793,16 +1796,16 @@ class FdhController extends Controller
                     "invoice_number": '.$invoice_number_.',
                     "vn": '.$vn_.',
                 }',
-                // CURLOPT_HTTPHEADER => array(
-                //     'Content-Type: application/json',
-                //     'Authorization: Bearer '.$token,
-                //     'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
-                // ),
                 CURLOPT_HTTPHEADER => array(
                     'Content-Type: application/json',
-                    'Authorization: Bearer eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwcmFkaXQuMTA5NzhAMTA5NzgiLCJpYXQiOjE3MTQ0OTc3MDEsImV4cCI6MTcxNDUwODUwMSwiaXNzIjoiTU9QSCBBY2NvdW50IENlbnRlciIsImF1ZCI6Ik1PUEggQVBJIiwiY2xpZW50Ijp7InVzZXJfaWQiOjQyNSwidXNlcl9oYXNoIjoiMjlGMEQzRTY0ODlFM0ZCMkFGNDlBQzZCMkUxOUUyMTE3RTQ1OEVGNEVFRUQyMEJFNDRDMTNEMTgzREUxRTAwRDhCQ0FGMyIsImxvZ2luIjoicHJhZGl0LjEwOTc4IiwibmFtZSI6IuC4m-C4o-C4sOC4lOC4tOC4qeC4kOC5jCDguKPguLDguKvguLIiLCJob3NwaXRhbF9uYW1lIjoi4LmC4Lij4LiH4Lie4Lii4Liy4Lia4Liy4Lil4Lig4Li54LmA4LiC4Li14Lii4Lin4LmA4LiJ4Lil4Li04Lih4Lie4Lij4Liw4LmA4LiB4Li14Lii4Lij4LiV4Li0IiwiaG9zcGl0YWxfY29kZSI6IjEwOTc4IiwiZW1haWwiOiJkZWtiYW5iYW5wcm9qZWN0QGdtYWlsLmNvbSIsImFjY291bnRfYWN0aXZhdGVkIjp0cnVlLCJhY2NvdW50X3N1c3BlbmRlZCI6ZmFsc2UsImxhc3RfY2hhbmdlX3Bhc3N3b3JkIjoxNjk1ODQwOTgyLCJsYXN0X2NvbmZpcm1fb3RwIjoxNzE0NDcxODE3LCJjaWRfaGFzaCI6IkI4REQ0NUQ1NjZBODdFMTRGRkNCQjlEMjY2MjNFMTQ5OjM3IiwiY2lkX2VuY3J5cHQiOiI0ODY0OEI1NjJENjU2NkFCRTlGQTUyMjlFRDY1MDRFMTI2NzQ5N0RBODlBNTdBQzYyRjg3RTM0MjNGMjU2REE1MUUzNDE1QjY3Q0M4MTZDM0ZDQjBBRkUxQ0IiLCJjaWRfYWVzIjoiZmpNRjFrdjlZRjQvUUJSUGxBNnhvZz09IiwiY2xpZW50X2lwIjoiNDkuMjMxLjI0OS4xMTYiLCJzY29wZSI6W3siY29kZSI6Ik1PUEhfQ0xBSU06MSJ9LHsiY29kZSI6Ik1PUEhfQ0xBSU1fQVBJOjEifSx7ImNvZGUiOiJNT1BIX0NMQUlNX0FETUlOOjEifV0sInJvbGUiOlsibW9waC1hcGkiXSwic2NvcGVfbGlzdCI6IltNT1BIX0NMQUlNOjFdW01PUEhfQ0xBSU1fQVBJOjFdW01PUEhfQ0xBSU1fQURNSU46MV0iLCJhY2Nlc3NfY29kZV9sZXZlbDEiOiInJyIsImFjY2Vzc19jb2RlX2xldmVsMiI6IicnIiwiYWNjZXNzX2NvZGVfbGV2ZWwzIjoiJyciLCJhY2Nlc3NfY29kZV9sZXZlbDQiOiInJyIsImFjY2Vzc19jb2RlX2xldmVsNSI6IicnIn19.heFwY03Kb7I-n78y5y3pXe126J1IDdrXgGEAGFj7hsI_B-x98Nso2jcA_05-xgvLkN7n15UaiRxKqSPiiisUUd7MMOVvzSEFlNgkxfnjLch4IdTPhtZFadkWO3Gh08gVoCQIF0NzLmVScqCwDpxmy3g7bqVVMe1IDcK9plx7cJs6X3wN_DAEv6AZo_RUNfCvG3TNvbmOaUZ7NcW971BM5mV-2NFWrFctXPuOtGI1Fn5qxcBYSNKq2Zc2aRA5d7p-5wecYyCX5VYZsiyZml_Ya2rtvwSIJIAxmcHloWr70TM2zFpb2HySgtbPBauSL60J9-sNwo11dBrPXH6UmhYJ82RwNCVXRcyxQuzgU6JfERehZ2ulKGrvtKr4rOTGe-VutDBqnsp0bESmPKRahCkUDCqhGOnZOD5thU5CMIGGQN9PjTtMR4e0js8rlfMNsZapn69qGQ1G70KHYxwfzWNjzC44O7hDB981drIaYzDOEDKNZXBDciIX8dfjGCtO7cWu58zoRVzyV9kccm3XxJO-yv9HL2U2yoU1sW504UPFnXrBupxoAitMHbqs3U17mP8RmJjYWLgjoeWx3CIZAtXsgFqramDLXV-LNjpik3KyIeH-8xQ8Q1MvIXUJdrHiXwlO-t3_NoabYMswitdDA6AVK1MtqKUWcbdchfHcUkS65Jg',
+                    'Authorization: Bearer '.$token,
                     'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
-                  ),
+                ),
+                // CURLOPT_HTTPHEADER => array(
+                //     'Content-Type: application/json',
+                //     'Authorization: Bearer eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwcmFkaXQuMTA5NzhAMTA5NzgiLCJpYXQiOjE3MTQ0OTc3MDEsImV4cCI6MTcxNDUwODUwMSwiaXNzIjoiTU9QSCBBY2NvdW50IENlbnRlciIsImF1ZCI6Ik1PUEggQVBJIiwiY2xpZW50Ijp7InVzZXJfaWQiOjQyNSwidXNlcl9oYXNoIjoiMjlGMEQzRTY0ODlFM0ZCMkFGNDlBQzZCMkUxOUUyMTE3RTQ1OEVGNEVFRUQyMEJFNDRDMTNEMTgzREUxRTAwRDhCQ0FGMyIsImxvZ2luIjoicHJhZGl0LjEwOTc4IiwibmFtZSI6IuC4m-C4o-C4sOC4lOC4tOC4qeC4kOC5jCDguKPguLDguKvguLIiLCJob3NwaXRhbF9uYW1lIjoi4LmC4Lij4LiH4Lie4Lii4Liy4Lia4Liy4Lil4Lig4Li54LmA4LiC4Li14Lii4Lin4LmA4LiJ4Lil4Li04Lih4Lie4Lij4Liw4LmA4LiB4Li14Lii4Lij4LiV4Li0IiwiaG9zcGl0YWxfY29kZSI6IjEwOTc4IiwiZW1haWwiOiJkZWtiYW5iYW5wcm9qZWN0QGdtYWlsLmNvbSIsImFjY291bnRfYWN0aXZhdGVkIjp0cnVlLCJhY2NvdW50X3N1c3BlbmRlZCI6ZmFsc2UsImxhc3RfY2hhbmdlX3Bhc3N3b3JkIjoxNjk1ODQwOTgyLCJsYXN0X2NvbmZpcm1fb3RwIjoxNzE0NDcxODE3LCJjaWRfaGFzaCI6IkI4REQ0NUQ1NjZBODdFMTRGRkNCQjlEMjY2MjNFMTQ5OjM3IiwiY2lkX2VuY3J5cHQiOiI0ODY0OEI1NjJENjU2NkFCRTlGQTUyMjlFRDY1MDRFMTI2NzQ5N0RBODlBNTdBQzYyRjg3RTM0MjNGMjU2REE1MUUzNDE1QjY3Q0M4MTZDM0ZDQjBBRkUxQ0IiLCJjaWRfYWVzIjoiZmpNRjFrdjlZRjQvUUJSUGxBNnhvZz09IiwiY2xpZW50X2lwIjoiNDkuMjMxLjI0OS4xMTYiLCJzY29wZSI6W3siY29kZSI6Ik1PUEhfQ0xBSU06MSJ9LHsiY29kZSI6Ik1PUEhfQ0xBSU1fQVBJOjEifSx7ImNvZGUiOiJNT1BIX0NMQUlNX0FETUlOOjEifV0sInJvbGUiOlsibW9waC1hcGkiXSwic2NvcGVfbGlzdCI6IltNT1BIX0NMQUlNOjFdW01PUEhfQ0xBSU1fQVBJOjFdW01PUEhfQ0xBSU1fQURNSU46MV0iLCJhY2Nlc3NfY29kZV9sZXZlbDEiOiInJyIsImFjY2Vzc19jb2RlX2xldmVsMiI6IicnIiwiYWNjZXNzX2NvZGVfbGV2ZWwzIjoiJyciLCJhY2Nlc3NfY29kZV9sZXZlbDQiOiInJyIsImFjY2Vzc19jb2RlX2xldmVsNSI6IicnIn19.heFwY03Kb7I-n78y5y3pXe126J1IDdrXgGEAGFj7hsI_B-x98Nso2jcA_05-xgvLkN7n15UaiRxKqSPiiisUUd7MMOVvzSEFlNgkxfnjLch4IdTPhtZFadkWO3Gh08gVoCQIF0NzLmVScqCwDpxmy3g7bqVVMe1IDcK9plx7cJs6X3wN_DAEv6AZo_RUNfCvG3TNvbmOaUZ7NcW971BM5mV-2NFWrFctXPuOtGI1Fn5qxcBYSNKq2Zc2aRA5d7p-5wecYyCX5VYZsiyZml_Ya2rtvwSIJIAxmcHloWr70TM2zFpb2HySgtbPBauSL60J9-sNwo11dBrPXH6UmhYJ82RwNCVXRcyxQuzgU6JfERehZ2ulKGrvtKr4rOTGe-VutDBqnsp0bESmPKRahCkUDCqhGOnZOD5thU5CMIGGQN9PjTtMR4e0js8rlfMNsZapn69qGQ1G70KHYxwfzWNjzC44O7hDB981drIaYzDOEDKNZXBDciIX8dfjGCtO7cWu58zoRVzyV9kccm3XxJO-yv9HL2U2yoU1sW504UPFnXrBupxoAitMHbqs3U17mP8RmJjYWLgjoeWx3CIZAtXsgFqramDLXV-LNjpik3KyIeH-8xQ8Q1MvIXUJdrHiXwlO-t3_NoabYMswitdDA6AVK1MtqKUWcbdchfHcUkS65Jg',
+                //     'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
+                // ),
             ));
             
             $response = curl_exec($curl);

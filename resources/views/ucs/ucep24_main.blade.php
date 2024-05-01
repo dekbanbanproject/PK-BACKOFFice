@@ -264,6 +264,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <th class="text-center">cid</th>  
                                                     <th class="text-center">dchdate</th> 
                                                     <th class="text-center">pttype</th> 
+                                                    <th class="text-center">hospmain</th> 
                                                     <th class="text-center">icd10</th>  
                                                     {{-- <th class="text-center">Authen</th>  --}}
                                                     <th class="text-center">projectcode</th> 
@@ -289,7 +290,9 @@ $pos = strrpos($url, '/') + 1;
                                                         <td class="text-center" width="5%">{{ $item->hn }}</td>
                                                         <td class="text-center" width="10%">{{ $item->cid }}</td>  
                                                         <td class="text-center" width="7%">{{ $item->dchdate }}</td> 
+                                                      
                                                         <td class="text-center" width="5%">{{ $item->pttype }}</td> 
+                                                        <td class="text-center" width="5%">{{ $item->hospmain }}</td> 
                                                         <td class="text-center" width="7%">{{ $item->icd10 }}</td>                                                        
                                                         {{-- <td class="text-center" width="7%">{{ $item->authen }}</td>  --}}
                                                         <td class="text-center" width="5%">{{ $item->projectcode }}</td> 

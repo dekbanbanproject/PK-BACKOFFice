@@ -2003,6 +2003,16 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_3011_pull',[App\Http\Controllers\Account3011Controller::class, 'account_3011_pull'])->name('acc.account_3011_pull');//
     Route::match(['get','post'],'account_3011_pulldata',[App\Http\Controllers\Account3011Controller::class, 'account_3011_pulldata'])->name('acc.account_3011_pulldata');//
 
+    Route::match(['get','post'],'account_3013_dash',[App\Http\Controllers\Account3013Controller::class, 'account_3013_dash'])->name('acc.account_3013_dash');// 
+    Route::match(['get','post'],'account_3013_pull',[App\Http\Controllers\Account3013Controller::class, 'account_3013_pull'])->name('acc.account_3013_pull');//
+    Route::match(['get','post'],'account_3013_stam',[App\Http\Controllers\Account3013Controller::class, 'account_3013_stam'])->name('acc.account_3013_stam');//
+    Route::match(['get','post'],'account_3013_checksit',[App\Http\Controllers\Account3013Controller::class, 'account_3013_checksit'])->name('acc.account_3013_checksit');//
+    Route::match(['get','post'],'account_3013_pulldata',[App\Http\Controllers\Account3013Controller::class, 'account_3013_pulldata'])->name('acc.account_3013_pulldata');// 
+    Route::match(['get','post'],'account_3013_detail/{startdate}/{enddate}',[App\Http\Controllers\Account3013Controller::class, 'account_3013_detail'])->name('acc.account_3013_detail');//
+    Route::match(['get','post'],'account_3013_detail_date',[App\Http\Controllers\Account3013Controller::class, 'account_3013_detail_date'])->name('acc.account_3013_detail_date');//
+    Route::match(['get','post'],'account_3013_search',[App\Http\Controllers\Account3013Controller::class, 'account_3013_search'])->name('acc.account_3013_search');// 
+    Route::match(['get','post'],'account_3013_destroy',[App\Http\Controllers\Account3013Controller::class, 'account_3013_destroy'])->name('acc.account_3013_destroy');//
+
     // Route::match(['get','post'],'account_3012_pull',[App\Http\Controllers\Account3011Controller::class, 'account_3012_pull'])->name('acc.account_3012_pull');// 
 
     Route::match(['get','post'],'account_302_dash',[App\Http\Controllers\Account302Controller::class, 'account_302_dash'])->name('acc.account_302_dash');//

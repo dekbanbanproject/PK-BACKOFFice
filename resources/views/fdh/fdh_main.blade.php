@@ -260,6 +260,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <th class="text-center">cid</th>  
                                                     <th class="text-center">vstdate</th> 
                                                     <th class="text-center">dchdate</th> 
+                                                   
                                                     <th class="text-center">pttype</th>  
                                                     <th class="text-center">subinscl</th>  
                                                     <th class="text-center">ptname</th>  

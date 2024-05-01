@@ -115,7 +115,7 @@ class Fdh_Ucep24Controller extends Controller
                 D_ucep24::truncate();
                 $data_main_ = DB::connection('mysql2')->select('   
                         SELECT i.vn,o.an,o.hn,pt.cid,i.pttype,CONCAT(pt.pname,pt.fname," ",pt.lname) ptname,o.vstdate,i.dchdate,p.hipdata_code,o.qty,o.sum_price,i1.icd10 as DIAG
-                        ,aa.paid_money,aa.income-aa.rcpt_money-aa.discount_money as debit
+                        ,aa.paid_money,aa.income-aa.rcpt_money-aa.discount_money as debit,ii.hospmain
                         FROM ipt i
                         LEFT JOIN an_stat aa on aa.an = i.an 
                         LEFT JOIN opitemrece o on i.an = o.an 
@@ -143,7 +143,7 @@ class Fdh_Ucep24Controller extends Controller
                             'icd10'          => $value2->DIAG, 
                             'debit'          => $value2->debit,  
                             'paid_money'     => $value2->paid_money,
-                            // 'cc'             => $value2->cc
+                            'hospmain'       => $value2->hospmain, 
                         ]);
                     } else { 
                         D_fdh::insert([
@@ -156,6 +156,7 @@ class Fdh_Ucep24Controller extends Controller
                             'vstdate'      => $value2->vstdate, 
                             'dchdate'      => $value2->dchdate, 
                             'paid_money'   => $value2->paid_money,
+                            'hospmain'     => $value2->hospmain, 
                             'projectcode'  => 'UCEP24', 
                             'icd10'        => $value2->DIAG, 
                             'debit'        => $value2->debit
@@ -740,7 +741,7 @@ class Fdh_Ucep24Controller extends Controller
                         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC
                         ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,DATE_FORMAT("0000-00-00","%Y%m%d") LMP ,""SP_ITEM,v.icode,v.vstdate
                         FROM opitemrece v
-                        JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null 
+                        JOIN nondrugitems n on n.icode = v.icode  
                         LEFT OUTER JOIN ipt i on i.an = v.an
                         inner join pkbackoffice.d_ucep24 u on u.icode = v.icode
                   
@@ -763,7 +764,7 @@ class Fdh_Ucep24Controller extends Controller
                         ,if(v.an is null,v.vn,"") SEQ
                         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,DATE_FORMAT("0000-00-00","%Y%m%d") LMP,""SP_ITEM,v.icode,v.vstdate
                         FROM opitemrece v
-                        JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null 
+                        JOIN nondrugitems n on n.icode = v.icode  
                         inner join pkbackoffice.d_ucep24 u on u.icode = v.icode
                         LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
                         WHERE vv.vn IN("'.$va1->vn.'")
