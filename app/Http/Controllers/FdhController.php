@@ -1686,7 +1686,7 @@ class FdhController extends Controller
                     FROM vn_stat v 
                     LEFT OUTER JOIN ovst o ON v.vn = o.vn 
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn
-                    LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype  
+                    LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype AND v.pttype NOT IN("M1","M2","M3","M4","M5")   
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
                 WHERE v.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"  
                 AND ptt.hipdata_code ="UCS" GROUP BY v.vn 
