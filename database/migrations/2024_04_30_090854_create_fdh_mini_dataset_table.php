@@ -24,12 +24,18 @@ return new class extends Migration
                 $table->string('invoice_number')->nullable();//  เลขใบ invoice number
                 $table->string('vn')->nullable();//           เลข visit number
 
+                $table->string('pttype')->nullable();// 
+                $table->string('ptname')->nullable();// 
+                $table->string('hn')->nullable();// 
                 $table->date('vstdate')->nullable();//  
                 $table->time('vsttime')->nullable();// 
                 
                 $table->date('datesave')->nullable();//  วั่นที่ส่ง 
                 $table->string('user_id')->nullable();//  ผู้ส่ง
                 $table->enum('active', ['N','Y'])->default('N')->nullable();
+                $table->longText('transaction_uid')->nullable();// 
+                $table->string('id_booking')->nullable();// 
+                $table->string('uuid_booking')->nullable();// 
                 $table->timestamps();
             }); 
         }

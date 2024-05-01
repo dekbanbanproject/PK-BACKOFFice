@@ -88,7 +88,7 @@ $pos = strrpos($url, '/') + 1;
         </div>
     </div>
 
-    <form action="{{ url('fdh_mini_dataset_pull') }}" method="POST">
+    <form action="{{ url('fdh_mini_dataset_rep') }}" method="GET">
         @csrf
     <div class="row"> 
             <div class="col-md-3">
@@ -97,7 +97,7 @@ $pos = strrpos($url, '/') + 1;
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-6 text-end">
+            <div class="col-md-4 text-end">
                 {{-- <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'> --}}
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control card_fdh_4" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
@@ -107,18 +107,18 @@ $pos = strrpos($url, '/') + 1;
     
                 <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
                     <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
-                    ค้นหา(มีเลข invoice_number)
+                    ค้นหา 
                 </button>  
                     </form> 
                    
-                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary card_fdh_4" id="Pulldata">
+                    {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary card_fdh_4" id="Pulldata">
                         <i class="fa-solid fa-spinner text-primary me-2"></i>
                         ค้นหา(ไม่มีเลข invoice_number)
                     </button>
                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('fdh_mini_dataset_apicliam')}}">
                         <i class="fa-solid fa-spinner text-success me-2"></i>
                         ส่ง Minidataset
-                    </button>
+                    </button> --}}
                    
                   
                 </div> 
@@ -131,28 +131,48 @@ $pos = strrpos($url, '/') + 1;
                     <div class="card-header">
                         FDH MINI DATASET
                         <div class="btn-actions-pane-right">
-                            {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                <i class="pe-7s-science btn-icon-wrapper"></i>Check Auth
-                            </button> --}}
+                            <button type="button" class="ladda-button me-2 btn-pill btn btn-info card_fdh_4 Jongclaim" data-url="{{url('fdh_mini_dataset_pulljong')}}">
+                                <i class="fa-solid fa-cloud-arrow-down me-2"></i>
+                                ดึงข้อมูลจองเคลม
+                            </button> 
                         </div>
                     </div>
                     <div class="card-body">
+                        {{-- <div class="row mb-3"> --}}
+                           
+                            {{-- <div class="col"></div> --}}
+                            {{-- <div class="col-md-5 text-end"> --}}
+                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-info card_fdh_4 Jongclaim" data-url="{{url('fdh_mini_dataset_pulljong')}}">
+                                    <i class="fa-solid fa-cloud-arrow-down me-2"></i>
+                                    ดึงข้อมูลจองเคลม
+                                </button>  --}}
+                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_401_stam')}}">
+                                    <i class="fa-solid fa-file-waveform me-2"></i>
+                                    ตั้งลูกหนี้
+                                </button> --}}
+                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-danger cardacc Destroystamp" data-url="{{url('account_401_destroy_all')}}">
+                                    <i class="fa-solid fa-trash-can me-2"></i>
+                                    ลบ
+                                </button>  --}}
+                            {{-- </div> --}}
+                        {{-- </div> --}}
                         <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
                                     <th width="5%" class="text-center"><input type="checkbox" class="fdhcheckbox" name="stamp" id="stamp"> </th> 
-                                    <th class="text-center" width="7%">vstdate</th>
+                                    {{-- <th class="text-center" width="7%">vstdate</th> --}}
                                     <th class="text-center" width="10%">service_date_time</th>
-                                    <th class="text-center" width="7%">cid</th>
-                                    <th class="text-center" width="7%">vn</th>
+                                    {{-- <th class="text-center" width="7%">cid</th> --}}
+                                    {{-- <th class="text-center" width="7%">vn</th> --}}
                                     <th class="text-center" width="5%">hn</th>
                                     <th class="text-center" width="5%">pttype</th>
                                     <th class="text-center">ptname</th>
                                     <th class="text-center" width="5%">hcode</th>
                                     <th class="text-center" width="7%">total_amout</th>
                                     <th class="text-center" width="7%">invoice_number</th>
-                                   
+                                    <th class="text-center" width="10%">@uid</th>
+                                    <th class="text-center" width="10%">@id_booking</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -162,24 +182,25 @@ $pos = strrpos($url, '/') + 1;
 
                                         <tr height="20" >
                                             <td class="text-center" width="5%">{{ $number}}</td>
-                                            @if ($item->total_amout == '')
+                                            @if ($item->id_booking != '')
                                             <td class="text-center" width="5%">
                                                 <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
                                             </td> 
                                             @else
                                                 <td class="text-center" width="5%"><input type="checkbox" class="fdhcheckbox sub_chk" data-id="{{$item->fdh_mini_dataset_id}}"> </td> 
                                             @endif 
-                                           <td class="text-center" width="7%">{{ $item->vstdate }}</td>
+                                           {{-- <td class="text-center" width="7%">{{ $item->vstdate }}</td> --}}
                                             <td class="text-center" width="10%">{{ $item->service_date_time }}</td>
-                                            <td class="text-center" width="7%">{{ $item->cid }}</td>
-                                            <td class="text-center" width="7%">{{ $item->vn }}</td>
+                                            {{-- <td class="text-center" width="7%">{{ $item->cid }}</td> --}}
+                                            {{-- <td class="text-center" width="7%">{{ $item->vn }}</td> --}}
                                             <td class="text-center" width="5%">{{ $item->hn }}</td>
                                             <td class="text-center" width="5%">{{ $item->pttype }}</td>
                                             <td class="p-2">{{ $item->ptname }}</td>
                                             <td class="text-center" width="5%">{{ $item->hcode }}</td>
                                             <td class="text-center" width="7%">{{ $item->total_amout }}</td>
                                             <td class="text-center" width="7%">{{ $item->invoice_number }}</td>
-                                           
+                                            <td class="text-center" width="10%">{{ $item->transaction_uid }}</td>
+                                            <td class="text-center" width="10%">{{ $item->id_booking }}</td>
                                         </tr>
 
                                 @endforeach
@@ -238,7 +259,7 @@ $pos = strrpos($url, '/') + 1;
                 scrollX: true,
                 "autoWidth": false,
                 "pageLength": 10,
-                "lengthMenu": [10,25,100,150,200,300,400,500],
+                "lengthMenu": [10,25,50,100,150,200,300,400,500],
         });
         $('#datepicker').datepicker({
             format: 'yyyy-mm-dd'
@@ -453,6 +474,89 @@ $pos = strrpos($url, '/') + 1;
 
 
         });
+
+        $('.Jongclaim').on('click', function(e) {
+                // alert('oo');
+                var allValls = [];
+                // $(".sub_destroy:checked").each(function () {
+                $(".sub_chk:checked").each(function () {
+                    allValls.push($(this).attr('data-id'));
+                });
+                if (allValls.length <= 0) {
+                    // alert("SSSS");
+                    Swal.fire({
+                        title: 'คุณยังไม่ได้เลือกรายการ ?',
+                        text: "กรุณาเลือกรายการก่อน",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33', 
+                        }).then((result) => {
+                        
+                        })
+                } else {
+                    Swal.fire({
+                        title: 'Are you Want Pull sure?',
+                        text: "คุณต้องการดึงรายการนี้ใช่ไหม!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, Pull it.!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                var check = true;
+                                if (check == true) {
+                                    var join_selected_values = allValls.join(",");
+                                    // alert(join_selected_values);
+                                    $("#overlay").fadeIn(300);　
+                                    $("#spinner").show(); //Load button clicked show spinner 
+
+                                    $.ajax({
+                                        url:$(this).data('url'),
+                                        type: 'POST',
+                                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                                        data: 'ids='+join_selected_values,
+                                        success:function(data){ 
+                                                if (data.status == 200) {
+                                                    // $(".sub_destroy:checked").each(function () {
+                                                    $(".sub_chk:checked").each(function () {
+                                                        $(this).parents("tr").remove();
+                                                    });
+                                                    Swal.fire({
+                                                        title: 'ดึงข้อมูลจองเคลมสำเร็จ',
+                                                        text: "You Pull data success",
+                                                        icon: 'success',
+                                                        showCancelButton: false,
+                                                        confirmButtonColor: '#06D177',
+                                                        confirmButtonText: 'เรียบร้อย'
+                                                    }).then((result) => {
+                                                        if (result
+                                                            .isConfirmed) {
+                                                            console.log(
+                                                                data);
+                                                            window.location.reload();
+                                                            $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                        }
+                                                    })
+                                                } else {
+                                                    
+                                                }
+                                                 
+                                        }
+                                    });
+                                    $.each(allValls,function (index,value) {
+                                        $('table tr').filter("[data-row-id='"+value+"']").remove();
+                                    });
+                                }
+                            }
+                        }) 
+                    // var check = confirm("Are you want ?");  
+                }
+            });
  
     </script>
 @endsection

@@ -874,15 +874,13 @@ class Ucep24_APiController extends Controller
         $data_table = array("dapi_ins","dapi_pat","dapi_opd","dapi_orf","dapi_odx","dapi_oop","dapi_ipd","dapi_irf","dapi_idx","dapi_iop","dapi_cht","dapi_cha","dapi_aer","dapi_adp","dapi_lvd","dapi_dru");
         // $data_table = array("ins","pat","opd","orf","odx","oop","ipd","irf","idx","iop","cht","cha","aer","adp","lvd","dru");
         foreach ($data_table as $key => $val_t) {        
-                $data_all_ = DB::connection('mysql')->select('
-                SELECT * FROM '.$val_t.'
-                ');                
+                $data_all_ = DB::connection('mysql')->select('SELECT * FROM '.$val_t.'');                
                 foreach ($data_all_ as $val_field) {
                     $blob[] = $val_field->blob;
                     $size[] = $val_field->size;
                      
                  }     
-            }
+        }
  
             // dd($blob[5]);
             $fame_send = curl_init();
