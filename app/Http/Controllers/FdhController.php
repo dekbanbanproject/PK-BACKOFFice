@@ -1689,7 +1689,8 @@ class FdhController extends Controller
                     LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype AND v.pttype NOT IN("M1","M2","M3","M4","M5")   
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
                 WHERE v.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"  
-                AND ptt.hipdata_code ="UCS" GROUP BY v.vn 
+                AND ptt.hipdata_code ="UCS" AND v.income > 0
+                GROUP BY v.vn 
             '
             );
          
@@ -1752,7 +1753,7 @@ class FdhController extends Controller
                     LEFT OUTER JOIN pttype ptt ON v.pttype = ptt.pttype AND v.pttype NOT IN("M1","M2","M3","M4","M5")  
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
                 WHERE v.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"  
-                AND ptt.hipdata_code ="UCS"  
+                AND ptt.hipdata_code ="UCS" AND v.income > 0
                 GROUP BY v.vn 
             '
             );
