@@ -555,11 +555,14 @@ class CCtvController extends Controller
                     'power_all'             => $val->power_all,  
                     'user_id'               => $iduser,                    
                 ]);
-                $data_arr = DB::table('article_data')->where('article_num',$val->article_num)->first();
-                Cctv_report_months::where('article_num', $val->article_num)->update([ 
-                    'cctv_location'    => $data_arr->cctv_location, 
-                    'cctv_type'        => $data_arr->cctv_type, 
-                ]);
+                // $data_arr = DB::table('article_data')->where('article_num',$val->article_num)->first();
+                // if ($data_arr->cctv_location != '') {
+                //     Cctv_report_months::where('article_num', $val->article_num)->update([ 
+                //         'cctv_location'    => $data_arr->cctv_location, 
+                //         'cctv_type'        => $data_arr->cctv_type, 
+                //     ]);
+                // }
+               
 
                 $data_s = DB::connection('mysql')->select('SELECT cctv_check_date,article_num,COUNT(cctv_camera_screen) as screen_narmal FROM cctv_check WHERE cctv_check_date = "'.$val->cctv_check_date.'" AND article_num ="'.$val->article_num.'" AND cctv_camera_screen = "0"');
                 foreach ($data_s as $val_s) { 
