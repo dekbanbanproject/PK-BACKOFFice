@@ -123,7 +123,8 @@
             {{-- <div class="col-md-1 text-end mt-2">วันที่</div> --}}
             <div class="col-md-4 text-end">
                 <a href="{{url('cctv_add')}}" class="ladda-button me-2 btn-pill btn btn-primary cardacc">
-                    <i class="fa-solid fa-file-export text-white me-2"></i>
+                    {{-- <i class="fa-solid fa-file-export text-white me-2"></i> --}}
+                    <i class="fa-solid fa-circle-plus text-white me-2"></i>
                    เพิ่มรายการ
                 </a>  
                 {{-- <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
@@ -264,6 +265,11 @@
                                                                 <i class="fa-solid fa-pen-to-square ms-2 me-2 text-warning"></i>
                                                                 <label for="" style="font-size:13px;color: rgb(255, 185, 34)">แก้ไข</label>
                                                             </button> --}}
+                                                            <a class="dropdown-item text-primary" href="{{ url('cctv_list/' . $item->article_id) }}" style="font-size:13px"> 
+                                                                <i class="fa-solid fa-print me-2 text-primary" style="font-size:13px"></i>
+                                                                <span>Print QR</span>
+                                                            </a> 
+                                                            <div class="dropdown-divider"></div>
                                                             <a class="dropdown-item text-warning" href="{{ url('cctv_edit/' . $item->article_id) }}" style="font-size:13px" target="blank">
                                                                 <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
                                                                 <span>แก้ไข</span>

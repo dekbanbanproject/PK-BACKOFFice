@@ -493,33 +493,25 @@ class CCtvController extends Controller
         $year = date('Y'); 
         $newdays     = date('Y-m-d', strtotime($date . ' -1 days')); //ย้อนหลัง 1 วัน
         $newweek     = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-        $newDate     = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newDate     = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
         $newyear     = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
         $iduser = Auth::user()->id;
         if ($startdate == '') {
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $datashow = DB::select(
-                'SELECT 
-                    cctv_check_date,article_num 
-                    ,COUNT(cctv_camera_screen) as screen
-                    ,COUNT(cctv_camera_corner) as corner
-                    ,COUNT(cctv_camera_drawback) as drawback
-                    ,COUNT(cctv_camera_save) as csave
-                    ,COUNT(cctv_camera_power_backup) as power_backup
-                FROM cctv_check
-                GROUP BY cctv_check_date,article_num                
+                'SELECT c.cctv_check_date,c.article_num,c.cctv_camera_screen,c.cctv_camera_corner,c.cctv_camera_drawback,c.cctv_camera_save,c.cctv_camera_power_backup,concat(s.fname," ",s.lname) ptname 
+                FROM cctv_check c
+                LEFT JOIN users s ON s.id = c.cctv_user_id
+                WHERE c.cctv_check_date BETWEEN "'.$newDate.'" AND "'.$date.'"
+                GROUP BY c.cctv_check_date,c.article_num                
                 '); 
         } else {
             $datashow = DB::select(
-                'SELECT 
-                    cctv_check_date,article_num 
-                    ,COUNT(cctv_camera_screen) as screen
-                    ,COUNT(cctv_camera_corner) as corner
-                    ,COUNT(cctv_camera_drawback) as drawback
-                    ,COUNT(cctv_camera_save) as csave
-                    ,COUNT(cctv_camera_power_backup) as power_backup
-                FROM cctv_check WHERE cctv_check_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                GROUP BY cctv_check_date,article_num                
+                'SELECT c.cctv_check_date,c.article_num,c.cctv_camera_screen,c.cctv_camera_corner,c.cctv_camera_drawback,c.cctv_camera_save,c.cctv_camera_power_backup,concat(s.fname," ",s.lname) ptname 
+                FROM cctv_check c
+                LEFT JOIN users s ON s.id = c.cctv_user_id
+                WHERE c.cctv_check_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                GROUP BY c.cctv_check_date,c.article_num                
             ');  
         }
         return view('cctv.cctv_report',[

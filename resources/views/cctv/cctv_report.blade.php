@@ -84,7 +84,8 @@
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
             <div class="col-md-5 text-end">
-                
+                <form action="{{ url('cctv_report') }}" method="GET">
+                    @csrf
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
@@ -93,7 +94,7 @@
                         <button type="submit" class="ladda-button btn-pill btn btn-primary cardacc" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
                         </button> 
-
+                    </form>
                         <button type="button" class="ladda-button btn-pill btn btn-success cardacc" id="Process">
                             <i class="fa-solid fa-spinner me-2"></i>
                            ประมวลผล
@@ -135,20 +136,20 @@
 
                         <p class="mb-0">
                             <div class="table-responsive">
-                                <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                               
+                                {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr> 
                                             <th width="5%" class="text-center">ลำดับ</th>  
-                                            <th class="text-center" width="7%">วันที่ตรวจ</th>  
-                                            <th class="text-center" width="5%">รหัสกล้องวงจรปิด</th>  
+                                            <th class="text-center" >วันที่ตรวจ</th>  
+                                            <th class="text-center" >รหัสกล้อง</th>  
                                             <th class="text-center" >จอกล้อง</th>
                                             <th class="text-center" >มุมกล้อง</th> 
-                                            <th class="text-center">สิ่งกีดขวาง</th>  
-                                            <th class="text-center">การบันทึก</th>  
-                                            <th class="text-center">การสำรองไฟ</th> 
-                                            <th class="text-center">รายการชำรุด</th> 
-                                           
+                                            <th class="text-center" >สิ่งกีดขวาง</th>  
+                                            <th class="text-center" >การบันทึก</th>  
+                                            <th class="text-center" >การสำรองไฟ</th> 
+                                            <th class="text-center" >รายการชำรุด</th> 
+                                            <th class="text-center" >ผู้ตรวจ</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -156,14 +157,63 @@
                                         @foreach ($datashow as $item) 
                                             <tr id="tr_{{$item->article_num}}">                                                  
                                                 <td class="text-center" width="5%">{{ $i++ }}</td>  
-                                                <td class="text-center" width="10%">{{ $item->cctv_check_date }}</td> 
-                                                <td class="text-center">{{ $item->article_num }}</td>  
-                                                <td class="text-center" width="10%">{{ $item->screen }}</td>  
-                                                <td class="text-center" width="10%">{{ $item->corner }}</td>   
-                                                <td class="text-center" width="10%">{{ $item->drawback }}</td>   
-                                                <td class="text-center" width="10%">{{ $item->csave }}</td> 
-                                                <td class="text-center" width="10%">{{ $item->power_backup }}</td> 
-                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="20%"></td>                                                
+                                                <td class="text-center" width="8%">{{ Datethai($item->cctv_check_date) }}</td> 
+                                                <td class="text-center" width="8%">{{ $item->article_num }}</td>  
+                                                <td class="text-center" width="7%"> 
+                                                    @if ($item->cctv_camera_screen == '0')
+                                                         <p style="color: #08d6aa">ปกติ</p>
+                                                    @else
+                                                        <p style="color: #fc2424">ชำรุด</p>
+                                                    @endif
+                                                </td>  
+                                                <td class="text-center" width="7%"> 
+                                                    @if ($item->cctv_camera_corner == '0')
+                                                        <p style="color: #08d6aa">ปกติ</p>
+                                                    @else
+                                                        <p style="color: #fc2424">ชำรุด</p>
+                                                    @endif
+                                                </td>   
+                                                <td class="text-center" width="7%"> 
+                                                    @if ($item->cctv_camera_drawback == '0')
+                                                        <p style="color: #08d6aa">ปกติ</p>
+                                                    @else
+                                                        <p style="color: #fc2424">ชำรุด</p>
+                                                    @endif
+                                                </td>   
+                                                <td class="text-center" width="7%"> 
+                                                    @if ($item->cctv_camera_save == '0')
+                                                        <p style="color: #08d6aa">ปกติ</p>
+                                                    @else
+                                                        <p style="color: #fc2424">ชำรุด</p>
+                                                    @endif
+                                                </td> 
+                                                <td class="text-center" width="7%"> 
+                                                    @if ($item->cctv_camera_power_backup == '0')
+                                                        <p style="color: #08d6aa">ปกติ</p>
+                                                    @else
+                                                        <p style="color: #fc2424">ชำรุด</p>
+                                                    @endif
+                                                </td> 
+                                                <td class="p-2" style="color:rgb(73, 147, 231)">
+                                                    <p style="color: #fc2424">
+                                                        @if ($item->cctv_camera_screen == '1')
+                                                        จอกล้อง ,                                                                                                 
+                                                        @endif
+                                                        @if ($item->cctv_camera_corner == '1')
+                                                        มุมกล้อง ,
+                                                        @endif
+                                                        @if ($item->cctv_camera_drawback == '1')
+                                                        สิ่งกีดขวาง ,
+                                                        @endif
+                                                        @if ($item->cctv_camera_save == '1')
+                                                        การบันทึก ,
+                                                        @endif
+                                                        @if ($item->cctv_camera_power_backup == '1')
+                                                        การสำรองไฟ ,
+                                                        @endif
+                                                    </p>  
+                                                </td>   
+                                                <td class="text-center" width="12%">{{ $item->ptname }}</td>                                              
                                             </tr>
                                         @endforeach
                                     </tbody>
