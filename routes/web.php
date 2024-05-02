@@ -3062,6 +3062,7 @@ Route::match(['get','post'],'techservice',[App\Http\Controllers\CCtvController::
 // ************** CCTV-Service ****************************
 Route::match(['get','post'],'cctv',[App\Http\Controllers\CCtvController::class, 'cctv'])->name('tec.cctv');//
 Route::match(['get','post'],'cctv_list',[App\Http\Controllers\CCtvController::class, 'cctv_list'])->name('tec.cctv_list');//
+Route::match(['get','post'],'cctvqrcode/{id}',[App\Http\Controllers\CCtvController::class, 'cctvqrcode'])->name('tec.cctvqrcode');//
 Route::match(['get','post'],'cctv_add',[App\Http\Controllers\CCtvController::class, 'cctv_add'])->name('tec.cctv_add');//
 Route::match(['get','post'],'cctv_edit/{id}',[App\Http\Controllers\CCtvController::class, 'cctv_edit'])->name('tec.cctv_edit');//
 Route::match(['get','post'],'cctv_save',[App\Http\Controllers\CCtvController::class, 'cctv_save'])->name('tec.cctv_save');//

@@ -634,14 +634,18 @@ class CCtvController extends Controller
             return response()->json([
                 'status'    => '100'
             ]);
-        }
-        
-        
+        } 
+    }
+    public function cctvqrcode(Request $request, $id)
+    {
 
+            $cctvprint = Article::where('article_id', '=', $id)->first();
 
+        return view('cctv.cctvqrcode', [
+            'cctvprint'  =>  $cctvprint
+        ]);
 
-        
-   }
+    }
      
  
 

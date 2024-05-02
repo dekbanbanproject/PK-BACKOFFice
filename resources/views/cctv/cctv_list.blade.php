@@ -120,23 +120,13 @@
                 <p class="card-title-desc">รายละเอียดกล้องวงจรปิด</p>
             </div>
             <div class="col"></div>
-            {{-- <div class="col-md-1 text-end mt-2">วันที่</div> --}}
+          
             <div class="col-md-4 text-end">
-                <a href="{{url('cctv_add')}}" class="ladda-button me-2 btn-pill btn btn-primary cardacc">
-                    {{-- <i class="fa-solid fa-file-export text-white me-2"></i> --}}
+                <a href="{{url('cctv_add')}}" class="ladda-button me-2 btn-pill btn btn-primary cardacc"> 
                     <i class="fa-solid fa-circle-plus text-white me-2"></i>
                    เพิ่มรายการ
                 </a>  
-                {{-- <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                        data-date-language="th-th" value="{{ $startdate }}" required/>
-                    <input type="text" class="form-control cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                        data-date-language="th-th" value="{{ $enddate }}"/>  
-                        <button type="หีิทระ" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left">
-                            <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>ค้นหา</span>
-                            <span class="ladda-spinner"></span>
-                        </button> 
-                </div>  --}}
+               
             </div>
     </div>  
         
@@ -148,26 +138,7 @@
                            
                             <div class="col"></div>
                             <div class="col-md-5 text-end">
-                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-info cardacc" id="Check_sit">
-                                    <i class="fa-solid fa-user me-2"></i>
-                                    ตรวจสอบสิทธิ์
-                                </button> --}}
-                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-warning cardacc Claim" data-url="{{url('account_401_claim')}}">
-                                     <i class="fa-solid fa-sack-dollar me-2"></i>
-                                    Claim
-                                </button> --}}
-                                {{-- <a href="{{url('account_401_claim_export')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
-                                    <i class="fa-solid fa-file-export text-white me-2"></i>
-                                    Export Txt
-                                </a>    --}}
-                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_401_stam')}}">
-                                    <i class="fa-solid fa-file-waveform me-2"></i>
-                                    ตั้งลูกหนี้
-                                </button> --}}
-                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-danger cardacc Destroystamp" data-url="{{url('account_401_destroy_all')}}">
-                                    <i class="fa-solid fa-trash-can me-2"></i>
-                                    ลบ
-                                </button>  --}}
+                               
                             </div>
                         </div>
 
@@ -197,16 +168,7 @@
                                                 <td class="text-center" width="3%">{{ $i++ }}</td>  
                                                 <td class="text-center" width="3%">
                                                     @if ($item->cctv_status == '0')
-                                                        <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">ปกติ</span>
-                                                        {{-- <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning">ถูกยืม</span> --}}
-                                                    {{-- @elseif ($item->article_status_id == '2')
-                                                        <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">ส่งซ่อม</span>
-                                                    @elseif ($item->article_status_id == '3')
-                                                        <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">ปกติ</span>
-                                                    @elseif ($item->article_status_id == '4')
-                                                        <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">ระหว่างซ่อม</span>
-                                                    @elseif ($item->article_status_id == '5')
-                                                        <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary">รอจำหน่าย</span> --}}
+                                                        <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">ปกติ</span> 
                                                     @else
                                                         <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">ชำรุด</span>
                                                     @endif
@@ -218,34 +180,12 @@
                                                 <td class="text-center" width="3%"><img src="{{asset('storage/article/'.$item->article_img)}}" height="40px" width="40px" alt="Image" class="img-thumbnail">  </td>                                
                                                 @endif
 
-                                                <td class="text-center" width="5%">
-                                                {{-- <div class="form-group"> --}}
-                                                    {{-- <?php
-                                                        $generator = new \Picqer\Barcode\BarcodeGeneratorJPG();
-                                                        $Pi = '<img src="data:image/jpeg;base64,' . base64_encode($generator->getBarcode($item->article_num, $generator::TYPE_CODE_128,2,30)) . '" height="40px" width="95%" > ';
-                                                        echo $Pi;
-                                                        
-                                                    ?> --}}
-                                                 {{-- <?php
-                                                  $generator = new \Picqer\Barcode\BarcodeGeneratorJPG();
-                                                 $Pii = '<img src="data:image/jpeg;base64,'.base64_encode(QrCode::format('png')->size(256)->generate(" $item->article_num ")) . '" height="40px" width="95%" >';
-                                                 echo $Pii;
-                                             ?> --}}
-                                             {{-- {!!$Pii!!} --}}
-                                                    {{-- {!! QrCode::size(200)->generate(asset('storage/article/'.$item->article_num)); !!} --}}
-                                                    {!!QrCode::size(50)->generate(" $item->article_num ")!!} 
-                                                   
-                                                    {{-- <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(256)->generate(" $item->article_num ")) !!} "> --}}
-
-                                                {{-- </div> --}}
-
-
+                                                <td class="text-center" width="5%"> 
+                                                  
+                                                    {!!QrCode::size(50)->generate(" $item->article_num ")!!}  
 
                                                 </td> 
-
-
-
-
+ 
                                                 <td class="text-center" width="5%">{{ $item->cctv_code }}</td>  
                                                 <td class="p-2">{{ $item->cctv_location }}</td>  
                                                 <td class="p-2">{{ $item->cctv_location_detail }}</td>   
@@ -260,12 +200,8 @@
                                                             ทำรายการ
                                                         </button>
                                                         <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-hover-link dropdown-menu">
-                                                            {{-- <button type="button"class="dropdown-item menu edit_button" data-id="{{ $item->article_id }}" data-bs-toggle="modal"
-                                                                data-bs-target="#EditModal">
-                                                                <i class="fa-solid fa-pen-to-square ms-2 me-2 text-warning"></i>
-                                                                <label for="" style="font-size:13px;color: rgb(255, 185, 34)">แก้ไข</label>
-                                                            </button> --}}
-                                                            <a class="dropdown-item text-primary" href="{{ url('cctv_list/' . $item->article_id) }}" style="font-size:13px"> 
+                                                            {{-- <a class="dropdown-item text-primary" href="javascript:window.print();" style="font-size:13px">  --}}
+                                                            <a class="dropdown-item text-primary" href="{{ url('cctvqrcode/'.$item->article_id) }}" style="font-size:13px"> 
                                                                 <i class="fa-solid fa-print me-2 text-primary" style="font-size:13px"></i>
                                                                 <span>Print QR</span>
                                                             </a> 
@@ -275,10 +211,7 @@
                                                                 <span>แก้ไข</span>
                                                             </a>
                                                             <div class="dropdown-divider"></div>
-                                                            {{-- <a class="dropdown-item text-primary" href="{{ url('cctv_list/' . $item->article_id) }}" style="font-size:13px" target="blank">
-                                                                <i class="fa-solid fa-clipboard-check me-2 text-primary" style="font-size:13px"></i>
-                                                                <span>เพิ่มรายการ</span>
-                                                            </a> --}}
+                                                            
                                                             <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="cctv_destroy({{ $item->article_id }})"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="ลบ">
                                                                 <i class="fa-solid fa-trash-can me-2 mb-1"></i>
