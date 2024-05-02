@@ -222,7 +222,7 @@
                         confirmButtonText: 'Yes, Want Process it!'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                $("#overlay").fadeIn(300);　
+                                $("#overlay").fadeIn(200);　
                                 $("#spinner").show(); //Load button clicked show spinner 
                                 
                                 $.ajax({
@@ -247,8 +247,8 @@
                                                     window.location.reload();
                                                     $('#spinner').hide();//Request is complete so hide spinner
                                                         setTimeout(function(){
-                                                            $("#overlay").fadeOut(300);
-                                                        },500);
+                                                            $("#overlay").fadeOut(200);
+                                                        },400);
                                                 }
                                             })
                                         } else if (data.status == 100) {
@@ -269,8 +269,8 @@
                                                 });
                                                 $('#spinner').hide();//Request is complete so hide spinner
                                                     setTimeout(function(){
-                                                        $("#overlay").fadeOut(300);
-                                                    },500);
+                                                        $("#overlay").fadeOut(200);
+                                                    },400);
                                         } else {
                                              
                                         }

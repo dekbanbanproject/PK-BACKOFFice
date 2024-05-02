@@ -536,11 +536,14 @@ class CCtvController extends Controller
         if ( $startdate != '') {
             Cctv_report_months::whereBetween('cctv_check_date', [$startdate, $enddate])->delete();
             $data_ = DB::connection('mysql')->select(
-                'SELECT cctv_check_date,article_num ,COUNT(cctv_camera_screen) as screen_all,COUNT(cctv_camera_corner) as corner_all
-                    ,COUNT(cctv_camera_drawback) as drawback_all,COUNT(cctv_camera_save) as csave_all,COUNT(cctv_camera_power_backup) as power_all
-                    FROM cctv_check WHERE cctv_check_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                    GROUP BY cctv_check_date,article_num 
-            ');    
+                'SELECT c.cctv_check_date,c.article_num 
+                    ,COUNT(c.cctv_camera_screen) as screen_all,COUNT(c.cctv_camera_corner) as corner_all
+                    ,COUNT(c.cctv_camera_drawback) as drawback_all,COUNT(c.cctv_camera_save) as csave_all,COUNT(c.cctv_camera_power_backup) as power_all
+                    FROM cctv_check c                    
+                    WHERE c.cctv_check_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                    GROUP BY c.cctv_check_date,c.article_num 
+            '); 
+            // LEFT JOIN article_data a ON a.article_num = c.article_num   
             foreach ($data_ as $val) {       
                 Cctv_report_months::insert([
                     'cctv_check_date'       => $val->cctv_check_date,
@@ -549,9 +552,15 @@ class CCtvController extends Controller
                     'corner_all'            => $val->corner_all,
                     'drawback_all'          => $val->drawback_all, 
                     'csave_all'             => $val->csave_all, 
-                    'power_all'             => $val->power_all, 
+                    'power_all'             => $val->power_all,  
                     'user_id'               => $iduser,                    
                 ]);
+                $data_arr = DB::table('article_data')->where('article_num',$val->article_num)->first();
+                Cctv_report_months::where('article_num', $val->article_num)->update([ 
+                    'cctv_location'    => $data_arr->cctv_location, 
+                    'cctv_type'        => $data_arr->cctv_type, 
+                ]);
+
                 $data_s = DB::connection('mysql')->select('SELECT cctv_check_date,article_num,COUNT(cctv_camera_screen) as screen_narmal FROM cctv_check WHERE cctv_check_date = "'.$val->cctv_check_date.'" AND article_num ="'.$val->article_num.'" AND cctv_camera_screen = "0"');
                 foreach ($data_s as $val_s) { 
                     Cctv_report_months::where('cctv_check_date', $val->cctv_check_date)->where('article_num', $val->article_num)->update([ 
@@ -582,13 +591,45 @@ class CCtvController extends Controller
                         'drawback_narmal'    => $val_dr->drawback_narmal, 
                     ]);
                 }
-                $data_dr = DB::connection('mysql')->select('SELECT cctv_check_date,article_num,COUNT(cctv_camera_drawback) as drawback_narmal FROM cctv_check WHERE cctv_check_date = "'.$val->cctv_check_date.'" AND article_num ="'.$val->article_num.'" AND cctv_camera_drawback = "0"');
-                foreach ($data_dr as $val_dr) { 
+                $data_dra = DB::connection('mysql')->select('SELECT cctv_check_date,article_num,COUNT(cctv_camera_drawback) as drawback_abnarmal FROM cctv_check WHERE cctv_check_date = "'.$val->cctv_check_date.'" AND article_num ="'.$val->article_num.'" AND cctv_camera_drawback = "1"');
+                foreach ($data_dra as $val_dra) { 
                     Cctv_report_months::where('cctv_check_date', $val->cctv_check_date)->where('article_num', $val->article_num)->update([ 
-                        'drawback_narmal'    => $val_dr->drawback_narmal, 
+                        'drawback_abnarmal'    => $val_dra->drawback_abnarmal, 
                     ]);
                 }
+                $data_cs = DB::connection('mysql')->select('SELECT cctv_check_date,article_num,COUNT(cctv_camera_save) as csave_narmal FROM cctv_check WHERE cctv_check_date = "'.$val->cctv_check_date.'" AND article_num ="'.$val->article_num.'" AND cctv_camera_save = "0"');
+                foreach ($data_cs as $val_cs) { 
+                    Cctv_report_months::where('cctv_check_date', $val->cctv_check_date)->where('article_num', $val->article_num)->update([ 
+                        'csave_narmal'    => $val_cs->csave_narmal, 
+                    ]);
+                }
+                $data_css = DB::connection('mysql')->select('SELECT cctv_check_date,article_num,COUNT(cctv_camera_save) as csave_abnarmal FROM cctv_check WHERE cctv_check_date = "'.$val->cctv_check_date.'" AND article_num ="'.$val->article_num.'" AND cctv_camera_save = "1"');
+                foreach ($data_css as $val_css) { 
+                    Cctv_report_months::where('cctv_check_date', $val->cctv_check_date)->where('article_num', $val->article_num)->update([ 
+                        'csave_abnarmal'    => $val_css->csave_abnarmal, 
+                    ]);
+                }
+                $data_po = DB::connection('mysql')->select('SELECT cctv_check_date,article_num,COUNT(cctv_camera_power_backup) as power_narmal FROM cctv_check WHERE cctv_check_date = "'.$val->cctv_check_date.'" AND article_num ="'.$val->article_num.'" AND cctv_camera_power_backup = "0"');
+                foreach ($data_po as $val_po) { 
+                    Cctv_report_months::where('cctv_check_date', $val->cctv_check_date)->where('article_num', $val->article_num)->update([ 
+                        'power_narmal'    => $val_po->power_narmal, 
+                    ]);
+                }
+                $data_pos = DB::connection('mysql')->select('SELECT cctv_check_date,article_num,COUNT(cctv_camera_power_backup) as power_abnarmal FROM cctv_check WHERE cctv_check_date = "'.$val->cctv_check_date.'" AND article_num ="'.$val->article_num.'" AND cctv_camera_power_backup = "1"');
+                foreach ($data_pos as $val_pos) { 
+                    Cctv_report_months::where('cctv_check_date', $val->cctv_check_date)->where('article_num', $val->article_num)->update([ 
+                        'power_abnarmal'    => $val_pos->power_abnarmal, 
+                    ]);
+                } 
+                
             }
+            // $data_ar = DB::table('article_data')->where('cctv','=','Y')->where('article_num','<>',NULL)->get();
+            // $data_lo = $data_ar->cctv_location;
+            // $data_ty = $data_ar->cctv_type;
+            // Cctv_report_months::where('article_num', $val->article_num)->update([ 
+            //     'cctv_location'    => $data_lo, 
+            //     'cctv_type'        => $data_ty, 
+            // ]);
             // $data_check = DB::connection('mysql')->select('SELECT * FROM cctv_check cctv_check_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND article_num ="'.$val->article_num.'" AND cctv_camera_screen = "0"');
                 
             return response()->json([
