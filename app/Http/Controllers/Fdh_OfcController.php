@@ -137,7 +137,7 @@ class Fdh_OfcController extends Controller
 
                         WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                         AND v.pttype in ("O1","O2","O3","O4","O5")                    
-                        AND v.pttype not in ("OF","FO")                          
+                        AND v.pttype not in ("OF","FO") AND v.income-v.discount_money-v.rcpt_money > 0                          
                         AND o.an is null 
                         GROUP BY v.vn 
                 ');              

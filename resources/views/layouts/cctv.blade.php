@@ -95,25 +95,33 @@
         font-size:13px;
         height: 13px;
     }
-    .card_audit_2b{
-        border-radius: 0em 0em 3em 3em;
-        box-shadow: 0 0 10px rgb(250, 128, 124);
-    }
-    .card_audit_4{
+    .card_pink{
         border-radius: 3em 3em 3em 3em;
-        box-shadow: 0 0 10px rgb(250, 128, 124);
+        box-shadow: 0 0 10px pink;
     }
-    .auditcheckbox{         
-        width: 20px;
-        height: 20px;       
-        /* border-radius: 2em 2em 2em 2em; */
-        border: 10px solid rgb(250, 128, 124);
-        /* color: teal; */
-        /* border-color: teal; */
-        box-shadow: 0 0 10px rgb(250, 128, 124);
-        /* box-shadow: 0 0 10px teal; */
+    /* .myTable thead tr{
+    background-color: #b56fca;
+    color: #ffffff;
+    text-align: center;
     }
- 
+    .myTable th .myTable td{
+        padding: 12px 15px;
+    }
+    .myTable tbody tr{
+        border-bottom: 1px solid #b329f3;
+    }
+    .myTable tbody td{
+        font-size:15px;
+    }
+    .myTable tbody tr:nth-of-type(even){
+        background-color: #f4e1f7;
+    }
+    .myTable tbody tr:last-of-type{
+        border-bottom: 3px solid #ccbcd1;
+    }
+    .myTable tbody tr .active-row{
+        color: #ccbcd1;
+    } */
 </style>
 <?php
 if (Auth::check()) {
@@ -147,7 +155,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
 
         <header id="page-topbar">
             {{-- <div class="navbar-header shadow-lg" style="background-color: rgb(252, 252, 252)"> --}}
-                <div class="navbar-header shadow" style="background-color: rgb(250, 128, 124)">
+                <div class="navbar-header shadow" style="background-color: rgba(147, 204, 248, 0.871)">
 
                 <div class="d-flex">
                     <!-- LOGO -->
@@ -158,7 +166,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                             </span>
                             <span class="logo-lg">
                                 {{-- <img src="{{ asset('assets/images/logo-dark.png') }}" alt="logo-dark" height="20"> --}}
-                                <h4 style="color:pink" class="mt-4">PK-OFFICE</h4>
+                                <h4 style="color:rgba(147, 204, 248, 0.871)" class="mt-4">PK-OFFICE</h4>
                             </span>
                         </a>
 
@@ -168,7 +176,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgb(250, 128, 124)" class="mt-4">PK-OFFICE</h4>
+                                <h4 style="color:rgba(147, 204, 248, 0.871)" class="mt-4">PK-OFFICE</h4>
                             </span>
                         </a>
                     </div>
@@ -177,8 +185,9 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                         id="vertical-menu-btn">
                         <i class="ri-menu-2-line align-middle" style="color: rgb(255, 255, 255)"></i>
                     </button>
-                    <a href="{{url('pre_audit')}}">
-                        <h4 style="color:rgb(255, 255, 255)" class="mt-4">PRE-AUDIT</h4>
+                    <a href="{{url('techservice')}}">
+                        <h4 style="color:rgb(255, 255, 255)" class="mt-4">CCTV-CAMERA</h4>
+                        {{-- <h4 style="color:rgb(255, 255, 255)" class="mt-4">Tecnicial-Service</h4> --}}
                     </a>
                    
                     <?php
@@ -245,64 +254,36 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
         <!-- ========== Left Sidebar Start ========== -->
         {{-- <div class="vertical-menu "> --}}
         <div class="vertical-menu">
-        
+            {{-- <div class="vertical-menu" style="background-color: rgb(128, 216, 209)"> --}}
+            {{-- <div data-simplebar class="h-100"> --}}
                 <div data-simplebar class="h-100 nom6">
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
-                        <li class="menu-title">Menu</li>                         
-                        {{-- <li><a href="{{ url('fdh_main') }}">   
-                                <i class="fa-brands fa-nfc-symbol text-primary"></i>
-                                <span>FDH</span> 
-                            </a> 
-                        </li>  --}}
-                        {{-- <li><a href="{{ url('fdh_report_rep') }}">    
-                            <i class="fa-solid fa-chart-line text-success"></i>
-                                <span>FDH REP REPORT</span> 
-                            </a>  
-                        </li> --}}
-                       
-                    <li>
-                        <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-sack-dollar text-success"></i>
-                            <span>การเงิน</span>
-                        </a>
-                        <ul class="sub-menu" aria-expanded="true"> 
-                            <li><a href="{{ url('audit_approve_code') }}">   
-                                    <span>ไม่ลง APPROVE CODE</span> 
-                                </a>  
-                            </li>  
-                            {{-- <li><a href="javascript: void(0);" class="has-arrow">ไม่ลง APPROVE CODE</a>
-                                <ul class="sub-menu" aria-expanded="true">
-                                    <li><a href="{{ url('audit_approve_code') }}">12001-คัดกรองสุขภาพจิต 15-34ปี</a></li> 
-                                </ul>
-                            </li>  --}}
-                            {{-- <li><a href="javascript: void(0);" class="has-arrow">ANC-หญิงตั้งครรภ์</a>
-                                <ul class="sub-menu" aria-expanded="true">
-                                    <li><a href="{{ url('fdh_ppfs_30011') }}">บริการดูแลและฝากครรภ์</a></li>  
-                                </ul>
-                            </li> --}}
-                        </ul> 
-                    </li>
-                    <li>
-                        <a href="javascript: void(0);" class="has-arrow waves-effect">
-                          <i class="fa-solid fa-file-code text-primary"></i>
-                            <span>งานเวชระเบียน</span>
-                        </a>
-                        <ul class="sub-menu" aria-expanded="true"> 
-                            <li><a href="{{ url('audit_pdx') }}">   
-                                    <span>ไม่ลง PDX</span> 
-                                </a>  
-                            </li>  
-                           
-                        </ul> 
-                    </li>
+                        <li class="menu-title">Menu</li>
+                        
+ 
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="fa-solid fa-file-invoice-dollar" style="color: #55595a"></i>
+                                <span>maintenance</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true"> 
+                                <li><a href="javascript: void(0);" class="has-arrow">รายการกล้อง CCTV </a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li><a href="{{ url('cctv_list') }}">cctv</a></li>
+                                        <li><a href="{{ url('cctv_report') }}">report รายเดือน</a></li>
+                                       
+                                    </ul>
+                                </li>
+                                
+                                 
+                                
+                            </ul>
+                        </li>
+ 
                       
-                           
-                      
-  
-
                     </ul>
                 </div>
                 <!-- Sidebar -->

@@ -266,22 +266,25 @@ $pos = strrpos($url, '/') + 1;
                                     <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr style="font-size: 13px">
-                                                <th width="5%" class="text-center"><input type="checkbox" class="fdhcheckbox" name="stamp" id="stamp"> </th> 
                                                 <th class="text-center">ลำดับ</th> 
+                                                <th width="5%" class="text-center"><input type="checkbox" class="fdhcheckbox" name="stamp" id="stamp"> </th> 
+                                              
                                                 <th class="text-center">
                                                     <span class="bg-success badge me-2">{{ $count_no }}</span> 
                                                     Approve Code
                                                     <span class="bg-danger badge me-2">{{ $count_null }}</span> 
                                                 </th>
                                                 <th class="text-center">error</th> 
+                                                <th class="text-center">pdx</th> 
+                                                <th class="text-center">debit</th> 
                                                 <th class="text-center">cid</th>
                                                 <th class="text-center">hn</th>
                                                 <th class="text-center">ptname</th>  
                                                 <th class="text-center">pttype</th> 
                                                 <th class="text-center">vstdate</th> 
-                                                <th class="text-center">pdx</th> 
+                                              
                                                 <th class="text-center">icd10</th> 
-                                                <th class="text-center">debit</th>                                                     
+                                                                                                  
                                                 <th class="text-center">Price OFC</th> 
                                                 <th class="text-center">สถานะ</th> 
                                             </tr>
@@ -293,7 +296,7 @@ $pos = strrpos($url, '/') + 1;
                 
                                                 <tr height="20" style="font-size: 12px;"> 
                                                     <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td>
-                                                    @if ($item->pdx == '' || $item->authen == '')
+                                                    @if ($item->pdx == '' || $item->authen == '' )
                                                         <td class="text-center" width="5%">
                                                             <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
                                                         </td> 
@@ -314,14 +317,16 @@ $pos = strrpos($url, '/') + 1;
                                                         <span class="bg-success badge me-2"></span> 
                                                         @endif
                                                     </td> 
+                                                    <td class="text-center" width="5%">{{ $item->pdx }}</td>
+                                                    <td class="text-center" width="5%">{{ number_format($item->debit, 2) }}</td>  
                                                     <td class="text-center" width="7%">  {{ $item->cid }}  </td>
                                                     <td class="text-center" width="8%">{{ $item->hn }}</td>
                                                     <td class="text-start">{{ $item->ptname }}</td>  
                                                     <td class="text-center" width="5%">{{ $item->pttype }}</td> 
                                                     <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
-                                                    <td class="text-center" width="5%">{{ $item->pdx }}</td>
+                                                   
                                                     <td class="text-center" width="5%">{{ $item->icd10 }}</td>
-                                                    <td class="text-center" width="5%">{{ number_format($item->debit, 2) }}</td>                                                    
+                                                                                             
                                                     <td class="text-end" width="7%" style="font-size: 15px;color:blue">{{ number_format($item->price_ofc, 2) }}</td> 
                                                     <td class="text-center" width="5%">{{ $item->active_status }}</td> 
                                                 </tr>

@@ -3057,18 +3057,19 @@ Route::match(['get','post'],'tb_main_pull',[App\Http\Controllers\TbController::c
 Route::match(['get','post'],'tb_main_detail/{id}',[App\Http\Controllers\TbController::class, 'tb_main_detail'])->name('re.tb_main_detail');
 
 // ************** Tecnicial-Service ****************************
-Route::match(['get','post'],'techservice',[App\Http\Controllers\TechserviceController::class, 'techservice'])->name('tec.techservice');//
+Route::match(['get','post'],'techservice',[App\Http\Controllers\CCtvController::class, 'techservice'])->name('tec.techservice');//
 
 // ************** CCTV-Service ****************************
-Route::match(['get','post'],'cctv',[App\Http\Controllers\TechserviceController::class, 'cctv'])->name('tec.cctv');//
-Route::match(['get','post'],'cctv_list',[App\Http\Controllers\TechserviceController::class, 'cctv_list'])->name('tec.cctv_list');//
-Route::match(['get','post'],'cctv_add',[App\Http\Controllers\TechserviceController::class, 'cctv_add'])->name('tec.cctv_add');//
-Route::match(['get','post'],'cctv_edit/{id}',[App\Http\Controllers\TechserviceController::class, 'cctv_edit'])->name('tec.cctv_edit');//
-Route::match(['get','post'],'cctv_save',[App\Http\Controllers\TechserviceController::class, 'cctv_save'])->name('tec.cctv_save');//
-Route::match(['get','post'],'cctv_update',[App\Http\Controllers\TechserviceController::class, 'cctv_update'])->name('tec.cctv_update');//
-Route::delete('cctv_destroy/{id}',[App\Http\Controllers\TechserviceController::class, 'cctv_destroy'])->name('tec.cctv_destroy');//
+Route::match(['get','post'],'cctv',[App\Http\Controllers\CCtvController::class, 'cctv'])->name('tec.cctv');//
+Route::match(['get','post'],'cctv_list',[App\Http\Controllers\CCtvController::class, 'cctv_list'])->name('tec.cctv_list');//
+Route::match(['get','post'],'cctv_add',[App\Http\Controllers\CCtvController::class, 'cctv_add'])->name('tec.cctv_add');//
+Route::match(['get','post'],'cctv_edit/{id}',[App\Http\Controllers\CCtvController::class, 'cctv_edit'])->name('tec.cctv_edit');//
+Route::match(['get','post'],'cctv_save',[App\Http\Controllers\CCtvController::class, 'cctv_save'])->name('tec.cctv_save');//
+Route::match(['get','post'],'cctv_update',[App\Http\Controllers\CCtvController::class, 'cctv_update'])->name('tec.cctv_update');//
+Route::delete('cctv_destroy/{id}',[App\Http\Controllers\CCtvController::class, 'cctv_destroy'])->name('tec.cctv_destroy');//
 
-Route::match(['get','post'],'cctv_report',[App\Http\Controllers\TechserviceController::class, 'cctv_report'])->name('tec.cctv_report');//
+Route::match(['get','post'],'cctv_report',[App\Http\Controllers\CCtvController::class, 'cctv_report'])->name('tec.cctv_report');//
+Route::match(['get','post'],'cctv_report_process',[App\Http\Controllers\CCtvController::class, 'cctv_report_process'])->name('tec.cctv_report_process');//
 
 // ************** FDH ****************************
 Route::match(['get','post'],'fdh_dashboard',[App\Http\Controllers\FdhController::class, 'fdh_dashboard'])->name('fdh.fdh_dashboard');// 
@@ -3211,8 +3212,10 @@ Route::match(['get','post'],'report_hos_sx/{id}',[App\Http\Controllers\ReportSxC
 Route::match(['get','post'],'pre_audit',[App\Http\Controllers\PreauditController::class, 'pre_audit'])->name('audit.pre_audit');
 Route::match(['get','post'],'pre_audit_process_a',[App\Http\Controllers\PreauditController::class, 'pre_audit_process_a'])->name('audit.pre_audit_process_a');
 Route::match(['get','post'],'audit_approve_code',[App\Http\Controllers\PreauditController::class, 'audit_approve_code'])->name('audit.audit_approve_code');
-Route::match(['get','post'],'pre_audit_approve_detail/{month}/{year}',[App\Http\Controllers\PreauditController::class, 'pre_audit'])->name('audit.pre_audit');
+Route::match(['get','post'],'audit_approve_detail/{month}/{year}',[App\Http\Controllers\PreauditController::class, 'audit_approve_detail'])->name('audit.audit_approve_detail');
 Route::match(['get','post'],'pre_audit_chart',[App\Http\Controllers\PreauditController::class, 'pre_audit_chart'])->name('audit.pre_audit_chart');
+Route::match(['get','post'],'audit_pdx',[App\Http\Controllers\PreauditController::class, 'audit_pdx'])->name('audit.audit_pdx');
+Route::match(['get','post'],'audit_pdx_detail/{month}/{year}',[App\Http\Controllers\PreauditController::class, 'audit_pdx_detail'])->name('audit.audit_pdx_detail');
 
 Route::match(['get','post'],'fdh_mini_dataset',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset'])->name('fdh.fdh_mini_dataset');
 Route::match(['get','post'],'fdh_mini_dataset_api',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_api'])->name('fdh.fdh_mini_dataset_api');

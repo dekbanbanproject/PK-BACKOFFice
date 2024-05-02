@@ -164,7 +164,7 @@ class Fdh_Ucep24Controller extends Controller
                     }       
  
                 }   
-                $data_date_one = DB::connection('mysql')->select('SELECT vn,an,hn,vstdate,dchdate FROM d_fdh WHERE dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"AND projectcode ="UCEP24" GROUP BY an'); 
+                $data_date_one = DB::connection('mysql')->select('SELECT vn,an,hn,vstdate,dchdate FROM d_fdh WHERE dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'" AND projectcode ="UCEP24" GROUP BY an'); 
                 foreach ($data_date_one as $key => $v_opitem_one) {
                     $opitem = DB::connection('mysql2')->select('
                         SELECT i.vn,o.an,o.hn,pp.cid,concat(pp.pname,pp.fname," ",pp.lname) ptname,o.rxdate,o.rxtime,i.dchdate,s.icode,s.name as namelist ,o.qty,o.unitprice,o.sum_price,o.paidst,pt.pttype,pt.hipdata_code   
@@ -228,7 +228,7 @@ class Fdh_Ucep24Controller extends Controller
         }              
         
             // $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="UCEP24" AND icd10 IS NOT NULL ORDER BY vn ASC');
-            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="UCEP24" ORDER BY an ASC');
+            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="UCEP24" AND dchdate BETWEEN "2024-03-01" and "2024-03-31" ORDER BY an ASC');
             $data['d_ucep24_main'] = DB::connection('mysql')->select('SELECT * from d_ucep24_main WHERE active ="N" ORDER BY vn ASC');  
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="UCEP24"'); 
             $data['data_orf'] = DB::connection('mysql')->select('SELECT * from fdh_orf WHERE d_anaconda_id ="UCEP24"'); 
@@ -269,6 +269,23 @@ class Fdh_Ucep24Controller extends Controller
         Fdh_adp::where('d_anaconda_id','=','UCEP24')->delete();
         Fdh_dru::where('d_anaconda_id','=','UCEP24')->delete();            
         Fdh_lvd::where('d_anaconda_id','=','UCEP24')->delete();  
+
+        // Fdh_ins::truncate();
+        // Fdh_pat::truncate();
+        // Fdh_opd::truncate();
+        // Fdh_orf::truncate();
+        // Fdh_odx::truncate();
+        // Fdh_oop::truncate();
+        // Fdh_ipd::truncate();
+        // Fdh_irf::truncate();
+        // Fdh_idx::truncate();
+        // Fdh_iop::truncate();
+        // Fdh_cht::truncate();
+        // Fdh_cha::truncate();
+        // Fdh_aer::truncate();
+        // Fdh_adp::truncate();
+        // Fdh_dru::truncate();           
+        // Fdh_lvd::truncate();
         $id = $request->ids;
         $iduser = Auth::user()->id;
         $s_date_now = date("Y-m-d");
@@ -280,9 +297,7 @@ class Fdh_Ucep24Controller extends Controller
         $pattern_time = '/:/i';
         $s_time_now_preg = preg_replace($pattern_time, '', $s_time_now);
         #ตัดขีด, ตัด : ออก
-        $folder_name='UCEP24_'.$s_date_now_preg.'_'.$s_time_now_preg;
-         
-
+        $folder_name='UCEP24_'.$s_date_now_preg.'_'.$s_time_now_preg; 
         Fdh_sesion::insert([
             'folder_name'      => $folder_name,
             'd_anaconda_id'    => 'UCEP24',
@@ -894,10 +909,10 @@ class Fdh_Ucep24Controller extends Controller
         // ->update([
         //     'active' => 'Y'
         // ]);
-        D_fdh::whereIn('d_fdh_id',explode(",",$id))
-        ->update([
-            'active' => 'Y'
-        ]);
+        // D_fdh::whereIn('d_fdh_id',explode(",",$id))
+        // ->update([
+        //     'active' => 'Y'
+        // ]);
 
         return response()->json([
              'status'    => '200'

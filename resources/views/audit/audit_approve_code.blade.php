@@ -100,7 +100,7 @@
             </div>
 
             <div class="row">
-                <div class="col-xl-4">
+                <div class="col-xl-5">
                     <div class="card card_audit_4">
                         <div class="card-body">
                             <div class="row">
@@ -132,7 +132,7 @@
                             <div class="row mt-2">
                                 <div class="col-md-12"> 
                                     <div class="table-responsive">
-                                        <table id="example4"
+                                        <table id="example5"
                                             class="table table-striped table-bordered dt-responsive nowrap"
                                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                             <thead>
@@ -150,10 +150,11 @@
                                                 @foreach ($fdh_ofc as $item)
                                                 <?php 
                                                 $no_app = DB::connection('mysql')->select(
-                                                    'SELECT year(vstdate) as years ,month(vstdate) as months,year(vstdate) as days 
+                                                    'SELECT year(vstdate) as years ,month(vstdate) as months
                                                         ,count(DISTINCT vn) as countvn,sum(debit) as sum_total_no  
                                                         FROM d_fdh WHERE month(vstdate) = "'.$item->months.'" AND year(vstdate) = "'.$item->years.'" 
-                                                        AND projectcode ="OFC" AND an IS NULL AND authen IS NULL
+                                                        AND projectcode ="OFC" AND (an IS NULL OR an ="") 
+                                                        AND (authen IS NULL OR authen ="") 
                                                         GROUP BY month(vstdate)
                                                     ');  
                                                     foreach ($no_app as $key => $value) {
@@ -195,7 +196,7 @@
                                                         <td class="text-center" width="20%" style="color:rgb(22, 168, 132)">{{ number_format($item->sum_total, 2) }}</td> 
                                                         <td class="text-center" width="20%" style="color:rgb(252, 73, 42)">
                                                             <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger"
-                                                            href="{{ url('pre_audit_approve_detail/' . $item->months . '/' . $item->years) }}" >
+                                                            href="{{ url('audit_approve_detail/' . $item->months . '/' . $item->years) }}" >
                                                             {{ number_format($sum_total_no_, 2) }}
                                                         </a>
                                                            
@@ -212,14 +213,43 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-8">
+                <div class="col-xl-7">
                     <div class="card card_audit_4">
                         <div class="card-body">
                             <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">รายการที่ไม่ลง Approve เดือนนี้</h4>  
-                                <div class="table-responsive">                           
-                                     
-                                </div>
+                                <div class="table-responsive">    
+                                    <table id="example2" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">                       
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">ลำดับ</th>
+                                                <th class="text-center">hn</th>
+                                                <th class="text-center">cid</th>
+                                                <th class="text-center">vstdate</th>
+                                                <th class="text-center">income</th>  
+                                                <th class="text-center">Approve Code</th>
+                                                <th class="text-center">EDC</th> 
+                                                <th class="text-center">Ap KTB</th> 
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php $jj = 1; ?>
+                                            @foreach ($fdh_ofc_momth as $item_m)
+                                            <?php  ?>
+                                            <tr>
+                                                <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
+                                                <td class="text-center" width="10%">{{ $item_m->hn }} </td>
+                                                <td class="text-center" width="10%">{{ $item_m->cid }} </td>
+                                                <td class="text-center" width="10%">{{ $item_m->vstdate }} </td>
+                                                <td class="text-center" width="10%">{{ $item_m->debit }} </td>
+                                                <td class="text-center" width="10%">{{ $item_m->authen }} </td> 
+                                                <td class="text-center" width="10%">{{ $item_m->edc }} </td>
+                                                <td class="text-center" width="10%">{{ $item_m->AppKTB }} </td>
+                                            </tr>
+                                            @endforeach
 
+                                        </tbody>
+                                    </table>
+                                </div>
                         </div>
                     </div>
                 </div> 
@@ -228,9 +258,9 @@
                 <div class="col-xl-12">
                     <div class="card card_audit_4">
                         <div class="card-body">
-                            <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">Chart Approve</h4>  
+                            <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">รายการที่ไม่ลง Approve ทั้งหมด</h4>  
                                 <div class="table-responsive">                           
-                                    <table id="example2" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                    <table id="example3" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
                                                 <th class="text-center">ลำดับ</th> 
@@ -294,6 +324,14 @@
                 "lengthMenu": [10, 100, 150, 200, 300, 400, 500],
             });
             var table = $('#example2').DataTable({
+                scrollY: '60vh',
+                scrollCollapse: true,
+                scrollX: true,
+                "autoWidth": false,
+                "pageLength": 10,
+                "lengthMenu": [10, 100, 150, 200, 300, 400, 500],
+            });
+            var table = $('#example3').DataTable({
                 scrollY: '60vh',
                 scrollCollapse: true,
                 scrollX: true,

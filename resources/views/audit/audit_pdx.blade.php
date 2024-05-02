@@ -100,15 +100,15 @@
             </div>
 
             <div class="row">
-                <div class="col-xl-4">
+                <div class="col-xl-5">
                     <div class="card card_audit_4">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <h4 class="card-title" style="color:rgb(241, 137, 155)"">CHART APPROVE OFC</h4>
+                                    <h4 class="card-title" style="color:rgb(241, 137, 155)"">DIAG OFC</h4>
                                 </div>
                                 <div class="col-md-9 text-end">
-                                    {{-- <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
                                         data-date-autoclose="true" data-provide="datepicker"
                                         data-date-container='#datepicker1'>
                                         <input type="text" class="form-control card_audit_4" name="startdate"
@@ -126,13 +126,13 @@
                                             <i class="fa-solid fa-sack-dolla"></i>
                                             ประมวลผลใหม่
                                         </button>
-                                    </div> --}}
+                                    </div>
                                 </div>
                             </div>
                             <div class="row mt-2">
                                 <div class="col-md-12"> 
                                     <div class="table-responsive">
-                                        {{-- <table id="example4"
+                                        <table id="example5"
                                             class="table table-striped table-bordered dt-responsive nowrap"
                                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                             <thead>
@@ -141,25 +141,28 @@
                                                     <th class="text-center">Year</th>
                                                     <th class="text-center">Month</th>
                                                     <th class="text-center">Visit ทั้งหมด</th>
-                                                    <th class="text-center">Debit-Approve</th>
-                                                    <th class="text-center">Debit-ไม่ Approve</th>
+                                                    <th class="text-center">Debit-Diag</th>
+                                                    <th class="text-center">Debit-ไม่ Diag</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php $jj = 1; ?>
                                                 @foreach ($fdh_ofc as $item)
                                                 <?php 
-                                                $no_app = DB::connection('mysql')->select(
-                                                    'SELECT year(vstdate) as years ,month(vstdate) as months,year(vstdate) as days 
-                                                        ,count(DISTINCT vn) as countvn,sum(debit) as sum_total_no  
-                                                        FROM d_fdh WHERE month(vstdate) = "'.$item->months.'" AND year(vstdate) = "'.$item->years.'" 
-                                                        AND projectcode ="OFC" AND an IS NULL AND authen IS NULL
-                                                        GROUP BY month(vstdate)
+                                                    $no_app = DB::connection('mysql')->select(
+                                                        'SELECT year(vstdate) as years ,month(vstdate) as months
+                                                            ,count(DISTINCT vn) as countvn,sum(debit) as sum_totalnopdx  
+                                                            FROM d_fdh WHERE month(vstdate) = "'.$item->months.'" AND year(vstdate) = "'.$item->years.'" 
+                                                            AND projectcode ="OFC" AND (an IS NULL OR an ="")
+                                                            AND (pdx IS NULL OR pdx ="")
+                                                            GROUP BY month(vstdate)
                                                     ');  
-                                                    foreach ($no_app as $key => $value) {
-                                                        $sum_total_no_ = $value->sum_total_no;
-                                                    }
+                                                    // foreach ($no_app as $key => $val_s) {
+                                                    //     $sum_total = $val_s->sum_totalnopdx;
+                                                    // }
+                                                    // $sum_totalno = $sum_total_non;
                                                 ?>
+                                                {{-- sum_total_non --}}
                                                     <tr>
                                                         <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
                                                         <td class="text-center" width="10%">{{ $item->years }}</td> 
@@ -193,18 +196,20 @@
                                                            
                                                         </td>
                                                         <td class="text-center" width="20%" style="color:rgb(22, 168, 132)">{{ number_format($item->sum_total, 2) }}</td> 
-                                                        <td class="text-center" width="20%" style="color:rgb(252, 73, 42)">
-                                                            <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger"
-                                                            href="{{ url('pre_audit_approve_detail/' . $item->months . '/' . $item->years) }}" >
-                                                            {{ number_format($sum_total_no_, 2) }}
-                                                        </a>
-                                                           
-                                                        </td> 
+                                                        @foreach ($no_app as $item_sub)
+                                                            <td class="text-center" width="20%" style="color:rgb(252, 73, 42)">
+                                                                <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" href="{{ url('audit_pdx_detail/' . $item->months . '/' . $item->years) }}" >
+                                                                {{$item_sub->sum_totalnopdx}} 
+                                                                {{-- {{ number_format($sum_totalno, 2) }} --}}
+                                                                </a> 
+                                                            </td>
+                                                        @endforeach
+                                                        
                                                     </tr>
                                                 @endforeach
 
                                             </tbody>
-                                        </table> --}}
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -212,27 +217,99 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-8">
+                <div class="col-xl-7">
                     <div class="card card_audit_4">
                         <div class="card-body">
-                            <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">CHART รายการที่ไม่ลง Approve เดือนนี้</h4>  
+                            <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">รายการที่ไม่ลง DIAG เดือนนี้</h4>  
+                                <div class="table-responsive">    
+                                    <table id="example2" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">                       
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">ลำดับ</th>
+                                                <th class="text-center">hn</th> 
+                                                <th class="text-center">vstdate</th>
+                                                <th class="text-center">pdx</th> 
+                                                <th class="text-center">income</th>  
+                                                <th class="text-center">Approve Code</th>
+                                                <th class="text-center">EDC</th> 
+                                                <th class="text-center">Ap KTB</th> 
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php $jj = 1; ?>
+                                            @foreach ($fdh_ofc_momth as $item_m)
+                                            <?php  ?>
+                                            <tr>
+                                                <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
+                                                <td class="text-center" width="10%">{{ $item_m->hn }} </td> 
+                                                <td class="text-center" width="10%">{{ $item_m->vstdate }} </td>
+                                                <td class="text-center" width="10%">{{ $item_m->pdx }} </td>
+                                                <td class="text-center" width="10%">{{ $item_m->debit }} </td>
+                                                <td class="text-center" width="10%">{{ $item_m->authen }} </td> 
+                                                <td class="text-center" width="10%">{{ $item_m->edc }} </td>
+                                                <td class="text-center" width="10%">{{ $item_m->AppKTB }} </td>
+                                            </tr>
+                                            @endforeach
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card card_audit_4">
+                        <div class="card-body">
+                            <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">รายการที่ไม่ลง DIAG ทั้งหมด</h4>  
                                 <div class="table-responsive">                           
-                                     
+                                    <table id="example3" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">ลำดับ</th> 
+                                                <th class="text-center">HN</th>  
+                                                <th class="text-center">PDX</th>
+                                                <th class="text-center">วันที่รับบริการ</th>
+                                                <th class="text-center">ชื่อ - สกุล</th>
+                                            
+                                                <th class="text-center">ลูกหนี้</th>
+                                                <th class="text-center">ชำระเงินเอง</th>
+                                                <th class="text-center">ใบเสร็จ</th> 
+                                                <th class="text-center">ปิดลูกหนี้</th>
+                                                <th class="text-center">EDC</th> 
+                                                <th class="text-center">Ap HOSxP</th>
+                                                <th class="text-center">Ap KTB</th> 
+                                                <th class="text-center">cc</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php $jj = 1; ?>
+                                            @foreach ($fdh_ofc_m as $item_n) 
+                                                <tr > <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
+                                                    <td class="text-center" style="width: 5%">{{ $item_n->hn }}</td> 
+                                                    <td class="text-center" style="width: 5%">{{ $item_n->pdx }}</td>
+                                                    <td class="text-center" style="width: 5%">{{ $item_n->vstdate }}</td>
+                                                    <td class="p-2" style="width: 10%">{{ $item_n->ptname }}</td>  
+                                                    <td class="text-center" style="width: 5%">{{ $item_n->debit }}</td>
+                                                    <td class="text-center" style="width: 5%">{{ $item_n->paid_money }}</td> 
+                                                    <td class="text-center" style="width: 5%">{{ $item_n->rcpno }}</td>
+                                                    <td class="text-center" style="width: 5%">{{ $item_n->rramont }}</td>
+                                                    <td class="text-center" style="width: 5%">{{ $item_n->edc }}</td> 
+                                                    <td class="text-center" style="width: 5%">{{ $item_n->authen }}</td>
+                                                    <td class="text-center" style="width: 5%">{{ $item_n->AppKTB }}</td> 
+                                                    <td class="p-2">{{ $item_n->cc }}</td>
+                                                </tr>
+                                            @endforeach
+                
+                                        </tbody>
+                                    </table>
                                 </div>
 
                         </div>
                     </div>
                 </div> 
             </div>
-            {{-- <div class="row">
-                <div class="col-xl-12">
-                    <div class="card card_audit_4">
-                        <div class="card-body">
-                          
-                        </div>
-                    </div>
-                </div> 
-            </div> --}}
     </div>
 
 
@@ -250,6 +327,14 @@
                 "lengthMenu": [10, 100, 150, 200, 300, 400, 500],
             });
             var table = $('#example2').DataTable({
+                scrollY: '60vh',
+                scrollCollapse: true,
+                scrollX: true,
+                "autoWidth": false,
+                "pageLength": 10,
+                "lengthMenu": [10, 100, 150, 200, 300, 400, 500],
+            });
+            var table = $('#example3').DataTable({
                 scrollY: '60vh',
                 scrollCollapse: true,
                 scrollX: true,

@@ -1883,10 +1883,17 @@ class FdhController extends Controller
     {
         $startdate   = $request->startdate;
         $enddate     = $request->enddate;
+        $date        = date('Y-m-d');
+        $y           = date('Y') + 543;
+        $newdays     = date('Y-m-d', strtotime($date . ' -1 days')); //ย้อนหลัง 1 วัน
+        $newweek     = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate     = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear     = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+ 
         if ($startdate == '') {
-            $data['fdh_mini_dataset']    = DB::connection('mysql')->select('SELECT * from fdh_mini_dataset WHERE transaction_uid IS NOT NULL ORDER BY total_amout DESC');
+            $data['fdh_mini_dataset']    = DB::connection('mysql')->select('SELECT * from fdh_mini_dataset WHERE vstdate BETWEEN "'.$newdays.'" AND "'.$date.'" AND transaction_uid IS NOT NULL ORDER BY vstdate DESC');
         } else {
-            $data['fdh_mini_dataset']    = DB::connection('mysql')->select('SELECT * from fdh_mini_dataset WHERE transaction_uid IS NOT NULL ORDER BY total_amout DESC');            
+            $data['fdh_mini_dataset']    = DB::connection('mysql')->select('SELECT * from fdh_mini_dataset WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND transaction_uid IS NOT NULL ORDER BY vstdate DESC');            
         }
         
 

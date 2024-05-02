@@ -97,8 +97,7 @@ $pos = strrpos($url, '/') + 1;
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-4 text-end">
-                {{-- <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'> --}}
+            <div class="col-md-4 text-end"> 
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control card_fdh_4" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                     data-date-language="th-th" value="{{ $startdate }}" required/>
@@ -110,16 +109,7 @@ $pos = strrpos($url, '/') + 1;
                     ค้นหา 
                 </button>  
                     </form> 
-                   
-                    {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary card_fdh_4" id="Pulldata">
-                        <i class="fa-solid fa-spinner text-primary me-2"></i>
-                        ค้นหา(ไม่มีเลข invoice_number)
-                    </button>
-                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('fdh_mini_dataset_apicliam')}}">
-                        <i class="fa-solid fa-spinner text-success me-2"></i>
-                        ส่ง Minidataset
-                    </button> --}}
-                   
+                    
                   
                 </div> 
             </div>          
@@ -137,77 +127,59 @@ $pos = strrpos($url, '/') + 1;
                             </button> 
                         </div>
                     </div>
-                    <div class="card-body">
-                        {{-- <div class="row mb-3"> --}}
-                           
-                            {{-- <div class="col"></div> --}}
-                            {{-- <div class="col-md-5 text-end"> --}}
-                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-info card_fdh_4 Jongclaim" data-url="{{url('fdh_mini_dataset_pulljong')}}">
-                                    <i class="fa-solid fa-cloud-arrow-down me-2"></i>
-                                    ดึงข้อมูลจองเคลม
-                                </button>  --}}
-                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_401_stam')}}">
-                                    <i class="fa-solid fa-file-waveform me-2"></i>
-                                    ตั้งลูกหนี้
-                                </button> --}}
-                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-danger cardacc Destroystamp" data-url="{{url('account_401_destroy_all')}}">
-                                    <i class="fa-solid fa-trash-can me-2"></i>
-                                    ลบ
-                                </button>  --}}
-                            {{-- </div> --}}
-                        {{-- </div> --}}
-                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">ลำดับ</th>
-                                    <th width="5%" class="text-center"><input type="checkbox" class="fdhcheckbox" name="stamp" id="stamp"> </th> 
-                                    {{-- <th class="text-center" width="7%">vstdate</th> --}}
-                                    <th class="text-center" width="10%">service_date_time</th>
-                                    {{-- <th class="text-center" width="7%">cid</th> --}}
-                                    {{-- <th class="text-center" width="7%">vn</th> --}}
-                                    <th class="text-center" width="5%">hn</th>
-                                    <th class="text-center" width="5%">pttype</th>
-                                    <th class="text-center">ptname</th>
-                                    <th class="text-center" width="5%">hcode</th>
-                                    <th class="text-center" width="7%">total_amout</th>
-                                    <th class="text-center" width="7%">invoice_number</th>
-                                    <th class="text-center" width="10%">@uid</th>
-                                    <th class="text-center" width="10%">@id_booking</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $number = 0; ?>
-                                @foreach ($fdh_mini_dataset as $item)
-                                    <?php $number++; ?>
+                    {{-- @if ($startdate == '') --}}
+                        <div class="card-body">                     
+                            <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">ลำดับ</th>
+                                        <th width="5%" class="text-center"><input type="checkbox" class="fdhcheckbox" name="stamp" id="stamp"> </th>  
+                                        <th class="text-center" width="10%">service_date_time</th> 
+                                        <th class="text-center" width="5%">hn</th>
+                                        <th class="text-center" width="5%">pttype</th>
+                                        <th class="text-center">ptname</th>
+                                        <th class="text-center" width="5%">hcode</th>
+                                        <th class="text-center" width="7%">total_amout</th>
+                                        <th class="text-center" width="7%">invoice_number</th>
+                                        <th class="text-center" width="10%">@uid</th>
+                                        <th class="text-center" width="10%">@id_booking</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $number = 0; ?>
+                                    @foreach ($fdh_mini_dataset as $item)
+                                        <?php $number++; ?>
 
-                                        <tr height="20" >
-                                            <td class="text-center" width="5%">{{ $number}}</td>
-                                            @if ($item->id_booking != '')
-                                            <td class="text-center" width="5%">
-                                                <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
-                                            </td> 
-                                            @else
-                                                <td class="text-center" width="5%"><input type="checkbox" class="fdhcheckbox sub_chk" data-id="{{$item->fdh_mini_dataset_id}}"> </td> 
-                                            @endif 
-                                           {{-- <td class="text-center" width="7%">{{ $item->vstdate }}</td> --}}
-                                            <td class="text-center" width="10%">{{ $item->service_date_time }}</td>
-                                            {{-- <td class="text-center" width="7%">{{ $item->cid }}</td> --}}
-                                            {{-- <td class="text-center" width="7%">{{ $item->vn }}</td> --}}
-                                            <td class="text-center" width="5%">{{ $item->hn }}</td>
-                                            <td class="text-center" width="5%">{{ $item->pttype }}</td>
-                                            <td class="p-2">{{ $item->ptname }}</td>
-                                            <td class="text-center" width="5%">{{ $item->hcode }}</td>
-                                            <td class="text-center" width="7%">{{ $item->total_amout }}</td>
-                                            <td class="text-center" width="7%">{{ $item->invoice_number }}</td>
-                                            <td class="text-center" width="10%">{{ $item->transaction_uid }}</td>
-                                            <td class="text-center" width="10%">{{ $item->id_booking }}</td>
-                                        </tr>
+                                            <tr height="20" >
+                                                <td class="text-center" width="5%">{{ $number}}</td>
+                                                @if ($item->id_booking != '')
+                                                <td class="text-center" width="5%">
+                                                    <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
+                                                </td> 
+                                                @else
+                                                    <td class="text-center" width="5%"><input type="checkbox" class="fdhcheckbox sub_chk" data-id="{{$item->fdh_mini_dataset_id}}"> </td> 
+                                                @endif  
+                                                <td class="text-center" width="10%">{{ $item->service_date_time }}</td> 
+                                                <td class="text-center" width="5%">{{ $item->hn }}</td>
+                                                <td class="text-center" width="5%">{{ $item->pttype }}</td>
+                                                <td class="p-2">{{ $item->ptname }}</td>
+                                                <td class="text-center" width="5%">{{ $item->hcode }}</td>
+                                                <td class="text-center" width="7%">{{ $item->total_amout }}</td>
+                                                <td class="text-center" width="7%">{{ $item->invoice_number }}</td>
+                                                <td class="text-center" width="10%">{{ $item->transaction_uid }}</td>
+                                                <td class="text-center" width="10%">{{ $item->id_booking }}</td>
+                                            </tr>
 
-                                @endforeach
+                                    @endforeach
 
-                            </tbody>
-                        </table>
-                    </div>
+                                </tbody>
+                            </table>
+                        </div>
+                    {{-- @else --}}
+                        
+                    {{-- @endif --}}
+
+                   
                 </div>
             </div>
 

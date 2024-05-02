@@ -1206,6 +1206,19 @@ class Account106Controller extends Controller
             'status'    => '200'
         ]);
     }
+    // public function acc107destroy(Request $request,$id)
+    // {        
+    //     $file_ = Acc_doc::find($id);  
+    //     $file_name = $file_->filename; 
+    //     $filepath = public_path('storage/account_107/'.$file_name);
+    //     $description = File::delete($filepath);
+
+    //     $del = Acc_doc::find($id);  
+    //     $del->delete(); 
+
+    //     return redirect()->route('acc.acc_106_file');
+    //     // return response()->json(['status' => '200']);
+    // }
     
  
 }

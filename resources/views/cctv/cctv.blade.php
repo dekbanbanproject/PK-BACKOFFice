@@ -1,4 +1,4 @@
-@extends('layouts.tech')
+@extends('layouts.cctv')
 @section('title', 'PK-OFFICE || Tecnicial-Service')
 
 @section('content')
