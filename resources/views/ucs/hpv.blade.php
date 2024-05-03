@@ -114,22 +114,25 @@ $pos = strrpos($url, '/') + 1;
                         data-date-language="th-th" value="{{ $enddate }}"/>  
         
                     <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                        <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
+                        {{-- <i class="fa-solid fa-magnifying-glass text-info me-2"></i> --}}<i class="fa-solid fa-1 text-info me-2"></i>
                         ค้นหา
                     </button>  
 
                     </form>
                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('hpv_process')}}">
-                        <i class="fa-solid fa-spinner text-success me-2"></i>
+                        {{-- <i class="fa-solid fa-spinner text-success me-2"></i> --}}
+                         <i class="fa-solid fa-2 text-success me-2"></i>
                         ส่งเคลม
                     </button>
                    
                     <a href="{{url('hpv_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4">
-                        <i class="fa-solid fa-file-export text-danger me-2"></i>
+                        {{-- <i class="fa-solid fa-file-export text-danger me-2"></i> --}}
+                        <i class="fa-solid fa-3 text-danger me-2"></i>
                         Export Txt
                     </a> 
-                    <a href="{{url('hpv_zip')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4">
-                        <i class="fa-solid fa-file-export text-danger me-2"></i>
+                    <a href="{{url('hpv_zip')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary card_fdh_4">
+                        {{-- <i class="fa-solid fa-file-export text-danger me-2"></i> --}}
+                        <i class="fa-solid fa-4 text-primary me-2"></i>
                         Zip Txt
                     </a> 
                 </div> 

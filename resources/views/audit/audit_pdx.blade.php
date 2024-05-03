@@ -229,6 +229,7 @@
                                                 <th class="text-center">hn</th> 
                                                 <th class="text-center">vstdate</th>
                                                 <th class="text-center">pdx</th> 
+                                                <th class="text-center">ERROR</th>
                                                 <th class="text-center">income</th>  
                                                 <th class="text-center">Approve Code</th>
                                                 <th class="text-center">EDC</th> 
@@ -244,6 +245,7 @@
                                                 <td class="text-center" width="10%">{{ $item_m->hn }} </td> 
                                                 <td class="text-center" width="10%">{{ $item_m->vstdate }} </td>
                                                 <td class="text-center" width="10%">{{ $item_m->pdx }} </td>
+                                                <td class="text-center" style="width: 5%">{{ $item_m->error_c }}</td>
                                                 <td class="text-center" width="10%">{{ $item_m->debit }} </td>
                                                 <td class="text-center" width="10%">{{ $item_m->authen }} </td> 
                                                 <td class="text-center" width="10%">{{ $item_m->edc }} </td>
@@ -270,6 +272,7 @@
                                                 <th class="text-center">ลำดับ</th> 
                                                 <th class="text-center">HN</th>  
                                                 <th class="text-center">PDX</th>
+                                                <th class="text-center">ERROR</th>
                                                 <th class="text-center">วันที่รับบริการ</th>
                                                 <th class="text-center">ชื่อ - สกุล</th>
                                             
@@ -289,6 +292,7 @@
                                                 <tr > <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
                                                     <td class="text-center" style="width: 5%">{{ $item_n->hn }}</td> 
                                                     <td class="text-center" style="width: 5%">{{ $item_n->pdx }}</td>
+                                                    <td class="text-center" style="width: 5%">{{ $item_n->error_c }}</td>
                                                     <td class="text-center" style="width: 5%">{{ $item_n->vstdate }}</td>
                                                     <td class="p-2" style="width: 10%">{{ $item_n->ptname }}</td>  
                                                     <td class="text-center" style="width: 5%">{{ $item_n->debit }}</td>

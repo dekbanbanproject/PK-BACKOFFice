@@ -129,7 +129,7 @@ class Fdh_HpvController extends Controller
                             LEFT OUTER JOIN ovst ot on ot.vn = v.vn
                             LEFT OUTER JOIN ovstost ov on ov.ovstost = ot.ovstost
                         WHERE v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                        AND o.an is null 
+                        AND (o.an IS NULL OR o.an ="") 
                         and ll.lab_items_code IN("1790","1882","1884","1886") 
                         group by o.vn
                 ');  
@@ -1995,54 +1995,24 @@ class Fdh_HpvController extends Controller
             return redirect()->route('fdh.hpv');
 
     }
-    public function walkin_export_zip(Request $request)
+    public function hpv_zip(Request $request)
     {
-        $sss_date_now = date("Y-m-d");
-        $sss_time_now = date("H:i:s");
-         #ตัดขีด, ตัด : ออก
-         $pattern_date = '/-/i';
-         $sss_date_now_preg = preg_replace($pattern_date, '', $sss_date_now);
-         $pattern_time = '/:/i';
-         $sss_time_now_preg = preg_replace($pattern_time, '', $sss_time_now);
-         #ตัดขีด, ตัด : ออก
- 
-          #delete file in folder ทั้งหมด
-         $file = new Filesystem;
-         $file->cleanDirectory('Export'); //ทั้งหมด
-         // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
-        //  $folder='WALKIN_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
-        //  $folder='WALKIN_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
-        // $pathdir =  "Export/".$folder."/";
-        // $zipcreated = $folder.".zip";
+        $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "HPV"');
+            foreach ($dataexport_ as $key => $v_export) {
+                $folder = $v_export->folder_name;
+            }
+            $filename = $folder.".zip";
 
-        // $pathdir =  "Export/".$folder."/";
-        //     $zipcreated = $folder.".zip";
-
-        //     $newzip = new ZipArchive;
-        //     if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
-        //     $dir = opendir($pathdir);
-            
-        //     while($file = readdir($dir)) {
-        //         if(is_file($pathdir.$file)) {
-        //             $newzip -> addFile($pathdir.$file, $file);
-        //         }
-        //     }
-        //     $newzip ->close();
-        //             if (file_exists($zipcreated)) {
-        //                 header('Content-Type: application/zip');
-        //                 header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
-        //                 header('Content-Length: ' . filesize($zipcreated));
-        //                 flush();
-        //                 readfile($zipcreated); 
-        //                 unlink($zipcreated);   
-        //                 $files = glob($pathdir . '/*');   
-        //                 foreach($files as $file) {   
-        //                     if(is_file($file)) {      
-        //                         // unlink($file); 
-        //                     } 
-        //                 }                      
-        //                 return redirect()->route('claim.walkin');                    
-        //             }
-        //     } 
+            $zip = new ZipArchive;
+            if($zip->open(public_path($filename), ZipArchive::CREATE ) === TRUE)
+             { 
+                $files = File::files(public_path("Export/".$folder."/"));
+                foreach ($files as $key => $value) {
+                    $relativenameInZipFile = basename($value);
+                    $zip->addFile($value,$relativenameInZipFile); 
+                }
+                $zip->close();
+            }
+            return response()->download(public_path($filename));
     }
 }

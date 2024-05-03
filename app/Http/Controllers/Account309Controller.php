@@ -221,7 +221,7 @@ class Account309Controller extends Controller
                     LEFT JOIN opitemrece op ON op.vn = o.vn
                     WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"                  
                     AND vp.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.309")
-                    AND v.income <> 0
+                    AND v.income > 0
                     AND (o.an="" or o.an is null)
                     GROUP BY o.vn
             ');
@@ -436,7 +436,7 @@ class Account309Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-        SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
+            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
                 from acc_1102050101_309 U1
             
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
