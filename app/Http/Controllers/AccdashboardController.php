@@ -126,12 +126,13 @@ class AccdashboardController extends Controller
                   'rcpt_money'             => $value->rcpt_money,
                   'debit'                  => $value->debit,                
               ]);
-            } 
+            }  
         }
+        $data['pang'] =  DB::connection('mysql')->select('SELECT * FROM acc_setpang WHERE active ="TRUE"');
         
         $datashow = Acc_dashboard::where('months',' month("'. $startdate.'")')->get();
       
-    return view('dashboard.account_pk_dash', [ 
+    return view('dashboard.account_pk_dash',$data, [ 
       'datashow'          =>  $datashow,
       'startdate'         =>  $startdate,
       'enddate'           =>  $enddate,

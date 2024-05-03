@@ -781,7 +781,7 @@
             </div>
         </div>
  
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-md-8">
                 <div class="main-card card">
                     <h6 class="card-title mt-2 ms-2">Report </h6> 
@@ -802,7 +802,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
       
 

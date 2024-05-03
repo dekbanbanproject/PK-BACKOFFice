@@ -343,32 +343,34 @@ class UpstmController extends Controller
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
 
+        // BETWEEN "2023-10-01" AND "2023-10-31" 
+
          $data['users'] = User::get(); 
             if ($startdate != '') {
                 // AND U2.nhso_docno <> "" AND U2.nhso_ownright_pid <> ""
                 $data['data'] = DB::select('                  
                         SELECT U1.acc_1102050101_304_id as id,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U1.account_code,U1.nhso_docno,U1.recieve_no,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.recieve_user
                         from acc_1102050101_304 U1 
-                        WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                        WHERE U1.dchdate BETWEEN "2023-10-01" AND "2023-10-31" 
 
                         UNION 
                         
                         SELECT U2.acc_1102050101_307_id as id,U2.an,U2.vn,U2.hn,U2.cid,U2.ptname,U2.vstdate,U2.dchdate,U2.pttype,U2.debit_total,U2.account_code,U2.nhso_docno,U2.recieve_no,U2.nhso_ownright_pid,U2.recieve_true,U2.difference,U2.recieve_no,U2.recieve_date,U2.recieve_user
                         from acc_1102050101_307 U2 
-                        WHERE U2.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                        WHERE U2.vstdate BETWEEN "2023-10-01" AND "2023-10-31" 
                        
                         
                         UNION 
                         
                         SELECT U3.acc_1102050101_308_id as id,U3.an,U3.vn,U3.hn,U3.cid,U3.ptname,U3.vstdate,U3.dchdate,U3.pttype,U3.debit_total,U3.account_code,U3.nhso_docno,U3.recieve_no,U3.nhso_ownright_pid,U3.recieve_true,U3.difference,U3.recieve_no,U3.recieve_date,U3.recieve_user
                         from acc_1102050101_308 U3 
-                        WHERE U3.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"  
+                        WHERE U3.dchdate BETWEEN "2023-10-01" AND "2023-10-31" 
 
                         UNION 
                         
                         SELECT U4.acc_1102050101_309_id as id,U4.an,U4.vn,U4.hn,U4.cid,U4.ptname,U4.vstdate,U4.dchdate,U4.pttype,U4.debit_total,U4.account_code,U4.nhso_docno,U4.recieve_no,U4.nhso_ownright_pid,U4.recieve_true,U4.difference,U4.recieve_no,U4.recieve_date,U4.recieve_user
                         from acc_1102050101_309 U4 
-                        WHERE U4.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"  
+                        WHERE U4.vstdate BETWEEN "2023-10-01" AND "2023-10-31" 
                 ');  
                 // AND U2.nhso_ownright_pid <> ""
                 // AND U2.nhso_docno <> ""
@@ -376,25 +378,25 @@ class UpstmController extends Controller
                 $data['data'] = DB::select('
                         SELECT U1.acc_1102050101_304_id as id,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U1.account_code,U1.nhso_docno,U1.recieve_no,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.recieve_user
                         from acc_1102050101_304 U1 
-                        WHERE U1.dchdate BETWEEN "'.$newDate.'" AND "'.$date.'"  
+                        WHERE U1.dchdate BETWEEN "2023-10-01" AND "2023-10-31" 
 
                         UNION 
                         
                         SELECT U2.acc_1102050101_307_id as id,U2.an,U2.vn,U2.hn,U2.cid,U2.ptname,U2.vstdate,U2.dchdate,U2.pttype,U2.debit_total,U2.account_code,U2.nhso_docno,U2.recieve_no,U2.nhso_ownright_pid,U2.recieve_true,U2.difference,U2.recieve_no,U2.recieve_date,U2.recieve_user
                         from acc_1102050101_307 U2 
-                        WHERE U2.vstdate BETWEEN "'.$newDate.'" AND "'.$date.'" 
+                        WHERE U2.vstdate BETWEEN "2023-10-01" AND "2023-10-31" 
 
                         UNION 
                         
                         SELECT U3.acc_1102050101_308_id as id,U3.an,U3.vn,U3.hn,U3.cid,U3.ptname,U3.vstdate,U3.dchdate,U3.pttype,U3.debit_total,U3.account_code,U3.nhso_docno,U3.recieve_no,U3.nhso_ownright_pid,U3.recieve_true,U3.difference,U3.recieve_no,U3.recieve_date,U3.recieve_user
                         from acc_1102050101_308 U3 
-                        WHERE U3.dchdate BETWEEN "'.$newDate.'" AND "'.$date.'" 
+                        WHERE U3.dchdate BETWEEN "2023-10-01" AND "2023-10-31" 
 
                         UNION 
                         
                         SELECT U4.acc_1102050101_309_id as id,U4.an,U4.vn,U4.hn,U4.cid,U4.ptname,U4.vstdate,U4.dchdate,U4.pttype,U4.debit_total,U4.account_code,U4.nhso_docno,U4.recieve_no,U4.nhso_ownright_pid,U4.recieve_true,U4.difference,U4.recieve_no,U4.recieve_date,U4.recieve_user
                         from acc_1102050101_309 U4 
-                        WHERE U4.vstdate BETWEEN "'.$newDate.'" AND "'.$date.'" 
+                        WHERE U4.vstdate BETWEEN "2023-10-01" AND "2023-10-31" 
                 ');  
             } 
             // AND U2.nhso_docno <> "" AND U2.nhso_ownright_pid <> ""
