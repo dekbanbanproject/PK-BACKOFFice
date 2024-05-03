@@ -95,10 +95,10 @@
                             <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
                         </button> 
                     </form>
-                        <button type="button" class="ladda-button btn-pill btn btn-success cardacc" id="Process">
+                        {{-- <button type="button" class="ladda-button btn-pill btn btn-success cardacc" id="Process">
                             <i class="fa-solid fa-spinner me-2"></i>
                            ประมวลผล
-                       </button>
+                       </button> --}}
                 </div> 
             </div>
     </div>  

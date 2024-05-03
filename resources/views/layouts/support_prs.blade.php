@@ -261,7 +261,28 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
                         <li class="menu-title">Menu</li> 
-                       - <li>
+                  
+                        <li><a href="javascript: void(0);" class="has-arrow"> 
+                            <i class="fa-solid fa-video" style="color: #55595a"></i>
+                                <span>กล้อง CCTV </span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true"> 
+                                <li><a href="{{ url('cctv_list') }}">รายการกล้อง</a></li>
+                                <li><a href="{{ url('cctv_report') }}">report รายวัน</a></li>
+                               
+                            </ul>
+                        </li>  
+                        <li><a href="javascript: void(0);" class="has-arrow">  
+                            <i class="fa-solid fa-fire-extinguisher" style="color: #1699f0"></i>
+                                <span>ถังดับเพลิง</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true"> 
+                                <li><a href="{{ url('fire') }}">รายการถังดับเพลิง</a></li>
+                                <li><a href="{{ url('fire_report_day') }}">report รายวัน</a></li>
+                               
+                            </ul>
+                        </li>   
+                       {{-- - <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-invoice-dollar" style="color: #55595a"></i>
                                 <span>maintenance</span>
@@ -273,12 +294,9 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                         <li><a href="{{ url('cctv_report') }}">report รายเดือน</a></li>
                                        
                                     </ul>
-                                </li>
-                                
-                                 
-                                
+                                </li>   
                             </ul>
-                        </li>  
+                        </li>   --}}
                     </ul>
                 </div>
                 <!-- Sidebar -->

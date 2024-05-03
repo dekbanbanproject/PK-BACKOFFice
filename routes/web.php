@@ -3059,8 +3059,6 @@ Route::match(['get','post'],'tb_main_detail/{id}',[App\Http\Controllers\TbContro
 // ************** Support-System ****************************
 Route::match(['get','post'],'support_system',[App\Http\Controllers\SupportPRSController::class, 'support_system'])->name('prs.support_system');//
 
-
-
 Route::match(['get','post'],'techservice',[App\Http\Controllers\CCtvController::class, 'techservice'])->name('tec.techservice');//
 
 // ************** CCTV-Service ****************************
@@ -3075,6 +3073,10 @@ Route::delete('cctv_destroy/{id}',[App\Http\Controllers\CCtvController::class, '
 
 Route::match(['get','post'],'cctv_report',[App\Http\Controllers\CCtvController::class, 'cctv_report'])->name('tec.cctv_report');//
 Route::match(['get','post'],'cctv_report_process',[App\Http\Controllers\CCtvController::class, 'cctv_report_process'])->name('tec.cctv_report_process');//
+
+
+Route::match(['get','post'],'fire',[App\Http\Controllers\FireController::class, 'fire'])->name('prs.fire');//
+Route::match(['get','post'],'fire_report_day',[App\Http\Controllers\FireController::class, 'fire_report_day'])->name('prs.fire_report_day');//
 
 // ************** FDH ****************************
 Route::match(['get','post'],'fdh_dashboard',[App\Http\Controllers\FdhController::class, 'fdh_dashboard'])->name('fdh.fdh_dashboard');// 

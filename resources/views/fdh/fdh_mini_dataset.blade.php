@@ -142,7 +142,7 @@
 @endsection
 @section('footer')
 
-<script>
+{{-- <script>
     $('#start').hide(); 
     $('#success').hide(); 
     window.setTimeout(function() {             
@@ -167,7 +167,7 @@
         $('.progress-bar').css({width: "100%"});
         $('#start').hide(); 
         $('#success').show(); 
-</script>
+</script> --}}
 
 <script>
     $(document).ready(function() {
