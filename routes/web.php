@@ -3056,7 +3056,11 @@ Route::match(['get','post'],'tb_main',[App\Http\Controllers\TbController::class,
 Route::match(['get','post'],'tb_main_pull',[App\Http\Controllers\TbController::class, 'tb_main_pull'])->name('re.tb_main_pull');
 Route::match(['get','post'],'tb_main_detail/{id}',[App\Http\Controllers\TbController::class, 'tb_main_detail'])->name('re.tb_main_detail');
 
-// ************** Tecnicial-Service ****************************
+// ************** Support-System ****************************
+Route::match(['get','post'],'support_system',[App\Http\Controllers\SupportPRSController::class, 'support_system'])->name('prs.support_system');//
+
+
+
 Route::match(['get','post'],'techservice',[App\Http\Controllers\CCtvController::class, 'techservice'])->name('tec.techservice');//
 
 // ************** CCTV-Service ****************************
@@ -3223,8 +3227,9 @@ Route::match(['get','post'],'fdh_mini_dataset_api',[App\Http\Controllers\FdhCont
 Route::match(['get','post'],'fdh_mini_dataset_pull',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pull'])->name('fdh.fdh_mini_dataset_pull');
 Route::match(['get','post'],'fdh_mini_dataset_pullnoinv',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pullnoinv'])->name('fdh.fdh_mini_dataset_pullnoinv');
 Route::match(['get','post'],'fdh_mini_dataset_apicliam',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_apicliam'])->name('fdh.fdh_mini_dataset_apicliam');
-
 Route::match(['get','post'],'fdh_mini_dataset_rep',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_rep'])->name('fdh.fdh_mini_dataset_rep');
 Route::match(['get','post'],'fdh_mini_dataset_pulljong',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pulljong'])->name('fdh.fdh_mini_dataset_pulljong');
+
+Route::match(['get','post'],'fdh_mini_dataset_authauto',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_authauto'])->name('fdh.fdh_mini_dataset_authauto');
 
 });

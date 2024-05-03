@@ -142,83 +142,111 @@
 @endsection
 @section('footer')
 
-    <script>
-        $(document).ready(function() {
+<script>
+    $('#start').hide(); 
+    $('#success').hide(); 
+    window.setTimeout(function() {             
+        window.location.reload();
+    },10000); 
+    $(document).ajaxStart(function() {
+    
+        }).ajaxSuccess(function() {
+            
+        });
+        setTimeout(function(){
+            // $('.progress-bar').css({width: "0%"});
+            $i = 1000
+            setTimeout(function(){
+                // $('#success').html(data);
+            }, 1000);
+            $('#start').show(); 
+            $('#success').hide(); 
+            $('.progress-bar').css({width: "5%"});
+                          
+        }, 10000);
+        $('.progress-bar').css({width: "100%"});
+        $('#start').hide(); 
+        $('#success').show(); 
+</script>
 
-            $('#datepicker').datepicker({
-                format: 'yyyy-mm-dd'
-            });
-            $('#datepicker2').datepicker({
-                format: 'yyyy-mm-dd'
-            });
+<script>
+    $(document).ready(function() {
 
-            $('#example').DataTable();
-            $('#hospcode').select2({
-                placeholder: "--เลือก--",
-                allowClear: true
-            });
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $('#AuthSave').click(function() {
-                var username = $('#username').val();
-                var password = $('#password').val();
-                // alert(datepicker2);
+        $('#datepicker').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+        $('#datepicker2').datepicker({
+            format: 'yyyy-mm-dd'
+        });
 
-
-            $.ajax({
-                    url: "{{ route('fdh.fdh_mini_dataset_api') }}",
-                    type: "POST",
-                    dataType: 'json',
-                    data: {
-                        username,
-                        password
-                    },
-                    success: function(data) {
-                        if (data.status == 200) {
-                            Swal.fire({
-                                title: 'เพิ่มข้อมูลสำเร็จ',
-                                text: "You Insert data success",
-                                icon: 'success',
-                                showCancelButton: false,
-                                confirmButtonColor: '#06D177',
-                                confirmButtonText: 'เรียบร้อย'
-                            }).then((result) => {
-                                if (result
-                                    .isConfirmed) {
-                                    console.log(
-                                        data);
-                                    window.location.reload();
-                                }
-                            })
-                        } else {
-                            Swal.fire({
-                                title: 'มีข้อมูลอยู่แล้ว อัพเดท Token เรียบร้อย',
-                                text: "You Have data And Update Token success",
-                                icon: 'warning',
-                                showCancelButton: false,
-                                confirmButtonColor: '#06D177',
-                                confirmButtonText: 'เรียบร้อย'
-                            }).then((result) => {
-                                if (result
-                                    .isConfirmed) {
-                                    console.log(
-                                        data);
-                                    window.location.reload();
-                                }
-                            })
-                        }
-                    },
+        $('#example').DataTable();
+        $('#hospcode').select2({
+            placeholder: "--เลือก--",
+            allowClear: true
+        });
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $('#AuthSave').click(function() {
+            var username = $('#username').val();
+            var password = $('#password').val();
+            // alert(datepicker2);
 
 
-            });
-
+        $.ajax({
+                url: "{{ route('fdh.fdh_mini_dataset_api') }}",
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    username,
+                    password
+                },
+                success: function(data) {
+                    if (data.status == 200) {
+                        Swal.fire({
+                            title: 'เพิ่มข้อมูลสำเร็จ',
+                            text: "You Insert data success",
+                            icon: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#06D177',
+                            confirmButtonText: 'เรียบร้อย'
+                        }).then((result) => {
+                            if (result
+                                .isConfirmed) {
+                                console.log(
+                                    data);
+                                window.location.reload();
+                            }
+                        })
+                    } else {
+                        Swal.fire({
+                            title: 'มีข้อมูลอยู่แล้ว อัพเดท Token เรียบร้อย',
+                            text: "You Have data And Update Token success",
+                            icon: 'warning',
+                            showCancelButton: false,
+                            confirmButtonColor: '#06D177',
+                            confirmButtonText: 'เรียบร้อย'
+                        }).then((result) => {
+                            if (result
+                                .isConfirmed) {
+                                console.log(
+                                    data);
+                                window.location.reload();
+                            }
+                        })
+                    }
+                },
 
 
         });
 
-        });
-    </script>
+
+
+    });
+
+    });
+</script>
+
 @endsection

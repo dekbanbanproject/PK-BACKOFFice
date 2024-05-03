@@ -122,7 +122,7 @@ class CCtvController extends Controller
             ');
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
         }
-        return view('cctv.cctv',[
+        return view('support_prs.cctv.cctv',[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
             'acc_debtor'    =>     $acc_debtor,
@@ -146,7 +146,7 @@ class CCtvController extends Controller
         } else {
             $datashow = DB::select('SELECT * from article_data WHERE cctv="Y" AND article_id ="'.$id.'" order by article_id ASC'); 
         }
-        return view('cctv.cctv_list',[
+        return view('support_prs.cctv.cctv_list',[
             'startdate'   =>     $startdate,
             'enddate'     =>     $enddate,
             'datashow'    =>     $datashow,
@@ -184,7 +184,7 @@ class CCtvController extends Controller
         $data['product_brand']      = DB::table('product_brand')->get();
         $data['medical_typecat']    = DB::table('medical_typecat')->get();
 
-        return view('cctv.cctv_add', $data);
+        return view('support_prs.cctv.cctv_add', $data);
     }
     public function cctv_save(Request $request)
     {
@@ -339,7 +339,7 @@ class CCtvController extends Controller
         $data['product_brand']      = DB::table('product_brand')->get();
         $dataedit = Article::where('article_id', '=', $id)->first();
         $data['medical_typecat'] = DB::table('medical_typecat')->get();
-        return view('cctv.cctv_edit', $data, [
+        return view('support_prs.cctv.cctv_edit', $data, [
             'dataedits' => $dataedit
         ]);
     }
@@ -514,7 +514,7 @@ class CCtvController extends Controller
                 GROUP BY c.cctv_check_date,c.article_num                
             ');  
         }
-        return view('cctv.cctv_report',[
+        return view('support_prs.cctv.cctv_report',[
             'startdate'   =>     $startdate,
             'enddate'     =>     $enddate,
             'datashow'    =>     $datashow,
@@ -641,7 +641,7 @@ class CCtvController extends Controller
 
             $cctvprint = Article::where('article_id', '=', $id)->first();
 
-        return view('cctv.cctvqrcode', [
+        return view('support_prs.cctv.cctvqrcode', [
             'cctvprint'  =>  $cctvprint
         ]);
 

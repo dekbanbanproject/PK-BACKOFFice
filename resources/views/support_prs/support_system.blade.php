@@ -1,5 +1,5 @@
-@extends('layouts.cctv')
-@section('title', 'PK-OFFICE || Tecnicial-Service')
+@extends('layouts.support_prs')
+@section('title', 'PK-OFFICE || Support-System')
 
 @section('content')
     <script>
@@ -86,7 +86,7 @@
                 </div>
             </div>
         </div>
-        <form action="{{ route('tec.techservice') }}" method="GET">
+        {{-- <form action="{{ route('tec.techservice') }}" method="GET">
             @csrf
             <div class="row">
                 <div class="col-md-4">
@@ -117,16 +117,14 @@
 
                 </div>
             </div>
-        </form>
-        <div class="row">
-            {{-- @foreach ($datashow as $item)    --}}
+        </form> --}}
+        <div class="row"> 
             <div class="col-xl-4 col-md-12">
                 <div class="card cardacc" style="background-color: rgb(246, 235, 247)">
 
 
                 </div>
-            </div>
-            {{-- @endforeach --}}
+            </div> 
         </div>
 
     </div>
