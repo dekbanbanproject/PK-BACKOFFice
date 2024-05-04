@@ -210,51 +210,83 @@ class FireController extends Controller
         if ($request->hasfile('fire_imgname')) {
             $image_64 = $request->file('fire_imgname'); 
             // $image_64 = $data['fire_imgname']; //your base64 encoded data
-            // $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[0])[0];   // .jpg .png .pdf            
-            // $replace = substr($image_64, 0, strpos($image_64, ',')+1);             
-            // // find substring fro replace here eg: data:image/png;base64,      
-            // $image = str_replace($replace, '', $image_64);             
-            // $image = str_replace(' ', '+', $image);             
-            // $imageName = Str::random(10).'.'.$extension;
-            // Storage::disk('public')->put($imageName, base64_decode($image));
+            $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[0])[0];   // .jpg .png .pdf            
+            $replace = substr($image_64, 0, strpos($image_64, ',')+1);             
+            // find substring fro replace here eg: data:image/png;base64,      
+            $image = str_replace($replace, '', $image_64);             
+            $image = str_replace(' ', '+', $image);             
+            $imageName = Str::random(10).'.'.$extension;
+            Storage::disk('public')->put($imageName, base64_decode($image));
 
             $extention = $image_64->getClientOriginalExtension(); 
             $filename = $fire_num. '.' . $extention;
             $request->fire_imgname->storeAs('fire', $filename, 'public');    
 
-            // $destinationPath = public_path('/fire/');
-            // $image_64->move($destinationPath, $filename);
+            $destinationPath = public_path('/fire/');
+            $image_64->move($destinationPath, $filename);
             $add->fire_img            = $filename;
-            $add->fire_imgname        = $filename;
-            // $add->fire_imgname        = $destinationPath . $filename;
+            $add->fire_imgname = $destinationPath . $filename;
 
-            if ($extention =='.jpg') {
-                $file64 = "data:image/jpg;base64,".base64_encode(file_get_contents($request->file('fire_imgname')));
-                // $file65 = base64_encode(file_get_contents($request->file('fire_imgname')->pat‌​h($image_path)));
-            } else {
-                $file64 = "data:image/png;base64,".base64_encode(file_get_contents($request->file('fire_imgname')));
-                // $file65 = base64_encode(file_get_contents($request->file('fire_imgname')->pat‌​h($image_path)));
-            }
-            
-            
+            $file64 = "data:image/png;base64,".base64_encode(file_get_contents($request->file('fire_imgname')));
+            $file65 = base64_encode(file_get_contents($request->file('fire_imgname')->pat‌​h($image_path)));
   
             $add->fire_img_base       = $file64;
-            // $add->fire_img_base_name  = $file65;
+            $add->fire_img_base_name  = $file65;
         }
- 
+
+        // if (request()->hasFile('imagePath')){
+        //     $uploadedImage = $request->file('imagePath');
+        //     $imageName = time() . '.' . $image->getClientOriginalExtension();
+        //     $destinationPath = public_path('/images/productImages/');
+        //     $uploadedImage->move($destinationPath, $imageName);
+        //     $image->imagePath = $destinationPath . $imageName;
+        // }
+        //   $fire_imgname = str_replace('data:image/png;base64,', '', $fire_imgname);
+            // $image = str_replace(' ', '+', $fire_imgname);
+            // $imageName = str_random(10).'.'.'png';
+        // $add->fire_img = $fire_imgname;
+        // $image = $request->image;  // your base64 encoded
+        // $image = str_replace('data:image/png;base64,', '', $image);
+        // $image = str_replace(' ', '+', $image);
+        // $imageName = str_random(10).'.'.'png';
+        // \File::put(storage_path(). '/' . $imageName, base64_decode($image));
+
+        // $image = str_replace('data:image/jpeg;base64,', '', $image);
+        // $image = str_replace(' ', '+', $image);
+        // $imageName = str_random(10).'.'.'jpg';
+    
+
+        // $image = str_replace('data:image/png;base64,', '', $image);
+        // $image = str_replace(' ', '+', $image);
+        // $imageName = str_random(10).'.'.'png';
+    
+
+        // $path     = "test/image.png";
+        // $image    = explode(',',$imgbg);
+        // $base64   = $image[1];
+        // $result   = base64_decode($base64);
+
+        // file_put_contents("ori.png", $result);
+        // Storage::disk('ftp-dev')->put($path, $result);
+        // // Example 1: Save as the default type (JPEG)
+        // Storage::put('public/images/my_profile.jpeg', $file->encode());
+        // // Example 2: Save as a PNG
+        // Storage::put('public/images/my_profile.png', $file->encode('png'));
+
         $add->save();
         return response()->json([
             'status'     => '200'
         ]);
     }
     public function fire_edit(Request $request,$id)
-    {  
+    { 
+        $data['article_data']       = DB::select('SELECT * from article_data WHERE cctv="Y" order by article_id desc'); 
         $data['department_sub_sub'] = Department_sub_sub::get();
         $data['article_status']     = Article_status::get();
         $data['product_decline']    = Product_decline::get();
         $data['product_prop']       = Product_prop::get();
         $data['supplies_prop']      = DB::table('supplies_prop')->get();
-        $data['budget_year']        = DB::table('budget_year')->where('active','=',true)->orderBy('leave_year_id', 'DESC')->get();
+        $data['budget_year']        = DB::table('budget_year')->orderBy('leave_year_id', 'DESC')->get();
         $data['product_data']       = Products::get();
         $data['product_category']   = Products_category::get();
         $data['product_type']       = Products_type::get();
@@ -271,109 +303,8 @@ class FireController extends Controller
         $data['products_vendor']    = Products_vendor::get(); 
         $data['product_brand']      = DB::table('product_brand')->get();
         $data['medical_typecat']    = DB::table('medical_typecat')->get();
-        $data_edit                  = Fire::where('fire_id', '=', $id)->first();
-        // $signat                     = $data_edit->fire_img_base;
-        // dd($signat); 
-        // $pic_fire = base64_encode(file_get_contents($signat)); 
-        // dd($pic_fire); 
-        return view('support_prs.fire.fire_edit', $data,[
-            'data_edit'    => $data_edit,
-            // 'pic_fire'     => $pic_fire
-        ]);
-    }
-    public function fire_update(Request $request)
-    { 
-        $id = $request->fire_id;
-        // $update_base = Fire::find($id); 
-        // $update_base->fire_img_base   = '';
-        // $update_base->save();
 
-        $fire_num = $request->fire_num;
-       
-        $update = Fire::find($id); 
-        $update->fire_year           = $request->fire_year;
-        $update->fire_date           = $request->fire_date;
-        $update->fire_num            = $fire_num;
-        $update->fire_name           = $request->fire_name;
-        $update->fire_price          = $request->fire_price;
-        $update->active              = $request->active;
-        $update->fire_location       = $request->fire_location; 
-        $update->fire_size           = $request->fire_size;  
-        $update->fire_color          = $request->fire_color; 
-
-        $update->fire_qty            = '1'; 
-        $branid = $request->input('article_brand_id');
-        if ($branid != '') {
-            $bransave = DB::table('product_brand')->where('brand_id', '=', $branid)->first(); 
-            $update->fire_brand = $bransave->brand_name;
-        } else { 
-            $update->fire_brand = '';
-        }
-
-        $uniid = $request->input('article_unit_id');
-        if ($uniid != '') {
-            $unisave = DB::table('product_unit')->where('unit_id', '=', $uniid)->first();             
-            $update->fire_unit = $unisave->unit_name;
-        } else {         
-            $update->fire_unit = '';
-        }
- 
-        if ($request->hasfile('fire_imgname')) {
-
-            $description = 'storage/fire/' . $update->fire_imgname;
-            if (File::exists($description)) {
-                File::delete($description);
-            }
-            $image_64 = $request->file('fire_imgname'); 
-            // $image_64 = $data['fire_imgname']; //your base64 encoded data
-            // $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[0])[0];   // .jpg .png .pdf            
-            // $replace = substr($image_64, 0, strpos($image_64, ',')+1);             
-            // // find substring fro replace here eg: data:image/png;base64,      
-            // $image = str_replace($replace, '', $image_64);             
-            // $image = str_replace(' ', '+', $image);             
-            // $imageName = Str::random(10).'.'.$extension;
-            // Storage::disk('public')->put($imageName, base64_decode($image));
-
-            $extention = $image_64->getClientOriginalExtension(); 
-            $filename = $fire_num. '.' . $extention;
-            $request->fire_imgname->storeAs('fire', $filename, 'public');    
-
-            // $destinationPath = public_path('/fire/');
-            // $image_64->move($destinationPath, $filename);
-            $update->fire_img            = $filename;
-            $update->fire_imgname        = $filename;
-            // $update->fire_imgname = $destinationPath . $filename;
-            if ($extention =='.jpg') {
-                $file64 = "data:image/jpg;base64,".base64_encode(file_get_contents($request->file('fire_imgname')));
-                // $file65 = base64_encode(file_get_contents($request->file('fire_imgname')->pat‌​h($image_path)));
-            } else {
-                $file64 = "data:image/png;base64,".base64_encode(file_get_contents($request->file('fire_imgname')));
-                // $file65 = base64_encode(file_get_contents($request->file('fire_imgname')->pat‌​h($image_path)));
-            }
-            // $file64 = "data:image/png;base64,".base64_encode(file_get_contents($request->file('fire_imgname')));
-            // $file65 = base64_encode(file_get_contents($request->file('fire_imgname')->pat‌​h($image_path)));
-  
-            $update->fire_img_base       = $file64;
-            // $update->fire_img_base_name  = $file65;
-        }
- 
-        $update->save();
-        return response()->json([
-            'status'     => '200'
-        ]);
-    }
-
-    public function fire_destroy(Request $request,$id)
-    {
-        $del = Fire::find($id);  
-        $description = 'storage/fire/'.$del->fire_imgname;
-        if (File::exists($description)) {
-            File::delete($description);
-        }
-        $del->delete(); 
-        // Fire::whereIn('fire_id',explode(",",$id))->delete();
-
-        return response()->json(['status' => '200']);
+        return view('support_prs.fire.fire_add', $data);
     }
     
     public function fire_report_day(Request $request)

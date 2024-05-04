@@ -11,12 +11,29 @@ use App\Http\Controllers\RepaireScanController;
 use App\Http\Controllers\CrudController;
 use App\Http\Controllers\UserarticleController;
 use App\Http\Controllers\UserComController;
-
+use App\Models\Fire_check;
+use App\Models\Fire;
 
 
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+
+// Route::get('fire_detail/{id}', function () {
+
+//     $dataprint = Fire::where('fire_id', '=', $id)->first();
+//     $data_detail = Fire_check::where('fire_num', '=', $dataprint->fire_num) 
+//     ->leftJoin('users', 'fire_check.user_id', '=', 'users.id')
+//     ->get();
+
+//     return view('support_prs.fire.fire_detail', [
+//       'dataprint'    => $dataprint,
+//       'data_detail'  => $data_detail,
+//       'id'           => $id
+//   ]);
+// });
+
+Route::match(['get','post'],'fire_detail/{id}',[App\Http\Controllers\FireController::class, 'fire_detail'])->name('prs.fire_detail');//
 // ***************   Report  **********************************
 Route::match(['get','post'],'ins_dashboard',[App\Http\Controllers\InstrumentController::class, 'ins_dashboard'])->name('ins.ins_dashboard');//
 Route::match(['get','post'],'ins_a',[App\Http\Controllers\InstrumentController::class, 'ins_a'])->name('ins.ins_a');//
@@ -446,6 +463,7 @@ Route::match(['get','post'],'equipment_spsch/{months}/{startdate}/{enddate}',[Ap
 Route::match(['get','post'],'equipment_nokey/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'equipment_nokey'])->name('pt.equipment_nokey');//
 
 Route::match(['get','post'],'acc_stm_ct',[App\Http\Controllers\AccdashboardController::class, 'acc_stm_ct'])->name('acc.acc_stm_ct');//
+
 
 Route::get('/', function () {
 
@@ -3075,9 +3093,17 @@ Route::match(['get','post'],'cctv_report',[App\Http\Controllers\CCtvController::
 Route::match(['get','post'],'cctv_report_process',[App\Http\Controllers\CCtvController::class, 'cctv_report_process'])->name('tec.cctv_report_process');//
 
 
-Route::match(['get','post'],'fire',[App\Http\Controllers\FireController::class, 'fire'])->name('prs.fire');//
-Route::match(['get','post'],'fire_report_day',[App\Http\Controllers\FireController::class, 'fire_report_day'])->name('prs.fire_report_day');//
+Route::match(['get','post'],'fire_main',[App\Http\Controllers\FireController::class, 'fire_main'])->name('prs.fire_main');//
 
+Route::match(['get','post'],'fire_add',[App\Http\Controllers\FireController::class, 'fire_add'])->name('prs.fire_add');//
+Route::match(['get','post'],'fire_save',[App\Http\Controllers\FireController::class, 'fire_save'])->name('prs.fire_save');//
+Route::match(['get','post'],'fire_edit/{id}',[App\Http\Controllers\FireController::class, 'fire_edit'])->name('prs.fire_edit');//
+Route::match(['get','post'],'fire_update',[App\Http\Controllers\FireController::class, 'fire_update'])->name('prs.fire_update');//
+// Route::delete('fire_destroy/{id}',[App\Http\Controllers\FireController::class, 'fire_destroy'])->name('prs.fire_destroy');//
+Route::match(['get','post'],'fire_qrcode/{id}',[App\Http\Controllers\FireController::class, 'fire_qrcode'])->name('prs.fire_qrcode');//
+Route::match(['get','post'],'fire_qrcode_detail/{id}',[App\Http\Controllers\FireController::class, 'fire_qrcode_detail'])->name('prs.fire_qrcode_detail');//
+Route::match(['get','post'],'fire_report_day',[App\Http\Controllers\FireController::class, 'fire_report_day'])->name('prs.fire_report_day');//
+Route::match(['get','post'],'fire_destroy/{id}',[App\Http\Controllers\FireController::class, 'fire_destroy'])->name('prs.fire_destroy');//
 // ************** FDH ****************************
 Route::match(['get','post'],'fdh_dashboard',[App\Http\Controllers\FdhController::class, 'fdh_dashboard'])->name('fdh.fdh_dashboard');// 
 Route::match(['get','post'],'fdh_main',[App\Http\Controllers\FdhController::class, 'fdh_main'])->name('fdh.fdh_main');// 

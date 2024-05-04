@@ -277,7 +277,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <span>ถังดับเพลิง</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true"> 
-                                <li><a href="{{ url('fire') }}">รายการถังดับเพลิง</a></li>
+                                <li><a href="{{ url('fire_main') }}">รายการถังดับเพลิง</a></li>
                                 <li><a href="{{ url('fire_report_day') }}">report รายวัน</a></li>
                                
                             </ul>

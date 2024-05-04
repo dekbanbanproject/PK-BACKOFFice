@@ -86,7 +86,7 @@
                 </div>
             </div>
         </div>
-        <form action="{{ route('prs.fire') }}" method="GET">
+        <form action="{{ route('prs.fire_main') }}" method="GET">
             @csrf
             <div class="row">
                 <div class="col-md-4">
