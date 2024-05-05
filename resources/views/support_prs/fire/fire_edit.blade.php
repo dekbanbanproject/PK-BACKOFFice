@@ -361,7 +361,7 @@ $loter = $date.''.$time
                         <i class="fa-solid fa-floppy-disk me-2"></i>
                         บันทึกข้อมูล
                     </button>
-                    <a href="{{ url('fire') }}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                    <a href="{{ url('fire_main') }}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                         <i class="fa-solid fa-xmark me-2"></i>
                         ยกเลิก
                     </a>
