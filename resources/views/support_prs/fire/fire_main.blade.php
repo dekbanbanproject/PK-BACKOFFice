@@ -197,7 +197,7 @@
 
                                         <td class="text-center" width="5%"> 
                                           
-                                            {!!QrCode::size(50)->generate(" $item->fire_num ")!!}  
+                                            {!!QrCode::size(50)->generate(" $item->fire_id ")!!}  
 
                                         </td> 
 

@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Biguser;
-use App\Models\Leave_register;
-use App\Models\Zapuser;
+use App\Models\Fire_check;
+use App\Models\Fire;
 use ZanySoft\Zip\Zip;
 use ZipArchive;
 use Storage;
@@ -73,6 +73,14 @@ class MobileController extends Controller
     {
         $zapuser =  Zapuser::all();
         return response([$zapuser]);
+    }
+    public function getfire(Request $request,$firenum)
+    {    
+        $firedata = Fire::where('fire_num','=', $firenum)->first();      
+        $fire_ = Fire::where('fire_id','=', $firedata->fire_id)->get();
+        // $fire_ = Fire::get();
+         return response([$fire_]);
+          
     }
     public function store(Request $request)
     {

@@ -320,6 +320,15 @@ class ApiController extends Controller
         return response([$query_ucep]);
 
     }
+
+    public function getfire(Request $request,$firenum)
+    {    
+        // $firedata = Fire::where('fire_num','=', $firenum)->first();      
+        // $fire_ = Fire::where('fire_num','=', $firenum)->get();
+        $fire_ = Fire::get();
+         return response([$fire_]);
+          
+    }
 }
 
 

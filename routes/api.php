@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/test',function(Request $request){
     return 'Authenticated';
 });
+Route::match(['get','post'],'gleave_register',[App\Http\Controllers\MobileController::class, 'gleave_register'])->name('mo.gleave_register');//
+Route::match(['get','post'],'getfire/{firenum}',[App\Http\Controllers\Api\MobileController::class, 'getfire'])->name('mo.getfire');//
 
 Route::match(['get','post'],'getmobile',[App\Http\Controllers\AuthenmobileController::class, 'getmobile'])->name('mo.getmobile');//
 Route::match(['get','post'],'getmobile_api',[App\Http\Controllers\AuthenmobileController::class, 'getmobile_api'])->name('mo.getmobile_api');//
@@ -35,7 +37,7 @@ Route::post('authencode', [App\Http\Controllers\AuthencodeController::class, 'au
 Route::get('smartcard_readonly', [App\Http\Controllers\ApiController::class, 'smartcard_readonly'])->name('smartcard_readonly');
 Route::get('patient_readonly', [App\Http\Controllers\ApiController::class, 'patient_readonly'])->name('patient_readonly');
 Route::get('ovst_key', [App\Http\Controllers\ApiController::class, 'ovst_key'])->name('ovst_key');
-
+// Route::match(['get','post'],'getfire/{firenum}',[App\Http\Controllers\ApiController::class, 'getfire'])->name('mo.getfire');//
 Route::get('home_rpst', [App\Http\Controllers\ApiController::class, 'home_rpst'])->name('home_rpst');
 
 Route::get('pimc', [App\Http\Controllers\ApiController::class, 'pimc'])->name('pimc');
