@@ -1199,6 +1199,7 @@ class Auto_authenController extends Controller
                             // dd($code);
                                 Check_sit_auto::where('vn', $vn)
                                     ->update([
+                                        'claimcode'     => $ccde,
                                         'claimtype'     => $code_,
                                         'servicename'   => $name_, 
                                 ]);
