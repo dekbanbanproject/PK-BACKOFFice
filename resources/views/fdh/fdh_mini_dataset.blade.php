@@ -61,7 +61,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <div class="main-card mb-3 card">
+                <div class="card card_fdh_4">
                     <div class="card-header">
                         FDH Auth Api
                         <div class="btn-actions-pane-right">
@@ -87,12 +87,12 @@
 
                                         <tr height="20" >
                                             <td class="text-center" width="4%">{{ $number}}</td>
-                                            <td class="text-center" width="8%">{{ $item->api_neweclaim_user }}</td>
+                                            <td class="text-center" width="10%">{{ $item->api_neweclaim_user }}</td>
                                             <td class="text-center" width="8%">
                                                 <input type="password" class="form-control form-control-sm" value="{{ $item->api_neweclaim_pass }}">
                                                 {{-- {{ $item->api_neweclaim_pass }} --}}
                                             </td>
-                                            <td class="p-2" style="font-size: 11px;">{{ $item->api_neweclaim_token }}</td>
+                                            <td class="p-2" style="font-size: 11px;"><textarea name="" id="" cols="100" rows="5" style="width: 100%">{{ $item->api_neweclaim_token }}</textarea></td>
                                         </tr>
 
                                 @endforeach

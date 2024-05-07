@@ -23,6 +23,7 @@ return new class extends Migration
                 $table->string('password_hash')->nullable();//
                 $table->string('hospital_code')->nullable();//
                 $table->string('user_id')->nullable();//
+                $table->enum('active_mini', ['N','Y'])->default('N'); 
                 $table->timestamps();
             });
         }

@@ -1,4 +1,4 @@
-@extends('layouts.fdh')
+@extends('layouts.fdh_font')
 @section('title', 'PK-OFFICE || FDH')
 @section('content')
 
@@ -6,7 +6,7 @@
        
         <div class="row">
             <div class="col-lg-12 col-xl-12">
-                <div class="main-card mb-3 card">
+                <div class="card card_fdh_4">
                     <div class="card-header">
                         Login Minidataset Auto
                         <div class="btn-actions-pane-right">
@@ -16,8 +16,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col"></div>
+                        <div class="row"> 
                             <div class="col-lg-2 col-xl-2">
                                 <div class="loader mx-auto text-center">
                                     <div class="line-scale-pulse-out">
@@ -44,7 +43,28 @@
                                                                      
                                 </div>
                             </div>
+
                             <div class="col"></div>
+                           
+                            <div class="col-lg-4 col-xl-4">
+                                <div class="input-group">
+                                    <div class="input-group-text">
+                                        <span class="">@Username</span>
+                                    </div>
+                                    <input type="text" id="username" name="username" class="form-control">
+                                </div>
+                                <br>
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-text">
+                                        <span class="">@Password</span>
+                                    </div>
+                                    <input type="text" class="form-control" id="password" name="password">
+                                </div>
+                                <br>
+                                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="AuthSave">
+                                    <i class="pe-7s-diskette btn-icon-wrapper"></i>Save changes
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -58,29 +78,59 @@
 @endsection
 @section('footer')
     <script>
-        $('#start').hide(); 
-        $('#success').hide(); 
-        window.setTimeout(function() {             
-            window.location.reload();
-        },20000); 
-        $(document).ajaxStart(function() {
-        
-            }).ajaxSuccess(function() {
-                
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $('#AuthSave').click(function() {
+            var username = $('#username').val();
+            var password = $('#password').val(); 
+            $.ajax({
+                    url: "{{ route('fdh.fdh_mini_dataset_api') }}",
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        username,
+                        password
+                    },
+                    success: function(data) {
+                        if (data.status == 200) {
+                            Swal.fire({
+                                title: 'เพิ่มข้อมูลสำเร็จ',
+                                text: "You Insert data success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result
+                                    .isConfirmed) {
+                                    console.log(
+                                        data);
+                                    window.location.reload();
+                                }
+                            })
+                        } else {
+                            Swal.fire({
+                                title: 'มีข้อมูลอยู่แล้ว อัพเดท Token เรียบร้อย',
+                                text: "You Have data And Update Token success",
+                                icon: 'warning',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result
+                                    .isConfirmed) {
+                                    console.log(
+                                        data);
+                                    window.location.reload();
+                                }
+                            })
+                        }
+                    }, 
             });
-            setTimeout(function(){
-                // $('.progress-bar').css({width: "0%"});
-                $i = 1000
-                setTimeout(function(){
-                    // $('#success').html(data);
-                }, 1000);
-                $('#start').show(); 
-                $('#success').hide(); 
-                $('.progress-bar').css({width: "5%"});
-                              
-            }, 20000);
-            $('.progress-bar').css({width: "100%"});
-            $('#start').hide(); 
-            $('#success').show(); 
+        });
+
     </script>
 @endsection

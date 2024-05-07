@@ -48,6 +48,14 @@ Route::match(['get','post'],'contact_save',[App\Http\Controllers\CustormerContro
 Route::match(['get','post'],'connectdb',[App\Http\Controllers\ConfigDatabaseController::class, 'connectdb'])->name('db.connectdb');//
 Route::match(['get','post'],'connectdb_save',[App\Http\Controllers\ConfigDatabaseController::class, 'connectdb_save'])->name('db.connectdb_save');//
 
+Route::match(['get','post'],'fdh_mini_dataset_authauto',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_authauto'])->name('fdh.fdh_mini_dataset_authauto');
+Route::match(['get','post'],'fdh_mini_dataset_pullauto',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pullauto'])->name('fdh.fdh_mini_dataset_pullauto');
+Route::match(['get','post'],'fdh_mini_dataset_pullnoinauto',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pullnoinauto'])->name('fdh.fdh_mini_dataset_pullnoinauto');
+
+Route::match(['get','post'],'fdh_mini_dataset_apicliamauto',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_apicliamauto'])->name('fdh.fdh_mini_dataset_apicliamauto');
+// Route::match(['get','post'],'fdh_mini_dataset_rep',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_rep'])->name('fdh.fdh_mini_dataset_rep');
+// Route::match(['get','post'],'fdh_mini_dataset_pulljong',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pulljong'])->name('fdh.fdh_mini_dataset_pulljong');
+
 //********************* */ KTB  ***********************************
 Route::match(['get','post'],'ktb_getcard',[App\Http\Controllers\KTBController::class,'ktb_getcard'])->name('ktb.ktb_getcard');//
 
@@ -3258,6 +3266,6 @@ Route::match(['get','post'],'fdh_mini_dataset_apicliam',[App\Http\Controllers\Fd
 Route::match(['get','post'],'fdh_mini_dataset_rep',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_rep'])->name('fdh.fdh_mini_dataset_rep');
 Route::match(['get','post'],'fdh_mini_dataset_pulljong',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pulljong'])->name('fdh.fdh_mini_dataset_pulljong');
 
-Route::match(['get','post'],'fdh_mini_dataset_authauto',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_authauto'])->name('fdh.fdh_mini_dataset_authauto');
+
 
 });
