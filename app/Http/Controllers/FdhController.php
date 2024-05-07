@@ -1686,14 +1686,14 @@ class FdhController extends Controller
                     FROM vn_stat v 
                     LEFT OUTER JOIN ovst o ON v.vn = o.vn 
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn
-                    LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype AND v.pttype NOT IN("M1","M2","M3","M4","M5")   
+                    LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype   
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
                 WHERE v.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"  
                 AND ptt.hipdata_code ="UCS" AND v.income > 0
                 GROUP BY v.vn 
             '
             );
-         
+            // AND v.pttype NOT IN("M1","M2","M3","M4","M5") 
             foreach ($datashow_ as $key => $value) {
                 $check_opd = Fdh_mini_dataset::where('vn', $value->vn)->count();
                 if ($check_opd > 0) {
@@ -2042,13 +2042,14 @@ class FdhController extends Controller
                     FROM vn_stat v 
                     LEFT OUTER JOIN ovst o ON v.vn = o.vn 
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn
-                    LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype AND v.pttype NOT IN("M1","M2","M3","M4","M5")   
+                    LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype   
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
                 WHERE v.vstdate = "' . $date . '"
                 AND ptt.hipdata_code ="UCS" AND v.income > 0 AND rd.total_amount IS NOT NULL
                 GROUP BY v.vn 
             '
             );
+            // AND v.pttype NOT IN("M1","M2","M3","M4","M5") 
             // WHERE v.vstdate BETWEEN "' . $date . '" and "' . $date . '" 
             foreach ($datashow_ as $key => $value) {
                 $check_opd = Fdh_mini_dataset::where('vn', $value->vn)->count();
@@ -2217,4 +2218,70 @@ class FdhController extends Controller
                
  
      }
+
+     public function fdh_mini_dataset_pulljongauto(Request $request)
+    {
+        $date = date('Y-m-d');
+        $data_vn_1 = Fdh_mini_dataset::where('vstdate','=',$date)->where('transaction_uid','<>','')->get();
+        $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE active_mini = "Y"');
+        foreach ($data_token_ as $key => $val_to) {
+            $token_   = $val_to->api_neweclaim_token;
+        }
+        $token = $token_;
+ 
+            foreach ($data_vn_1 as $key => $val) { 
+                $transaction_uid      = $val->transaction_uid;
+                $hcode                = $val->hcode; 
+
+                    $curl = curl_init(); 
+                    curl_setopt_array($curl, array(
+                        CURLOPT_URL => 'https://fdh.moph.go.th/api/v1/reservation',
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_ENCODING => '',
+                        CURLOPT_MAXREDIRS => 10,
+                        CURLOPT_TIMEOUT => 0,
+                        CURLOPT_FOLLOWLOCATION => true,
+                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                        CURLOPT_CUSTOMREQUEST => 'GET',
+                        CURLOPT_POSTFIELDS => '{
+                            "transaction_uid": "'.$transaction_uid.'", 
+                            "hcode"          : "'.$hcode.'" 
+                        }',
+                        CURLOPT_HTTPHEADER => array(
+                            'Content-Type: application/json',
+                            'Authorization: Bearer '.$token,
+                            'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
+                        ),
+                    ));
+                    $response = curl_exec($curl);
+                    // dd($response); 
+                    $result            = json_decode($response, true); 
+                    @$status           = $result['status']; 
+                    @$message          = $result['message'];
+                    @$data             = $result['data'];
+                    @$uidrep           = $data['transaction_uid'];
+                    @$id_booking       = $data['id_booking'];
+                    @$uuid_booking     = $data['uuid_booking']; 
+                    if (@$message == 'success') {
+                            Fdh_mini_dataset::where('transaction_uid', $uidrep)
+                            ->update([
+                                'id_booking'     => @$id_booking,
+                                'uuid_booking'   => @$uuid_booking
+                            ]);  
+                    } elseif ($status == '400') {
+                            Fdh_mini_dataset::where('transaction_uid', $uidrep)
+                                ->update([
+                                    'id_booking'     => @$id_booking,
+                                    'uuid_booking'   => @$uuid_booking
+                                ]);
+                    } else {
+                        # code...
+                    }
+            }
+            // dd($result);
+            return response()->json([
+                'status'    => '200'
+            ]);
+           
+    }
 }

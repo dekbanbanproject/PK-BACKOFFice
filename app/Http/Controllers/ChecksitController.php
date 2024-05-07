@@ -1374,7 +1374,7 @@ class ChecksitController extends Controller
                 from check_sit_auto c
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
                 WHERE month(c.vstdate) = "'.$m.'" AND YEAR(c.vstdate) = "'.$y.'"
-                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
+                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10")
                 AND c.main_dep NOT IN("011","036","107")
                 GROUP BY day
                 ORDER BY c.vstdate DESC
@@ -1387,7 +1387,7 @@ class ChecksitController extends Controller
                 FROM check_sit_auto c
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
                 WHERE c.vstdate = "'.$date_now.'"
-                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
+                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10")
                 AND c.main_dep NOT IN("011","036","107")
                 GROUP BY c.staff
 			    ORDER BY Noauthen DESC

@@ -58,11 +58,11 @@ use App\Models\Dashboard_department_authen;
 use App\Models\Visit_pttype_authen_report;
 use App\Models\Dashboard_authenstaff_day;
 use App\Models\Check_authen_hos;
-use App\Models\Check_sit_205_auto;
+use App\Models\Check_sit_auto_claim;
 use App\Models\Api_neweclaim;
 use App\Models\Db_authen;
-use App\Models\Visit_pttype_217;
-use App\Models\Visit_pttype_205;
+use App\Models\Check_authen_shoot;
+use App\Models\Check_authen;
 use App\Models\Check_sithos_auto;
 use App\Models\Check_sit_tiauto;
 use App\Models\Check_authen_ti;
@@ -96,14 +96,14 @@ class Auto_authenController extends Controller
                 join patient p on p.hn=o.hn
                 JOIN pttype pt on pt.pttype=o.pttype
                 JOIN opduser op on op.loginname = o.staff
-                WHERE o.vstdate = "'.$date_now.'" 
+                WHERE o.vstdate = "'.$date_now.'"
+                AND o.main_dep NOT IN("011","036","107")
+                AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10")
                 AND p.nationality = "99"
                 AND p.birthday <> "'.$date_now.'"
                 group by o.vn
                     
             ');  
-            // AND o.main_dep NOT IN("011","036","107")
-            // AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10")
             foreach ($data_sits as $key => $value) {
                 $check = Check_sit_auto::where('vn', $value->vn)->count();
 
@@ -1096,10 +1096,12 @@ class Auto_authenController extends Controller
                         $vstdate     = $value->vstdate;
                         // $cid         = '1409903572489';
                         // $vstdate     = '2024-05-07';
+
                         $ch = curl_init(); 
                         $headers = array();
                         $headers[] = "Accept: application/json";
-                        $headers[] = "Authorization: Bearer 3045bba2-3cac-4a74-ad7d-ac6f7b187479";    
+                        $headers[] = "Authorization: Bearer 3045bba2-3cac-4a74-ad7d-ac6f7b187479";
+    
                         curl_setopt($ch, CURLOPT_URL, "https://authenucws.nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cid&serviceDate=$vstdate&serviceCode=PG0060001");
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
@@ -1107,117 +1109,27 @@ class Auto_authenController extends Controller
                         $server_output     = curl_exec($ch);
                         $content = $server_output; # echo เพื่อดู array	
                         $result = json_decode($content, true);
-                        // dd($result);
-                        @$statusAuthen     = $result['statusAuthen'];  //true                       
-                        // dd($statusAuthen);
-                        if (@$statusAuthen == 'true') {
-                            @$serviceHistories = $result['serviceHistories'];
-                            foreach($serviceHistories as $val){
-                                @$claimCode[]	= $val["claimCode"];
-                                @$service[]	    = $val["service"];
-                                foreach (@$service as $key => $vals) {
-                                    @$code[]	= $vals["code"];
-                                    @$name[]	= $vals["name"];
-                                }  
-                            } 
-                            $ccde = $claimCode[0];
-                            $code_ = $code[0];
-                            $name_ = $name[0];
-                            // dd($code);
-                                Check_sit_auto::where('vn', $vn)
-                                    ->update([
-                                        'claimcode'     => $ccde,
-                                        'claimtype'     => $code_,
-                                        'servicename'   => $name_, 
-                                ]);
-                                Check_sit_205_auto::where('vn', $vn)
-                                    ->update([
-                                        'claimcode'     => $ccde,
-                                        'claimtype'     => $code_,
-                                        'servicename'   => $name_, 
-                                ]);
-                                Visit_pttype_205::where('vn', $vn)
-                                    ->update([
-                                        'claim_code'     => $ccde, 
-                                ]);
-                                Visit_pttype_217::where('vn', $vn)
-                                    ->update([
-                                        'claim_code'     => $ccde, 
-                                ]);
-                                
-                        } else {
-                        //     # code...
-                        } 
-                    } 
-            return response()->json([
-                'status'    => '200'
-            ]);
-              
 
-    }
-
-    public function authen_auth_tinew(Request $request)
-    {  
-               
-                $date_now = date('Y-m-d');
-              
-                $data_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM check_sit_auto WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype IN("M1","M2","M3","M4","M5","M6") GROUP BY vn'); 
-                // dd($data_);
-                foreach ($data_ as $key => $value) {
-                        $cid         = $value->cid;
-                        $vn          = $value->vn;
-                        $vstdate     = $value->vstdate;
-                        // $cid         = '1409903572489';
-                        // $vstdate     = '2024-05-07';
-                        $ch = curl_init(); 
-                        $headers = array();
-                        $headers[] = "Accept: application/json";
-                        $headers[] = "Authorization: Bearer 3045bba2-3cac-4a74-ad7d-ac6f7b187479";    
-                        curl_setopt($ch, CURLOPT_URL, "https://authenucws.nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cid&serviceDate=$vstdate&serviceCode=PG0130001");
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-                        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                        $server_output     = curl_exec($ch);
-                        $content = $server_output; # echo เพื่อดู array	
-                        $result = json_decode($content, true);
                         // dd($result);
-                        @$statusAuthen     = $result['statusAuthen'];  //true                       
-                        // dd($statusAuthen);
+                        @$statusAuthen     = $result['statusAuthen'];  //true
+                        @$serviceHistories = $result['serviceHistories'];
+                        dd($serviceHistories);
                         if (@$statusAuthen == 'true') {
-                            @$serviceHistories = $result['serviceHistories'];
                             foreach($serviceHistories as $val){
-                                @$claimCode[]	= $val["claimCode"];
-                                @$service[]	    = $val["service"];
+                                @$claimCode	= $val["claimCode"];
+                                @$service	= $val["service"];
                                 foreach (@$service as $key => $vals) {
-                                    @$code[]	= $vals["code"];
-                                    @$name[]	= $vals["name"];
-                                }  
+                                    @$code	= $vals["code"];
+                                    @$name	= $vals["name"];
+                                } 
                             } 
-                            $ccde = $claimCode[0];
-                            $code_ = $code[0];
-                            $name_ = $name[0];
-                            // dd($code);
-                                Check_sit_auto::where('vn', $vn)
-                                    ->update([
-                                        'claimtype'     => $code_,
-                                        'servicename'   => $name_, 
-                                ]);
-                                Check_sit_205_auto::where('vn', $vn)
-                                    ->update([
-                                        'claimcode'     => $ccde,
-                                        'claimtype'     => $code_,
-                                        'servicename'   => $name_, 
-                                ]);
-                                Visit_pttype_205::where('vn', $vn)
-                                    ->update([
-                                        'claim_code'     => $ccde, 
-                                ]);
-                                Visit_pttype_217::where('vn', $vn)
-                                    ->update([
-                                        'claim_code'     => $ccde, 
-                                ]);
+                            Check_sit_auto::where('vn', $vn)
+                                ->update([
+                                    'claimtype'   => @$code,
+                                    'servicename' => @$name, 
+                                ]); 
                         } else {
-                        //     # code...
+                            # code...
                         } 
                     } 
             return response()->json([

@@ -1801,8 +1801,10 @@ class AutoController extends Controller
                 }
 
             }
-           
-            return view('auto.pull_hosallauto');
+            return response()->json([
+                'status'    => '200'
+            ]);
+            // return view('auto.pull_hosallauto');
     }
     public function checksit_pullhosmanual(Request $request)
     {      
