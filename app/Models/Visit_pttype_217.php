@@ -10,7 +10,7 @@ class Visit_pttype_217 extends Model
     use HasFactory;
 
     // protected $connection = 'mysql';
-    protected $connection = 'mysql13';
+    protected $connection = 'mysql11';
     protected $table = 'visit_pttype';
     protected $primaryKey = 'vn';
     protected $fillable = [
