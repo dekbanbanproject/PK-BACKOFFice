@@ -1740,7 +1740,7 @@ class FdhController extends Controller
         } else {
             $date = date('Y-m-d');
             $iduser = Auth::user()->id;
-            $datashow_ = DB::connection('mysql2')->select(
+            $datashow_ = DB::connection('mysql10')->select(
                 'SELECT v.vstdate,o.vsttime
                     ,Time_format(o.vsttime ,"%H:%i") vsttime2
                     ,v.cid,"10978" as hcode
