@@ -131,9 +131,9 @@ class FireController extends Controller
             ->where('fire_check.fire_num', '=', $dataprint->fire_num)
             ->get();
 
-            $data_detail = Fire::where('fire_num', '=', $dataprint->fire_num)->first();
-            $signat = $data_detail->fire_img_base;
-
+            $data_detail_ = Fire::where('fire_num', '=', $dataprint->fire_num)->first();
+            $signat = $data_detail_->fire_img_base;
+            $pic_fire = base64_encode(file_get_contents($signat));  
             // dd($data_detail);
             return view('support_prs.fire.fire_detail', [
                 'dataprint'    => $dataprint,
