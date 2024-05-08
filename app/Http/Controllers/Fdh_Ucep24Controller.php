@@ -175,9 +175,10 @@ class Fdh_Ucep24Controller extends Controller
                             LEFT OUTER JOIN paidst p on p.paidst = o.paidst  
                             LEFT OUTER JOIN pttype pt on pt.pttype = o.pttype  
                             WHERE i.an = "'.$v_opitem_one->an.'" 
-                            AND i.dchdate = "'.$v_opitem_one->dchdate.'" 
+                         
                             ORDER BY i.dchdate,o.rxtime
                     ');
+                    // AND i.dchdate = "'.$v_opitem_one->dchdate.'" 
                     foreach ($opitem as $key => $v_item) {                     
                         D_ucep24::insert([
                             'vn'                => $v_item->vn,

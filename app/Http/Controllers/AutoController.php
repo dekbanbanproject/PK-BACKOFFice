@@ -1192,137 +1192,130 @@ class AutoController extends Controller
 
     // ***************** Check_sit_auto   // ดึงข้อมูลมาไว้เช็คสิทธิ์***************************
    
-    public function pull_hosauto(Request $request)
-    {        
-        $date = date('Y-m-d');  
-            $data_sits = DB::connection('mysql2')->select('
-                SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,p.pname,p.fname,concat(p.pname,p.fname," ",p.lname) as fullname,op.name as staffname,p.hometel,v.pdx,s.cc
-                ,pt.nhso_code,o.hospmain,o.hospsub,p.birthday
-                ,o.staff,op.name as sname
-                ,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
-                FROM ovst o
-                LEFT JOIN vn_stat v on v.vn = o.vn
-                LEFT JOIN opdscreen s ON s.vn = o.vn
-                LEFT JOIN patient p on p.hn=o.hn
-                LEFT JOIN pttype pt on pt.pttype=o.pttype
-                LEFT JOIN opduser op on op.loginname = o.staff
-                WHERE o.vstdate ="'.$date.'"
-                AND o.main_dep NOT IN("011","036","107")
-                AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10")
-                AND p.nationality = "99"
-                AND p.birthday <> "'.$date.'"
-                GROUP BY o.vn   
+    // public function pull_hosauto(Request $request)
+    // {        
+    //     // $date = date('Y-m-d'); 
+    //     $date_now = date('2024-05-02');
+    //     $data_sits = DB::connection('mysql10')->select(
+    //         'SELECT o.an,v.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,p.pname,p.fname,concat(p.pname,p.fname," ",p.lname) as fullname,op.name as staffname,p.hometel,v.pdx,s.cc
+    //         ,pt.nhso_code,o.hospmain,o.hospsub,p.birthday
+    //         ,o.staff,op.name as sname
+    //         ,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
+    //         FROM vn_stat v
+    //         LEFT JOIN visit_pttype vs on vs.vn = v.vn
+    //         LEFT JOIN ovst o on o.vn = v.vn
+    //         LEFT JOIN opdscreen s ON s.vn = v.vn
+    //         LEFT JOIN patient p on p.hn=v.hn
+    //         LEFT JOIN pttype pt on pt.pttype=v.pttype
+    //         LEFT JOIN opduser op on op.loginname = o.staff
+    //         WHERE v.vstdate = "'.$date_now.'" 
+    //         group by v.vn
+           
+    //     ');   
+    //     // LIMIT 100
+    //         // $data_sits = DB::connection('mysql2')->select('
+    //         //     SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,p.pname,p.fname,concat(p.pname,p.fname," ",p.lname) as fullname,op.name as staffname,p.hometel,v.pdx,s.cc
+    //         //     ,pt.nhso_code,o.hospmain,o.hospsub,p.birthday
+    //         //     ,o.staff,op.name as sname
+    //         //     ,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
+    //         //     FROM ovst o
+    //         //     LEFT JOIN vn_stat v on v.vn = o.vn
+    //         //     LEFT JOIN opdscreen s ON s.vn = o.vn
+    //         //     LEFT JOIN patient p on p.hn=o.hn
+    //         //     LEFT JOIN pttype pt on pt.pttype=o.pttype
+    //         //     LEFT JOIN opduser op on op.loginname = o.staff
+    //         //     WHERE o.vstdate ="'.$date.'"
+    //         //     AND o.main_dep NOT IN("011","036","107")
+    //         //     AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10")
+    //         //     AND p.nationality = "99"
+    //         //     AND p.birthday <> "'.$date.'"
+    //         //     GROUP BY o.vn   
                 
-            ');  
-            // BETWEEN "2024-02-11" AND "2024-02-15"
-            // WHERE o.vstdate = CURDATE()
-            foreach ($data_sits as $key => $value) {
-                $check = Check_sit_auto::where('vn', $value->vn)->count();
+    //         // ');  
+    //         // BETWEEN "2024-02-11" AND "2024-02-15"
+    //         // WHERE o.vstdate = CURDATE()
+    //         foreach ($data_sits as $key => $value) {
+    //             $check = Check_sit_auto::where('vn', $value->vn)->count();
 
-                if ($check > 0) {
-                    // Check_sit_auto::where('vn', $value->vn)
-                    //     ->update([ 
-                    //         'hometel'    => $value->hometel,
-                    //         'vsttime'    => $value->vsttime,
-                    //         'fullname'   => $value->fullname,
-                    //         'pttype'     => $value->pttype,
-                    //         'hospmain'   => $value->hospmain,
-                    //         'hospsub'    => $value->hospsub,
-                    //         'main_dep'   => $value->main_dep,
-                    //         'staff'      => $value->staff,
-                    //         'staff_name' => $value->staffname,
-                    //         'debit'      => $value->debit,
-                    //         'pdx'        => $value->pdx,
-                    //         'cc'         => $value->cc
-                    //     ]);
-                } else {
-                    Check_sit_auto::insert([
-                        'vn'         => $value->vn,
-                        'an'         => $value->an,
-                        'hn'         => $value->hn,
-                        'cid'        => $value->cid,
-                        'vstdate'    => $value->vstdate,
-                        'hometel'    => $value->hometel,
-                        'vsttime'    => $value->vsttime,
-                        'fullname'   => $value->fullname,
-                        'pttype'     => $value->pttype,
-                        'hospmain'   => $value->hospmain,
-                        'hospsub'    => $value->hospsub,
-                        'main_dep'   => $value->main_dep,
-                        'staff'      => $value->staff,
-                        'staff_name' => $value->staffname,
-                        'debit'      => $value->debit,
-                        'pdx'        => $value->pdx,
-                        'cc'         => $value->cc
-                    ]);
+    //             if ($check > 0) {
+                
+    //             } else {
+    //                 Check_sit_auto::insert([
+    //                     'vn'         => $value->vn,
+    //                     'an'         => $value->an,
+    //                     'hn'         => $value->hn,
+    //                     'cid'        => $value->cid,
+    //                     'vstdate'    => $value->vstdate,
+    //                     'hometel'    => $value->hometel,
+    //                     'vsttime'    => $value->vsttime,
+    //                     'fullname'   => $value->fullname,
+    //                     'pttype'     => $value->pttype,
+    //                     'hospmain'   => $value->hospmain,
+    //                     'hospsub'    => $value->hospsub,
+    //                     'main_dep'   => $value->main_dep,
+    //                     'staff'      => $value->staff,
+    //                     'staff_name' => $value->staffname,
+    //                     'debit'      => $value->debit,
+    //                     'pdx'        => $value->pdx,
+    //                     'cc'         => $value->cc
+    //                 ]);
 
-                }
+    //             }
 
-            }
-            $data_ti = DB::connection('mysql2')->select('
-                SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,op.name as staffname,p.hometel
-                    ,pt.nhso_code,o.hospmain,o.hospsub,v.pdx,s.cc
-                    ,o.staff 
-                    ,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
-                    FROM ovst o
-                    LEFT JOIN vn_stat v on v.vn = o.vn
-                    LEFT JOIN opdscreen s ON s.vn = o.vn
-                    LEFT JOIN patient p on p.hn=o.hn
-                    LEFT JOIN pttype pt on pt.pttype=o.pttype
-                    LEFT JOIN opduser op on op.loginname = o.staff                     
-                    WHERE o.vstdate ="'.$date.'"
+    //         }
+    //         return response()->json([
+    //             'status'    => '200'
+    //         ]);
+    //         // $data_ti = DB::connection('mysql2')->select('
+    //         //     SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,op.name as staffname,p.hometel
+    //         //         ,pt.nhso_code,o.hospmain,o.hospsub,v.pdx,s.cc
+    //         //         ,o.staff 
+    //         //         ,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
+    //         //         FROM ovst o
+    //         //         LEFT JOIN vn_stat v on v.vn = o.vn
+    //         //         LEFT JOIN opdscreen s ON s.vn = o.vn
+    //         //         LEFT JOIN patient p on p.hn=o.hn
+    //         //         LEFT JOIN pttype pt on pt.pttype=o.pttype
+    //         //         LEFT JOIN opduser op on op.loginname = o.staff                     
+    //         //         WHERE o.vstdate ="'.$date_now.'"
                     
-                    AND o.pttype IN("M1","M2","M3","M4","M5","M6")
-                    AND p.nationality = "99"
-                    AND p.birthday <> "'.$date.'"
-                    group by o.vn
+    //         //         AND o.pttype IN("M1","M2","M3","M4","M5","M6")
+    //         //         AND p.nationality = "99"
+    //         //         AND p.birthday <> "'.$date_now.'"
+    //         //         group by o.vn
                     
-            ');
-            foreach ($data_ti as $key => $val) {
-                $check = Check_sit_tiauto::where('vn', $val->vn)->count();
+    //         // ');
+    //         // foreach ($data_ti as $key => $val) {
+    //         //     $check = Check_sit_tiauto::where('vn', $val->vn)->count();
 
-                if ($check > 0) {
-                    // Check_sit_tiauto::where('vn', $value->vn)
-                    // ->update([ 
-                    //     'hometel'    => $value->hometel,
-                    //     'vsttime'    => $value->vsttime,
-                    //     'fullname'   => $value->fullname,
-                    //     'pttype'     => $value->pttype,
-                    //     'hospmain'   => $value->hospmain,
-                    //     'hospsub'    => $value->hospsub,
-                    //     'main_dep'   => $value->main_dep,
-                    //     'staff'      => $value->staff,
-                    //     'staff_name' => $value->staffname,
-                    //     'debit'      => $value->debit,
-                    //     'pdx'        => $value->pdx,
-                    //     'cc'         => $value->cc
-                    // ]);
-                } else {
-                    Check_sit_tiauto::insert([
-                        'vn'         => $val->vn,
-                        'an'         => $val->an,
-                        'hn'         => $val->hn,
-                        'cid'        => $val->cid,
-                        'vstdate'    => $val->vstdate,
-                        'hometel'    => $val->hometel,
-                        'vsttime'    => $val->vsttime,
-                        'fullname'   => $val->fullname,
-                        'pttype'     => $val->pttype,
-                        'hospmain'   => $val->hospmain,
-                        'hospsub'    => $val->hospsub,
-                        'main_dep'   => $val->main_dep,
-                        'staff'      => $val->staff,
-                        'staff_name' => $val->staffname,
-                        'debit'      => $val->debit,
-                        'pdx'        => $value->pdx,
-                        'cc'         => $value->cc
-                    ]);
+    //         //     if ($check > 0) {
+                    
+    //         //     } else {
+    //         //         Check_sit_tiauto::insert([
+    //         //             'vn'         => $val->vn,
+    //         //             'an'         => $val->an,
+    //         //             'hn'         => $val->hn,
+    //         //             'cid'        => $val->cid,
+    //         //             'vstdate'    => $val->vstdate,
+    //         //             'hometel'    => $val->hometel,
+    //         //             'vsttime'    => $val->vsttime,
+    //         //             'fullname'   => $val->fullname,
+    //         //             'pttype'     => $val->pttype,
+    //         //             'hospmain'   => $val->hospmain,
+    //         //             'hospsub'    => $val->hospsub,
+    //         //             'main_dep'   => $val->main_dep,
+    //         //             'staff'      => $val->staff,
+    //         //             'staff_name' => $val->staffname,
+    //         //             'debit'      => $val->debit,
+    //         //             'pdx'        => $value->pdx,
+    //         //             'cc'         => $value->cc
+    //         //         ]);
 
-                }
+    //         //     }
 
-            }
-            return view('auto.pull_hosauto');
-    }
+    //         // }
+    //         // return view('auto.pull_hosauto');
+    // }
 
     // ***************** Check_sit_auto   // เช็คสิทธิ์ สปสช ***************************
  

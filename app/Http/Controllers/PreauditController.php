@@ -296,6 +296,7 @@ class PreauditController extends Controller
                             'pdx'            => $value->pdx,  
                             'icd10'          => $value->icd10, 
                             'debit'          => $value->debit,
+                            'pttype'         => $value->pttype,
                             'price_ofc'      => $value->price_ofc,
                             'active_status'  => $value->active_status,
                             'authen'         => $value->Apphos,

@@ -197,7 +197,7 @@ Route::match(['get','post'],'checksit_hosmanual',[App\Http\Controllers\AutoContr
 Route::match(['get','post'],'checksit_hosauto',[App\Http\Controllers\AutoController::class, 'checksit_hosauto'])->name('auto.checksit_hosauto');//
 
 // Check_sit_auto   // เช็คสิทธิ์ สปสช
-Route::match(['get','post'],'pull_hosauto',[App\Http\Controllers\AutoController::class, 'pull_hosauto'])->name('auto.pull_hosauto');//
+Route::match(['get','post'],'pull_hosauto',[App\Http\Controllers\Auto_authenController::class, 'pull_hosauto'])->name('auto.pull_hosauto');//
 Route::match(['get','post'],'checksit_auto',[App\Http\Controllers\AutoController::class, 'checksit_auto'])->name('auto.checksit_auto');//
 
 Route::match(['get','post'],'pull_hosallauto',[App\Http\Controllers\AutoController::class, 'pull_hosallauto'])->name('auto.pull_hosallauto');//

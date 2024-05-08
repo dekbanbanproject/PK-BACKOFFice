@@ -257,6 +257,7 @@
                                         <th class="text-center">ลำดับ</th>
                                         <th class="text-center">hn</th>
                                         <th class="text-center">cid</th>
+                                        <th class="text-center">pttype</th>
                                         <th class="text-center">vstdate</th>
                                         <th class="text-center">income</th>
                                         <th class="text-center">Approve Code</th>
@@ -277,6 +278,7 @@
                                             <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
                                             <td class="text-center" width="10%">{{ $item_m->hn }} </td>
                                             <td class="text-center" width="10%">{{ $item_m->cid }} </td>
+                                            <td class="text-center" width="10%">{{ $item_m->pttype }} </td>
                                             <td class="text-center" width="10%">{{ $item_m->vstdate }} </td>
                                             <td class="text-center" width="10%">{{ $item_m->debit }} </td>
                                             <td class="text-center" width="10%">{{ $item_m->authen }} </td>
