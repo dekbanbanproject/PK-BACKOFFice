@@ -9,7 +9,7 @@ class Visit_pttype extends Model
 {
     use HasFactory;
 
-    protected $connection = 'mysql';
+    protected $connection = 'mysql10';
     protected $table = 'visit_pttype';
     protected $primaryKey = 'vn';
     public $timestamps = false;     

@@ -18,5 +18,19 @@ class Visit_pttype_205 extends Model
         'claim_code',
         
     ];
-    public $timestamps = false;     
+    public $timestamps = false;  
+    
+    // protected $connection = 'mysql3';
+    // protected $table = 'check_sit_auto';
+    // protected $primaryKey = 'check_sit_auto_id';
+    // protected $fillable = [  
+    //     'vn',
+    //     'hn',  
+    //     'cid', 
+    //     'vstdate',
+    //     'vsttime',
+    //     'pttype',
+    //     'fullname',
+    //     'staff'
+    // ];
 }
