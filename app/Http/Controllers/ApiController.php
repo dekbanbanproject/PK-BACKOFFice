@@ -444,6 +444,7 @@ class ApiController extends Controller
                     LEFT JOIN pttype pt on pt.pttype=v.pttype
                     LEFT JOIN opduser op on op.loginname = o.staff
                     WHERE v.vstdate = "'.$date_now.'" 
+                    AND (o.an IS NULL OR o.an = "")
                     group by v.vn
                 
                 
