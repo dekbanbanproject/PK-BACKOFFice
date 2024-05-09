@@ -451,8 +451,8 @@ class ApiController extends Controller
         
                 foreach ($data_sits as $key => $value) {
                     $check = Check_sit_auto::where('vn', $value->vn)->count();
-                    if ($check > 0) {                    
-                    } else {
+                    if ($check < 1) {                    
+                    // } else {
                         Check_sit_auto::insert([
                             'vn'         => $value->vn,
                             'an'         => $value->an,
@@ -472,9 +472,10 @@ class ApiController extends Controller
                             'pdx'        => $value->pdx,
                             'cc'         => $value->cc
                         ]);
-                        return response()->json('200');
+                       
                     }
                 }
+                return response()->json('200');
                 // $data_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM check_sit_auto WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6") GROUP BY vn'); 
                 // return response()->json('200');
                 // return response()->json(['status'=>'200']);
