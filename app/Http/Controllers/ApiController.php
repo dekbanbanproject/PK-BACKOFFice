@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Authencode;
+use App\Models\Api_neweclaim;
 use App\Models\Patient;
 use App\Models\Check_sit_auto;
 use App\Models\Visit_pttype;
@@ -20,7 +20,21 @@ use File;
 use SplFileObject;
 use Arr;
 use Storage;
-use GuzzleHttp\Client;
+use GuzzleHttp\Client; 
+use PHPExcel;
+use PHPExcel_IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Reader\Exception;
+use PhpOffice\PhpSpreadsheet\Writer\Xls;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use ZipArchive;
+use Illuminate\Support\Facades\Redirect;
+use PhpParser\Node\Stmt\If_; 
+
+use Auth;
+ 
+use Illuminate\Filesystem\Filesystem;
 
 class ApiController extends Controller
 { 
@@ -332,7 +346,8 @@ class ApiController extends Controller
           
     }
 
-    public function authen_spsch(Request $request){
+    public function authen_spsch(Request $request)
+    {
             $date_now = date('Y-m-d'); 
             $data_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM check_sit_auto WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY vn'); 
             
@@ -482,6 +497,52 @@ class ApiController extends Controller
                 // return response()->json(['status'=>'200']);
                 //   return response()->json($data_, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
                 // JSON_UNESCAPED_UNICODE);
+    }
+
+    public function fdh_mini_auth(Request $request)
+    {  
+        $username        = 'pradit.10978';
+        $password        = '8Uk&8Fr&';
+        $password_hash   = strtoupper(hash_hmac('sha256', $password, '$jwt@moph#'));
+
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://fdh.moph.go.th/token?Action=get_moph_access_token&user=' . $username . '&password_hash=' . $password_hash . '&hospital_code=10978',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_HTTPHEADER => array(
+                'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
+            ),
+        ));
+        $token = curl_exec($curl);
+        // dd($token); 
+        curl_close($curl);
+ 
+        $check = Api_neweclaim::where('api_neweclaim_user', $username)->where('api_neweclaim_pass', $password)->count();
+        if ($check > 0) {
+            Api_neweclaim::where('api_neweclaim_user', $username)->update([
+                'api_neweclaim_token'       => $token, 
+                'password_hash'             => $password_hash,
+                'hospital_code'             => '10978',
+                'active_mini'               => 'Y',
+            ]);
+        } else {
+            Api_neweclaim::insert([
+                'api_neweclaim_user'        => $username,
+                'api_neweclaim_pass'        => $password,
+                'api_neweclaim_token'       => $token,
+                'password_hash'             => $password_hash,
+                'hospital_code'             => '10978',
+                'active_mini'               => 'Y', 
+            ]);
+        }
+        
+        return response()->json('200');
     }
 }
 

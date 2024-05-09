@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/test',function(Request $request){
     return 'Authenticated';
 });
-Route::match(['get','post'],'gleave_register',[App\Http\Controllers\MobileController::class, 'gleave_register'])->name('mo.gleave_register');//
+Route::match(['get','post'],'gleave_register',[App\Http\Controllers\Api\MobileController::class, 'gleave_register'])->name('mo.gleave_register');//
 Route::match(['get','post'],'getfire/{firenum}',[App\Http\Controllers\Api\MobileController::class, 'getfire'])->name('mo.getfire');//
 
 Route::match(['get','post'],'getmobile',[App\Http\Controllers\AuthenmobileController::class, 'getmobile'])->name('mo.getmobile');//
@@ -30,6 +30,8 @@ Route::match(['get','post'],'getmobile_api',[App\Http\Controllers\AuthenmobileCo
 
 Route::get('authen_spsch', [App\Http\Controllers\ApiController::class, 'authen_spsch'])->name('app.authen_spsch');
 Route::get('pull_hosapi', [App\Http\Controllers\ApiController::class, 'pull_hosapi'])->name('app.pull_hosapi');
+Route::get('fdh_mini_auth', [App\Http\Controllers\ApiController::class, 'fdh_mini_auth'])->name('app.fdh_mini_auth');
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
