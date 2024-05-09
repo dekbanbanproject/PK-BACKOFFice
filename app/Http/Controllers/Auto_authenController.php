@@ -1054,7 +1054,7 @@ class Auto_authenController extends Controller
 
     public function pull_hosauto(Request $request)
     {        
-                $date = date('Y-m-d'); 
+                $date_now = date('Y-m-d'); 
                 // $date_now = date('2024-04-03');
 
                 $data_sits = DB::connection('mysql10')->select(
