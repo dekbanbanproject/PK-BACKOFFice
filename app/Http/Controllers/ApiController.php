@@ -474,8 +474,8 @@ class ApiController extends Controller
                         ]);
                     }
                 }
-                return response()->json('200');
-         
+                // return response()->json('200');
+                return response()->json(['status'=>'200']);
     }
 }
 
