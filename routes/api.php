@@ -31,14 +31,16 @@ Route::match(['get','post'],'getmobile_api',[App\Http\Controllers\AuthenmobileCo
 Route::get('authen_spsch', [App\Http\Controllers\ApiController::class, 'authen_spsch'])->name('app.authen_spsch');
 Route::get('pull_hosapi', [App\Http\Controllers\ApiController::class, 'pull_hosapi'])->name('app.pull_hosapi');
 Route::get('fdh_mini_auth', [App\Http\Controllers\ApiController::class, 'fdh_mini_auth'])->name('app.fdh_mini_auth');
-
+Route::get('fdh_mini_pullhosinv', [App\Http\Controllers\ApiController::class, 'fdh_mini_pullhosinv'])->name('app.fdh_mini_pullhosinv');
+Route::get('fdh_mini_pullhosnoinv', [App\Http\Controllers\ApiController::class, 'fdh_mini_pullhosnoinv'])->name('app.fdh_mini_pullhosnoinv');
+Route::get('fdh_mini_pidsit', [App\Http\Controllers\ApiController::class, 'fdh_mini_pidsit'])->name('app.fdh_mini_pidsit');
+Route::get('fdh_mini_pullbookid', [App\Http\Controllers\ApiController::class, 'fdh_mini_pullbookid'])->name('app.fdh_mini_pullbookid');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 Route::post('authencode', [App\Http\Controllers\AuthencodeController::class, 'authencode'])->name('authencode');
-
 Route::get('smartcard_readonly', [App\Http\Controllers\ApiController::class, 'smartcard_readonly'])->name('smartcard_readonly');
 Route::get('patient_readonly', [App\Http\Controllers\ApiController::class, 'patient_readonly'])->name('patient_readonly');
 Route::get('ovst_key', [App\Http\Controllers\ApiController::class, 'ovst_key'])->name('ovst_key');

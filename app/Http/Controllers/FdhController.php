@@ -2220,16 +2220,15 @@ class FdhController extends Controller
  
      }
 
-     public function fdh_mini_dataset_pulljongauto(Request $request)
+    public function fdh_mini_dataset_pulljongauto(Request $request)
     {
-        $date = date('Y-m-d');
-        $data_vn_1 = Fdh_mini_dataset::where('vstdate','=',$date)->where('transaction_uid','<>','')->get();
-        $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE active_mini = "Y"');
-        foreach ($data_token_ as $key => $val_to) {
-            $token_   = $val_to->api_neweclaim_token;
-        }
-        $token = $token_;
- 
+            $date = date('Y-m-d');
+            $data_vn_1 = Fdh_mini_dataset::where('vstdate','=',$date)->where('transaction_uid','<>','')->get();
+            $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE active_mini = "Y"');
+            foreach ($data_token_ as $key => $val_to) {
+                $token_   = $val_to->api_neweclaim_token;
+            }
+            $token = $token_; 
             foreach ($data_vn_1 as $key => $val) { 
                 $transaction_uid      = $val->transaction_uid;
                 $hcode                = $val->hcode; 
@@ -2282,7 +2281,6 @@ class FdhController extends Controller
             // dd($result);
             return response()->json([
                 'status'    => '200'
-            ]);
-           
+            ]); 
     }
 }
