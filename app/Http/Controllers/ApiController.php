@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Authencode;
 use App\Models\Patient;
+use App\Models\Check_sit_auto;
+use App\Models\Visit_pttype;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\support\Facades\Hash;
@@ -328,6 +330,152 @@ class ApiController extends Controller
         $fire_ = Fire::get();
          return response([$fire_]);
           
+    }
+
+    public function authen_spsch(Request $request){
+            $date_now = date('Y-m-d'); 
+            $data_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM check_sit_auto WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY vn'); 
+            
+            $ch = curl_init(); 
+            foreach ($data_ as $key => $value) {
+                    $cid         = $value->cid;
+                    $vn          = $value->vn;
+                    $vstdate     = $value->vstdate; 
+                    $headers = array();
+                    $headers[] = "Accept: application/json";
+                    $headers[] = "Authorization: Bearer 3045bba2-3cac-4a74-ad7d-ac6f7b187479";    
+                    curl_setopt($ch, CURLOPT_URL, "https://authenucws.nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cid&serviceDate=$vstdate&serviceCode=PG0060001");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); 
+                    $response = curl_exec($ch); 
+                    $contents = $response; 
+                    $result = json_decode($contents, true);  
+                    if ($result != null ) {  
+                            isset( $result['statusAuthen'] ) ? $statusAuthen = $result['statusAuthen'] : $statusAuthen = ""; 
+                            if ($statusAuthen =='false') { 
+                                $his = $result['serviceHistories']; 
+                                // dd($his); 
+                                foreach ($his as $key => $value_s) {
+                                    $cd	           = $value_s["claimCode"];
+                                    $sv_code	   = $value_s["service"]["code"];
+                                    $sv_name	   = $value_s["service"]["name"];
+                                        
+                                    Visit_pttype::where('vn','=', $vn)
+                                        ->update([
+                                            'claim_code'     => $cd, 
+                                    ]);
+                                    
+                                    Check_sit_auto::where('vn','=', $vn)
+                                        ->update([
+                                            'claimcode'     => $cd,
+                                            'claimtype'     => $sv_code,
+                                            'servicename'   => $sv_name, 
+                                    ]);
+                                }  
+                            } 
+                    } 
+            }  
+            
+            
+            $datati_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM check_sit_auto WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype IN("M1","M2","M3","M4","M5","M6") GROUP BY vn'); 
+                $chti = curl_init(); 
+                foreach ($datati_ as $key => $valueti) {
+                        $cidti         = $valueti->cid;
+                        $vnti          = $valueti->vn;
+                        $vstdateti     = $valueti->vstdate; 
+                        $headers = array();
+                        $headers[] = "Accept: application/json";
+                        $headers[] = "Authorization: Bearer 3045bba2-3cac-4a74-ad7d-ac6f7b187479";    
+                        curl_setopt($chti, CURLOPT_URL, "https://authenucws.nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cidti&serviceDate=$vstdateti&serviceCode=PG0130001");
+                        curl_setopt($chti, CURLOPT_RETURNTRANSFER, 1);
+                        curl_setopt($chti, CURLOPT_CUSTOMREQUEST, "GET");
+                        curl_setopt($chti, CURLOPT_HTTPHEADER, $headers);  
+                        $responseti = curl_exec($chti);
+                        // // curl_close($chti);
+                        // dd($ccde);
+                        $contents_ti = $responseti; 
+                        $result_ti = json_decode($contents_ti, true); 
+                        if ($result_ti != null ) {  
+                                    isset( $result_ti['statusAuthen'] ) ? $statusAuthen_ti = $result_ti['statusAuthen'] : $statusAuthen_ti = "";
+                                     
+                                    if ($statusAuthen_ti =='false') { 
+                                        $his_ti = $result_ti['serviceHistories']; 
+                                        // dd($his); 
+                                        foreach ($his_ti as $key => $value_ss) {
+                                            $cd_ti	        = $value_ss["claimCode"];
+                                            $sv_code_ti	    = $value_ss["service"]["code"];
+                                            $sv_name_ti	    = $value_ss["service"]["name"];
+                                            Visit_pttype::where('vn','=', $vnti)
+                                                ->update([
+                                                    'claim_code'     => $cd_ti, 
+                                            ]);                                    
+                                            Check_sit_auto::where('vn','=', $vnti)
+                                                ->update([
+                                                    'claimcode'     => $cd_ti,
+                                                    'claimtype'     => $sv_code_ti,
+                                                    'servicename'   => $sv_name_ti, 
+                                            ]);
+                                        }  
+                                    }
+                                // }
+                        }
+                        
+                } 
+            return response()->json('true');
+                
+    }
+
+    public function pull_hosapi(Request $request)
+    {        
+                $date_now = date('Y-m-d'); 
+                // $date_now = date('2024-04-03');
+
+                $data_sits = DB::connection('mysql10')->select(
+                    'SELECT o.an,v.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,p.pname,p.fname,concat(p.pname,p.fname," ",p.lname) as fullname,op.name as staffname,p.hometel,v.pdx,s.cc
+                    ,pt.nhso_code,o.hospmain,o.hospsub,p.birthday
+                    ,o.staff,op.name as sname
+                    ,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
+                    FROM vn_stat v
+                    LEFT JOIN visit_pttype vs on vs.vn = v.vn
+                    LEFT JOIN ovst o on o.vn = v.vn
+                    LEFT JOIN opdscreen s ON s.vn = v.vn
+                    LEFT JOIN patient p on p.hn=v.hn
+                    LEFT JOIN pttype pt on pt.pttype=v.pttype
+                    LEFT JOIN opduser op on op.loginname = o.staff
+                    WHERE v.vstdate = "'.$date_now.'" 
+                    group by v.vn
+                    LIMIT 100
+                
+                ');   
+        
+                foreach ($data_sits as $key => $value) {
+                    $check = Check_sit_auto::where('vn', $value->vn)->count();
+                    if ($check > 0) {                    
+                    } else {
+                        Check_sit_auto::insert([
+                            'vn'         => $value->vn,
+                            'an'         => $value->an,
+                            'hn'         => $value->hn,
+                            'cid'        => $value->cid,
+                            'vstdate'    => $value->vstdate,
+                            'hometel'    => $value->hometel,
+                            'vsttime'    => $value->vsttime,
+                            'fullname'   => $value->fullname,
+                            'pttype'     => $value->pttype,
+                            'hospmain'   => $value->hospmain,
+                            'hospsub'    => $value->hospsub,
+                            'main_dep'   => $value->main_dep,
+                            'staff'      => $value->staff,
+                            'staff_name' => $value->staffname,
+                            'debit'      => $value->debit,
+                            'pdx'        => $value->pdx,
+                            'cc'         => $value->cc
+                        ]);
+                    }
+                }
+                return response()->json('200');
+         
     }
 }
 
