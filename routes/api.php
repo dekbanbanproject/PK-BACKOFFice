@@ -32,9 +32,13 @@ Route::get('authen_spsch', [App\Http\Controllers\ApiController::class, 'authen_s
 Route::get('pull_hosapi', [App\Http\Controllers\ApiController::class, 'pull_hosapi'])->name('app.pull_hosapi');
 Route::get('fdh_mini_auth', [App\Http\Controllers\ApiController::class, 'fdh_mini_auth'])->name('app.fdh_mini_auth');
 Route::get('fdh_mini_pullhosinv', [App\Http\Controllers\ApiController::class, 'fdh_mini_pullhosinv'])->name('app.fdh_mini_pullhosinv');
-Route::get('fdh_mini_pullhosnoinv', [App\Http\Controllers\ApiController::class, 'fdh_mini_pullhosnoinv'])->name('app.fdh_mini_pullhosnoinv');
+Route::get('fdh_minipullhosnoinv', [App\Http\Controllers\ApiController::class, 'fdh_minipullhosnoinv'])->name('app.fdh_minipullhosnoinv');
 Route::get('fdh_mini_pidsit', [App\Http\Controllers\ApiController::class, 'fdh_mini_pidsit'])->name('app.fdh_mini_pidsit');
 Route::get('fdh_mini_pullbookid', [App\Http\Controllers\ApiController::class, 'fdh_mini_pullbookid'])->name('app.fdh_mini_pullbookid');
+
+Route::get('fdh_countvn', [App\Http\Controllers\ApiController::class, 'fdh_countvn'])->name('app.fdh_countvn');
+Route::get('fdh_sumincome', [App\Http\Controllers\ApiController::class, 'fdh_sumincome'])->name('app.fdh_sumincome');
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

@@ -598,10 +598,61 @@ class ApiController extends Controller
             }
             return response()->json('200');      
     }
+    public function fdh_minipullhosnoinv(Request $request)
+    { 
+            $date_now  = date('Y-m-d'); 
+            $datashow_ = DB::connection('mysql2')->select(
+                'SELECT v.vstdate,o.vsttime
+                    ,Time_format(o.vsttime ,"%H:%i") vsttime2
+                    ,v.cid,"10978" as hcode
+                    ,IFNULL(rd.total_amount,v.income) as total_amout
+                    ,IFNULL(rd.finance_number,v.vn) as invoice_number
+                    ,v.vn,concat(pt.pname,pt.fname," ",pt.lname) as ptname,v.hn,v.pttype
+                    FROM vn_stat v 
+                    LEFT OUTER JOIN ovst o ON v.vn = o.vn 
+                    LEFT OUTER JOIN patient pt on pt.hn = v.hn
+                    LEFT OUTER JOIN pttype ptt ON v.pttype = ptt.pttype AND v.pttype NOT IN("M1","M4","M5")  
+                    LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
+                WHERE v.vstdate = "' . $date_now . '"  
+                AND ptt.hipdata_code ="UCS" AND v.income > 0 and rd.finance_number IS NULL  
+                GROUP BY v.vn  
+              
+            '
+            );
+         
+            foreach ($datashow_ as $key => $value) {
+                $check_opd = Fdh_mini_dataset::where('vn', $value->vn)->count();
+                if ($check_opd > 0) {
+                    Fdh_mini_dataset::where('vn', $value->vn)->update([  
+                        'total_amout'         => $value->total_amout,
+                        'invoice_number'      => $value->invoice_number, 
+                    ]);
+                } else {
+                    Fdh_mini_dataset::insert([
+                        'service_date_time'   => $value->vstdate . ' ' . $value->vsttime,
+                        'cid'                 => $value->cid,
+                        'hcode'               => $value->hcode,
+                        'total_amout'         => $value->total_amout,
+                        'invoice_number'      => $value->invoice_number,
+                        'vn'                  => $value->vn,
+                        'pttype'              => $value->pttype,
+                        'ptname'              => $value->ptname,
+                        'hn'                  => $value->hn,
+                        'vstdate'             => $value->vstdate,
+                        'vsttime'             => $value->vsttime,
+                        'datesave'            => $date_now,
+                      
+                    ]);
+                }
+            }
+     
+            return response()->json('200'); 
+    }
     public function fdh_mini_pidsit(Request $request)
     { 
            $date_now = date('Y-m-d');
-           $data_vn_1 = Fdh_mini_dataset::where('vstdate','=',$date_now)->where('invoice_number','<>','')->get();
+        //    $data_vn_1 = Fdh_mini_dataset::where('vstdate','=',$date_now)->where('invoice_number','<>','')->get();
+           $data_vn_1 = DB::connection('mysql')->select('SELECT * FROM fdh_mini_dataset WHERE invoice_number IS NOT NULL AND vstdate = "'.$date_now.'"');
            $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE active_mini = "Y"');
            foreach ($data_token_ as $key => $val_to) {
                $token_   = $val_to->api_neweclaim_token;
@@ -722,6 +773,27 @@ class ApiController extends Controller
                     }
             }
             return response()->json('200'); 
+    }
+    public function fdh_countvn(Request $request)
+    { 
+           $date_now = date('Y-m-d');
+           
+           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(DISTINCT vn) as count_vn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'"');
+           foreach ($data_vn_1 as $key => $value) {
+            $countvn = $value->count_vn;
+           }                 
+           return response()->json($countvn); 
+    }
+    public function fdh_sumincome(Request $request)
+    { 
+           $date_now = date('Y-m-d');
+           
+           $data_vn_1 = DB::connection('mysql')->select('SELECT CONCAT(FORMAT(SUM(total_amout), 2)) as total FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'"');
+           foreach ($data_vn_1 as $key => $value) {
+            $sumincome = $value->total;
+            
+           }                 
+           return response()->json($sumincome); 
     }
 
 }
