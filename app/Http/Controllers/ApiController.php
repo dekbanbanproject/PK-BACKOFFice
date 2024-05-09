@@ -445,10 +445,10 @@ class ApiController extends Controller
                     LEFT JOIN opduser op on op.loginname = o.staff
                     WHERE v.vstdate = "'.$date_now.'" 
                     group by v.vn
-                    LIMIT 100
+                
                 
                 ');   
-        
+                // LIMIT 100
                 foreach ($data_sits as $key => $value) {
                     $check = Check_sit_auto::where('vn', $value->vn)->count();
                     if ($check < 1) {                    
