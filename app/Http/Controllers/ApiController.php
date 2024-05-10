@@ -795,6 +795,26 @@ class ApiController extends Controller
            }                 
            return response()->json($sumincome); 
     }
+    public function fdh_countpidsit(Request $request)
+    { 
+           $date_now = date('Y-m-d');
+           
+           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(DISTINCT vn) as count_vn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND transaction_uid IS NOT NULL');
+           foreach ($data_vn_1 as $key => $value) {
+            $countpidsit = $value->count_vn;
+           }                 
+           return response()->json($countpidsit); 
+    }
+    public function fdh_countbookid(Request $request)
+    { 
+           $date_now = date('Y-m-d');
+           
+           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(DISTINCT vn) as count_vn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND id_booking IS NOT NULL');
+           foreach ($data_vn_1 as $key => $value) {
+            $countpidsit = $value->count_vn;
+           }                 
+           return response()->json($countpidsit); 
+    }
 
 }
 

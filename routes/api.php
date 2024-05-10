@@ -38,7 +38,8 @@ Route::get('fdh_mini_pullbookid', [App\Http\Controllers\ApiController::class, 'f
 
 Route::get('fdh_countvn', [App\Http\Controllers\ApiController::class, 'fdh_countvn'])->name('app.fdh_countvn');
 Route::get('fdh_sumincome', [App\Http\Controllers\ApiController::class, 'fdh_sumincome'])->name('app.fdh_sumincome');
-
+Route::get('fdh_countpidsit', [App\Http\Controllers\ApiController::class, 'fdh_countpidsit'])->name('app.fdh_countpidsit');
+Route::get('fdh_countbookid', [App\Http\Controllers\ApiController::class, 'fdh_countbookid'])->name('app.fdh_countbookid');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
