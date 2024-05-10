@@ -40,6 +40,11 @@ Route::get('fdh_countvn', [App\Http\Controllers\ApiController::class, 'fdh_count
 Route::get('fdh_sumincome', [App\Http\Controllers\ApiController::class, 'fdh_sumincome'])->name('app.fdh_sumincome');
 Route::get('fdh_countpidsit', [App\Http\Controllers\ApiController::class, 'fdh_countpidsit'])->name('app.fdh_countpidsit');
 Route::get('fdh_countbookid', [App\Http\Controllers\ApiController::class, 'fdh_countbookid'])->name('app.fdh_countbookid');
+Route::get('fdh_countauthen', [App\Http\Controllers\ApiController::class, 'fdh_countauthen'])->name('app.fdh_countauthen');
+Route::get('fdh_countauthennull', [App\Http\Controllers\ApiController::class, 'fdh_countauthennull'])->name('app.fdh_countauthennull');
+Route::get('fdh_sumincome_authen', [App\Http\Controllers\ApiController::class, 'fdh_sumincome_authen'])->name('app.fdh_sumincome_authen');
+Route::get('fdh_sumincome_noauthen', [App\Http\Controllers\ApiController::class, 'fdh_sumincome_noauthen'])->name('app.fdh_sumincome_noauthen');
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

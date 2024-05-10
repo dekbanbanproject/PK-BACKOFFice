@@ -352,9 +352,10 @@ class ApiController extends Controller
 
     public function authen_spsch(Request $request)
     {
-            $date_now = date('Y-m-d'); 
-            $data_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM check_sit_auto WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY vn'); 
-            
+            // $date_now = date('Y-m-d'); 
+            $date_now = date('2024-04-30'); 
+            // $data_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM check_sit_auto WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY vn'); 
+            $data_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY vn'); 
             $ch = curl_init(); 
             foreach ($data_ as $key => $value) {
                     $cid         = $value->cid;
@@ -391,14 +392,24 @@ class ApiController extends Controller
                                             'claimtype'     => $sv_code,
                                             'servicename'   => $sv_name, 
                                     ]);
+                                    Fdh_mini_dataset::where('vn','=', $vn)
+                                        ->update([
+                                            'claimcode'     => $cd,
+                                            'claimtype'     => $sv_code,
+                                            'servicename'   => $sv_name, 
+                                    ]);
+                                    
                                 }  
                             } 
                     } 
             }  
             
             
-            $datati_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM check_sit_auto WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype IN("M1","M2","M3","M4","M5","M6") GROUP BY vn'); 
-                $chti = curl_init(); 
+            // $datati_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM check_sit_auto WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype IN("M1","M2","M3","M4","M5","M6") GROUP BY vn'); 
+            $datati_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype IN("M1","M2","M3","M4","M5","M6") GROUP BY vn'); 
+            
+                
+            $chti = curl_init(); 
                 foreach ($datati_ as $key => $valueti) {
                         $cidti         = $valueti->cid;
                         $vnti          = $valueti->vn;
@@ -435,6 +446,12 @@ class ApiController extends Controller
                                                     'claimtype'     => $sv_code_ti,
                                                     'servicename'   => $sv_name_ti, 
                                             ]);
+                                            Fdh_mini_dataset::where('vn','=', $vn)
+                                            ->update([
+                                                'claimcode'     => $cd_ti,
+                                                'claimtype'     => $sv_code_ti,
+                                                'servicename'   => $sv_name_ti, 
+                                        ]);
                                         }  
                                     }
                                 // }
@@ -814,6 +831,48 @@ class ApiController extends Controller
             $countpidsit = $value->count_vn;
            }                 
            return response()->json($countpidsit); 
+    }
+    public function fdh_countauthen(Request $request)
+    { 
+           $date_now = date('Y-m-d');
+           
+           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(DISTINCT vn) as count_authen FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND claimcode IS NOT NULL');
+           foreach ($data_vn_1 as $key => $value) {
+            $countauthen = $value->count_authen;
+           }                 
+           return response()->json($countauthen); 
+    }
+    public function fdh_countauthennull(Request $request)
+    { 
+           $date_now = date('Y-m-d');
+           
+           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(DISTINCT vn) as count_authen FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND claimcode IS NULL');
+           foreach ($data_vn_1 as $key => $value) {
+            $countauthen = $value->count_authen;
+           }                 
+           return response()->json($countauthen); 
+    }
+    public function fdh_sumincome_authen(Request $request)
+    { 
+           $date_now = date('Y-m-d');
+           
+           $data_vn_1 = DB::connection('mysql')->select('SELECT CONCAT(FORMAT(SUM(total_amout), 2)) as total FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND claimcode IS NOT NULL');
+           foreach ($data_vn_1 as $key => $value) {
+            $sumincome = $value->total;
+            
+           }                 
+           return response()->json($sumincome); 
+    }
+    public function fdh_sumincome_noauthen(Request $request)
+    { 
+           $date_now = date('Y-m-d');
+           
+           $data_vn_1 = DB::connection('mysql')->select('SELECT CONCAT(FORMAT(SUM(total_amout), 2)) as total FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND claimcode IS NULL');
+           foreach ($data_vn_1 as $key => $value) {
+            $sumincome = $value->total;
+            
+           }                 
+           return response()->json($sumincome); 
     }
 
 }

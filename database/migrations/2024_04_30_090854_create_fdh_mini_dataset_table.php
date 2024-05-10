@@ -36,6 +36,9 @@ return new class extends Migration
                 $table->longText('transaction_uid')->nullable();// 
                 $table->string('id_booking')->nullable();// 
                 $table->string('uuid_booking')->nullable();// 
+                $table->string('claimcode')->nullable();// 
+                $table->string('claimtype')->nullable();// 
+                $table->string('servicename')->nullable();// 
                 $table->timestamps();
             }); 
         }
