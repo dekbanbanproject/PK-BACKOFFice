@@ -352,8 +352,8 @@ class ApiController extends Controller
 
     public function authen_spsch(Request $request)
     {
-            // $date_now = date('Y-m-d'); 
-            $date_now = date('2024-04-30'); 
+            $date_now = date('Y-m-d'); 
+            // $date_now = date('2024-04-30'); 
             // $data_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM check_sit_auto WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY vn'); 
             $data_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY vn'); 
             $ch = curl_init(); 
