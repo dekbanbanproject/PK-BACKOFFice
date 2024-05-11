@@ -573,7 +573,7 @@ class ApiController extends Controller
                 'SELECT v.vstdate,o.vsttime
                     ,Time_format(o.vsttime ,"%H:%i") vsttime2
                     ,v.cid,"10978" as hcode
-                    ,rd.total_amount as total_amout
+                    ,v.income as total_amout
                     ,rd.finance_number as invoice_number
                     ,v.vn,concat(pt.pname,pt.fname," ",pt.lname) as ptname,v.hn,v.pttype
                     FROM vn_stat v 
