@@ -582,19 +582,18 @@ class ApiController extends Controller
                     LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype   
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
                 WHERE v.vstdate = "' . $date_now . '"
-                AND ptt.hipdata_code ="UCS" AND v.income > 0 AND rd.total_amount IS NOT NULL
+                AND ptt.hipdata_code ="UCS" AND v.income > 0 
                 GROUP BY v.vn 
             '); 
+            // AND rd.total_amount IS NOT NULL
             foreach ($datashow_ as $key => $value) {
                 $check_opd = Fdh_mini_dataset::where('vn', $value->vn)->count();
                 if ($check_opd > 0) {
-                    // Fdh_mini_dataset::where('vn', $value->vn)->update([ 
-                    //     'ptname'              => $value->ptname,
-                    //     'hn'                  => $value->hn,
-                    //     'pttype'              => $value->pttype,
-                    //     'total_amout'         => $value->total_amout,
-                    //     'invoice_number'      => $value->invoice_number, 
-                    // ]);
+                    Fdh_mini_dataset::where('vn', $value->vn)->update([  
+                        'pttype'              => $value->pttype,
+                        'total_amout'         => $value->total_amout,
+                        'invoice_number'      => $value->invoice_number, 
+                    ]);
                 } else {
                     Fdh_mini_dataset::insert([
                         'service_date_time'   => $value->vstdate . ' ' . $value->vsttime,
