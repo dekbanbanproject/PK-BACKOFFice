@@ -44,6 +44,13 @@ Route::get('fdh_countauthen', [App\Http\Controllers\ApiController::class, 'fdh_c
 Route::get('fdh_countauthennull', [App\Http\Controllers\ApiController::class, 'fdh_countauthennull'])->name('app.fdh_countauthennull');
 Route::get('fdh_sumincome_authen', [App\Http\Controllers\ApiController::class, 'fdh_sumincome_authen'])->name('app.fdh_sumincome_authen');
 Route::get('fdh_sumincome_noauthen', [App\Http\Controllers\ApiController::class, 'fdh_sumincome_noauthen'])->name('app.fdh_sumincome_noauthen');
+Route::get('countfiregreenall', [App\Http\Controllers\ApiController::class, 'countfiregreenall'])->name('app.countfiregreenall');
+Route::get('countfiregreen', [App\Http\Controllers\ApiController::class, 'countfiregreen'])->name('app.countfiregreen');
+Route::get('countfireredall', [App\Http\Controllers\ApiController::class, 'countfireredall'])->name('app.countfireredall');
+Route::get('countfirered', [App\Http\Controllers\ApiController::class, 'countfirered'])->name('app.countfirered');
+
+Route::get('countfireredrepaire', [App\Http\Controllers\ApiController::class, 'countfireredrepaire'])->name('app.countfireredrepaire');
+Route::get('countfiregreenrepaire', [App\Http\Controllers\ApiController::class, 'countfiregreenrepaire'])->name('app.countfiregreenrepaire');
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

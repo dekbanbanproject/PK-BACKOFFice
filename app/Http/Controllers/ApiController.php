@@ -873,6 +873,66 @@ class ApiController extends Controller
            }                 
            return response()->json($sumincome); 
     }
+    public function countfiregreenall(Request $request)
+    { 
+           $date_now = date('Y-m-d');
+           
+           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(fire_id) fire_id FROM fire WHERE fire_color = "green"');
+           foreach ($data_vn_1 as $key => $value) {
+            $firegreen = $value->fire_id; 
+           }                 
+           return response()->json($firegreen); 
+    }
+    public function countfiregreen(Request $request)
+    { 
+           $date_now = date('Y-m-d');
+           
+           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(fire_id) fire_id FROM fire WHERE fire_color = "green" AND active ="Y"');
+           foreach ($data_vn_1 as $key => $value) {
+            $firegreen = $value->fire_id; 
+           }                 
+           return response()->json($firegreen); 
+    }
+    public function countfiregreenrepaire(Request $request)
+    { 
+           $date_now = date('Y-m-d');
+           
+           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(fire_id) fire_id FROM fire WHERE fire_color = "green" AND active ="R"');
+           foreach ($data_vn_1 as $key => $value) {
+            $firegreenre = $value->fire_id; 
+           }                 
+           return response()->json($firegreenre); 
+    }
+    public function countfireredall(Request $request)
+    { 
+           $date_now = date('Y-m-d');
+           
+           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(fire_id) fire_id FROM fire WHERE fire_color = "red"');
+           foreach ($data_vn_1 as $key => $value) {
+            $firered = $value->fire_id; 
+           }                 
+           return response()->json($firered); 
+    }
+    public function countfirered(Request $request)
+    { 
+           $date_now = date('Y-m-d');
+           
+           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(fire_id) fire_id FROM fire WHERE fire_color = "red" AND active ="Y"');
+           foreach ($data_vn_1 as $key => $value) {
+            $firered = $value->fire_id; 
+           }                 
+           return response()->json($firered); 
+    }
+    public function countfireredrepaire(Request $request)
+    { 
+           $date_now = date('Y-m-d');
+           
+           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(fire_id) fire_id FROM fire WHERE fire_color = "red" AND active ="R"');
+           foreach ($data_vn_1 as $key => $value) {
+            $fireredre = $value->fire_id; 
+           }                 
+           return response()->json($fireredre); 
+    }
 
 }
 
