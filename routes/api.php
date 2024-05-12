@@ -29,6 +29,7 @@ Route::match(['get','post'],'getmobile',[App\Http\Controllers\AuthenmobileContro
 Route::match(['get','post'],'getmobile_api',[App\Http\Controllers\AuthenmobileController::class, 'getmobile_api'])->name('mo.getmobile_api');//
 
 Route::get('authen_spsch', [App\Http\Controllers\ApiController::class, 'authen_spsch'])->name('app.authen_spsch');
+Route::get('authen_spsch_mini', [App\Http\Controllers\ApiController::class, 'authen_spsch_mini'])->name('app.authen_spsch_mini');
 Route::get('pull_hosapi', [App\Http\Controllers\ApiController::class, 'pull_hosapi'])->name('app.pull_hosapi');
 Route::get('fdh_mini_auth', [App\Http\Controllers\ApiController::class, 'fdh_mini_auth'])->name('app.fdh_mini_auth');
 Route::get('fdh_mini_pullhosinv', [App\Http\Controllers\ApiController::class, 'fdh_mini_pullhosinv'])->name('app.fdh_mini_pullhosinv');
@@ -51,7 +52,7 @@ Route::get('countfirered', [App\Http\Controllers\ApiController::class, 'countfir
 
 Route::get('countfireredrepaire', [App\Http\Controllers\ApiController::class, 'countfireredrepaire'])->name('app.countfireredrepaire');
 Route::get('countfiregreenrepaire', [App\Http\Controllers\ApiController::class, 'countfiregreenrepaire'])->name('app.countfiregreenrepaire');
-
+Route::get('getfirenum/{firenum}', [App\Http\Controllers\ApiController::class, 'getfirenum'])->name('app.getfirenum');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

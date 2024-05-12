@@ -125,7 +125,6 @@ class ApiController extends Controller
               $outputcard
              ]);
     }
-
     public function home_rpst(Request $request)
     {
         $client = new Client();
@@ -185,7 +184,6 @@ class ApiController extends Controller
             $data_api 
         ]);
     }
-
     public function adp(Request $request)
     {
         $startdate = $request->startdate;
@@ -340,7 +338,6 @@ class ApiController extends Controller
         return response([$query_ucep]);
 
     }
-
     public function getfire(Request $request,$firenum)
     {    
         // $firedata = Fire::where('fire_num','=', $firenum)->first();      
@@ -349,13 +346,12 @@ class ApiController extends Controller
          return response([$fire_]);
           
     }
-
     public function authen_spsch(Request $request)
     {
             $date_now = date('Y-m-d'); 
             // $date_now = date('2024-04-30'); 
-            // $data_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM check_sit_auto WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY vn'); 
-            $data_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY vn'); 
+            $data_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM check_sit_auto WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY vn'); 
+            // $data_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY vn'); 
             $ch = curl_init(); 
             foreach ($data_ as $key => $value) {
                     $cid         = $value->cid;
@@ -392,12 +388,12 @@ class ApiController extends Controller
                                             'claimtype'     => $sv_code,
                                             'servicename'   => $sv_name, 
                                     ]);
-                                    Fdh_mini_dataset::where('vn','=', $vn)
-                                        ->update([
-                                            'claimcode'     => $cd,
-                                            'claimtype'     => $sv_code,
-                                            'servicename'   => $sv_name, 
-                                    ]);
+                                    // Fdh_mini_dataset::where('vn','=', $vn)
+                                    //     ->update([
+                                    //         'claimcode'     => $cd,
+                                    //         'claimtype'     => $sv_code,
+                                    //         'servicename'   => $sv_name, 
+                                    // ]);
                                     
                                 }  
                             } 
@@ -405,8 +401,8 @@ class ApiController extends Controller
             }  
             
             
-            // $datati_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM check_sit_auto WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype IN("M1","M2","M3","M4","M5","M6") GROUP BY vn'); 
-            $datati_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype IN("M1","M2","M3","M4","M5","M6") GROUP BY vn'); 
+            $datati_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM check_sit_auto WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype IN("M1","M2","M3","M4","M5","M6") GROUP BY vn'); 
+            // $datati_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype IN("M1","M2","M3","M4","M5","M6") GROUP BY vn'); 
             
                 
             $chti = curl_init(); 
@@ -446,7 +442,118 @@ class ApiController extends Controller
                                                     'claimtype'     => $sv_code_ti,
                                                     'servicename'   => $sv_name_ti, 
                                             ]);
-                                            Fdh_mini_dataset::where('vn','=', $vn)
+                                        //     Fdh_mini_dataset::where('vn','=', $vnti)
+                                        //     ->update([
+                                        //         'claimcode'     => $cd_ti,
+                                        //         'claimtype'     => $sv_code_ti,
+                                        //         'servicename'   => $sv_name_ti, 
+                                        // ]);
+                                        }  
+                                    }
+                                // }
+                        }
+                        
+                } 
+            return response()->json('true');
+                
+    }
+    public function authen_spsch_mini(Request $request)
+    {
+            $date_now = date('Y-m-d'); 
+            // $date_now = date('2024-05-01'); 
+            // $data_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM check_sit_auto WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY vn'); 
+            $data_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY vn'); 
+            $ch = curl_init(); 
+            foreach ($data_ as $key => $value) {
+                    $cid         = $value->cid;
+                    $vn          = $value->vn;
+                    $vstdate     = $value->vstdate; 
+                    $headers = array();
+                    $headers[] = "Accept: application/json";
+                    $headers[] = "Authorization: Bearer 3045bba2-3cac-4a74-ad7d-ac6f7b187479";    
+                    curl_setopt($ch, CURLOPT_URL, "https://authenucws.nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cid&serviceDate=$vstdate&serviceCode=PG0060001");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); 
+                    $response = curl_exec($ch); 
+                    $contents = $response; 
+                    $result = json_decode($contents, true);  
+                    if ($result != null ) {  
+                            isset( $result['statusAuthen'] ) ? $statusAuthen = $result['statusAuthen'] : $statusAuthen = ""; 
+                            if ($statusAuthen =='false') { 
+                                $his = $result['serviceHistories']; 
+                                // dd($his); 
+                                foreach ($his as $key => $value_s) {
+                                    $cd	           = $value_s["claimCode"];
+                                    $sv_code	   = $value_s["service"]["code"];
+                                    $sv_name	   = $value_s["service"]["name"];
+                                        
+                                    // Visit_pttype::where('vn','=', $vn)
+                                    //     ->update([
+                                    //         'claim_code'     => $cd, 
+                                    // ]);
+                                    
+                                    // Check_sit_auto::where('vn','=', $vn)
+                                    //     ->update([
+                                    //         'claimcode'     => $cd,
+                                    //         'claimtype'     => $sv_code,
+                                    //         'servicename'   => $sv_name, 
+                                    // ]);
+                                    Fdh_mini_dataset::where('vn','=', $vn)
+                                        ->update([
+                                            'claimcode'     => $cd,
+                                            'claimtype'     => $sv_code,
+                                            'servicename'   => $sv_name, 
+                                    ]);
+                                    
+                                }  
+                            } 
+                    } 
+            }  
+            
+            
+            // $datati_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM check_sit_auto WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype IN("M1","M2","M3","M4","M5","M6") GROUP BY vn'); 
+            $datati_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype IN("M1","M2","M3","M4","M5","M6") GROUP BY vn'); 
+                            
+            $chti = curl_init(); 
+                foreach ($datati_ as $key => $valueti) {                      
+                        $vnti          = $valueti->vn;
+                        $cidti         = $valueti->cid;
+                        $vstdateti     = $valueti->vstdate; 
+
+                        // $cidti         = '5361090032186';
+                        // $vstdateti     = '2024-05-12'; 
+
+                        $headers = array();
+                        // $headers[] = "Accept: application/json";
+                        // $headers[] = "Authorization: Bearer 3045bba2-3cac-4a74-ad7d-ac6f7b187479";    
+                        // curl_setopt($chti, CURLOPT_URL, "https://authenucws.nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cidti&serviceDate=$vstdateti&serviceCode=PG0130001");
+                        
+                        $headers = array();
+                        $headers[] = "Accept: application/json";
+                        $headers[] = "Authorization: Bearer 3045bba2-3cac-4a74-ad7d-ac6f7b187479";    
+                        curl_setopt($chti, CURLOPT_URL, "https://authenucws.nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cidti&serviceDate=$vstdateti&serviceCode=PG0130001");
+                        
+                        curl_setopt($chti, CURLOPT_RETURNTRANSFER, 1);
+                        curl_setopt($chti, CURLOPT_CUSTOMREQUEST, "GET");
+                        curl_setopt($chti, CURLOPT_HTTPHEADER, $headers);  
+                        $responseti = curl_exec($chti);
+                        // // curl_close($chti);
+                        // dd($ccde);
+                        $contents_ti = $responseti; 
+                        $result_ti = json_decode($contents_ti, true); 
+                        if ($result_ti != null ) {  
+                                    isset( $result_ti['statusAuthen'] ) ? $statusAuthen_ti = $result_ti['statusAuthen'] : $statusAuthen_ti = "";
+                                     
+                                    if ($statusAuthen_ti =='false') { 
+                                        $his_ti = $result_ti['serviceHistories']; 
+                                        // dd($his); 
+                                        foreach ($his_ti as $key => $value_ss) {
+                                            $cd_ti	        = $value_ss["claimCode"];
+                                            $sv_code_ti	    = $value_ss["service"]["code"];
+                                            $sv_name_ti	    = $value_ss["service"]["name"];
+                                            
+                                            Fdh_mini_dataset::where('vn','=', $vnti)
                                             ->update([
                                                 'claimcode'     => $cd_ti,
                                                 'claimtype'     => $sv_code_ti,
@@ -461,11 +568,10 @@ class ApiController extends Controller
             return response()->json('true');
                 
     }
-
     public function pull_hosapi(Request $request)
     {        
                 $date_now = date('Y-m-d'); 
-                // $date_now = date('2024-04-03');
+                // $date_now = date('2024-05-11');
 
                 $data_sits = DB::connection('mysql10')->select(
                     'SELECT o.an,v.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,p.pname,p.fname,concat(p.pname,p.fname," ",p.lname) as fullname,op.name as staffname,p.hometel,v.pdx,s.cc
@@ -479,7 +585,7 @@ class ApiController extends Controller
                     LEFT JOIN patient p on p.hn=v.hn
                     LEFT JOIN pttype pt on pt.pttype=v.pttype
                     LEFT JOIN opduser op on op.loginname = o.staff
-                    WHERE v.vstdate = "'.$date_now.'" 
+                    WHERE v.vstdate = "'.$date_now.'" AND pt.hipdata_code ="UCS"  
                     AND (o.an IS NULL OR o.an = "")
                     group by v.vn
                 
@@ -519,7 +625,6 @@ class ApiController extends Controller
                 //   return response()->json($data_, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
                 // JSON_UNESCAPED_UNICODE);
     }
-
 //    ***************** Mini Dataset ********************
     public function fdh_mini_auth(Request $request)
     {  
@@ -582,9 +687,10 @@ class ApiController extends Controller
                     LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype   
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
                 WHERE v.vstdate = "' . $date_now . '"
-                AND ptt.hipdata_code ="UCS" AND v.income > 0 
+                AND ptt.hipdata_code ="UCS" 
                 GROUP BY v.vn 
             '); 
+            // AND v.income > 0 
             // AND rd.total_amount IS NOT NULL
             foreach ($datashow_ as $key => $value) {
                 $check_opd = Fdh_mini_dataset::where('vn', $value->vn)->count();
@@ -932,6 +1038,15 @@ class ApiController extends Controller
             $fireredre = $value->fire_id; 
            }                 
            return response()->json($fireredre); 
+    }
+    public function getfirenum(Request $request,$firenum)
+    { 
+           $date_now = date('Y-m-d');           
+           $data_vn_1 = DB::connection('mysql')->select('SELECT * FROM fire WHERE fire_num = "'.$firenum.'" ');
+           foreach ($data_vn_1 as $key => $value) {
+                $fireactive = $value->active; 
+           }                 
+           return response()->json($fireactive); 
     }
 
 }

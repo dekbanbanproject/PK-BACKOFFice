@@ -29,7 +29,7 @@ return new class extends Migration
                 $table->string('fire_year')->nullable();  //  
                 $table->decimal('fire_price',total: 12, places: 2)->nullable(); // 
                 $table->string('fire_brand')->nullable(); // 
-                $table->enum('active', ['N','R','Y'])->default('Y');
+                $table->enum('active', ['N','R','Y','D'])->default('Y');
                 $table->longText('fire_img_base')->nullable(); //                 
                 $table->fire_img_base_name('fire_imgname')->nullable(); //
                 $table->timestamps();
