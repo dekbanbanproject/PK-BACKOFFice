@@ -583,7 +583,7 @@ class ApiController extends Controller
                     LEFT JOIN ovst o on o.vn = v.vn
                     LEFT JOIN opdscreen s ON s.vn = v.vn
                     LEFT JOIN patient p on p.hn=v.hn
-                    LEFT JOIN pttype pt on pt.pttype=v.pttype
+                    LEFT JOIN pttype pt on pt.pttype = v.pttype AND v.pttype NOT IN("M1","M4","M5") 
                     LEFT JOIN opduser op on op.loginname = o.staff
                     WHERE v.vstdate = "'.$date_now.'" AND pt.hipdata_code ="UCS"  
                     AND (o.an IS NULL OR o.an = "")
@@ -735,7 +735,7 @@ class ApiController extends Controller
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn
                     LEFT OUTER JOIN pttype ptt ON v.pttype = ptt.pttype AND v.pttype NOT IN("M1","M4","M5")  
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
-                WHERE v.vstdate = "' . $date_now . '"  
+                WHERE v.vstdate = "' . $date_now . '" AND (o.an IS NULL OR o.an = "") 
                 AND ptt.hipdata_code ="UCS" AND v.income > 0 and rd.finance_number IS NULL  
                 GROUP BY v.vn  
               
