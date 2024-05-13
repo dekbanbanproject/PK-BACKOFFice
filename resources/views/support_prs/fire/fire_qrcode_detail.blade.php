@@ -15,245 +15,178 @@
     use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
     ?>
-<body onload="window.print()">
-    <div class="row mt-5">
-        <div class="col-md-3">
-            <table>  
-                <tr>
-                    <td>   
-                        {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
-                      
-                        <br>
-                        
-                    </td> 
-                </tr>
-                <tr > 
-                    <td style="font-family: 'Kanit', sans-serif;font-size: 14px;font-style: nomal;">  
-                        รหัส {{ $dataprint->fire_num }}<br> 
-                        {{ $dataprint->fire_name }} <br>  
-                        {{ $dataprint->fire_location }} 
-                    </td> 
-                </tr>
-            </table> 
-        </div>
-        <div class="col-md-3">
-            <table>  
-                <tr>
-                    <td>   
-                        {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
-                      
-                        <br>
-                        
-                    </td> 
-                </tr>
-                <tr > 
-                    <td style="font-family: 'Kanit', sans-serif;font-size: 14px;font-style: nomal;">  
-                        รหัส {{ $dataprint->fire_num }}<br> 
-                        {{ $dataprint->fire_name }} <br>  
-                        {{ $dataprint->fire_location }} 
-                    </td> 
-                </tr>
-            </table> 
-        </div>
-        <div class="col-md-3">
-            <table>  
-                <tr>
-                    <td>   
-                        {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
-                      
-                        <br>
-                        
-                    </td> 
-                </tr>
-                <tr > 
-                    <td style="font-family: 'Kanit', sans-serif;font-size: 14px;font-style: nomal;">  
-                        รหัส {{ $dataprint->fire_num }}<br> 
-                        {{ $dataprint->fire_name }} <br>  
-                        {{ $dataprint->fire_location }} 
-                    </td> 
-                </tr>
-            </table> 
-        </div>
-        <div class="col-md-3">
-            <table>  
-                <tr>
-                    <td>   
-                        {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
-                      
-                        <br>
-                        
-                    </td> 
-                </tr>
-                <tr > 
-                    <td style="font-family: 'Kanit', sans-serif;font-size: 14px;font-style: nomal;">  
-                        รหัส {{ $dataprint->fire_num }}<br> 
-                        {{ $dataprint->fire_name }} <br>  
-                        {{ $dataprint->fire_location }} 
-                    </td> 
-                </tr>
-            </table> 
-        </div> 
-    </div>
+<body onload="window.print()"> 
 
-    <div class="row mt-5">
-        <div class="col-md-3">
-            <table>  
-                <tr>
-                    <td>   
-                        {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
-                      
-                        <br>
-                        
-                    </td> 
-                </tr>
-                <tr > 
-                    <td style="font-family: 'Kanit', sans-serif;font-size: 14px;font-style: nomal;">  
-                        รหัส {{ $dataprint->fire_num }}<br> 
-                        {{ $dataprint->fire_name }} <br>  
-                        {{ $dataprint->fire_location }} 
-                    </td> 
-                </tr>
-            </table> 
+        <div class="container">
+            <div class="row mt-5">
+                <div class="col-md-2 text-center">
+                    <div class="card">
+                        <div class="body"><br>
+                            {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
+                            <p style="font-size: 17px"> รหัส {{ $dataprint->fire_num }} <br>
+                                แสกนดูผลตรวจสอบ</p> 
+                        </div> 
+                    </div> 
+                </div>
+                <div class="col-md-2 text-center">
+                    <div class="card">
+                        <div class="body"><br>
+                            {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
+                            <p style="font-size: 17px"> รหัส {{ $dataprint->fire_num }} <br>
+                                แสกนดูผลตรวจสอบ</p> 
+                        </div> 
+                    </div> 
+                </div>
+                <div class="col-md-2 text-center">
+                    <div class="card">
+                        <div class="body"><br>
+                            {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
+                            <p style="font-size: 17px"> รหัส {{ $dataprint->fire_num }} <br>
+                                แสกนดูผลตรวจสอบ</p> 
+                        </div> 
+                    </div> 
+                </div>
+                <div class="col-md-2 text-center">
+                    <div class="card">
+                        <div class="body"><br>
+                            {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
+                            <p style="font-size: 17px"> รหัส {{ $dataprint->fire_num }} <br>
+                                แสกนดูผลตรวจสอบ</p> 
+                        </div> 
+                    </div> 
+                </div>
+                <div class="col-md-2 text-center">
+                    <div class="card">
+                        <div class="body"><br>
+                            {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!} 
+                            <p style="font-size: 17px"> รหัส {{ $dataprint->fire_num }} <br>
+                                แสกนดูผลตรวจสอบ</p> 
+                        </div> 
+                    </div> 
+                </div>
+                <div class="col-md-2 text-center">
+                    <div class="card">
+                        <div class="body"><br>
+                            {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
+                            <p style="font-size: 17px"> รหัส {{ $dataprint->fire_num }} <br>
+                                แสกนดูผลตรวจสอบ</p> 
+                        </div> 
+                    </div> 
+                </div>
+            </div> 
+            <div class="row mt-5">
+                <div class="col-md-2 text-center">
+                    <div class="card">
+                        <div class="body"><br>
+                            {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
+                            <p style="font-size: 17px"> รหัส {{ $dataprint->fire_num }} <br>
+                                แสกนดูผลตรวจสอบ</p> 
+                        </div> 
+                    </div> 
+                </div>
+                <div class="col-md-2 text-center">
+                    <div class="card">
+                        <div class="body"><br>
+                            {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
+                            <p style="font-size: 17px"> รหัส {{ $dataprint->fire_num }} <br>
+                                แสกนดูผลตรวจสอบ</p> 
+                        </div> 
+                    </div> 
+                </div>
+                <div class="col-md-2 text-center">
+                    <div class="card">
+                        <div class="body"><br>
+                            {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
+                            <p style="font-size: 17px"> รหัส {{ $dataprint->fire_num }} <br>
+                                แสกนดูผลตรวจสอบ</p> 
+                        </div> 
+                    </div> 
+                </div>
+                <div class="col-md-2 text-center">
+                    <div class="card">
+                        <div class="body"><br>
+                            {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
+                            <p style="font-size: 17px"> รหัส {{ $dataprint->fire_num }} <br>
+                                แสกนดูผลตรวจสอบ</p> 
+                        </div> 
+                    </div> 
+                </div>
+                <div class="col-md-2 text-center">
+                    <div class="card">
+                        <div class="body"><br>
+                            {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!} 
+                            <p style="font-size: 17px"> รหัส {{ $dataprint->fire_num }} <br>
+                                แสกนดูผลตรวจสอบ</p> 
+                        </div> 
+                    </div> 
+                </div>
+                <div class="col-md-2 text-center">
+                    <div class="card">
+                        <div class="body"><br>
+                            {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
+                            <p style="font-size: 17px"> รหัส {{ $dataprint->fire_num }} <br>
+                                แสกนดูผลตรวจสอบ</p> 
+                        </div> 
+                    </div> 
+                </div>
+            </div> 
+            <div class="row mt-5">
+                <div class="col-md-2 text-center">
+                    <div class="card">
+                        <div class="body"><br>
+                            {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
+                            <p style="font-size: 17px"> รหัส {{ $dataprint->fire_num }} <br>
+                                แสกนดูผลตรวจสอบ</p> 
+                        </div> 
+                    </div> 
+                </div>
+                <div class="col-md-2 text-center">
+                    <div class="card">
+                        <div class="body"><br>
+                            {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
+                            <p style="font-size: 17px"> รหัส {{ $dataprint->fire_num }} <br>
+                                แสกนดูผลตรวจสอบ</p> 
+                        </div> 
+                    </div> 
+                </div>
+                <div class="col-md-2 text-center">
+                    <div class="card">
+                        <div class="body"><br>
+                            {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
+                            <p style="font-size: 17px"> รหัส {{ $dataprint->fire_num }} <br>
+                                แสกนดูผลตรวจสอบ</p> 
+                        </div> 
+                    </div> 
+                </div>
+                <div class="col-md-2 text-center">
+                    <div class="card">
+                        <div class="body"><br>
+                            {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
+                            <p style="font-size: 17px"> รหัส {{ $dataprint->fire_num }} <br>
+                                แสกนดูผลตรวจสอบ</p> 
+                        </div> 
+                    </div> 
+                </div>
+                <div class="col-md-2 text-center">
+                    <div class="card">
+                        <div class="body"><br>
+                            {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!} 
+                            <p style="font-size: 17px"> รหัส {{ $dataprint->fire_num }} <br>
+                                แสกนดูผลตรวจสอบ</p> 
+                        </div> 
+                    </div> 
+                </div>
+                <div class="col-md-2 text-center">
+                    <div class="card">
+                        <div class="body"><br>
+                            {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
+                            <p style="font-size: 17px"> รหัส {{ $dataprint->fire_num }} <br>
+                                แสกนดูผลตรวจสอบ</p> 
+                        </div> 
+                    </div> 
+                </div>
+            </div> 
         </div>
-        <div class="col-md-3">
-            <table>  
-                <tr>
-                    <td>   
-                        {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
-                      
-                        <br>
-                        
-                    </td> 
-                </tr>
-                <tr > 
-                    <td style="font-family: 'Kanit', sans-serif;font-size: 14px;font-style: nomal;">  
-                        รหัส {{ $dataprint->fire_num }}<br> 
-                        {{ $dataprint->fire_name }} <br>  
-                        {{ $dataprint->fire_location }} 
-                    </td> 
-                </tr>
-            </table> 
-        </div>
-        <div class="col-md-3">
-            <table>  
-                <tr>
-                    <td>   
-                        {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
-                      
-                        <br>
-                        
-                    </td> 
-                </tr>
-                <tr > 
-                    <td style="font-family: 'Kanit', sans-serif;font-size: 14px;font-style: nomal;">  
-                        รหัส {{ $dataprint->fire_num }}<br> 
-                        {{ $dataprint->fire_name }} <br>  
-                        {{ $dataprint->fire_location }} 
-                    </td> 
-                </tr>
-            </table> 
-        </div>
-        <div class="col-md-3">
-            <table>  
-                <tr>
-                    <td>   
-                        {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
-                      
-                        <br>
-                        
-                    </td> 
-                </tr>
-                <tr > 
-                    <td style="font-family: 'Kanit', sans-serif;font-size: 14px;font-style: nomal;">  
-                        รหัส {{ $dataprint->fire_num }}<br> 
-                        {{ $dataprint->fire_name }} <br>  
-                        {{ $dataprint->fire_location }} 
-                    </td> 
-                </tr>
-            </table> 
-        </div> 
-    </div>
-
-
-    <div class="row mt-5">
-        <div class="col-md-3">
-            <table>  
-                <tr>
-                    <td>   
-                        {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
-                      
-                        <br>
-                        
-                    </td> 
-                </tr>
-                <tr > 
-                    <td style="font-family: 'Kanit', sans-serif;font-size: 14px;font-style: nomal;">  
-                        รหัส {{ $dataprint->fire_num }}<br> 
-                        {{ $dataprint->fire_name }} <br>  
-                        {{ $dataprint->fire_location }} 
-                    </td> 
-                </tr>
-            </table> 
-        </div>
-        <div class="col-md-3">
-            <table>  
-                <tr>
-                    <td>   
-                        {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
-                      
-                        <br>
-                        
-                    </td> 
-                </tr>
-                <tr > 
-                    <td style="font-family: 'Kanit', sans-serif;font-size: 14px;font-style: nomal;">  
-                        รหัส {{ $dataprint->fire_num }}<br> 
-                        {{ $dataprint->fire_name }} <br>  
-                        {{ $dataprint->fire_location }} 
-                    </td> 
-                </tr>
-            </table> 
-        </div>
-        <div class="col-md-3">
-            <table>  
-                <tr>
-                    <td>   
-                        {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
-                      
-                        <br>
-                        
-                    </td> 
-                </tr>
-                <tr > 
-                    <td style="font-family: 'Kanit', sans-serif;font-size: 14px;font-style: nomal;">  
-                        รหัส {{ $dataprint->fire_num }}<br> 
-                        {{ $dataprint->fire_name }} <br>  
-                        {{ $dataprint->fire_location }} 
-                    </td> 
-                </tr>
-            </table> 
-        </div>
-        <div class="col-md-3">
-            <table>  
-                <tr>
-                    <td>   
-                        {!! QrCode::size(112)->encoding('UTF-8')->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$id));!!}
-                      
-                        <br>
-                        
-                    </td> 
-                </tr>
-                <tr > 
-                    <td style="font-family: 'Kanit', sans-serif;font-size: 14px;font-style: nomal;">  
-                        รหัส {{ $dataprint->fire_num }}<br> 
-                        {{ $dataprint->fire_name }} <br>  
-                        {{ $dataprint->fire_location }} 
-                    </td> 
-                </tr>
-            </table> 
-        </div> 
-    </div>
-
      
     
      
