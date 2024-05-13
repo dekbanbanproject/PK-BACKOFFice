@@ -21,7 +21,15 @@
     <div class="row mt-5">
         <div class="col"></div>
         <div class="col-md-10 text-center">
-            <img src="data:image/png;base64,{{ $pic_fire }}" alt=""><br>
+           
+            @if ($dataprint->fire_imgname == '')
+            {{-- <img src="data:image/png;base64,{{ $pic_fire }}" height="40px" alt="" class="img-thumbnail"> --}}
+            <img src="{{asset('assets/images/defailt_img.jpg')}}" height="850px" width="500px" alt="" > 
+            @else
+            <img src="{{asset('storage/fire/'.$dataprint->fire_imgname)}}" height="550px" width="500px" alt="">   
+            @endif
+            
+            <br> <br>
             <label for="" style="font-size: 50px;">ยังไม่ได้มีการตรวจถังดับเพลิง<br> รหัส {{$arnum}} เลย</label>
         </div>
         <div class="col"></div>

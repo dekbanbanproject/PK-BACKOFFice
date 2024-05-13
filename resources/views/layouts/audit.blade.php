@@ -298,6 +298,20 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                            
                         </ul> 
                     </li>
+
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                          <i class="fa-solid fa-file-code text-success"></i>
+                            <span>OPD</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="true"> 
+                            <li><a href="{{ url('talassemaie') }}">   
+                                    <span>ทาลัสซีเมีย</span> 
+                                </a>  
+                            </li>  
+                           
+                        </ul> 
+                    </li>
                       
                            
                       

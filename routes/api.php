@@ -31,6 +31,7 @@ Route::match(['get','post'],'getmobile_api',[App\Http\Controllers\AuthenmobileCo
 Route::get('authen_spsch', [App\Http\Controllers\ApiController::class, 'authen_spsch'])->name('app.authen_spsch');
 Route::get('authen_spsch_mini', [App\Http\Controllers\ApiController::class, 'authen_spsch_mini'])->name('app.authen_spsch_mini');
 Route::get('pull_hosapi', [App\Http\Controllers\ApiController::class, 'pull_hosapi'])->name('app.pull_hosapi');
+Route::get('pull_hosminiapi', [App\Http\Controllers\ApiController::class, 'pull_hosminiapi'])->name('app.pull_hosminiapi');
 Route::get('fdh_mini_auth', [App\Http\Controllers\ApiController::class, 'fdh_mini_auth'])->name('app.fdh_mini_auth');
 Route::get('fdh_mini_pullhosinv', [App\Http\Controllers\ApiController::class, 'fdh_mini_pullhosinv'])->name('app.fdh_mini_pullhosinv');
 Route::get('fdh_minipullhosnoinv', [App\Http\Controllers\ApiController::class, 'fdh_minipullhosnoinv'])->name('app.fdh_minipullhosnoinv');

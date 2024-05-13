@@ -465,6 +465,146 @@ class PreauditController extends Controller
         ]);
     } 
 
+    public function talassemaie(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $budget_year = DB::table('budget_year')->where('active','=',true)->first();
+        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $by_startnew = $budget_year->date_begin;
+        $by_endnew = $budget_year->date_end;
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $yy = date('Y');
+        $m = date('m');
+        // dd($m);
+        $newweek = date('Y-m-d', strtotime($date . ' -3 week')); //ย้อนหลัง 3 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -3 months')); //ย้อนหลัง 3 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y')+1;
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+        // if ($startdate == '') { 
+            $data['datashow']    = DB::connection('mysql2')->select(
+                'SELECT year(v.vstdate) as years ,month(v.vstdate) as months,year(v.vstdate) as days 
+                    ,count(DISTINCT v.vn) as countvn 
+                    ,(SELECT SUM(qty) qty FROM opitemrece WHERE vn = v.vn AND icode IN("1590015","1520001")) as total_qty
+                    ,(SELECT SUM(sum_price) sum_price FROM opitemrece WHERE vn = v.vn AND icode IN("1590015","1520001")) as sum_total                    
+                    FROM vn_stat v
+                    LEFT JOIN visit_pttype vs on vs.vn = v.vn
+                    LEFT JOIN ovst o on o.vn = v.vn
+                    LEFT JOIN opdscreen s ON s.vn = v.vn
+                    LEFT JOIN opitemrece ot ON ot.vn = v.vn
+                    LEFT JOIN drugitems d ON d.icode = ot.icode
+                    LEFT JOIN patient p on p.hn=v.hn
+                    LEFT JOIN pttype pt on pt.pttype = v.pttype  
+                    LEFT JOIN opduser op on op.loginname = o.staff
+                    WHERE v.vstdate BETWEEN "'.$by_startnew.'" AND "'.$by_endnew.'" 
+                    AND pt.hipdata_code ="UCS" AND ot.icode IN("1590015","1520001")  
+                    AND (o.an IS NULL OR o.an = "")
+                    GROUP BY month(v.vstdate)
+            ');   
+            $data['datashow_m']    = DB::connection('mysql2')->select(
+                'SELECT v.vn,ot.an,v.hn,v.cid,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,v.vstdate,v.age_y,l.lab_items_name AS lab_name,d.name as drugname 
+                    ,(SELECT SUM(qty) qty FROM opitemrece WHERE vn = v.vn AND icode IN("1590015","1520001")) as total_qty
+                    ,(SELECT SUM(sum_price) sum_price FROM opitemrece WHERE vn = v.vn AND icode IN("1590015","1520001")) as total_drug                    
+                    FROM vn_stat v
+                    LEFT JOIN visit_pttype vs on vs.vn = v.vn  
+                    LEFT JOIN opitemrece ot ON ot.vn = v.vn 
+                    LEFT JOIN drugitems d ON d.icode = ot.icode
+                    LEFT JOIN patient p on p.hn=v.hn
+                    LEFT JOIN pttype pt on pt.pttype = v.pttype   
+                    LEFT OUTER JOIN lab_head lh ON lh.vn = v.vn  
+                    LEFT OUTER JOIN lab_order lo on lo.lab_order_number=lh.lab_order_number 
+                    LEFT OUTER JOIN lab_order lo1 on lo1.lab_order_number=lh.lab_order_number  
+                    LEFT OUTER JOIN lab_items l on l.lab_items_code=lo.lab_items_code  
+                    LEFT OUTER JOIN lab_items l1 on l1.lab_items_code=lo1.lab_items_code  
+                    WHERE month(v.vstdate) ="'.$m.'" AND year(v.vstdate) ="'.$yy.'"
+                    AND pt.hipdata_code ="UCS" AND ot.icode IN("1590015","1520001")   
+                    AND (ot.an IS NULL OR ot.an = "")
+                    GROUP BY v.vn ORDER BY v.age_y ASC
+            ');  
+            // -- and v.age_y between "35" and "59"  
+            // $data['fdh_ofc_m']        = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE projectcode ="OFC" AND (pdx IS NULL OR pdx ="") AND (an IS NULL OR an ="") AND (hn IS NOT NULL OR hn <>"") GROUP BY vn'); 
+            // $data['fdh_ofc_momth']    = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE month(vstdate) ="'.$m.'" AND projectcode ="OFC" AND (pdx IS NULL OR pdx ="") AND (an IS NULL OR an ="") AND (hn IS NOT NULL OR hn <>"") GROUP BY vn'); 
+          
+              
+        return view('audit.talassemaie',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+        ]);
+    } 
+
+    public function talassemaie_detail(Request $request,$month,$year)
+    {
+        $startdate              = $request->startdate;
+        $enddate                = $request->enddate;
+        $budget_year            = DB::table('budget_year')->where('active','=',true)->first();
+        $month_year             = DB::table('leave_month')->where('MONTH_ID', $month)->first();
+        $by_startnew            = $budget_year->date_begin;
+        $by_endnew              = $budget_year->date_end;
+        $data['month_year']     = $month_year->MONTH_NAME;
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $yy = date('Y');
+        $m = date('m');
+        // dd($m);
+        $newweek = date('Y-m-d', strtotime($date . ' -3 week')); //ย้อนหลัง 3 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -3 months')); //ย้อนหลัง 3 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y')+1;
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+        // if ($startdate == '') { 
+            $data['datashow']    = DB::connection('mysql2')->select(
+                'SELECT year(v.vstdate) as years ,month(v.vstdate) as months,year(v.vstdate) as days 
+                    ,count(DISTINCT v.vn) as countvn
+                    ,(SELECT SUM(qty) qty FROM opitemrece WHERE vn = v.vn AND icode IN("1590015","1520001")) as total_qty
+                    ,(SELECT SUM(sum_price) sum_price FROM opitemrece WHERE vn = v.vn AND icode IN("1590015","1520001")) as sum_total                      
+                    FROM vn_stat v
+                    LEFT JOIN visit_pttype vs on vs.vn = v.vn
+                    LEFT JOIN ovst o on o.vn = v.vn
+                    LEFT JOIN opdscreen s ON s.vn = v.vn
+                    LEFT JOIN opitemrece ot ON ot.vn = v.vn
+                    LEFT JOIN drugitems d ON d.icode = ot.icode
+                    LEFT JOIN patient p on p.hn=v.hn
+                    LEFT JOIN pttype pt on pt.pttype = v.pttype  
+                    LEFT JOIN opduser op on op.loginname = o.staff
+                    WHERE v.vstdate BETWEEN "'.$by_startnew.'" AND "'.$by_endnew.'" 
+                    AND pt.hipdata_code ="UCS" AND ot.icode IN("1590015","1520001")  
+                    AND (o.an IS NULL OR o.an = "")
+                    GROUP BY month(v.vstdate)
+            ');   
+            $data['datashow_m']    = DB::connection('mysql2')->select(
+                'SELECT v.vn,ot.an,v.hn,v.cid,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,v.vstdate,v.age_y,l.lab_items_name AS lab_name,d.name as drugname 
+                 
+                    ,(SELECT SUM(qty) qty FROM opitemrece WHERE vn = v.vn AND icode IN("1590015","1520001")) as total_qty
+                    ,(SELECT SUM(sum_price) sum_price FROM opitemrece WHERE vn = v.vn AND icode IN("1590015","1520001")) as total_drug                       
+                    FROM vn_stat v
+                    LEFT JOIN visit_pttype vs on vs.vn = v.vn  
+                    LEFT JOIN opitemrece ot ON ot.vn = v.vn 
+                    LEFT JOIN drugitems d ON d.icode = ot.icode
+                    LEFT JOIN patient p on p.hn=v.hn
+                    LEFT JOIN pttype pt on pt.pttype = v.pttype   
+                    LEFT OUTER JOIN lab_head lh ON lh.vn = v.vn  
+                    LEFT OUTER JOIN lab_order lo on lo.lab_order_number=lh.lab_order_number 
+                    LEFT OUTER JOIN lab_order lo1 on lo1.lab_order_number=lh.lab_order_number  
+                    LEFT OUTER JOIN lab_items l on l.lab_items_code=lo.lab_items_code  
+                    LEFT OUTER JOIN lab_items l1 on l1.lab_items_code=lo1.lab_items_code  
+                    WHERE month(v.vstdate) ="'.$month.'" AND year(v.vstdate) ="'.$year.'"
+                    AND pt.hipdata_code ="UCS" AND ot.icode IN("1590015","1520001")   
+                    AND (ot.an IS NULL OR ot.an = "")
+                    GROUP BY v.vn ORDER BY v.age_y ASC
+            ');  
+          
+              
+        return view('audit.talassemaie_detail',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+        ]);
+    } 
 
    
    

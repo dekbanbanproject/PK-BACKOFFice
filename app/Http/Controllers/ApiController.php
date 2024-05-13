@@ -620,6 +620,22 @@ class ApiController extends Controller
                             'pdx'        => $value->pdx,
                             'cc'         => $value->cc
                         ]);
+                        
+                        // Fdh_mini_dataset::insert([
+                        //     'service_date_time'   => $value->vstdate . ' ' . $value->vsttime,
+                        //     'cid'                 => $value->cid,
+                        //     'hcode'               => $value->hcode,
+                        //     'total_amout'         => $value->total_amout,
+                        //     'invoice_number'      => $value->invoice_number,
+                        //     'vn'                  => $value->vn,
+                        //     'pttype'              => $value->pttype,
+                        //     'ptname'              => $value->ptname,
+                        //     'hn'                  => $value->hn,
+                        //     'vstdate'             => $value->vstdate,
+                        //     'vsttime'             => $value->vsttime,
+                        //     'datesave'            => $date_now,
+                          
+                        // ]);
                        
                     }
                 }
@@ -631,6 +647,52 @@ class ApiController extends Controller
                 // JSON_UNESCAPED_UNICODE);
     }
 //    ***************** Mini Dataset ********************
+    public function pull_hosminiapi(Request $request)
+    {        
+                $date_now = date('Y-m-d'); 
+                // $date_now = date('2024-05-11');
+                $data_sits = DB::connection('mysql10')->select(
+                    'SELECT o.an,v.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,p.pname,p.fname,concat(p.pname,p.fname," ",p.lname) as fullname,op.name as staffname,p.hometel,v.pdx,s.cc
+                    ,pt.nhso_code,o.hospmain,o.hospsub,p.birthday
+                    ,o.staff,op.name as sname
+                    ,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
+                    FROM vn_stat v
+                    LEFT JOIN visit_pttype vs on vs.vn = v.vn
+                    LEFT JOIN ovst o on o.vn = v.vn
+                    LEFT JOIN opdscreen s ON s.vn = v.vn
+                    LEFT JOIN patient p on p.hn=v.hn
+                    LEFT JOIN pttype pt on pt.pttype = v.pttype AND v.pttype NOT IN("M1","M4","M5") 
+                    LEFT JOIN opduser op on op.loginname = o.staff
+                    WHERE v.vstdate = "'.$date_now.'" AND pt.hipdata_code ="UCS"  
+                    AND (o.an IS NULL OR o.an = "")
+                    group by v.vn 
+                ');   
+                // LIMIT 100
+                foreach ($data_sits as $key => $value) {
+                    $check = Check_sit_auto::where('vn', $value->vn)->count();
+                    if ($check < 1) {                    
+                    
+                        // Fdh_mini_dataset::insert([
+                        //     'service_date_time'   => $value->vstdate . ' ' . $value->vsttime,
+                        //     'cid'                 => $value->cid,
+                        //     'hcode'               => $value->hcode,
+                        //     'total_amout'         => $value->total_amout,
+                        //     'invoice_number'      => $value->invoice_number,
+                        //     'vn'                  => $value->vn,
+                        //     'pttype'              => $value->pttype,
+                        //     'ptname'              => $value->ptname,
+                        //     'hn'                  => $value->hn,
+                        //     'vstdate'             => $value->vstdate,
+                        //     'vsttime'             => $value->vsttime,
+                        //     'datesave'            => $date_now,
+                        
+                        // ]);
+                    
+                    }
+                }
+                return response()->json('200');
+            
+    }
     public function fdh_mini_auth(Request $request)
     {  
         $username        = 'pradit.10978';

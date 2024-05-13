@@ -84,113 +84,91 @@
  <div class="container-fluid mt-5">
     <div class="row text-center">
         <div class="col"></div>
-        <div class="col-md-3"><h2>รายละเอียดถังดับเพลิง</h2></div>
+        <div class="col-md-3"><h2>รายการตรวจถังดับเพลิง</h2></div>
         <div class="col"></div>
     </div>
     <div class="row mt-2">
-        <div class="col-sm-12">
+        <div class="col-md-12">
             <div class="card cardfire">
-                <div class="card-body">  
-                        <div class="row">
-                            <div class="col text-start">
-                                @if ( $dataprint->fire_imgname == Null )
-                                <img src="{{asset('assets/images/defailt_img.jpg')}}" height="90px" width="90px" alt="Image" class="img-thumbnail"> 
-                                @else
-                                <img src="{{asset('storage/fire/'.$dataprint->fire_imgname)}}" height="90px" width="90px" alt="Image" class="img-thumbnail">                                
-                                @endif
-                            </div> 
-                            <div class="col-8">
-                                <p>รหัส : {{$dataprint->fire_num}}</p> 
-                                <p>ชื่อ  : {{$dataprint->fire_name}}</p> 
-                                <p>ที่ตั้ง : {{$dataprint->fire_location}}</p> 
-                            </div> 
+                <div class="card-body"> 
+                    <div class="row">
+                        <div class="col-md-2">
+                            @if ( $dataprint->dataprint == Null )
+                             <img src="{{asset('assets/images/defailt_img.jpg')}}" height="90px" width="90px" alt="Image" class="img-thumbnail"> 
+                            @else
+                            <img src="{{asset('storage/fire/'.$dataprint->fire_imgname)}}" height="90px" width="90px" alt="Image" class="img-thumbnail">                                
+                            @endif
                         </div>
-                        @foreach ($data_detail as $item) 
-                        <div class="row mt-2"> 
-                            <div class="col">
-                                <p>วันที่ตรวจ : {{dateThaifromFull($item->check_date)}}</p> 
-                                <p>รายการชำรุด  : 
-                                    @if ($item->fire_check_injection == '1')
-                                    สายฉีด,                                                                                                 
-                                    @endif
-                                    @if ($item->fire_check_joystick == '1')
-                                    คันบังคับ,
-                                    @endif
-                                    @if ($item->fire_check_body == '1')
-                                    ตัวถัง,
-                                    @endif
-                                    @if ($item->fire_check_gauge == '1')
-                                    เกจความดัน,
-                                    @endif
-                                    @if ($item->fire_check_drawback == '1')
-                                    สิ่งกีดขวาง,
-                                    @endif
-                                
-                                </p> 
-                                <p style="color: red">การแก้ไข : 
-                                    @if ($item->fire_edit == 'Chang')
-                                        เปลี่ยนถังสำรอง
-                                    @elseif($item->fire_edit == 'Repaire')
-                                        ส่งซ่อม/เติมน้ำยา
-                                    @elseif($item->fire_edit == 'Dispose')
-                                        จำหน่าย
-                                    @else
-                                        ปกติ
-                                    @endif
-                                </p> 
-                                <p>สถานะ :  
-                                @if ($item->active == 'Y')
-                                    พร้อมใช้
-                                @else
-                                    ไม่พร้อมใช้
-                                @endif
-                                </p> 
-                                <p>ผู้ตรวจ : {{ $item->fname }}-{{ $item->lname }}</p> 
-                            </div> 
-                        </div>   
-                        @endforeach
-                    
-                </div> 
-            </div>
-            {{-- @foreach ($data_detail as $item)
-                <div class="card cardfire">
-                    <div class="card-body">  
-                        <div class="row"> 
-                            <div class="col">
-                                <p>วันที่ตรวจ : {{dateThaifromFull($item->check_date)}}</p> 
-                                <p>รายการชำรุด  : 
-                                    @if ($item->fire_check_injection == '1')
-                                    สายฉีด,                                                                                                 
-                                    @endif
-                                    @if ($item->fire_check_joystick == '1')
-                                    คันบังคับ,
-                                    @endif
-                                    @if ($item->fire_check_body == '1')
-                                    ตัวถัง,
-                                    @endif
-                                    @if ($item->fire_check_gauge == '1')
-                                    เกจความดัน,
-                                    @endif
-                                    @if ($item->fire_check_drawback == '1')
-                                    สิ่งกีดขวาง,
-                                    @endif
-                                
-                                </p> 
-                                <p>การแก้ไข : {{$item->fire_location}}</p> 
-                                <p>สถานะ :  
-                                @if ($item->active == 'Y')
-                                    พร้อมใช้
-                                @else
-                                    ไม่พร้อมใช้
-                                @endif
-                                </p> 
-                                <p>ผู้ตรวจ : {{ $item->fname }}-{{ $item->lname }}</p> 
-                            </div> 
-                        </div>  
-                    </div> 
+                        <div class="col-md-4">
+                            <p>รหัส : </p>
+                        </div>
+                    </div>
+                    {{-- <div class="table-responsive">
+                        <table class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>          
+                                    <th width="3%" class="text-center">ลำดับ</th>  
+                                    <th class="text-center" width="7%">วันที่</th> 
+                                    <th class="text-center" >รหัส-รายการ</th>  
+                                    <th class="text-center" width="7%">สายฉีด</th>  
+                                    <th class="text-center" width="7%">คันบังคับ</th> 
+                                    <th class="text-center" width="7%">ตัวถัง</th> 
+                                    <th class="text-center" width="7%">เกจความดัน</th>  
+                                    <th class="text-center" width="7%">สิ่งกีดขวาง</th> 
+                                    <th class="text-center" width="10%">ผู้ตรวจ</th> 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $i = 1; ?>
+                                @foreach ($data_detail as $item) 
+                                    <tr>                                                  
+                                        <td class="text-center" width="3%">{{ $i++ }}</td>  
+                                    
+                                        <td class="text-center" width="10%">{{ $item->check_date }}</td>  
+                                        <td class="p-2">{{ $item->fire_num }}-{{ $item->fire_name }}</td> 
+                                        <td class="text-center" width="7%"> 
+                                            @if ($item->fire_check_injection == '0')
+                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">ปกติ</span> 
+                                            @else
+                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">ชำรุด</span>
+                                            @endif
+                                        </td> 
+                                        <td class="text-center" width="7%"> 
+                                            @if ($item->fire_check_joystick == '0')
+                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">ปกติ</span> 
+                                            @else
+                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">ชำรุด</span>
+                                            @endif
+                                        </td> 
+                                        <td class="text-center" width="7%"> 
+                                            @if ($item->fire_check_body == '0')
+                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">ปกติ</span> 
+                                            @else
+                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">ชำรุด</span>
+                                            @endif
+                                        </td> 
+                                        <td class="text-center" width="7%"> 
+                                            @if ($item->fire_check_gauge == '0')
+                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">ปกติ</span> 
+                                            @else
+                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">ชำรุด</span>
+                                            @endif
+                                        </td> 
+                                        <td class="text-center" width="7%"> 
+                                            @if ($item->fire_check_drawback == '0')
+                                            <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">ปกติ</span> 
+                                            @else
+                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">ชำรุด</span>
+                                            @endif
+                                        </td> 
+                                        <td class="p-2">{{ $item->fname }}-{{ $item->lname }}</td> 
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                        </table> 
+                    </div> --}}
                 </div>
-            @endforeach --}}
-           
+            </div>
         </div> 
     </div>
 </div>
