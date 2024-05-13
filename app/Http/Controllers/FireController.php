@@ -118,16 +118,18 @@ class FireController extends Controller
 
             $data_detail2 = Fire::where('fire_num', '=', 'F9999999')->first();
             $signat = $data_detail2->fire_img_base;
-            // dd($signat);
-          
+            // dd($signat);          
             $pic_fire = base64_encode(file_get_contents($signat));  
+            
             return view('support_prs.fire.fire_detail_null', [
+                'dataprint'    => $dataprint,
                 'arnum'        => $arnum,
                 'data_detail'  => $data_detail,
                 'pic_fire'     => $pic_fire
             ]);
         } else {
             $data_detail = Fire_check::leftJoin('users', 'fire_check.user_id', '=', 'users.id') 
+            ->leftJoin('fire', 'fire.fire_num', '=', 'fire_check.fire_num') 
             ->where('fire_check.fire_num', '=', $dataprint->fire_num)
             ->get();
 
