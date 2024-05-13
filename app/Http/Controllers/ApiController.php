@@ -684,7 +684,7 @@ class ApiController extends Controller
                     FROM vn_stat v 
                     LEFT OUTER JOIN ovst o ON v.vn = o.vn 
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn
-                    LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype   
+                    LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype AND v.pttype NOT IN("M1","M4","M5")  
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
                 WHERE v.vstdate = "' . $date_now . '"
                 AND ptt.hipdata_code ="UCS" 
@@ -900,7 +900,10 @@ class ApiController extends Controller
     { 
            $date_now = date('Y-m-d');
            
-           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(DISTINCT vn) as count_vn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'"');
+           $data_vn_1 = DB::connection('mysql')->select(
+            'SELECT COUNT(DISTINCT vn) as count_vn FROM fdh_mini_dataset 
+            WHERE vstdate = "'.$date_now.'" AND pttype NOT IN("M1","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","x7","10")
+            ');
            foreach ($data_vn_1 as $key => $value) {
             $countvn = $value->count_vn;
            }                 
@@ -910,7 +913,10 @@ class ApiController extends Controller
     { 
            $date_now = date('Y-m-d');
            
-           $data_vn_1 = DB::connection('mysql')->select('SELECT CONCAT(FORMAT(SUM(total_amout), 2)) as total FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'"');
+           $data_vn_1 = DB::connection('mysql')->select(
+            'SELECT CONCAT(FORMAT(SUM(total_amout), 2)) as total FROM fdh_mini_dataset 
+            WHERE vstdate = "'.$date_now.'" AND pttype NOT IN("M1","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","x7","10")
+            ');
            foreach ($data_vn_1 as $key => $value) {
             $sumincome = $value->total;
             
@@ -921,7 +927,9 @@ class ApiController extends Controller
     { 
            $date_now = date('Y-m-d');
            
-           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(DISTINCT vn) as count_vn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND transaction_uid IS NOT NULL');
+           $data_vn_1 = DB::connection('mysql')->select(
+            'SELECT COUNT(DISTINCT vn) as count_vn FROM fdh_mini_dataset 
+            WHERE vstdate = "'.$date_now.'" AND transaction_uid IS NOT NULL AND pttype NOT IN("M1","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","x7","10")');
            foreach ($data_vn_1 as $key => $value) {
             $countpidsit = $value->count_vn;
            }                 
@@ -931,7 +939,9 @@ class ApiController extends Controller
     { 
            $date_now = date('Y-m-d');
            
-           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(DISTINCT vn) as count_vn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND id_booking IS NOT NULL');
+           $data_vn_1 = DB::connection('mysql')->select(
+            'SELECT COUNT(DISTINCT vn) as count_vn FROM fdh_mini_dataset 
+            WHERE vstdate = "'.$date_now.'" AND id_booking IS NOT NULL AND pttype NOT IN("M1","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","x7","10")');
            foreach ($data_vn_1 as $key => $value) {
             $countpidsit = $value->count_vn;
            }                 
@@ -941,7 +951,10 @@ class ApiController extends Controller
     { 
            $date_now = date('Y-m-d');
            
-           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(DISTINCT vn) as count_authen FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND claimcode IS NOT NULL');
+           $data_vn_1 = DB::connection('mysql')->select(
+            'SELECT COUNT(DISTINCT vn) as count_authen FROM fdh_mini_dataset 
+            WHERE vstdate = "'.$date_now.'" AND pttype NOT IN("M1","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","x7","10")
+            AND claimcode IS NOT NULL');
            foreach ($data_vn_1 as $key => $value) {
             $countauthen = $value->count_authen;
            }                 
@@ -951,7 +964,9 @@ class ApiController extends Controller
     { 
            $date_now = date('Y-m-d');
            
-           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(DISTINCT vn) as count_authen FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND claimcode IS NULL');
+           $data_vn_1 = DB::connection('mysql')->select(
+            'SELECT COUNT(DISTINCT vn) as count_authen FROM fdh_mini_dataset 
+            WHERE vstdate = "'.$date_now.'" AND claimcode IS NULL AND pttype NOT IN("M1","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","x7","10")');
            foreach ($data_vn_1 as $key => $value) {
             $countauthen = $value->count_authen;
            }                 
@@ -961,7 +976,9 @@ class ApiController extends Controller
     { 
            $date_now = date('Y-m-d');
            
-           $data_vn_1 = DB::connection('mysql')->select('SELECT CONCAT(FORMAT(SUM(total_amout), 2)) as total FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND claimcode IS NOT NULL');
+           $data_vn_1 = DB::connection('mysql')->select(
+            'SELECT CONCAT(FORMAT(SUM(total_amout), 2)) as total FROM fdh_mini_dataset 
+            WHERE vstdate = "'.$date_now.'" AND claimcode IS NOT NULL AND pttype NOT IN("M1","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","x7","10")');
            foreach ($data_vn_1 as $key => $value) {
             $sumincome = $value->total;
             
@@ -972,7 +989,9 @@ class ApiController extends Controller
     { 
            $date_now = date('Y-m-d');
            
-           $data_vn_1 = DB::connection('mysql')->select('SELECT CONCAT(FORMAT(SUM(total_amout), 2)) as total FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND claimcode IS NULL');
+           $data_vn_1 = DB::connection('mysql')->select(
+            'SELECT CONCAT(FORMAT(SUM(total_amout), 2)) as total FROM fdh_mini_dataset 
+            WHERE vstdate = "'.$date_now.'" AND claimcode IS NULL AND pttype NOT IN("M1","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","x7","10")');
            foreach ($data_vn_1 as $key => $value) {
             $sumincome = $value->total;
             
