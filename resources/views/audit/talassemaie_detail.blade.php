@@ -92,11 +92,16 @@
         </div>
        
             <div class="row">
-                <div class="col-md-3">
-                    <h4 class="card-title" style="color:rgb(250, 128, 124)">Detail Pre-Audit OFC</h4>
-                    <p class="card-title-desc">รายละเอียดข้อมูล Pre-Audit OFC</p>
+                <div class="col-md-4">
+                    <h4 class="card-title" style="color:rgb(241, 137, 155)"">ข้อมูลกลุ่มผู้ป่วยโรคโลหิตจางธาลัสซีเมีย (ชนิดรุนแรง)</h4>
+                    <p class="card-title-desc">รายละเอียดข้อมูล Pre-Audit ธาลัสซีเมีย</p>
                 </div>
                 <div class="col"></div> 
+                <div class="col-md-6 text-end">
+                    <h4 class="card-title" style="color:rgb(250, 128, 124)">ระบบบูรณาการการคัดกรองความผิดปกติของหญิงตั้งครรภ์และทารกแรกเกิด</h4>
+                    <h4 class="card-title me-5"><a href="https://nprp.nhso.go.th/nprp/faces/login/login.jsf" target="_blank" style="color:rgb(248, 15, 6)">!!!!  Click  !!!! Link  นี้</a></h4>
+                </div>
+               
             </div>
 
             <div class="row">
@@ -104,14 +109,10 @@
                     <div class="card card_audit_4">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-4">
-                                    <h4 class="card-title" style="color:rgb(241, 137, 155)"">ข้อมูลกลุ่มผู้ป่วยโรคโลหิตจางธาลัสซีเมีย (ชนิดรุนแรง)</h4>
+                                <div class="col-md-12">
+                                    <h4 class="card-title" style="color:rgb(241, 137, 155)"">ข้อมูลกลุ่มผู้ป่วยโรคโลหิตจางธาลัสซีเมีย (รายเดือน)</h4>
                                 </div>
-                                <div class="col"></div> 
-                                <div class="col-md-6 text-end">
-                                    <h4 class="card-title" style="color:rgb(250, 128, 124)">ระบบบูรณาการการคัดกรองความผิดปกติของหญิงตั้งครรภ์และทารกแรกเกิด</h4>
-                                    <h4 class="card-title me-5"><a href="https://nprp.nhso.go.th/nprp/faces/login/login.jsf" target="_blank" style="color:rgb(248, 15, 6)">!!!!  Click  !!!! Link  นี้</a></h4>
-                                </div>
+                                
                             </div>
                             <div class="row mt-2">
                                 <div class="col-md-12"> 
@@ -148,29 +149,29 @@
                                                         <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
                                                         <td class="text-center" width="10%">{{ $item->years }}</td> 
                                                         @if ($item->months == '1')
-                                                        <td class="text-center" width="15%">มกราคม</td> 
+                                                        <td class="p-2" width="15%">มกราคม</td> 
                                                         @elseif ($item->months == '2')
-                                                            <td class="text-center" width="15%">กุมภาพันธ์</td> 
+                                                            <td class="p-2" width="15%">กุมภาพันธ์</td> 
                                                         @elseif ($item->months == '3')
-                                                            <td class="text-center" width="15%">มีนาคม</td> 
+                                                            <td class="p-2" width="15%">มีนาคม</td> 
                                                         @elseif ($item->months == '4')
-                                                            <td class="text-center" width="15%">เมษายน</td> 
+                                                            <td class="p-2" width="15%">เมษายน</td> 
                                                         @elseif ($item->months == '5')
-                                                            <td class="text-center" width="15%">พฤษภาคม</td> 
+                                                            <td class="p-2" width="15%">พฤษภาคม</td> 
                                                         @elseif ($item->months == '6')
-                                                            <td class="text-center" width="15%">มิถุนายน</td> 
+                                                            <td class="p-2" width="15%">มิถุนายน</td> 
                                                         @elseif ($item->months == '7')
-                                                            <td class="text-center" width="15%">กรกฎาคม</td> 
+                                                            <td class="p-2" width="15%">กรกฎาคม</td> 
                                                         @elseif ($item->months == '8')
-                                                            <td class="text-center" width="15%">สิงหาคม</td> 
+                                                            <td class="p-2" width="15%">สิงหาคม</td> 
                                                         @elseif ($item->months == '9')
-                                                            <td class="text-center" width="15%">กันยายน</td> 
+                                                            <td class="p-2" width="15%">กันยายน</td> 
                                                         @elseif ($item->months == '10')
-                                                            <td class="text-center" width="15%">ตุลาคม</td> 
+                                                            <td class="p-2" width="15%">ตุลาคม</td> 
                                                         @elseif ($item->months == '11')
-                                                            <td class="text-center" width="15%">พฤษจิกายน</td> 
+                                                            <td class="p-2" width="15%">พฤษจิกายน</td> 
                                                         @else
-                                                            <td class="text-center" width="15%">ธันวาคม</td> 
+                                                            <td class="p-2" width="15%">ธันวาคม</td> 
                                                         @endif
                                                         <td class="text-center text-success" width="15%">
                                                             {{ $item->countvn }} Visit

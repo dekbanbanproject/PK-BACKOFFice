@@ -148,29 +148,29 @@
                                                         <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
                                                         <td class="text-center" width="10%">{{ $item->years }}</td> 
                                                         @if ($item->months == '1')
-                                                        <td class="text-center" width="15%">มกราคม</td> 
+                                                        <td class="p-2" width="15%">มกราคม</td> 
                                                         @elseif ($item->months == '2')
-                                                            <td class="text-center" width="15%">กุมภาพันธ์</td> 
+                                                            <td class="p-2" width="15%">กุมภาพันธ์</td> 
                                                         @elseif ($item->months == '3')
-                                                            <td class="text-center" width="15%">มีนาคม</td> 
+                                                            <td class="p-2" width="15%">มีนาคม</td> 
                                                         @elseif ($item->months == '4')
-                                                            <td class="text-center" width="15%">เมษายน</td> 
+                                                            <td class="p-2" width="15%">เมษายน</td> 
                                                         @elseif ($item->months == '5')
-                                                            <td class="text-center" width="15%">พฤษภาคม</td> 
+                                                            <td class="p-2" width="15%">พฤษภาคม</td> 
                                                         @elseif ($item->months == '6')
-                                                            <td class="text-center" width="15%">มิถุนายน</td> 
+                                                            <td class="p-2" width="15%">มิถุนายน</td> 
                                                         @elseif ($item->months == '7')
-                                                            <td class="text-center" width="15%">กรกฎาคม</td> 
+                                                            <td class="p-2" width="15%">กรกฎาคม</td> 
                                                         @elseif ($item->months == '8')
-                                                            <td class="text-center" width="15%">สิงหาคม</td> 
+                                                            <td class="p-2" width="15%">สิงหาคม</td> 
                                                         @elseif ($item->months == '9')
-                                                            <td class="text-center" width="15%">กันยายน</td> 
+                                                            <td class="p-2" width="15%">กันยายน</td> 
                                                         @elseif ($item->months == '10')
-                                                            <td class="text-center" width="15%">ตุลาคม</td> 
+                                                            <td class="p-2" width="15%">ตุลาคม</td> 
                                                         @elseif ($item->months == '11')
-                                                            <td class="text-center" width="15%">พฤษจิกายน</td> 
+                                                            <td class="p-2" width="15%">พฤษจิกายน</td> 
                                                         @else
-                                                            <td class="text-center" width="15%">ธันวาคม</td> 
+                                                            <td class="p-2" width="15%">ธันวาคม</td> 
                                                         @endif
                                                         <td class="text-center text-success" width="15%">
                                                             {{ $item->countvn }} Visit
