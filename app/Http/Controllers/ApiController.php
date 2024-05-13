@@ -348,8 +348,8 @@ class ApiController extends Controller
     }
     public function authen_spsch(Request $request)
     {
-            $date_now = date('Y-m-d'); 
-            // $date_now = date('2024-04-30'); 
+            // $date_now = date('Y-m-d'); 
+            $date_now = date('2024-05-13'); 
             $data_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM check_sit_auto WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY vn'); 
             // $data_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY vn'); 
             $ch = curl_init(); 
@@ -585,17 +585,22 @@ class ApiController extends Controller
                     LEFT JOIN patient p on p.hn=v.hn
                     LEFT JOIN pttype pt on pt.pttype = v.pttype AND v.pttype NOT IN("M1","M4","M5") 
                     LEFT JOIN opduser op on op.loginname = o.staff
-                    WHERE v.vstdate = "'.$date_now.'" AND pt.hipdata_code ="UCS"  
+                    WHERE o.vstdate = "'.$date_now.'" AND pt.hipdata_code ="UCS"  
                     AND (o.an IS NULL OR o.an = "")
-                    group by v.vn
+                    group by o.vn
                 
                 
                 ');   
                 // LIMIT 100
                 foreach ($data_sits as $key => $value) {
                     $check = Check_sit_auto::where('vn', $value->vn)->count();
-                    if ($check < 1) {                    
-                    // } else {
+                    if ($check > 0) {   
+                        // Check_sit_auto::where('vn', $value->vn)->update([  
+                        //     'pttype'              => $value->pttype,
+                        //     'debit'               => $value->debit,
+                            
+                        // ]);              
+                    } else {
                         Check_sit_auto::insert([
                             'vn'         => $value->vn,
                             'an'         => $value->an,
@@ -684,12 +689,13 @@ class ApiController extends Controller
                     FROM vn_stat v 
                     LEFT OUTER JOIN ovst o ON v.vn = o.vn 
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn
-                    LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype AND v.pttype NOT IN("M1","M4","M5")  
+                    LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype 
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
-                WHERE v.vstdate = "' . $date_now . '"
+                WHERE o.vstdate = "' . $date_now . '"
                 AND ptt.hipdata_code ="UCS" 
-                GROUP BY v.vn 
+                GROUP BY o.vn 
             '); 
+            // AND v.pttype NOT IN("M1","M4","M5") 
             // AND v.income > 0 
             // AND rd.total_amount IS NOT NULL
             foreach ($datashow_ as $key => $value) {
@@ -733,15 +739,15 @@ class ApiController extends Controller
                     FROM vn_stat v 
                     LEFT OUTER JOIN ovst o ON v.vn = o.vn 
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn
-                    LEFT OUTER JOIN pttype ptt ON v.pttype = ptt.pttype AND v.pttype NOT IN("M1","M4","M5")  
+                    LEFT OUTER JOIN pttype ptt ON v.pttype = ptt.pttype 
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
-                WHERE v.vstdate = "' . $date_now . '" AND (o.an IS NULL OR o.an = "") 
+                WHERE o.vstdate = "' . $date_now . '" AND (o.an IS NULL OR o.an = "") 
                 AND ptt.hipdata_code ="UCS" AND v.income > 0 and rd.finance_number IS NULL  
-                GROUP BY v.vn  
+                GROUP BY o.vn  
               
             '
             );
-         
+            // AND v.pttype NOT IN("M1","M4","M5")  
             foreach ($datashow_ as $key => $value) {
                 $check_opd = Fdh_mini_dataset::where('vn', $value->vn)->count();
                 if ($check_opd > 0) {

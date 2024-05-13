@@ -1688,9 +1688,9 @@ class FdhController extends Controller
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn
                     LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype   
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
-                WHERE v.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"  
+                WHERE o.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"  
                 AND ptt.hipdata_code ="UCS" AND v.income > 0
-                GROUP BY v.vn 
+                GROUP BY o.vn 
             '
             );
             // AND v.pttype NOT IN("M1","M2","M3","M4","M5") 
@@ -1698,8 +1698,8 @@ class FdhController extends Controller
                 $check_opd = Fdh_mini_dataset::where('vn', $value->vn)->count();
                 if ($check_opd > 0) {
                     Fdh_mini_dataset::where('vn', $value->vn)->update([ 
-                        'ptname'              => $value->ptname,
-                        'hn'                  => $value->hn,
+                        // 'ptname'              => $value->ptname,
+                        // 'hn'                  => $value->hn,
                         'pttype'              => $value->pttype,
                         'total_amout'         => $value->total_amout,
                         'invoice_number'      => $value->invoice_number, 
@@ -1750,26 +1750,24 @@ class FdhController extends Controller
                     FROM vn_stat v 
                     LEFT OUTER JOIN ovst o ON v.vn = o.vn 
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn
-                    LEFT OUTER JOIN pttype ptt ON v.pttype = ptt.pttype AND v.pttype NOT IN("M1","M4","M5")  
+                    LEFT OUTER JOIN pttype ptt ON v.pttype = ptt.pttype 
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
-                WHERE v.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"  
+                WHERE o.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"  
                 AND ptt.hipdata_code ="UCS" AND v.income > 0
-                GROUP BY v.vn 
+                GROUP BY o.vn 
             '
             );
-            // NOT IN("M1","M2","M3","M4","M5")  
+            // NOT IN("M1","M2","M3","M4","M5")  AND v.pttype NOT IN("M1","M4","M5")  
             // ,IFNULL(rd.total_amount,v.income) as total_amout
             // ,IFNULL(rd.finance_number,v.vn) as invoice_number
             foreach ($datashow_ as $key => $value) {
                 $check_opd = Fdh_mini_dataset::where('vn', $value->vn)->count();
                 if ($check_opd > 0) {
-                    // Fdh_mini_dataset::where('vn', $value->vn)->update([ 
-                    //     'ptname'              => $value->ptname,
-                    //     'pttype'              => $value->pttype,
-                    //     'hn'                  => $value->hn,
-                    //     'total_amout'         => $value->total_amout,
-                    //     'invoice_number'      => $value->invoice_number, 
-                    // ]);
+                    Fdh_mini_dataset::where('vn', $value->vn)->update([  
+                        'pttype'              => $value->pttype, 
+                        'total_amout'         => $value->total_amout,
+                        'invoice_number'      => $value->invoice_number, 
+                    ]);
                 } else {
                     Fdh_mini_dataset::insert([
                         'service_date_time'   => $value->vstdate . ' ' . $value->vsttime,
@@ -2045,19 +2043,20 @@ class FdhController extends Controller
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn
                     LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype   
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
-                WHERE v.vstdate = "' . $date . '"
-                AND ptt.hipdata_code ="UCS" AND v.income > 0 AND rd.total_amount IS NOT NULL
-                GROUP BY v.vn 
+                WHERE o.vstdate = "' . $date . '"
+                AND ptt.hipdata_code ="UCS" AND v.income > 0 
+                GROUP BY o.vn 
             '
             );
+            // AND rd.total_amount IS NOT NULL
             // AND v.pttype NOT IN("M1","M2","M3","M4","M5") 
             // WHERE v.vstdate BETWEEN "' . $date . '" and "' . $date . '" 
             foreach ($datashow_ as $key => $value) {
                 $check_opd = Fdh_mini_dataset::where('vn', $value->vn)->count();
                 if ($check_opd > 0) {
                     Fdh_mini_dataset::where('vn', $value->vn)->update([ 
-                        'ptname'              => $value->ptname,
-                        'hn'                  => $value->hn,
+                        // 'ptname'              => $value->ptname,
+                        // 'hn'                  => $value->hn,
                         'pttype'              => $value->pttype,
                         'total_amout'         => $value->total_amout,
                         'invoice_number'      => $value->invoice_number, 
@@ -2099,24 +2098,24 @@ class FdhController extends Controller
                     FROM vn_stat v 
                     LEFT OUTER JOIN ovst o ON v.vn = o.vn 
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn
-                    LEFT OUTER JOIN pttype ptt ON v.pttype = ptt.pttype AND v.pttype NOT IN("M1","M2","M3","M4","M5")  
+                    LEFT OUTER JOIN pttype ptt ON v.pttype = ptt.pttype 
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
-                WHERE v.vstdate = "' . $date . '" 
+                WHERE o.vstdate = "' . $date . '" 
                 AND ptt.hipdata_code ="UCS" AND v.income > 0
-                GROUP BY v.vn 
+                GROUP BY o.vn 
             '
             );
-     
+            // AND v.pttype NOT IN("M1","M2","M3","M4","M5")  
             foreach ($datashow_ as $key => $value) {
                 $check_opd = Fdh_mini_dataset::where('vn', $value->vn)->count();
                 if ($check_opd > 0) {
-                    // Fdh_mini_dataset::where('vn', $value->vn)->update([ 
-                    //     'ptname'              => $value->ptname,
-                    //     'pttype'              => $value->pttype,
-                    //     'hn'                  => $value->hn,
-                    //     'total_amout'         => $value->total_amout,
-                    //     'invoice_number'      => $value->invoice_number, 
-                    // ]);
+                    Fdh_mini_dataset::where('vn', $value->vn)->update([ 
+                        // 'ptname'              => $value->ptname,
+                        'pttype'              => $value->pttype,
+                        // 'hn'                  => $value->hn,
+                        'total_amout'         => $value->total_amout,
+                        'invoice_number'      => $value->invoice_number, 
+                    ]);
                 } else {
                     Fdh_mini_dataset::insert([
                         'service_date_time'   => $value->vstdate . ' ' . $value->vsttime,
