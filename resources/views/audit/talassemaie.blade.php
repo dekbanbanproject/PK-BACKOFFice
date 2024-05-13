@@ -91,12 +91,16 @@
             </div>
         </div>
        
-            <div class="row">
-                <div class="col-md-3">
-                    <h4 class="card-title" style="color:rgb(250, 128, 124)">Detail Pre-Audit OFC</h4>
-                    <p class="card-title-desc">รายละเอียดข้อมูล Pre-Audit OFC</p>
+            <div class="row"> 
+                <div class="col-md-4">
+                    <h4 class="card-title" style="color:rgb(241, 137, 155)"">ข้อมูลกลุ่มผู้ป่วยโรคโลหิตจางธาลัสซีเมีย (ชนิดรุนแรง)</h4>
+                    <p class="card-title-desc">รายละเอียดข้อมูล Pre-Audit ธาลัสซีเมีย</p>
                 </div>
                 <div class="col"></div> 
+                <div class="col-md-6 text-end">
+                    <h4 class="card-title" style="color:rgb(250, 128, 124)">ระบบบูรณาการการคัดกรองความผิดปกติของหญิงตั้งครรภ์และทารกแรกเกิด</h4>
+                    <h4 class="card-title me-5"><a href="https://nprp.nhso.go.th/nprp/faces/login/login.jsf" target="_blank" style="color:rgb(248, 15, 6)">!!!!  Click  !!!! Link  นี้</a></h4>
+                </div>
             </div>
 
             <div class="row">

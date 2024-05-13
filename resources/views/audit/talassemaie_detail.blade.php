@@ -104,10 +104,14 @@
                     <div class="card card_audit_4">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-4">
                                     <h4 class="card-title" style="color:rgb(241, 137, 155)"">ข้อมูลกลุ่มผู้ป่วยโรคโลหิตจางธาลัสซีเมีย (ชนิดรุนแรง)</h4>
                                 </div>
-                               
+                                <div class="col"></div> 
+                                <div class="col-md-6 text-end">
+                                    <h4 class="card-title" style="color:rgb(250, 128, 124)">ระบบบูรณาการการคัดกรองความผิดปกติของหญิงตั้งครรภ์และทารกแรกเกิด</h4>
+                                    <h4 class="card-title me-5"><a href="https://nprp.nhso.go.th/nprp/faces/login/login.jsf" target="_blank" style="color:rgb(248, 15, 6)">!!!!  Click  !!!! Link  นี้</a></h4>
+                                </div>
                             </div>
                             <div class="row mt-2">
                                 <div class="col-md-12"> 
