@@ -3262,6 +3262,10 @@ Route::match(['get','post'],'pre_audit_chart',[App\Http\Controllers\PreauditCont
 Route::match(['get','post'],'audit_pdx',[App\Http\Controllers\PreauditController::class, 'audit_pdx'])->name('audit.audit_pdx');
 Route::match(['get','post'],'audit_pdx_detail/{month}/{year}',[App\Http\Controllers\PreauditController::class, 'audit_pdx_detail'])->name('audit.audit_pdx_detail');
 
+// **************************** ทาลัสซีเมีย **********************************************
+Route::match(['get','post'],'talassemaie',[App\Http\Controllers\PreauditController::class, 'talassemaie'])->name('audit.talassemaie');
+Route::match(['get','post'],'talassemaie_detail/{month}/{year}',[App\Http\Controllers\PreauditController::class, 'talassemaie_detail'])->name('audit.talassemaie_detail');
+// **************************** FDH **********************************************
 Route::match(['get','post'],'fdh_mini_dataset',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset'])->name('fdh.fdh_mini_dataset');
 Route::match(['get','post'],'fdh_mini_dataset_api',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_api'])->name('fdh.fdh_mini_dataset_api');
 Route::match(['get','post'],'fdh_mini_dataset_pull',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pull'])->name('fdh.fdh_mini_dataset_pull');
