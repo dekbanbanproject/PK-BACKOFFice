@@ -1405,10 +1405,11 @@ class ChecksitController extends Controller
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
                 WHERE c.vstdate = "'.$date.'"
                 AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
-                 AND c.main_dep NOT IN("011","036","107")
+                 
                 GROUP BY c.main_dep
 			    ORDER BY Noauthen DESC
         ');
+        // AND c.main_dep NOT IN("011","036","107")
         // WHERE month(c.vstdate) = "'.$m.'"
         $data_staff_max = DB::connection('mysql')->select('
                 SELECT
@@ -1423,10 +1424,11 @@ class ChecksitController extends Controller
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
                 WHERE c.vstdate = "'.$date.'"
                 AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
-                AND c.main_dep NOT IN("011","036","107")
+                
                 GROUP BY c.staff
                 ORDER BY Noauthen DESC LIMIT 5
         ');
+        // AND c.main_dep NOT IN("011","036","107")
         $data_type = DB::connection('mysql')->select('
             SELECT *
             FROM checkauthen_type 
@@ -1451,9 +1453,10 @@ class ChecksitController extends Controller
             LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
             WHERE year(c.vstdate) = "'.$y.'" 
             AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
-            AND c.main_dep NOT IN("011","036","107")
+           
             GROUP BY month
         ');
+        // AND c.main_dep NOT IN("011","036","107")
         // dd($data_staff_new);
 
         return view('dashboard.check_dashboard',$data,[
@@ -1481,9 +1484,9 @@ class ChecksitController extends Controller
             LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
             WHERE DAY(vstdate) = "'.$day.'" AND MONTH(vstdate) = "'.$month.'" AND YEAR(vstdate) = "'.$year.'" AND c.claimcode  <> ""
             AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
-            AND c.main_dep NOT IN("011","036","107")
+            
         ');
-
+        // AND c.main_dep NOT IN("011","036","107")
         return view('dashboard.check_dashboard_authen',[
             'data_sit'       => $data_sit,
         ] );
@@ -1500,9 +1503,9 @@ class ChecksitController extends Controller
             LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
             WHERE DAY(vstdate) = "'.$day.'" AND MONTH(vstdate) = "'.$month.'" AND YEAR(vstdate) = "'.$year.'" AND c.claimcode is null
             AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
-            AND c.main_dep NOT IN("011","036","107")
+            
         ');
-
+        // AND c.main_dep NOT IN("011","036","107")
         return view('dashboard.check_dashboard_noauthen',[
             'data_sit'       => $data_sit,
             // 'data_year3'       => $data_year3,
