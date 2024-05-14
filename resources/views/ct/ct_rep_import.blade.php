@@ -147,9 +147,11 @@
                                             UP STM
                                         </button> --}}
                                         {{-- <button class="btn btn-danger ladda-button" data-style="expand-left"><span class="ladda-label">expand-left</span></button> --}}
-                                        <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary d-shadow mb-3 me-2 " data-style="expand-left">
-                                            <span class="ladda-label"> <i class="fa-solid fa-cloud-arrow-up text-white me-2"></i>IMPORT</span>
-                                            <span class="ladda-spinner"></span>
+                                        <button type="submit" class="me-2 btn-pill btn btn-primary d-shadow mb-3 me-2 ">
+                                            {{-- <span class="ladda-label">  --}}
+                                                <i class="fa-solid fa-cloud-arrow-up text-white me-2"></i>IMPORT
+                                            {{-- </span> --}}
+                                            {{-- <span class="ladda-spinner"></span> --}}
                                         </button> 
                                     @endif
                                 </div>

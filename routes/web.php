@@ -3127,6 +3127,10 @@ Route::match(['get','post'],'fdh_data_export',[App\Http\Controllers\FdhControlle
 Route::match(['get','post'],'fdh_report_rep',[App\Http\Controllers\FdhController::class, 'fdh_report_rep'])->name('fdh.fdh_report_rep');// 
 
 // *******************FDH UCS *******************
+Route::match(['get','post'],'fdh_rep_reject',[App\Http\Controllers\Fdh_RepController::class, 'fdh_rep_reject'])->name('fdh.fdh_rep_reject');//
+Route::match(['get','post'],'fdh_rep_reject_save',[App\Http\Controllers\Fdh_RepController::class, 'fdh_rep_reject_save'])->name('fdh.fdh_rep_reject_save');//
+Route::match(['get','post'],'fdh_rep_reject_send',[App\Http\Controllers\Fdh_RepController::class, 'fdh_rep_reject_send'])->name('fdh.fdh_rep_reject_send');//
+
 Route::match(['get','post'],'fdh_rep',[App\Http\Controllers\Fdh_RepController::class, 'fdh_rep'])->name('fdh.fdh_rep');//
 Route::match(['get','post'],'fdh_rep_save',[App\Http\Controllers\Fdh_RepController::class, 'fdh_rep_save'])->name('fdh.fdh_rep_save');//
 Route::match(['get','post'],'fdh_rep_send',[App\Http\Controllers\Fdh_RepController::class, 'fdh_rep_send'])->name('fdh.fdh_rep_send');//

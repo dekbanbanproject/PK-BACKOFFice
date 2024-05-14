@@ -103,9 +103,9 @@
                                         <th class="text-center">ptname</th>                                       
                                         <th class="text-center">pttype</th>  
                                         <th class="text-center">เลขที่ใบเสร็จ</th> 
-                                        <th class="text-center">ค่ารักษา</th>
+                                        <th class="text-center">income</th>
                                         <th class="text-center">ชำระเงินเอง</th> 
-                                        {{-- <th class="text-center">income</th> --}}
+                                        <th class="text-center">ลูกหนี้</th>
                                         <th class="text-center">ลูกหนี้ตามข้อตกลง</th> 
                                         <th class="text-center">ลูกหนี้CT</th> 
                                         <th class="text-center">ส่วนต่าง</th> 
@@ -119,7 +119,7 @@
                                         $total2 = 0;
                                         $total3 = 0;
                                         $total4 = 0;
-                                        $total5 = 0;
+                                        $total5 = 0;$total6 = 0;
                                     ?>
                                     @foreach ($data as $item)
                                         <?php $number++; ?> 
@@ -134,6 +134,7 @@
                                                 <td class="text-end" style="color:rgb(243, 157, 27)" width="7%"> {{ $item->nhso_ownright_pid }}</td>                                         
                                                 <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->income, 2) }}</td>  
                                                 <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->rcpt_money, 2) }}</td> 
+                                                <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->income - $item->rcpt_money, 2) }}</td> 
                                                 {{-- <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->income - $item->rcpt_money, 2) }}</td>  --}}
                                                 <td class="text-end"  width="7%" style="color:#0A4F87"> {{ $item->debit_total }}</td>   
                                                 <td class="text-end"  width="7%" style="color:#108A1A"> {{ $item->ct_price }}</td> 
@@ -143,7 +144,7 @@
                                         <?php
                                                 $total1 = $total1 + $item->income;
                                                 $total2 = $total2 + $item->rcpt_money;
-                                                // $total3 = $total3 + ($item->income - $item->rcpt_money);
+                                                $total6 = $total6 + ($item->income - $item->rcpt_money);
                                                 $total3 = $total3 + $item->debit_total;
                                                 $total4 = $total4 + $item->ct_price;
                                                 $total5 = $total5 + (($item->income)-($item->rcpt_money)-($item->debit_total)-($item->ct_price));
@@ -155,7 +156,7 @@
                                     <td colspan="8" class="text-end" style="background-color: #fca1a1"></td>
                                     <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
                                     <td class="text-center" style="background-color: #FCA533" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
-                                    {{-- <td class="text-center" style="background-color: #44E952"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td> --}}
+                                    <td class="text-center" style="background-color: #b3109d"><label for="" style="color: #FFFFFF">{{ number_format($total6, 2) }}</label> </td>
                                     <td class="text-center" style="background-color: #0A4F87"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td>
                                     <td class="text-center" style="background-color: #108A1A"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td>
                                     <td class="text-center" style="background-color: #E9540F"><label for="" style="color: #FFFFFF">{{ number_format($total5, 2) }}</label></td>

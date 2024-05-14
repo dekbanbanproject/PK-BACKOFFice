@@ -134,7 +134,8 @@
 
                                             <th class="text-center">hospcode</th>  
                                             <th class="text-center">pttype</th> 
-                                            <th class="text-center">spsch</th>  
+                                            <th class="text-center">spsch</th> 
+                                            <th class="text-center">hmain</th>  
                                             <th class="text-center">ลูกหนี้</th> 
                                             <th class="text-center">ลูกหนี้CT</th>                                            
                                             <th class="text-center">ลูกหนี้ตามข้อตกลง</th>  
@@ -166,6 +167,7 @@
                                                 <td class="text-center" width="7%">{{ $item->hospcode }}</td>  
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>  
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td>  
+                                                <td class="text-center" width="7%">{{ $item->hmain }}</td>  
                                                 <td class="text-center" width="10%">{{ number_format($item->uc_money, 2) }}</td> 
                                                 @if ($item->ct_sumprice > '0')
                                                     <td class="text-center" width="5%"> 

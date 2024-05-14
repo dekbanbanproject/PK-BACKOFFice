@@ -311,6 +311,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     <span>UCS</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="true"> 
+                                    <li><a href="{{ url('fdh_rep_reject') }}">Rep รายการที่ถูกปฎิเสธ</a></li> 
                                     <li><a href="{{ url('fdh_rep') }}">FDH REP</a></li> 
                                     <li><a href="{{ url('walkin') }}">WlakIN</a></li> 
                                     <li><a href="{{ url('ucep24_main') }}">Ucep-24</a></li> 

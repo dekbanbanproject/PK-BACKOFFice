@@ -61,8 +61,8 @@ use App\Models\Product_budget;
 use App\Models\Product_method;
 use App\Models\Product_buy;
 use App\Models\Fdh_ofc_rep;
-use App\Models\D_fdh_opd;
-use App\Models\D_fdh_ipd;
+use App\Models\Fdh_noapprove;
+use App\Models\Fdh_noapprove_excel;
 use App\Models\D_fdh;
 use App\Models\D_ins;
 use App\Models\D_pat;
@@ -754,6 +754,197 @@ class Fdh_RepController extends Controller
                 return back()->withErrors('There was a problem uploading the data!');
             }
             Fdh_ofc_repexcel::truncate();
+        return redirect()->back();
+    }
+
+    public function fdh_rep_reject(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+            SELECT *
+            FROM fdh_noapprove_excel
+            GROUP BY vn
+            ');
+        $countc = DB::table('fdh_noapprove_excel')->count();  
+        $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND authen IS NOT NULL AND icd10 IS NOT NULL ORDER BY vn ASC');  
+             
+        return view('fdh.fdh_rep_reject',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow,
+            'countc'        =>     $countc
+        ]);
+    }
+    function fdh_rep_reject_save(Request $request)
+    { 
+        $this->validate($request, [
+            'file' => 'required|file|mimes:xls,xlsx'
+        ]);
+        $the_file = $request->file('file'); 
+        $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
+
+        // dd($the_file);
+            try{ 
+                // Cheet 2
+                $spreadsheet = IOFactory::load($the_file->getRealPath()); 
+                $sheet        = $spreadsheet->setActiveSheetIndex(0);
+                $row_limit    = $sheet->getHighestDataRow();
+                $column_limit = $sheet->getHighestDataColumn();
+                $row_range    = range( 6, $row_limit );
+                $column_range = range( 'DM', $column_limit );
+                $startcount = 6;
+                $data = array();
+                foreach ($row_range as $row ) {
+                    $vst = $sheet->getCell( 'F' . $row )->getValue();  
+                    $day = substr($vst,0,2);
+                    $mo = substr($vst,3,2);
+                    $year = substr($vst,6,4);
+                    $vstdate = $year.'-'.$mo.'-'.$day;
+
+                    $reg = $sheet->getCell( 'G' . $row )->getValue(); 
+                    $regday = substr($reg, 0, 2);
+                    $regmo = substr($reg, 3, 2);
+                    $regyear = substr($reg, 6, 4);
+                    $regdate = $regyear.'-'.$regmo.'-'.$regday;
+
+                    $dch = $sheet->getCell( 'H' . $row )->getValue(); 
+                    $dchday = substr($dch, 0, 2);
+                    $dchmo = substr($dch, 3, 2);
+                    $dchyear = substr($dch, 6, 4);
+                    $dchdate = $dchyear.'-'.$dchmo.'-'.$dchday; 
+
+                    $spsch = $sheet->getCell( 'J' . $row )->getValue(); 
+                    $spschday = substr($spsch, 0, 2);
+                    $spschmo = substr($spsch, 3, 2);
+                    $spschyear = substr($spsch, 6, 4);
+                    $spschtime = substr($spsch, 11, 5);
+                    $spschdate = $spschyear.'-'.$spschmo.'-'.$spschday.' '.$spschtime; 
+ 
+                    $data[] = [ 
+                        'hn'                 =>$sheet->getCell( 'B' . $row )->getValue(),
+                        'vn'                 =>$sheet->getCell( 'C' . $row )->getValue(),
+                        'an'                 =>$sheet->getCell( 'D' . $row )->getValue(),
+                        'visit_type'         =>$sheet->getCell( 'E' . $row )->getValue(),
+                        'vstdate'            =>$vstdate,
+                        'regdate'            =>$regdate, 
+                        'dchdate'            =>$dchdate, 
+                        'UUC'                =>$sheet->getCell( 'I' . $row )->getValue(),
+                        'datesend_spsch'     =>$spschdate,
+                        'uid'                =>$sheet->getCell( 'K' . $row )->getValue(),
+                        'hipdata_code'       =>$sheet->getCell( 'L' . $row )->getValue(),
+                        'error_code'         =>$sheet->getCell( 'M' . $row )->getValue(),
+                        'error_detail'       =>$sheet->getCell( 'N' . $row )->getValue(), 
+                        'STMdoc'             =>$file_ 
+                    ];
+                    $startcount++; 
+
+                }
+                // DB::table('acc_stm_ucs_excel')->insert($data); 
+
+                $for_insert = array_chunk($data, length:1000);
+                foreach ($for_insert as $key => $data_) {
+                    Fdh_noapprove_excel::insert($data_); 
+                }
+                // Acc_stm_ucs_excel::insert($data); 
+ 
+
+            } catch (Exception $e) {
+                $error_code = $e->errorInfo[1];
+                return back()->withErrors('There was a problem uploading the data!');
+            }
+            // return back()->withSuccess('Great! Data has been successfully uploaded.');
+            return response()->json([
+            'status'    => '200',
+        ]);
+    }
+    public function fdh_rep_reject_send(Request $request)
+    {
+        try{
+                $data_ = DB::connection('mysql')->select('SELECT * FROM fdh_noapprove_excel WHERE visit_type ="IPD"');
+                foreach ($data_ as $key => $value) {
+                    if ($value->an != '') {
+                        $check = Fdh_noapprove::where('an','=',$value->an)->where('error_code','=',$value->error_code)->count();
+                        if ($check > 0) {
+                        } else {
+                            $add = new Fdh_noapprove();
+                            $add->hn                 = $value->hn;
+                            $add->vn                 = $value->vn;
+                            $add->an                 = $value->an;
+                            $add->visit_type         = $value->visit_type;
+                            $add->vstdate            = $value->vstdate;
+                            $add->regdate            = $value->regdate;
+                            $add->dchdate            = $value->dchdate;
+                            $add->UUC                = $value->UUC;
+                            $add->datesend_spsch     = $value->datesend_spsch;
+                            $add->uid                = $value->uid;
+                            $add->hipdata_code       = $value->hipdata_code;
+                            $add->error_code         = $value->error_code;
+                            $add->error_detail       = $value->error_detail;
+                            $add->nhso_reject        = $value->nhso_reject;
+                            $add->STMdoc             = $value->STMdoc; 
+                            $add->save();  
+                        }  
+                        
+                        D_fdh::where('an',$value->an) 
+                            ->update([
+                                'active'          => 'E', 
+                                'error_code'      => $value->error_code,
+                                'STMdoc'          => $value->STMdoc, 
+                        ]);
+                        
+                    
+                    } else {
+                    }
+                }
+            } catch (Exception $e) {
+                $error_code = $e->errorInfo[1];
+                return back()->withErrors('There was a problem uploading the data!');
+            }
+
+            try{
+                $data_ = DB::connection('mysql')->select('SELECT * FROM fdh_noapprove_excel WHERE visit_type ="OPD"');
+                foreach ($data_ as $key => $value) {
+                    if ($value->vn != '') {
+                        $check = Fdh_noapprove::where('vn','=',$value->vn)->where('error_code','=',$value->error_code)->count();
+                        if ($check > 0) {
+                        } else {
+                            $add = new Fdh_noapprove();
+                            $add->hn                 = $value->hn;
+                            $add->vn                 = $value->vn;
+                            $add->an                 = $value->an;
+                            $add->visit_type         = $value->visit_type;
+                            $add->vstdate            = $value->vstdate;
+                            $add->regdate            = $value->regdate;
+                            $add->dchdate            = $value->dchdate;
+                            $add->UUC                = $value->UUC;
+                            $add->datesend_spsch     = $value->datesend_spsch;
+                            $add->uid                = $value->uid;
+                            $add->hipdata_code       = $value->hipdata_code;
+                            $add->error_code         = $value->error_code;
+                            $add->error_detail       = $value->error_detail;
+                            $add->nhso_reject        = $value->nhso_reject;
+                            $add->STMdoc             = $value->STMdoc; 
+                            $add->save();  
+                        }  
+                        
+                        D_fdh::where('vn',$value->vn) 
+                            ->update([
+                                'active'          => 'E', 
+                                'error_code'      => $value->error_code,
+                                'STMdoc'          => $value->STMdoc, 
+                        ]); 
+                    } else {
+                    }
+                }
+            } catch (Exception $e) {
+                $error_code = $e->errorInfo[1];
+                return back()->withErrors('There was a problem uploading the data!');
+            }
+            
+            Fdh_noapprove_excel::truncate();
+            
         return redirect()->back();
     }
     
