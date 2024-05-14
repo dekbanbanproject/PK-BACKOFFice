@@ -278,6 +278,7 @@ public function person_save(Request $request)
                 $add->staff       = $request->staff;
                 $pass = $request->password; 
                 $add->password = Hash::make($pass);
+                $add->passapp     = $pass;
                 $add->member_id =  'MEM'. $date .'-'.$idfile;
 
                 $depid = $request->dep_id;           
@@ -430,6 +431,7 @@ public function person_update(Request $request)
             $pass                = $request->password;
             // $add->password = '$2y$10$Frngcw.RMaJh7otvZNygt.UNfQRnwqvcwlrt2x0Gc.kVC1JETj1sq';    
             $update->password    = Hash::make($pass);
+            $update->passapp     = $pass;
             // $update->member_id =  'MEM'. $date .'-'.$idfile;
 
             // $depid = $request->dep_id; 

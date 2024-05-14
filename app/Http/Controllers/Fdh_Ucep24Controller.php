@@ -228,8 +228,8 @@ class Fdh_Ucep24Controller extends Controller
                 // ]);
         }              
         
-            // $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="UCEP24" AND icd10 IS NOT NULL ORDER BY vn ASC');
-            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="UCEP24" AND dchdate BETWEEN "2024-03-01" and "2024-03-31" ORDER BY an ASC');
+            // $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="UCEP24" AND icd10 IS NOT NULL ORDER BY vn ASC');   BETWEEN "2024-03-01" and "2024-03-31"
+            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="UCEP24" ORDER BY an ASC');
             $data['d_ucep24_main'] = DB::connection('mysql')->select('SELECT * from d_ucep24_main WHERE active ="N" ORDER BY vn ASC');  
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="UCEP24"'); 
             $data['data_orf'] = DB::connection('mysql')->select('SELECT * from fdh_orf WHERE d_anaconda_id ="UCEP24"'); 
@@ -905,15 +905,15 @@ class Fdh_Ucep24Controller extends Controller
         // Fdh_adp::where('QTY','=',['',null])->where('SP_ITEM','=','01')->where('d_anaconda_id',"UCEP24")->delete();
         // Fdh_dru::where('SP_ITEM','=',null)->where('d_anaconda_id',"UCEP24")->delete();
         // Fdh_adp::where('CODE','=','XXXXXX')->delete();
-        Fdh_dru::whereIn('DID',[1550027, 1650087,1590016,1500101,1590018,1660100,1640078,1640058,1640076])->delete();
+        
         // D_ucep24_main::whereIn('d_ucep24_main_id',explode(",",$id))
         // ->update([
         //     'active' => 'Y'
         // ]);
-        // D_fdh::whereIn('d_fdh_id',explode(",",$id))
-        // ->update([
-        //     'active' => 'Y'
-        // ]);
+        D_fdh::whereIn('d_fdh_id',explode(",",$id))
+        ->update([
+            'active' => 'Y'
+        ]);
 
         return response()->json([
              'status'    => '200'
@@ -966,7 +966,7 @@ class Fdh_Ucep24Controller extends Controller
             Fdh_adp::where('SP_ITEM','=','')->where('d_anaconda_id',"UCEP24")->delete();
             Fdh_adp::where('QTY','=',['',null])->where('SP_ITEM','=','01')->where('d_anaconda_id',"UCEP24")->delete();
             Fdh_dru::where('SP_ITEM','=',null)->where('d_anaconda_id',"UCEP24")->delete();
-
+            Fdh_dru::whereIn('DID',[1550027, 1650087,1590016,1500101,1590018,1660100,1640078,1640058,1640076])->delete();
             return response()->json([
                 'status'    => '200'
             ]);

@@ -852,7 +852,7 @@
                                             <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="" target="_blank">
                                                 {{-- <h5 class="text-start mb-2">Support System</h5> --}}
-                                                <h5 class="text-start mb-2">ตรวจสอบแลบำรุงรักษา ระบบสนับสนุนบริการสุขภาพ</h5> 
+                                                <h5 class="text-start mb-2">ตรวจสอบและบำรุงรักษา ระบบสนับสนุนบริการสุขภาพ</h5> 
                                             </a>
                                         </div>
                                         <div class="avatar ms-2">
