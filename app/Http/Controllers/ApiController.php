@@ -348,8 +348,8 @@ class ApiController extends Controller
     }
     public function authen_spsch(Request $request)
     {
-            // $date_now = date('Y-m-d'); 
-            $date_now = date('2024-05-13'); 
+            $date_now = date('Y-m-d'); 
+            // $date_now = date('2024-05-13'); 
             $data_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM check_sit_auto WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY vn'); 
             // $data_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY vn'); 
             $ch = curl_init(); 
@@ -583,7 +583,7 @@ class ApiController extends Controller
                     LEFT JOIN ovst o on o.vn = v.vn
                     LEFT JOIN opdscreen s ON s.vn = v.vn
                     LEFT JOIN patient p on p.hn=v.hn
-                    LEFT JOIN pttype pt on pt.pttype = v.pttype AND v.pttype NOT IN("M1","M4","M5") 
+                    LEFT JOIN pttype pt on pt.pttype = v.pttype AND v.pttype 
                     LEFT JOIN opduser op on op.loginname = o.staff
                     WHERE o.vstdate = "'.$date_now.'" AND pt.hipdata_code ="UCS"  
                     AND (o.an IS NULL OR o.an = "")
@@ -591,15 +591,15 @@ class ApiController extends Controller
                 
                 
                 ');   
+                // NOT IN("M1","M4","M5") 
                 // LIMIT 100
                 foreach ($data_sits as $key => $value) {
                     $check = Check_sit_auto::where('vn', $value->vn)->count();
                     if ($check > 0) {   
-                        // Check_sit_auto::where('vn', $value->vn)->update([  
-                        //     'pttype'              => $value->pttype,
-                        //     'debit'               => $value->debit,
-                            
-                        // ]);              
+                        Check_sit_auto::where('vn', $value->vn)->update([  
+                            'pttype'              => $value->pttype,
+                            'debit'               => $value->debit, 
+                        ]);              
                     } else {
                         Check_sit_auto::insert([
                             'vn'         => $value->vn,
@@ -652,41 +652,45 @@ class ApiController extends Controller
                 $date_now = date('Y-m-d'); 
                 // $date_now = date('2024-05-11');
                 $data_sits = DB::connection('mysql10')->select(
-                    'SELECT o.an,v.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,p.pname,p.fname,concat(p.pname,p.fname," ",p.lname) as fullname,op.name as staffname,p.hometel,v.pdx,s.cc
-                    ,pt.nhso_code,o.hospmain,o.hospsub,p.birthday
-                    ,o.staff,op.name as sname
-                    ,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
-                    FROM vn_stat v
-                    LEFT JOIN visit_pttype vs on vs.vn = v.vn
-                    LEFT JOIN ovst o on o.vn = v.vn
-                    LEFT JOIN opdscreen s ON s.vn = v.vn
-                    LEFT JOIN patient p on p.hn=v.hn
-                    LEFT JOIN pttype pt on pt.pttype = v.pttype AND v.pttype NOT IN("M1","M4","M5") 
-                    LEFT JOIN opduser op on op.loginname = o.staff
-                    WHERE v.vstdate = "'.$date_now.'" AND pt.hipdata_code ="UCS"  
-                    AND (o.an IS NULL OR o.an = "")
-                    group by v.vn 
+                    'SELECT v.vstdate,o.vsttime
+                        ,Time_format(o.vsttime ,"%H:%i") vsttime2
+                        ,v.cid,"10978" as hcode
+                        ,rd.total_amount as total_amout
+                        ,rd.finance_number as invoice_number
+                        ,v.vn,concat(pt.pname,pt.fname," ",pt.lname) as ptname,v.hn,v.pttype
+                        FROM vn_stat v 
+                        LEFT OUTER JOIN ovst o ON v.vn = o.vn 
+                        LEFT OUTER JOIN patient pt on pt.hn = v.hn
+                        LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype   
+                        LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
+                    WHERE o.vstdate = "' . $date_now . '" 
+                    AND ptt.hipdata_code ="UCS" AND v.income > 0
+                    GROUP BY o.vn 
                 ');   
                 // LIMIT 100
                 foreach ($data_sits as $key => $value) {
-                    $check = Check_sit_auto::where('vn', $value->vn)->count();
-                    if ($check < 1) {                    
-                    
-                        // Fdh_mini_dataset::insert([
-                        //     'service_date_time'   => $value->vstdate . ' ' . $value->vsttime,
-                        //     'cid'                 => $value->cid,
-                        //     'hcode'               => $value->hcode,
-                        //     'total_amout'         => $value->total_amout,
-                        //     'invoice_number'      => $value->invoice_number,
-                        //     'vn'                  => $value->vn,
-                        //     'pttype'              => $value->pttype,
-                        //     'ptname'              => $value->ptname,
-                        //     'hn'                  => $value->hn,
-                        //     'vstdate'             => $value->vstdate,
-                        //     'vsttime'             => $value->vsttime,
-                        //     'datesave'            => $date_now,
-                        
-                        // ]);
+                    $check = Fdh_mini_dataset::where('vn', $value->vn)->count();
+                    if ($check >0) {                    
+                        Fdh_mini_dataset::where('vn', $value->vn)->update([  
+                            'pttype'              => $value->pttype,
+                            'total_amout'         => $value->total_amout,
+                            'invoice_number'      => $value->invoice_number,
+                        ]);              
+                    } else {
+                        Fdh_mini_dataset::insert([
+                            'service_date_time'   => $value->vstdate . ' ' . $value->vsttime,
+                            'cid'                 => $value->cid,
+                            'hcode'               => $value->hcode,
+                            'total_amout'         => $value->total_amout,
+                            'invoice_number'      => $value->invoice_number,
+                            'vn'                  => $value->vn,
+                            'pttype'              => $value->pttype,
+                            'ptname'              => $value->ptname,
+                            'hn'                  => $value->hn,
+                            'vstdate'             => $value->vstdate,
+                            'vsttime'             => $value->vsttime,
+                            'datesave'            => $date_now, 
+                        ]);
                     
                     }
                 }
