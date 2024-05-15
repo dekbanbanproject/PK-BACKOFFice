@@ -2275,21 +2275,52 @@ class AccountController extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate; 
 
-        $datashow = DB::connection('mysql10')->select(' 
-            SELECT a.an, a.income,p.cid, a.hn
-            , a.dchdate,i.dchtime, a.pdx, a.pttype,concat(p.pname,p.fname," ",p.lname) ptname,i.staff,o.main_dep,k.department
-            ,r.bill_date_time,r.finance_number,r.rcpno,r.bill_amount,r.user,r.book_number,r.total_amount,a.paid_money,a.rcpt_money,a.remain_money
+        $datashow = DB::connection('mysql10')->select(
+            'SELECT a.an,a.hn,p.cid,a.dchdate,concat(p.pname,p.fname," ",p.lname) as ptname,k.department,rp.book_number,rp.total_amount
+                ,a.pttype,a.income,a.paid_money,a.rcpt_money
+                ,(SELECT max_debt_amount FROM ipt_pttype WHERE an = a.an AND pttype_number = "1") pttype_1
+                ,(SELECT max_debt_amount FROM ipt_pttype WHERE an = a.an AND pttype_number = "2") pttype_2
+                ,rp.finance_number as paybillno
+                ,(SELECT SUM(total_amount) total_amount FROM rcpt_print WHERE vn = a.an) rp_total_amount 
+                ,r.vn as longkang,r.finance_number,r.amount
+                
                 FROM an_stat a
-                left outer join patient p on p.hn=a.hn
-                left outer join pttype t on t.pttype=a.pttype
-                left outer join ipt i on i.an = a.an
-                left outer join rcpt_print r on r.vn = i.vn
+                left outer join rcpt_arrear r on r.vn = a.an 
+                left outer join rcpt_print rp on rp.vn = a.an
+                left outer join patient p on p.hn = a.hn  
                 left outer join ovst o on o.an = a.an
                 left outer join kskdepartment k on k.depcode = o.main_dep
-                WHERE YEAR(a.dchdate) = "' . $year . '" AND MONTH(a.dchdate) = "' . $months . '"
-                
-                AND (a.paid_money > 0 and a.rcpt_money = 0) 
+                WHERE YEAR(a.dchdate) = "' . $year . '" AND MONTH(a.dchdate) = "' . $months . '" 
+                AND a.paid_money > a.rcpt_money AND r.vn IS NULL 
+                GROUP BY a.an 
+               
         ');
+        // ORDER BY rp_total_amount DESC
+        // foreach ($datashow as $key => $value) {
+        //    $money =  $value->pttype_1 - $value->rcpt_money;
+        // }
+
+        // dd($money);
+        // $datashow = DB::connection('mysql10')->select(' 
+        //     SELECT a.an,p.cid, a.hn
+        //     , a.dchdate,i.dchtime, a.pdx, a.pttype,concat(p.pname,p.fname," ",p.lname) ptname,i.staff,o.main_dep,k.department,a.income
+        //     ,(SELECT max_debt_amount FROM ipt_pttype WHERE an = a.an AND pttype_number = "1") pttype_1
+        //     ,(SELECT max_debt_amount FROM ipt_pttype WHERE an = a.an AND pttype_number = "2") pttype_2
+        //     ,r.bill_date_time,r.finance_number,r.rcpno,r.bill_amount,r.user,r.book_number,r.total_amount,a.paid_money,a.rcpt_money,a.remain_money
+        //         FROM an_stat a
+        //         left outer join patient p on p.hn=a.hn
+        //         left outer join pttype t on t.pttype=a.pttype
+        //         left outer join ipt i on i.an = a.an
+        //         LEFT OUTER JOIN rcpt_arrear rp on rp.vn = a.an  
+        //         left outer join rcpt_print r on r.vn = rp.vn 
+        //         left outer join rcpt_debt rt on rt.vn = rp.vn
+        //         left outer join ovst o on o.an = a.an
+        //         left outer join kskdepartment k on k.depcode = o.main_dep
+        //         WHERE YEAR(a.dchdate) = "' . $year . '" AND MONTH(a.dchdate) = "' . $months . '"                
+        //         AND a.paid_money > 0 AND a.rcpt_money = 0 AND (rt.vn is null OR rt.vn = "") 
+        //         GROUP BY a.an 
+        // ');
+        // AND rp.pt_type="IPD"
         // AND a.paid_money > 0 and a.rcpt_money = 0 
         // AND (a.paid_money > 0 and a.remain_money > 1 )
         return view('account.account_nopaid_sub_ip', [

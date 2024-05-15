@@ -98,8 +98,8 @@ class MoveaccountController extends Controller
     {
         $hn = $request->HN;
 
-        $acc_debtor = DB::select('SELECT * FROM acc_debtor  
-                    WHERE hn = "' . $hn . '" 
+        $acc_debtor = DB::select(
+            'SELECT * FROM acc_debtor WHERE hn = "' . $hn . '" 
             ');
         $pang = DB::table('acc_setpang')->get();
         $pttype = DB::select('SELECT * FROM pttype');

@@ -1672,9 +1672,14 @@ class FdhController extends Controller
     {
         $startdate   = $request->startdate;
         $enddate     = $request->enddate;
+        $date = date('Y-m-d');
+        $newday = date('Y-m-d', strtotime($date . ' -2 days')); //
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
+
         if ($startdate == '') {
         } else {
-            $date = date('Y-m-d');
+          
             $iduser = Auth::user()->id;
             $datashow_ = DB::connection('mysql2')->select(
                 'SELECT v.vstdate,o.vsttime
@@ -1723,7 +1728,11 @@ class FdhController extends Controller
                 }
             }
         }
-        $data['fdh_mini_dataset']    = DB::connection('mysql')->select('SELECT * from fdh_mini_dataset WHERE active ="N" ORDER BY total_amout DESC');
+        $data['fdh_mini_dataset']    = DB::connection('mysql')->select(
+            'SELECT * from fdh_mini_dataset 
+            WHERE active ="N" AND vstdate BETWEEN "' . $newday . '" and "' . $date . '" 
+            AND invoice_number IS NOT NULL  
+            ORDER BY total_amout DESC');
 
         return view('fdh.fdh_mini_dataset_pull',$data, [
             'startdate'        => $startdate,

@@ -3147,6 +3147,12 @@ Route::match(['get','post'],'hpv_process',[App\Http\Controllers\Fdh_HpvControlle
 Route::match(['get','post'],'hpv_export',[App\Http\Controllers\Fdh_HpvController::class, 'hpv_export'])->name('fdh.hpv_export');//
 Route::match(['get','post'],'hpv_zip',[App\Http\Controllers\Fdh_HpvController::class, 'hpv_zip'])->name('fdh.hpv_zip');//
 
+Route::match(['get','post'],'liquid',[App\Http\Controllers\Fdh_LiquidController::class, 'liquid'])->name('fdh.liquid');//
+Route::match(['get','post'],'liquid_process_vn',[App\Http\Controllers\Fdh_LiquidController::class, 'liquid_process_vn'])->name('fdh.liquid_process_vn');//
+Route::match(['get','post'],'liquid_process',[App\Http\Controllers\Fdh_LiquidController::class, 'liquid_process'])->name('fdh.liquid_process');//
+Route::match(['get','post'],'liquid_export',[App\Http\Controllers\Fdh_LiquidController::class, 'liquid_export'])->name('fdh.liquid_export');//
+Route::match(['get','post'],'liquid_zip',[App\Http\Controllers\Fdh_LiquidController::class, 'liquid_zip'])->name('fdh.liquid_zip');//
+
 Route::match(['get','post'],'walkin',[App\Http\Controllers\Fdh_walkinController::class, 'walkin'])->name('claim.walkin');//
 Route::match(['get','post'],'walkin_process_vn',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_process_vn'])->name('claim.walkin_process_vn');//
 Route::match(['get','post'],'walkin_process',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_process'])->name('claim.walkin_process');//
