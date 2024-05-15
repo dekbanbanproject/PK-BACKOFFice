@@ -114,7 +114,7 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center">ลำดับ</th> 
                                     <th class="text-center" >an</th>
                                     <th class="text-center" >hn</th>
-                                    <th class="text-center" >cid</th>
+                                    {{-- <th class="text-center" >cid</th> --}}
                                     <th class="text-center">ptname</th> 
                                     <th class="text-center">dchdate</th>  
                                     <th class="text-center">pttype</th> 
@@ -125,6 +125,7 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center">paidmoney</th> 
                                     <th class="text-center">ชำระแล้ว</th> 
                                     <th class="text-center">ต้องลงค้าง</th> 
+                                    <th class="text-center">ต้องลงส่วนลด</th>
                                     <th class="text-center">Finance No.</th>  
                                     <th class="text-center">total_amount</th> 
                                 </tr>
@@ -138,7 +139,7 @@ $pos = strrpos($url, '/') + 1;
                                             <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td>  
                                             <td class="text-center" width="6%">{{ $item->an }}</td> 
                                             <td class="text-center" width="4%">{{ $item->hn }}</td>   
-                                            <td class="text-center" width="6%">{{ $item->cid }}</td>  
+                                            {{-- <td class="text-center" width="6%">{{ $item->cid }}</td>   --}}
                                             <td class="p-2">{{ $item->ptname }}</td>  
                                             <td class="text-center" width="6%">{{ $item->dchdate }}</td>   
                                             <td class="text-center" width="4%">{{ $item->pttype }}</td> 
@@ -151,12 +152,15 @@ $pos = strrpos($url, '/') + 1;
                                             
                                                 @if ($item->pttype_1 > 0 || $item->pttype ='15')
                                                     @if ($item->pttype_1 < 1)
-                                                        <td class="text-end" style="color:rgb(7, 182, 158)" width="5%"> {{ number_format($item->pttype_1,2)}} </td> 
+                                                        <td class="text-end" style="color:rgb(4, 128, 111)" width="5%"> {{ number_format($item->pttype_1,2)}} </td> 
+                                                        <td class="text-end" style="color:rgb(240, 25, 25);font-size:17px" width="5%"> {{ number_format($item->paid_money- $item->discount_money- $item->rcpt_money,2)}} </td> 
                                                     @else
                                                         @if ($item->rcpt_money == $item->pttype_1)
-                                                            <td class="text-end" style="color:rgb(7, 182, 158)" width="5%"> 0.00 </td> 
+                                                            <td class="text-end" style="background-color:rgb(15, 202, 177);color:white;font-size:17px" width="5%"> 0.00 </td> 
+                                                            <td class="text-end" style="background-color:rgb(5, 192, 167);color:white;font-size:17px" width="5%"> 0.00 </td> 
                                                         @else
-                                                            <td class="text-end" style="background-color: rgb(248, 55, 21);color:white;font-size:17px" width="5%"> {{ number_format($item->pttype_1 - $item->rcpt_money,2)}} </td> 
+                                                            <td class="text-end" style="background-color: rgb(248, 55, 21);color:white;font-size:17px" width="5%"> {{ number_format($item->pttype_1 - $item->discount_money- $item->rcpt_money,2)}} </td> 
+                                                            <td class="text-end" style="color:rgb(240, 25, 25);font-size:17px" width="5%"> {{ number_format($item->paid_money- $item->discount_money- $item->rcpt_money,2)}} </td> 
                                                         @endif 
                                                     @endif
                                                     

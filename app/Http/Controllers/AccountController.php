@@ -2277,7 +2277,7 @@ class AccountController extends Controller
 
         $datashow = DB::connection('mysql10')->select(
             'SELECT a.an,a.hn,p.cid,a.dchdate,concat(p.pname,p.fname," ",p.lname) as ptname,k.department,rp.book_number,rp.total_amount
-                ,a.pttype,a.income,a.paid_money,a.rcpt_money
+                ,a.pttype,a.income,a.paid_money,a.rcpt_money,a.discount_money
                 ,(SELECT max_debt_amount FROM ipt_pttype WHERE an = a.an AND pttype_number = "1") pttype_1
                 ,(SELECT max_debt_amount FROM ipt_pttype WHERE an = a.an AND pttype_number = "2") pttype_2
                 ,rp.finance_number as paybillno
