@@ -87,50 +87,90 @@ date_default_timezone_set("Asia/Bangkok");
 class AccdashboardController extends Controller
 {
   public function account_pk_dash(Request $request)
-  {
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        $date = date('Y-m-d');
-        $y = date('Y') + 543; 
-        $yearnew = date('Y');
-        $yearold = date('Y')-1;
-        $start = (''.$yearold.'-10-01');
-        $end = (''.$yearnew.'-09-30');  
-      //  dd($startdate);
-        if ($startdate != '') {
-          Acc_dashboard::truncate();
-            $data =  DB::connection('mysql2')->select('              
-                  SELECT 
-                    month(v.vstdate) as months,year(v.vstdate) as year,pt.hipdata_code,count(distinct v.vn) as count_vn
-                    ,sum(v.income) as income
-                    ,sum(v.discount_money) as discount_money
-                    ,sum(v.rcpt_money) as rcpt_money
-                    ,sum(v.income)-sum(v.discount_money)-sum(v.rcpt_money) as debit 
-                    from hos.vn_stat v 
-                    LEFT JOIN hos.visit_pttype vp on vp.vn = v.vn 
-                    LEFT JOIN hos.pttype pt on v.pttype=pt.pttype 
-                    WHERE v.vstdate BETWEEN "'. $startdate.'" AND "'. $enddate.'"
-                    AND pt.hipdata_code <> ""
-                    GROUP BY month(v.vstdate),pt.hipdata_code 
-                    ORDER BY v.vstdate desc
-            ');
+  { ;
+        // if ($startdate != '') {
+        //   Acc_dashboard::truncate();
+        //     $data =  DB::connection('mysql2')->select('              
+        //           SELECT 
+        //             month(v.vstdate) as months,year(v.vstdate) as year,pt.hipdata_code,count(distinct v.vn) as count_vn
+        //             ,sum(v.income) as income
+        //             ,sum(v.discount_money) as discount_money
+        //             ,sum(v.rcpt_money) as rcpt_money
+        //             ,sum(v.income)-sum(v.discount_money)-sum(v.rcpt_money) as debit 
+        //             from hos.vn_stat v 
+        //             LEFT JOIN hos.visit_pttype vp on vp.vn = v.vn 
+        //             LEFT JOIN hos.pttype pt on v.pttype=pt.pttype 
+        //             WHERE v.vstdate BETWEEN "'. $startdate.'" AND "'. $enddate.'"
+        //             AND pt.hipdata_code <> ""
+        //             GROUP BY month(v.vstdate),pt.hipdata_code 
+        //             ORDER BY v.vstdate desc
+        //     ');
           
-            foreach ($data as $key => $value) { 
-              Acc_dashboard::insert([
-                  'months'                 => $value->months,
-                  'year'                   => $value->year,
-                  'hipdata_code'           => $value->hipdata_code,
-                  'count_vn'               => $value->count_vn,
-                  'income'                 => $value->income,
-                  'discount_money'         => $value->discount_money,
-                  'rcpt_money'             => $value->rcpt_money,
-                  'debit'                  => $value->debit,                
-              ]);
-            }  
-        }
+        //     foreach ($data as $key => $value) { 
+        //       Acc_dashboard::insert([
+        //           'months'                 => $value->months,
+        //           'year'                   => $value->year,
+        //           'hipdata_code'           => $value->hipdata_code,
+        //           'count_vn'               => $value->count_vn,
+        //           'income'                 => $value->income,
+        //           'discount_money'         => $value->discount_money,
+        //           'rcpt_money'             => $value->rcpt_money,
+        //           'debit'                  => $value->debit,                
+        //       ]);
+        //     }  
+        // }
+        $budget_year   = $request->budget_year;
+            
+            $datenow       = date("Y-m-d");
+            $y             = date('Y') + 543;
+            $dabudget_year = DB::table('budget_year')->where('active','=',true)->get();
+            $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+            $date = date('Y-m-d'); 
+            $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+            $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+            $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+            
+            $months_now = date('m');
+            $year_now = date('Y'); 
+              //  dd($dabudget_year);
+            if ($budget_year == '') {  
+                $yearnew = date('Y');
+                $year_old = date('Y')-1;
+                $months_old  = ('10');
+                $startdate = (''.$year_old.'-10-01');
+                $enddate = (''.$yearnew.'-09-30');
+
+                $datashow = DB::select(' 
+                        SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
+                        ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
+                        ,sum(a.debit_total) as tung_looknee  
+                        FROM acc_1102050101_202 a 
+                        LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
+                        WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                        AND a.account_code ="1102050101.202"
+                        GROUP BY months ORDER BY a.dchdate DESC
+                ');    
+            } else {
+                $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
+                $startdate    = $bg->date_begin;
+                $enddate      = $bg->date_end;
+                // dd($enddate);
+                $datashow = DB::select(' 
+                        SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
+                        ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
+                        ,sum(a.debit_total) as tung_looknee  
+                        FROM acc_1102050101_202 a 
+                        LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
+                        WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                        AND a.account_code ="1102050101.202"
+                        GROUP BY months ORDER BY a.dchdate DESC 
+                ');  
+            }
         $data['pang'] =  DB::connection('mysql')->select('SELECT * FROM acc_setpang WHERE active ="TRUE"');
+        // $data['pang'] =  DB::connection('mysql')->select('SELECT * FROM acc_setpang WHERE active ="TRUE"');
         
         $datashow = Acc_dashboard::where('months',' month("'. $startdate.'")')->get();
+
       
     return view('dashboard.account_pk_dash',$data, [ 
       'datashow'          =>  $datashow,
