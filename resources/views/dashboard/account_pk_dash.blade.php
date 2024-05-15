@@ -365,8 +365,8 @@
                                                 <td width="3%" class="text-center">{{ $i++ }}</td>
                                                 <td width="10%" class="text-center">{{$item->pang}}</td>
                                                 <td class="p-2">{{$item->pangname}}</td>
-                                                <td width="15%" class="text-end" style="color: rgb(23, 124, 207)">{{ number_format($debittotal, 2) }}</td>
-                                                <td width="15%" class="text-center"></td>
+                                                <td width="10%" class="text-end" style="color: rgb(23, 124, 207)">{{ number_format($debittotal, 2) }}</td>
+                                                <td width="10%" class="text-center"></td>
 
                                                 @if ($item->pang =="1102050101.202")
                                                 <td width="10%" class="text-end" style="color: rgb(23, 207, 146)">{{ number_format($stmtotal, 2) }}</td>
@@ -389,7 +389,7 @@
                                                 @endif
                                                
 
-                                                <td width="20%" class="text-center"></td>
+                                                <td width="15%" class="text-center"></td>
                                             </tr>
                                         @endforeach
                                     </tbody>
