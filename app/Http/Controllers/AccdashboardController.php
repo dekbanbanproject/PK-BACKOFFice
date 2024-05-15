@@ -166,7 +166,7 @@ class AccdashboardController extends Controller
                         GROUP BY months ORDER BY a.dchdate DESC 
                 ');  
             }
-        $data['pang'] =  DB::connection('mysql')->select('SELECT * FROM acc_setpang WHERE active ="TRUE"');
+        $data['pang'] =  DB::connection('mysql')->select('SELECT * FROM acc_setpang WHERE active ="TRUE" order by pang ASC');
         // $data['pang'] =  DB::connection('mysql')->select('SELECT * FROM acc_setpang WHERE active ="TRUE"');
         
         $datashow = Acc_dashboard::where('months',' month("'. $startdate.'")')->get();
