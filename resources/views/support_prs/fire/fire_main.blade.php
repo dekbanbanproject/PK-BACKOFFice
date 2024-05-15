@@ -138,6 +138,15 @@
         <div class="col"></div>
       
         <div class="col-md-4 text-end">
+            <a href="{{url('fire_qrcode_all')}}" class="ladda-button me-2 btn-pill btn btn-info cardacc">  
+                <i class="fa-solid fa-print me-2 text-white me-2" style="font-size:13px"></i>
+                <span>Print QRCODE All</span> 
+            </a> 
+            <a href="{{url('fire_qrcode_detail_all')}}" class="ladda-button me-2 btn-pill btn btn-secondary cardacc">  
+                <i class="fa-solid fa-print me-2 text-white me-2" style="font-size:13px"></i>
+                <span>Print QRCODE Detail All</span>
+                
+            </a> 
             <a href="{{url('fire_add')}}" class="ladda-button me-2 btn-pill btn btn-primary cardacc"> 
                 <i class="fa-solid fa-circle-plus text-white me-2"></i>
                เพิ่มรายการ
@@ -218,6 +227,7 @@
                                                         <i class="fa-solid fa-print me-2 text-primary" style="font-size:13px"></i>
                                                         <span>Print QR</span>
                                                     </a> 
+                                                    
                                                     <div class="dropdown-divider"></div>
                                                     <a class="dropdown-item text-info" href="{{ url('fire_qrcode_detail/'.$item->fire_id) }}" style="font-size:13px"> 
                                                         <i class="fa-solid fa-print me-2 text-info" style="font-size:13px"></i>

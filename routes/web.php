@@ -3113,7 +3113,9 @@ Route::match(['get','post'],'fire_edit/{id}',[App\Http\Controllers\FireControlle
 Route::match(['get','post'],'fire_update',[App\Http\Controllers\FireController::class, 'fire_update'])->name('prs.fire_update');//
 // Route::delete('fire_destroy/{id}',[App\Http\Controllers\FireController::class, 'fire_destroy'])->name('prs.fire_destroy');//
 Route::match(['get','post'],'fire_qrcode/{id}',[App\Http\Controllers\FireController::class, 'fire_qrcode'])->name('prs.fire_qrcode');//
+Route::match(['get','post'],'fire_qrcode_all',[App\Http\Controllers\FireController::class, 'fire_qrcode_all'])->name('prs.fire_qrcode_all');//
 Route::match(['get','post'],'fire_qrcode_detail/{id}',[App\Http\Controllers\FireController::class, 'fire_qrcode_detail'])->name('prs.fire_qrcode_detail');//
+Route::match(['get','post'],'fire_qrcode_detail_all',[App\Http\Controllers\FireController::class, 'fire_qrcode_detail_all'])->name('prs.fire_qrcode_detail_all');//
 Route::match(['get','post'],'fire_report_day',[App\Http\Controllers\FireController::class, 'fire_report_day'])->name('prs.fire_report_day');//
 Route::match(['get','post'],'fire_destroy/{id}',[App\Http\Controllers\FireController::class, 'fire_destroy'])->name('prs.fire_destroy');//
 // ************** FDH ****************************

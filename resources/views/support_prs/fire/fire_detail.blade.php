@@ -93,16 +93,16 @@
                 <div class="card-body">  
                         <div class="row">
                             <div class="col text-start">
-                                @if ( $dataprint->fire_imgname == Null )
+                                @if ( $data_detail_->fire_imgname == Null )
                                 <img src="{{asset('assets/images/defailt_img.jpg')}}" height="90px" width="90px" alt="Image" class="img-thumbnail"> 
                                 @else
-                                <img src="{{asset('storage/fire/'.$dataprint->fire_imgname)}}" height="90px" width="90px" alt="Image" class="img-thumbnail">                                
+                                <img src="{{asset('storage/fire/'.$data_detail_->fire_imgname)}}" height="90px" width="90px" alt="Image" class="img-thumbnail">                                
                                 @endif
                             </div> 
                             <div class="col-8">
-                                <p>รหัส : {{$dataprint->fire_num}}</p> 
-                                <p>ชื่อ  : {{$dataprint->fire_name}}</p> 
-                                <p>ที่ตั้ง : {{$dataprint->fire_location}}</p> 
+                                <p>รหัส : {{$data_detail_->fire_num}}</p> 
+                                <p>ชื่อ  : {{$data_detail_->fire_name}}</p> 
+                                <p>ที่ตั้ง : {{$data_detail_->fire_location}}</p> 
                             </div> 
                         </div>
                         @foreach ($data_detail as $item) 

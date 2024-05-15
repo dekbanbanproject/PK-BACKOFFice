@@ -107,14 +107,14 @@ class FireController extends Controller
     public function fire_detail(Request $request, $id)
     {
 
-        $dataprint = Fire::where('fire_id', '=', $id)->first();
+        // $dataprint = Fire::where('fire_id', '=', $id)->first();
         // dd($dataprint->fire_num);
-        $data_count = Fire_check::where('fire_num','=', $dataprint->fire_num)->count();
+        $data_count = Fire_check::where('fire_num','=', $id)->count();
         // dd($data_count);
         if ($data_count < 1) {
 
-            $arnum = $dataprint->fire_num;
-            $data_detail = Fire::where('fire_num', '=', $dataprint->fire_num)->first();
+            $arnum = $id;
+            $data_detail = Fire::where('fire_num', '=', $id)->first();
 
             $data_detail2 = Fire::where('fire_num', '=', 'F9999999')->first();
             $signat = $data_detail2->fire_img_base;
@@ -122,7 +122,7 @@ class FireController extends Controller
             $pic_fire = base64_encode(file_get_contents($signat));  
             
             return view('support_prs.fire.fire_detail_null', [
-                'dataprint'    => $dataprint,
+                // 'dataprint'    => $dataprint,
                 'arnum'        => $arnum,
                 'data_detail'  => $data_detail,
                 'pic_fire'     => $pic_fire
@@ -130,18 +130,19 @@ class FireController extends Controller
         } else {
             $data_detail = Fire_check::leftJoin('users', 'fire_check.user_id', '=', 'users.id') 
             ->leftJoin('fire', 'fire.fire_num', '=', 'fire_check.fire_num') 
-            ->where('fire_check.fire_num', '=', $dataprint->fire_num)
+            ->where('fire_check.fire_num', '=', $id)
             ->get();
 
-            $data_detail_ = Fire::where('fire_num', '=', $dataprint->fire_num)->first();
+            $data_detail_ = Fire::where('fire_num', '=', $id)->first();
             $signat = $data_detail_->fire_img_base;
             $pic_fire = base64_encode(file_get_contents($signat));  
             // dd($data_detail);
             return view('support_prs.fire.fire_detail', [
-                'dataprint'    => $dataprint,
-                'data_detail'  => $data_detail,
-                'pic_fire'     => $pic_fire,
-                'id'           => $id
+                // 'dataprint'    => $dataprint,
+                'data_detail'   => $data_detail,
+                'data_detail_'  => $data_detail_,
+                'pic_fire'      => $pic_fire,
+                'id'            => $id
             ]);
         }
         
@@ -421,8 +422,18 @@ class FireController extends Controller
     {
 
             $dataprint = Fire::where('fire_id', '=', $id)->first();
+            // $dataprint = Fire::where('fire_id', '=', $id)->get();
 
         return view('support_prs.fire.fire_qrcode', [
+            'dataprint'  =>  $dataprint
+        ]);
+
+    }
+    public function fire_qrcode_all(Request $request)
+    {  
+            $dataprint = Fire::get();
+
+        return view('support_prs.fire.fire_qrcode_all', [
             'dataprint'  =>  $dataprint
         ]);
 
@@ -433,13 +444,25 @@ class FireController extends Controller
         $dataprint = Fire::where('fire_id', '=', $id)->first();
         $data_detail = Fire_check::where('fire_num', '=', $dataprint->fire_num) 
         // ->leftJoin('users', 'fire_check.user_id', '=', 'users.id')
-        ->get();
-      
-        
+        ->get(); 
         return view('support_prs.fire.fire_qrcode_detail', [
             'dataprint'    => $dataprint,
             'data_detail'  => $data_detail,
             'id'           => $id
+        ]); 
+    }
+    public function fire_qrcode_detail_all(Request $request)
+    {  
+            $dataprint_main = Fire::get();
+            // $dataprint = Fire::where('fire_id', '=', $id)->first();
+            // foreach ($dataprint_main as $key => $value) {
+            //     $data_detail  = Fire_check::where('fire_num', '=', $value->fire_num)->get();
+            // }
+            // $data_detail_ = $data_detail;
+        // dd($dataprint_main);
+        return view('support_prs.fire.fire_qrcode_detail_all', [
+            'dataprint_main'  =>  $dataprint_main,
+            // 'dataprint'        =>  $dataprint
         ]);
 
     }

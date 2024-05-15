@@ -15,31 +15,29 @@
     use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
     ?>
-    {{-- <body onload="window.print()"> --}}
-<body >
-    <br> <br> <br> <br><br> <br><br> <br>
-    <div class="row mt-5">
-        <div class="col"></div>
-        <div class="col-md-10 text-center">
-           
-            @if ($data_detail->fire_imgname == '')
-            {{-- <img src="data:image/png;base64,{{ $pic_fire }}" height="40px" alt="" class="img-thumbnail"> --}}
-            <img src="{{asset('assets/images/defailt_img.jpg')}}" height="850px" width="500px" alt="" > 
-            @else
-            <img src="{{asset('storage/fire/'.$data_detail->fire_imgname)}}" height="550px" width="500px" alt="">   
-            @endif
+<body onload="window.print()">
+   
+    <div class="container">
+        <div class="row mt-5">
             
-            <br> <br>
-            <label for="" style="font-size: 50px;">ยังไม่ได้มีการตรวจถังดับเพลิง<br> รหัส {{$arnum}} เลย</label>
-        </div>
-        <div class="col"></div>
-         
+                @foreach ($dataprint as $item)
+                <div class="col-md-2 text-center">
+                    <div class="card">
+                        <div class="body"><br>
+                            {!! QrCode::size(112)->encoding('UTF-8')->generate($item->fire_num);!!} 
+                            <p style="font-size: 17px"> รหัส {{ $item->fire_num }} <br>
+                                แสกนตรวจสอบ<br>
+                                สำหรับเจ้าหน้าที่</p>
+                        </div> 
+                    </div> 
+                </div>
+                @endforeach 
+                
+            
+        
+        </div>  
     </div>
-
-     
-    
-     
-     
+   
      <!-- JAVASCRIPT -->
      <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>
 
