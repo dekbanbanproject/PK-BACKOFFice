@@ -265,7 +265,7 @@
                             <li class="nav-item">
                                 <a href="#tab-minimal-1" data-bs-toggle="tab" class="nav-link active minimal-tab-btn-1">
                                     <div class="widget-number">
-                                        <span>$15,065</span>
+                                        <span>${{ number_format($sumlooknee, 2) }}</span>
                                     </div>
                                     <div class="tab-subheading">
                                         <span class="pe-2 opactiy-6">

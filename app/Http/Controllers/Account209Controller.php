@@ -297,13 +297,13 @@ class Account209Controller extends Controller
                 ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
                 ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
                 ,vp.max_debt_amount
-                from hos.ovst o
-                left outer join hos.vn_stat v on v.vn=o.vn
+                from ovst o
+                left outer join vn_stat v on v.vn=o.vn
                 left outer join visit_pttype vp on vp.vn = v.vn
-                left outer join hos.patient pt on pt.hn=o.hn
-                left outer join hos.pttype ptt on o.pttype=ptt.pttype
-                left outer join hos.pttype_eclaim e on e.code = ptt.pttype_eclaim_id
-                left outer join hos.opitemrece op ON op.vn = o.vn
+                left outer join patient pt on pt.hn=o.hn
+                left outer join pttype ptt on o.pttype=ptt.pttype
+                left outer join pttype_eclaim e on e.code = ptt.pttype_eclaim_id
+                left outer join opitemrece op ON op.vn = o.vn
                 left outer join s_drugitems s on s.icode = op.icode
                 
                 WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"

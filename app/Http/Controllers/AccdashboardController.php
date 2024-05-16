@@ -119,7 +119,12 @@ class AccdashboardController extends Controller
         //       ]);
         //     }  
         // }
-        $budget_year   = $request->budget_year;
+          $budget_year   = $request->budget_year;
+          $yearnew = date('Y');
+          $year_old = date('Y')-1;
+          $months_old  = ('10');
+          $startdate = (''.$year_old.'-10-01');
+          $enddate = (''.$yearnew.'-09-30');
             
             $datenow       = date("Y-m-d");
             $y             = date('Y') + 543;
@@ -134,11 +139,11 @@ class AccdashboardController extends Controller
             $year_now = date('Y'); 
               //  dd($dabudget_year);
             if ($budget_year == '') {  
-                $yearnew = date('Y');
-                $year_old = date('Y')-1;
-                $months_old  = ('10');
-                $startdate = (''.$year_old.'-10-01');
-                $enddate = (''.$yearnew.'-09-30');
+                // $yearnew = date('Y');
+                // $year_old = date('Y')-1;
+                // $months_old  = ('10');
+                // $startdate = (''.$year_old.'-10-01');
+                // $enddate = (''.$yearnew.'-09-30');
 
                 $datashow = DB::select(' 
                         SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
@@ -166,11 +171,17 @@ class AccdashboardController extends Controller
                         GROUP BY months ORDER BY a.dchdate DESC 
                 ');  
             }
-        $data['pang'] =  DB::connection('mysql')->select('SELECT * FROM acc_setpang WHERE active ="TRUE" order by pang ASC');
-        // $data['pang'] =  DB::connection('mysql')->select('SELECT * FROM acc_setpang WHERE active ="TRUE"');
-        
-        $datashow = Acc_dashboard::where('months',' month("'. $startdate.'")')->get();
+        $data['pang']          =  DB::connection('mysql')->select('SELECT * FROM acc_setpang WHERE active ="TRUE" order by pang ASC'); 
+        $data['sum_201']       = DB::table('acc_1102050101_201')->whereBetween('vstdate', [$startdate, $enddate])->sum('debit_total');
+        $data['sum_202']       = DB::table('acc_1102050101_202')->whereBetween('dchdate', [$startdate, $enddate])->sum('debit_total');
+        $data['sum_203']       = DB::table('acc_1102050101_203')->whereBetween('vstdate', [$startdate, $enddate])->sum('debit_total');
+        $data['sum_209']       = DB::table('acc_1102050101_209')->whereBetween('vstdate', [$startdate, $enddate])->sum('debit_total');
+        $data['sum_216']       = DB::table('acc_1102050101_216')->whereBetween('vstdate', [$startdate, $enddate])->sum('debit_total');
+        $data['sum_2166']       = DB::table('acc_1102050101_2166')->whereBetween('vstdate', [$startdate, $enddate])->sum('debit_total');
+        $data['sum_217']       = DB::table('acc_1102050101_217')->whereBetween('dchdate', [$startdate, $enddate])->sum('debit_total');
 
+        $datashow = Acc_dashboard::where('months',' month("'. $startdate.'")')->get();
+        $data['sumlooknee'] = $data['sum_201']+$data['sum_202']+$data['sum_203']+$data['sum_209']+$data['sum_216']+$data['sum_2166']+$data['sum_217']+$data['sum_201'];
       
     return view('dashboard.account_pk_dash',$data, [ 
       'datashow'          =>  $datashow,
