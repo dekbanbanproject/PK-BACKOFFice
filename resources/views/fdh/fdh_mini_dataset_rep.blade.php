@@ -134,15 +134,17 @@ $pos = strrpos($url, '/') + 1;
                                     <tr>
                                         <th class="text-center">ลำดับ</th>
                                         <th width="5%" class="text-center"><input type="checkbox" class="fdhcheckbox" name="stamp" id="stamp"> </th>  
-                                        <th class="text-center" width="10%">service_date_time</th> 
+                                        {{-- <th class="text-center" width="10%">service_date_time</th>  --}}
+                                        <th class="text-center" width="10%">vstdate</th> 
                                         <th class="text-center" width="5%">hn</th>
                                         <th class="text-center" width="5%">pttype</th>
                                         <th class="text-center">ptname</th>
-                                        <th class="text-center" width="5%">hcode</th>
+                                        {{-- <th class="text-center" width="5%">hcode</th> --}}
                                         <th class="text-center" width="7%">total_amout</th>
                                         <th class="text-center" width="7%">invoice_number</th>
                                         <th class="text-center" width="10%">@uid</th>
                                         <th class="text-center" width="10%">@id_booking</th>
+                                        <th class="text-center" width="10%">@Authen</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -159,15 +161,17 @@ $pos = strrpos($url, '/') + 1;
                                                 @else
                                                     <td class="text-center" width="5%"><input type="checkbox" class="fdhcheckbox sub_chk" data-id="{{$item->fdh_mini_dataset_id}}"> </td> 
                                                 @endif  
-                                                <td class="text-center" width="10%">{{ $item->service_date_time }}</td> 
+                                                {{-- <td class="text-center" width="10%">{{ $item->service_date_time }}</td>  --}}
+                                                <td class="text-center" width="10%">{{ $item->vstdate }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>
                                                 <td class="text-center" width="5%">{{ $item->pttype }}</td>
                                                 <td class="p-2">{{ $item->ptname }}</td>
-                                                <td class="text-center" width="5%">{{ $item->hcode }}</td>
+                                                {{-- <td class="text-center" width="5%">{{ $item->hcode }}</td> --}}
                                                 <td class="text-center" width="7%">{{ $item->total_amout }}</td>
                                                 <td class="text-center" width="7%">{{ $item->invoice_number }}</td>
                                                 <td class="text-center" width="10%">{{ $item->transaction_uid }}</td>
                                                 <td class="text-center" width="10%">{{ $item->id_booking }}</td>
+                                                <td class="text-center" width="10%">{{ $item->claimcode }}</td>
                                             </tr>
 
                                     @endforeach
@@ -309,6 +313,7 @@ $pos = strrpos($url, '/') + 1;
                                                     $(this).parents("tr").remove();
                                                 });
                                                 Swal.fire({
+                                                    position: "top-end",
                                                     title: 'ส่งข้อมูลสำเร็จ',
                                                     text: "You Send data success",
                                                     icon: 'success',
@@ -415,6 +420,7 @@ $pos = strrpos($url, '/') + 1;
                                     success: function(data) {
                                         if (data.status == 200) { 
                                             Swal.fire({
+                                                position: "top-end",
                                                 title: 'ดึงข้อมูลสำเร็จ',
                                                 text: "You Pull data success",
                                                 icon: 'success',
@@ -496,6 +502,7 @@ $pos = strrpos($url, '/') + 1;
                                                         $(this).parents("tr").remove();
                                                     });
                                                     Swal.fire({
+                                                        position: "top-end",
                                                         title: 'ดึงข้อมูลจองเคลมสำเร็จ',
                                                         text: "You Pull data success",
                                                         icon: 'success',

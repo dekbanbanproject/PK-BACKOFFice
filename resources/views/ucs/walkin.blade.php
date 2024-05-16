@@ -258,18 +258,19 @@ $pos = strrpos($url, '/') + 1;
                                                 <tr style="font-size: 13px">
                                                     <th width="5%" class="text-center"><input type="checkbox" class="fdhcheckbox" name="stamp" id="stamp"> </th> 
                                                     {{-- <th class="text-center">ลำดับ</th> --}}
-                                                    <th class="text-center">vn</th>
+                                                    {{-- <th class="text-center">vn</th> --}}
                                                     <th class="text-center">hn</th>
-                                                    <th class="text-center">cid</th>  
+                                                    {{-- <th class="text-center">cid</th>   --}}
                                                     <th class="text-center">vstdate</th> 
                                                     <th class="text-center">pttype</th> 
                                                     <th class="text-center">hospcode</th> 
                                                     <th class="text-center">icd10</th>  
                                                     <th class="text-center">Authen</th> 
-                                                    <th class="text-center">projectcode</th> 
+                                                    {{-- <th class="text-center">projectcode</th>  --}}
                                                     <th class="text-center">ptname</th> 
                                                     <th class="text-center">debit</th> 
                                                     <th class="text-center">สถานะ</th> 
+                                                    <th class="text-center">@id_booking</th> 
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -286,9 +287,9 @@ $pos = strrpos($url, '/') + 1;
                                                             <td class="text-center" width="5%"><input type="checkbox" class="fdhcheckbox sub_chk" data-id="{{$item->d_fdh_id}}"> </td> 
                                                         @endif
                                                         {{-- <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td> --}}
-                                                        <td class="text-center" width="10%">  {{ $item->vn }}  </td>
+                                                        {{-- <td class="text-center" width="10%">  {{ $item->vn }}  </td> --}}
                                                         <td class="text-center" width="5%">{{ $item->hn }}</td>
-                                                        <td class="text-center" width="10%">{{ $item->cid }}</td>  
+                                                        {{-- <td class="text-center" width="10%">{{ $item->cid }}</td>   --}}
                                                         <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
                                                         <td class="text-center" width="5%">{{ $item->pttype }}</td> 
                                                         <td class="text-center" width="5%">{{ $item->hospcode }}</td> 
@@ -306,10 +307,11 @@ $pos = strrpos($url, '/') + 1;
                                                         
                                                        
                                                        
-                                                        <td class="text-center" width="5%">{{ $item->projectcode }}</td> 
+                                                        {{-- <td class="text-center" width="5%">{{ $item->projectcode }}</td>  --}}
                                                         <td class="text-start">{{ $item->ptname }}</td> 
                                                         <td class="text-center" width="8%">{{ $item->debit }}</td> 
                                                         <td class="text-center" width="5%">{{ $item->active_status }}</td> 
+                                                        <td class="text-center" width="5%">{{ $item->id_booking }}</td>
                                                     </tr>
                     
                     
@@ -1020,6 +1022,7 @@ $pos = strrpos($url, '/') + 1;
                                     success: function(data) {
                                         if (data.status == 200) { 
                                             Swal.fire({
+                                                position: "top-end",
                                                 title: 'ประมวลผลข้อมูลสำเร็จ',
                                                 text: "You Process data success",
                                                 icon: 'success',
@@ -1097,6 +1100,7 @@ $pos = strrpos($url, '/') + 1;
                                                     $(this).parents("tr").remove();
                                                 });
                                                 Swal.fire({
+                                                    position: "top-end",
                                                     title: 'ส่งข้อมูลเคลมสำเร็จ',
                                                     text: "You Claim data success",
                                                     icon: 'success',
@@ -1158,6 +1162,7 @@ $pos = strrpos($url, '/') + 1;
                                     success: function(data) {
                                         if (data.status == 200) { 
                                             Swal.fire({
+                                                position: "top-end",
                                                 title: 'ส่งข้อมูลเคลมสำเร็จ',
                                                     text: "You Claim data success",
                                                 icon: 'success',

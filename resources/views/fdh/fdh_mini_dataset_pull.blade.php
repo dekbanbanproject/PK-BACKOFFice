@@ -316,6 +316,7 @@ $pos = strrpos($url, '/') + 1;
                                                     $(this).parents("tr").remove();
                                                 });
                                                 Swal.fire({
+                                                    position: "top-end",
                                                     title: 'ส่งข้อมูลสำเร็จ',
                                                     text: "You Send data success",
                                                     icon: 'success',

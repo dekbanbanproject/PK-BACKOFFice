@@ -50,7 +50,9 @@ return new class extends Migration
                 $table->string('labcovid')->nullable();//
                 $table->enum('ods', ['N','Y'])->default('N')->nullable();
                 $table->string('error_c')->nullable();// 
-                $table->string('cc')->nullable();// 
+                $table->string('cc')->nullable();//
+                $table->string('transaction_uid')->nullable();//
+                $table->string('id_booking')->nullable();// 
                 $table->timestamps();
             }); 
         }

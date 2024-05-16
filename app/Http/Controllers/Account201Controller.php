@@ -313,8 +313,7 @@ class Account201Controller extends Controller
         foreach ($acc_debtor as $key => $value) {
                     $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.201')->count();
                     if ($check == 0) {
-                        if ($value->debit > 0) { 
-                        
+                        if ($value->debit > 0) {                         
                             Acc_debtor::insert([
                                 'hn'                 => $value->hn,
                                 'an'                 => $value->an,
@@ -337,7 +336,7 @@ class Account201Controller extends Controller
                                 'debit_instument'    => $value->debit_instument,
                                 'debit_toa'          => $value->debit_toa,
                                 'debit_refer'        => $value->debit_refer,
-                                'debit_total'        => $value->uc_money,
+                                'debit_total'        => $value->debit-$value->debit_instument-$value->debit_drug-$value->debit_refer,
                                 'max_debt_amount'    => $value->max_debt_amount,
                                 'acc_debtor_userid'  => Auth::user()->id
                             ]);

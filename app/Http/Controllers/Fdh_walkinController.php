@@ -22,7 +22,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Fdh_sesion;
 use App\Models\Departmentsub;
 use App\Models\Departmentsubsub;
-use App\Models\Position; 
+use App\Models\Fdh_mini_dataset; 
 use App\Models\D_apiwalkin_ins;  
 use App\Models\D_apiwalkin_adp;
 use App\Models\D_apiwalkin_aer;
@@ -121,7 +121,7 @@ class Fdh_walkinController extends Controller
                 $data_main_ = DB::connection('mysql2')->select(' 
                     SELECT v.hn,v.vn,i.an,v.vstdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.cid,v.pttype,group_concat(distinct oo.icd10) as icd10
                         ,h.hospcode,h.name as hospcode_name,ee.er_emergency_level_name ,v.income,v.uc_money,v.paid_money,v.rcpt_money,pt.hipdata_code
-                        ,v.income-v.rcpt_money-v.discount_money as debit,ov.name as active_status,cs.claimcode
+                        ,v.income-v.rcpt_money-v.discount_money as debit,ov.name as active_status,vv.claim_code
                         FROM vn_stat v
                         LEFT OUTER JOIN referin r on r.vn = v.vn
                         LEFT OUTER JOIN oapp o on o.visit_vn = v.vn
@@ -136,7 +136,7 @@ class Fdh_walkinController extends Controller
                         LEFT OUTER JOIN hpc11_ktb_approval hh on hh.pid = v.cid and hh.transaction_date = v.vstdate 
                         LEFT OUTER JOIN ovst ot on ot.vn = v.vn
                         LEFT OUTER JOIN ovstost ov on ov.ovstost = ot.ovstost
-                        LEFT OUTER JOIN check_authen_hos cs on cs.vn = v.vn
+                       
                         WHERE v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                         AND i.an is null 
                         AND v.pttype in("W2","W1","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81")  
@@ -145,6 +145,7 @@ class Fdh_walkinController extends Controller
                         AND pt.hipdata_code ="UCS"
                         GROUP BY v.vn 
                 ');  
+                // LEFT OUTER JOIN check_authen_hos cs on cs.vn = v.vn
                 // ,ca.claimcode as authen
                 // LEFT OUTER JOIN pkbackoffice.check_authen ca on ca.cid = v.cid AND ca.vstdate = v.vstdate               
                 foreach ($data_main_ as $key => $value) {   
@@ -155,7 +156,7 @@ class Fdh_walkinController extends Controller
                             'icd10'          => $value->icd10,  
                             'debit'          => $value->debit,
                             'active_status'  => $value->active_status,
-                            'authen'         => $value->claimcode
+                            'authen'         => $value->claim_code
                         ]);
                     } else { 
                         D_fdh::insert([
@@ -166,7 +167,7 @@ class Fdh_walkinController extends Controller
                             'pttype'       => $value->pttype,                           
                             'ptname'       => $value->ptname,
                             'vstdate'      => $value->vstdate,
-                            'authen'       => $value->claimcode,
+                            'authen'       => $value->claim_code,
                             'projectcode'  => 'WALKIN', 
                             'icd10'        => $value->icd10,
                             'hospcode'     => $value->hospcode, 
@@ -174,31 +175,35 @@ class Fdh_walkinController extends Controller
                             'active_status'  => $value->active_status
                         ]);
                     }                      
-
-                    $check = D_claim::where('vn',$value->vn)->where('nhso_adp_code','WALKIN')->count();
-                    if ($check > 0) {
-                        D_claim::where('vn',$value->vn)->update([ 
-                            'sum_price'          => $value->income,  
-                        ]);
-                         
-                    } else {
-                        D_claim::insert([
-                            'vn'                => $value->vn,
-                            'hn'                => $value->hn,
-                            'an'                => $value->an,
-                            'cid'               => $value->cid,
-                            'pttype'            => $value->pttype,
-                            'ptname'            => $value->ptname,
-                            'vstdate'           => $value->vstdate,
-                            'hipdata_code'      => $value->hipdata_code, 
-                            'sum_price'          => $value->income,
-                            'type'              => 'OPD',
-                            'nhso_adp_code'     => 'WALKIN',
-                            'claimdate'         => $date, 
-                            'userid'            => $iduser, 
-                        ]);
-                       
-                    }  
+                    $mini_Dataset_ = Fdh_mini_dataset::where('vn',$value->vn)->get();
+                    foreach ($mini_Dataset_ as $key => $val_mini) {
+                        D_fdh::where('vn',$val_mini->vn)->update([ 
+                            'id_booking'         => $val_mini->id_booking,  
+                            'transaction_uid'    => $val_mini->transaction_uid, 
+                        ]);  
+                    }
+                    // $check = D_claim::where('vn',$value->vn)->where('nhso_adp_code','WALKIN')->count();
+                    // if ($check > 0) {
+                    //     D_claim::where('vn',$value->vn)->update([ 
+                    //         'sum_price'          => $value->income,  
+                    //     ]);                         
+                    // } else {
+                    //     D_claim::insert([
+                    //         'vn'                => $value->vn,
+                    //         'hn'                => $value->hn,
+                    //         'an'                => $value->an,
+                    //         'cid'               => $value->cid,
+                    //         'pttype'            => $value->pttype,
+                    //         'ptname'            => $value->ptname,
+                    //         'vstdate'           => $value->vstdate,
+                    //         'hipdata_code'      => $value->hipdata_code, 
+                    //         'sum_price'          => $value->income,
+                    //         'type'              => 'OPD',
+                    //         'nhso_adp_code'     => 'WALKIN',
+                    //         'claimdate'         => $date, 
+                    //         'userid'            => $iduser, 
+                    //     ]);                       
+                    // }  
                 } 
                 // $data_authen_    = DB::connection('mysql')->select('SELECT hncode,cid,vstdate,claimcode FROM check_authen WHERE vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" '); 
                 // foreach ($data_authen_ as $key => $v_up) {
@@ -208,7 +213,6 @@ class Fdh_walkinController extends Controller
                 // } 
                 $s_date_now = date("Y-m-d");
                 $s_time_now = date("H:i:s");
-
                 #ตัดขีด, ตัด : ออก
                 $pattern_date = '/-/i';
                 $s_date_now_preg = preg_replace($pattern_date, '', $s_date_now);
@@ -217,7 +221,6 @@ class Fdh_walkinController extends Controller
                 #ตัดขีด, ตัด : ออก
                 $folder_name='WALKIN_'.$s_date_now_preg.'_'.$s_time_now_preg;
                  
-
                 Fdh_sesion::insert([
                     'folder_name'      => $folder_name,
                     'd_anaconda_id'    => 'WALKIN',
@@ -1545,42 +1548,42 @@ class Fdh_walkinController extends Controller
                 } 
  
          }
-        // $walk_ = DB::connection('mysql')->select('SELECT * FROM fdh_adp WHERE d_anaconda_id = "WALKIN" GROUP BY SEQ');
-        // foreach ($walk_ as $key => $va_w) {
-        //     Fdh_adp::insert([
-        //         'HN'                   => $va_w->HN,
-        //         'AN'                   => $va_w->AN,
-        //         'DATEOPD'              => $va_w->DATEOPD,
-        //         'TYPE'                 => '5',
-        //         'CODE'                 => 'WALKIN',
-        //         'QTY'                  => '1',
-        //         'RATE'                 => '0.00',
-        //         'SEQ'                  => $va_w->SEQ,
-        //         'CAGCODE'              => $va_w->CAGCODE,
-        //         'DOSE'                 => $va_w->DOSE,
-        //         'CA_TYPE'              => $va_w->CA_TYPE,
-        //         'SERIALNO'             => $va_w->SERIALNO,
-        //         'TOTCOPAY'             => $va_w->TOTCOPAY,
-        //         'USE_STATUS'           => $va_w->USE_STATUS,
-        //         'TOTAL'                => $va_w->TOTAL,
-        //         'QTYDAY'               => $va_w->QTYDAY,
-        //         'TMLTCODE'             => $va_w->TMLTCODE,
-        //         'STATUS1'              => $va_w->STATUS1,
-        //         'BI'                   => $va_w->BI,
-        //         'CLINIC'               => $va_w->CLINIC,
-        //         'ITEMSRC'              => $va_w->ITEMSRC,
-        //         'PROVIDER'             => $va_w->PROVIDER,
-        //         'GRAVIDA'              => $va_w->GRAVIDA,
-        //         'GA_WEEK'              => $va_w->GA_WEEK,
-        //         'DCIP'                 => $va_w->DCIP,
-        //         'LMP'                  => $va_w->LMP,
-        //         'SP_ITEM'              => $va_w->SP_ITEM,
-        //         'icode'                => $va_w->icode,
-        //         'vstdate'              => $va_w->vstdate,
-        //         'user_id'              => $iduser,
-        //         'd_anaconda_id'        => 'WALKIN'
-        //     ]);
-        // }
+        $walk_ = DB::connection('mysql')->select('SELECT * FROM fdh_adp WHERE d_anaconda_id = "WALKIN" GROUP BY SEQ');
+        foreach ($walk_ as $key => $va_w) {
+            Fdh_adp::insert([
+                'HN'                   => $va_w->HN,
+                'AN'                   => $va_w->AN,
+                'DATEOPD'              => $va_w->DATEOPD,
+                'TYPE'                 => '5',
+                'CODE'                 => 'WALKIN',
+                'QTY'                  => '1',
+                'RATE'                 => '0.00',
+                'SEQ'                  => $va_w->SEQ,
+                'CAGCODE'              => $va_w->CAGCODE,
+                'DOSE'                 => $va_w->DOSE,
+                'CA_TYPE'              => $va_w->CA_TYPE,
+                'SERIALNO'             => $va_w->SERIALNO,
+                'TOTCOPAY'             => $va_w->TOTCOPAY,
+                'USE_STATUS'           => $va_w->USE_STATUS,
+                'TOTAL'                => $va_w->TOTAL,
+                'QTYDAY'               => $va_w->QTYDAY,
+                'TMLTCODE'             => $va_w->TMLTCODE,
+                'STATUS1'              => $va_w->STATUS1,
+                'BI'                   => $va_w->BI,
+                'CLINIC'               => $va_w->CLINIC,
+                'ITEMSRC'              => $va_w->ITEMSRC,
+                'PROVIDER'             => $va_w->PROVIDER,
+                'GRAVIDA'              => $va_w->GRAVIDA,
+                'GA_WEEK'              => $va_w->GA_WEEK,
+                'DCIP'                 => $va_w->DCIP,
+                'LMP'                  => $va_w->LMP,
+                'SP_ITEM'              => $va_w->SP_ITEM,
+                'icode'                => $va_w->icode,
+                'vstdate'              => $va_w->vstdate,
+                'user_id'              => $iduser,
+                'd_anaconda_id'        => 'WALKIN'
+            ]);
+        }
         D_fdh::whereIn('d_fdh_id',explode(",",$id))
                 ->update([
                     'active' => 'Y'
@@ -2611,18 +2614,35 @@ class Fdh_walkinController extends Controller
     }
     public function walkin_export_zip(Request $request)
     {
-        $sss_date_now = date("Y-m-d");
-        $sss_time_now = date("H:i:s");
-         #ตัดขีด, ตัด : ออก
-         $pattern_date = '/-/i';
-         $sss_date_now_preg = preg_replace($pattern_date, '', $sss_date_now);
-         $pattern_time = '/:/i';
-         $sss_time_now_preg = preg_replace($pattern_time, '', $sss_time_now);
-         #ตัดขีด, ตัด : ออก
+        $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "WALKIN"');
+            foreach ($dataexport_ as $key => $v_export) {
+                $folder = $v_export->folder_name;
+            }
+            $filename = $folder.".zip";
+
+            $zip = new ZipArchive;
+            if($zip->open(public_path($filename), ZipArchive::CREATE ) === TRUE)
+             { 
+                $files = File::files(public_path("Export/".$folder."/"));
+                foreach ($files as $key => $value) {
+                    $relativenameInZipFile = basename($value);
+                    $zip->addFile($value,$relativenameInZipFile); 
+                }
+                $zip->close();
+            }
+            return response()->download(public_path($filename));
+        // $sss_date_now = date("Y-m-d");
+        // $sss_time_now = date("H:i:s");
+        //  #ตัดขีด, ตัด : ออก
+        //  $pattern_date = '/-/i';
+        //  $sss_date_now_preg = preg_replace($pattern_date, '', $sss_date_now);
+        //  $pattern_time = '/:/i';
+        //  $sss_time_now_preg = preg_replace($pattern_time, '', $sss_time_now);
+        //  #ตัดขีด, ตัด : ออก
  
-          #delete file in folder ทั้งหมด
-         $file = new Filesystem;
-         $file->cleanDirectory('Export'); //ทั้งหมด
+        //   #delete file in folder ทั้งหมด
+        //  $file = new Filesystem;
+        //  $file->cleanDirectory('Export'); //ทั้งหมด
          // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
         //  $folder='WALKIN_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
         //  $folder='WALKIN_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
