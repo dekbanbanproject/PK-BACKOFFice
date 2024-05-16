@@ -1730,7 +1730,7 @@ class FdhController extends Controller
         }
         $data['fdh_mini_dataset']    = DB::connection('mysql')->select(
             'SELECT * from fdh_mini_dataset 
-            WHERE active ="N"  
+            WHERE active ="N" AND transaction_uid IS NULL
             ORDER BY total_amout DESC');
 //  AND vstdate BETWEEN "' . $newday . '" and "' . $date . '" 
 //  AND invoice_number IS NOT NULL  
