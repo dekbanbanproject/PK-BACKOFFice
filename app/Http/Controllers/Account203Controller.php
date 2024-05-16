@@ -303,6 +303,10 @@ class Account203Controller extends Controller
                         ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3009178","3009148") AND vn = v.vn) THEN "2500" 
                         ELSE "0.00" 
                         END as ct_cwith_bwith
+
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3001180","3002625","3002626","3002627","3010136") AND vn = v.vn) THEN SUM(sum_price)
+                        ELSE "0.00" 
+                        END as ct_cxr
                         
                         ,(SELECT SUM(rcptamt) sumprice FROM incoth WHERE income <> "08" AND vn = v.vn) AS price_noct
                         
@@ -407,6 +411,13 @@ class Account203Controller extends Controller
                             if ($check > 0 ) { 
                             } else {
                                 if ($value->debit_without > 0 || $value->debit_with > 0 || $value->debit_upper > 0 || $value->debit_lower > 0 || $value->debit_multiphase > 0 || $value->debit_drug100 > 0 || $value->debit_drug150 > 0 || $value->ct_cwith_bwith > 0) {
+                                   
+                                    $data_ = ($value->price_noct + $value->ct_cxr)- $value->rcpt_money;
+                                    if ($data_ > '700') {
+                                        $price_noct_ = '700';
+                                    } else {
+                                        $price_noct_ = $data_;
+                                    }                                    
                                     Acc_debtor::insert([
                                         'hn'                 => $value->hn,
                                         'an'                 => $value->an,
@@ -426,7 +437,8 @@ class Account203Controller extends Controller
                                         'paid_money'         => $value->paid_money,
                                         'rcpt_money'         => $value->rcpt_money,
                                         'debit'              => $value->uc_money, 
-                                        'debit_total'        => $value->price_noct, 
+                                        // 'debit_total'        => $value->price_noct, 
+                                        'debit_total'        => $price_noct_, 
                                         'referin_no'         => $value->referin_no, 
                                         'pdx'                => $value->pdx, 
                                         'dx0'                => $value->dx0, 
@@ -439,7 +451,15 @@ class Account203Controller extends Controller
                                         'active_status'      => $value->active_status,
                                         'referin_no'         => $value->referin_no,
                                     ]);
+
                                 }else{
+                                    // $data_ = $value->price_noct + $value->ct_cxr;
+                                    // if ($data_ > '700') {
+                                    //     $price_noct_ = '700';
+                                    // } else {
+                                    //     $price_noct_ = $data_;
+                                    // }    
+
                                     Acc_debtor::insert([
                                         'hn'                 => $value->hn,
                                         'an'                 => $value->an,
