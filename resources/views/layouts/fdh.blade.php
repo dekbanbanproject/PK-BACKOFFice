@@ -277,6 +277,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <li><a href="{{ url('fdh_mini_dataset') }}">FDH AUTH MINI</a></li> 
                                 <li><a href="{{ url('fdh_mini_dataset_pull') }}">FDH จองเคลม</a></li> 
                                 <li><a href="{{ url('fdh_mini_dataset_rep') }}">FDH ข้อมูลการจองเคลม</a></li> 
+                                <li><a href="{{ url('fdh_authen') }}">ดึง Authen จาก สปสช</a></li>
                             </ul> 
                         </li>
                         

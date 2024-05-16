@@ -50,9 +50,9 @@ use App\Models\Book_send_person;
 use App\Models\Book_sendteam;
 use App\Models\Bookrepdelete;
 use App\Models\Car_status;
-use App\Models\Car_index;
+use App\Models\Check_sit_auto;
 use App\Models\Article_status;
-use App\Models\Car_type;
+use App\Models\Visit_pttype;
 use App\Models\Product_brand;
 use App\Models\Product_color;
 use App\Models\Land;
@@ -1901,9 +1901,9 @@ class FdhController extends Controller
         $newyear     = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
  
         if ($startdate == '') {
-            $data['fdh_mini_dataset']    = DB::connection('mysql')->select('SELECT * from fdh_mini_dataset WHERE vstdate BETWEEN "'.$newdays.'" AND "'.$date.'" AND transaction_uid IS NOT NULL ORDER BY vstdate DESC');
+            $data['fdh_mini_dataset']    = DB::connection('mysql')->select('SELECT * from fdh_mini_dataset WHERE vstdate BETWEEN "'.$newdays.'" AND "'.$date.'" AND transaction_uid IS NOT NULL AND id_booking IS NULL ORDER BY vstdate DESC');
         } else {
-            $data['fdh_mini_dataset']    = DB::connection('mysql')->select('SELECT * from fdh_mini_dataset WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND transaction_uid IS NOT NULL ORDER BY vstdate DESC');            
+            $data['fdh_mini_dataset']    = DB::connection('mysql')->select('SELECT * from fdh_mini_dataset WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND transaction_uid IS NOT NULL AND id_booking IS NULL ORDER BY vstdate DESC');            
         }
         
 
@@ -2291,5 +2291,144 @@ class FdhController extends Controller
             return response()->json([
                 'status'    => '200'
             ]); 
+    }
+
+    public function fdh_authen(Request $request)
+    {
+        $startdate   = $request->startdate;
+        $enddate     = $request->enddate;
+        $date        = date('Y-m-d');
+        $y           = date('Y') + 543;
+        $newdays     = date('Y-m-d', strtotime($date . ' -2 days')); //ย้อนหลัง 2 วัน
+        $newweek     = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate     = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear     = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+ 
+        if ($startdate == '') {
+            $data['fdh_mini_dataset']    = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate,pttype,claimcode,fullname FROM check_sit_auto WHERE vstdate BETWEEN "'.$newdays.'" AND "'.$date.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY vn');
+        } else {
+            $data['fdh_mini_dataset']    = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate,pttype,claimcode,fullname FROM check_sit_auto WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY vn');            
+        }
+        
+
+        return view('fdh.fdh_authen',$data, [
+            'startdate'        => $startdate,
+            'enddate'          => $enddate, 
+        ]);
+    }
+    public function fdh_authen_pull(Request $request)
+    {
+        $startdate   = $request->startdate;
+        $enddate     = $request->enddate;
+            // $date_now = date('2024-05-10'); 
+            $data_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM check_sit_auto WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY vn'); 
+            // $data_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY vn'); 
+            $ch = curl_init(); 
+            foreach ($data_ as $key => $value) {
+                    $cid         = $value->cid;
+                    $vn          = $value->vn;
+                    $vstdate     = $value->vstdate; 
+                    $headers = array();
+                    $headers[] = "Accept: application/json";
+                    $headers[] = "Authorization: Bearer 3045bba2-3cac-4a74-ad7d-ac6f7b187479";    
+                    curl_setopt($ch, CURLOPT_URL, "https://authenucws.nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cid&serviceDate=$vstdate&serviceCode=PG0060001");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); 
+                    $response = curl_exec($ch); 
+                    $contents = $response; 
+                    $result = json_decode($contents, true);  
+                    if ($result != null ) {  
+                            isset( $result['statusAuthen'] ) ? $statusAuthen = $result['statusAuthen'] : $statusAuthen = ""; 
+                            if ($statusAuthen =='false') { 
+                                $his = $result['serviceHistories']; 
+                                // dd($his); 
+                                foreach ($his as $key => $value_s) {
+                                    $cd	           = $value_s["claimCode"];
+                                    $sv_code	   = $value_s["service"]["code"];
+                                    $sv_name	   = $value_s["service"]["name"];
+                                        
+                                    Visit_pttype::where('vn','=', $vn)
+                                        ->update([
+                                            'claim_code'     => $cd, 
+                                    ]);
+                                    
+                                    Check_sit_auto::where('vn','=', $vn)
+                                        ->update([
+                                            'claimcode'     => $cd,
+                                            'claimtype'     => $sv_code,
+                                            'servicename'   => $sv_name, 
+                                    ]);
+                                    Fdh_mini_dataset::where('vn','=', $vn)
+                                        ->update([
+                                            'claimcode'     => $cd,
+                                            'claimtype'     => $sv_code,
+                                            'servicename'   => $sv_name, 
+                                    ]);
+                                    
+                                }  
+                            } 
+                    } 
+            }  
+            
+            
+            $datati_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM check_sit_auto WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND (claimcode IS NULL OR claimcode ="") AND pttype IN("M1","M2","M3","M4","M5","M6") GROUP BY vn'); 
+            // $datati_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype IN("M1","M2","M3","M4","M5","M6") GROUP BY vn'); 
+            
+                
+            $chti = curl_init(); 
+                foreach ($datati_ as $key => $valueti) {
+                        $cidti         = $valueti->cid;
+                        $vnti          = $valueti->vn;
+                        $vstdateti     = $valueti->vstdate; 
+                        $headers = array();
+                        $headers[] = "Accept: application/json";
+                        $headers[] = "Authorization: Bearer 3045bba2-3cac-4a74-ad7d-ac6f7b187479";    
+                        curl_setopt($chti, CURLOPT_URL, "https://authenucws.nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cidti&serviceDate=$vstdateti&serviceCode=PG0130001");
+                        curl_setopt($chti, CURLOPT_RETURNTRANSFER, 1);
+                        curl_setopt($chti, CURLOPT_CUSTOMREQUEST, "GET");
+                        curl_setopt($chti, CURLOPT_HTTPHEADER, $headers);  
+                        $responseti = curl_exec($chti);
+                        // // curl_close($chti);
+                        // dd($ccde);
+                        $contents_ti = $responseti; 
+                        $result_ti = json_decode($contents_ti, true); 
+                        if ($result_ti != null ) {  
+                                    isset( $result_ti['statusAuthen'] ) ? $statusAuthen_ti = $result_ti['statusAuthen'] : $statusAuthen_ti = "";
+                                     
+                                    if ($statusAuthen_ti =='false') { 
+                                        $his_ti = $result_ti['serviceHistories']; 
+                                        // dd($his); 
+                                        foreach ($his_ti as $key => $value_ss) {
+                                            $cd_ti	        = $value_ss["claimCode"];
+                                            $sv_code_ti	    = $value_ss["service"]["code"];
+                                            $sv_name_ti	    = $value_ss["service"]["name"];
+                                            Visit_pttype::where('vn','=', $vnti)
+                                                ->update([
+                                                    'claim_code'     => $cd_ti, 
+                                            ]);                                    
+                                            Check_sit_auto::where('vn','=', $vnti)
+                                                ->update([
+                                                    'claimcode'     => $cd_ti,
+                                                    'claimtype'     => $sv_code_ti,
+                                                    'servicename'   => $sv_name_ti, 
+                                            ]);
+                                            Fdh_mini_dataset::where('vn','=', $vnti)
+                                            ->update([
+                                                'claimcode'     => $cd_ti,
+                                                'claimtype'     => $sv_code_ti,
+                                                'servicename'   => $sv_name_ti, 
+                                        ]);
+                                        }  
+                                    }
+                                // }
+                        }
+                        
+                } 
+            // return response()->json('true');
+            return response()->json([
+                'status'    => '200'
+            ]);
+                
     }
 }
