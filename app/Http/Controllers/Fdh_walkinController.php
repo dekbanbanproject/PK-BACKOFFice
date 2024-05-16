@@ -226,7 +226,7 @@ class Fdh_walkinController extends Controller
                     'userid'           => $iduser  
                 ]);
 
-                $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" AND active ="N" AND projectcode ="WALKIN" AND debit > "1" ORDER BY vn ASC');  
+                $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" AND active ="N" AND projectcode ="WALKIN" AND debit > "1" ORDER BY vn DESC');  
 
         }   
             // $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="WALKIN" AND authen IS NOT NULL AND icd10 IS NOT NULL AND debit > "1" ORDER BY vn ASC');        
