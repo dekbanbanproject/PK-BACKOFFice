@@ -162,7 +162,7 @@ $pos = strrpos($url, '/') + 1;
 
                                         <tr height="20" >
                                             <td class="text-center" width="5%">{{ $number}}</td>
-                                            @if ($item->total_amout == '')
+                                            @if ($item->invoice_number == '')
                                             <td class="text-center" width="5%">
                                                 <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
                                             </td> 
