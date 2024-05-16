@@ -1730,10 +1730,10 @@ class FdhController extends Controller
         }
         $data['fdh_mini_dataset']    = DB::connection('mysql')->select(
             'SELECT * from fdh_mini_dataset 
-            WHERE active ="N" AND vstdate BETWEEN "' . $newday . '" and "' . $date . '" 
-            AND invoice_number IS NOT NULL  
+            WHERE active ="N"  
             ORDER BY total_amout DESC');
-
+//  AND vstdate BETWEEN "' . $newday . '" and "' . $date . '" 
+//  AND invoice_number IS NOT NULL  
         return view('fdh.fdh_mini_dataset_pull',$data, [
             'startdate'        => $startdate,
             'enddate'          => $enddate,
@@ -1813,7 +1813,6 @@ class FdhController extends Controller
             $token_   = $val_to->api_neweclaim_token;
         }
         $token = $token_;
-
         $startcount = 1;
         $data_claim = array();
         foreach ($data_vn_1 as $key => $val) {
