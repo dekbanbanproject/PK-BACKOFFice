@@ -88,8 +88,8 @@ $pos = strrpos($url, '/') + 1;
         </div>
     </div>
 
-    {{-- <form action="{{ url('fdh_mini_dataset_pull') }}" method="POST">
-        @csrf --}}
+    <form action="{{ url('fdh_authen') }}" method="GET">
+        @csrf
     <div class="row"> 
             <div class="col-md-3">
                 <h4 class="card-title" style="color:rgba(21, 177, 164, 0.871)">Detail Financial Data Hub</h4>
@@ -105,10 +105,10 @@ $pos = strrpos($url, '/') + 1;
                 <input type="text" class="form-control card_fdh_4" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                     data-date-language="th-th" value="{{ $enddate }}"/>  
     
-                {{-- <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
                     <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
-                    ค้นหา(มีเลข invoice_number)
-                </button>   --}}
+                    ค้นหา
+                </button>  
                     </form> 
                    
                     {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary card_fdh_4" id="Pulldata">
@@ -124,7 +124,7 @@ $pos = strrpos($url, '/') + 1;
                 </div> 
             </div>          
     </div>
-
+ 
         <div class="row">
             <div class="col-md-12">
                 <div class="card card_fdh_4">
@@ -150,7 +150,7 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center" width="5%">pttype</th>
                                     <th class="text-center">ptname</th>
                                     <th class="text-center" width="5%">claimcode</th>
-                                    {{-- <th class="text-center" width="7%">total_amout</th> --}}
+                                    <th class="text-center" width="7%">staff</th>
                                     {{-- <th class="text-center" width="7%">invoice_number</th> --}}
                                    
                                 </tr>
@@ -171,7 +171,7 @@ $pos = strrpos($url, '/') + 1;
                                             <td class="text-center" width="5%">{{ $item->pttype }}</td>
                                             <td class="p-2">{{ $item->fullname }}</td>
                                             <td class="text-center" width="10%">{{ $item->claimcode }}</td>
-                                            {{-- <td class="text-center" width="7%">{{ $item->total_amout }}</td> --}}
+                                            <td class="text-center" width="10%">{{ $item->staff }}</td>
                                             {{-- <td class="text-center" width="7%">{{ $item->invoice_number }}</td> --}}
                                            
                                         </tr>

@@ -2305,9 +2305,9 @@ class FdhController extends Controller
         $newyear     = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
  
         if ($startdate == '') {
-            $data['fdh_mini_dataset']    = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate,pttype,claimcode,fullname FROM check_sit_auto WHERE vstdate BETWEEN "'.$newdays.'" AND "'.$date.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY vn');
+            $data['fdh_mini_dataset']    = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate,pttype,claimcode,fullname,staff FROM check_sit_auto WHERE vstdate BETWEEN "'.$newdays.'" AND "'.$date.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","X7","10","06","C4") GROUP BY vn');
         } else {
-            $data['fdh_mini_dataset']    = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate,pttype,claimcode,fullname FROM check_sit_auto WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY vn');            
+            $data['fdh_mini_dataset']    = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate,pttype,claimcode,fullname,staff FROM check_sit_auto WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","X7","10","06","C4") GROUP BY vn');            
         }
         
 
