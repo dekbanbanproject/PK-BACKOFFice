@@ -1695,6 +1695,7 @@ class FdhController extends Controller
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
                 WHERE o.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"  
                 AND ptt.hipdata_code ="UCS" AND v.income > 0
+                AND (o.an IS NULL OR o.an ="")
                 GROUP BY o.vn 
             '
             );
@@ -1703,8 +1704,7 @@ class FdhController extends Controller
                 $check_opd = Fdh_mini_dataset::where('vn', $value->vn)->count();
                 if ($check_opd > 0) {
                     Fdh_mini_dataset::where('vn', $value->vn)->update([ 
-                        // 'ptname'              => $value->ptname,
-                        // 'hn'                  => $value->hn,
+                        'cid'                 => $value->cid, 
                         'pttype'              => $value->pttype,
                         'total_amout'         => $value->total_amout,
                         'invoice_number'      => $value->invoice_number, 
@@ -1762,8 +1762,9 @@ class FdhController extends Controller
                     LEFT OUTER JOIN pttype ptt ON v.pttype = ptt.pttype 
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
                 WHERE o.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"  
-                AND ptt.hipdata_code ="UCS" AND v.income > 0 and rd.finance_number IS NULL 
-                GROUP BY o.vn 
+                AND ptt.hipdata_code ="UCS" AND v.income > 0  
+                AND (o.an IS NULL OR o.an ="")
+                GROUP BY v.vn 
             '
             );
             // NOT IN("M1","M2","M3","M4","M5")  AND v.pttype NOT IN("M1","M4","M5")  
@@ -1773,6 +1774,7 @@ class FdhController extends Controller
                 $check_opd = Fdh_mini_dataset::where('vn', $value->vn)->count();
                 if ($check_opd > 0) {
                     Fdh_mini_dataset::where('vn', $value->vn)->update([  
+                        'cid'                 => $value->cid, 
                         'pttype'              => $value->pttype, 
                         'total_amout'         => $value->total_amout,
                         'invoice_number'      => $value->invoice_number, 

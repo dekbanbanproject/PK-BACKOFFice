@@ -809,10 +809,8 @@ class ApiController extends Controller
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
                 WHERE o.vstdate = "' . $date_now . '" AND (o.an IS NULL OR o.an = "") 
                 AND ptt.hipdata_code ="UCS" AND v.income > 0 and rd.finance_number IS NULL  
-                GROUP BY o.vn  
-              
-            '
-            );
+                GROUP BY o.vn   
+            ');
             // AND v.pttype NOT IN("M1","M4","M5")  
             foreach ($datashow_ as $key => $value) {
                 $check_opd = Fdh_mini_dataset::where('vn', $value->vn)->count();
