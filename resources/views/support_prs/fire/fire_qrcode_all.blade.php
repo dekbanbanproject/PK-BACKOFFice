@@ -15,8 +15,8 @@
     use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
     ?>
-<body onload="window.print()">
-   
+{{-- <body> --}}
+    <body onload="window.print()">
     <div class="container">
         <div class="row mt-5">
             
@@ -24,7 +24,8 @@
                 <div class="col-md-2 text-center">
                     <div class="card">
                         <div class="body"><br>
-                            {!! QrCode::size(112)->encoding('UTF-8')->generate($item->fire_num);!!} 
+                            {!!QrCode::size(112)->generate(" $item->fire_id ")!!}  
+                            {{-- {!! QrCode::size(112)->encoding('UTF-8')->generate($item->fire_id);!!}  --}}
                             <p style="font-size: 17px"> รหัส {{ $item->fire_num }} <br>
                                 แสกนตรวจสอบ<br>
                                 สำหรับเจ้าหน้าที่</p>
