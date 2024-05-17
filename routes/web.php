@@ -3161,6 +3161,7 @@ Route::match(['get','post'],'walkin_exportapi',[App\Http\Controllers\Fdh_walkinC
 Route::match(['get','post'],'walkin_sendapi',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_sendapi'])->name('claim.walkin_sendapi');//
 Route::match(['get','post'],'walkin_report',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_report'])->name('claim.walkin_report');//
 Route::match(['get','post'],'walkin_export_zip',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_export_zip'])->name('claim.walkin_export_zip');//
+Route::match(['get','post'],'walkin_send_api',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_send_api'])->name('claim.walkin_send_api');//
 
 Route::match(['get','post'],'stp',[App\Http\Controllers\Fdh_StpController::class, 'stp'])->name('fdh.stp');//
 Route::match(['get','post'],'stp_process_vn',[App\Http\Controllers\Fdh_StpController::class, 'stp_process_vn'])->name('fdh.stp_process_vn');//

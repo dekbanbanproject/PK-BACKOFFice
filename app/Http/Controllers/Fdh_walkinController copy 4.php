@@ -23,24 +23,6 @@ use App\Models\Fdh_sesion;
 use App\Models\Departmentsub;
 use App\Models\Departmentsubsub;
 use App\Models\Fdh_mini_dataset; 
-
-use App\Models\Fdh_api_ins;
-use App\Models\Fdh_api_adp;
-use App\Models\Fdh_api_aer;
-use App\Models\Fdh_api_orf;
-use App\Models\Fdh_api_odx;
-use App\Models\Fdh_api_cht;
-use App\Models\Fdh_api_cha;
-use App\Models\Fdh_api_oop;
-use App\Models\Fdh_api_dru;
-use App\Models\Fdh_api_idx;
-use App\Models\Fdh_api_iop;
-use App\Models\Fdh_api_pat;
-use App\Models\Fdh_api_opd;
-use App\Models\Fdh_api_lvd;
-use App\Models\Fdh_api_irf;
-use App\Models\Fdh_api_ipd;
-
 use App\Models\D_apiwalkin_ins;  
 use App\Models\D_apiwalkin_adp;
 use App\Models\D_apiwalkin_aer;
@@ -2176,18 +2158,6 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_ins, $str_ins_11);  
         }
         fclose($objFopen_ins); 
-        // Fdh_api_ins::truncate();
-        Fdh_api_ins::where('claim_name','=','WALKIN')->delete();
-        $fread_file_ins = fread(fopen($file_d_ins,"r"),filesize($file_d_ins));
-        $fread_file_ins_endcode = base64_encode($fread_file_ins);
-        $read_file_ins_size = filesize($file_d_ins); 
-        Fdh_api_ins::insert([
-            'type'       =>  'INS.txt', 
-            'file'       =>   $fread_file_ins_endcode,
-            'size'       =>   $read_file_ins_size,
-            'encoding'   =>  'UTF-8',
-            'claim_name' =>  'WALKIN',
-        ]);
 
         //2 pat.txt
         $file_d_pat = "Export/".$folder."/PAT.txt";
@@ -2218,19 +2188,7 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_pat, $str_pat_21);              
         }
         fclose($objFopen_pat);
-        // Fdh_api_pat::truncate();
-
-        Fdh_api_pat::where('claim_name','=','WALKIN')->delete();       
-        $fread_file_pat = fread(fopen($file_d_pat,"r"),filesize($file_d_pat));
-        $fread_file_pat_endcode = base64_encode($fread_file_pat);
-        $read_file_pat_size = filesize($fread_file_pat_endcode); 
-        Fdh_api_pat::insert([
-            'type'       =>  'PAT.txt', 
-            'file'       =>   $fread_file_pat_endcode,
-            'size'       =>   $read_file_pat_size,
-            'encoding'   =>  'UTF-8',
-            'claim_name' =>  'WALKIN',
-        ]);
+        
 
         //3 opd.txt
         $file_d_opd = "Export/".$folder."/OPD.txt";
@@ -2264,18 +2222,6 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_opd, $str_opd_31);  
         }
         fclose($objFopen_opd);
-        // Fdh_api_opd::truncate();
-        Fdh_api_opd::where('claim_name','=','WALKIN')->delete();        
-        $fread_file_opd = fread(fopen($file_d_opd,"r"),filesize($file_d_opd));
-        $fread_file_opd_endcode = base64_encode($fread_file_opd);
-        $read_file_opd_size = filesize($fread_file_opd_endcode); 
-        Fdh_api_opd::insert([
-            'type'       =>  'OPD.txt', 
-            'file'       =>   $fread_file_opd_endcode,
-            'size'       =>   $read_file_opd_size,
-            'encoding'   =>  'UTF-8',
-            'claim_name' =>  'WALKIN',
-        ]);
        
 
         //4 orf.txt
@@ -2297,18 +2243,7 @@ class Fdh_walkinController extends Controller
             $str_orf_41 = mb_convert_encoding($str_orf_40, 'UTF-8');   
             fwrite($objFopen_orf, $str_orf_41);   
         }
-        fclose($objFopen_orf);    
-        Fdh_api_orf::where('claim_name','=','WALKIN')->delete();        
-        $fread_file_orf = fread(fopen($file_d_orf,"r"),filesize($file_d_orf));
-        $fread_file_orf_endcode = base64_encode($fread_file_orf);
-        $read_file_orf_size = filesize($fread_file_orf_endcode); 
-        Fdh_api_orf::insert([
-            'type'       =>  'ORF.txt', 
-            'file'       =>   $fread_file_orf_endcode,
-            'size'       =>   $read_file_orf_size,
-            'encoding'   =>  'UTF-8',
-            'claim_name' =>  'WALKIN',
-        ]);    
+        fclose($objFopen_orf);        
 
         //5 odx.txt
         $file_d_odx = "Export/".$folder."/ODX.txt";
@@ -2331,17 +2266,6 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_odx, $str_odx_51);  
         }
         fclose($objFopen_odx); 
-        Fdh_api_odx::where('claim_name','=','WALKIN')->delete();        
-        $fread_file_odx = fread(fopen($file_d_odx,"r"),filesize($file_d_odx));
-        $fread_file_odx_endcode = base64_encode($fread_file_odx);
-        $read_file_odx_size = filesize($fread_file_odx_endcode); 
-        Fdh_api_odx::insert([
-            'type'       =>  'ODX.txt', 
-            'file'       =>   $fread_file_odx_endcode,
-            'size'       =>   $read_file_odx_size,
-            'encoding'   =>  'UTF-8',
-            'claim_name' =>  'WALKIN',
-        ]);    
 
         //6 oop.txt
         $file_d_oop = "Export/".$folder."/OOP.txt";
@@ -2365,17 +2289,6 @@ class Fdh_walkinController extends Controller
 
         }
         fclose($objFopen_oop); 
-        Fdh_api_oop::where('claim_name','=','WALKIN')->delete();        
-        $fread_file_oop = fread(fopen($file_d_oop,"r"),filesize($file_d_oop));
-        $fread_file_oop_endcode = base64_encode($fread_file_oop);
-        $read_file_oop_size = filesize($fread_file_oop_endcode); 
-        Fdh_api_oop::insert([
-            'type'       =>  'OOP.txt', 
-            'file'       =>   $fread_file_oop_endcode,
-            'size'       =>   $read_file_oop_size,
-            'encoding'   =>  'UTF-8',
-            'claim_name' =>  'WALKIN',
-        ]);  
 
         //7 ipd.txt
         $file_d_ipd = "Export/".$folder."/IPD.txt";
@@ -2403,17 +2316,6 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_ipd, $str_ipd_71); 
         }
         fclose($objFopen_ipd); 
-        Fdh_api_ipd::where('claim_name','=','WALKIN')->delete();        
-        $fread_file_ipd = fread(fopen($file_d_ipd,"r"),filesize($file_d_ipd));
-        $fread_file_ipd_endcode = base64_encode($fread_file_ipd);
-        $read_file_ipd_size = filesize($fread_file_ipd_endcode); 
-        Fdh_api_ipd::insert([
-            'type'       =>  'IPD.txt', 
-            'file'       =>   $fread_file_ipd_endcode,
-            'size'       =>   $read_file_ipd_size,
-            'encoding'   =>  'UTF-8',
-            'claim_name' =>  'WALKIN',
-        ]);  
 
         //8 irf.txt
         $file_d_irf = "Export/".$folder."/IRF.txt";
@@ -2431,17 +2333,6 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_irf, $str_irf_81);
         }
         fclose($objFopen_irf); 
-        Fdh_api_irf::where('claim_name','=','WALKIN')->delete();        
-        $fread_file_irf = fread(fopen($file_d_irf,"r"),filesize($file_d_irf));
-        $fread_file_irf_endcode = base64_encode($fread_file_irf);
-        $read_file_irf_size = filesize($fread_file_irf_endcode); 
-        Fdh_api_irf::insert([
-            'type'       =>  'IRF.txt', 
-            'file'       =>   $fread_file_irf_endcode,
-            'size'       =>   $read_file_irf_size,
-            'encoding'   =>  'UTF-8',
-            'claim_name' =>  'WALKIN',
-        ]);  
 
         //9 idx.txt
         $file_d_idx = "Export/".$folder."/IDX.txt";
@@ -2460,17 +2351,6 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_idx, $str_idx_91);
         }
         fclose($objFopen_idx); 
-        Fdh_api_idx::where('claim_name','=','WALKIN')->delete();        
-        $fread_file_idx = fread(fopen($file_d_idx,"r"),filesize($file_d_idx));
-        $fread_file_idx_endcode = base64_encode($fread_file_idx);
-        $read_file_idx_size = filesize($fread_file_idx_endcode); 
-        Fdh_api_idx::insert([
-            'type'       =>  'IDX.txt', 
-            'file'       =>   $fread_file_idx_endcode,
-            'size'       =>   $read_file_idx_size,
-            'encoding'   =>  'UTF-8',
-            'claim_name' =>  'WALKIN',
-        ]);  
                    
         //10 iop.txt
         $file_d_iop = "Export/".$folder."/IOP.txt";
@@ -2493,17 +2373,6 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_iop, $str_iop_101);
         }
         fclose($objFopen_iop); 
-        Fdh_api_iop::where('claim_name','=','WALKIN')->delete();        
-        $fread_file_iop = fread(fopen($file_d_iop,"r"),filesize($file_d_iop));
-        $fread_file_iop_endcode = base64_encode($fread_file_iop);
-        $read_file_iop_size = filesize($fread_file_iop_endcode); 
-        Fdh_api_iop::insert([
-            'type'       =>  'IOP.txt', 
-            'file'       =>   $fread_file_iop_endcode,
-            'size'       =>   $read_file_iop_size,
-            'encoding'   =>  'UTF-8',
-            'claim_name' =>  'WALKIN',
-        ]);  
         
         //11 cht.txt
         $file_d_cht = "Export/".$folder."/CHT.txt";
@@ -2531,17 +2400,6 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_cht, $str_cht_12);
         }
         fclose($objFopen_cht); 
-        Fdh_api_cht::where('claim_name','=','WALKIN')->delete();        
-        $fread_file_cht = fread(fopen($file_d_cht,"r"),filesize($file_d_cht));
-        $fread_file_cht_endcode = base64_encode($fread_file_cht);
-        $read_file_cht_size = filesize($fread_file_cht_endcode); 
-        Fdh_api_cht::insert([
-            'type'       =>  'CHT.txt', 
-            'file'       =>   $fread_file_cht_endcode,
-            'size'       =>   $read_file_cht_size,
-            'encoding'   =>  'UTF-8',
-            'claim_name' =>  'WALKIN',
-        ]);  
 
         //12 cha.txt
         $file_d_cha = "Export/".$folder."/CHA.txt";
@@ -2563,17 +2421,6 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_cha, $str_cha_122);
         }
         fclose($objFopen_cha); 
-        Fdh_api_cha::where('claim_name','=','WALKIN')->delete();        
-        $fread_file_cha = fread(fopen($file_d_cha,"r"),filesize($file_d_cha));
-        $fread_file_cha_endcode = base64_encode($fread_file_cha);
-        $read_file_cha_size = filesize($fread_file_cha_endcode); 
-        Fdh_api_cha::insert([
-            'type'       =>  'CHA.txt', 
-            'file'       =>   $fread_file_cha_endcode,
-            'size'       =>   $read_file_cha_size,
-            'encoding'   =>  'UTF-8',
-            'claim_name' =>  'WALKIN',
-        ]);  
 
          //13 aer.txt
          $file_d_aer = "Export/".$folder."/AER.txt";
@@ -2607,17 +2454,6 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_aer, $str_aer_132);
          }
          fclose($objFopen_aer); 
-         Fdh_api_aer::where('claim_name','=','WALKIN')->delete();        
-        $fread_file_aer = fread(fopen($file_d_aer,"r"),filesize($file_d_aer));
-        $fread_file_aer_endcode = base64_encode($fread_file_aer);
-        $read_file_aer_size = filesize($fread_file_aer_endcode); 
-        Fdh_api_aer::insert([
-            'type'       =>  'AER.txt', 
-            'file'       =>   $fread_file_aer_endcode,
-            'size'       =>   $read_file_aer_size,
-            'encoding'   =>  'UTF-8',
-            'claim_name' =>  'WALKIN',
-        ]);  
                    
         //14 adp.txt
         $file_d_adp = "Export/".$folder."/ADP.txt";
@@ -2666,17 +2502,6 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_adp, $str_adp_142);
         }
         fclose($objFopen_adp); 
-        Fdh_api_adp::where('claim_name','=','WALKIN')->delete();        
-        $fread_file_adp = fread(fopen($file_d_adp,"r"),filesize($file_d_adp));
-        $fread_file_adp_endcode = base64_encode($fread_file_adp);
-        $read_file_adp_size = filesize($fread_file_adp_endcode); 
-        Fdh_api_adp::insert([
-            'type'       =>  'ADP.txt', 
-            'file'       =>   $fread_file_adp_endcode,
-            'size'       =>   $read_file_adp_size,
-            'encoding'   =>  'UTF-8',
-            'claim_name' =>  'WALKIN',
-        ]);  
         
          //15 lvd.txt
          $file_d_lvd = "Export/".$folder."/LVD.txt";
@@ -2699,17 +2524,6 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_lvd, $str_lvd_152);
          }
          fclose($objFopen_lvd); 
-         Fdh_api_lvd::where('claim_name','=','WALKIN')->delete();        
-        $fread_file_lvd = fread(fopen($file_d_lvd,"r"),filesize($file_d_lvd));
-        $fread_file_lvd_endcode = base64_encode($fread_file_lvd);
-        $read_file_lvd_size = filesize($fread_file_lvd_endcode); 
-        Fdh_api_lvd::insert([
-            'type'       =>  'LVD.txt', 
-            'file'       =>   $fread_file_lvd_endcode,
-            'size'       =>   $read_file_lvd_size,
-            'encoding'   =>  'UTF-8',
-            'claim_name' =>  'WALKIN',
-        ]);  
  
         
         //16 dru.txt
@@ -2755,17 +2569,6 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_dru, $str_dru_162);
         }
         fclose($objFopen_dru); 
-        Fdh_api_dru::where('claim_name','=','WALKIN')->delete();        
-        $fread_file_dru = fread(fopen($file_d_dru,"r"),filesize($file_d_dru));
-        $fread_file_dru_endcode = base64_encode($fread_file_dru);
-        $read_file_dru_size = filesize($fread_file_dru_endcode); 
-        Fdh_api_dru::insert([
-            'type'       =>  'DRU.txt', 
-            'file'       =>   $fread_file_dru_endcode,
-            'size'       =>   $read_file_dru_size,
-            'encoding'   =>  'UTF-8',
-            'claim_name' =>  'WALKIN',
-        ]);  
 
          //17 lab.txt
         //  $file_d_lab = "Export/".$folder."/LAB.txt";
@@ -2776,35 +2579,35 @@ class Fdh_walkinController extends Controller
 
 
 
-            // $pathdir =  "Export/".$folder."/";
-            // $zipcreated = $folder.".zip";
+            $pathdir =  "Export/".$folder."/";
+            $zipcreated = $folder.".zip";
 
-            // $newzip = new ZipArchive;
-            // if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
-            // $dir = opendir($pathdir);
+            $newzip = new ZipArchive;
+            if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
+            $dir = opendir($pathdir);
             
-            // while($file = readdir($dir)) {
-            //     if(is_file($pathdir.$file)) {
-            //         $newzip -> addFile($pathdir.$file, $file);
-            //     }
-            // }
-            // $newzip ->close();
-            //         if (file_exists($zipcreated)) {
-            //             header('Content-Type: application/zip');
-            //             header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
-            //             header('Content-Length: ' . filesize($zipcreated));
-            //             flush();
-            //             readfile($zipcreated); 
-            //             unlink($zipcreated);   
-            //             $files = glob($pathdir . '/*');   
-            //             foreach($files as $file) {   
-            //                 if(is_file($file)) {      
-            //                     // unlink($file); 
-            //                 } 
-            //             }                      
-            //             return redirect()->route('claim.walkin');                    
-            //         }
-            // } 
+            while($file = readdir($dir)) {
+                if(is_file($pathdir.$file)) {
+                    $newzip -> addFile($pathdir.$file, $file);
+                }
+            }
+            $newzip ->close();
+                    if (file_exists($zipcreated)) {
+                        header('Content-Type: application/zip');
+                        header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
+                        header('Content-Length: ' . filesize($zipcreated));
+                        flush();
+                        readfile($zipcreated); 
+                        unlink($zipcreated);   
+                        $files = glob($pathdir . '/*');   
+                        foreach($files as $file) {   
+                            if(is_file($file)) {      
+                                // unlink($file); 
+                            } 
+                        }                      
+                        return redirect()->route('claim.walkin');                    
+                    }
+            } 
 
             return redirect()->route('claim.walkin');
 
@@ -2893,11 +2696,10 @@ class Fdh_walkinController extends Controller
             // dd($files);
             foreach ($files as $key => $value) {
                     // $type[]       = "txt"; 
-                    // $file[]  = $value->getPathname(); 
-                    $file[]  = basename($value); 
+                    $file       = $value->getPathname(); 
             }
-            // dd($file[5]);
-           
+            // dd($file);
+            // ->getClientOriginalName()
                 $curl = curl_init();
 
                 curl_setopt_array($curl, array(
@@ -2911,39 +2713,72 @@ class Fdh_walkinController extends Controller
                 CURLOPT_CUSTOMREQUEST => "POST",
                 CURLOPT_POSTFIELDS => array(
                 "type" => "txt",
-                // 'file'=> new \CURLFILE($file[0]),
-                // 'file'=> new \CURLFILE($file[1]),
-                // 'file'=> new \CURLFILE($file[2]),
-                // 'file'=> new \CURLFILE($file[3]),
-                // 'file'=> new \CURLFILE($file[4]),
-                // 'file'=> new \CURLFILE($file[5]),
-                // 'file'=> new \CURLFILE($file[6]),
-                // 'file'=> new \CURLFILE($file[7]),
-                // 'file'=> new \CURLFILE($file[8]),
-                // 'file'=> new \CURLFILE($file[9]),
-                // 'file'=> new \CURLFILE($file[10]),
-                // 'file'=> new \CURLFILE($file[11]),
-                // 'file'=> new \CURLFILE($file[12]),
-                // 'file'=> new \CURLFILE($file[13]),
-                // 'file'=> new \CURLFILE($file[14]),
-                // 'file'=> new \CURLFILE($file[15]),
-                "file" =>  $file[0],
-                "file" =>  $file[1],
-                "file" =>  $file[2],
-                "file" =>  $file[3],
-                "file" =>  $file[4],
-                "file" =>  $file[5],
-                "file" =>  $file[6],
-                "file" =>  $file[7],
-                "file" =>  $file[8],
-                "file" =>  $file[9],
-                "file" =>  $file[10],
-                "file" =>  $file[11],
-                "file" =>  $file[12],
-                "file" =>  $file[13],
-                "file" =>  $file[14],
-                "file" =>  $file[15], 
-            ),              
+                "file" => [ 
+                    "INS" => [
+                        // "type"  => "INS.txt", 
+                        "file"  => $file[0]
+                    ],
+                    "PAT" => [
+                        // "type"  => "PAT.txt", 
+                        "file"  => $file[1]
+                    ],
+                    "CHT" => [
+                        // "type"  => "CHT.txt", 
+                        "file"  => $file[2]
+                    ],
+                    "OPD" => [
+                        // "type"  => "OPD.txt", 
+                        "file"  => $file[3]
+                    ],
+                    "ORF" => [
+                        // "type"  => "ORF.txt", 
+                        "file"  => $file[4]
+                    ],
+                    "ODX" => [
+                        // "type"  => "ODX.txt", 
+                        "file"  => $file[5]
+                    ],
+                    "OOP" => [
+                        // "type"  => "OOP.txt", 
+                        "file"  => $file[6]
+                    ],
+                    "IPD" => [
+                        // "type"  => "IPD.txt", 
+                        "file"  => $file[7]
+                    ],
+                    "IRF" => [
+                        // "type"  => "IRF.txt", 
+                        "file"  => $file[8]
+                    ],
+                    "IDX" => [
+                        // "type"  => "IDX.txt", 
+                        "file"  => $file[9]
+                    ],
+                    "IOP" => [
+                        // "type"  => "IOP.txt", 
+                        "file"  => $file[10]
+                    ],
+                    "LVD" => [
+                        // "type"  => "LVD.txt", 
+                        "file"  => $file[11]
+                    ],
+                    "AER" => [
+                        // "type"  => "AER.txt", 
+                        "file"  => $file[12]
+                    ],
+                    "ADP" => [
+                        // "type"  => "ADP.txt", 
+                        "file"  => $file[13]
+                    ],
+                    "CHA" => [
+                        // "type"  => "CHA.txt", 
+                        "file"  => $file[14]
+                    ], 
+                    "DRU" => [
+                        // "type"  => "DRU.txt", 
+                        "file"  => $file[15]
+                    ]
+                    ]),              
                 CURLOPT_HTTPHEADER => array(
                     'Authorization: Bearer eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwcmFkaXQuMTA5NzhAMTA5NzgiLCJpYXQiOjE3MTU5ODUwNjEsImV4cCI6MTcxNTk5NTg2MSwiaXNzIjoiTU9QSCBBY2NvdW50IENlbnRlciIsImF1ZCI6Ik1PUEggQVBJIiwiY2xpZW50Ijp7InVzZXJfaWQiOjQyNSwidXNlcl9oYXNoIjoiMjlGMEQzRTY0ODlFM0ZCMkFGNDlBQzZCMkUxOUUyMTE3RTQ1OEVGNEVFRUQyMEJFNDRDMTNEMTgzREUxRTAwRDhCQ0FGMyIsImxvZ2luIjoicHJhZGl0LjEwOTc4IiwibmFtZSI6IuC4m-C4o-C4sOC4lOC4tOC4qeC4kOC5jCDguKPguLDguKvguLIiLCJob3NwaXRhbF9uYW1lIjoi4LmC4Lij4LiH4Lie4Lii4Liy4Lia4Liy4Lil4Lig4Li54LmA4LiC4Li14Lii4Lin4LmA4LiJ4Lil4Li04Lih4Lie4Lij4Liw4LmA4LiB4Li14Lii4Lij4LiV4Li0IiwiaG9zcGl0YWxfY29kZSI6IjEwOTc4IiwiZW1haWwiOiJkZWtiYW5iYW5wcm9qZWN0QGdtYWlsLmNvbSIsImFjY291bnRfYWN0aXZhdGVkIjp0cnVlLCJhY2NvdW50X3N1c3BlbmRlZCI6ZmFsc2UsImxhc3RfY2hhbmdlX3Bhc3N3b3JkIjoxNjk1ODQwOTgyLCJsYXN0X2NvbmZpcm1fb3RwIjoxNzE1OTUxMDk2LCJjaWRfaGFzaCI6IkI4REQ0NUQ1NjZBODdFMTRGRkNCQjlEMjY2MjNFMTQ5OjM3IiwiY2lkX2VuY3J5cHQiOiI0ODY0OEI1NjJENjU2NkFCRTlGQTUyMjlFRDY1MDRFMTI2NzQ5N0RBODlBNTdBQzYyRjg3RTM0MjNGMjU2REE1MUUzNDE1QjY3Q0M4MTZDM0ZDQjBBRkUxQ0IiLCJjaWRfYWVzIjoiZmpNRjFrdjlZRjQvUUJSUGxBNnhvZz09IiwiY2xpZW50X2lwIjoiNDkuMjMxLjI0OS4xMTkiLCJzY29wZSI6W3siY29kZSI6Ik1PUEhfQ0xBSU06MSJ9LHsiY29kZSI6Ik1PUEhfQ0xBSU1fQVBJOjEifSx7ImNvZGUiOiJNT1BIX0NMQUlNX0FETUlOOjEifV0sInJvbGUiOlsibW9waC1hcGkiXSwic2NvcGVfbGlzdCI6IltNT1BIX0NMQUlNOjFdW01PUEhfQ0xBSU1fQVBJOjFdW01PUEhfQ0xBSU1fQURNSU46MV0iLCJhY2Nlc3NfY29kZV9sZXZlbDEiOiInJyIsImFjY2Vzc19jb2RlX2xldmVsMiI6IicnIiwiYWNjZXNzX2NvZGVfbGV2ZWwzIjoiJyciLCJhY2Nlc3NfY29kZV9sZXZlbDQiOiInJyIsImFjY2Vzc19jb2RlX2xldmVsNSI6IicnIn19.SFmLuNnQWk_5jnpLzX-bKigJbFoAcqOOQNUlbwTm6qysjScidowyapb1mACmSn3t2SXnD9jwFherLpVSpkgs2vX0VXWsvYOAKSZDMl6wQ6Nh4WiJVrDmtjaj8JMsNm0WvY9NPPq2AazCehp2k58Tztw9R5gd40oafi0wk3jR37Vy36I-HO0nxuDh_SLdsOmujlXrpjjMDvEA4Ea6ETd1eY5pzqoo-sCj17KVHUQ5EIMvPUPVyE6XkBsO8Xqtl1533I0BLwS02eJhcusYCgfsELIPaxZ1uPZ9cFzMlRbQOeLq8kF4nBPSKdEBCJuN15Su0Xjvwqony1X43HoqPv7oZHn1sMZT2rnQwyOWiuWPDmgZ23aXhrHQjplLE5-pBfp__LapttD-NWIEdFBD2Wa7ohRJ3uuymRHCeeSsyZCPTIgdNMT-zG-KRq1_6-9YJilggaGrEMmXWMTdh8n5yCXPK6lH82GLlfs-z6krqZroA4ukIUfGaCp7avpknl6r-5QgVhCldu2S3gPnFN-sNyhGoE_jyYyHxZHU8o5-1G5LoTSl7gAic460ALm-Bfl3YFNAQNxT-2bsfsKWEokmE3HEQ05INAecUcXgYEtRjE3bss1LkfvPANAkXZtK_RUu4J7DbRKtRXG84Hns_4123qp4J3FZyBIqty-LTwXryKkbTLU',
                     'Cookie: __cfruid=d36e300f6a2c3f83d3b8f6a34d140379efbb0374-1715960536'
@@ -2951,7 +2786,7 @@ class Fdh_walkinController extends Controller
                 ));
 
                 $response = curl_exec($curl);
-            
+
                 curl_close($curl);
                 // echo $response;
                 dd($response);
@@ -2966,7 +2801,7 @@ class Fdh_walkinController extends Controller
                     @$message = $result['message'];
                     @$data = $result['data'];
                     @$uid = $data['transaction_uid'];
-            //  }
+
             // return response()->download(public_path($filename));
         
     }
