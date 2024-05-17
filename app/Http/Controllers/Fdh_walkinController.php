@@ -1001,6 +1001,23 @@ class Fdh_walkinController extends Controller
         Fdh_sesion::where('d_anaconda_id','=','WALKIN')->delete(); 
         $id = $request->ids;
         $iduser = Auth::user()->id;
+        $s_date_now = date("Y-m-d");
+        $s_time_now = date("H:i:s");
+
+        #ตัดขีด, ตัด : ออก
+        $pattern_date = '/-/i';
+        $s_date_now_preg = preg_replace($pattern_date, '', $s_date_now);
+        $pattern_time = '/:/i';
+        $s_time_now_preg = preg_replace($pattern_time, '', $s_time_now);
+        #ตัดขีด, ตัด : ออก
+        $folder_name='UCEP24_'.$s_date_now_preg.'_'.$s_time_now_preg; 
+        Fdh_sesion::insert([
+            'folder_name'      => $folder_name,
+            'd_anaconda_id'    => 'UCEP24',
+            'date_save'        => $s_date_now,
+            'time_save'        => $s_time_now,
+            'userid'           => $iduser  
+        ]);
         $data_vn_1 = D_fdh::whereIn('d_fdh_id',explode(",",$id))->get();
                 
          foreach ($data_vn_1 as $key => $va1) {
