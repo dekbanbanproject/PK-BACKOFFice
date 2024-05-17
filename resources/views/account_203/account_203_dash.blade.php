@@ -90,13 +90,13 @@
         <form action="{{ url('account_203_dash') }}" method="GET">
             @csrf
             <div class="row mt-2"> 
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail 1102050101.203</h4>
                     <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.203</p>
                 </div>
-                <div class="col"></div>
+               
                 <div class="col-md-1 text-end mt-2">วันที่</div>
-                <div class="col-md-5 text-end"> 
+                <div class="col-md-4 text-end"> 
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                         <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
@@ -109,11 +109,12 @@
                         <span class="ladda-spinner"></span>
                     </button>
                 </div>
+                <div class="col"></div>
                 </div>
             </div>
         </form>  
         <div class="row">   
-                    <div class="col-xl-8 col-md-6">
+                    <div class="col-xl-7 col-md-7">
                         <div class="card card_audit_4c" style="background-color: rgb(246, 235, 247)">   
                                 <div class="table-responsive p-3">
                                     
