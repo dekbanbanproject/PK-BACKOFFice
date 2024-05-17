@@ -998,7 +998,7 @@ class Fdh_walkinController extends Controller
         // Fdh_adp::truncate();
         // Fdh_dru::truncate();
         // Fdh_lvd::truncate();
-
+        Fdh_sesion::where('d_anaconda_id','=','WALKIN')->delete(); 
         $id = $request->ids;
         $iduser = Auth::user()->id;
         $data_vn_1 = D_fdh::whereIn('d_fdh_id',explode(",",$id))->get();
