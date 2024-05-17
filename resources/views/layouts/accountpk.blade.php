@@ -103,6 +103,11 @@
         border-radius: 0em 0em 3em 3em;
         box-shadow: 0 0 10px rgb(250, 128, 124);
     }
+    .card_audit_4c{
+        border-radius: 2em 2em 2em 2em;
+        box-shadow: 0 0 10px rgb(250, 128, 124);
+        border:solid 1px #80acfd;
+    }
     .card_audit_4{
         border-radius: 3em 3em 3em 3em;
         box-shadow: 0 0 10px rgb(250, 128, 124);

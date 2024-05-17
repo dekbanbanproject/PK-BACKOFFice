@@ -38,6 +38,7 @@ return new class extends Migration
                 $table->string('rcpt_money')->nullable();//              paid_money
                 $table->string('rcpno')->nullable();//  
                 $table->string('debit')->nullable();// 
+                $table->string('debit_ucep')->nullable();// 
                 $table->string('debit_drug')->nullable();//               เฉพาะรายการยา
                 $table->string('debit_instument')->nullable();//          เฉพาะรอวัยวะเทียม
                 $table->string('debit_refer')->nullable();//              เฉพาะ Refer

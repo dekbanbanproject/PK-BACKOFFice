@@ -138,22 +138,24 @@
                                             <th width="5%" class="text-center">ลำดับ</th> 
                                             <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox" name="stamp" id="stamp"> </th> 
                                             <th class="text-center" width="5%">vn</th> 
-                                            <th class="text-center">an</th>
+                                            {{-- <th class="text-center">an</th> --}}
                                             <th class="text-center" >hn</th>
                                             <th class="text-center" >cid</th>
                                             <th class="text-center">ptname</th>
                                             <th class="text-center">vstdate</th>  
                                             <th class="text-center">pttype</th> 
                                             <th class="text-center">spsch</th>  
+                                            <th class="text-center">income</th>  
                                             <th class="text-center">ลูกหนี้</th>  
+                                            <th class="text-center">ucep</th>
+                                            <th class="text-center">ins</th> 
+                                            <th class="text-center">drug</th> 
+                                            <th class="text-center">เลนส์</th> 
+                                            <th class="text-center">refer</th>  
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php $i = 1; 
-                                        $total1 = 0;
-                                    $total2 = 0;
-                                    $total3 = 0;
-                                    $total4 = 0;?>
+                                        <?php $i = 1;$total1 = 0; $total2 = 0; $total3 = 0; $total4 = 0; $total5 = 0; $total6 = 0;$total7 = 0; ?>
                                         @foreach ($acc_debtor as $item) 
                                             <tr id="tr_{{$item->acc_debtor_id}}">                                                  
                                                 <td class="text-center" width="5%">{{ $i++ }}</td>  
@@ -167,7 +169,7 @@
                                                 {{-- <td class="text-center" width="5%"><input type="checkbox" class="sub_chk dcheckbox" data-id="{{$item->acc_debtor_id}}"> </td>  --}}
 
                                                 <td class="text-center" width="5%">{{ $item->vn }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->an }}</td> 
+                                                {{-- <td class="text-center" width="5%">{{ $item->an }}</td>  --}}
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  
                                                 <td class="text-center" width="10%">{{ $item->cid }}</td>  
                                                 <td class="p-2" >{{ $item->ptname }}</td> 
@@ -176,19 +178,36 @@
                                                 
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td> 
                                                 
-                                                {{-- <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td>  --}}
+                                                <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td> 
                                                 <td class="text-center" width="10%">{{ number_format($item->debit_total, 2) }}</td> 
+                                                <td class="text-end" width="7%">{{ number_format($item->debit_ucep, 2) }}</td> 
+                                                <td class="text-end" width="5%">{{ number_format($item->debit_instument, 2) }}</td> 
+                                                <td class="text-end" width="5%">{{ number_format($item->debit_drug, 2) }}</td> 
+                                                <td class="text-end" width="5%">{{ number_format($item->debit_toa, 2) }}</td> 
+                                                <td class="text-end" width="5%">{{ number_format($item->debit_refer, 2) }}</td> 
  
                                             </tr>
                                             <?php
-                                    $total1 = $total1 + $item->debit_total; 
-                            ?>
+                                                    $total1 = $total1 + $item->debit_total; 
+                                                    $total2 = $total2 + $item->debit_ucep; 
+                                                    $total3 = $total3 + $item->debit_instument; 
+                                                    $total4 = $total4 + $item->debit_drug; 
+                                                    $total5 = $total5 + $item->debit_toa; 
+                                                    $total6 = $total6 + $item->debit_refer; 
+                                                    $total7 = $total7 + $item->income; 
+                                            ?>
                                         @endforeach
                                     </tbody>
                                     <tr style="background-color: #f3fca1">
-                                        <td colspan="10" class="text-end" style="background-color: #fca1a1"></td>
-                                        <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
-                                       
+                                        <td colspan="9" class="text-end" style="background-color: #fca1a1"></td>
+                                        <td class="text-center" style="background-color: #0eccda"><label for="" style="color: #FFFFFF">${{ number_format($total7, 2) }}</label></td>
+                                        <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">${{ number_format($total1, 2) }}</label></td>
+                                        <td class="text-center" style="background-color: #197cd8"><label for="" style="color: #FFFFFF">${{ number_format($total2, 2) }}</label></td>
+                                        <td class="text-center" style="background-color: #11cea5"><label for="" style="color: #FFFFFF">${{ number_format($total3, 2) }}</label></td>
+                                        <td class="text-center" style="background-color: #9d69fc"><label for="" style="color: #FFFFFF">${{ number_format($total4, 2) }}</label></td>
+                                        <td class="text-center" style="background-color: #87e211"><label for="" style="color: #FFFFFF">${{ number_format($total5, 2) }}</label></td>
+                                        <td class="text-center" style="background-color: #e09f12"><label for="" style="color: #FFFFFF">${{ number_format($total6, 2) }}</label></td>
+                                        {{-- <td colspan="5" class="text-end" style="background-color: #fca1a1"></td> --}}
                                     </tr>  
                                 </table>
                             </div>
@@ -208,6 +227,14 @@
     
     <script>
         $(document).ready(function() {
+            var table = $('#example').DataTable({
+                scrollY: '60vh',
+                scrollCollapse: true,
+                scrollX: true,
+                "autoWidth": false,
+                "pageLength": 10,
+                "lengthMenu": [10,25,50,100,150,200,300,400,500],
+        });
             $('#example').DataTable();
             $('#example2').DataTable();
             $('#datepicker').datepicker({

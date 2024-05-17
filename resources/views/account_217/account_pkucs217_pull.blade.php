@@ -204,6 +204,14 @@ $yb = date('Y') + 542;
     
     <script>
         $(document).ready(function() {
+            var table = $('#example').DataTable({
+                scrollY: '60vh',
+                scrollCollapse: true,
+                scrollX: true,
+                "autoWidth": false,
+                "pageLength": 10,
+                "lengthMenu": [10,25,50,100,150,200,300,400,500],
+        });
             $('#example').DataTable();
             $('#example2').DataTable();
             $('#datepicker').datepicker({

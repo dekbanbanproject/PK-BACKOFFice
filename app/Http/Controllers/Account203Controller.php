@@ -114,7 +114,7 @@ class Account203Controller extends Controller
                     WHERE a.vstdate between "'.$start.'" and "'.$end.'"
                     and account_code="1102050101.203"
                     group by month(a.vstdate)                     
-                    order by a.vstdate desc limit 6;
+                    order by a.vstdate desc limit 9;
             ');  
         } else {
             $datashow = DB::select('
@@ -585,8 +585,7 @@ class Account203Controller extends Controller
     }
     public function account_203_hoscode(Request $request,$months,$year)
     { 
-        $data['users'] = User::get();
- 
+        $data['users'] = User::get(); 
         $datashow = DB::select('
                 SELECT 
                     U1.hospcode,U2.name as hname,month(U1.vstdate) as months,year(U1.vstdate) as years,COUNT(DISTINCT U1.vn) as Cvn,SUM(U1.income) as S_income,SUM(U1.uc_money) as S_uc_money
@@ -596,6 +595,7 @@ class Account203Controller extends Controller
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
                 GROUP BY U1.hospcode 
         ');
+        $data['sumct_price'] = DB::table('acc_1102050101_203')->WhereMonth('vstdate',$months)->WhereYear('vstdate',$year)->sum('ct_price');
   
         return view('account_203.account_203_hoscode', $data, [ 
             'datashow'       => $datashow,

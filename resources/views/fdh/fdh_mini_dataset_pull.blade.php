@@ -88,8 +88,8 @@ $pos = strrpos($url, '/') + 1;
         </div>
     </div>
 
-    <form action="{{ url('fdh_mini_dataset_pull') }}" method="POST">
-        @csrf
+    {{-- <form action="{{ url('fdh_mini_dataset_pull') }}" method="POST">
+        @csrf --}}
     <div class="row"> 
             <div class="col-md-3">
                 <h4 class="card-title" style="color:rgba(21, 177, 164, 0.871)">Detail Financial Data Hub</h4>
@@ -97,7 +97,7 @@ $pos = strrpos($url, '/') + 1;
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-7 text-end">
+            <div class="col-md-5 text-end">
                 {{-- <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'> --}}
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control card_fdh_4" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
@@ -105,11 +105,11 @@ $pos = strrpos($url, '/') + 1;
                 <input type="text" class="form-control card_fdh_4" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                     data-date-language="th-th" value="{{ $enddate }}"/>  
     
-                <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                {{-- <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
                     <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                     ค้นหา(มีเลข invoice_number)
                 </button>  
-                    </form> 
+                    </form>  --}}
                    
                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary card_fdh_4" id="Pulldata">
                         <i class="fa-solid fa-spinner text-primary me-2"></i>
@@ -423,6 +423,7 @@ $pos = strrpos($url, '/') + 1;
                                     success: function(data) {
                                         if (data.status == 200) { 
                                             Swal.fire({
+                                                position: "top-end",
                                                 title: 'ดึงข้อมูลสำเร็จ',
                                                 text: "You Pull data success",
                                                 icon: 'success',
