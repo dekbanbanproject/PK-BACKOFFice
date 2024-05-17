@@ -2108,17 +2108,7 @@ class Fdh_walkinController extends Controller
     }
     public function walkin_export(Request $request)
     {
-        $sss_date_now = date("Y-m-d");
-        $sss_time_now = date("H:i:s");
-
-        #ตัดขีด, ตัด : ออก
-        $pattern_date = '/-/i';
-        $sss_date_now_preg = preg_replace($pattern_date, '', $sss_date_now);
-        $pattern_time = '/:/i';
-        $sss_time_now_preg = preg_replace($pattern_time, '', $sss_time_now);
-        #ตัดขีด, ตัด : ออก
-
-         #delete file in folder ทั้งหมด
+          #delete file in folder ทั้งหมด
         $file = new Filesystem;
         $file->cleanDirectory('Export'); //ทั้งหมด
         // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
@@ -2134,7 +2124,7 @@ class Fdh_walkinController extends Controller
 
         header("Content-type: text/txt");
         header("Cache-Control: no-store, no-cache");
-        header('Content-Disposition: attachment; filename="content.txt";');
+        header('Content-Disposition: attachment; filename="content.txt"; charset=tis-620″ ;');
 
         //1 ins.txt
         $file_d_ins = "Export/".$folder."/INS.txt";
@@ -2176,8 +2166,8 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_ins, $str_ins_11);  
         }
         fclose($objFopen_ins); 
-        // Fdh_api_ins::truncate();
-        Fdh_api_ins::where('claim_name','=','WALKIN')->delete();
+        Fdh_api_ins::truncate();
+        // Fdh_api_ins::where('claim_name','=','WALKIN')->delete();
         $fread_file_ins = fread(fopen($file_d_ins,"r"),filesize($file_d_ins));
         $fread_file_ins_endcode = base64_encode($fread_file_ins);
         $read_file_ins_size = filesize($file_d_ins); 
@@ -2218,9 +2208,8 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_pat, $str_pat_21);              
         }
         fclose($objFopen_pat);
-        // Fdh_api_pat::truncate();
-
-        Fdh_api_pat::where('claim_name','=','WALKIN')->delete();       
+        Fdh_api_pat::truncate(); 
+        // Fdh_api_pat::where('claim_name','=','WALKIN')->delete();       
         $fread_file_pat = fread(fopen($file_d_pat,"r"),filesize($file_d_pat));
         $fread_file_pat_endcode = base64_encode($fread_file_pat);
         $read_file_pat_size = filesize($fread_file_pat_endcode); 
@@ -2264,8 +2253,8 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_opd, $str_opd_31);  
         }
         fclose($objFopen_opd);
-        // Fdh_api_opd::truncate();
-        Fdh_api_opd::where('claim_name','=','WALKIN')->delete();        
+        Fdh_api_opd::truncate();
+        // Fdh_api_opd::where('claim_name','=','WALKIN')->delete();        
         $fread_file_opd = fread(fopen($file_d_opd,"r"),filesize($file_d_opd));
         $fread_file_opd_endcode = base64_encode($fread_file_opd);
         $read_file_opd_size = filesize($fread_file_opd_endcode); 
@@ -2298,7 +2287,8 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_orf, $str_orf_41);   
         }
         fclose($objFopen_orf);    
-        Fdh_api_orf::where('claim_name','=','WALKIN')->delete();        
+        Fdh_api_orf::truncate();
+        // Fdh_api_orf::where('claim_name','=','WALKIN')->delete();        
         $fread_file_orf = fread(fopen($file_d_orf,"r"),filesize($file_d_orf));
         $fread_file_orf_endcode = base64_encode($fread_file_orf);
         $read_file_orf_size = filesize($fread_file_orf_endcode); 
@@ -2331,7 +2321,8 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_odx, $str_odx_51);  
         }
         fclose($objFopen_odx); 
-        Fdh_api_odx::where('claim_name','=','WALKIN')->delete();        
+        Fdh_api_odx::truncate();
+        // Fdh_api_odx::where('claim_name','=','WALKIN')->delete();        
         $fread_file_odx = fread(fopen($file_d_odx,"r"),filesize($file_d_odx));
         $fread_file_odx_endcode = base64_encode($fread_file_odx);
         $read_file_odx_size = filesize($fread_file_odx_endcode); 
@@ -2365,7 +2356,8 @@ class Fdh_walkinController extends Controller
 
         }
         fclose($objFopen_oop); 
-        Fdh_api_oop::where('claim_name','=','WALKIN')->delete();        
+        Fdh_api_oop::truncate();
+        // Fdh_api_oop::where('claim_name','=','WALKIN')->delete();        
         $fread_file_oop = fread(fopen($file_d_oop,"r"),filesize($file_d_oop));
         $fread_file_oop_endcode = base64_encode($fread_file_oop);
         $read_file_oop_size = filesize($fread_file_oop_endcode); 
@@ -2403,7 +2395,8 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_ipd, $str_ipd_71); 
         }
         fclose($objFopen_ipd); 
-        Fdh_api_ipd::where('claim_name','=','WALKIN')->delete();        
+        Fdh_api_ipd::truncate();
+        // Fdh_api_ipd::where('claim_name','=','WALKIN')->delete();        
         $fread_file_ipd = fread(fopen($file_d_ipd,"r"),filesize($file_d_ipd));
         $fread_file_ipd_endcode = base64_encode($fread_file_ipd);
         $read_file_ipd_size = filesize($fread_file_ipd_endcode); 
@@ -2431,7 +2424,8 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_irf, $str_irf_81);
         }
         fclose($objFopen_irf); 
-        Fdh_api_irf::where('claim_name','=','WALKIN')->delete();        
+        Fdh_api_irf::truncate();
+        // Fdh_api_irf::where('claim_name','=','WALKIN')->delete();        
         $fread_file_irf = fread(fopen($file_d_irf,"r"),filesize($file_d_irf));
         $fread_file_irf_endcode = base64_encode($fread_file_irf);
         $read_file_irf_size = filesize($fread_file_irf_endcode); 
@@ -2460,7 +2454,8 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_idx, $str_idx_91);
         }
         fclose($objFopen_idx); 
-        Fdh_api_idx::where('claim_name','=','WALKIN')->delete();        
+        Fdh_api_idx::truncate();
+        // Fdh_api_idx::where('claim_name','=','WALKIN')->delete();        
         $fread_file_idx = fread(fopen($file_d_idx,"r"),filesize($file_d_idx));
         $fread_file_idx_endcode = base64_encode($fread_file_idx);
         $read_file_idx_size = filesize($fread_file_idx_endcode); 
@@ -2493,7 +2488,8 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_iop, $str_iop_101);
         }
         fclose($objFopen_iop); 
-        Fdh_api_iop::where('claim_name','=','WALKIN')->delete();        
+        Fdh_api_iop::truncate();
+        // Fdh_api_iop::where('claim_name','=','WALKIN')->delete();        
         $fread_file_iop = fread(fopen($file_d_iop,"r"),filesize($file_d_iop));
         $fread_file_iop_endcode = base64_encode($fread_file_iop);
         $read_file_iop_size = filesize($fread_file_iop_endcode); 
@@ -2531,7 +2527,8 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_cht, $str_cht_12);
         }
         fclose($objFopen_cht); 
-        Fdh_api_cht::where('claim_name','=','WALKIN')->delete();        
+        Fdh_api_cht::truncate();
+        // Fdh_api_cht::where('claim_name','=','WALKIN')->delete();        
         $fread_file_cht = fread(fopen($file_d_cht,"r"),filesize($file_d_cht));
         $fread_file_cht_endcode = base64_encode($fread_file_cht);
         $read_file_cht_size = filesize($fread_file_cht_endcode); 
@@ -2563,7 +2560,8 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_cha, $str_cha_122);
         }
         fclose($objFopen_cha); 
-        Fdh_api_cha::where('claim_name','=','WALKIN')->delete();        
+        Fdh_api_cha::truncate();
+        // Fdh_api_cha::where('claim_name','=','WALKIN')->delete();        
         $fread_file_cha = fread(fopen($file_d_cha,"r"),filesize($file_d_cha));
         $fread_file_cha_endcode = base64_encode($fread_file_cha);
         $read_file_cha_size = filesize($fread_file_cha_endcode); 
@@ -2607,7 +2605,8 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_aer, $str_aer_132);
          }
          fclose($objFopen_aer); 
-         Fdh_api_aer::where('claim_name','=','WALKIN')->delete();        
+         Fdh_api_aer::truncate();
+        //  Fdh_api_aer::where('claim_name','=','WALKIN')->delete();        
         $fread_file_aer = fread(fopen($file_d_aer,"r"),filesize($file_d_aer));
         $fread_file_aer_endcode = base64_encode($fread_file_aer);
         $read_file_aer_size = filesize($fread_file_aer_endcode); 
@@ -2666,7 +2665,8 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_adp, $str_adp_142);
         }
         fclose($objFopen_adp); 
-        Fdh_api_adp::where('claim_name','=','WALKIN')->delete();        
+        Fdh_api_adp::truncate();
+        // Fdh_api_adp::where('claim_name','=','WALKIN')->delete();        
         $fread_file_adp = fread(fopen($file_d_adp,"r"),filesize($file_d_adp));
         $fread_file_adp_endcode = base64_encode($fread_file_adp);
         $read_file_adp_size = filesize($fread_file_adp_endcode); 
@@ -2699,6 +2699,7 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_lvd, $str_lvd_152);
          }
          fclose($objFopen_lvd); 
+         Fdh_api_lvd::truncate();
          Fdh_api_lvd::where('claim_name','=','WALKIN')->delete();        
         $fread_file_lvd = fread(fopen($file_d_lvd,"r"),filesize($file_d_lvd));
         $fread_file_lvd_endcode = base64_encode($fread_file_lvd);
@@ -2755,15 +2756,16 @@ class Fdh_walkinController extends Controller
             fwrite($objFopen_dru, $str_dru_162);
         }
         fclose($objFopen_dru); 
-        Fdh_api_dru::where('claim_name','=','WALKIN')->delete();        
+        Fdh_api_dru::truncate();
+        // Fdh_api_dru::where('claim_name','=','WALKIN')->delete();        
         $fread_file_dru = fread(fopen($file_d_dru,"r"),filesize($file_d_dru));
         $fread_file_dru_endcode = base64_encode($fread_file_dru);
         $read_file_dru_size = filesize($fread_file_dru_endcode); 
         Fdh_api_dru::insert([
             'type'       =>  'DRU.txt', 
             'file'       =>   $fread_file_dru_endcode,
-            'size'       =>   $read_file_dru_size,
-            'encoding'   =>  'UTF-8',
+            // 'size'       =>   $read_file_dru_size,
+            // 'encoding'   =>  'UTF-8',
             'claim_name' =>  'WALKIN',
         ]);  
 
