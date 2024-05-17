@@ -1010,10 +1010,10 @@ class Fdh_walkinController extends Controller
         $pattern_time = '/:/i';
         $s_time_now_preg = preg_replace($pattern_time, '', $s_time_now);
         #ตัดขีด, ตัด : ออก
-        $folder_name='UCEP24_'.$s_date_now_preg.'_'.$s_time_now_preg; 
+        $folder_name='WALKIN_'.$s_date_now_preg.'_'.$s_time_now_preg; 
         Fdh_sesion::insert([
             'folder_name'      => $folder_name,
-            'd_anaconda_id'    => 'UCEP24',
+            'd_anaconda_id'    => 'WALKIN',
             'date_save'        => $s_date_now,
             'time_save'        => $s_time_now,
             'userid'           => $iduser  
@@ -2141,7 +2141,7 @@ class Fdh_walkinController extends Controller
 
         header("Content-type: text/txt");
         header("Cache-Control: no-store, no-cache");
-        header('Content-Disposition: attachment; filename="content.txt"; charset=tis-620″ ;');
+        header('Content-Disposition: attachment; filename="content.txt";');
 
         //1 ins.txt
         $file_d_ins = "Export/".$folder."/INS.txt";
