@@ -157,7 +157,7 @@
                                                         ,SUM(debit) as sumdebit
                                                         from acc_debtor
                                                             WHERE account_code="1102050101.201"
-                                                            AND stamp = "N"
+                                                            AND stamp = "N" AND debit_total > 0
                                                             and month(vstdate) = "'.$item->months.'" and year(vstdate) = "'.$item->year.'"
                                                 ');
                                                 foreach ($datas as $key => $value) {

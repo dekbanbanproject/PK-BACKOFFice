@@ -287,6 +287,7 @@ class Fdh_Ucep24Controller extends Controller
         // Fdh_adp::truncate();
         // Fdh_dru::truncate();           
         // Fdh_lvd::truncate();
+        Fdh_sesion::where('d_anaconda_id','=','UCEP24')->delete(); 
         $id = $request->ids;
         $iduser = Auth::user()->id;
         $s_date_now = date("Y-m-d");

@@ -24,7 +24,7 @@
                     <div class="card">
                         <div class="body"><br>
                             
-                            <!-- {!!QrCode::size(112)->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$item->fire_id))!!}  -->
+                           {{-- {!!QrCode::size(112)->generate(asset('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$item->fire_id))!!}  --}}
                             {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$item->fire_num)!!}
                             {{-- {!!QrCode::size(112)->format('png')->merge('/public/images/logo150.png', .4)->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$item->fire_id)!!}  --}}
                             {{-- QrCode::size(112)->format('png')->merge('/public/img/logo.png', .4)->generate('https://www.binaryboxtuts.com/'); --}}
