@@ -1819,15 +1819,12 @@ class FdhController extends Controller
         $data_claim = array();
         foreach ($data_vn_1 as $key => $val) {
             $service_date_time_      = $val->service_date_time;
-
             $service_date_time    = substr($service_date_time_,0,16);
             $cid                  = $val->cid;
             $hcode                = $val->hcode;
             $total_amout          = $val->total_amout;
             $invoice_number       = $val->invoice_number;
-            $vn                   = $val->vn;
-
-       
+            $vn                   = $val->vn;       
         $curl = curl_init();
         $postData_send = [ 
             "service_date_time"  => $service_date_time,
@@ -1851,20 +1848,15 @@ class FdhController extends Controller
                 'Content-Type: application/json',
                 'Authorization: Bearer '.$token,
                 'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
-            ));
-  
+            ));  
             $server_output     = curl_exec ($curl);
-            $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-            
+            $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);            
             $content = $server_output;
             $result = json_decode($content, true);
-            #echo "<BR>";
             @$status = $result['status'];
-            #echo "<BR>";
             @$message = $result['message'];
             @$data = $result['data'];
             @$uid = $data['transaction_uid'];
-            #echo "<BR>";
             if (@$message == 'success') {
                     Fdh_mini_dataset::where('vn', $vn)
                     ->update([
@@ -1878,7 +1870,6 @@ class FdhController extends Controller
                             'active'          => 'Y'
                         ]);
             } else {
-                # code...
             }
         }
             // dd($result);
