@@ -466,7 +466,30 @@ class FireController extends Controller
         ]);
 
     }
-     
+    public function fire_pramuan_admin(Request $request)
+    {  
+        $dataprint_main = Fire::get();
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::select('SELECT * from fire WHERE active="Y" ORDER BY fire_id DESC'); 
+            
+        return view('support_prs.fire.fire_pramuan_admin', [
+            'startdate'       => $startdate,
+            'enddate'         => $enddate, 
+            'datashow'        => $datashow,
+        ]);
+
+    }
+    public function fire_pramuan(Request $request)
+    {  
+            $dataprint_main = Fire::get();
+            
+        return view('support_prs.fire.fire_pramuan', [
+            'dataprint_main'  =>  $dataprint_main, 
+        ]);
+
+    }
+    
  
 
  }

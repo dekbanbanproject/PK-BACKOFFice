@@ -172,8 +172,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
 
                         <a href="" class="logo logo-light">
                             <span class="logo-sm mt-3">
-                                <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light"
-                                    height="40">
+                                <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
                                 <h4 style="color:rgba(147, 204, 248, 0.871)" class="mt-4">PK-OFFICE</h4>
@@ -279,7 +278,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                             <ul class="sub-menu" aria-expanded="true"> 
                                 <li><a href="{{ url('fire_main') }}">รายการถังดับเพลิง</a></li>
                                 <li><a href="{{ url('fire_report_day') }}">report รายวัน</a></li>
-                               
+                                <li><a href="{{ url('fire_pramuan_admin') }}">แบบประเมิน</a></li>
                             </ul>
                         </li>   
                        {{-- - <li>

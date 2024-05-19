@@ -111,7 +111,8 @@ class Fdh_Ucep24Controller extends Controller
         } else {
                 $iduser = Auth::user()->id; 
                 // D_ucep24_main::truncate();
-                Fdh_sesion::where('d_anaconda_id','=','UCEP24')->delete(); 
+               
+                
                 D_ucep24::truncate();
                 $data_main_ = DB::connection('mysql2')->select('   
                         SELECT i.vn,o.an,o.hn,pt.cid,i.pttype,CONCAT(pt.pname,pt.fname," ",pt.lname) ptname,o.vstdate,i.dchdate,p.hipdata_code,o.qty,o.sum_price,i1.icd10 as DIAG
@@ -270,7 +271,7 @@ class Fdh_Ucep24Controller extends Controller
         Fdh_adp::where('d_anaconda_id','=','UCEP24')->delete();
         Fdh_dru::where('d_anaconda_id','=','UCEP24')->delete();            
         Fdh_lvd::where('d_anaconda_id','=','UCEP24')->delete();  
-
+        Fdh_sesion::where('d_anaconda_id','=','UCEP24')->delete(); 
         // Fdh_ins::truncate();
         // Fdh_pat::truncate();
         // Fdh_opd::truncate();
@@ -287,7 +288,7 @@ class Fdh_Ucep24Controller extends Controller
         // Fdh_adp::truncate();
         // Fdh_dru::truncate();           
         // Fdh_lvd::truncate();
-        Fdh_sesion::where('d_anaconda_id','=','UCEP24')->delete(); 
+        
         $id = $request->ids;
         $iduser = Auth::user()->id;
         $s_date_now = date("Y-m-d");
@@ -319,7 +320,7 @@ class Fdh_Ucep24Controller extends Controller
                     ,DATE_FORMAT(if(i.an is null,v.pttype_begin,ap.begin_date), "%Y%m%d") DATEIN
                     ,DATE_FORMAT(if(i.an is null,v.pttype_expire,ap.expire_date), "%Y%m%d") DATEEXP
                     ,if(i.an is null,v.hospmain,ap.hospmain) HOSPMAIN,if(i.an is null,v.hospsub,ap.hospsub) HOSPSUB,"" GOVCODE ,"" GOVNAME
-                    ,ifnull(if(i.an is null,r.sss_approval_code,ap.claim_code),ca.claimcode) PERMITNO
+                    ,ifnull(if(i.an is null,r.sss_approval_code,ap.claim_code),vp.claim_code) PERMITNO
                     ,"" DOCNO ,"" OWNRPID,"" OWNNAME ,i.an AN ,v.vn SEQ ,"" SUBINSCL,"" RELINSCL
                     ,"" HTYPE
                     FROM vn_stat v

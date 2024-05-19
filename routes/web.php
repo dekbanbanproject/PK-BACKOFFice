@@ -33,6 +33,7 @@ use App\Models\Fire;
 //   ]);
 // });
 Route::match(['get','post'],'fire_pramuan',[App\Http\Controllers\FireController::class, 'fire_pramuan'])->name('prs.fire_pramuan');//
+Route::match(['get','post'],'fire_pramuan_save',[App\Http\Controllers\FireController::class, 'fire_pramuan_save'])->name('prs.fire_pramuan_save');//
 Route::match(['get','post'],'fire_detail/{id}',[App\Http\Controllers\FireController::class, 'fire_detail'])->name('prs.fire_detail');//
 // ***************   Report  **********************************
 Route::match(['get','post'],'ins_dashboard',[App\Http\Controllers\InstrumentController::class, 'ins_dashboard'])->name('ins.ins_dashboard');//
@@ -3106,7 +3107,7 @@ Route::match(['get','post'],'cctv_report_process',[App\Http\Controllers\CCtvCont
 
 
 Route::match(['get','post'],'fire_main',[App\Http\Controllers\FireController::class, 'fire_main'])->name('prs.fire_main');//
-
+Route::match(['get','post'],'fire_pramuan_admin',[App\Http\Controllers\FireController::class, 'fire_pramuan_admin'])->name('prs.fire_pramuan_admin');//
 Route::match(['get','post'],'fire_add',[App\Http\Controllers\FireController::class, 'fire_add'])->name('prs.fire_add');//
 Route::match(['get','post'],'fire_save',[App\Http\Controllers\FireController::class, 'fire_save'])->name('prs.fire_save');//
 Route::match(['get','post'],'fire_edit/{id}',[App\Http\Controllers\FireController::class, 'fire_edit'])->name('prs.fire_edit');//

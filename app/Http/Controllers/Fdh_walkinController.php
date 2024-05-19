@@ -136,7 +136,7 @@ class Fdh_walkinController extends Controller
             $iduser = Auth::user()->id;
             // D_walkin::truncate();  
             D_walkin_drug::truncate();
-            Fdh_sesion::where('d_anaconda_id', '=', 'WALKIN')->delete();
+            // Fdh_sesion::where('d_anaconda_id', '=', 'WALKIN')->delete();
             $data_main_drug = DB::connection('mysql2')->select('SELECT vn  FROM opitemrece WHERE vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '" AND icode in ("3010755","3003179","3011264") AND an is null');
             foreach ($data_main_drug as $key => $val_drug) {
                 D_walkin_drug::insert([
@@ -236,23 +236,23 @@ class Fdh_walkinController extends Controller
             //         'authen'   => $v_up->claimcode,  
             //     ]);
             // } 
-            $s_date_now = date("Y-m-d");
-            $s_time_now = date("H:i:s");
-            #ตัดขีด, ตัด : ออก
-            $pattern_date = '/-/i';
-            $s_date_now_preg = preg_replace($pattern_date, '', $s_date_now);
-            $pattern_time = '/:/i';
-            $s_time_now_preg = preg_replace($pattern_time, '', $s_time_now);
-            #ตัดขีด, ตัด : ออก
-            $folder_name = 'WALKIN_' . $s_date_now_preg . '_' . $s_time_now_preg;
+            // $s_date_now = date("Y-m-d");
+            // $s_time_now = date("H:i:s");
+            // #ตัดขีด, ตัด : ออก
+            // $pattern_date = '/-/i';
+            // $s_date_now_preg = preg_replace($pattern_date, '', $s_date_now);
+            // $pattern_time = '/:/i';
+            // $s_time_now_preg = preg_replace($pattern_time, '', $s_time_now);
+            // #ตัดขีด, ตัด : ออก
+            // $folder_name = 'WALKIN_' . $s_date_now_preg . '_' . $s_time_now_preg;
 
-            Fdh_sesion::insert([
-                'folder_name'      => $folder_name,
-                'd_anaconda_id'    => 'WALKIN',
-                'date_save'        => $s_date_now,
-                'time_save'        => $s_time_now,
-                'userid'           => $iduser
-            ]);
+            // Fdh_sesion::insert([
+            //     'folder_name'      => $folder_name,
+            //     'd_anaconda_id'    => 'WALKIN',
+            //     'date_save'        => $s_date_now,
+            //     'time_save'        => $s_time_now,
+            //     'userid'           => $iduser
+            // ]);
 
             $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '" AND active ="N" AND projectcode ="WALKIN" AND debit > "1" ORDER BY vn DESC');
         }
@@ -1031,7 +1031,7 @@ class Fdh_walkinController extends Controller
                     ,DATE_FORMAT(if(i.an is null,v.pttype_begin,ap.begin_date), "%Y%m%d") DATEIN
                     ,DATE_FORMAT(if(i.an is null,v.pttype_expire,ap.expire_date), "%Y%m%d") DATEEXP
                     ,if(i.an is null,v.hospmain,ap.hospmain) HOSPMAIN,if(i.an is null,v.hospsub,ap.hospsub) HOSPSUB,"" GOVCODE ,"" GOVNAME
-                    ,ifnull(if(i.an is null,r.sss_approval_code,ap.claim_code),ca.claimcode) PERMITNO
+                    ,ifnull(if(i.an is null,r.sss_approval_code,ap.claim_code),vp.claim_code) PERMITNO
                     ,"" DOCNO ,"" OWNRPID,"" OWNNAME ,i.an AN ,v.vn SEQ ,"" SUBINSCL,"" RELINSCL
                     ,"" HTYPE
                     FROM vn_stat v
@@ -1042,11 +1042,12 @@ class Fdh_walkinController extends Controller
                     LEFT OUTER JOIN visit_pttype vp on vp.vn = v.vn
                     LEFT OUTER JOIN rcpt_debt r on r.vn = v.vn
                     LEFT OUTER JOIN patient px on px.hn = v.hn     
-                    LEFT OUTER JOIN check_authen_hos ca on ca.vn = v.vn               
+                                  
                     WHERE v.vn IN("' . $va1->vn . '")  
                     GROUP BY v.vn 
                 '
             );
+            // LEFT OUTER JOIN check_authen_hos ca on ca.vn = v.vn 
             // ,"2" HTYPE
             foreach ($data_ins_ as $va_01) {
                 Fdh_ins::insert([
@@ -2136,7 +2137,7 @@ class Fdh_walkinController extends Controller
     {
         #delete file in folder ทั้งหมด
         $file = new Filesystem;
-        $file->cleanDirectory('Export'); //ทั้งหมด
+        $file->cleanDirectory('Export_walkin'); //ทั้งหมด
         // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
         // $folder='WALKIN_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
         $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "WALKIN"');
@@ -2145,15 +2146,15 @@ class Fdh_walkinController extends Controller
         }
         $folder = $folder_;
 
-        mkdir('Export/' . $folder, 0777, true);  //Web
-        //  mkdir ('C:Export/'.$folder, 0777, true); //localhost
+        mkdir('Export_walkin/' . $folder, 0777, true);  //Web
+        //  mkdir ('C:Export_walkin/'.$folder, 0777, true); //localhost
 
         header("Content-type: text/txt");
         header("Cache-Control: no-store, no-cache");
         header('Content-Disposition: attachment; filename="content.txt";');
 
         //1 ins.txt
-        $file_d_ins = "Export/" . $folder . "/INS.txt";
+        $file_d_ins = "Export_walkin/" . $folder . "/INS.txt";
         $objFopen_ins = fopen($file_d_ins, 'w');
         // $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
         // $opd_head = 'HN|INSCL|SUBTYPE|CID|HCODE|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
@@ -2206,7 +2207,7 @@ class Fdh_walkinController extends Controller
         ]);
 
         //2 pat.txt
-        $file_d_pat = "Export/" . $folder . "/PAT.txt";
+        $file_d_pat = "Export_walkin/" . $folder . "/PAT.txt";
         $objFopen_pat = fopen($file_d_pat, 'w');
         // $opd_head_pat = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
         $opd_head_pat = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
@@ -2248,7 +2249,7 @@ class Fdh_walkinController extends Controller
         ]);
 
         //3 opd.txt
-        $file_d_opd = "Export/" . $folder . "/OPD.txt";
+        $file_d_opd = "Export_walkin/" . $folder . "/OPD.txt";
         $objFopen_opd = fopen($file_d_opd, 'w');
 
         // $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC';
@@ -2294,7 +2295,7 @@ class Fdh_walkinController extends Controller
 
 
         //4 orf.txt
-        $file_d_orf = "Export/" . $folder . "/ORF.txt";
+        $file_d_orf = "Export_walkin/" . $folder . "/ORF.txt";
         $objFopen_orf = fopen($file_d_orf, 'w');
         $opd_head_orf = 'HN|DATEOPD|CLINIC|REFER|REFERTYPE|SEQ|REFERDATE';
         fwrite($objFopen_orf, $opd_head_orf);
@@ -2327,7 +2328,7 @@ class Fdh_walkinController extends Controller
         ]);
 
         //5 odx.txt
-        $file_d_odx = "Export/" . $folder . "/ODX.txt";
+        $file_d_odx = "Export_walkin/" . $folder . "/ODX.txt";
         $objFopen_odx = fopen($file_d_odx, 'w');
         $opd_head_odx = 'HN|DATEDX|CLINIC|DIAG|DXTYPE|DRDX|PERSON_ID|SEQ';
         fwrite($objFopen_odx, $opd_head_odx);
@@ -2361,7 +2362,7 @@ class Fdh_walkinController extends Controller
         ]);
 
         //6 oop.txt
-        $file_d_oop = "Export/" . $folder . "/OOP.txt";
+        $file_d_oop = "Export_walkin/" . $folder . "/OOP.txt";
         $objFopen_oop = fopen($file_d_oop, 'w');
         $opd_head_oop = 'HN|DATEOPD|CLINIC|OPER|DROPID|PERSON_ID|SEQ|SERVPRICE';
         fwrite($objFopen_oop, $opd_head_oop);
@@ -2395,7 +2396,7 @@ class Fdh_walkinController extends Controller
         ]);
 
         //7 ipd.txt
-        $file_d_ipd = "Export/" . $folder . "/IPD.txt";
+        $file_d_ipd = "Export_walkin/" . $folder . "/IPD.txt";
         $objFopen_ipd = fopen($file_d_ipd, 'w');
         $opd_head_ipd = 'HN|AN|DATEADM|TIMEADM|DATEDSC|TIMEDSC|DISCHS|DISCHT|WARDDSC|DEPT|ADM_W|UUC|SVCTYPE';
         fwrite($objFopen_ipd, $opd_head_ipd);
@@ -2434,7 +2435,7 @@ class Fdh_walkinController extends Controller
         ]);
 
         //8 irf.txt
-        $file_d_irf = "Export/" . $folder . "/IRF.txt";
+        $file_d_irf = "Export_walkin/" . $folder . "/IRF.txt";
         $objFopen_irf = fopen($file_d_irf, 'w');
         $opd_head_irf = 'AN|REFER|REFERTYPE';
         fwrite($objFopen_irf, $opd_head_irf);
@@ -2463,7 +2464,7 @@ class Fdh_walkinController extends Controller
         ]);
 
         //9 idx.txt
-        $file_d_idx = "Export/" . $folder . "/IDX.txt";
+        $file_d_idx = "Export_walkin/" . $folder . "/IDX.txt";
         $objFopen_idx = fopen($file_d_idx, 'w');
         $opd_head_idx = 'AN|DIAG|DXTYPE|DRDX';
         fwrite($objFopen_idx, $opd_head_idx);
@@ -2493,7 +2494,7 @@ class Fdh_walkinController extends Controller
         ]);
 
         //10 iop.txt
-        $file_d_iop = "Export/" . $folder . "/IOP.txt";
+        $file_d_iop = "Export_walkin/" . $folder . "/IOP.txt";
         $objFopen_iop = fopen($file_d_iop, 'w');
         $opd_head_iop = 'AN|OPER|OPTYPE|DROPID|DATEIN|TIMEIN|DATEOUT|TIMEOUT';
         fwrite($objFopen_iop, $opd_head_iop);
@@ -2527,7 +2528,7 @@ class Fdh_walkinController extends Controller
         ]);
 
         //11 cht.txt
-        $file_d_cht = "Export/" . $folder . "/CHT.txt";
+        $file_d_cht = "Export_walkin/" . $folder . "/CHT.txt";
         $objFopen_cht = fopen($file_d_cht, 'w');
         $opd_head_cht = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ|OPD_MEMO|INVOICE_NO|INVOICE_LT';
         // $opd_head_cht = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ';
@@ -2566,7 +2567,7 @@ class Fdh_walkinController extends Controller
         ]);
 
         //12 cha.txt
-        $file_d_cha = "Export/" . $folder . "/CHA.txt";
+        $file_d_cha = "Export_walkin/" . $folder . "/CHA.txt";
         $objFopen_cha = fopen($file_d_cha, 'w');
         $opd_head_cha = 'HN|AN|DATE|CHRGITEM|AMOUNT|PERSON_ID|SEQ';
         fwrite($objFopen_cha, $opd_head_cha);
@@ -2599,7 +2600,7 @@ class Fdh_walkinController extends Controller
         ]);
 
         //13 aer.txt
-        $file_d_aer = "Export/" . $folder . "/AER.txt";
+        $file_d_aer = "Export_walkin/" . $folder . "/AER.txt";
         $objFopen_aer = fopen($file_d_aer, 'w');
         $opd_head_aer = 'HN|AN|DATEOPD|AUTHAE|AEDATE|AETIME|AETYPE|REFER_NO|REFMAINI|IREFTYPE|REFMAINO|OREFTYPE|UCAE|EMTYPE|SEQ|AESTATUS|DALERT|TALERT';
         fwrite($objFopen_aer, $opd_head_aer);
@@ -2644,7 +2645,7 @@ class Fdh_walkinController extends Controller
         ]);
 
         //14 adp.txt
-        $file_d_adp = "Export/" . $folder . "/ADP.txt";
+        $file_d_adp = "Export_walkin/" . $folder . "/ADP.txt";
         $objFopen_adp = fopen($file_d_adp, 'w');
         // $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP|LMP|SP_ITEM';
         // $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP|LMP|SP_ITEM';
@@ -2652,7 +2653,7 @@ class Fdh_walkinController extends Controller
         // $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE';
 
         fwrite($objFopen_adp, $opd_head_adp);
-        $adp = DB::connection('mysql')->select('SELECT * from fdh_adp where d_anaconda_id = "UCEP24"');
+        $adp = DB::connection('mysql')->select('SELECT * from fdh_adp where d_anaconda_id = "WALKIN"');
         foreach ($adp as $key => $value14) {
             $c1  = $value14->HN;
             $c2  = $value14->AN;
@@ -2704,7 +2705,7 @@ class Fdh_walkinController extends Controller
         ]);
 
         //15 lvd.txt
-        $file_d_lvd = "Export/" . $folder . "/LVD.txt";
+        $file_d_lvd = "Export_walkin/" . $folder . "/LVD.txt";
         $objFopen_lvd = fopen($file_d_lvd, 'w');
         $opd_head_lvd = 'SEQLVD|AN|DATEOUT|TIMEOUT|DATEIN|TIMEIN|QTYDAY';
         fwrite($objFopen_lvd, $opd_head_lvd);
@@ -2739,7 +2740,7 @@ class Fdh_walkinController extends Controller
 
 
         //16 dru.txt
-        $file_d_dru = "Export/" . $folder . "/DRU.txt";
+        $file_d_dru = "Export_walkin/" . $folder . "/DRU.txt";
         $objFopen_dru = fopen($file_d_dru, 'w');
         // $objFopen_dru_utf = fopen($file_d_dru, 'w');
         // $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER|SP_ITEM';
@@ -2795,7 +2796,7 @@ class Fdh_walkinController extends Controller
         ]);
 
         //17 lab.txt
-        //  $file_d_lab = "Export/".$folder."/LAB.txt";
+        //  $file_d_lab = "Export_walkin/".$folder."/LAB.txt";
         //  $objFopen_lab = fopen($file_d_lab, 'w');
         //  $opd_head_lab = 'HCODE|HN|PERSON_ID|DATESERV|SEQ|LABTEST|LABRESULT';
         //  fwrite($objFopen_lab, $opd_head_lab);
@@ -2803,7 +2804,7 @@ class Fdh_walkinController extends Controller
 
 
 
-        // $pathdir =  "Export/".$folder."/";
+        // $pathdir =  "Export_walkin/".$folder."/";
         // $zipcreated = $folder.".zip";
 
         // $newzip = new ZipArchive;
@@ -2845,7 +2846,7 @@ class Fdh_walkinController extends Controller
 
         $zip = new ZipArchive;
         if ($zip->open(public_path($filename), ZipArchive::CREATE) === TRUE) {
-            $files = File::files(public_path("Export/" . $folder . "/"));
+            $files = File::files(public_path("Export_walkin/" . $folder . "/"));
             foreach ($files as $key => $value) {
                 $relativenameInZipFile = basename($value);
                 $zip->addFile($value, $relativenameInZipFile);
@@ -2914,14 +2915,169 @@ class Fdh_walkinController extends Controller
         foreach ($dataexport_ as $key => $v_export) {
             $folder = $v_export->folder_name;
         }
-        $files = File::files(public_path("Export/" . $folder . "/"));
-        $path = public_path("Export/" . $folder . "/");
+        $files = File::files(public_path("Export_walkin/" . $folder . "/"));
+        $path = public_path("Export_walkin/" . $folder . "/");
         // dd($files);
         foreach ($files as $key => $value) {
             $file[]  = basename($value);
             $pathnew[]  = $value->getPathname();
         }
         $path2 = file_get_contents($path . 'INS.txt');
+        // dd($pathnew[0]);
+        $postData_send = [
+            $multipart = [
+                [
+                    'name' => 'type',
+                    'contents' => 'txt'
+                ],
+                [
+                    'name' => 'file',
+                    'contents' => file_get_contents($path . 'ADP.txt'),
+                    'filename' => 'ADP.txt',
+                    'headers'  => [
+                        'Content-Type' => 'text/plain'
+                    ]
+                ],
+                [
+                    'name' => 'file',
+                    'contents' => file_get_contents($path . 'AER.txt'),
+                    'filename' => 'AER.txt',
+                    'headers'  => [
+                        'Content-Type' => 'text/plain'
+                    ]
+                ],
+                [
+                    'name' => 'file',
+                    'contents' => file_get_contents($path . 'CHA.txt'),
+                    'filename' => 'CHA.txt',
+                    'headers'  => [
+                        'Content-Type' => 'text/plain'
+                    ]
+                ],
+                [
+                    'name' => 'file',
+                    'contents' => file_get_contents($path . 'CHT.txt'),
+                    'filename' => 'CHT.txt',
+                    'headers'  => [
+                        'Content-Type' => 'text/plain'
+                    ]
+                ],
+                [
+                    'name' => 'file',
+                    'contents' => file_get_contents($path . 'DRU.txt'),
+                    'filename' => 'DRU.txt',
+                    'headers'  => [
+                        'Content-Type' => 'text/plain'
+                    ]
+                ],
+                [
+                    'name' => 'file',
+                    'contents' => file_get_contents($path . 'IDX.txt'),
+                    'filename' => 'IDX.txt',
+                    'headers'  => [
+                        'Content-Type' => 'text/plain'
+                    ]
+                ],
+                [
+                    'name' => 'file',
+                    'contents' => file_get_contents($path . 'INS.txt'),
+                    'filename' => 'INS.txt',
+                    'headers'  => [
+                        'Content-Type' => 'text/plain'
+                    ]
+                ],
+                [
+                    'name' => 'file',
+                    'contents' => file_get_contents($path . 'IOP.txt'),
+                    'filename' => 'IOP.txt',
+                    'headers'  => [
+                        'Content-Type' => 'text/plain'
+                    ]
+                ],
+                [
+                    'name' => 'file',
+                    'contents' => file_get_contents($path . 'IPD.txt'),
+                    'filename' => 'IPD.txt',
+                    'headers'  => [
+                        'Content-Type' => 'text/plain'
+                    ]
+                ],
+                [
+                    'name' => 'file',
+                    'contents' => file_get_contents($path . 'IRF.txt'),
+                    'filename' => 'IRF.txt',
+                    'headers'  => [
+                        'Content-Type' => 'text/plain'
+                    ]
+                ],
+                [
+                    'name' => 'file',
+                    'contents' => file_get_contents($path . 'LVD.txt'),
+                    'filename' => 'LVD.txt',
+                    'headers'  => [
+                        'Content-Type' => 'text/plain'
+                    ]
+                ],
+                [
+                    'name' => 'file',
+                    'contents' => file_get_contents($path . 'ODX.txt'),
+                    'filename' => 'ODX.txt',
+                    'headers'  => [
+                        'Content-Type' => 'text/plain'
+                    ]
+                ],
+                [
+                    'name' => 'file',
+                    'contents' => file_get_contents($path . 'OOP.txt'),
+                    'filename' => 'OOP.txt',
+                    'headers'  => [
+                        'Content-Type' => 'text/plain'
+                    ]
+                ],
+                [
+                    'name' => 'file',
+                    'contents' => file_get_contents($path . 'OPD.txt'),
+                    'filename' => 'OPD.txt',
+                    'headers'  => [
+                        'Content-Type' => 'text/plain'
+                    ]
+                ],
+                [
+                    'name' => 'file',
+                    'contents' => file_get_contents($path . 'ORF.txt'),
+                    'filename' => 'ORF.txt',
+                    'headers'  => [
+                        'Content-Type' => 'text/plain'
+                    ]
+                ],
+                [
+                    'name' => 'file',
+                    'contents' => file_get_contents($path . 'PAT.txt'),
+                    'filename' => 'PAT.txt',
+                    'headers'  => [
+                        'Content-Type' => 'text/plain'
+                    ]
+                ]
+            ]
+        ];
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token
+        ])->post('https://fdh.moph.go.th/api/v2/data_hub/16_files',
+            [
+                'type' => 'txt', 
+                'file' => $postData_send
+                // 'file' => $pathnew[0], 'file' => $pathnew[1], 'file' => $pathnew[2], 'file' => $pathnew[3], 'file' => $pathnew[4], 'file' => $pathnew[5], 'file' => $pathnew[6], 'file' => $pathnew[7],
+                // 'file' => $pathnew[8], 'file' => $pathnew[9], 'file' => $pathnew[10], 'file' => $pathnew[11], 'file' => $pathnew[12], 'file' => $pathnew[13], 'file' => $pathnew[14], 'file' => $pathnew[15] 
+            ]);
+
+            // dd($response);
+            // dd($response->statusCode());
+            // dd($response->successful());
+            // Get the response code
+        $responseCode = $response->getStatusCode();
+        dd($responseCode);
+        // return response()->json(['response_code' => $responseCode]);
+
 
         // $client = new http\Client;
         // $request = new http\Client\Request;
