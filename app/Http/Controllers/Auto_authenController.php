@@ -1120,7 +1120,7 @@ class Auto_authenController extends Controller
                         AND (claimcode IS NULL OR claimcode ="") AND cid is not null 
                         AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") 
                         GROUP BY vn 
-                        LIMIT 50
+                        LIMIT 10
                     '); 
                 
                 $ch = curl_init(); 
