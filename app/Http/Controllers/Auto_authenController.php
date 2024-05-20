@@ -1115,12 +1115,12 @@ class Auto_authenController extends Controller
                 // $date_now = date('2024-04-03');
                 // $date_now = date('2024-04-15');
                 $data_ = DB::connection('mysql')->select(
-                    'SELECT vn,cid,hn,vstdate 
+                    'SELECT vn,cid,hn,vstdate,claimcode 
                         FROM check_sit_auto WHERE vstdate = "'.$date_now.'"
                         AND (claimcode IS NULL OR claimcode ="") AND cid is not null 
                         AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") 
                         GROUP BY vn 
-                        LIMIT 10
+                        LIMIT 5
                     '); 
                 
                 $ch = curl_init(); 

@@ -59,8 +59,8 @@ use App\Models\Land;
 use App\Models\Building;
 use App\Models\Product_budget;
 use App\Models\Product_method;
-use App\Models\Product_buy;
-use App\Models\Users_prefix;
+use App\Models\Visit_pttype_205;
+use App\Models\Visit_pttype_217;
 use App\Models\D_fdh_opd;
 use App\Models\D_fdh_ipd;
 use App\Models\D_fdh;
@@ -2312,6 +2312,7 @@ class FdhController extends Controller
                     $cid         = $value->cid;
                     $vn          = $value->vn;
                     $vstdate     = $value->vstdate; 
+
                     $headers = array();
                     $headers[] = "Accept: application/json";
                     $headers[] = "Authorization: Bearer 3045bba2-3cac-4a74-ad7d-ac6f7b187479";    
@@ -2348,6 +2349,15 @@ class FdhController extends Controller
                                             'claimcode'     => $cd,
                                             'claimtype'     => $sv_code,
                                             'servicename'   => $sv_name, 
+                                    ]);
+
+                                    Visit_pttype_205::where('vn', $vn)
+                                        ->update([
+                                            'claim_code'     => $cd, 
+                                    ]);
+                                    Visit_pttype_217::where('vn', $vn)
+                                        ->update([
+                                            'claim_code'     => $cd, 
                                     ]);
                                     
                                 }  
@@ -2402,7 +2412,15 @@ class FdhController extends Controller
                                                 'claimcode'     => $cd_ti,
                                                 'claimtype'     => $sv_code_ti,
                                                 'servicename'   => $sv_name_ti, 
-                                        ]);
+                                            ]);
+                                            Visit_pttype_205::where('vn', $vn)
+                                                ->update([
+                                                    'claim_code'     => $cd, 
+                                            ]);
+                                            Visit_pttype_217::where('vn', $vn)
+                                                ->update([
+                                                    'claim_code'     => $cd, 
+                                            ]);
                                         }  
                                     }
                                 // }
