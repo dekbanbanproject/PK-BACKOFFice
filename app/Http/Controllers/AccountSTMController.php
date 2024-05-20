@@ -132,9 +132,9 @@ class AccountSTMController extends Controller
                 $sheet        = $spreadsheet->setActiveSheetIndex(0);
                 $row_limit    = $sheet->getHighestDataRow();
                 $column_limit = $sheet->getHighestDataColumn();
-                $row_range    = range( 12, $row_limit );
+                $row_range    = range( '12', $row_limit );
                 $column_range = range( 'AO', $column_limit );
-                $startcount = 12;
+                $startcount = '12';
                 // $row_range_namefile  = range( 9, $sheet->getCell( 'A' . $row )->getValue() );
                 $data = array();
                 foreach ($row_range as $row ) {
@@ -325,9 +325,9 @@ class AccountSTMController extends Controller
                 $sheet        = $spreadsheet->setActiveSheetIndex(0);
                 $row_limit    = $sheet->getHighestDataRow();
                 $column_limit = $sheet->getHighestDataColumn();
-                $row_range    = range( 8, $row_limit );
+                $row_range    = range( '8', $row_limit );
                 $column_range = range( 'AO', $column_limit );
-                $startcount = 8;
+                $startcount = '8';
                 // $row_range_namefile  = range( 9, $sheet->getCell( 'A' . $row )->getValue() );
                 $data = array();
                 foreach ($row_range as $row ) {
@@ -618,9 +618,9 @@ class AccountSTMController extends Controller
     //             $sheet2        = $spreadsheet2->setActiveSheetIndex(3);
     //             $row_limit2    = $sheet2->getHighestDataRow();
     //             $column_limit2 = $sheet2->getHighestDataColumn();
-    //             $row_range2    = range( 15, $row_limit2 );
+    //             $row_range2    = range( '15', $row_limit2 );
     //             $column_range2 = range( 'AO', $column_limit2 );
-    //             $startcount2 = 15;
+    //             $startcount2 = '15';
     //             $data2 = array();
     //             foreach ($row_range2 as $row2 ) {
     //                 $vst2 = $sheet2->getCell( 'H' . $row2 )->getValue();  
@@ -916,9 +916,9 @@ class AccountSTMController extends Controller
                 $sheet        = $spreadsheet->setActiveSheetIndex(2);
                 $row_limit    = $sheet->getHighestDataRow();
                 $column_limit = $sheet->getHighestDataColumn();
-                $row_range    = range( 15, $row_limit );
+                $row_range    = range( '15', $row_limit );
                 $column_range = range( 'AO', $column_limit );
-                $startcount = 15;
+                $startcount = '15';
                 $data = array();
                 foreach ($row_range as $row ) {
                     $vst = $sheet->getCell( 'H' . $row )->getValue();  
@@ -1034,9 +1034,9 @@ class AccountSTMController extends Controller
                 $sheet2        = $spreadsheet2->setActiveSheetIndex(3);
                 $row_limit2    = $sheet2->getHighestDataRow();
                 $column_limit2 = $sheet2->getHighestDataColumn();
-                $row_range2    = range( 15, $row_limit2 );
+                $row_range2    = range( '15', $row_limit2 );
                 $column_range2 = range( 'AO', $column_limit2 );
-                $startcount2 = 15;
+                $startcount2 = '15';
                 $data2 = array();
                 foreach ($row_range2 as $row2 ) {
                     $vst2 = $sheet2->getCell( 'H' . $row2 )->getValue();  
@@ -1319,9 +1319,9 @@ class AccountSTMController extends Controller
                 // $sheet        = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
                 $row_limit    = $sheet->getHighestDataRow();
                 $column_limit = $sheet->getHighestDataColumn();
-                $row_range    = range( 15, $row_limit );
+                $row_range    = range( '15', $row_limit );
                 $column_range = range( 'AQ', $column_limit );
-                $startcount = 15;
+                $startcount = '15';
                 $data = array();
                 foreach ($row_range as $row ) {
                     $vst = $sheet->getCell( 'H' . $row )->getValue();  
