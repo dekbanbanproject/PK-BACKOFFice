@@ -74,7 +74,7 @@
                                 <thead>
                                     <tr>
                                         <th>ลำดับ</th>
-                                        <th>vn</th>
+                                        {{-- <th>vn</th> --}}
                                         <th>hn</th>
                                         <th>cid</th>
                                         <th>tel</th>
@@ -89,6 +89,7 @@
                                         <th>claimtype</th>
                                         <th>staff</th>
                                         <th>main_dep</th>
+                                        <th>pdx</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -96,7 +97,7 @@
                                     @foreach ($data_sit as $item)
                                         <tr>
                                             <td>{{ $ia++ }}</td>
-                                            <td>{{ $item->vn }}</td>
+                                            {{-- <td>{{ $item->vn }}</td> --}}
                                             <td>{{ $item->hn }}</td>
                                             <td>{{ $item->cid }}</td>
                                             <td>{{ $item->hometel }}</td>
@@ -111,6 +112,7 @@
                                             <td style="background-color: rgb(253, 150, 185)">{{ $item->claimtype }}</td>
                                             <td>{{ $item->staff }}</td>
                                             <td>{{ $item->department }}</td>
+                                            <td>{{ $item->pdx }}</td>
                                         </tr>
                                     @endforeach
 

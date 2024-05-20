@@ -132,7 +132,7 @@ class Account106Controller extends Controller
         if ($startdate == '') {
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $acc_debtor = DB::select('
-                SELECT a.*,c.subinscl from acc_debtor a
+                SELECT a.* from acc_debtor a
                 left join checksit_hos c on c.vn = a.vn  
                 WHERE a.account_code="1102050102.106"
                 AND a.stamp = "N"
@@ -140,7 +140,7 @@ class Account106Controller extends Controller
                 order by a.vstdate asc;
 
             ');
-            // and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
+            // and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"  ,c.subinscl
         } else {
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
         }
@@ -155,20 +155,20 @@ class Account106Controller extends Controller
     { 
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2; 
-        $acc_debtor = DB::connection('mysql2')->select(' 
-            SELECT r.vn,r.hn,p.cid,concat(p.pname,p.fname," ",p.lname) as ptname
+        $acc_debtor = DB::connection('mysql2')->select(
+            'SELECT r.vn,r.hn,p.cid,concat(p.pname,p.fname," ",p.lname) as ptname
                 ,v.pttype,v.vstdate,r.arrear_date,r.arrear_time,rp.book_number,rp.bill_number,r.amount,rp.total_amount,r.paid
                 ,o.vsttime,t.name as pttype_name,"27" as acc_code,"1102050102.106" as account_code,"ชำระเงิน" as account_name,r.staff
                 ,r.rcpno,r.finance_number,r.receive_money_date,r.receive_money_staff,v.pdx
                 ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
 
-                FROM hos.rcpt_arrear r  
-                LEFT OUTER JOIN hos.rcpt_print rp on r.vn = rp.vn 
-                LEFT OUTER JOIN hos.ovst o on o.vn= r.vn  
-                LEFT OUTER JOIN hos.vn_stat v on v.vn= r.vn  
-                LEFT OUTER JOIN hos.patient p on p.hn=r.hn  
-                LEFT OUTER JOIN hos.pttype t on t.pttype = o.pttype
-                LEFT OUTER JOIN hos.pttype_eclaim e on e.code = t.pttype_eclaim_id
+                FROM rcpt_arrear r  
+                LEFT OUTER JOIN rcpt_print rp on r.vn = rp.vn 
+                LEFT OUTER JOIN ovst o on o.vn= r.vn  
+                LEFT OUTER JOIN vn_stat v on v.vn= r.vn  
+                LEFT OUTER JOIN patient p on p.hn=r.hn  
+                LEFT OUTER JOIN pttype t on t.pttype = o.pttype
+                LEFT OUTER JOIN pttype_eclaim e on e.code = t.pttype_eclaim_id
                 WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                 AND r.paid ="N" AND r.pt_type="OPD"
                 GROUP BY r.vn

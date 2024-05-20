@@ -270,7 +270,7 @@ class AccountController extends Controller
         // and a.uc_money > 1
         // group by year(a.vstdate),month(a.vstdate)
         // and (rr.sss_approval_code is null or rr.sss_approval_code ="")
-        $datashow2 = DB::connection('mysql10')->select('
+        $datashow2 = DB::connection('mysql3')->select('
                 select year(a.vstdate) as monyear
                 ,month(a.vstdate) as months
                 ,count(distinct a.vn) as vn
@@ -303,12 +303,12 @@ class AccountController extends Controller
 
         // dd($enddateadmit);
 
-        $datashow3 = DB::connection('mysql10')->select('
+        $datashow3 = DB::connection('mysql3')->select('
                 select left(DATEADM,4) as monyear,mid(dateadm,5,2) as months,count(distinct m.opdseq) as errorc
                 from eclaimdb.m_registerdata m
                 LEFT JOIN hshooterdb.m_stm s on s.vn = m.opdseq
                 LEFT JOIN vn_stat v on v.vn = m.opdseq
-                left outer join hos.ktb_edc_transaction k on k.vn = v.vn
+                left outer join ktb_edc_transaction k on k.vn = v.vn
                 left outer join rcpt_print r on r.vn =v.vn
                 left outer join rcpt_debt r1 on r1.vn =v.vn
 
@@ -384,13 +384,13 @@ class AccountController extends Controller
                 group_concat(distinct k.approval_code,":",k.amount,"/") as appktb,
                 e.age_y,
                 (select if(group_concat(status) like "%4%","ออก stm","check") from eclaimdb.m_registerdata where hn=m.hn and dateadm=m.dateadm ) as scheck
-                from hos.vn_stat e
-                left outer join hos.ovst o on o.vn = e.vn
-                left outer join hos.patient p on p.hn = e.hn
-                left outer join hos.rcpt_print r on r.vn =e.vn
-                left outer join hos.opdscreen oo on oo.vn =e.vn
-                left outer join hos.rcpt_debt rr on rr.vn = e.vn
-                left outer join hos.ktb_edc_transaction k on k.vn = e.vn
+                from vn_stat e
+                left outer join ovst o on o.vn = e.vn
+                left outer join patient p on p.hn = e.hn
+                left outer join rcpt_print r on r.vn =e.vn
+                left outer join opdscreen oo on oo.vn =e.vn
+                left outer join rcpt_debt rr on rr.vn = e.vn
+                left outer join ktb_edc_transaction k on k.vn = e.vn
                 left outer join eclaimdb.m_registerdata m on m.opdseq = e.vn and m.status in("0","1","4")
                 where e.vstdate between "' . $startdate . '" AND "' . $enddate . '"
                 and e.pttype in("o1","o2","o3","o4","o5")

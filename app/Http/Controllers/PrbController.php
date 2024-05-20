@@ -1037,7 +1037,7 @@ class PrbController extends Controller
                     left outer join rcpt_print r on r.vn =v.an
                     where v.dchdate between "'.$startdate.'" and "'.$enddate.'"
                     and v.pttype in("33","09","36","31","37","38")
-                    and month(v.dchdate) = "'.$months.'"
+                    and month(v.dchdate) = "'.$months.'" AND v.income > "30000"
                     group by v.an
                     order by v.pttype
  

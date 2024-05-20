@@ -224,7 +224,8 @@
                             <div class="tab-content p-3 text-muted">
                                 <div class="tab-pane active" id="Main" role="tabpanel">
                                     <p class="mb-0">
-                                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                                            <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                             <thead>
                                                 <tr style="font-size: 13px">
                                                     <th class="text-center">ลำดับ</th>
@@ -252,11 +253,11 @@
                                                     <td class="text-center" width="5%">{{ $item1->cid }}</td>
                                                     <td class="text-start" width="8%">{{ $item1->ptname }}</td>  
                                                     <td class="text-center" width="5%">{{ $item1->pttype }}</td> 
-                                                    <td class="text-center" width="8%">{{ $item1->vstdate }}</td> 
+                                                    <td class="text-center" width="8%">{{ DateThai($item1->vstdate) }}</td> 
                                                     <td class="text-start" width="5%">{{ $item1->icd10 }}</td> 
                                                     <td class="text-start" >{{ $item1->drugname }}</td> 
-                                                    <td class="text-center" width="5%">{{ $item1->sum_price }}</td> 
-                                                    <td class="text-start" width="10%">{{ $item1->ferritin }}</td> 
+                                                    <td class="text-center" width="10%">{{ $item1->sum_price }}</td> 
+                                                    <td class="text-start" width="15%">{{ $item1->ferritin }}</td> 
                                                 </tr>
                     
                     

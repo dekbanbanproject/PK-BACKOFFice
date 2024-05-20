@@ -271,14 +271,14 @@ class Account203Controller extends Controller
         
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2; 
-            $acc_debtor = DB::connection('mysql2')->select(
-                'SELECT * FROM
-                        (
+            $acc_debtor = DB::connection('mysql2')->select(' 
+                    SELECT * FROM
+                    (
                         SELECT ot.an,v.hn,v.vn,v.cid,v.vstdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,ro.icd10 as referin_no,h.name as hospmain
                         ,"07" as acc_code,"1102050101.203" as account_code,"UC นอก CUP ในจังหวัด" as account_name,v.pdx,v.dx0
                         ,v.income,v.uc_money ,v.discount_money,v.rcpt_money,v.paid_money  
                         ,ov.name as active_status 
-                        
+
                         ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3009147" AND vn = v.vn) THEN "1200" 
                         ELSE "0.00" 
                         END as debit_without
@@ -294,40 +294,33 @@ class Account203Controller extends Controller
                         ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3009143" AND vn = v.vn) THEN "1000" 
                         ELSE "0.00" 
                         END as debit_multiphase
-                        
-                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3009197" AND vn = v.vn) THEN "1100" 
-                        ELSE "0.00" 
-                        END as debit_drug50
-                        
                         ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011265" AND vn = v.vn) THEN "1100" 
                         ELSE "0.00" 
                         END as debit_drug100
-                        
                         ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011266" AND vn = v.vn) THEN "1100" 
                         ELSE "0.00" 
                         END as debit_drug150
-                        
-                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3009178") AND vn = v.vn) THEN "2500" 
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3009178","3009148") AND vn = v.vn) THEN "2500" 
                         ELSE "0.00" 
-                        END as ct_chest_with
-                        
-                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3009148") AND vn = v.vn) THEN "1200" 
+                        END as ct_cwith_bwith
+
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3001180","3002625","3002626","3002627","3010136") AND vn = v.vn) THEN SUM(sum_price)
                         ELSE "0.00" 
-                        END as ct_brain_with
-                        ,(SELECT SUM(rcptamt) sumprice FROM incoth WHERE income = "08" AND vn = v.vn) AS price_08
+                        END as ct_cxr
+                        
+                        ,(SELECT SUM(rcptamt) sumprice FROM incoth WHERE income <> "08" AND vn = v.vn) AS price_noct121212
                         ,(
-                        SELECT SUM(ot.sum_price) FROM opitemrece ot
-                        LEFT JOIN xray_items xr ON xr.icode = ot.icode
-                        WHERE ot.vn =v.vn AND ot.income ="08" AND xr.xray_items_group ="1"
+                            SELECT SUM(ot.sum_price) FROM opitemrece ot
+                            LEFT JOIN xray_items xr ON xr.icode = ot.icode
+                            WHERE ot.vn =r.vn AND ot.income ="08" AND xr.xray_items_group ="1"
                         ) as price_xray
                         
-                        
                         ,case
-                        when (v.income-(SELECT SUM(rcptamt) sumprice FROM incoth WHERE income = "08" AND vn = v.vn)) < 1000 then (v.income-(SELECT SUM(rcptamt) sumprice FROM incoth WHERE income = "08" AND vn = v.vn))
+                        when v.uc_money < 1000 then v.uc_money
                         else "1000"
                         end as toklong
-
-                        from vn_stat v                      
+                        from vn_stat v
+                      
                         left outer join patient p on p.hn = v.hn
                         left outer join pttype pt on pt.pttype =v.pttype 
                         left outer join icd101 oo on oo.code IN(v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5 )
@@ -338,7 +331,7 @@ class Account203Controller extends Controller
                         LEFT OUTER JOIN ovst ot on ot.vn = v.vn
                         LEFT OUTER JOIN ovstost ov on ov.ovstost = ot.ovstost
                         LEFT OUTER JOIN xray_report x on x.vn = v.vn 
-                        LEFT OUTER JOIN xray_items xi on xi.xray_items_code = x.xray_items_code 
+			            LEFT OUTER JOIN xray_items xi on xi.xray_items_code = x.xray_items_code 
                         where v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                         and (ot.an is null OR ot.an ="") AND v.uc_money <> 0 AND p.nationality = "99"   
                         and v.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.203" AND opdipd ="OPD")
@@ -352,60 +345,56 @@ class Account203Controller extends Controller
                         ,"07" as acc_code,"1102050101.203" as account_code,"UC นอก CUP ในจังหวัด" as account_name,v.pdx,v.dx0
                         ,v.income,v.uc_money ,v.discount_money,v.rcpt_money,v.paid_money  
                         ,ov.name as active_status 
-
+                        
                         ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3009147" AND vn = v.vn) THEN "1200" 
                         ELSE "0.00" 
                         END as debit_without
-
+                        
                         ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3009148" AND vn = v.vn) THEN "1200" 
                         ELSE "0.00" 
                         END as debit_with
-
+                        
                         ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3010860" AND vn = v.vn) THEN "2500" 
                         ELSE "0.00" 
                         END as debit_upper
-
+                        
                         ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3009187" AND vn = v.vn) THEN "2500" 
                         ELSE "0.00" 
                         END as debit_lower
-
+                       
                         ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3009143" AND vn = v.vn) THEN "1000" 
                         ELSE "0.00" 
                         END as debit_multiphase
-
-                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3009197" AND vn = v.vn) THEN "1100" 
-                        ELSE "0.00" 
-                        END as debit_drug50
-
+                        
                         ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011265" AND vn = v.vn) THEN "1100" 
                         ELSE "0.00" 
                         END as debit_drug100
-
+                       
                         ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011266" AND vn = v.vn) THEN "1100" 
                         ELSE "0.00" 
                         END as debit_drug150
-
-                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3009178") AND vn = v.vn) THEN "2500" 
+                        
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3009178","3009148") AND vn = v.vn) THEN "2500" 
                         ELSE "0.00" 
-                        END as ct_chest_with
+                        END as ct_cwith_bwith
 
-                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3009148") AND vn = v.vn) THEN "1200" 
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3001180","3002625","3002626","3002627","3010136") AND vn = v.vn) THEN SUM(sum_price)
                         ELSE "0.00" 
-                        END as ct_brain_with 
-
-                        ,(SELECT SUM(rcptamt) sumprice FROM incoth WHERE income = "08" AND vn = v.vn) AS price_08
+                        END as ct_cxr
+                        
+                        ,(SELECT SUM(rcptamt) sumprice FROM incoth WHERE income <> "08" AND vn = v.vn) AS price_noct121212
                         ,(
-                        SELECT SUM(ot.sum_price) FROM opitemrece ot
-                        LEFT JOIN xray_items xr ON xr.icode = ot.icode
-                        WHERE ot.vn =v.vn AND ot.income ="08" AND xr.xray_items_group ="1"
+                            SELECT SUM(ot.sum_price) FROM opitemrece ot
+                            LEFT JOIN xray_items xr ON xr.icode = ot.icode
+                            WHERE ot.vn =r.vn AND ot.income ="08" AND xr.xray_items_group ="1"
                         ) as price_xray
 
                         ,case
-                        when (v.income-(SELECT SUM(rcptamt) sumprice FROM incoth WHERE income = "08" AND vn = v.vn)) < 700 then (v.income-(SELECT SUM(rcptamt) sumprice FROM incoth WHERE income = "08" AND vn = v.vn))
+                        when v.uc_money < 700 then v.uc_money
                         else "700"
                         end as toklong
-
-                        from vn_stat v                      
+                        from vn_stat v
+                      
                         left outer join patient p on p.hn = v.hn
                         left outer join pttype pt on pt.pttype =v.pttype 
                         left outer join ovstdiag oo on oo.vn = v.vn
@@ -436,49 +425,98 @@ class Account203Controller extends Controller
                 // if ($value->an == '') { 
                             $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.203')->count();
 
-                            if ($check > '0' ) { 
+                            if ($check > 0 ) { 
                             } else {
-                                if ($value->debit_without >'0' || $value->debit_upper >'0' || $value->debit_lower >'0' || $value->debit_multiphase >'0' || $value->debit_drug50 >'0' || $value->debit_drug100 >'0' || $value->debit_drug150 >'0' || $value->ct_chest_with >'0' || $value->ct_brain_with >'0') {
-                                 
-                                        Acc_debtor::insert([
-                                            'hn'                 => $value->hn,
-                                            'an'                 => $value->an,
-                                            'vn'                 => $value->vn,
-                                            'cid'                => $value->cid,
-                                            'ptname'             => $value->ptname,
-                                            'pttype'             => $value->pttype,
-                                            'vstdate'            => $value->vstdate, 
-                                            'acc_code'           => $value->acc_code,
-                                            'account_code'       => $value->account_code,
-                                            'account_name'       => $value->account_name, 
-                                            'hospcode'           => $value->hospcode,
-                                            'income'             => $value->income,
-                                            'uc_money'           => $value->uc_money,
-                                            'discount_money'     => $value->discount_money,
-                                            'paid_money'         => $value->paid_money,
-                                            'rcpt_money'         => $value->rcpt_money,
-                                            'debit'              => $value->uc_money, 
-                                            // 'debit_total'        => $value->price_xray, 
-                                            'debit_total'        => $value->toklong, 
-                                            'referin_no'         => $value->referin_no, 
-                                            'pdx'                => $value->pdx, 
-                                            'dx0'                => $value->dx0, 
-                                            'cc'                 => $value->cc, 
-                                            // 'ct_price'           => $value->price_08-$value->price_xray,  
-                                            'ct_price'           => ($value->debit_without+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug50+$value->debit_drug100+$value->debit_drug150+$value->ct_chest_with+$value->ct_brain_with), 
-                                            'ct_sumprice'        => '100',  
-                                            'sauntang'           => ($value->uc_money)-($value->price_08-$value->price_xray), 
-                                            'acc_debtor_userid'  => Auth::user()->id,
-                                            'date_pull'          => $datetimenow,
-                                            'active_status'      => $value->active_status,
-                                            'referin_no'         => $value->referin_no,
-                                        ]);
-                                }else{                                    
-                                                              
+                                if ($value->debit_without > 0 || $value->debit_with > 0 || $value->debit_upper > 0 || $value->debit_lower > 0 || $value->debit_multiphase > 0 || $value->debit_drug100 > 0 || $value->debit_drug150 > 0 || $value->ct_cwith_bwith > 0) {
+                                   
+                                    $data_ = ($value->price_xray)- $value->rcpt_money;
+                                    if ($data_ > '700') {
+                                        $price_noct_ = '700';
+                                    } else {
+                                        $price_noct_ = $data_;
+                                    }                                    
+                                    Acc_debtor::insert([
+                                        'hn'                 => $value->hn,
+                                        'an'                 => $value->an,
+                                        'vn'                 => $value->vn,
+                                        'cid'                => $value->cid,
+                                        'ptname'             => $value->ptname,
+                                        'pttype'             => $value->pttype,
+                                        'vstdate'            => $value->vstdate,
+                                        // 'dchdate'            => $value->dchdate,
+                                        'acc_code'           => $value->acc_code,
+                                        'account_code'       => $value->account_code,
+                                        'account_name'       => $value->account_name, 
+                                        'hospcode'           => $value->hospcode,
+                                        'income'             => $value->income,
+                                        'uc_money'           => $value->uc_money,
+                                        'discount_money'     => $value->discount_money,
+                                        'paid_money'         => $value->paid_money,
+                                        'rcpt_money'         => $value->rcpt_money,
+                                        'debit'              => $value->uc_money, 
+                                        // 'debit_total'        => $value->price_xray, 
+                                        'debit_total'        => $price_noct_, 
+                                        'referin_no'         => $value->referin_no, 
+                                        'pdx'                => $value->pdx, 
+                                        'dx0'                => $value->dx0, 
+                                        'cc'                 => $value->cc, 
+                                        'ct_price'           => ($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150+$value->ct_cwith_bwith), 
+                                        'ct_sumprice'        => '100',  
+                                        'sauntang'           => ($value->uc_money)-($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150+$value->ct_cwith_bwith)-('100'), 
+                                        'acc_debtor_userid'  => Auth::user()->id,
+                                        'date_pull'          => $datetimenow,
+                                        'active_status'      => $value->active_status,
+                                        'referin_no'         => $value->referin_no,
+                                    ]);
+
+                                }else{
+                                    // $data_ = $value->price_noct + $value->ct_cxr;
+                                    // if ($data_ > '700') {
+                                    //     $price_noct_ = '700';
+                                    // } else {
+                                    //     $price_noct_ = $data_;
+                                    // }    
+
+                                    Acc_debtor::insert([
+                                        'hn'                 => $value->hn,
+                                        'an'                 => $value->an,
+                                        'vn'                 => $value->vn,
+                                        'cid'                => $value->cid,
+                                        'ptname'             => $value->ptname,
+                                        'pttype'             => $value->pttype,
+                                        'vstdate'            => $value->vstdate,
+                                        // 'dchdate'            => $value->dchdate,
+                                        'acc_code'           => $value->acc_code,
+                                        'account_code'       => $value->account_code,
+                                        'account_name'       => $value->account_name, 
+                                        'hospcode'           => $value->hospcode,
+                                        'income'             => $value->income,
+                                        'uc_money'           => $value->uc_money,
+                                        'discount_money'     => $value->discount_money,
+                                        'paid_money'         => $value->paid_money,
+                                        'rcpt_money'         => $value->rcpt_money,
+                                        'debit'              => $value->uc_money, 
+                                        'debit_total'        => $value->toklong, 
+                                        'referin_no'         => $value->referin_no, 
+                                        'pdx'                => $value->pdx, 
+                                        'dx0'                => $value->dx0, 
+                                        'cc'                 => $value->cc, 
+                                        'ct_price'           => ($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150+$value->ct_cwith_bwith), 
+                                        'ct_sumprice'        => '100',  
+                                        'sauntang'           => ($value->uc_money)-($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150+$value->ct_cwith_bwith)-('100'), 
+                                        'acc_debtor_userid'  => Auth::user()->id,
+                                        'date_pull'          => $datetimenow,
+                                        'active_status'      => $value->active_status,
+                                        'referin_no'         => $value->referin_no,
+                                    ]);
+                                
                                 }
                                 
                             } 
-                
+                // } else {
+                //     # code...
+                // }               
+                  
             }
 
             

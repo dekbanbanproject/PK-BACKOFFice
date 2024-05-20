@@ -225,7 +225,7 @@ $loter = $date.''.$time
 
                                 <div class="row mt-3">
                                     <div class="col-md-2 text-end">
-                                        <label for="fire_num">เลขครุภัณฑ์ </label>
+                                        <label for="fire_num">เลขครุภัณฑ์/รหัสถังดับเพลิง</label>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
