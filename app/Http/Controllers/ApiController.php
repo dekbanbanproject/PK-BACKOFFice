@@ -664,7 +664,7 @@ class ApiController extends Controller
                         LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype   
                         LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
                     WHERE o.vstdate = "' . $date_now . '" 
-                    AND ptt.hipdata_code ="UCS" AND v.income > 0
+                    AND ptt.hipdata_code ="UCS" AND v.income > 0 AND pt.nationality = "99"
                     GROUP BY o.vn 
                 ');   
                 // LIMIT 100
@@ -758,7 +758,7 @@ class ApiController extends Controller
                     LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype 
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
                 WHERE o.vstdate = "' . $date_now . '"
-                AND ptt.hipdata_code ="UCS" 
+                AND ptt.hipdata_code ="UCS" AND pt.nationality = "99"
                 GROUP BY o.vn 
             '); 
             // AND v.pttype NOT IN("M1","M4","M5") 
@@ -808,6 +808,7 @@ class ApiController extends Controller
                     LEFT OUTER JOIN pttype ptt ON v.pttype = ptt.pttype 
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
                 WHERE o.vstdate = "' . $date_now . '" AND (o.an IS NULL OR o.an = "") 
+                AND pt.nationality = "99"
                 AND ptt.hipdata_code ="UCS" AND v.income > 0 and rd.finance_number IS NULL  
                 GROUP BY o.vn   
             ');

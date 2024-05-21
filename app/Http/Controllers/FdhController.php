@@ -1694,7 +1694,7 @@ class FdhController extends Controller
                     LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype   
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
                 WHERE o.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"  
-                AND ptt.hipdata_code ="UCS" AND v.income > 0
+                AND ptt.hipdata_code ="UCS" AND v.income > 0 AND pt.nationality = "99"
                 AND (o.an IS NULL OR o.an ="")
                 GROUP BY o.vn 
             '
@@ -1763,6 +1763,7 @@ class FdhController extends Controller
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
                 WHERE o.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"  
                 AND ptt.hipdata_code ="UCS" AND v.income > 0  
+                AND pt.nationality = "99"
                 AND (o.an IS NULL OR o.an ="")
                 GROUP BY v.vn 
             '
