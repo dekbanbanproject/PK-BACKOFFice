@@ -42,9 +42,9 @@ use App\Models\acc_stm_ofcexcel;
 use App\Models\Acc_stm_lgo;
 use App\Models\Acc_stm_lgoexcel;
 use App\Models\Product_buy;
-use App\Models\Acc_stm_ucs_excel;
+use App\Models\Fire_pramuan;
 use App\Models\Article_status;
-use App\Models\Land;
+use App\Models\Fire_pramuan_sub;
 use App\Models\Cctv_report_months;
 use App\Models\Product_budget;
 use App\Models\Fire_check;
@@ -490,6 +490,31 @@ class FireController extends Controller
             'datashow'        =>  $datashow, 
         ]);
 
+    }
+    public function fire_pramuan_save(Request $request)
+    {
+        $id      = $request->ids;
+        dd($id);
+        $name    = $request->join_selected_name;
+        $iduser = Auth::user()->id;
+        $data = Fire_pramuan::where('fire_pramuan_id',$id)->get();
+            // Fire_pramuan::whereIn('acc_debtor_id',explode(",",$id))
+            //         ->update([
+            //             'stamp' => 'Y'
+            //         ]);
+        // foreach ($data as $key => $value) {
+        // //         $date = date('Y-m-d H:m:s'); 
+        //         Fire_pramuan_sub::insert([
+        //             'fire_pramuan_id'                 => $value->fire_pramuan_id,
+        //             'fire_pramuan_sub_name'           => $value->fire_pramuan_name,
+        //             // 'fire_pramuan_name_number'        => $name, 
+        //         ]);
+        
+        // }
+        dd($data);
+        return response()->json([
+            'status'    => '200'
+        ]);
     }
     
  
