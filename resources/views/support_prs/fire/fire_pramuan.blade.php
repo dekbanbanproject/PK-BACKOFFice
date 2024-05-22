@@ -224,7 +224,7 @@
                                 </h4> 
                             </div> 
                         </div> --}}
-
+<form>
                         <div class="row">
                             <div class="col">  
                                <table class="table table-bordered table-striped table-hover" style="width: 100%">
@@ -246,14 +246,30 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($datashow as $item)
-                                            <tr ids="tr_{{$item->fire_pramuan_id}}">
-                                                <td colspan="1" class="text-start">{{$item->fire_pramuan_name}}</td> 
-                                                <td class="text-center"><input class="form-check-input checkboxs sub_chk" type="radio" name="5" value="5" data-id="{{$item->fire_pramuan_id}}"></td>
-                                                <td class="text-center"><input class="form-check-input checkboxs sub_chk" type="radio" name="4" value="4" data-id="{{$item->fire_pramuan_id}}"></td>
-                                                <td class="text-center"><input class="form-check-input checkboxs sub_chk" type="radio" name="3" value="3" data-id="{{$item->fire_pramuan_id}}"></td>
-                                                <td class="text-center"><input class="form-check-input checkboxs sub_chk" type="radio" name="2" value="2" data-id="{{$item->fire_pramuan_id}}"></td>
-                                                <td class="text-center"><input class="form-check-input checkboxs sub_chk" type="radio" name="1" value="1" data-id="{{$item->fire_pramuan_id}}"></td>
-                                                <td class="text-center"><input class="form-check-input checkboxs sub_chk" type="radio" name="0" value="0" data-id="{{$item->fire_pramuan_id}}"></td>
+                                            <tr id="tr_{{$item->fire_pramuan_id}}">
+                                                <td colspan="1" class="text-start">
+                                                    <input class="form-check-input checkboxs sub_chk" type="hidden" name="fire_pramuan_id" value="{{$item->fire_pramuan_id}}" data-id="{{$item->fire_pramuan_id}}" checked>
+                                                    <input class="form-check-input" type="hidden" name="fire_pramuan_name" value="{{$item->fire_pramuan_name}}">
+                                                    {{$item->fire_pramuan_name}}
+                                                </td> 
+                                                <td class="text-center">
+                                                    <input class="form-check-input checkboxs sub_chk" type="radio" name="pramuan5" value="5" data-id="{{$item->fire_pramuan_id}}">
+                                                </td>
+                                                <td class="text-center">
+                                                    <input class="form-check-input checkboxs sub_chk" type="radio" name="pramuan4" value="4" data-id="{{$item->fire_pramuan_id}}">
+                                                </td>
+                                                <td class="text-center">
+                                                    <input class="form-check-input checkboxs sub_chk" type="radio" name="pramuan3" value="3" data-id="{{$item->fire_pramuan_id}}">
+                                                </td>
+                                                <td class="text-center">
+                                                    <input class="form-check-input checkboxs sub_chk" type="radio" name="{{$item->fire_pramuan_id}}" value="2">
+                                                </td>
+                                                <td class="text-center">
+                                                    <input class="form-check-input checkboxs sub_chk" type="radio" name="{{$item->fire_pramuan_id}}" value="1">
+                                                </td>
+                                                <td class="text-center">
+                                                    <input class="form-check-input checkboxs sub_chk" type="radio" name="{{$item->fire_pramuan_id}}" value="0">
+                                                </td>
                                             </tr>
                                         @endforeach
                                         
@@ -264,7 +280,8 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('fire_pramuan_save')}}">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp_2" data-url="{{url('fire_pramuan_save')}}">
+                                {{-- <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp"> --}}
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     บันทึกข้อมูล
                                 </button>
@@ -276,6 +293,7 @@
             </div>  
         </div>
     </div>
+</form>
      <!-- JAVASCRIPT -->
      {{-- <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>
      <script src="{{ asset('pkclaim/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>  --}}
@@ -352,27 +370,30 @@
                     $('#datepicker2').datepicker({
                         format: 'yyyy-mm-dd'
                     });
-                    $('#stamp').on('click', function(e) {
-                        if($(this).is(':checked',true))  
-                        {
-                            $(".sub_chk").prop('checked', true);  
-                        } else {  
-                            $(".sub_chk").prop('checked',false);  
-                        }  
-                    }); 
+                    // $('#stamp').on('click', function(e) {
+                    //     if($(this).is(':checked',true))  
+                    //     {
+                    //         $(".sub_chk").prop('checked', true);  
+                    //     } else {  
+                    //         $(".sub_chk").prop('checked',false);  
+                    //     }  
+                    // }); 
                     $("#spinner-div").hide(); //Request is complete so hide spinner
-                    $('.Savestamp').on('click', function(e) {
+                    $('.Savestamp_2').on('click', function(e) {
                         // alert('##Savestamp');
                         var allValls = [];
-                        var names = [];
+                        var pramuan = [];
                         // var value = [];
                         $(".sub_chk:checked").each(function () {
                             allValls.push($(this).attr('data-id'));
-                            names.push($(this).attr('name'));
+                            // names.push($(this).attr('data-name'));
                             // values.push($(this).attr('value'));
+                            $('input[name^="pramuan5"]').each(function () {
+                                pramuan5.push($(this).val());
+                         });
                             // alert(allValls);
                             // alert(names);
-                            // alert(values);
+                            alert(pramuan5);
                         });
                         if (allValls.length <= 0) {
                             // alert("SSSS");
@@ -400,7 +421,8 @@
                                         var check = true;
                                         if (check == true) {
                                             var join_selected_values = allValls.join(",");
-                                            var join_selected_name = names.join(",");
+                                            // var join_selected_name = names.join(",");
+                                            var join_selected_name = names.push($(this).attr('data-name'));
                                             // alert(join_selected_values);
                                             $("#overlay").fadeIn(300);　
                                             $("#spinner").show(); //Load button clicked show spinner 
@@ -409,7 +431,8 @@
                                                 url:$(this).data('url'),
                                                 type: 'POST',
                                                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                                                data: 'ids='+join_selected_values, 
+                                                data: {join_selected_values,join_selected_name}, 
+                                                // data: 'ids='+join_selected_values, 
                                                 success:function(data){ 
                                                         // if (data.status == 200) {
                                                         //     $(".sub_chk:checked").each(function () {
@@ -448,7 +471,83 @@
                                 }) 
                             // var check = confirm("Are you want ?");  
                         }
-                    });  
+                    }); 
+                    
+                    $('.Savestamp').on('click', function(e) {
+                         e.preventDefault();
+                         const fire_pramuan_id   = [];
+                         const fire_pramuan_name = [];
+                         const pramuan_5         = [];
+                         const pramuan_4         = [];
+                         const pramuan_3         = [];
+                         const pramuan_2         = [];
+                         const pramuan_1         = [];
+                         const pramuan_0         = [];
+                         alert(fire_pramuan_id);
+                         $('.fire_pramuan_id').each(function () {
+                            if ($(this).is(":checked")) {
+                                fire_pramuan_id.push($(this).val());
+                            }
+                         });
+                         $('input[name^="fire_pramuan_name"]').each(function () {
+                            fire_pramuan_name.push($(this).val());
+                         });
+                         $('input[name^="pramuan_5"]').each(function () {
+                                pramuan_5.push($(this).val());
+                         });
+                         $('input[name^="pramuan_4"]').each(function () {
+                                pramuan_4.push($(this).val());
+                         });
+                         $('input[name^="pramuan_3"]').each(function () {
+                                pramuan_3.push($(this).val());
+                         });
+                         $('input[name^="pramuan_2"]').each(function () {
+                                pramuan_2.push($(this).val());
+                         });
+                         $('input[name^="pramuan_1"]').each(function () {
+                                pramuan_1.push($(this).val());
+                         });
+                         $('input[name^="pramuan_0"]').each(function () {
+                                pramuan_0.push($(this).val());
+                         });
+                         alert(pramuan_0);
+                         $.ajax({
+                            url:'{{route('prs.fire_pramuan_save')}}',
+                            type:'POST',
+                            data:{
+                                "_token":"{{csrf_token()}}",
+                                fire_pramuan_id:fire_pramuan_id,
+                                fire_pramuan_name:fire_pramuan_name,
+                                pramuan_5:pramuan_5,
+                                pramuan_4:pramuan_4,
+                                pramuan_3:pramuan_3,
+                                pramuan_2:pramuan_2,
+                                pramuan_1:pramuan_1,
+                                pramuan_0:pramuan_0
+                            },
+                            success:function(response){
+                                // if (response.status =='200') {
+                                //     Swal.fire({
+                                //     position: "top-end",
+                                //     title: 'บันทึกข้อมูลสำเร็จ!',
+                                //     text: "You Save data success",
+                                //     icon: 'success',
+                                //     showCancelButton: false,
+                                //     confirmButtonColor: '#06D177',
+                                //     // cancelButtonColor: '#d33',
+                                //     confirmButtonText: 'เรียบร้อย'
+                                // }).then((result) => {
+                                //     if (result.isConfirmed) {
+                                //         $("#sid" + fire_id).remove(); 
+                                //         window.location = "{{ url('fire_pramuan') }}";
+                                //     }
+                                // }) 
+                                // }
+                            }
+                         });
+
+                        
+                    }); 
             }); 
      </script>
     </body>

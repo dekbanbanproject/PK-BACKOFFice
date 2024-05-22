@@ -493,11 +493,80 @@ class FireController extends Controller
     }
     public function fire_pramuan_save(Request $request)
     {
-        $id      = $request->ids;
-        dd($id);
-        $name    = $request->join_selected_name;
-        $iduser = Auth::user()->id;
-        $data = Fire_pramuan::where('fire_pramuan_id',$id)->get();
+        // $this->validate($request, [
+        //     'student_id'   => 'required',
+        //     'book_id'      => 'required',
+        //     'quantity'     => 'required',
+        // ]);
+
+        // $student_id    = $request->input('student[]');
+        // $book_id       = $request->input('book[]');
+        // $quantity      = $request->input('quantity[]');  
+
+        // for ($i = 0; $i < count($student_id); $i++) {
+        //     $data = [
+        //         'student_id' => $student_id[$i],
+        //         'book_id' => $book_id[$i],
+        //         'quantity' => $quantity[$i], 
+        //     ];
+        //     Fire_pramuan_sub::create($data);
+        // }
+dd($request->all());
+        $checked_array = $request->fire_pramuan_id;
+        foreach ($request->fire_pramuan_name as $key => $value) {
+            if (in_array($request->fire_pramuan_name[$key],$checked_array)) {
+                $add                    = new Fire_pramuan_sub;
+                $add->fire_pramuan_name = $request->fire_pramuan_name[$key];
+                $add->pramuan_5         = $request->pramuan_5[$key];
+                $add->pramuan_4         = $request->pramuan_4[$key];
+                $add->pramuan_3         = $request->pramuan_3[$key];
+                $add->pramuan_2         = $request->pramuan_2[$key];
+                $add->pramuan_1         = $request->pramuan_1[$key];
+                $add->pramuan_0         = $request->pramuan_0[$key];
+                $add->save();
+            }
+            // return response()->json([
+            //     'status'    => '200'
+            // ]);
+        }
+
+
+        // $id      = $request->join_selected_values;
+        // $name      = $request->join_selected_name;        
+        // $startcount = '1'; 
+        // $row_range = Fire_pramuan::whereIn('fire_pramuan_id',explode(",",$id))->get();
+        // $data = array();
+        // foreach ($row_range as $row ) {
+        //     $data[] = [
+        //         'fire_pramuan_id'            =>$row->fire_pramuan_id,
+        //         'fire_pramuan_name'          =>$row->fire_pramuan_name,
+        //         'fire_pramuan_name_number'   =>$name,
+        //     ]; 
+        //     $startcount++;
+        // }
+        // $for_insert = array_chunk($data, length:1000);
+        // foreach ($for_insert as $key => $data_) { 
+        //     Fire_pramuan_sub::insert($data_);  
+        // }
+
+
+
+        // $subs = [];
+        // $id      = $request->ids;
+        // $data = Fire_pramuan::where('fire_pramuan_id',$id)->get();
+        // foreach ($data as $index => $unit) {
+        //     $subs[] = [ 
+        //         "fire_pramuan_id" => $fire_pramuan_id[$index], 
+        //         "unit_title" => $unit_title[$index]
+        //     ];
+        // }
+        
+        // $created = Fire_pramuan_sub::insert($subs);
+
+        // dd($id);
+        // $name    = $request->join_selected_name;
+        // $iduser = Auth::user()->id;
+        // $data = Fire_pramuan::where('fire_pramuan_id',$id)->get();
             // Fire_pramuan::whereIn('acc_debtor_id',explode(",",$id))
             //         ->update([
             //             'stamp' => 'Y'
@@ -511,10 +580,10 @@ class FireController extends Controller
         //         ]);
         
         // }
-        dd($data);
-        return response()->json([
-            'status'    => '200'
-        ]);
+        // dd($data);
+        // return response()->json([
+        //     'status'    => '200'
+        // ]);
     }
     
  
