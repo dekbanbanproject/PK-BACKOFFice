@@ -483,9 +483,11 @@ class FireController extends Controller
     public function fire_pramuan(Request $request)
     {  
             $dataprint_main = Fire::get();
-            
+            $datashow = DB::select('SELECT * from fire_pramuan ORDER BY fire_pramuan_id ASC'); 
+
         return view('support_prs.fire.fire_pramuan', [
             'dataprint_main'  =>  $dataprint_main, 
+            'datashow'        =>  $datashow, 
         ]);
 
     }

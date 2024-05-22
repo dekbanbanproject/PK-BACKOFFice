@@ -228,12 +228,13 @@
                                                 <th class="text-center">ลำดับ</th>
                                                 <th class="text-center">hn</th> 
                                                 <th class="text-center">vstdate</th>
+                                                <th class="text-center">ptname</th> 
                                                 <th class="text-center">pdx</th> 
                                                 <th class="text-center">ERROR</th>
                                                 <th class="text-center">income</th>  
                                                 <th class="text-center">Approve Code</th>
-                                                <th class="text-center">EDC</th> 
-                                                <th class="text-center">Ap KTB</th> 
+                                                {{-- <th class="text-center">EDC</th>  --}}
+                                                {{-- <th class="text-center">Ap KTB</th>  --}}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -244,12 +245,13 @@
                                                 <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
                                                 <td class="text-center" width="10%">{{ $item_m->hn }} </td> 
                                                 <td class="text-center" width="10%">{{ $item_m->vstdate }} </td>
+                                                <td class="p-2">{{ $item_m->ptname }} </td>
                                                 <td class="text-center" width="10%">{{ $item_m->pdx }} </td>
                                                 <td class="text-center" style="width: 5%">{{ $item_m->error_c }}</td>
                                                 <td class="text-center" width="10%">{{ $item_m->debit }} </td>
                                                 <td class="text-center" width="10%">{{ $item_m->authen }} </td> 
-                                                <td class="text-center" width="10%">{{ $item_m->edc }} </td>
-                                                <td class="text-center" width="10%">{{ $item_m->AppKTB }} </td>
+                                                {{-- <td class="text-center" width="10%">{{ $item_m->edc }} </td> --}}
+                                                {{-- <td class="text-center" width="10%">{{ $item_m->AppKTB }} </td> --}}
                                             </tr>
                                             @endforeach
 
@@ -278,11 +280,11 @@
                                             
                                                 <th class="text-center">ลูกหนี้</th>
                                                 <th class="text-center">ชำระเงินเอง</th>
-                                                <th class="text-center">ใบเสร็จ</th> 
-                                                <th class="text-center">ปิดลูกหนี้</th>
-                                                <th class="text-center">EDC</th> 
+                                                {{-- <th class="text-center">ใบเสร็จ</th>  --}}
+                                                {{-- <th class="text-center">ปิดลูกหนี้</th> --}}
+                                                {{-- <th class="text-center">EDC</th>  --}}
                                                 <th class="text-center">Ap HOSxP</th>
-                                                <th class="text-center">Ap KTB</th> 
+                                                {{-- <th class="text-center">Ap KTB</th>  --}}
                                                 <th class="text-center">cc</th>
                                             </tr>
                                         </thead>
@@ -297,11 +299,11 @@
                                                     <td class="p-2" style="width: 10%">{{ $item_n->ptname }}</td>  
                                                     <td class="text-center" style="width: 5%">{{ $item_n->debit }}</td>
                                                     <td class="text-center" style="width: 5%">{{ $item_n->paid_money }}</td> 
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->rcpno }}</td>
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->rramont }}</td>
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->edc }}</td> 
+                                                    {{-- <td class="text-center" style="width: 5%">{{ $item_n->rcpno }}</td> --}}
+                                                    {{-- <td class="text-center" style="width: 5%">{{ $item_n->rramont }}</td> --}}
+                                                    {{-- <td class="text-center" style="width: 5%">{{ $item_n->edc }}</td>  --}}
                                                     <td class="text-center" style="width: 5%">{{ $item_n->authen }}</td>
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->AppKTB }}</td> 
+                                                    {{-- <td class="text-center" style="width: 5%">{{ $item_n->AppKTB }}</td>  --}}
                                                     <td class="p-2">{{ $item_n->cc }}</td>
                                                 </tr>
                                             @endforeach

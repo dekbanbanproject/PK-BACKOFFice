@@ -866,12 +866,13 @@ class Fdh_OfcController extends Controller
                 ->update([
                     'active' => 'Y'
                 ]);
+                Fdh_dru::where('DID', '=', '1500101')->delete();
                 //  D_ofc_401::whereIn('d_ofc_401_id',explode(",",$id))
                 //         ->update([
                 //             'active' => 'Y'
                 //         ]);
                 // Fdh_adp::where('CODE','=','XXXXXX')->delete();
-
+                // 1500101
         return response()->json([
              'status'    => '200'
         ]);

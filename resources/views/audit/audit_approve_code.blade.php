@@ -226,10 +226,11 @@
                                                 <th class="text-center">cid</th>
                                                 <th class="text-center">pttype</th>
                                                 <th class="text-center">vstdate</th>
+                                                <th class="text-center">ptname</th>
                                                 <th class="text-center">income</th>  
-                                                <th class="text-center">Approve Code</th>
-                                                <th class="text-center">EDC</th> 
-                                                <th class="text-center">Ap KTB</th> 
+                                                {{-- <th class="text-center">Approve Code</th> --}}
+                                                {{-- <th class="text-center">EDC</th>  --}}
+                                                {{-- <th class="text-center">Ap KTB</th>  --}}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -242,10 +243,11 @@
                                                 <td class="text-center" width="10%">{{ $item_m->cid }} </td>
                                                 <td class="text-center" width="10%">{{ $item_m->pttype }} </td>
                                                 <td class="text-center" width="10%">{{ $item_m->vstdate }} </td>
+                                                <td class="p-2">{{ $item_m->ptname }} </td>
                                                 <td class="text-center" width="10%">{{ $item_m->debit }} </td>
-                                                <td class="text-center" width="10%">{{ $item_m->authen }} </td> 
-                                                <td class="text-center" width="10%">{{ $item_m->edc }} </td>
-                                                <td class="text-center" width="10%">{{ $item_m->AppKTB }} </td>
+                                                {{-- <td class="text-center" width="10%">{{ $item_m->authen }} </td>  --}}
+                                                {{-- <td class="text-center" width="10%">{{ $item_m->edc }} </td> --}}
+                                                {{-- <td class="text-center" width="10%">{{ $item_m->AppKTB }} </td> --}}
                                             </tr>
                                             @endforeach
 

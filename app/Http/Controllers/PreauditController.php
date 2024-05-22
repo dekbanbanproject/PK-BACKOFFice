@@ -114,11 +114,11 @@ class PreauditController extends Controller
                     ,count(DISTINCT authen) as countauthen
                     ,count(DISTINCT vn)-count(DISTINCT authen) as count_no_approve,sum(debit) as sum_total 
                     FROM d_fdh WHERE vstdate BETWEEN "'.$start.'" AND "'.$end.'" 
-                    AND projectcode ="OFC" 
+                    AND projectcode ="OFC" AND debit > 0
                     AND an IS NULL
                     GROUP BY month(vstdate)
             ');  
-            $data['fdh_ofc_m']    = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE month(vstdate) ="'.$m.'" AND projectcode ="OFC" AND authen IS NULL AND an IS NULL GROUP BY vn'); 
+            $data['fdh_ofc_m']    = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE month(vstdate) ="'.$m.'" AND projectcode ="OFC" AND debit > 0 AND authen IS NULL AND an IS NULL GROUP BY vn'); 
             // ,(SELECT sum(debit) FROM d_fdh WHERE month(vstdate)= "'.$newDate.'" AND "'.$date.'" AND authen IS NULL AND projectcode ="OFC") as no_total
             // ,(SELECT sum(debit) FROM d_fdh WHERE vstdate BETWEEN "'.$newDate.'" AND "'.$date.'" AND authen IS NOT NULL AND projectcode ="OFC") as sum_total            
             
@@ -126,7 +126,7 @@ class PreauditController extends Controller
             $data['fdh_ofc']    = DB::connection('mysql')->select(
                 'SELECT year(vstdate) as years ,month(vstdate) as months,year(vstdate) as days 
                     ,count(DISTINCT vn) as countvn,count(DISTINCT authen) as countauthen,count(DISTINCT vn)-count(DISTINCT authen) as count_no_approve ,sum(debit) as sum_total  
-                    FROM d_fdh WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND projectcode ="OFC" 
+                    FROM d_fdh WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND projectcode ="OFC" AND debit > 0 
                     AND an IS NULL
                     GROUP BY month(vstdate)
             '); 
@@ -166,13 +166,13 @@ class PreauditController extends Controller
                     ,count(DISTINCT authen) as countauthen
                     ,count(DISTINCT vn)-count(DISTINCT authen) as count_no_approve,sum(debit) as sum_total 
                     FROM d_fdh WHERE vstdate BETWEEN "'.$start.'" AND "'.$end.'" 
-                    AND projectcode ="OFC" 
+                    AND projectcode ="OFC" AND debit > 0
                     AND (an IS NULL OR an ="") AND (hn IS NOT NULL OR hn <>"")
                     GROUP BY month(vstdate)
             ');  
             // $data['fdh_ofc_m']    = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE month(vstdate) BETWEEN "'.$newDate.'" AND "'.$m.'" AND projectcode ="OFC" AND authen IS NULL AND an IS NULL GROUP BY vn'); 
-            $data['fdh_ofc_m']       = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE projectcode ="OFC" AND (authen IS NULL OR authen ="") AND (an IS NULL OR an ="") AND (hn IS NOT NULL OR hn <>"") GROUP BY vn'); 
-            $data['fdh_ofc_momth']    = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE month(vstdate) ="'.$m.'" AND projectcode ="OFC" AND (authen IS NULL OR authen ="") AND (an IS NULL OR an ="") AND (hn IS NOT NULL OR hn <>"") GROUP BY vn'); 
+            $data['fdh_ofc_m']       = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE projectcode ="OFC" AND debit > 0 AND (authen IS NULL OR authen ="") AND (an IS NULL OR an ="") AND (hn IS NOT NULL OR hn <>"") GROUP BY vn'); 
+            $data['fdh_ofc_momth']    = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE month(vstdate) ="'.$m.'" AND projectcode ="OFC" AND debit > 0 AND (authen IS NULL OR authen ="") AND (an IS NULL OR an ="") AND (hn IS NOT NULL OR hn <>"") GROUP BY vn'); 
             // ,(SELECT sum(debit) FROM d_fdh WHERE month(vstdate)= "'.$newDate.'" AND "'.$date.'" AND authen IS NULL AND projectcode ="OFC") as no_total
             // ,(SELECT sum(debit) FROM d_fdh WHERE vstdate BETWEEN "'.$newDate.'" AND "'.$date.'" AND authen IS NOT NULL AND projectcode ="OFC") as sum_total            
             
@@ -181,7 +181,7 @@ class PreauditController extends Controller
                 'SELECT year(vstdate) as years ,month(vstdate) as months,year(vstdate) as days 
                     ,count(DISTINCT vn) as countvn,count(DISTINCT authen) as countauthen,count(DISTINCT vn)-count(DISTINCT authen) as count_no_approve ,sum(debit) as sum_total  
                     FROM d_fdh WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND projectcode ="OFC" 
-                    AND (an IS NULL OR an ="") AND (hn IS NOT NULL OR hn <>"") 
+                    AND (an IS NULL OR an ="") AND (hn IS NOT NULL OR hn <>"") AND debit > 0
                     GROUP BY month(vstdate)
             '); 
             // ,(SELECT sum(debit) FROM d_fdh WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND authen IS NULL AND projectcode ="OFC") as no_total

@@ -47,7 +47,7 @@
                         </div>
                         <div class="row">
                             <div class="col-4">
-                                <h5>1.เพศ </h5>
+                                <h5>1. เพศ </h5>
                             </div>
                             <div class="col-3">
                                 <div class="form-check">
@@ -93,7 +93,7 @@
 
                         <div class="row">
                             <div class="col-2">
-                                <h5>3.อายุ </h5>
+                                <h5>3. อายุ </h5>
                             </div>
                             <div class="col-3">
                                 <div class="form-check">
@@ -150,34 +150,37 @@
                         <div class="row">
                             <div class="col">  
                                <table class="table table-bordered table-striped table-hover" style="width: 100%">
-                                    <thead>
-                                        <th colspan="1" class="text-center" style="width: 50%">ประเด็นวัดความพึงพอใจ</th>
-                                        <th colspan="5" class="text-center" style="width: 25%">ระดับความพึงพอใจ</th>
-                                        <th class="text-center" style="width: 15%">ไม่พึงพอใจ</th>
+                                    <thead> 
+                                        <tr>
+                                            <th colspan="1" class="text-center" style="width: 50%">ประเด็นวัดความพึงพอใจ</th>
+                                            <th colspan="5" class="text-center" style="width: 25%">ระดับความพึงพอใจ</th>
+                                            <th class="text-center" style="width: 15%">ไม่พึงพอใจ</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="1" class="text-center" style="width: 50%"></th>
+                                            <th class="text-center">5</th>
+                                            <th class="text-center">4</th>
+                                            <th class="text-center">3</th>
+                                            <th class="text-center">2</th>
+                                            <th class="text-center">1</th>
+                                            <th class="text-center">0</th>
+                                        </tr>
                                     </thead>
-                                <tbody>
-                                    <tr>
-                                        <td colspan="1" class="text-start">1.การจัดหมวดหมู่ของรายการได้อย่างชัดเจน</td> 
-                                        <td class="text-center">5</td>
-                                        <td class="text-center">4</td>
-                                        <td class="text-center">3</td>
-                                        <td class="text-center">2</td>
-                                        <td class="text-center">1</td>
-                                        <td class="text-center">0</td>
-                                    </tr>
-                                    {{-- <tr>
-                                        <td colspan="5"></td>
-                                        <td>5</td>
-                                        <td>4</td>
-                                        <td>3</td>
-                                        <td>2</td>
-                                        <td>1</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="6"></td>
-                                        <td>0</td>
-                                    </tr> --}}
-                                </tbody>
+                                    <tbody>
+                                        @foreach ($datashow as $item)
+                                            <tr>
+                                                <td colspan="1" class="text-start">{{$item->fire_pramuan_name}}</td> 
+                                                <td class="text-center"><input class="form-check-input checkboxs" type="radio" name="{{$item->fire_pramuan_id}}" id="fire_pramuan_5"></td>
+                                                <td class="text-center"><input class="form-check-input checkboxs" type="radio" name="{{$item->fire_pramuan_id}}" id="fire_pramuan_4"></td>
+                                                <td class="text-center"><input class="form-check-input checkboxs" type="radio" name="{{$item->fire_pramuan_id}}" id="fire_pramuan_3"></td>
+                                                <td class="text-center"><input class="form-check-input checkboxs" type="radio" name="{{$item->fire_pramuan_id}}" id="fire_pramuan_2"></td>
+                                                <td class="text-center"><input class="form-check-input checkboxs" type="radio" name="{{$item->fire_pramuan_id}}" id="fire_pramuan_1"></td>
+                                                <td class="text-center"><input class="form-check-input checkboxs" type="radio" name="{{$item->fire_pramuan_id}}" id="fire_pramuan_0"></td>
+                                            </tr>
+                                        @endforeach
+                                        
+                                    
+                                    </tbody>
                                </table>
                             </div> 
                         </div>
