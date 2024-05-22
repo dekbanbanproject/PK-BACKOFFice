@@ -411,32 +411,32 @@
                                                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                                                 data: 'ids='+join_selected_values, 
                                                 success:function(data){ 
-                                                        if (data.status == 200) {
-                                                            $(".sub_chk:checked").each(function () {
-                                                                $(this).parents("tr").remove();
-                                                            });
-                                                            Swal.fire({
-                                                                title: 'ตั้งลูกหนี้สำเร็จ',
-                                                                text: "You Debtor data success",
-                                                                icon: 'success',
-                                                                showCancelButton: false,
-                                                                confirmButtonColor: '#06D177',
-                                                                confirmButtonText: 'เรียบร้อย'
-                                                            }).then((result) => {
-                                                                if (result
-                                                                    .isConfirmed) {
-                                                                    console.log(
-                                                                        data);
-                                                                    window.location.reload();
-                                                                    $('#spinner').hide();//Request is complete so hide spinner
-                                                                setTimeout(function(){
-                                                                    $("#overlay").fadeOut(300);
-                                                                },500);
-                                                                }
-                                                            })
-                                                        } else {
+                                                        // if (data.status == 200) {
+                                                        //     $(".sub_chk:checked").each(function () {
+                                                        //         $(this).parents("tr").remove();
+                                                        //     });
+                                                        //     Swal.fire({
+                                                        //         title: 'ตั้งลูกหนี้สำเร็จ',
+                                                        //         text: "You Debtor data success",
+                                                        //         icon: 'success',
+                                                        //         showCancelButton: false,
+                                                        //         confirmButtonColor: '#06D177',
+                                                        //         confirmButtonText: 'เรียบร้อย'
+                                                        //     }).then((result) => {
+                                                        //         if (result
+                                                        //             .isConfirmed) {
+                                                        //             console.log(
+                                                        //                 data);
+                                                        //             window.location.reload();
+                                                        //             $('#spinner').hide();//Request is complete so hide spinner
+                                                        //         setTimeout(function(){
+                                                        //             $("#overlay").fadeOut(300);
+                                                        //         },500);
+                                                        //         }
+                                                        //     })
+                                                        // } else {
                                                             
-                                                        } 
+                                                        // } 
                                                 
                                                 }
                                             });
