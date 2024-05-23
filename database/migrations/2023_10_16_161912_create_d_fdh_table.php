@@ -53,6 +53,7 @@ return new class extends Migration
                 $table->string('cc')->nullable();//
                 $table->string('transaction_uid')->nullable();//
                 $table->string('id_booking')->nullable();// 
+                $table->text('inst')->nullable();// 
                 $table->timestamps();
             }); 
         }

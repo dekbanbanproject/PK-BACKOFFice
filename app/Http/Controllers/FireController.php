@@ -526,7 +526,7 @@ class FireController extends Controller
         //     ];
         //     Fire_pramuan_sub::create($data);
         // }
-dd($request->all());
+        dd($request->all());
         $checked_array = $request->fire_pramuan_id;
         foreach ($request->fire_pramuan_name as $key => $value) {
             if (in_array($request->fire_pramuan_name[$key],$checked_array)) {

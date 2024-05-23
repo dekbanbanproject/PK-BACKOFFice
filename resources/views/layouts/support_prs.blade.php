@@ -460,7 +460,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
     @yield('footer')
 
 
-    <script type="text/javascript">
+    {{-- <script type="text/javascript">
         $(document).ready(function() {
             $('#example').DataTable();
             $('#example2').DataTable();
@@ -474,10 +474,8 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
 
         });
 
-        $(document).ready(function() {
-
-        });
-    </script>
+         
+    </script> --}}
 
 </body>
 

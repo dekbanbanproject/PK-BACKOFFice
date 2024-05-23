@@ -378,8 +378,8 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     <span>SSS</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="true"> 
-                                    <li><a href="{{ url('sss_ipd310') }}">SSS ทำหมัน</a></li> 
-                                    {{-- <li><a href="{{ url('lgo_main_rep') }}">LGO REP</a></li>  --}}
+                                    <li><a href="{{ url('sss_ipd310') }}">SSS-ทำหมัน</a></li> 
+                                    <li><a href="{{ url('sss_insipd302') }}">SSS-อุปกรณ์</a></li> 
                                     {{-- <li><a href="{{ url('lgo_main_report') }}">LGO REPORT</a></li>  --}}
                                 </ul> 
                             </li>

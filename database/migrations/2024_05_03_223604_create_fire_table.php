@@ -33,6 +33,7 @@ return new class extends Migration
                 $table->longText('fire_img_base')->nullable(); //                 
                 $table->string('fire_img_base_name')->nullable(); //
                 $table->enum('fire_edit', ['Chang','Repaire','Dispose','Narmal'])->default('Narmal');
+                $table->enum('fire_backup', ['Y','N'])->default('N');
                 $table->timestamps();
             });
         }

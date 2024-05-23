@@ -88,12 +88,12 @@ $pos = strrpos($url, '/') + 1;
             </div>
         </div>
     </div>
-    <form action="{{ url('sss_ipd310') }}" method="POST">
+    <form action="{{ url('sss_insipd302') }}" method="POST">
         @csrf
     <div class="row"> 
             <div class="col-md-3">
-                <h4 class="card-title" style="color:rgba(21, 177, 164, 0.871)">Detail หมันหญิง List</h4>
-                <p class="card-title-desc">รายละเอียดข้อมูล หมันหญิง</p>
+                <h4 class="card-title" style="color:rgba(21, 177, 164, 0.871)">Detail INST List</h4>
+                <p class="card-title-desc">รายละเอียดข้อมูล SSS-INST</p>
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
@@ -113,7 +113,7 @@ $pos = strrpos($url, '/') + 1;
                     </form>
 
                    
-                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('sss_ipd310_process')}}">
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('sss_insipd302_process')}}">
                         {{-- <i class="fa-solid fa-spinner text-success"></i> --}}                       
                         <i class="fa-solid fa-2 text-success me-2"></i>
                         ประมวลผล
@@ -122,12 +122,12 @@ $pos = strrpos($url, '/') + 1;
                         <i class="fa-solid fa-3 text-warning me-2"></i>
                         Update Ucep24
                     </button> --}}
-                    <a href="{{url('sss_ipd310_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4">
+                    <a href="{{url('sss_insipd302_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4">
                         {{-- <i class="fa-solid fa-file-export text-danger"></i> --}}
                         <i class="fa-solid fa-3 text-danger me-2"></i>
                         Export Txt
                     </a> 
-                    <a href="{{url('sss_ipd310_zip')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary card_fdh_4">
+                    <a href="{{url('sss_insipd302_zip')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary card_fdh_4">
                         {{-- <i class="fa-solid fa-file-export text-danger me-2"></i> --}}
                         <i class="fa-solid fa-4 text-primary me-2"></i>
                         Zip Txt
@@ -148,7 +148,7 @@ $pos = strrpos($url, '/') + 1;
                                 <li class="nav-item">
                                     <a class="nav-link active" data-bs-toggle="tab" href="#Main" role="tab">
                                         <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                        <span class="d-none d-sm-block">หมันหญิง</span>    
+                                        <span class="d-none d-sm-block">อุปกรณ์</span>    
                                     </a>
                                 </li>   
                                 <li class="nav-item">
@@ -265,7 +265,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <th class="text-center">pttype</th> 
                                                     <th class="text-center">hospmain</th> 
                                                     <th class="text-center">pdx</th>  
-                                                    {{-- <th class="text-center">Authen</th>  --}}
+                                                    <th class="text-center">inst</th> 
                                                     <th class="text-center">projectcode</th> 
                                                     <th class="text-center">ptname</th> 
                                                     <th class="text-center">paid_money</th> 
@@ -293,7 +293,7 @@ $pos = strrpos($url, '/') + 1;
                                                         <td class="text-center" width="5%">{{ $item->pttype }}</td> 
                                                         <td class="text-center" width="5%">{{ $item->hospmain }}</td> 
                                                         <td class="text-center" width="7%">{{ $item->pdx }}</td>                                                        
-                                                        {{-- <td class="text-center" width="7%">{{ $item->authen }}</td>  --}}
+                                                        <td class="text-center" width="7%">{{ $item->inst }}</td> 
                                                         <td class="text-center" width="5%">{{ $item->projectcode }}</td> 
                                                         <td class="text-start">{{ $item->ptname }}</td> 
                                                         <td class="text-center" width="8%">{{ number_format($item->paid_money, 2) }}</td> 

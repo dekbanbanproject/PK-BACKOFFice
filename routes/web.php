@@ -3090,6 +3090,7 @@ Route::match(['get','post'],'tb_main_detail/{id}',[App\Http\Controllers\TbContro
 // ************** Support-System ****************************
 Route::match(['get','post'],'support_system_dashboard',[App\Http\Controllers\SupportPRSController::class, 'support_system_dashboard'])->name('prs.support_system_dashboard');//
 Route::match(['get','post'],'support_system',[App\Http\Controllers\SupportPRSController::class, 'support_system'])->name('prs.support_system');//
+Route::match(['get','post'],'support_dashboard_chart',[App\Http\Controllers\SupportPRSController::class, 'support_dashboard_chart'])->name('prs.support_dashboard_chart');//
 
 Route::match(['get','post'],'techservice',[App\Http\Controllers\CCtvController::class, 'techservice'])->name('tec.techservice');//
 
@@ -3293,8 +3294,18 @@ Route::match(['get','post'],'fdh_authen',[App\Http\Controllers\FdhController::cl
 Route::match(['get','post'],'fdh_authen_pull',[App\Http\Controllers\FdhController::class, 'fdh_authen_pull'])->name('fdh.fdh_authen_pull');
 
 // **************************** ประกันสังคม New ECLAIM **********************************************
+                // ************** หมัน New ECLAIM ***********
 Route::match(['get','post'],'sss_ipd310',[App\Http\Controllers\Fdh_sssController::class, 'sss_ipd310'])->name('fdh.sss_ipd310');
 Route::match(['get','post'],'sss_ipd310_process',[App\Http\Controllers\Fdh_sssController::class, 'sss_ipd310_process'])->name('fdh.sss_ipd310_process');
 Route::match(['get','post'],'sss_ipd310_export',[App\Http\Controllers\Fdh_sssController::class, 'sss_ipd310_export'])->name('fdh.sss_ipd310_export');
 Route::match(['get','post'],'sss_ipd310_zip',[App\Http\Controllers\Fdh_sssController::class, 'sss_ipd310_zip'])->name('fdh.sss_ipd310_zip');
+                                
+                // ************** อุปกรณ์ New ECLAIM ***********
+Route::match(['get','post'],'sss_insipd302',[App\Http\Controllers\Fdh_sss302Controller::class, 'sss_insipd302'])->name('fdh.sss_insipd302');
+Route::match(['get','post'],'sss_insipd302_process',[App\Http\Controllers\Fdh_sss302Controller::class, 'sss_insipd302_process'])->name('fdh.sss_insipd302_process');
+Route::match(['get','post'],'sss_insipd302_export',[App\Http\Controllers\Fdh_sss302Controller::class, 'sss_insipd302_export'])->name('fdh.sss_insipd302_export');
+Route::match(['get','post'],'sss_insipd302_zip',[App\Http\Controllers\Fdh_sss302Controller::class, 'sss_insipd302_zip'])->name('fdh.sss_insipd302_zip');
+
+
+
 });

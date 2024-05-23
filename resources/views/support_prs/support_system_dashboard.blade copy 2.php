@@ -145,7 +145,7 @@
                                                 <span class="opacity-10 text-danger pe-2">
                                                     <i class="fa fa-angle-left"></i>
                                                 </span>
-                                                {{ number_format($count_red_all, 0) }}
+                                                {{ $count_red }}
                                                 <small class="opacity-5 ps-1">ถัง</small>
                                             </div>
                                             {{-- <div class="widget-title ms-auto font-size-lg fw-normal text-muted">
@@ -171,7 +171,7 @@
                                                 <span class="opacity-10 text-success pe-2">
                                                     <i class="fa fa-angle-left"></i>
                                                 </span>
-                                             {{ number_format($count_green_all, 0) }}
+                                                {{ $count_green }}
                                                 <small class="opacity-5 ps-1">ถัง</small>
                                             </div>
                                             {{-- <div class="widget-title ms-auto font-size-lg fw-normal text-muted">
@@ -253,10 +253,10 @@
                     <div class="col-sm-12 col-md-6 col-lg-6">
                         <div class="mb-3 card">
                             <div class="card-header-tab card-header">
-                                <div class="card-header-title font-size-lg text-capitalize fw-normal">ถังดับเพลิง (RED) Check ไปแล้วคิดเป็น( % ) ของทั้งหมด
+                                <div class="card-header-title font-size-lg text-capitalize fw-normal">ถังดับเพลิง (RED)
                                 </div>
-                                {{-- <div class="btn-actions-pane-right text-capitalize actions-icon-btn">
-                                    <div class="btn-group">
+                                <div class="btn-actions-pane-right text-capitalize actions-icon-btn">
+                                    {{-- <div class="btn-group">
                                         <button type="button" data-bs-toggle="dropdown" aria-haspopup="true"
                                             aria-expanded="false" class="btn-icon btn-icon-only btn btn-link">
                                             <i class="lnr-cog btn-icon-wrapper"></i>
@@ -284,8 +284,8 @@
                                                 <button class="me-2 btn-shadow btn-sm btn btn-primary">Action</button>
                                             </div>
                                         </div>
-                                    </div>
-                                </div> --}}
+                                    </div> --}}
+                                </div>
                             </div>
                             <div class="p-0 card-body">
                                 <div id="radials"></div>
@@ -294,20 +294,19 @@
                                     <div class="widget-content-outer">
                                         <div class="widget-content-wrapper">
                                             <div class="widget-content-left pe-2 fsize-1">
-                                                <div class="widget-numbers mt-0 fsize-3 text-danger">{{ $count_color_red_qty }}ถัง</div>
-                                                {{-- <div class="widget-numbers mt-0 fsize-3 text-warning">{{$count_color_qty }}ถัง</div> --}}
+                                                <div class="widget-numbers mt-0 fsize-3 text-warning">32%</div>
                                             </div>
                                             <div class="widget-content-right w-100">
                                                 <div class="progress-bar-xs progress">
-                                                    <div class="progress-bar bg-danger" role="progressbar"
-                                                        aria-valuenow="{{$count_color_red_qty}}" aria-valuemin="0" aria-valuemax="100"
-                                                        style="width: {{$count_red_percent}}%;">
+                                                    <div class="progress-bar bg-warning" role="progressbar"
+                                                        aria-valuenow="32" aria-valuemin="0" aria-valuemax="100"
+                                                        style="width: 32%;">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="widget-content-left fsize-1">
-                                            <div class="text-muted opacity-6">Check Qty</div>
+                                            <div class="text-muted opacity-6">Spendings Target</div>
                                         </div>
                                     </div>
                                 </div>
@@ -317,7 +316,7 @@
                     <div class="col-sm-12 col-md-6 col-lg-6">
                         <div class="mb-3 card">
                             <div class="card-header-tab card-header">
-                                <div class="card-header-title font-size-lg text-capitalize fw-normal">ถังดับเพลิง (GREEN) Check ไปแล้วคิดเป็น( % ) ของทั้งหมด
+                                <div class="card-header-title font-size-lg text-capitalize fw-normal">ถังดับเพลิง (GREEN)
                                 </div>
                                 <div class="btn-actions-pane-right text-capitalize actions-icon-btn">
                                     {{-- <div class="btn-group">
@@ -357,19 +356,19 @@
                                     <div class="widget-content-outer">
                                         <div class="widget-content-wrapper">
                                             <div class="widget-content-left pe-2 fsize-1">
-                                                <div class="widget-numbers mt-0 fsize-3 text-success">{{$count_color_green_qty}}ถัง</div>
+                                                <div class="widget-numbers mt-0 fsize-3 text-warning">32%</div>
                                             </div>
                                             <div class="widget-content-right w-100">
                                                 <div class="progress-bar-xs progress">
-                                                    <div class="progress-bar bg-success" role="progressbar"
-                                                        aria-valuenow="{{$count_color_green_qty}}" aria-valuemin="0" aria-valuemax="100"
-                                                        style="width: {{$count_green_percent}}%;">
+                                                    <div class="progress-bar bg-warning" role="progressbar"
+                                                        aria-valuenow="32" aria-valuemin="0" aria-valuemax="100"
+                                                        style="width: 32%;">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="widget-content-left fsize-1">
-                                            <div class="text-muted opacity-6">Check Qty</div>
+                                            <div class="text-muted opacity-6">Spendings Target</div>
                                         </div>
                                     </div>
                                 </div>
@@ -842,11 +841,13 @@
 
 @endsection
 @section('footer')
- 
+{{-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
+{{-- <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"> </script> --}}
+{{-- <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script> --}}
     <script>
      $(document).ready(function() {
             var xmlhttp = new XMLHttpRequest();
-            var url = "{{ url('support_dashboard_chart') }}";
+            var url = "{{ url('support_system_dashboard') }}";
             xmlhttp.open("GET", url, true);
             xmlhttp.send();
             xmlhttp.onreadystatechange = function() {
@@ -854,190 +855,177 @@
                     var datas = JSON.parse(this.responseText);
                     console.log(datas); 
                     
-                    count_red = datas.Dataset1.map(function(e) {
-                        return e.count_red;
+                    count_color = datas.Dataset1.map(function(e) {
+                        return e.count_color;
                     });
-                    count_color_red_qty = datas.Dataset1.map(function(e) {
-                        return e.count_color_red_qty;
-                    });
-                    count_red_all= datas.Dataset1.map(function(e) {
-                        return e.count_red_all;
-                    });
-                    console.log(count_red_all); 
-
-                    count_green = datas.Dataset1.map(function(e) {
-                        return e.count_green;
-                    });
-                    count_green_percent= datas.Dataset1.map(function(e) {
-                        return e.count_green_percent;
-                    });
+                     
                       
                             // Radial 
-                            var options_red = {
-                                series: count_red,
-                                chart: {
-                                    height: 350,
-                                    type: 'radialBar',
-                                    toolbar: {
-                                        show: true
-                                    }
-                                },
-                                plotOptions: {
-                                    radialBar: {
-                                        startAngle: -135,
-                                        endAngle: 225,
-                                        hollow: {
-                                            margin: 0,
-                                            size: '70%',
-                                            background: '#fff',
-                                            image: undefined,
-                                            imageOffsetX: 0,
-                                            imageOffsetY: 0,
-                                            position: 'front',
-                                            dropShadow: {
-                                                enabled: true,
-                                                top: 3,
-                                                left: 0,
-                                                blur: 4,
-                                                opacity: 0.24
-                                            }
-                                        },
-                                        track: {
-                                            background: '#fff',
-                                            strokeWidth: '67%',
-                                            margin: 0, // margin is in pixels
-                                            dropShadow: {
-                                                enabled: true,
-                                                top: -3,
-                                                left: 0,
-                                                blur: 4,
-                                                opacity: 0.35
-                                            }
-                                        },
+                            // var options_red = {
+                            //     series: count_color,
+                            //     chart: {
+                            //         height: 350,
+                            //         type: 'radialBar',
+                            //         toolbar: {
+                            //             show: true
+                            //         }
+                            //     },
+                            //     plotOptions: {
+                            //         radialBar: {
+                            //             startAngle: -135,
+                            //             endAngle: 225,
+                            //             hollow: {
+                            //                 margin: 0,
+                            //                 size: '70%',
+                            //                 background: '#fff',
+                            //                 image: undefined,
+                            //                 imageOffsetX: 0,
+                            //                 imageOffsetY: 0,
+                            //                 position: 'front',
+                            //                 dropShadow: {
+                            //                     enabled: true,
+                            //                     top: 3,
+                            //                     left: 0,
+                            //                     blur: 4,
+                            //                     opacity: 0.24
+                            //                 }
+                            //             },
+                            //             track: {
+                            //                 background: '#fff',
+                            //                 strokeWidth: '67%',
+                            //                 margin: 0, // margin is in pixels
+                            //                 dropShadow: {
+                            //                     enabled: true,
+                            //                     top: -3,
+                            //                     left: 0,
+                            //                     blur: 4,
+                            //                     opacity: 0.35
+                            //                 }
+                            //             },
 
-                                        dataLabels: {
-                                            show: true,
-                                            name: {
-                                                offsetY: -20,
-                                                show: true,
-                                                color: '#888',
-                                                fontSize: '17px'
-                                            },
-                                            value: {
-                                                formatter: function(val) {
-                                                    return parseInt(val);
-                                                },
-                                                color: '#111',
-                                                fontSize: '50px',
-                                                show: true,
-                                            }
-                                        }
-                                    }
-                                },
-                                fill: {
-                                    type: 'gradient',
-                                    gradient: {
-                                        shade: 'dark',
-                                        type: 'horizontal',
-                                        shadeIntensity: 0.5,
-                                        gradientToColors: ['#f80707'],
-                                        inverseColors: true,
-                                        opacityFrom: 1,
-                                        opacityTo: 1,
-                                        stops: [0, 100]
-                                    }
-                                },
-                                stroke: {
-                                    lineCap: 'round'
-                                },
-                                labels: ['Percent'],
-                            };
-                            var chart = new ApexCharts(document.querySelector("#radials"), options_red);
-                            chart.render();
+                            //             dataLabels: {
+                            //                 show: true,
+                            //                 name: {
+                            //                     offsetY: -10,
+                            //                     show: true,
+                            //                     color: '#888',
+                            //                     fontSize: '17px'
+                            //                 },
+                            //                 value: {
+                            //                     formatter: function(val) {
+                            //                         return parseInt(val);
+                            //                     },
+                            //                     color: '#111',
+                            //                     fontSize: '36px',
+                            //                     show: true,
+                            //                 }
+                            //             }
+                            //         }
+                            //     },
+                            //     fill: {
+                            //         type: 'gradient',
+                            //         gradient: {
+                            //             shade: 'dark',
+                            //             type: 'horizontal',
+                            //             shadeIntensity: 0.5,
+                            //             gradientToColors: ['#ABE5A1'],
+                            //             inverseColors: true,
+                            //             opacityFrom: 1,
+                            //             opacityTo: 1,
+                            //             stops: [0, 100]
+                            //         }
+                            //     },
+                            //     stroke: {
+                            //         lineCap: 'round'
+                            //     },
+                            //     labels: ['Percent'],
+                            // };
+                            // var chart = new ApexCharts(document.querySelector("#radials"), options_red);
+                            // chart.render();
 
                             // // **************************************
 
-                            var options_green = {
-                                series: count_green_percent,
-                                chart: {
-                                    height: 350,
-                                    type: 'radialBar',
-                                    toolbar: {
-                                        show: true
-                                    }
-                                },
-                                plotOptions: {
-                                    radialBar: {
-                                        startAngle: -135,
-                                        endAngle: 225,
-                                        hollow: {
-                                            margin: 0,
-                                            size: '70%',
-                                            background: '#fff',
-                                            image: undefined,
-                                            imageOffsetX: 0,
-                                            imageOffsetY: 0,
-                                            position: 'front',
-                                            dropShadow: {
-                                                enabled: true,
-                                                top: 3,
-                                                left: 0,
-                                                blur: 4,
-                                                opacity: 0.24
-                                            }
-                                        },
-                                        track: {
-                                            background: '#fff',
-                                            strokeWidth: '67%',
-                                            margin: 0, // margin is in pixels
-                                            dropShadow: {
-                                                enabled: true,
-                                                top: -3,
-                                                left: 0,
-                                                blur: 4,
-                                                opacity: 0.35
-                                            }
-                                        },
+                            // var options_green = {
+                            //     series: [55],
+                            //     chart: {
+                            //         height: 350,
+                            //         type: 'radialBar',
+                            //         toolbar: {
+                            //             show: true
+                            //         }
+                            //     },
+                            //     plotOptions: {
+                            //         radialBar: {
+                            //             startAngle: -135,
+                            //             endAngle: 225,
+                            //             hollow: {
+                            //                 margin: 0,
+                            //                 size: '70%',
+                            //                 background: '#fff',
+                            //                 image: undefined,
+                            //                 imageOffsetX: 0,
+                            //                 imageOffsetY: 0,
+                            //                 position: 'front',
+                            //                 dropShadow: {
+                            //                     enabled: true,
+                            //                     top: 3,
+                            //                     left: 0,
+                            //                     blur: 4,
+                            //                     opacity: 0.24
+                            //                 }
+                            //             },
+                            //             track: {
+                            //                 background: '#fff',
+                            //                 strokeWidth: '67%',
+                            //                 margin: 0, // margin is in pixels
+                            //                 dropShadow: {
+                            //                     enabled: true,
+                            //                     top: -3,
+                            //                     left: 0,
+                            //                     blur: 4,
+                            //                     opacity: 0.35
+                            //                 }
+                            //             },
 
-                                        dataLabels: {
-                                            show: true,
-                                            name: {
-                                                offsetY: -20,
-                                                show: true,
-                                                color: '#888',
-                                                fontSize: '17px'
-                                            },
-                                            value: {
-                                                formatter: function(val) {
-                                                    return parseInt(val);
-                                                },
-                                                color: '#111',
-                                                fontSize: '50px',
-                                                show: true,
-                                            }
-                                        }
-                                    }
-                                },
-                                fill: {
-                                    type: 'gradient',
-                                    gradient: {
-                                        shade: 'dark',
-                                        type: 'horizontal',
-                                        shadeIntensity: 0.5,
-                                        gradientToColors: ['#ABE5A1'],
-                                        inverseColors: true,
-                                        opacityFrom: 1,
-                                        opacityTo: 1,
-                                        stops: [0, 100]
-                                    }
-                                },
-                                stroke: {
-                                    lineCap: 'round'
-                                },
-                                labels: ['Percent'],
-                            };
-                            var chart = new ApexCharts(document.querySelector("#radials_green"), options_green);
-                            chart.render();
+                            //             dataLabels: {
+                            //                 show: true,
+                            //                 name: {
+                            //                     offsetY: -10,
+                            //                     show: true,
+                            //                     color: '#888',
+                            //                     fontSize: '17px'
+                            //                 },
+                            //                 value: {
+                            //                     formatter: function(val) {
+                            //                         return parseInt(val);
+                            //                     },
+                            //                     color: '#111',
+                            //                     fontSize: '36px',
+                            //                     show: true,
+                            //                 }
+                            //             }
+                            //         }
+                            //     },
+                            //     fill: {
+                            //         type: 'gradient',
+                            //         gradient: {
+                            //             shade: 'dark',
+                            //             type: 'horizontal',
+                            //             shadeIntensity: 0.5,
+                            //             gradientToColors: ['#ABE5A1'],
+                            //             inverseColors: true,
+                            //             opacityFrom: 1,
+                            //             opacityTo: 1,
+                            //             stops: [0, 100]
+                            //         }
+                            //     },
+                            //     stroke: {
+                            //         lineCap: 'round'
+                            //     },
+                            //     labels: ['Percent'],
+                            // };
+                            // var chart = new ApexCharts(document.querySelector("#radials_green"), options_green);
+                            // chart.render();
 
                 }
              }
