@@ -3088,6 +3088,7 @@ Route::match(['get','post'],'tb_main_pull',[App\Http\Controllers\TbController::c
 Route::match(['get','post'],'tb_main_detail/{id}',[App\Http\Controllers\TbController::class, 'tb_main_detail'])->name('re.tb_main_detail');
 
 // ************** Support-System ****************************
+Route::match(['get','post'],'support_system_dashboard',[App\Http\Controllers\SupportPRSController::class, 'support_system_dashboard'])->name('prs.support_system_dashboard');//
 Route::match(['get','post'],'support_system',[App\Http\Controllers\SupportPRSController::class, 'support_system'])->name('prs.support_system');//
 
 Route::match(['get','post'],'techservice',[App\Http\Controllers\CCtvController::class, 'techservice'])->name('tec.techservice');//
@@ -3105,7 +3106,7 @@ Route::delete('cctv_destroy/{id}',[App\Http\Controllers\CCtvController::class, '
 Route::match(['get','post'],'cctv_report',[App\Http\Controllers\CCtvController::class, 'cctv_report'])->name('tec.cctv_report');//
 Route::match(['get','post'],'cctv_report_process',[App\Http\Controllers\CCtvController::class, 'cctv_report_process'])->name('tec.cctv_report_process');//
 
-
+Route::match(['get','post'],'fire_dashboard',[App\Http\Controllers\FireController::class, 'fire_dashboard'])->name('prs.fire_dashboard');//
 Route::match(['get','post'],'fire_main',[App\Http\Controllers\FireController::class, 'fire_main'])->name('prs.fire_main');//
 Route::match(['get','post'],'fire_pramuan_admin',[App\Http\Controllers\FireController::class, 'fire_pramuan_admin'])->name('prs.fire_pramuan_admin');//
 Route::match(['get','post'],'fire_add',[App\Http\Controllers\FireController::class, 'fire_add'])->name('prs.fire_add');//

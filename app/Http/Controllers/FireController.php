@@ -89,6 +89,21 @@ date_default_timezone_set("Asia/Bangkok");
 
 class FireController extends Controller
  { 
+    public function fire_dashboard(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $months = date('m');
+        $year = date('Y'); 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::select('SELECT * from fire WHERE active="Y" ORDER BY fire_id DESC'); 
+
+        return view('support_prs.fire.fire_dashboard',[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate, 
+            'datashow'      => $datashow,
+        ]);
+    }
     public function fire_main(Request $request)
     {
         $datenow = date('Y-m-d');

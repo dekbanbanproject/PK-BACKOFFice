@@ -89,6 +89,19 @@ date_default_timezone_set("Asia/Bangkok");
 
 class SupportPRSController extends Controller
  { 
+    public function support_system_dashboard(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $months = date('m');
+        $year = date('Y'); 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+         
+        return view('support_prs.support_system_dashboard',[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+        ]);
+    }
     public function support_system(Request $request)
     {
         $datenow = date('Y-m-d');

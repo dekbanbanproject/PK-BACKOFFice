@@ -856,7 +856,7 @@
                                             </a>
                                         </div>
                                         <div class="avatar ms-2">
-                                            <a href="{{ url('support_system') }}" target="_blank">
+                                            <a href="{{ url('support_system_dashboard') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
                                                         <img src="{{ asset('images/support.png') }}" height="70px" width="90px" class="rounded-circle me-3"> 
