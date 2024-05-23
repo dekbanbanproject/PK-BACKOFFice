@@ -26,7 +26,7 @@
      use SimpleSoftwareIO\QrCode\Facades\QrCode; 
  ?>
 <body>
-{{-- <body onload="window.print()">  --}}
+<body onload="window.print()"> 
     {{-- <body>  --}}
         <div class="container">
             <div class="row mt-5">
@@ -34,7 +34,7 @@
 
                 @foreach ($dataprint_main as $item)
                 <div class="col-md-2 text-center">
-                    <div class="card mb-3" style="max-width: 25rem;border-color:rgb(193, 20, 236);background-color:rgb(218, 250, 228);border-radius: 2em 2em 2em 2em">
+                    <div class="card mb-3" style="max-width: 25rem;border-color:rgb(193, 20, 236);background-color:rgb(218, 250, 248);border-radius: 2em 2em 2em 2em">
                         <div class="body"><br>
                             {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/'.$item->fire_num)!!}
                             <hr style="color:rgb(193, 20, 236)" >

@@ -3292,4 +3292,9 @@ Route::match(['get','post'],'fdh_mini_dataset_pulljong',[App\Http\Controllers\Fd
 Route::match(['get','post'],'fdh_authen',[App\Http\Controllers\FdhController::class, 'fdh_authen'])->name('fdh.fdh_authen');
 Route::match(['get','post'],'fdh_authen_pull',[App\Http\Controllers\FdhController::class, 'fdh_authen_pull'])->name('fdh.fdh_authen_pull');
 
+// **************************** ประกันสังคม New ECLAIM **********************************************
+Route::match(['get','post'],'sss_ipd310',[App\Http\Controllers\Fdh_sssController::class, 'sss_ipd310'])->name('fdh.sss_ipd310');
+Route::match(['get','post'],'sss_ipd310_process',[App\Http\Controllers\Fdh_sssController::class, 'sss_ipd310_process'])->name('fdh.sss_ipd310_process');
+Route::match(['get','post'],'sss_ipd310_export',[App\Http\Controllers\Fdh_sssController::class, 'sss_ipd310_export'])->name('fdh.sss_ipd310_export');
+Route::match(['get','post'],'sss_ipd310_zip',[App\Http\Controllers\Fdh_sssController::class, 'sss_ipd310_zip'])->name('fdh.sss_ipd310_zip');
 });

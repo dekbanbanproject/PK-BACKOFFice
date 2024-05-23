@@ -95,9 +95,27 @@
         font-size:13px;
         height: 13px;
     }
-    .card_pink{
-        border-radius: 3em 3em 3em 3em;
-        box-shadow: 0 0 10px pink;
+ 
+    .card_prs_2b{
+        border-radius: 0em 0em 2em 2em;
+        box-shadow: 0 0 10px rgb(255, 241, 195);
+        border:solid 1px #0583cc;
+    }
+    .card_prs_4{
+        border-radius: 2em 2em 2em 2em;
+        box-shadow: 0 0 10px rgb(124, 225, 250);
+        /* border-color: #0583cc */
+        border:solid 1px #0583cc;
+    }
+    .prscheckbox{         
+        width: 20px;
+        height: 20px;       
+        /* border-radius: 2em 2em 2em 2em; */
+        border: 10px solid rgb(250, 128, 124);
+        /* color: teal; */
+        /* border-color: teal; */
+        box-shadow: 0 0 10px rgb(250, 128, 124);
+        /* box-shadow: 0 0 10px teal; */
     }
     /* .myTable thead tr{
     background-color: #b56fca;

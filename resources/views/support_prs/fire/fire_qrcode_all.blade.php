@@ -25,8 +25,8 @@
     <?php 
         use SimpleSoftwareIO\QrCode\Facades\QrCode; 
     ?>
-<body>
-    {{-- <body onload="window.print()"> --}}
+{{-- <body> --}}
+    <body onload="window.print()">
     <div class="container">
         <div class="row mt-5">
             
