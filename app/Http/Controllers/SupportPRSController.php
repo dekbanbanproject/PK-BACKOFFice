@@ -96,12 +96,16 @@ class SupportPRSController extends Controller
         $year = date('Y'); 
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        $count_red_all        = Fire::where('active','Y')->where('fire_color','red')->count(); 
-        $count_green_all      = Fire::where('active','Y')->where('fire_color','green')->count();
+        $count_red_all                 = Fire::where('fire_color','red')->count(); 
+        $count_green_all               = Fire::where('fire_color','green')->count();
 
-        $data['count_red_back']        = Fire::where('active','Y')->where('fire_color','red')->where('fire_backup','Y')->count(); 
-        $data['count_green_back']      = Fire::where('active','Y')->where('fire_color','green')->where('fire_backup','Y')->count();
+        $count_red_allactive           = Fire::where('fire_color','red')->where('active','Y')->count(); 
+        $count_green_allactive         = Fire::where('fire_color','green')->where('active','Y')->count(); 
+
+        $data['count_red_back']        = Fire::where('fire_color','red')->where('fire_backup','Y')->count(); 
+        $data['count_green_back']      = Fire::where('fire_color','green')->where('fire_backup','Y')->count();
        
+        // Narmal
             $chart_red = DB::connection('mysql')->select(' 
                     SELECT * FROM
                     (SELECT COUNT(fire_num) as count_red FROM fire_check WHERE fire_check_color ="red" AND YEAR(check_date)= "'.$year.'") reds
@@ -136,6 +140,8 @@ class SupportPRSController extends Controller
 
             'count_green_percent'     =>  $count_green_percent,
             'count_color_green_qty'   =>  $count_color_green_qty,
+            'count_red_allactive'     =>  $count_red_allactive,
+            'count_green_allactive'   =>  $count_green_allactive,
         ]);
     }
     public function support_dashboard_chart(Request $request)
@@ -145,11 +151,13 @@ class SupportPRSController extends Controller
         $year = date('Y'); 
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        $count_red        = Fire::where('active','Y')->where('fire_color','red')->count(); 
-        $count_green      = Fire::where('active','Y')->where('fire_color','green')->count();
+        $count_red                     = Fire::where('fire_color','red')->count(); 
+        $count_green                   = Fire::where('fire_color','green')->count();
+        $count_red_allactive           = Fire::where('fire_color','red')->where('active','Y')->count(); 
+        $count_green_allactive         = Fire::where('fire_color','green')->where('active','Y')->count(); 
 
-        $data['count_red_back']        = Fire::where('active','Y')->where('fire_color','red')->where('fire_backup','Y')->count(); 
-        $data['count_green_back']      = Fire::where('active','Y')->where('fire_color','green')->where('fire_backup','Y')->count();
+        $data['count_red_back']        = Fire::where('fire_color','red')->where('fire_backup','Y')->count(); 
+        $data['count_green_back']      = Fire::where('fire_color','green')->where('fire_backup','Y')->count();
        
             $chart_red = DB::connection('mysql')->select(' 
                     SELECT * FROM
@@ -177,6 +185,8 @@ class SupportPRSController extends Controller
             return response()->json([
                 'status'                    => '200', 
                 'Dataset1'                  => $Dataset1, 
+                'count_red_allactive'       =>  $count_red_allactive,
+                'count_green_allactive'     =>  $count_green_allactive,
             ]);
     }
     public function support_system(Request $request)
