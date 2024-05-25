@@ -148,11 +148,16 @@
                                                 {{ number_format($count_red_all, 0) }}
                                                 <small class="opacity-5 ps-1">ถัง</small>
                                             </div>
-                                            {{-- <div class="widget-title ms-auto font-size-lg fw-normal text-muted">
-                                                <div class="circle-progress circle-progress-danger-sm d-inline-block">
+                                            <div class="widget-title ms-auto font-size-lg fw-normal text-muted mt-3">
+                                                <small class="opacity-5 ps-1">พร้อมใช้งาน </small>
+                                            
+                                                 {{$count_red_allactive}} 
+                                                 <small class="opacity-5 ps-1">ถัง</small>
+                                                {{-- <small class="opacity-10 ps-1">ใช้งานได้ {{$count_red_allactive}} ถัง</small> --}}
+                                                {{-- <div class="circle-progress circle-progress-danger-sm d-inline-block">
                                                     <small></small>
-                                                </div>
-                                            </div> --}}
+                                                </div> --}}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -174,11 +179,15 @@
                                              {{ number_format($count_green_all, 0) }}
                                                 <small class="opacity-5 ps-1">ถัง</small>
                                             </div>
-                                            {{-- <div class="widget-title ms-auto font-size-lg fw-normal text-muted">
-                                                <div class="circle-progress circle-progress-success-sm d-inline-block">
+                                            <div class="widget-title ms-auto font-size-lg fw-normal text-muted mt-3">
+                                                <small class="opacity-5 ps-1">พร้อมใช้งาน </small>
+                                            
+                                                {{$count_green_allactive}} 
+                                                <small class="opacity-5 ps-1">ถัง</small>
+                                                {{-- <div class="circle-progress circle-progress-success-sm d-inline-block">
                                                     <small></small>
-                                                </div>
-                                            </div> --}}
+                                                </div> --}}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
