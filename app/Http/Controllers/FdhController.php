@@ -2306,7 +2306,7 @@ class FdhController extends Controller
         $startdate   = $request->startdate;
         $enddate     = $request->enddate;
             // $date_now = date('2024-05-10'); 
-            $data_ = DB::connection('mysql2')->select(
+            $data_ = DB::connection('mysql10')->select(
                 'SELECT 
                 v.vn,v.cid,v.hn,v.vstdate,vp.claim_code 
                 FROM vn_stat v 
@@ -2377,7 +2377,7 @@ class FdhController extends Controller
                     } 
             }  
             
-            $datati_ = DB::connection('mysql2')->select(
+            $datati_ = DB::connection('mysql10')->select(
                 'SELECT 
                 v.vn,v.cid,v.hn,v.vstdate,vp.claim_code 
                 FROM vn_stat v 
