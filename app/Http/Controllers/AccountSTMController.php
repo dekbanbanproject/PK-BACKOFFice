@@ -902,14 +902,14 @@ class AccountSTMController extends Controller
     }
     function upstm_ucsopdsave(Request $request)
     { 
-        $this->validate($request, [
-            'file' => 'required|file|mimes:xls,xlsx'
-        ]);
-        $the_file = $request->file('file'); 
-        $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
+        // $this->validate($request, [
+        //     'file' => 'required|file|mimes:xls,xlsx'
+        // ]);
+        $the_file = $request->file('file_stm'); 
+        $file_ = $request->file('file_stm')->getClientOriginalName(); //ชื่อไฟล์
 
         // dd($the_file);
-            try{
+            // try{
                  
                 // Cheet 2
                 $spreadsheet = IOFactory::load($the_file->getRealPath()); 
@@ -1146,10 +1146,10 @@ class AccountSTMController extends Controller
                     Acc_stm_ucs_excel::insert($data2_); 
                 }
  
-            } catch (Exception $e) {
-                $error_code = $e->errorInfo[1];
-                return back()->withErrors('There was a problem uploading the data!');
-            }
+            // } catch (Exception $e) {
+            //     $error_code = $e->errorInfo[1];
+            //     return back()->withErrors('There was a problem uploading the data!');
+            // }
         
             return response()->json([
             'status'    => '200',
