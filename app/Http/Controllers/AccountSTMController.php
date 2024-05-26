@@ -917,7 +917,7 @@ class AccountSTMController extends Controller
                 $row_limit    = $sheet->getHighestDataRow();
                 $column_limit = $sheet->getHighestDataColumn();
                 $row_range    = range( '15', $row_limit );
-                $column_range = range( 'AO', $column_limit );
+                $column_range = range( 'AQ', $column_limit );
                 $startcount = '15';
                 $data = array();
                 foreach ($row_range as $row ) {
@@ -1035,7 +1035,7 @@ class AccountSTMController extends Controller
                 $row_limit2    = $sheet2->getHighestDataRow();
                 $column_limit2 = $sheet2->getHighestDataColumn();
                 $row_range2    = range( '15', $row_limit2 );
-                $column_range2 = range( 'AO', $column_limit2 );
+                $column_range2 = range( 'AQ', $column_limit2 );
                 $startcount2 = '15';
                 $data2 = array();
                 foreach ($row_range2 as $row2 ) {
