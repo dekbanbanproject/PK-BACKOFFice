@@ -197,12 +197,22 @@
                                                         </td>
                                                         <td class="text-center" width="20%" style="color:rgb(22, 168, 132)">{{ number_format($item->sum_total, 2) }}</td> 
                                                         @foreach ($no_app as $item_sub)
+                                                            @if ($item_sub->sum_totalnopdx > 0)
                                                             <td class="text-center" width="20%" style="color:rgb(252, 73, 42)">
                                                                 <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" href="{{ url('audit_pdx_detail/' . $item->months . '/' . $item->years) }}" >
-                                                                {{$item_sub->sum_totalnopdx}} 
-                                                                {{-- {{ number_format($sum_totalno, 2) }} --}}
+                                                                    {{ number_format($item_sub->sum_totalnopdx, 2) }}
                                                                 </a> 
                                                             </td>
+                                                                   
+                                                            @else
+                                                            <td class="text-center" width="20%">
+                                                                <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-success">
+                                                                    ซู๊ดดดดยอดอิหลี
+                                                                </a> 
+                                                            </td>
+                                                                    
+                                                            @endif
+                                                           
                                                         @endforeach
                                                         
                                                     </tr>
