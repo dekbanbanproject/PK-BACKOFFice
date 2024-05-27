@@ -325,6 +325,7 @@ class Account217Controller extends Controller
                 sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))+
                 sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) +              
                 sum(if(op.icode IN ("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit
+                ,(SELECT SUM(opp.sum_price) FROM opitemrece opp LEFT JOIN nondrugitems nn ON nn.icode = opp.icode WHERE opp.an = a.an AND nn.nhso_adp_code IN("5601","9104","5402","5403","5406","5609")) as nonpay
 
                 from ipt ip
                 LEFT OUTER JOIN an_stat a ON ip.an = a.an
@@ -411,6 +412,7 @@ class Account217Controller extends Controller
                             'debit_toa'          => $value->debit_toa,
                             'debit_refer'        => $value->debit_refer,
                             'debit_total'        => $value->uc_money,
+                            'nonpay'             => $value->nonpay,
                             'debit_ucep'         => $value->debit_ucep,
                             'max_debt_amount'    => $value->max_debt_amount,
                             'rw'                 => $value->rw,
@@ -444,7 +446,8 @@ class Account217Controller extends Controller
                             'debit_instument'    => $value->debit_instument,
                             'debit_toa'          => $value->debit_toa,
                             'debit_refer'        => $value->debit_refer,
-                            'debit_total'        => $value->debit + $value->debit_ucep,
+                            'debit_total'        => $value->debit + $value->debit_ucep - $value->nonpay,
+                            'nonpay'             => $value->nonpay,
                             'debit_ucep'         => $value->debit_ucep,
                             'max_debt_amount'    => $value->max_debt_amount,
                             'rw'                 => $value->rw,
@@ -486,6 +489,7 @@ class Account217Controller extends Controller
                             'debit_total'        => $value->uc_money,
                             'debit_ucep'         => $value->debit_ucep,
                             'max_debt_amount'    => $value->max_debt_amount,
+                            'nonpay'             => $value->nonpay,
                             'rw'                 => $value->rw,
                             'adjrw'              => $value->adjrw,
                             'total_adjrw_income' => $value->total_adjrw_income,
@@ -516,7 +520,8 @@ class Account217Controller extends Controller
                             'debit_instument'    => $value->debit_instument,
                             'debit_toa'          => $value->debit_toa,
                             'debit_refer'        => $value->debit_refer,
-                            'debit_total'        => $value->debit + $value->debit_ucep,
+                            'debit_total'        => $value->debit + $value->debit_ucep - $value->nonpay,
+                            'nonpay'             => $value->nonpay,
                             'debit_ucep'         => $value->debit_ucep,
                             'max_debt_amount'    => $value->max_debt_amount,
                             'rw'                 => $value->rw,

@@ -140,28 +140,30 @@ $yb = date('Y') + 542;
                                 style=" border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr>
-                                            <th width="5%" class="text-center">ลำดับ</th> 
+                                            {{-- <th width="5%" class="text-center">ลำดับ</th>  --}}
                                             <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox" name="stamp" id="stamp"> </th> 
-                                            <th class="text-center">an</th>
-                                            <th class="text-center" >hn</th>
+                                            <th class="text-center" width="5%">an</th>
+                                            <th class="text-center" width="5%">hn</th>
                                             <th class="text-center">ptname</th>
-                                            <th class="text-center">dchdate</th>  
-                                            <th class="text-center">pttype</th> 
-                                            <th class="text-center">spsch</th>  
-                                            <th class="text-center">income</th> 
-                                            <th class="text-center">ลูกหนี้</th> 
-                                            <th class="text-center">ucep</th>
-                                            <th class="text-center">ins</th> 
-                                            <th class="text-center">drug</th> 
-                                            <th class="text-center">เลนส์</th> 
-                                            <th class="text-center">refer</th>  
+                                            <th class="text-center" width="7%">dchdate</th>  
+                                            <th class="text-center" width="5%">pttype</th> 
+                                            <th class="text-center" width="5%">spsch</th>  
+                                            <th class="text-center" width="5%">income</th> 
+                                            <th class="text-center" width="7%">ลูกหนี้</th> 
+                                            <th class="text-center" width="7%">ชำระเงินสด</th>
+                                            <th class="text-center" width="7%">ucep</th>
+                                            <th class="text-center" width="5%">ins All</th> 
+                                            <th class="text-center" width="5%">drug</th> 
+                                            <th class="text-center" width="5%">เลนส์</th> 
+                                            <th class="text-center" width="5%">refer</th>  
+                                            <th class="text-center" width="5%">ins เลิกจ่าย</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php $i = 1; ?>
                                         @foreach ($acc_debtor as $item) 
                                             <tr id="tr_{{$item->acc_debtor_id}}">                                                  
-                                                <td class="text-center" width="5%">{{ $i++ }}</td>  
+                                                {{-- <td class="text-center" width="5%">{{ $i++ }}</td>   --}}
                                                 @if ($item->debit_total == '')
                                                     <td class="text-center" width="5%">
                                                         <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
@@ -176,13 +178,15 @@ $yb = date('Y') + 542;
                                                 <td class="text-center" width="7%">{{ $item->dchdate }}</td>   
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>                                                 
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td>  
-                                                <td class="text-end" style="color:rgb(119, 39, 247)" width="5%">{{ number_format($item->income, 2) }}</td> 
-                                                <td class="text-end" style="color:rgb(247, 81, 39)" width="7%">{{ number_format($item->debit_total, 2) }}</td> 
-                                                <td class="text-end" width="7%">{{ number_format($item->debit_ucep, 2) }}</td> 
-                                                <td class="text-end" width="5%">{{ number_format($item->debit_instument, 2) }}</td> 
-                                                <td class="text-end" width="5%">{{ number_format($item->debit_drug, 2) }}</td> 
-                                                <td class="text-end" width="5%">{{ number_format($item->debit_toa, 2) }}</td> 
-                                                <td class="text-end" width="5%">{{ number_format($item->debit_refer, 2) }}</td> 
+                                                <td class="text-center" style="color:rgb(119, 39, 247)" width="5%">{{ number_format($item->income, 2) }}</td> 
+                                                <td class="text-center" style="color:rgb(247, 81, 39)" width="7%">{{ number_format($item->debit_total, 2) }}</td> 
+                                                <td class="text-center" style="color:rgb(39, 153, 247)" width="7%">{{ number_format($item->rcpt_money, 2) }}</td> 
+                                                <td class="text-center" width="7%">{{ number_format($item->debit_ucep, 2) }}</td> 
+                                                <td class="text-center" width="5%">{{ number_format($item->debit_instument, 2) }}</td> 
+                                                <td class="text-center" width="5%">{{ number_format($item->debit_drug, 2) }}</td> 
+                                                <td class="text-center" width="5%">{{ number_format($item->debit_toa, 2) }}</td> 
+                                                <td class="text-center" width="5%">{{ number_format($item->debit_refer, 2) }}</td> 
+                                                <td class="text-center" width="5%">{{ number_format($item->nonpay, 2) }}</td> 
                                             </tr>
                                         @endforeach
                                     </tbody>
