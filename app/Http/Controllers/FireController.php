@@ -111,8 +111,8 @@ class FireController extends Controller
         $year = date('Y'); 
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        $datashow = DB::select('SELECT * from fire WHERE active="Y" ORDER BY fire_id DESC'); 
-
+        $datashow = DB::select('SELECT * from fire ORDER BY fire_id DESC'); 
+        // WHERE active="Y"
         return view('support_prs.fire.fire_main',[
             'startdate'     => $startdate,
             'enddate'       => $enddate, 
