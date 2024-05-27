@@ -68,13 +68,13 @@
                 @csrf 
                     <!-- start page title -->
                     <div class="row"> 
-                            <div class="col-md-2">
+                            <div class="col-md-6">
                                 <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail 1102050101.203</h4>
-                                <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.203</p>
+                                <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.203 วันที่ {{ DateThai($startdate) }} - {{ DateThai($enddate) }}</p>
                             </div>
                             <div class="col"></div>
-                            <div class="col-md-1 text-end mt-2">วันที่</div>
-                            <div class="col-md-4 text-end"> 
+                            {{-- <div class="col-md-3 text-end mt-2">วันที่ {{ $startdate }} ถึง {{ $enddate }}</div> --}}
+                            {{-- <div class="col-md-4 text-end"> 
                                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                                     <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date"
                                         data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
@@ -82,11 +82,8 @@
                                     <input type="text" class="form-control cardacc" name="enddate" placeholder="End Date" id="datepicker2"
                                         data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                                         data-date-language="th-th" value="{{ $enddate }}" required/>   
-                                {{-- <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left">
-                                    <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
-                                    <span class="ladda-spinner"></span>
-                                </button> --}}
-                            </div>
+                             
+                            </div> --}}
                            
                        
                     </div>
@@ -297,7 +294,7 @@
         </div> 
         <div class="row">
             <div class="col-xl-12">
-                    <div class="card cardacc">                   
+                    <div class="card card_audit_4c">                   
                         <div class="card-body">                     
                             <div class="table-responsive">
                                 

@@ -589,25 +589,7 @@ class Account203Controller extends Controller
             'status'    => '200'
         ]);
     }
-    public function account_203_detail(Request $request,$months,$year)
-    {
-        $datenow = date('Y-m-d');      
-        $data['users'] = User::get();
- 
-        $data = DB::select('
-                SELECT U1.ct_price,U1.uc_money 
-                ,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.hospcode,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
-                from acc_1102050101_203 U1             
-                WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
-               
-        ');
-  
-        return view('account_203.account_203_detail', $data, [ 
-            'data'       =>     $data,
-            'months'     =>     $months,
-            'year'       =>     $year
-        ]);
-    }
+   
     public function account_203_hoscode(Request $request,$months,$year)
     { 
         $data['users'] = User::get(); 
@@ -710,7 +692,44 @@ class Account203Controller extends Controller
             'year'           => $year
         ]);
     }
-
+    public function account_203_detail(Request $request,$months,$year)
+    {
+        $datenow = date('Y-m-d');      
+        $data['users'] = User::get(); 
+        $data = DB::select('
+                SELECT U1.ct_price,U1.uc_money,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.hospcode,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
+                from acc_1102050101_203 U1             
+                WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
+        ');
+        $datashow = DB::select('
+                SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+                ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn
+                ,count(distinct a.an) as an ,sum(a.income) as income ,sum(a.paid_money) as paid_money
+                ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
+                FROM acc_debtor a
+                left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+                WHERE month(a.vstdate) = "'.$months.'" AND year(a.vstdate) = "'.$year.'" 
+                and account_code="1102050101.203"                    
+                order by a.vstdate desc;
+        ');
+        $data_hospcode = DB::select('
+                SELECT 
+                    U1.hospcode,U2.name as hname,month(U1.vstdate) as months,year(U1.vstdate) as years,COUNT(DISTINCT U1.vn) as Cvn,SUM(U1.income) as S_income,SUM(U1.uc_money) as S_uc_money
+                    ,SUM(U1.debit) as S_debit,SUM(U1.debit_total) as S_debit_total,SUM(U1.sauntang) as S_sauntang
+                from acc_1102050101_203 U1    
+                LEFT OUTER JOIN hospcode U2 ON U2.hospcode = U1.hospcode         
+                WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
+                GROUP BY U1.hospcode 
+        ');
+  
+        return view('account_203.account_203_detail', $data, [ 
+            'data'            => $data,
+            'datashow'        => $datashow,
+            'data_hospcode'   => $data_hospcode,
+            'months'          => $months,
+            'year'            => $year
+        ]);
+    }
     public function account_203_detail_date(Request $request,$startdate,$enddate)
     {
         $datenow = date('Y-m-d');      
