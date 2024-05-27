@@ -168,9 +168,9 @@ class Account202Controller extends Controller
      }
      public function account_pkucs202_pulldata(Request $request)
      {
-         $date              = date('Y-m-d H:i:s');
-         $startdate         = $request->datepicker;
-         $enddate           = $request->datepicker2; 
+        $date              = date('Y-m-d H:i:s');
+        $startdate         = $request->datepicker;
+        $enddate           = $request->datepicker2; 
         $data_main = DB::connection('mysql2')->select('
                 SELECT o.an,a.vn,o.rxdate,o.rxtime,a.vstdate,a.vsttime,i.dchdate
                 FROM opitemrece o
@@ -282,58 +282,7 @@ class Account202Controller extends Controller
                             'sum_price_ipd_202'         => $val2->sum_price_ipd - $val2->sum_price_ucep_all,
                     ]);
                 }
-                // $data_more = DB::connection('mysql2')->select('    
-                //         SELECT o.an                             
-                //         ,(
-                //                 SELECT SUM(o.sum_price) sum_price
-                //                 FROM opitemrece o
-                //                 LEFT JOIN ipt i on i.an = o.an
-                //                 LEFT JOIN ovst a on a.an = o.an
-                //                 left JOIN er_regist e on e.vn = i.vn 
-                //                 LEFT JOIN pttype p on p.pttype = i.pttype 
-                //                 WHERE o.an = "'.$val->an.'" 
-                //                 AND (o.income IN("02") OR icode IN("1560016","1540073","1530005","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"))
-                //                 AND o.an is not null  
-                //                 AND p.hipdata_code ="ucs"
-                //                 AND DATEDIFF(o.rxdate,a.vstdate)>="1"
-                //                 AND TIMEDIFF(o.rxtime,a.vsttime)>="24" 
-                //                 AND e.er_emergency_level_id IN("1","2")
-                //         ) as sum_price_ucep_cr2
-                //         ,(
-                //                 SELECT SUM(o.sum_price) sum_price
-                //                 FROM opitemrece o
-                //                 LEFT JOIN ipt i on i.an = o.an
-                //                 LEFT JOIN ovst a on a.an = o.an
-                //                 left JOIN er_regist e on e.vn = i.vn 
-                //                 LEFT JOIN pttype p on p.pttype = i.pttype 
-                //                 WHERE o.an = "'.$val->an.'" 
-                //                 AND o.income NOT IN("02") AND o.icode NOT IN("1560016","1540073","1530005","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070")
-                //                 AND o.an is not null  
-                //                 AND p.hipdata_code ="ucs"
-                //                 AND DATEDIFF(o.rxdate,a.vstdate)>="1"
-                //                 AND TIMEDIFF(o.rxtime,a.vsttime)>="24" 
-                //                 AND e.er_emergency_level_id IN("1","2")
-                //         ) as sum_price_ucep_normal2                          
-
-                //         FROM opitemrece o
-                //         LEFT JOIN ipt i on i.an = o.an
-                //         LEFT JOIN ovst a on a.an = o.an
-                //         left JOIN er_regist e on e.vn = i.vn 
-                //         LEFT JOIN pttype p on p.pttype = i.pttype 
-                //         WHERE o.an = "'.$val->an.'" 
-                //         AND o.an is not null  
-                //         AND p.hipdata_code ="ucs"
-                //         AND DATEDIFF(o.rxdate,a.vstdate)>="1"
-                //         AND TIMEDIFF(o.rxtime,a.vsttime)>="24" 
-                //         AND e.er_emergency_level_id IN("1","2")
-                //         GROUP BY o.an  
-                // ');  
-                // foreach ($data_more as $key => $val_up) {
-                //     Acc_ucep_24::where('an',$val_up->an)->update([  
-                //         'sum_price_ucep_cr2'         => $val_up->sum_price_ucep_cr2,  
-                //         'sum_price_ucep_normal2'     => $val_up->sum_price_ucep_normal2,  
-                // ]);
-                // }   
+                  
         }
              
         $acc_debtor = DB::connection('mysql2')->select(' 
@@ -359,6 +308,7 @@ class Account202Controller extends Controller
                     ,sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0)) as debit_drug
                     ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
                     ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
+                    ,(SELECT SUM(opp.sum_price) FROM opitemrece opp LEFT JOIN nondrugitems nn ON nn.icode = opp.icode WHERE opp.an = a.an AND nn.nhso_adp_code IN("5601","9104","5402","5403","5406","5609")) as nonpay
  
                     from ipt ip
                     LEFT JOIN an_stat a ON ip.an = a.an
@@ -372,13 +322,7 @@ class Account202Controller extends Controller
                 AND ipt.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202" AND opdipd ="IPD" AND pttype <>"")                              
                 GROUP BY a.an
         '); 
-        // ,CASE  
-        // WHEN  ipt.pttype_number ="2" THEN a.income - a.rcpt_money - a.discount_money - ipt.max_debt_amount
-        // ELSE a.income - a.rcpt_money - a.discount_money - (sum(if(op.income="02",sum_price,0)))
-        // END as debit 
-
-        // ,a.income-a.rcpt_money-a.discount_money as debit
-        // ,a.income-a.rcpt_money-a.discount_money-IFNULL(ipt.max_debt_amount,"0") as debit
+        
          foreach ($acc_debtor as $key => $value) {
             // $count_pttype = DB::connection('mysql2')->select('SELECT COUNT(an) as C_an FROM  ipt_pttype WHERE an = "'.$value->an.'" ');
             $count_pttype = DB::connection('mysql2')->table('ipt_pttype')->where('an', $value->an)->count();
@@ -390,7 +334,7 @@ class Account202Controller extends Controller
                         if ($value->pttype_number == '2') {
                             if ($value->debit_toa > 0 ) {                     
                             } else {
-                                if ($value->debit > 0) {                                   
+                                if ($value->debit > 0) {                                  
                                
                                     if ($value->debit_prb > $value->debit) {
                                         # code...
@@ -418,7 +362,7 @@ class Account202Controller extends Controller
                                             'debit_toa'          => $value->debit_toa,
                                             'debit_refer'        => $value->debit_refer,
                                             // 'debit_total'        => $value->debit-$value->debit_drug-$value->debit_instument-$value->debit_toa-$value->debit_refer,
-                                            'debit_total'        => $value->debit,   
+                                            'debit_total'        => $value->debit+$value->nonpay,   
                                             // 'debit_ucep'         => $value->debit_ucep,                         
                                             'max_debt_amount'    => $value->max_debt_amount,
                                             'rw'                 => $value->rw,
@@ -457,7 +401,7 @@ class Account202Controller extends Controller
                                         'debit_toa'          => $value->debit_toa,
                                         'debit_refer'        => $value->debit_refer,
                                         // 'debit_total'        => $value->debit,
-                                        'debit_total'        => $value->debit-$value->debit_drug-$value->debit_instument-$value->debit_toa-$value->debit_refer,  
+                                        'debit_total'        => $value->debit-($value->debit_drug-$value->debit_instument-$value->debit_toa-$value->debit_refer)+$value->nonpay,  
                                         // 'debit_ucep'         => $value->debit_ucep,                                                             
                                         'max_debt_amount'    => $value->max_debt_amount,
                                         'rw'                 => $value->rw,
@@ -499,8 +443,8 @@ class Account202Controller extends Controller
                                         'debit_instument'    => $value->debit_instument,
                                         'debit_toa'          => $value->debit_toa,
                                         'debit_refer'        => $value->debit_refer,
-                                        'debit_total'        => $value->debit,
-                                                          
+                                        'debit_total'        => $value->debit+$value->nonpay,
+                                        'nonpay'             => $value->nonpay,              
                                         'max_debt_amount'    => $value->max_debt_amount,
                                         'rw'                 => $value->rw,
                                         'adjrw'              => $value->adjrw,
@@ -525,7 +469,7 @@ class Account202Controller extends Controller
            
          }
         $acc_norget = DB::connection('mysql')->select('
-            SELECT an,debit,debit_instument,debit_drug,debit_toa,debit_refer,debit_ucep 
+            SELECT an,debit,debit_instument,debit_drug,debit_toa,debit_refer,debit_ucep,nonpay 
             FROM acc_debtor 
             WHERE dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '" 
             AND account_code = "1102050101.202"
@@ -533,7 +477,7 @@ class Account202Controller extends Controller
         ');
         foreach ($acc_norget as $key => $value_get) {   
                     Acc_debtor::where('an',$value_get->an)->where('account_code', '1102050101.202')->update([  
-                        'debit_total'    => (($value_get->debit - $value_get->debit_instument) - ($value_get->debit_drug - $value_get->debit_toa)) - ($value_get->debit_refer),
+                        'debit_total'    => (($value_get->debit - $value_get->debit_instument) - ($value_get->debit_drug - $value_get->debit_toa)) - ($value_get->debit_refer)+($value_get->nonpay),
                         'debit_cr'       => ($value_get->debit_instument + $value_get->debit_drug) + ($value_get->debit_toa + $value_get->debit_refer),     
                     ]); 
                     Acc_debtor::where('an',$value_get->an)->where('debit_total', '<', 1)->delete(); 

@@ -145,7 +145,7 @@
                                             <th class="text-center">an</th>
                                             <th class="text-center" >hn</th> 
                                             <th class="text-center">ptname</th>
-                                            <th class="text-center">rxdate</th> 
+                                            {{-- <th class="text-center">rxdate</th>  --}}
                                             <th class="text-center">dchdate</th>  
                                             <th class="text-center">pttype</th> 
                                             <th class="text-center">spsch</th> 
@@ -154,7 +154,8 @@
                                             <th class="text-center">ชำระเงินสด</th>
                                             <th class="text-center">ucep</th>
                                             <th class="text-center">ลูกหนี้/202</th>  
-                                            {{-- <th class="text-center">ins</th> --}}
+                                            <th class="text-center">ins เลิกจ่าย</th> 
+                                            <th class="text-center">ins</th>
                                             {{-- <th class="text-center">drug</th> --}}
                                             {{-- <th class="text-center">เลนส์</th> --}}
                                             {{-- <th class="text-center">refer</th> --}}
@@ -176,7 +177,7 @@
                                                 <td class="text-center" width="5%">{{ $item->an }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>   
                                                 <td class="p-2" >{{ $item->ptname }}</td> 
-                                                <td class="text-center" width="7%">{{ $item->rxdate }}</td> 
+                                                {{-- <td class="text-center" width="7%">{{ $item->rxdate }}</td>  --}}
                                                 <td class="text-center" width="7%">{{ $item->dchdate }}</td>   
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>  
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td> 
@@ -185,7 +186,8 @@
                                                 <td class="text-end" width="7%">{{ number_format($item->rcpt_money, 2) }}</td> 
                                                 <td class="text-end" width="7%">{{ number_format($item->debit_ucep, 2) }}</td> 
                                                 <td class="text-end" width="7%">{{ number_format($item->debit_total, 2) }}</td> 
-                                                {{-- <td class="text-end" width="7%">{{ number_format($item->debit_instument, 2) }}</td>  --}}
+                                                <td class="text-end" width="7%">{{ number_format($item->nonpay, 2) }}</td> 
+                                                <td class="text-end" width="7%">{{ number_format($item->debit_instument, 2) }}</td> 
                                                 {{-- <td class="text-end" width="7%">{{ number_format($item->debit_drug, 2) }}</td>  --}}
                                                 {{-- <td class="text-end" width="7%">{{ number_format($item->debit_toa, 2) }}</td>  --}}
                                                 {{-- <td class="text-end" width="7%">{{ number_format($item->debit_refer, 2) }}</td>   --}}

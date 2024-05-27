@@ -90,6 +90,7 @@ return new class extends Migration
                 $table->dateTime('date_pull')->nullable();//
                 $table->string('active_status')->nullable();// 
                 $table->string('referin_no')->nullable();// 
+                $table->text('nonpay')->nullable();// 
                 $table->timestamps();
             });
         }
