@@ -330,7 +330,7 @@ class Account203Controller extends Controller
                         
                         
                         ,case
-                        when (v.income-(SELECT SUM(ot.sum_price) FROM opitemrece ot LEFT JOIN xray_items xr ON xr.icode = ot.icode WHERE ot.vn =v.vn AND ot.income ="08" AND xr.xray_items_group ="3")) < 1000 then (v.income-(SELECT SUM(ot.sum_price) FROM opitemrece ot LEFT JOIN xray_items xr ON xr.icode = ot.icode WHERE ot.vn =v.vn AND ot.income ="08" AND xr.xray_items_group ="3"))
+                        when (v.uc_money-(SELECT SUM(ot.sum_price) FROM opitemrece ot LEFT JOIN xray_items xr ON xr.icode = ot.icode WHERE ot.vn =v.vn AND ot.income ="08" AND xr.xray_items_group ="3")) < 1000 then (v.uc_money-(SELECT SUM(ot.sum_price) FROM opitemrece ot LEFT JOIN xray_items xr ON xr.icode = ot.icode WHERE ot.vn =v.vn AND ot.income ="08" AND xr.xray_items_group ="3"))
                         when v.uc_money < 1000 then v.uc_money
                         else "1000"
                         end as toklong
@@ -413,7 +413,7 @@ class Account203Controller extends Controller
                         ) as price_xray
 
                         ,case
-                        when (v.income-(SELECT SUM(ot.sum_price) FROM opitemrece ot LEFT JOIN xray_items xr ON xr.icode = ot.icode WHERE ot.vn =v.vn AND ot.income ="08" AND xr.xray_items_group ="3")) < 700 then (v.income-(SELECT SUM(ot.sum_price) FROM opitemrece ot LEFT JOIN xray_items xr ON xr.icode = ot.icode WHERE ot.vn =v.vn AND ot.income ="08" AND xr.xray_items_group ="3"))
+                        when (v.uc_money-(SELECT SUM(ot.sum_price) FROM opitemrece ot LEFT JOIN xray_items xr ON xr.icode = ot.icode WHERE ot.vn =v.vn AND ot.income ="08" AND xr.xray_items_group ="3")) < 700 then (v.uc_money-(SELECT SUM(ot.sum_price) FROM opitemrece ot LEFT JOIN xray_items xr ON xr.icode = ot.icode WHERE ot.vn =v.vn AND ot.income ="08" AND xr.xray_items_group ="3"))
                         when v.uc_money < 1000 then v.uc_money
                         else "700"
                         end as toklong

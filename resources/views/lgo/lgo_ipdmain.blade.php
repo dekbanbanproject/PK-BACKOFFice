@@ -88,12 +88,12 @@ $pos = strrpos($url, '/') + 1;
             </div>
         </div>
     </div>
-    <form action="{{ url('lgo_main') }}" method="POST">
+    <form action="{{ url('lgo_ipdmain') }}" method="POST">
         @csrf
     <div class="row"> 
             <div class="col-md-3">
-                <h4 class="card-title" style="color:rgba(21, 177, 164, 0.871)">Detail LGO List</h4>
-                <p class="card-title-desc">รายละเอียดข้อมูล LGO องค์กรปกครองส่วนท้องถิ่น</p>
+                <h4 class="card-title" style="color:rgba(21, 177, 164, 0.871)">Detail LGO-IPD List</h4>
+                <p class="card-title-desc">รายละเอียดข้อมูล LGO-IPD องค์กรปกครองส่วนท้องถิ่น</p>
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
@@ -113,18 +113,16 @@ $pos = strrpos($url, '/') + 1;
                 
 
 
-                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('lgo_main_process')}}">
-                        {{-- <i class="fa-solid fa-spinner text-success me-2"></i> --}}
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('lgo_ipdmain_process')}}"> 
                         <i class="fa-solid fa-2 text-success me-2"></i>
                         ส่งเคลม
                     </button>
                    
-                    <a href="{{url('lgo_main_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4">
-                        {{-- <i class="fa-solid fa-file-export text-danger me-2"></i> --}}
+                    <a href="{{url('lgo_ipdmain_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4"> 
                         <i class="fa-solid fa-3 text-danger me-2"></i>
                         Export Txt
                     </a> 
-                    <a href="{{url('lgo_main_zip')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary card_fdh_4"> 
+                    <a href="{{url('lgo_ipdmain_zip')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary card_fdh_4"> 
                         <i class="fa-solid fa-4 text-primary me-2"></i>
                         Zip Txt
                     </a>
@@ -144,7 +142,7 @@ $pos = strrpos($url, '/') + 1;
                                 <li class="nav-item">
                                     <a class="nav-link active" data-bs-toggle="tab" href="#Main" role="tab">
                                         <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                        <span class="d-none d-sm-block">LGO อปท.</span>    
+                                        <span class="d-none d-sm-block">LGO IPD อปท.</span>    
                                     </a>
                                 </li>   
                                 <li class="nav-item">
@@ -259,13 +257,14 @@ $pos = strrpos($url, '/') + 1;
                                                         Approve Code
                                                         <span class="bg-danger badge me-2">{{ $count_null }}</span> 
                                                     </th> --}}
+                                                    <th class="text-center">an</th>
                                                     <th class="text-center">cid</th>
                                                     <th class="text-center">hn</th>
                                                     <th class="text-center">ptname</th>  
                                                     <th class="text-center">pttype</th> 
-                                                    <th class="text-center">vstdate</th> 
+                                                    <th class="text-center">dchdate</th> 
                                                     <th class="text-center">pdx</th>  
-                                                    <th class="text-center">price_lgo</th> 
+                                                    <th class="text-center">debit</th> 
                                                     <th class="text-center">authen</th> 
                                                     {{-- <th class="text-center">STMdoc</th>  --}}
                                                 </tr>
@@ -292,11 +291,12 @@ $pos = strrpos($url, '/') + 1;
                                                             @endif
                                                             
                                                         </td>  --}}
+                                                        <td class="text-center" width="7%">  {{ $item->an }}  </td>
                                                         <td class="text-center" width="7%">  {{ $item->cid }}  </td>
                                                         <td class="text-center" width="8%">{{ $item->hn }}</td>
                                                         <td class="text-start">{{ $item->ptname }}</td>  
                                                         <td class="text-center" width="5%">{{ $item->pttype }}</td> 
-                                                        <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
+                                                        <td class="text-center" width="7%">{{ $item->dchdate }}</td> 
                                                         <td class="text-center" width="5%">{{ $item->pdx }}</td>
    
                                                         <td class="text-end" width="7%" style="font-size: 15px;color:blue">{{ number_format($item->debit, 2) }}</td> 

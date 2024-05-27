@@ -89,9 +89,9 @@ use Illuminate\Support\Facades\Storage;
  
 date_default_timezone_set("Asia/Bangkok");
 
-class Fdh_LgoController extends Controller
+class Fdh_LgoIpdController extends Controller
 {  
-    public function lgo_main(Request $request)
+    public function lgo_ipdmain(Request $request)
     {
         $startdate = $request->startdate;
         $enddate = $request->enddate;
@@ -111,21 +111,21 @@ class Fdh_LgoController extends Controller
                 // D_ofc_401::truncate(); 
                
                 $data_main_ = DB::connection('mysql2')->select(
-                    'SELECT v.vn,o.an,v.cid,v.hn,concat(pt.pname,pt.fname," ",pt.lname) ptname
-                        ,o.vstdate,v.pttype,vp.claim_code   
-                        ,ptt.hipdata_code 
-                        ,v.income-v.discount_money-v.rcpt_money as price_lgo
-                        ,GROUP_CONCAT(DISTINCT ov.icd10 order by ov.diagtype) AS icd10,v.pdx
-                        FROM vn_stat v
-                        LEFT OUTER JOIN patient pt ON v.hn = pt.hn
-                        LEFT OUTER JOIN ovstdiag ov ON v.vn = ov.vn
-                        LEFT OUTER JOIN ovst o ON v.vn = o.vn 
-                        LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype  
-                        LEFT OUTER JOIN visit_pttype vp on vp.vn = v.vn         
-                        WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                        AND v.pttype in("L1","L2","L3","L4","l5","l6") AND v.income-v.discount_money-v.rcpt_money > 0          
-                        AND o.an is null 
-                        GROUP BY o.vn 
+                    'SELECT ip.vn,a.hn,a.an,pt.cid,a.regdate,a.dchdate,a.admdate,a.pdx
+                        ,group_concat(distinct ii.icd10) as icd10,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+                        ,a.inc08 as inst,a.income,a.paid_money ,a.uc_money,ip.pttype,ip.rfrocs,ip.rfrolct,a.income-a.discount_money-a.rcpt_money as debit 
+                        ,it.claim_code
+
+                            FROM an_stat a
+                            LEFT OUTER JOIN patient pt on pt.hn = a.hn
+                            LEFT OUTER JOIN pttype p on p.pttype = a.pttype
+                            LEFT OUTER JOIN iptdiag ii on ii.an = a.an
+                            left join ipt ip on ip.an = a.an 
+                            left join ipt_pttype it on it.an = a.an
+                        
+                            WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                            AND a.pttype in("L1","L2","L3","L4","l5","l6") AND a.income-a.discount_money-a.rcpt_money > 0 
+                            GROUP BY a.an ORDER BY a.an desc
                 '); 
                 // AND v.pdx <> ""                
                 foreach ($data_main_ as $key => $value) {   
@@ -133,7 +133,7 @@ class Fdh_LgoController extends Controller
                     $check_fdh = D_fdh::where('vn',$value->vn)->count();
                     if ($check_fdh > 0) {
                         D_fdh::where('vn',$value->vn)->update([  
-                            'debit'        => $value->price_lgo,
+                            'debit'        => $value->debit,
                             'pdx'          => $value->pdx,
                             'icd10'        => $value->icd10,
                             'authen'       => $value->claim_code
@@ -146,11 +146,12 @@ class Fdh_LgoController extends Controller
                             'cid'          => $value->cid,
                             'pttype'       => $value->pttype,  
                             'ptname'       => $value->ptname, 
-                            'vstdate'      => $value->vstdate, 
+                            'dchdate'      => $value->dchdate, 
                             'pdx'          => $value->pdx,
                             'icd10'        => $value->icd10,
-                            'debit'        => $value->price_lgo,
-                            'authen'       => $value->claim_code
+                            'debit'        => $value->debit,
+                            'authen'       => $value->claim_code,
+                            'projectcode'  => 'LGO_802'
                         ]); 
                     }
                     
@@ -158,51 +159,50 @@ class Fdh_LgoController extends Controller
                 } 
                
         }                
-            // $data['d_lgo_801'] = DB::connection('mysql')->select('SELECT * from d_lgo_801 WHERE active ="N" ORDER BY vn ASC');  
-            // $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N"  AND pttype IN("L1","L2","L3","L4","l5","l6") AND authen IS NOT NULL AND icd10 IS NOT NULL ORDER BY vn ASC');
-            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N"  AND pttype IN("L1","L2","L3","L4","l5","l6") ORDER BY vn ASC');
-            $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="LGO_801"'); 
-            $data['data_orf'] = DB::connection('mysql')->select('SELECT * from fdh_orf WHERE d_anaconda_id ="LGO_801"'); 
-            $data['data_oop'] = DB::connection('mysql')->select('SELECT * from fdh_oop WHERE d_anaconda_id ="LGO_801"');
-            $data['data_odx'] = DB::connection('mysql')->select('SELECT * from fdh_odx WHERE d_anaconda_id ="LGO_801"');
-            $data['data_idx'] = DB::connection('mysql')->select('SELECT * from fdh_idx WHERE d_anaconda_id ="LGO_801"');
-            $data['data_ipd'] = DB::connection('mysql')->select('SELECT * from fdh_ipd WHERE d_anaconda_id ="LGO_801"');
-            $data['data_irf'] = DB::connection('mysql')->select('SELECT * from fdh_irf WHERE d_anaconda_id ="LGO_801"');
-            $data['data_aer'] = DB::connection('mysql')->select('SELECT * from fdh_aer WHERE d_anaconda_id ="LGO_801"');
-            $data['data_iop'] = DB::connection('mysql')->select('SELECT * from fdh_iop WHERE d_anaconda_id ="LGO_801"');
-            $data['data_adp'] = DB::connection('mysql')->select('SELECT * from fdh_adp WHERE d_anaconda_id ="LGO_801"');
-            $data['data_pat'] = DB::connection('mysql')->select('SELECT * from fdh_pat WHERE d_anaconda_id ="LGO_801"');
-            $data['data_cht'] = DB::connection('mysql')->select('SELECT * from fdh_cht WHERE d_anaconda_id ="LGO_801"');
-            $data['data_cha'] = DB::connection('mysql')->select('SELECT * from fdh_cha WHERE d_anaconda_id ="LGO_801"');
-            $data['data_ins'] = DB::connection('mysql')->select('SELECT * from fdh_ins WHERE d_anaconda_id ="LGO_801"');
-            $data['data_dru'] = DB::connection('mysql')->select('SELECT * from fdh_dru WHERE d_anaconda_id ="LGO_801"');
+            
+            $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N"  AND pttype IN("L1","L2","L3","L4","l5","l6") AND projectcode ="LGO_802" ORDER BY vn ASC');
+            $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="LGO_802"'); 
+            $data['data_orf'] = DB::connection('mysql')->select('SELECT * from fdh_orf WHERE d_anaconda_id ="LGO_802"'); 
+            $data['data_oop'] = DB::connection('mysql')->select('SELECT * from fdh_oop WHERE d_anaconda_id ="LGO_802"');
+            $data['data_odx'] = DB::connection('mysql')->select('SELECT * from fdh_odx WHERE d_anaconda_id ="LGO_802"');
+            $data['data_idx'] = DB::connection('mysql')->select('SELECT * from fdh_idx WHERE d_anaconda_id ="LGO_802"');
+            $data['data_ipd'] = DB::connection('mysql')->select('SELECT * from fdh_ipd WHERE d_anaconda_id ="LGO_802"');
+            $data['data_irf'] = DB::connection('mysql')->select('SELECT * from fdh_irf WHERE d_anaconda_id ="LGO_802"');
+            $data['data_aer'] = DB::connection('mysql')->select('SELECT * from fdh_aer WHERE d_anaconda_id ="LGO_802"');
+            $data['data_iop'] = DB::connection('mysql')->select('SELECT * from fdh_iop WHERE d_anaconda_id ="LGO_802"');
+            $data['data_adp'] = DB::connection('mysql')->select('SELECT * from fdh_adp WHERE d_anaconda_id ="LGO_802"');
+            $data['data_pat'] = DB::connection('mysql')->select('SELECT * from fdh_pat WHERE d_anaconda_id ="LGO_802"');
+            $data['data_cht'] = DB::connection('mysql')->select('SELECT * from fdh_cht WHERE d_anaconda_id ="LGO_802"');
+            $data['data_cha'] = DB::connection('mysql')->select('SELECT * from fdh_cha WHERE d_anaconda_id ="LGO_802"');
+            $data['data_ins'] = DB::connection('mysql')->select('SELECT * from fdh_ins WHERE d_anaconda_id ="LGO_802"');
+            $data['data_dru'] = DB::connection('mysql')->select('SELECT * from fdh_dru WHERE d_anaconda_id ="LGO_802"');
             // $data['count_no'] = D_ofc_401::where('Apphos','<>','')->where('active','=','N')->count();
             // $data['count_null'] = D_ofc_401::where('Apphos','=',Null)->where('active','=','N')->count();
-        return view('lgo.lgo_main',$data,[
+        return view('lgo.lgo_ipdmain',$data,[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate, 
         ]);
     }    
-    public function lgo_main_process(Request $request)
+    public function lgo_ipdmain_process(Request $request)
     {  
-        Fdh_ins::where('d_anaconda_id','=','LGO_801')->delete();
-        Fdh_pat::where('d_anaconda_id','=','LGO_801')->delete();
-        Fdh_opd::where('d_anaconda_id','=','LGO_801')->delete();
-        Fdh_orf::where('d_anaconda_id','=','LGO_801')->delete();
-        Fdh_odx::where('d_anaconda_id','=','LGO_801')->delete();
-        Fdh_oop::where('d_anaconda_id','=','LGO_801')->delete();
-        Fdh_ipd::where('d_anaconda_id','=','LGO_801')->delete();
-        Fdh_irf::where('d_anaconda_id','=','LGO_801')->delete();
-        Fdh_idx::where('d_anaconda_id','=','LGO_801')->delete(); 
-        Fdh_iop::where('d_anaconda_id','=','LGO_801')->delete();
-        Fdh_cht::where('d_anaconda_id','=','LGO_801')->delete();
-        Fdh_cha::where('d_anaconda_id','=','LGO_801')->delete();
-        Fdh_aer::where('d_anaconda_id','=','LGO_801')->delete();
-        Fdh_adp::where('d_anaconda_id','=','LGO_801')->delete();
-        Fdh_dru::where('d_anaconda_id','=','LGO_801')->delete();            
-        Fdh_lvd::where('d_anaconda_id','=','LGO_801')->delete();    
+        Fdh_ins::where('d_anaconda_id','=','LGO_802')->delete();
+        Fdh_pat::where('d_anaconda_id','=','LGO_802')->delete();
+        Fdh_opd::where('d_anaconda_id','=','LGO_802')->delete();
+        Fdh_orf::where('d_anaconda_id','=','LGO_802')->delete();
+        Fdh_odx::where('d_anaconda_id','=','LGO_802')->delete();
+        Fdh_oop::where('d_anaconda_id','=','LGO_802')->delete();
+        Fdh_ipd::where('d_anaconda_id','=','LGO_802')->delete();
+        Fdh_irf::where('d_anaconda_id','=','LGO_802')->delete();
+        Fdh_idx::where('d_anaconda_id','=','LGO_802')->delete(); 
+        Fdh_iop::where('d_anaconda_id','=','LGO_802')->delete();
+        Fdh_cht::where('d_anaconda_id','=','LGO_802')->delete();
+        Fdh_cha::where('d_anaconda_id','=','LGO_802')->delete();
+        Fdh_aer::where('d_anaconda_id','=','LGO_802')->delete();
+        Fdh_adp::where('d_anaconda_id','=','LGO_802')->delete();
+        Fdh_dru::where('d_anaconda_id','=','LGO_802')->delete();            
+        Fdh_lvd::where('d_anaconda_id','=','LGO_802')->delete();    
         
-        Fdh_sesion::where('d_anaconda_id','=','LGO_801')->delete();  
+        Fdh_sesion::where('d_anaconda_id','=','LGO_802')->delete();  
         $iduser = Auth::user()->id;
         $s_date_now = date("Y-m-d");
         $s_time_now = date("H:i:s");
@@ -213,12 +213,12 @@ class Fdh_LgoController extends Controller
         $pattern_time = '/:/i';
         $s_time_now_preg = preg_replace($pattern_time, '', $s_time_now);
         #ตัดขีด, ตัด : ออก
-        $folder_name='LGOOPD_'.$s_date_now_preg.'_'.$s_time_now_preg;
+        $folder_name='LGOIPD_'.$s_date_now_preg.'_'.$s_time_now_preg;
             
 
         Fdh_sesion::insert([
             'folder_name'      => $folder_name,
-            'd_anaconda_id'    => 'LGO_801',
+            'd_anaconda_id'    => 'LGO_802',
             'date_save'        => $s_date_now,
             'time_save'        => $s_time_now,
             'userid'           => $iduser  
@@ -249,8 +249,8 @@ class Fdh_LgoController extends Controller
                     LEFT OUTER JOIN rcpt_debt r on r.vn = v.vn
                     LEFT OUTER JOIN patient px on px.hn = v.hn     
                     LEFT OUTER JOIN pkbackoffice.check_authen ca on ca.cid = px.cid AND ca.vstdate = v.vstdate               
-                    WHERE v.vn IN("'.$va1->vn.'")  
-                    GROUP BY v.vn 
+                    WHERE i.an IN("'.$va1->an.'")  
+                    GROUP BY i.an 
                 ');
                 // ,"2" HTYPE
                 foreach ($data_ins_ as $va_01) {
@@ -275,7 +275,7 @@ class Fdh_LgoController extends Controller
                         'RELINSCL'          => $va_01->RELINSCL,
                         'HTYPE'             => $va_01->HTYPE,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'LGO_801'
+                        'd_anaconda_id'     => 'LGO_802'
                     ]);
                 }
                 //D_pat OK
@@ -289,7 +289,7 @@ class Fdh_LgoController extends Controller
                     LEFT OUTER JOIN pttype p on p.pttype = v.pttype
                     LEFT OUTER JOIN ipt i on i.vn = v.vn 
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn 
-                    WHERE v.vn IN("'.$va1->vn.'")
+                    WHERE i.an IN("'.$va1->an.'")
                     GROUP BY v.hn
                 ');
             
@@ -311,7 +311,7 @@ class Fdh_LgoController extends Controller
                         'LNAME'              => $va_02->LNAME,
                         'IDTYPE'             => $va_02->IDTYPE,
                         'user_id'            => $iduser,
-                        'd_anaconda_id'      => 'LGO_801'
+                        'd_anaconda_id'      => 'LGO_802'
                     ]);
                 }
                 //D_opd OK
@@ -328,8 +328,8 @@ class Fdh_LgoController extends Controller
                         LEFT OUTER JOIN patient pt on pt.hn = v.hn
                         LEFT OUTER JOIN ovstist ot on ot.ovstist = o.ovstist  
                         LEFT OUTER JOIN ovstost st on st.ovstost = o.ovstost  
-                        WHERE o.vn IN("'.$va1->vn.'") 
-                        GROUP BY o.vn                  
+                        WHERE o.an IN("'.$va1->an.'") 
+                        GROUP BY o.an                  
                 '); 
                 foreach ($data_opd as $val3) {       
                     Fdh_opd::insert([
@@ -349,7 +349,7 @@ class Fdh_LgoController extends Controller
                         'TYPEIN'            => $val3->TYPEIN, 
                         'TYPEOUT'           => $val3->TYPEOUT, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'LGO_801'
+                        'd_anaconda_id'     => 'LGO_802'
                     ]);
                 }
 
@@ -377,7 +377,7 @@ class Fdh_LgoController extends Controller
                         'SEQ'               => $va_03->SEQ, 
                         'REFERDATE'         => $va_03->REFERDATE, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'LGO_801'
+                        'd_anaconda_id'     => 'LGO_802'
                     ]);
                 }
                  // D_odx OK
@@ -403,7 +403,7 @@ class Fdh_LgoController extends Controller
                         'PERSON_ID'         => $va_04->PERSON_ID, 
                         'SEQ'               => $va_04->SEQ, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'LGO_801'
+                        'd_anaconda_id'     => 'LGO_802'
                     ]);
                     
                 }
@@ -430,7 +430,7 @@ class Fdh_LgoController extends Controller
                         'SEQ'               => $va_05->SEQ, 
                         'SERVPRICE'         => $va_05->SERVPRICE, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'LGO_801'
+                        'd_anaconda_id'     => 'LGO_802'
                     ]);
                     
                 }
@@ -443,7 +443,7 @@ class Fdh_LgoController extends Controller
                         LEFT OUTER JOIN ipt i on i.an = a.an
                         LEFT OUTER JOIN pttype p on p.pttype = a.pttype
                         LEFT OUTER JOIN patient pt on pt.hn = a.hn
-                        WHERE i.vn IN("'.$va1->vn.'")
+                        WHERE i.an IN("'.$va1->an.'")
                         GROUP BY a.an
                 ');
                 foreach ($data_ipd_ as $va_06) {     
@@ -462,7 +462,7 @@ class Fdh_LgoController extends Controller
                         'UUC'               => $va_06->UUC, 
                         'SVCTYPE'           => $va_06->SVCTYPE, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'LGO_801'
+                        'd_anaconda_id'     => 'LGO_802'
                     ]);
                 }
                 
@@ -473,7 +473,7 @@ class Fdh_LgoController extends Controller
                         LEFT OUTER JOIN ipt ip on ip.an = a.an
                         LEFT OUTER JOIN referout o on o.vn = a.an
                         LEFT OUTER JOIN referin oo on oo.vn = a.an
-                        WHERE ip.vn IN("'.$va1->vn.'")  
+                        WHERE ip.an IN("'.$va1->an.'")  
                         AND (a.an in(SELECT vn FROM referin WHERE vn = oo.vn) or a.an in(SELECT vn FROM referout WHERE vn = o.vn));
                 ');
                 foreach ($data_irf_ as $va_07) {
@@ -482,7 +482,7 @@ class Fdh_LgoController extends Controller
                         'REFER'              => $va_07->REFER,
                         'REFERTYPE'          => $va_07->REFERTYPE,
                         'user_id'            => $iduser,
-                        'd_anaconda_id'      => 'LGO_801',
+                        'd_anaconda_id'      => 'LGO_802',
                     ]);                     
                 }                 
                 //D_idx OK 
@@ -493,7 +493,7 @@ class Fdh_LgoController extends Controller
                         LEFT OUTER JOIN doctor d on d.`code` = o.doctor
                         LEFT OUTER JOIN ipt ip on ip.an = v.an
                         INNER JOIN icd101 i on i.code = o.icd10
-                        WHERE ip.vn IN("'.$va1->vn.'")
+                        WHERE ip.an IN("'.$va1->an.'")
                 ');
                 foreach ($data_idx_ as $va_08) { 
                     Fdh_idx::insert([
@@ -502,7 +502,7 @@ class Fdh_LgoController extends Controller
                         'DXTYPE'            => $va_08->DXTYPE,
                         'DRDX'              => $va_08->DRDX, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'LGO_801'
+                        'd_anaconda_id'     => 'LGO_802'
                     ]);
                             
                 }
@@ -515,7 +515,7 @@ class Fdh_LgoController extends Controller
                     LEFT OUTER JOIN doctor d on d.`code` = o.doctor
                     INNER JOIN icd9cm1 i on i.code = o.icd9
                     LEFT OUTER JOIN ipt ip on ip.an = a.an
-                    WHERE ip.vn IN("'.$va1->vn.'")
+                    WHERE ip.an IN("'.$va1->an.'")
                 ');
                 foreach ($data_iop_ as $va_09) {
                     Fdh_iop::insert([
@@ -528,7 +528,7 @@ class Fdh_LgoController extends Controller
                         'DATEOUT'           => $va_09->DATEOUT,
                         'TIMEOUT'           => $va_09->TIMEOUT,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'LGO_801'
+                        'd_anaconda_id'     => 'LGO_802'
                     ]);
                 }
                 //D_cht OK
@@ -541,7 +541,7 @@ class Fdh_LgoController extends Controller
                     LEFT OUTER JOIN patient pp on pp.hn = o.hn
                     LEFT OUTER JOIN pttype pt on pt.pttype = vv.pttype or pt.pttype=a.pttype
                     LEFT OUTER JOIN pttype p on p.pttype = a.pttype 
-                    WHERE o.vn IN("'.$va1->vn.'") 
+                    WHERE o.an IN("'.$va1->an.'") 
                     
                 ');
                 foreach ($data_cht_ as $va_10) {
@@ -558,7 +558,7 @@ class Fdh_LgoController extends Controller
                         'INVOICE_NO'        => $va_10->INVOICE_NO,
                         'INVOICE_LT'        => $va_10->INVOICE_LT,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'LGO_801'
+                        'd_anaconda_id'     => 'LGO_802'
                     ]);
                 }
                 //D_cha OK
@@ -586,7 +586,7 @@ class Fdh_LgoController extends Controller
                         LEFT OUTER JOIN income i on v.income=i.income
                         LEFT OUTER JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id 
                         LEFT OUTER JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id 
-                        WHERE ip.vn IN("'.$va1->vn.'")  
+                        WHERE ip.an IN("'.$va1->an.'")  
                         GROUP BY v.an,CHRGITEM
                 ');
                 foreach ($data_cha_ as $va_11) {
@@ -599,7 +599,7 @@ class Fdh_LgoController extends Controller
                         'PERSON_ID'         => $va_11->PERSON_ID,
                         'SEQ'               => $va_11->SEQ, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'LGO_801'
+                        'd_anaconda_id'     => 'LGO_802'
                     ]);
                 } 
                  //D_aer OK
@@ -623,7 +623,7 @@ class Fdh_LgoController extends Controller
                         LEFT OUTER JOIN pttype pt on pt.pttype =a.pttype  
                         LEFT OUTER JOIN vn_stat vs on vs.vn =a.vn
                         LEFT OUTER JOIN check_authen_hos cs on cs.vn = vs.vn
-                        WHERE a.vn IN("'.$va1->vn.'")
+                        WHERE a.an IN("'.$va1->an.'")
                         GROUP BY a.an
                 ');
                 foreach ($data_aer_ as $va_12) {
@@ -647,7 +647,7 @@ class Fdh_LgoController extends Controller
                         'DALERT'            => $va_12->DALERT,
                         'TALERT'            => $va_12->TALERT,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'LGO_801'
+                        'd_anaconda_id'     => 'LGO_802'
                     ]);
                 } 
                 //D_adp
@@ -663,8 +663,8 @@ class Fdh_LgoController extends Controller
                         JOIN nondrugitems n on n.icode = v.icode  
                         LEFT OUTER JOIN ipt i on i.an = v.an
                         AND i.an is not NULL 
-                        WHERE i.vn IN("'.$va1->vn.'")
-                        GROUP BY i.vn,n.nhso_adp_code,rate) a 
+                        WHERE i.an IN("'.$va1->an.'")
+                        GROUP BY i.an,n.nhso_adp_code,rate) a 
                         GROUP BY an,CODE,rate
                             UNION
                         SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
@@ -712,7 +712,7 @@ class Fdh_LgoController extends Controller
                         'icode'                => $va_13->icode,
                         'vstdate'              => $va_13->vstdate,
                         'user_id'              => $iduser,
-                        'd_anaconda_id'        => 'LGO_801'
+                        'd_anaconda_id'        => 'LGO_802'
                     ]);
                 } 
                 //D_dru OK
@@ -744,7 +744,7 @@ class Fdh_LgoController extends Controller
                         INNER JOIN ipt v1 on v1.an = v.an
                         LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode 
                         LEFT OUTER JOIN drugitems_ned_reason dn on dn.icode = v.icode               
-                        WHERE v1.vn IN("'.$va1->vn.'")
+                        WHERE v1.an IN("'.$va1->an.'")
                         AND d.did is not null AND v.qty<>"0"
                         GROUP BY v.an,d.icode,USE_STATUS;             
                 ');
@@ -776,7 +776,7 @@ class Fdh_LgoController extends Controller
                         'PROVIDER'       => $va_14->PROVIDER,
                         'vstdate'        => $va_14->vstdate,   
                         'user_id'        => $iduser,
-                        'd_anaconda_id'  => 'LGO_801'
+                        'd_anaconda_id'  => 'LGO_802'
                     ]);
                 } 
  
@@ -793,13 +793,13 @@ class Fdh_LgoController extends Controller
         ]);
     }
     
-    public function lgo_main_export(Request $request)
+    public function lgo_ipdmain_export(Request $request)
     {
         #delete file in folder ทั้งหมด
         $file_ = new Filesystem;
         $file_->cleanDirectory('Export_LGO'); //ทั้งหมด
       
-        $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "LGO_801"');
+        $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "LGO_802"');
         foreach ($dataexport_ as $key => $v_export) {
             $folder_ = $v_export->folder_name;
         }
@@ -821,7 +821,7 @@ class Fdh_LgoController extends Controller
         // $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
         // $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
         fwrite($objFopen_ins, $opd_head); 
-        $ins = DB::connection('mysql')->select('SELECT * from fdh_ins where d_anaconda_id = "LGO_801"');
+        $ins = DB::connection('mysql')->select('SELECT * from fdh_ins where d_anaconda_id = "LGO_802"');
         foreach ($ins as $key => $value1) {
             $a1  = $value1->HN;
             $a2  = $value1->INSCL;
@@ -859,7 +859,7 @@ class Fdh_LgoController extends Controller
         // $opd_head_pat = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
         $opd_head_pat = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
         fwrite($objFopen_pat, $opd_head_pat);
-        $pat = DB::connection('mysql')->select('SELECT * from fdh_pat where d_anaconda_id = "LGO_801"');
+        $pat = DB::connection('mysql')->select('SELECT * from fdh_pat where d_anaconda_id = "LGO_802"');
         foreach ($pat as $key => $value2) {
             $i1  = $value2->HCODE;
             $i2  = $value2->HN;
@@ -891,7 +891,7 @@ class Fdh_LgoController extends Controller
         // $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC';
         $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT';
         fwrite($objFopen_opd, $opd_head_opd);
-        $opd = DB::connection('mysql')->select('SELECT * from fdh_opd where d_anaconda_id = "LGO_801"');
+        $opd = DB::connection('mysql')->select('SELECT * from fdh_opd where d_anaconda_id = "LGO_802"');
         foreach ($opd as $key => $value3) {
             $o1 = $value3->HN;
             $o2 = $value3->CLINIC;
@@ -922,7 +922,7 @@ class Fdh_LgoController extends Controller
         $objFopen_orf = fopen($file_d_orf, 'w'); 
         $opd_head_orf = 'HN|DATEOPD|CLINIC|REFER|REFERTYPE|SEQ|REFERDATE';
         fwrite($objFopen_orf, $opd_head_orf);
-        $orf = DB::connection('mysql')->select('SELECT * from fdh_orf where d_anaconda_id = "LGO_801"');
+        $orf = DB::connection('mysql')->select('SELECT * from fdh_orf where d_anaconda_id = "LGO_802"');
         foreach ($orf as $key => $value4) {
             $p1 = $value4->HN;
             $p2 = $value4->DATEOPD;
@@ -943,7 +943,7 @@ class Fdh_LgoController extends Controller
         $objFopen_odx = fopen($file_d_odx, 'w'); 
         $opd_head_odx = 'HN|DATEDX|CLINIC|DIAG|DXTYPE|DRDX|PERSON_ID|SEQ';
         fwrite($objFopen_odx, $opd_head_odx);
-        $odx = DB::connection('mysql')->select('SELECT * from fdh_odx where d_anaconda_id = "LGO_801"');
+        $odx = DB::connection('mysql')->select('SELECT * from fdh_odx where d_anaconda_id = "LGO_802"');
         foreach ($odx as $key => $value5) {
             $m1 = $value5->HN;
             $m2 = $value5->DATEDX;
@@ -965,7 +965,7 @@ class Fdh_LgoController extends Controller
         $objFopen_oop = fopen($file_d_oop, 'w'); 
         $opd_head_oop = 'HN|DATEOPD|CLINIC|OPER|DROPID|PERSON_ID|SEQ|SERVPRICE';
         fwrite($objFopen_oop, $opd_head_oop);
-        $oop = DB::connection('mysql')->select('SELECT * from fdh_oop where d_anaconda_id = "LGO_801"');
+        $oop = DB::connection('mysql')->select('SELECT * from fdh_oop where d_anaconda_id = "LGO_802"');
         foreach ($oop as $key => $value6) {
             $n1 = $value6->HN;
             $n2 = $value6->DATEOPD;
@@ -988,7 +988,7 @@ class Fdh_LgoController extends Controller
         $objFopen_ipd = fopen($file_d_ipd, 'w'); 
         $opd_head_ipd = 'HN|AN|DATEADM|TIMEADM|DATEDSC|TIMEDSC|DISCHS|DISCHT|WARDDSC|DEPT|ADM_W|UUC|SVCTYPE';
         fwrite($objFopen_ipd, $opd_head_ipd);
-        $ipd = DB::connection('mysql')->select('SELECT * from fdh_ipd where d_anaconda_id = "LGO_801"');
+        $ipd = DB::connection('mysql')->select('SELECT * from fdh_ipd where d_anaconda_id = "LGO_802"');
         foreach ($ipd as $key => $value7) {
             $j1 = $value7->HN;
             $j2 = $value7->AN;
@@ -1015,7 +1015,7 @@ class Fdh_LgoController extends Controller
         $objFopen_irf = fopen($file_d_irf, 'w'); 
         $opd_head_irf = 'AN|REFER|REFERTYPE';
         fwrite($objFopen_irf, $opd_head_irf);
-        $irf = DB::connection('mysql')->select('SELECT * from fdh_irf where d_anaconda_id = "LGO_801"');
+        $irf = DB::connection('mysql')->select('SELECT * from fdh_irf where d_anaconda_id = "LGO_802"');
         foreach ($irf as $key => $value8) {
             $k1 = $value8->AN;
             $k2 = $value8->REFER;
@@ -1032,7 +1032,7 @@ class Fdh_LgoController extends Controller
         $objFopen_idx = fopen($file_d_idx, 'w'); 
         $opd_head_idx = 'AN|DIAG|DXTYPE|DRDX';
         fwrite($objFopen_idx, $opd_head_idx);
-        $idx = DB::connection('mysql')->select('SELECT * from fdh_idx where d_anaconda_id = "LGO_801"');
+        $idx = DB::connection('mysql')->select('SELECT * from fdh_idx where d_anaconda_id = "LGO_802"');
         foreach ($idx as $key => $value9) {
             $h1 = $value9->AN;
             $h2 = $value9->DIAG;
@@ -1050,7 +1050,7 @@ class Fdh_LgoController extends Controller
         $objFopen_iop = fopen($file_d_iop, 'w'); 
         $opd_head_iop = 'AN|OPER|OPTYPE|DROPID|DATEIN|TIMEIN|DATEOUT|TIMEOUT';
         fwrite($objFopen_iop, $opd_head_iop);
-        $iop = DB::connection('mysql')->select('SELECT * from fdh_iop where d_anaconda_id = "LGO_801"');
+        $iop = DB::connection('mysql')->select('SELECT * from fdh_iop where d_anaconda_id = "LGO_802"');
         foreach ($iop as $key => $value10) {
             $b1 = $value10->AN;
             $b2 = $value10->OPER;
@@ -1073,7 +1073,7 @@ class Fdh_LgoController extends Controller
         $opd_head_cht = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ|OPD_MEMO|INVOICE_NO|INVOICE_LT';
         // $opd_head_cht = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ';
         fwrite($objFopen_cht, $opd_head_cht);
-        $cht = DB::connection('mysql')->select('SELECT * from fdh_cht where d_anaconda_id = "LGO_801"');
+        $cht = DB::connection('mysql')->select('SELECT * from fdh_cht where d_anaconda_id = "LGO_802"');
         foreach ($cht as $key => $value11) {
             $f1 = $value11->HN;
             $f2 = $value11->AN;
@@ -1099,7 +1099,7 @@ class Fdh_LgoController extends Controller
         $objFopen_cha = fopen($file_d_cha, 'w'); 
         $opd_head_cha = 'HN|AN|DATE|CHRGITEM|AMOUNT|PERSON_ID|SEQ';
         fwrite($objFopen_cha, $opd_head_cha);
-        $cha = DB::connection('mysql')->select('SELECT * from fdh_cha where d_anaconda_id = "LGO_801"');
+        $cha = DB::connection('mysql')->select('SELECT * from fdh_cha where d_anaconda_id = "LGO_802"');
         foreach ($cha as $key => $value12) {
             $e1 = $value12->HN;
             $e2 = $value12->AN;
@@ -1120,7 +1120,7 @@ class Fdh_LgoController extends Controller
          $objFopen_aer = fopen($file_d_aer, 'w'); 
          $opd_head_aer = 'HN|AN|DATEOPD|AUTHAE|AEDATE|AETIME|AETYPE|REFER_NO|REFMAINI|IREFTYPE|REFMAINO|OREFTYPE|UCAE|EMTYPE|SEQ|AESTATUS|DALERT|TALERT';
          fwrite($objFopen_aer, $opd_head_aer);
-         $aer = DB::connection('mysql')->select('SELECT * from fdh_aer where d_anaconda_id = "LGO_801"');
+         $aer = DB::connection('mysql')->select('SELECT * from fdh_aer where d_anaconda_id = "LGO_802"');
          foreach ($aer as $key => $value13) {
              $d1 = $value13->HN;
              $d2 = $value13->AN;
@@ -1158,7 +1158,7 @@ class Fdh_LgoController extends Controller
         $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP|LMP';
         
         fwrite($objFopen_adp, $opd_head_adp);
-        $adp = DB::connection('mysql')->select('SELECT * from fdh_adp where d_anaconda_id = "LGO_801"');
+        $adp = DB::connection('mysql')->select('SELECT * from fdh_adp where d_anaconda_id = "LGO_802"');
         foreach ($adp as $key => $value14) {
             $c1  = $value14->HN;
             $c2  = $value14->AN;
@@ -1202,7 +1202,7 @@ class Fdh_LgoController extends Controller
          $objFopen_lvd = fopen($file_d_lvd, 'w'); 
          $opd_head_lvd = 'SEQLVD|AN|DATEOUT|TIMEOUT|DATEIN|TIMEIN|QTYDAY';
          fwrite($objFopen_lvd, $opd_head_lvd);
-         $lvd = DB::connection('mysql')->select('SELECT * from fdh_lvd where d_anaconda_id = "LGO_801"');
+         $lvd = DB::connection('mysql')->select('SELECT * from fdh_lvd where d_anaconda_id = "LGO_802"');
          foreach ($lvd as $key => $value15) {
              $L1 = $value15->SEQLVD;
              $L2 = $value15->AN;
@@ -1227,7 +1227,7 @@ class Fdh_LgoController extends Controller
         $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRICE|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
         fwrite($objFopen_dru, $opd_head_dru);
         // fwrite($objFopen_dru_utf, $opd_head_dru);
-        $dru = DB::connection('mysql')->select('SELECT * from fdh_dru where d_anaconda_id = "LGO_801"');
+        $dru = DB::connection('mysql')->select('SELECT * from fdh_dru where d_anaconda_id = "LGO_802"');
         foreach ($dru as $key => $value16) {
             $g1 = $value16->HCODE;
             $g2 = $value16->HN;
@@ -1298,16 +1298,16 @@ class Fdh_LgoController extends Controller
                             // unlink($file); 
                         } 
                     }                      
-                    return redirect()->route('fdh.lgo_main');                    
+                    return redirect()->route('fdh.lgo_ipdmain');                    
                 }
         } 
 
-            return redirect()->route('fdh.lgo_main');
+            return redirect()->route('fdh.lgo_ipdmain');
 
     }
-    public function lgo_main_zip(Request $request)
+    public function lgo_ipdmain_zip(Request $request)
     {  
-            $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "LGO_801"');
+            $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "LGO_802"');
             foreach ($dataexport_ as $key => $v_export) {
                 $folder = $v_export->folder_name;
             }
@@ -1327,197 +1327,6 @@ class Fdh_LgoController extends Controller
              
     }
 
-    public function lgo_main_rep(Request $request)
-    {
-        $datenow = date('Y-m-d');
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        $datashow = DB::connection('mysql')->select('
-            SELECT rep_a,vstdate_i,SUM(claim_true_af) as Sumprice,STMdoc,month(vstdate_i) as months
-            FROM d_lgo_rep_excel 
-            WHERE claim_true_af <> ""
-            GROUP BY rep_a
-            ');
-        $countc = DB::table('d_lgo_rep_excel')->count();
-        // dd($countc );
-        return view('lgo.lgo_main_rep',[
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate,
-            'datashow'      =>     $datashow,
-            'countc'        =>     $countc
-        ]);
-    }
-    public function lgo_main_repsave(Request $request)
-    { 
-            $this->validate($request, [
-                'file' => 'required|file|mimes:xls,xlsx'
-            ]);
-            $the_file = $request->file('file');
-            $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
-
-            try{
-                $spreadsheet = IOFactory::load($the_file->getRealPath()); 
-                $sheet        = $spreadsheet->setActiveSheetIndex(0);
-                $row_limit    = $sheet->getHighestDataRow();
-                $column_limit = $sheet->getHighestDataColumn();
-                $row_range    = range( 8, $row_limit );
-                $column_range = range( 'AO', $column_limit );
-                $startcount = 8;
-                // $row_range_namefile  = range( 9, $sheet->getCell( 'A' . $row )->getValue() );
-                $data = array();
-                foreach ($row_range as $row ) {
-
-                    $vst = $sheet->getCell( 'I' . $row )->getValue();
-                    // $starttime = substr($vst, 0, 5);
-                    $day = substr($vst,0,2);
-                    $mo = substr($vst,3,2);
-                    $year = substr($vst,6,4);
-                    $vstdate = $year.'-'.$mo.'-'.$day;
-
-                    $dch = $sheet->getCell( 'J' . $row )->getValue();
-                    // $starttime = substr($vst, 0, 5);
-                    $day2 = substr($dch,0,2);
-                    $mo2 = substr($dch,3,2);
-                    $year2 = substr($dch,6,4);
-                    $dchdate = $year2.'-'.$mo2.'-'.$day2;
-  
-                    $k = $sheet->getCell( 'K' . $row )->getValue();
-                    $del_k = str_replace(",","",$k);
-                    $l = $sheet->getCell( 'L' . $row )->getValue();
-                    $del_l = str_replace(",","",$l);
-                    $ad = $sheet->getCell( 'AD' . $row )->getValue();
-                    $del_ad = str_replace(",","",$ad);
-                    $ae = $sheet->getCell( 'AE' . $row )->getValue();
-                    $del_ae = str_replace(",","",$ae);
-                    $af = $sheet->getCell( 'AF' . $row )->getValue();
-                    $del_af = str_replace(",","",$af);
-                    $ag = $sheet->getCell( 'AG' . $row )->getValue();
-                    $del_ag = str_replace(",","",$ag);
-                    $ah = $sheet->getCell( 'AH' . $row )->getValue();
-                    $del_ah = str_replace(",","",$ah);
-                    $ai = $sheet->getCell( 'AI' . $row )->getValue();
-                    $del_ai = str_replace(",","",$ai);
-                    $an = $sheet->getCell( 'AN' . $row )->getValue();
-                    $del_an = str_replace(",","",$an);
-                    $ao = $sheet->getCell( 'AO' . $row )->getValue();
-                    $del_ao = str_replace(",","",$ao);
-                    $ap = $sheet->getCell( 'AP' . $row )->getValue();
-                    $del_ap = str_replace(",","",$ap);
-                    $aq = $sheet->getCell( 'AQ' . $row )->getValue();
-                    $del_aq = str_replace(",","",$aq);
-                    $ar = $sheet->getCell( 'AR' . $row )->getValue();
-                    $del_ar = str_replace(",","",$ar);
-                    $as = $sheet->getCell( 'AS' . $row )->getValue();
-                    $del_as = str_replace(",","",$as);
-                    $at = $sheet->getCell( 'AT' . $row )->getValue();
-                    $del_at = str_replace(",","",$at);
-                    $au = $sheet->getCell( 'AU' . $row )->getValue();
-                    $del_au = str_replace(",","",$au);
-                        $data[] = [
-                            'rep_a'                   =>$sheet->getCell( 'A' . $row )->getValue(),
-                            'no_b'                    =>$sheet->getCell( 'B' . $row )->getValue(),
-                            'tranid_c'                =>$sheet->getCell( 'C' . $row )->getValue(),
-                            'hn_d'                    =>$sheet->getCell( 'D' . $row )->getValue(),
-                            'an_e'                    =>$sheet->getCell( 'E' . $row )->getValue(),
-                            'cid_f'                   =>$sheet->getCell( 'F' . $row )->getValue(),
-                            'fullname_g'              =>$sheet->getCell( 'G' . $row )->getValue(),
-                            'type_h'                  =>$sheet->getCell( 'H' . $row )->getValue(),
-                            'vstdate_i'               =>$vstdate,
-                            'dchdate_j'               =>$dchdate, 
-                            'price1_k'                =>$del_k,
-                            'pp_spsch_l'              =>$del_l,
-                            'errorcode_m'             =>$sheet->getCell( 'M' . $row )->getValue(),
-                            'kongtoon_n'              =>$sheet->getCell( 'N' . $row )->getValue(),
-                            'typeservice_o'           =>$sheet->getCell( 'O' . $row )->getValue(),
-                            'refer_p'                 =>$sheet->getCell( 'P' . $row )->getValue(),
-                            'pttype_have_q'           =>$sheet->getCell( 'Q' . $row )->getValue(),
-                            'pttype_true_r'           =>$sheet->getCell( 'R' . $row )->getValue(),
-                            'mian_pttype_s'           =>$sheet->getCell( 'S' . $row )->getValue(),
-                            'secon_pttype_t'          =>$sheet->getCell( 'T' . $row )->getValue(),
-                            'href_u'                  =>$sheet->getCell( 'U' . $row )->getValue(),
-                            'HCODE_v'                 =>$sheet->getCell( 'V' . $row )->getValue(),
-                            'prov1_w'                 =>$sheet->getCell( 'W' . $row )->getValue(),
-                            'code_dep_x'              =>$sheet->getCell( 'X' . $row )->getValue(),
-                            'name_dep_y'              =>$sheet->getCell( 'Y' . $row )->getValue(),
-                            'proj_z'                  =>$sheet->getCell( 'Z' . $row )->getValue(),
-                            'pa_aa'                   =>$sheet->getCell( 'AA' . $row )->getValue(),
-                            'drg_ab'                  =>$sheet->getCell( 'AB' . $row )->getValue(),
-                            'rw_ac'                   =>$sheet->getCell( 'AC' . $row )->getValue(),
-                            'income_ad'               =>$del_ad,
-                            'pp_gep_ae'               =>$del_ae,
-                            'claim_true_af'           =>$del_af,
-                            'claim_false_ag'          =>$del_ag,
-                            'cash_money_ah'           =>$del_ah,
-                            'pay_ai'                  =>$del_ai,
-                            'ps_aj'                   =>$sheet->getCell( 'AJ' . $row )->getValue(),
-                            'ps_percent_ak'           =>$sheet->getCell( 'AK' . $row )->getValue(),
-                            'ccuf_al'                 =>$sheet->getCell( 'AL' . $row )->getValue(),
-                            'AdjRW_am'                =>$sheet->getCell( 'AM' . $row )->getValue(),
-                            'plb_an'                  =>$del_an,
-                            'IPLG_ao'                 =>$del_ao,
-                            'OPLG_ap'                 =>$del_ap,
-                            'PALG_aq'                 =>$del_aq,
-                            'INSTLG_ar'               =>$del_ar,
-                            'OTLG_as'                 =>$del_as,
-                            'PP_at'                   =>$del_at,
-                            'DRUG_au'                 =>$del_au,
-                            'IPLG2'                   =>$sheet->getCell( 'AV' . $row )->getValue(),
-                            'OPLG2'                   =>$sheet->getCell( 'AW' . $row )->getValue(),
-                            'PALG2'                   =>$sheet->getCell( 'AX' . $row )->getValue(),
-                            'INSTLG2'                 =>$sheet->getCell( 'AY' . $row )->getValue(),
-                            'OTLG2'                   =>$sheet->getCell( 'AZ' . $row )->getValue(),
-                            'ORS'                     =>$sheet->getCell( 'BA' . $row )->getValue(),
-                            'VA'                      =>$sheet->getCell( 'BB' . $row )->getValue(),
-                            'STMdoc'                  =>$file_
-                        ]; 
-                    $startcount++;
-                    
-                }
-                $for_insert = array_chunk($data, length:1000);
-                foreach ($for_insert as $key => $data_) {                     
-                    D_lgo_rep_excel::insert($data_);                       
-                }
-             
-            } catch (Exception $e) {
-                $error_code = $e->errorInfo[1];
-                return back()->withErrors('There was a problem uploading the data!');
-            }
-               return response()->json([
-                'status'    => '200',
-            ]);
-    }
-
-    public function lgo_main_repsenddata(Request $request)
-    {
-        $data_ = DB::connection('mysql')->select('
-            SELECT * FROM d_lgo_rep_excel
-            WHERE claim_true_af <> "" 
-        '); 
-        foreach ($data_ as $key => $value) {
-                $check = D_fdh::where('hn',$value->hn_d)->where('vstdate',$value->vstdate_i)->count();
-                if ($check  > 0) { 
-                    D_fdh::where('hn',$value->hn_d)->where('vstdate',$value->vstdate_i)
-                    ->update([ 
-                        'debit_rep'       => $value->claim_true_af, 
-                        'STMdoc'          => $value->STMdoc,
-                    ]); 
-                } 
-                 
-        }
-        D_lgo_rep_excel::truncate();
-      
-        return redirect()->back();
-    }
-    public function lgo_main_report(Request $request)
-    { 
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE pttype IN("L1","L2","L3","L4","l5","l6") AND vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" ORDER BY vn ASC');
-        
-        return view('lgo.lgo_main_report',$data,[
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate, 
-        ]);
-    }
+     
      
 }

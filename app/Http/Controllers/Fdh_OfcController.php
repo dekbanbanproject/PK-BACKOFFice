@@ -294,7 +294,7 @@ class Fdh_OfcController extends Controller
                     ,DATE_FORMAT(if(i.an is null,v.pttype_begin,ap.begin_date), "%Y%m%d") DATEIN
                     ,DATE_FORMAT(if(i.an is null,v.pttype_expire,ap.expire_date), "%Y%m%d") DATEEXP
                     ,if(i.an is null,v.hospmain,ap.hospmain) HOSPMAIN,if(i.an is null,v.hospsub,ap.hospsub) HOSPSUB,"" GOVCODE ,"" GOVNAME
-                    ,ifnull(if(i.an is null,r.sss_approval_code,ap.claim_code),ca.claimcode) PERMITNO
+                    ,ifnull(if(i.an is null,r.sss_approval_code,ap.claim_code),vp.claim_code) PERMITNO
                     ,"" DOCNO ,"" OWNRPID,"" OWNNAME ,i.an AN ,v.vn SEQ ,"" SUBINSCL,"" RELINSCL
                     ,"" HTYPE
                     FROM vn_stat v
@@ -305,7 +305,7 @@ class Fdh_OfcController extends Controller
                     LEFT OUTER JOIN visit_pttype vp on vp.vn = v.vn
                     LEFT OUTER JOIN rcpt_debt r on r.vn = v.vn
                     LEFT OUTER JOIN patient px on px.hn = v.hn   
-                    LEFT OUTER JOIN check_authen_hos ca on ca.vn = v.vn   
+                    
                     WHERE v.vn IN("'.$va1->vn.'")  
                     GROUP BY v.vn 
                 ');
@@ -441,7 +441,7 @@ class Fdh_OfcController extends Controller
                  // D_odx OK
                  $data_odx_ = DB::connection('mysql2')->select(
                     'SELECT v.hn as HN,DATE_FORMAT(v.vstdate,"%Y%m%d") as DATEDX,v.spclty as CLINIC,o.icd10 as DIAG,o.diagtype as DXTYPE
-                        ,if(d.licenseno="","-99999",d.licenseno) as DRDX,v.cid as PERSON_ID ,v.vn as SEQ
+                        ,if(d.licenseno="","ว64919",d.licenseno) as DRDX,v.cid as PERSON_ID ,v.vn as SEQ
                         FROM vn_stat v
                         LEFT OUTER JOIN ovstdiag o on o.vn = v.vn
                         LEFT OUTER JOIN doctor d on d.`code` = o.doctor
@@ -468,7 +468,7 @@ class Fdh_OfcController extends Controller
                  //D_oop OK
                  $data_oop_ = DB::connection('mysql2')->select(
                     'SELECT v.hn as HN,DATE_FORMAT(v.vstdate,"%Y%m%d") as DATEOPD,v.spclty as CLINIC,o.icd10 as OPER
-                    ,if(d.licenseno="","-99999",d.licenseno) as DROPID,pt.cid as PERSON_ID ,v.vn as SEQ ,""SERVPRICE
+                    ,if(d.licenseno="","ว64919",d.licenseno) as DROPID,pt.cid as PERSON_ID ,v.vn as SEQ ,""SERVPRICE
                     FROM vn_stat v
                     LEFT OUTER JOIN ovstdiag o on o.vn = v.vn
                     LEFT OUTER JOIN patient pt on v.hn=pt.hn
@@ -545,7 +545,7 @@ class Fdh_OfcController extends Controller
                 }                 
                 //D_idx OK 
                 $data_idx_ = DB::connection('mysql2')->select(
-                    'SELECT v.an AN,o.icd10 DIAG,o.diagtype DXTYPE,if(d.licenseno="","-99999",d.licenseno) DRDX
+                    'SELECT v.an AN,o.icd10 DIAG,o.diagtype DXTYPE,if(d.licenseno="","ว64919",d.licenseno) DRDX
                         FROM an_stat v
                         LEFT OUTER JOIN iptdiag o on o.an = v.an
                         LEFT OUTER JOIN doctor d on d.`code` = o.doctor
@@ -566,7 +566,7 @@ class Fdh_OfcController extends Controller
                 }
                 //D_iop OK
                 $data_iop_ = DB::connection('mysql2')->select(
-                    'SELECT a.an AN,o.icd9 OPER,o.oper_type as OPTYPE,if(d.licenseno="","-99999",d.licenseno) DROPID,DATE_FORMAT(o.opdate,"%Y%m%d") DATEIN,Time_format(o.optime,"%H%i") TIMEIN
+                    'SELECT a.an AN,o.icd9 OPER,o.oper_type as OPTYPE,if(d.licenseno="","ว64919",d.licenseno) DROPID,DATE_FORMAT(o.opdate,"%Y%m%d") DATEIN,Time_format(o.optime,"%H%i") TIMEIN
                     ,DATE_FORMAT(o.enddate,"%Y%m%d") DATEOUT,Time_format(o.endtime,"%H%i") TIMEOUT
                     FROM an_stat a
                     LEFT OUTER JOIN iptoprt o on o.an = a.an
@@ -866,7 +866,7 @@ class Fdh_OfcController extends Controller
                 ->update([
                     'active' => 'Y'
                 ]);
-                Fdh_dru::where('DID', '=', '1500101')->delete();
+                Fdh_dru::where('DID', '=', '1500101')->delete(); 
                 //  D_ofc_401::whereIn('d_ofc_401_id',explode(",",$id))
                 //         ->update([
                 //             'active' => 'Y'
@@ -882,7 +882,7 @@ class Fdh_OfcController extends Controller
     {
         #delete file in folder ทั้งหมด
         $file_ = new Filesystem;
-        $file_->cleanDirectory('Export'); //ทั้งหมด
+        $file_->cleanDirectory('Export_OFC'); //ทั้งหมด
       
         $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "OFC_401"');
         foreach ($dataexport_ as $key => $v_export) {
@@ -890,7 +890,7 @@ class Fdh_OfcController extends Controller
         }
         $folder = $folder_;
 
-        mkdir ('Export/'.$folder, 0777, true);  //Web
+        mkdir ('Export_OFC/'.$folder, 0777, true);  //Web
         //  mkdir ('C:Export/'.$folder, 0777, true); //localhost
 
         header("Content-type: text/txt");
@@ -898,7 +898,7 @@ class Fdh_OfcController extends Controller
         header('Content-Disposition: attachment; filename="content.txt"; charset=tis-620″ ;');
 
        //1 ins.txt
-       $file_d_ins = "Export/".$folder."/INS.txt";
+       $file_d_ins = "Export_OFC/".$folder."/INS.txt";
        $objFopen_ins = fopen($file_d_ins, 'w'); 
        // $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
        // $opd_head = 'HN|INSCL|SUBTYPE|CID|HCODE|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
@@ -939,7 +939,7 @@ class Fdh_OfcController extends Controller
        fclose($objFopen_ins); 
 
        //2 pat.txt
-       $file_d_pat = "Export/".$folder."/PAT.txt";
+       $file_d_pat = "Export_OFC/".$folder."/PAT.txt";
        $objFopen_pat = fopen($file_d_pat, 'w'); 
        // $opd_head_pat = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
        $opd_head_pat = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
@@ -970,12 +970,12 @@ class Fdh_OfcController extends Controller
        
 
        //3 opd.txt
-       $file_d_opd = "Export/".$folder."/OPD.txt";
+       $file_d_opd = "Export_OFC/".$folder."/OPD.txt";
        $objFopen_opd = fopen($file_d_opd, 'w');
     
        // $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC';
-       // $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT';
-       $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC';
+       $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT';
+    //    $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC';
        fwrite($objFopen_opd, $opd_head_opd);
        $opd = DB::connection('mysql')->select('SELECT * from fdh_opd where d_anaconda_id = "OFC_401"');
        foreach ($opd as $key => $value3) {
@@ -985,17 +985,17 @@ class Fdh_OfcController extends Controller
            $o4 = $value3->TIMEOPD; 
            $o5 = $value3->SEQ; 
            $o6 = $value3->UUC; 
-           // $o7 = $value3->DETAIL; 
-           // $o8 = $value3->BTEMP; 
-           // $o9 = $value3->SBP; 
-           // $o10 = $value3->DBP; 
-           // $o11 = $value3->PR; 
-           // $o12 = $value3->RR; 
-           // $o13 = $value3->OPTYPE; 
-           // $o14 = $value3->TYPEIN;  
-           // $o15 = $value3->TYPEOUT;
-           $str_opd="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6; 
-           // $str_opd ="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6."|".$o7."|".$o8."|".$o9."|".$o10."|".$o11."|".$o12."|".$o13."|".$o14."|".$o15;
+           $o7 = $value3->DETAIL; 
+           $o8 = $value3->BTEMP; 
+           $o9 = $value3->SBP; 
+           $o10 = $value3->DBP; 
+           $o11 = $value3->PR; 
+           $o12 = $value3->RR; 
+           $o13 = $value3->OPTYPE; 
+           $o14 = $value3->TYPEIN;  
+           $o15 = $value3->TYPEOUT;
+        //    $str_opd="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6; 
+           $str_opd ="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6."|".$o7."|".$o8."|".$o9."|".$o10."|".$o11."|".$o12."|".$o13."|".$o14."|".$o15;
            $str_opd_30 = preg_replace("/\n/", "\r\n", $str_opd); 
            $str_opd_31 = mb_convert_encoding($str_opd_30, 'UTF-8');   
            fwrite($objFopen_opd, $str_opd_31);  
@@ -1004,7 +1004,7 @@ class Fdh_OfcController extends Controller
       
 
        //4 orf.txt
-       $file_d_orf = "Export/".$folder."/ORF.txt";
+       $file_d_orf = "Export_OFC/".$folder."/ORF.txt";
        $objFopen_orf = fopen($file_d_orf, 'w'); 
        $opd_head_orf = 'HN|DATEOPD|CLINIC|REFER|REFERTYPE|SEQ|REFERDATE';
        fwrite($objFopen_orf, $opd_head_orf);
@@ -1025,7 +1025,7 @@ class Fdh_OfcController extends Controller
        fclose($objFopen_orf);        
 
        //5 odx.txt
-       $file_d_odx = "Export/".$folder."/ODX.txt";
+       $file_d_odx = "Export_OFC/".$folder."/ODX.txt";
        $objFopen_odx = fopen($file_d_odx, 'w'); 
        $opd_head_odx = 'HN|DATEDX|CLINIC|DIAG|DXTYPE|DRDX|PERSON_ID|SEQ';
        fwrite($objFopen_odx, $opd_head_odx);
@@ -1047,7 +1047,7 @@ class Fdh_OfcController extends Controller
        fclose($objFopen_odx); 
 
        //6 oop.txt
-       $file_d_oop = "Export/".$folder."/OOP.txt";
+       $file_d_oop = "Export_OFC/".$folder."/OOP.txt";
        $objFopen_oop = fopen($file_d_oop, 'w'); 
        $opd_head_oop = 'HN|DATEOPD|CLINIC|OPER|DROPID|PERSON_ID|SEQ|SERVPRICE';
        fwrite($objFopen_oop, $opd_head_oop);
@@ -1070,7 +1070,7 @@ class Fdh_OfcController extends Controller
        fclose($objFopen_oop); 
 
        //7 ipd.txt
-       $file_d_ipd = "Export/".$folder."/IPD.txt";
+       $file_d_ipd = "Export_OFC/".$folder."/IPD.txt";
        $objFopen_ipd = fopen($file_d_ipd, 'w'); 
        $opd_head_ipd = 'HN|AN|DATEADM|TIMEADM|DATEDSC|TIMEDSC|DISCHS|DISCHT|WARDDSC|DEPT|ADM_W|UUC|SVCTYPE';
        fwrite($objFopen_ipd, $opd_head_ipd);
@@ -1097,7 +1097,7 @@ class Fdh_OfcController extends Controller
        fclose($objFopen_ipd); 
 
        //8 irf.txt
-       $file_d_irf = "Export/".$folder."/IRF.txt";
+       $file_d_irf = "Export_OFC/".$folder."/IRF.txt";
        $objFopen_irf = fopen($file_d_irf, 'w'); 
        $opd_head_irf = 'AN|REFER|REFERTYPE';
        fwrite($objFopen_irf, $opd_head_irf);
@@ -1114,7 +1114,7 @@ class Fdh_OfcController extends Controller
        fclose($objFopen_irf); 
 
        //9 idx.txt
-       $file_d_idx = "Export/".$folder."/IDX.txt";
+       $file_d_idx = "Export_OFC/".$folder."/IDX.txt";
        $objFopen_idx = fopen($file_d_idx, 'w'); 
        $opd_head_idx = 'AN|DIAG|DXTYPE|DRDX';
        fwrite($objFopen_idx, $opd_head_idx);
@@ -1132,7 +1132,7 @@ class Fdh_OfcController extends Controller
        fclose($objFopen_idx); 
                   
        //10 iop.txt
-       $file_d_iop = "Export/".$folder."/IOP.txt";
+       $file_d_iop = "Export_OFC/".$folder."/IOP.txt";
        $objFopen_iop = fopen($file_d_iop, 'w'); 
        $opd_head_iop = 'AN|OPER|OPTYPE|DROPID|DATEIN|TIMEIN|DATEOUT|TIMEOUT';
        fwrite($objFopen_iop, $opd_head_iop);
@@ -1154,7 +1154,7 @@ class Fdh_OfcController extends Controller
        fclose($objFopen_iop); 
        
        //11 cht.txt
-       $file_d_cht = "Export/".$folder."/CHT.txt";
+       $file_d_cht = "Export_OFC/".$folder."/CHT.txt";
        $objFopen_cht = fopen($file_d_cht, 'w'); 
        $opd_head_cht = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ|OPD_MEMO|INVOICE_NO|INVOICE_LT';
        // $opd_head_cht = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ';
@@ -1181,7 +1181,7 @@ class Fdh_OfcController extends Controller
        fclose($objFopen_cht); 
 
        //12 cha.txt
-       $file_d_cha = "Export/".$folder."/CHA.txt";
+       $file_d_cha = "Export_OFC/".$folder."/CHA.txt";
        $objFopen_cha = fopen($file_d_cha, 'w'); 
        $opd_head_cha = 'HN|AN|DATE|CHRGITEM|AMOUNT|PERSON_ID|SEQ';
        fwrite($objFopen_cha, $opd_head_cha);
@@ -1202,7 +1202,7 @@ class Fdh_OfcController extends Controller
        fclose($objFopen_cha); 
 
         //13 aer.txt
-        $file_d_aer = "Export/".$folder."/AER.txt";
+        $file_d_aer = "Export_OFC/".$folder."/AER.txt";
         $objFopen_aer = fopen($file_d_aer, 'w'); 
         $opd_head_aer = 'HN|AN|DATEOPD|AUTHAE|AEDATE|AETIME|AETYPE|REFER_NO|REFMAINI|IREFTYPE|REFMAINO|OREFTYPE|UCAE|EMTYPE|SEQ|AESTATUS|DALERT|TALERT';
         fwrite($objFopen_aer, $opd_head_aer);
@@ -1235,7 +1235,7 @@ class Fdh_OfcController extends Controller
         fclose($objFopen_aer); 
                   
        //14 adp.txt
-       $file_d_adp = "Export/".$folder."/ADP.txt";
+       $file_d_adp = "Export_OFC/".$folder."/ADP.txt";
        $objFopen_adp = fopen($file_d_adp, 'w'); 
        // $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP/E_screen|LMP|SP_ITEM';
        // $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP/E_screen|LMP|SP_ITEM';
@@ -1283,7 +1283,7 @@ class Fdh_OfcController extends Controller
        fclose($objFopen_adp); 
        
         //15 lvd.txt
-        $file_d_lvd = "Export/".$folder."/LVD.txt";
+        $file_d_lvd = "Export_OFC/".$folder."/LVD.txt";
         $objFopen_lvd = fopen($file_d_lvd, 'w'); 
         $opd_head_lvd = 'SEQLVD|AN|DATEOUT|TIMEOUT|DATEIN|TIMEIN|QTYDAY';
         fwrite($objFopen_lvd, $opd_head_lvd);
@@ -1306,7 +1306,7 @@ class Fdh_OfcController extends Controller
 
        
        //16 dru.txt
-       $file_d_dru = "Export/".$folder."/DRU.txt";
+       $file_d_dru = "Export_OFC/".$folder."/DRU.txt";
        $objFopen_dru = fopen($file_d_dru, 'w');
        // $objFopen_dru_utf = fopen($file_d_dru, 'w');
        // $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER|SP_ITEM';
@@ -1356,7 +1356,7 @@ class Fdh_OfcController extends Controller
         //  fwrite($objFopen_lab, $opd_head_lab);
         //  fclose($objFopen_lab);
 
-            $pathdir =  "Export/".$folder."/";
+            $pathdir =  "Export_OFC/".$folder."/";
             $zipcreated = $folder.".zip";
 
             $newzip = new ZipArchive;
@@ -1400,7 +1400,7 @@ class Fdh_OfcController extends Controller
             $zip = new ZipArchive;
             if($zip->open(public_path($filename), ZipArchive::CREATE ) === TRUE)
              { 
-                $files = File::files(public_path("Export/".$folder."/"));
+                $files = File::files(public_path("Export_OFC/".$folder."/"));
                 foreach ($files as $key => $value) {
                     $relativenameInZipFile = basename($value);
                     $zip->addFile($value,$relativenameInZipFile); 

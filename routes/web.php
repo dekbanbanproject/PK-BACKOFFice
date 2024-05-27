@@ -3231,15 +3231,21 @@ Route::match(['get','post'],'ofc_ipd_active',[App\Http\Controllers\Fdh_OfcipdCon
 Route::match(['get','post'],'ofc_ipd_export',[App\Http\Controllers\Fdh_OfcipdController::class, 'ofc_ipd_export'])->name('fdh.ofc_ipd_export');//
 Route::match(['get','post'],'ofc_ipd_zip',[App\Http\Controllers\Fdh_OfcipdController::class, 'ofc_ipd_zip'])->name('fdh.ofc_ipd_zip');//
 
-// *******************FDH LGO *******************
+// *******************FDH OPD-IPD LGO *******************
 Route::match(['get','post'],'lgo_main',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main'])->name('fdh.lgo_main');//
 Route::match(['get','post'],'lgo_main_process',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main_process'])->name('fdh.lgo_main_process');//
 Route::match(['get','post'],'lgo_main_export',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main_export'])->name('fdh.lgo_main_export');//
+Route::match(['get','post'],'lgo_main_zip',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main_zip'])->name('fdh.lgo_main_zip');//
 Route::match(['get','post'],'lgo_main_rep',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main_rep'])->name('fdh.lgo_main_rep');//
 Route::match(['get','post'],'lgo_main_repsave',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main_repsave'])->name('fdh.lgo_main_repsave');//
 Route::match(['get','post'],'lgo_main_repsenddata',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main_repsenddata'])->name('fdh.lgo_main_repsenddata');//
 Route::match(['get','post'],'lgo_main_report',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main_report'])->name('fdh.lgo_main_report');//
 
+Route::match(['get','post'],'lgo_ipdmain',[App\Http\Controllers\Fdh_LgoIpdController::class, 'lgo_ipdmain'])->name('fdh.lgo_ipdmain');//
+Route::match(['get','post'],'lgo_ipdmain_process',[App\Http\Controllers\Fdh_LgoIpdController::class, 'lgo_ipdmain_process'])->name('fdh.lgo_ipdmain_process');//
+Route::match(['get','post'],'lgo_ipdmain_export',[App\Http\Controllers\Fdh_LgoIpdController::class, 'lgo_ipdmain_export'])->name('fdh.lgo_ipdmain_export');//
+Route::match(['get','post'],'lgo_ipdmain_zip',[App\Http\Controllers\Fdh_LgoIpdController::class, 'lgo_ipdmain_zip'])->name('fdh.lgo_ipdmain_zip');//
+ 
 
 // *******************FDH LGO *******************
 // Route::match(['get','post'],'lgo_main',[App\Http\Controllers\Fdh_LgoController::class, 'lgo_main'])->name('fdh.lgo_main');//
