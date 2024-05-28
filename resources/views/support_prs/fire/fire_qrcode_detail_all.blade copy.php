@@ -66,27 +66,28 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
     <body onload="window.print()">
         {{-- <body>  --}}
         <div class="container">
-            <div class="row mt-4">
+            <div class="row mt-5">
 
                 {{-- @for($count = 1; $count <= $dataprint_main->lastPage(); $count++ ) --}}
-
-                    
-
                         <?php $i = 0; ?>
                         @foreach ($dataprint_main as $key => $item)
                         <?php $i++; ?>
-                            <div class="col-md-2 text-center">
-                                <div class="card mb-5 mt-5"
-                                    style="max-width: 25rem;border-color:rgb(193, 20, 236);background-color:rgb(218, 250, 248);border-radius: 2em 2em 2em 2em">
-                                    <div class="body"><br>
-                                        {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/' . $item->fire_num) !!}
-                                        <hr style="color:rgb(193, 20, 236)">
-                                        <p style="font-size: 17px;color:rgb(193, 20, 236)"> รหัส {{ $item->fire_num }} <br>
-                                            แสกนดูผลตรวจสอบ</p>
+                                <div class="col-md-2 text-center">
+                                    <div class="card mb-3"
+                                        style="max-width: 25rem;border-color:rgb(193, 20, 236);background-color:rgb(218, 250, 248);border-radius: 2em 2em 2em 2em">
+                                        <div class="body"><br>
+                                            {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/' . $item->fire_num) !!}
+                                            <hr style="color:rgb(193, 20, 236)">
+                                            <p style="font-size: 17px;color:rgb(193, 20, 236)"> รหัส {{ $item->fire_num }} <br>
+                                                แสกนดูผลตรวจสอบ</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                               
+                            @if ($i === 12) 
                            
+                                <?php break; ?>  
+                            @endif  
                             
                         @endforeach
                         {{-- @if($count <$dataprint_main->lastPage())
@@ -95,7 +96,31 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
                 {{-- @endfor --}}
                 {{-- {{ $dataprint_main->links() }} --}}
             </div>
-            
+            <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>  
+                {{-- <div class="row mt-5"> 
+                <?php $ii = 12; ?>
+                @foreach ($dataprint_main as $key => $item2)
+                <?php $ii++; ?>
+                        <div class="col-md-2 text-center">
+                            <div class="card mb-3"
+                                style="max-width: 25rem;border-color:rgb(193, 20, 236);background-color:rgb(218, 250, 248);border-radius: 2em 2em 2em 2em">
+                                <div class="body"><br>
+                                    {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/' . $item2->fire_num) !!}
+                                    <hr style="color:rgb(193, 20, 236)">
+                                    <p style="font-size: 17px;color:rgb(193, 20, 236)"> รหัส {{ $item2->fire_num }} <br>
+                                        แสกนดูผลตรวจสอบ</p>
+                                </div>
+                            </div>
+                        </div>
+                    @if ($ii === 24) 
+                        <?php break; ?>  
+                    @endif  
+                    
+                @endforeach
+
+
+            </div> --}}
+
         </div>  
 
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"

@@ -69,8 +69,9 @@ Route::match(['get','post'],'ktb_test',[App\Http\Controllers\KTBAPIController::c
 Route::match(['get','post'],'treedoc',[App\Http\Controllers\KTBController::class,'treedoc'])->name('ktb.treedoc');//
 
 // *******************ทาลัสซีเมีย OPD IPD*******************
-Route::match(['get','post'],'thalassemia_opd',[App\Http\Controllers\D_thalassemiaController::class, 'thalassemia_opd'])->name('claim.thalassemia_opd');//
-Route::match(['get','post'],'thalassemia_ipd',[App\Http\Controllers\D_thalassemiaController::class, 'thalassemia_ipd'])->name('claim.thalassemia_ipd');//
+Route::match(['get','post'],'thalassemia_opd_new',[App\Http\Controllers\D_thalassemiaController::class, 'thalassemia_opd_new'])->name('t.thalassemia_opd_new');//
+Route::match(['get','post'],'thalassemia_ipd_new',[App\Http\Controllers\D_thalassemiaController::class, 'thalassemia_ipd_new'])->name('t.thalassemia_ipd_new');//
+Route::match(['get','post'],'getimage/{id}',[App\Http\Controllers\D_thalassemiaController::class, 'getimage'])->name('t.getimage');//
 
 Route::match(['get','post'],'acc_test',[App\Http\Controllers\AccController::class,'acc_test'])->name('ktb.acc_test');
 
@@ -2458,6 +2459,7 @@ Route::middleware(['type'])->group(function(){
      Route::match(['get','post'],'anc_14001_pull2',[App\Http\Controllers\PPFSController::class, 'anc_14001_pull2'])->name('claim.anc_14001_pull2');//
 
       // **************************** Anc  ***********************
+      Route::match(['get','post'],'prenatal_care_db',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_db'])->name('anc.prenatal_care_db');//
       Route::match(['get','post'],'prenatal_care',[App\Http\Controllers\PediaricsController::class, 'prenatal_care'])->name('anc.prenatal_care');//
       Route::match(['get','post'],'prenatal_care_doctor/{doctor}/{year}',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_doctor'])->name('anc.prenatal_care_doctor');//
       Route::match(['get','post'],'prenatal_care_pdx/{pdx}/{doctor}/{year}',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_pdx'])->name('anc.prenatal_care_pdx');//
@@ -2467,6 +2469,8 @@ Route::middleware(['type'])->group(function(){
       Route::match(['get','post'],'prenatal_care_bar',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_bar'])->name('anc.prenatal_care_bar');//
       Route::match(['get','post'],'prenatal_care_andiag/{an}',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_andiag'])->name('anc.prenatal_care_andiag');//
       Route::match(['get','post'],'prenatal_care_ankph/{an}',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_ankph'])->name('anc.prenatal_care_ankph');//
+
+
 
 
 
@@ -3287,6 +3291,7 @@ Route::match(['get','post'],'audit_pdx_detail/{month}/{year}',[App\Http\Controll
 // **************************** ทาลัสซีเมีย **********************************************
 Route::match(['get','post'],'talassemaie',[App\Http\Controllers\PreauditController::class, 'talassemaie'])->name('audit.talassemaie');
 Route::match(['get','post'],'talassemaie_detail/{month}/{year}',[App\Http\Controllers\PreauditController::class, 'talassemaie_detail'])->name('audit.talassemaie_detail');
+
 // **************************** FDH **********************************************
 Route::match(['get','post'],'fdh_mini_dataset',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset'])->name('fdh.fdh_mini_dataset');
 Route::match(['get','post'],'fdh_mini_dataset_api',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_api'])->name('fdh.fdh_mini_dataset_api');

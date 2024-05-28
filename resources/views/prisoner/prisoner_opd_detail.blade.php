@@ -1,4 +1,4 @@
-@extends('layouts.report_font')
+@extends('layouts.pkclaim')
 @section('title', 'PK-OFFICE || Detail')
 @section('content')
 <style>
@@ -72,19 +72,19 @@
                                 <thead>
                                     <tr>
                                         <th>ลำดับ</th> 
-                                        <th>hn</th>
-                                        <th>vn</th>
+                                        {{-- <th>hn</th> --}}
+                                        {{-- <th>vn</th> --}}
                                         <th>cid</th> 
                                         <th>vstdate</th>
                                         <th>fullname</th> 
-                                        <th>pttype</th> 
+                                        {{-- <th>pttype</th>  --}}
                                         {{-- <th>pttypename</th>  --}}
-                                        <th>pdx</th> 
+                                        {{-- <th>pdx</th>  --}}
                                         <th>money_hosxp</th>  
                                         <th>rcpt_money</th>  
                                         <th>debit</th> 
-                                        <th>rcpno</th> 
-                                        <th>amountpay</th>
+                                        {{-- <th>rcpno</th>  --}}
+                                        {{-- <th>amountpay</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -92,12 +92,12 @@
                                     @foreach ($datashow as $item)  
                                         <tr>
                                             <td>{{ $ia++ }}</td>
-                                            <td>{{ $item->hn }}</td> 
-                                            <td>{{ $item->vn }}</td>   
+                                            {{-- <td>{{ $item->hn }}</td>  --}}
+                                            {{-- <td>{{ $item->vn }}</td>    --}}
                                             <td>{{ $item->cid }}</td> 
                                             <td>{{ DateThai($item->vstdate )}}</td>  
                                             <td class="p-2">{{ $item->fullname }}</td> 
-                                            <td> 
+                                            {{-- <td> 
                                                 <?php                                                       
                                                         $pttype_hos = DB::connection('mysql3')->table('pttype')->where('pttype','=',$item->pttype)->first();
                                                         $d = $pttype_hos->name;
@@ -105,17 +105,17 @@
                                                  <button type="button" class="btn btn-icon btn-shadow btn-dashed btn-outline-danger" data-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=" {{$d}}">
                                                     {{ $item->pttype }}
                                                 </button> 
-                                            </td>  
+                                            </td>   --}}
                                             {{-- <td class="p-2">{{ $item->tname }}</td>    --}}
-                                            <td>{{ $item->pdx }}</td> 
+                                            {{-- <td>{{ $item->pdx }}</td>  --}}
                                             <td>
                                                 
                                                  <button type="button" class="btn btn-icon btn-shadow btn-dashed btn-outline-primary" data-bs-toggle="modal" data-bs-target="#DetailModal{{ $item->vn }}" data-bs-placement="right" title="ค่าใช้จ่าย">{{ number_format($item->money_hosxp,2)}} </button>                                                
                                             </td>                                            
                                             <td>{{ number_format($item->rcpt_money,2) }}</td> 
                                             <td>{{ number_format($item->debit,2) }}</td> 
-                                            <td>{{ $item->rcpno }}</td>  
-                                            <td>{{ number_format($item->AMOUNTPAY,2) }}</td> 
+                                            {{-- <td>{{ $item->rcpno }}</td>   --}}
+                                            {{-- <td>{{ number_format($item->AMOUNTPAY,2) }}</td>  --}}
                                         </tr>    
 
                                         <div class="modal fade" id="DetailModal{{ $item->vn }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -1138,6 +1138,22 @@ class ApiController extends Controller
            }                 
            return response()->json($fireactive); 
     }
+    // public function getimage(Request $request,$id)
+    // { 
+    //     $productID=explode(".",$id);
+    //     $rendered_buffer= Product::all()->find($productID[0])->image;
+
+    //     $response = Response::make($rendered_buffer);
+    //     $response->header('Content-Type', 'image/png');
+    //     $response->header('Cache-Control','max-age=2592000');
+    //     return $response;
+    //     //    $date_now = date('Y-m-d');           
+    //     //    $data_vn_1 = DB::connection('mysql')->select('SELECT * FROM fire WHERE fire_num = "'.$firenum.'" ');
+    //     //    foreach ($data_vn_1 as $key => $value) {
+    //     //         $fireactive = $value->active; 
+    //     //    }                 
+    //     //    return response()->json($fireactive); 
+    // }
 
 }
 

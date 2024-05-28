@@ -469,6 +469,8 @@ class FireController extends Controller
     public function fire_qrcode_detail_all(Request $request)
     {  
             $dataprint_main = Fire::get();
+            // $dataprint_main = Fire::paginate();
+            // $dataprint_main = Fire::paginate(12);
             // $dataprint = Fire::where('fire_id', '=', $id)->first();
             // foreach ($dataprint_main as $key => $value) {
             //     $data_detail  = Fire_check::where('fire_num', '=', $value->fire_num)->get();

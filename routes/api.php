@@ -28,6 +28,8 @@ Route::match(['get','post'],'getfire/{firenum}',[App\Http\Controllers\Api\Mobile
 Route::match(['get','post'],'getmobile',[App\Http\Controllers\AuthenmobileController::class, 'getmobile'])->name('mo.getmobile');//
 Route::match(['get','post'],'getmobile_api',[App\Http\Controllers\AuthenmobileController::class, 'getmobile_api'])->name('mo.getmobile_api');//
 
+// Route::get('getimage/{id}', [App\Http\Controllers\ApiController::class, 'getimage'])->name('app.getimage');
+
 Route::get('authen_spsch', [App\Http\Controllers\ApiController::class, 'authen_spsch'])->name('app.authen_spsch');
 Route::get('authen_spsch_mini', [App\Http\Controllers\ApiController::class, 'authen_spsch_mini'])->name('app.authen_spsch_mini');
 Route::get('pull_hosapi', [App\Http\Controllers\ApiController::class, 'pull_hosapi'])->name('app.pull_hosapi');

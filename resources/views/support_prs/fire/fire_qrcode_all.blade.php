@@ -28,11 +28,11 @@
 {{-- <body> --}}
     <body onload="window.print()">
     <div class="container">
-        <div class="row mt-5">
+        <div class="row mt-4">
             
                 @foreach ($dataprint as $item)
                 <div class="col-md-2 text-center">
-                    <div class="card mb-3" style="max-width: 25rem;border-color:rgb(150, 236, 20);background-color:rgb(250, 241, 210);border-radius: 2em 2em 2em 2em">
+                    <div class="card mb-5 mt-5" style="max-width: 25rem;border-color:rgb(150, 236, 20);background-color:rgb(250, 241, 210);border-radius: 2em 2em 2em 2em">
                         <div class="body"><br>
                             {!!QrCode::size(112)->generate(" $item->fire_id ")!!}  
                             {{-- {!! QrCode::size(112)->encoding('UTF-8')->generate($item->fire_id);!!}  --}}

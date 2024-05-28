@@ -82,7 +82,7 @@ use App\Models\D_irf;
 use App\Models\OFC_401;
 use App\Models\D_ucep24_main;
 use App\Models\D_talassemia;
-use App\Models\D_claim_db_hipdata_code;
+use App\Models\Lab_order_image;
 use Auth;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http; 
@@ -110,7 +110,7 @@ use Illuminate\Filesystem\Filesystem;
 
 class D_thalassemiaController extends Controller
 { 
-    public function thalassemia_opd(Request $request)
+    public function thalassemia_opd_new(Request $request)
     {
         $startdate = $request->startdate;
         $enddate = $request->enddate;
@@ -125,12 +125,13 @@ class D_thalassemiaController extends Controller
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
         if ($startdate == '') {  
-            $data['d_talassemia'] = DB::connection('mysql2')->select(' 
-                    SELECT o.vn,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname  
-                        ,o.vstdate 
-                        ,o.pttype 
-                        ,group_concat(distinct dx.icd10) icd10,d.icode
-                        ,group_concat(distinct concat(d.name," ",d.strength,"#",oo.qty) separator "|") drugname,oo.sum_price
+            $data['d_talassemia'] = DB::connection('mysql2')->select(
+                'SELECT o.vn,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname,o.vstdate ,o.pttype,lo.lab_order_number 
+                        ,group_concat(distinct dx.icd10) icd10,sd.icode ,h.department ,d.name as doctor_name ,h.form_name
+                        ,group_concat(distinct los.lab_name separator ", ") as lab_name_cc
+                        ,group_concat(distinct lsi.specimen_name separator ", ") as specimen_name_cc
+                        ,lo.lab_order_result,lo.lab_items_normal_value_ref
+                        ,group_concat(distinct concat(d.name," ",sd.strength,"#",oo.qty) separator "|") drugname,oo.sum_price
                         ,(SELECT group_concat(distinct concat(ce2be(lh.order_date),"#",lo.lab_order_result) order by lh.vn desc )
                             from lab_head lh
                             left join lab_order lo on lo.lab_order_number=lh.lab_order_number
@@ -144,43 +145,56 @@ class D_thalassemiaController extends Controller
                         LEFT OUTER JOIN patient pt on pt.hn=o.hn 
                         LEFT OUTER JOIN ovstdiag dx on dx.vn=o.vn
                         LEFT OUTER JOIN opitemrece oo on oo.vn=o.vn
-                        LEFT OUTER JOIN s_drugitems d on d.icode=oo.icode  
+                        LEFT OUTER JOIN s_drugitems sd on sd.icode=oo.icode 
+                        LEFT OUTER JOIN lab_head h on h.vn=o.vn 
+                        LEFT OUTER JOIN doctor d on d.code=h.doctor_code
+                        LEFT OUTER JOIN lab_order_service los on los.lab_order_number=h.lab_order_number
+                        LEFT OUTER JOIN lab_order lo on lo.lab_order_number=h.lab_order_number
+                        LEFT OUTER JOIN lab_items li on lo.lab_items_code=li.lab_items_code
+                        LEFT OUTER JOIN lab_specimen_items lsi on li.specimen_code=lsi.specimen_code
+
                         WHERE dx.icd10 regexp "D56|D582"
                         AND o.an is null
                         AND o.vstdate BETWEEN "'.$start.'" AND "'.$end.'"
-                        AND d.icode IN("1520001","1590015","3000016","3000017","3000018","3000019","3003445","3003446","3003447","3003448","3003448")
-                        GROUP BY o.vn;
- 
+                        AND sd.icode IN("1520001","1590015","3000016","3000017","3000018","3000019","3003445","3003446","3003447","3003448","3003448")
+                        GROUP BY o.vn 
                 ');          
         } else {
                 // $iduser = Auth::user()->id;
                 // D_talassemia::truncate(); 
-                $data['d_talassemia'] = DB::connection('mysql2')->select(' 
-                    SELECT o.vn,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname  
-                        ,o.vstdate 
-                        ,o.pttype 
-                        ,group_concat(distinct dx.icd10) icd10,d.icode
-                        ,group_concat(distinct concat(d.name," ",d.strength,"#",oo.qty) separator "|") drugname,oo.sum_price
-                        ,(SELECT group_concat(distinct concat(ce2be(lh.order_date),"#",lo.lab_order_result) order by lh.vn desc )
-                            from lab_head lh
-                            left join lab_order lo on lo.lab_order_number=lh.lab_order_number
-                            left join lab_items l on l.lab_items_code=lo.lab_items_code
-                            where lh.hn=o.hn 
-                            and lh.order_date between date_add(o.vstdate,interval -3 month) and o.vstdate
-                            and  l.lab_items_name regexp "ferritin"
-                        ) ferritin
-                        
-                        FROM ovst o
-                        LEFT OUTER JOIN patient pt on pt.hn=o.hn 
-                        LEFT OUTER JOIN ovstdiag dx on dx.vn=o.vn
-                        LEFT OUTER JOIN opitemrece oo on oo.vn=o.vn
-                        LEFT OUTER JOIN s_drugitems d on d.icode=oo.icode  
-                        WHERE dx.icd10 regexp "D56|D582"
-                        AND o.an is null
-                        AND o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                        AND d.icode IN("1520001","1590015","3000016","3000017","3000018","3000019","3003445","3003446","3003447","3003448","3003448")
-                        GROUP BY o.vn;
- 
+                $data['d_talassemia'] = DB::connection('mysql2')->select(
+                    'SELECT o.vn,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname,o.vstdate ,o.pttype ,lo.lab_order_number 
+                    ,group_concat(distinct dx.icd10) icd10,sd.icode ,h.department ,d.name as doctor_name ,h.form_name
+                    ,group_concat(distinct los.lab_name separator ", ") as lab_name_cc
+                    ,group_concat(distinct lsi.specimen_name separator ", ") as specimen_name_cc
+                    ,lo.lab_order_result,lo.lab_items_normal_value_ref
+                    ,group_concat(distinct concat(d.name," ",sd.strength,"#",oo.qty) separator "|") drugname,oo.sum_price
+                    ,(SELECT group_concat(distinct concat(ce2be(lh.order_date),"#",lo.lab_order_result) order by lh.vn desc )
+                        from lab_head lh
+                        left join lab_order lo on lo.lab_order_number=lh.lab_order_number
+                        left join lab_items l on l.lab_items_code=lo.lab_items_code
+                        where lh.hn=o.hn 
+                        and lh.order_date between date_add(o.vstdate,interval -3 month) and o.vstdate
+                        and  l.lab_items_name regexp "ferritin"
+                    ) ferritin
+                    
+                    FROM ovst o
+                    LEFT OUTER JOIN patient pt on pt.hn=o.hn 
+                    LEFT OUTER JOIN ovstdiag dx on dx.vn=o.vn
+                    LEFT OUTER JOIN opitemrece oo on oo.vn=o.vn
+                    LEFT OUTER JOIN s_drugitems sd on sd.icode=oo.icode 
+                    LEFT OUTER JOIN lab_head h on h.vn=o.vn 
+                    LEFT OUTER JOIN doctor d on d.code=h.doctor_code
+                    LEFT OUTER JOIN lab_order_service los on los.lab_order_number=h.lab_order_number
+                    LEFT OUTER JOIN lab_order lo on lo.lab_order_number=h.lab_order_number
+                    LEFT OUTER JOIN lab_items li on lo.lab_items_code=li.lab_items_code
+                    LEFT OUTER JOIN lab_specimen_items lsi on li.specimen_code=lsi.specimen_code
+
+                    WHERE dx.icd10 regexp "D56|D582"
+                    AND o.an is null
+                    AND o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                    AND sd.icode IN("1520001","1590015","3000016","3000017","3000018","3000019","3003445","3003446","3003447","3003448","3003448")
+                    GROUP BY o.vn  
                 ');                 
                 
                   
@@ -190,11 +204,12 @@ class D_thalassemiaController extends Controller
             // $data['d_talassemia'] = DB::connection('mysql')->select('SELECT * from d_talassemia');  
            
 
-        return view('thalassemia.thalassemia_opd',$data,[
+        return view('thalassemia.thalassemia_opd_new',$data,[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate, 
         ]);
     }
+    
 
     public function thalassemia_ipd(Request $request)
     {

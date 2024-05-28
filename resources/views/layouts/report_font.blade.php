@@ -255,7 +255,7 @@
                                 <li ><a href="{{ url('check_colpo_ipd') }}" >Colposcopic IPD</a></li>
                             </ul>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-square-person-confined text-danger"></i>
                                 <span>ข้อมูลการรักษานักโทษ</span>
@@ -264,7 +264,7 @@
                                 <li ><a href="{{ url('prisoner_opd') }}" >438-OPD</a></li>
                                 <li ><a href="{{ url('prisoner_ipd') }}" >438-IPD</a></li>
                             </ul>
-                        </li>
+                        </li> --}}
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-square-person-confined text-danger"></i>

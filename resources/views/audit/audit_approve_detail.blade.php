@@ -168,6 +168,7 @@
                                                 <th class="text-center">Visit ทั้งหมด</th>
                                                 <th class="text-center">Debit-Approve</th>
                                                 <th class="text-center">Debit-ไม่ Approve</th>
+                                                <th class="text-center">Visit ไม่ Approve</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -176,18 +177,16 @@
                                                 <?php
                                                 $no_app = DB::connection('mysql')->select(
                                                     'SELECT year(vstdate) as years ,month(vstdate) as months,year(vstdate) as days 
-                                                                                                        ,count(DISTINCT vn) as countvn,sum(debit) as sum_total_no  
-                                                                                                        FROM d_fdh WHERE month(vstdate) = "' .
-                                                        $item->months .
-                                                        '" AND year(vstdate) = "' .
-                                                        $item->years .
-                                                        '" 
-                                                                                                        AND projectcode ="OFC" AND an IS NULL AND authen IS NULL
-                                                                                                        GROUP BY month(vstdate)
-                                                                                                    ',
+                                                        ,count(DISTINCT vn) as countvn,sum(debit) as sum_total_no  
+                                                        FROM d_fdh WHERE month(vstdate) = "' .$item->months .'" AND year(vstdate) = "' .$item->years .'" 
+                                                        AND projectcode ="OFC" AND an IS NULL AND (an IS NULL OR an ="") AND debit > 0
+                                                        AND (authen IS NULL OR authen ="")   
+                                                        GROUP BY month(vstdate)
+                                                    '
                                                 );
                                                 foreach ($no_app as $key => $value) {
                                                     $sum_total_no_ = $value->sum_total_no;
+                                                    $countvn_      = $value->countvn;
                                                 }
                                                 ?>
                                                 <tr>
@@ -224,7 +223,7 @@
                                                     </td>
                                                     <td class="text-center" width="20%" style="color:rgb(22, 168, 132)">
                                                         {{ number_format($item->sum_total, 2) }}</td>
-                                                    <td class="text-center" width="20%"
+                                                    <td class="text-center" width="15%"
                                                         style="color:rgb(252, 73, 42)">
                                                         <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger"
                                                             href="{{ url('audit_approve_detail/' . $item->months . '/' . $item->years) }}">
@@ -232,6 +231,7 @@
                                                         </a>
 
                                                     </td>
+                                                    <td class="text-center" width="15%" style="color:rgb(168, 22, 83)">{{ $countvn_}}</td> 
                                                 </tr>
                                             @endforeach
 
@@ -259,10 +259,8 @@
                                         <th class="text-center">cid</th>
                                         <th class="text-center">pttype</th>
                                         <th class="text-center">vstdate</th>
-                                        <th class="text-center">income</th>
-                                        <th class="text-center">Approve Code</th>
-                                        <th class="text-center">EDC</th>
-                                        <th class="text-center">Ap KTB</th>
+                                        <th class="text-center">ptname</th>
+                                        <th class="text-center">income</th>  
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -276,14 +274,12 @@
                                         <?php ?>
                                         <tr>
                                             <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
-                                            <td class="text-center" width="10%">{{ $item_m->hn }} </td>
+                                            <td class="text-center" width="5%">{{ $item_m->hn }} </td>
                                             <td class="text-center" width="10%">{{ $item_m->cid }} </td>
-                                            <td class="text-center" width="10%">{{ $item_m->pttype }} </td>
+                                            <td class="text-center" width="7%">{{ $item_m->pttype }} </td>
                                             <td class="text-center" width="10%">{{ $item_m->vstdate }} </td>
-                                            <td class="text-center" width="10%">{{ $item_m->debit }} </td>
-                                            <td class="text-center" width="10%">{{ $item_m->authen }} </td>
-                                            <td class="text-center" width="10%">{{ $item_m->edc }} </td>
-                                            <td class="text-center" width="10%">{{ $item_m->AppKTB }} </td>
+                                            <td class="p-2" >{{ $item_m->ptname }} </td>
+                                            <td class="text-center" width="10%" style="color: #47A4FA">{{ $item_m->debit }} </td> 
                                         </tr>
                                         <?php
                                             $total1 = $total1 + $item_m->debit;
@@ -294,11 +290,11 @@
 
                                 </tbody>
                                 <tr style="background-color: #f3fca1">
-                                    <td colspan="5" class="text-end" style="background-color: #fca1a1"></td>
+                                    <td colspan="6" class="text-end" style="background-color: #fca1a1"></td>
                                     <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
-                                    <td colspan="1" class="text-end" style="background-color: #fca1a1"></td>
-                                    <td class="text-center" style="background-color: #FCA533"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
-                                    <td class="text-center" style="background-color: #44E952"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td>
+                                    {{-- <td colspan="1" class="text-end" style="background-color: #fca1a1"></td> --}}
+                                    {{-- <td class="text-center" style="background-color: #FCA533"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td> --}}
+                                    {{-- <td class="text-center" style="background-color: #44E952"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td> --}}
                                   
                                 </tr>
                             </table>

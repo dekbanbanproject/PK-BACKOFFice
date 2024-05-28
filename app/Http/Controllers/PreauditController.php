@@ -171,7 +171,13 @@ class PreauditController extends Controller
                     GROUP BY month(vstdate)
             ');  
             // $data['fdh_ofc_m']    = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE month(vstdate) BETWEEN "'.$newDate.'" AND "'.$m.'" AND projectcode ="OFC" AND authen IS NULL AND an IS NULL GROUP BY vn'); 
-            $data['fdh_ofc_m']       = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE projectcode ="OFC" AND debit > 0 AND hn<>"" AND (authen IS NULL OR authen ="") AND (an IS NULL OR an ="") GROUP BY vn'); 
+            $data['fdh_ofc_m']       = DB::connection('mysql')->select(
+                'SELECT * FROM d_fdh 
+                WHERE projectcode ="OFC" AND debit > 0 
+                AND hn<>"" AND (authen IS NULL OR authen ="") 
+                AND (an IS NULL OR an ="") AND vstdate BETWEEN "'.$start.'" AND "'.$end.'" 
+                GROUP BY vn
+                '); 
             $data['fdh_ofc_momth']    = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE month(vstdate) ="'.$m.'" AND projectcode ="OFC" AND debit > 0 AND hn<>"" AND (authen IS NULL OR authen ="") AND (an IS NULL OR an ="") GROUP BY vn'); 
             // ,(SELECT sum(debit) FROM d_fdh WHERE month(vstdate)= "'.$newDate.'" AND "'.$date.'" AND authen IS NULL AND projectcode ="OFC") as no_total
             // ,(SELECT sum(debit) FROM d_fdh WHERE vstdate BETWEEN "'.$newDate.'" AND "'.$date.'" AND authen IS NOT NULL AND projectcode ="OFC") as sum_total            

@@ -373,6 +373,13 @@
                                         </li>
                                     </ul>
                                 </li>
+                                <li><a href="javascript: void(0);" class="has-arrow">ข้อมูลการรักษานักโทษ</a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li ><a href="{{ url('prisoner_opd') }}" >438-OPD</a></li>
+                                        <li ><a href="{{ url('prisoner_ipd') }}" >438-IPD</a></li>
+                                        </li>
+                                    </ul>
+                                </li>
 
                             </ul>
                         </li>

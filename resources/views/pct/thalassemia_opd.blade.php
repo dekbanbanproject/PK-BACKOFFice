@@ -1,4 +1,4 @@
-@extends('layouts.pkclaim')
+@extends('layouts.anc')
 @section('title', 'PK-OFFICE || PCT')
 
      <?php

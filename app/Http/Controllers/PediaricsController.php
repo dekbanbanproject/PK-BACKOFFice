@@ -94,6 +94,27 @@ use App\Models\Export_temp;
 
 class PediaricsController extends Controller
 {
+
+    public function prenatal_care_db(Request $request)
+    {
+        $dabyear = $request->dabyear;
+        // $enddate = $request->enddate;
+        $yearnew = date('Y')+1;
+        $yearold = date('Y');
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+        $budget_year = DB::table('budget_year')->where('active','=',true)->first();
+        $date_start = $budget_year->date_begin;
+        $date_end   = $budget_year->date_end;
+        
+         
+        return view('anc.prenatal_care_db',[
+            'dabyear'   => $dabyear,
+            // 'enddate'     => $enddate, 
+            // 'dabyear'       => $dabyear, 
+        ]);
+    }
+    
   
     public function prenatal_care(Request $request)
     {

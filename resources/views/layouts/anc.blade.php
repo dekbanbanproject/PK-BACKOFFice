@@ -77,74 +77,93 @@
     {{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
 </head>
 <style>
-    body {
-        /* background: */
-        /* url(/pkbackoffice/public/images/bg7.png);  */
-        /* -webkit-background-size: cover; */
-        background-color: rgb(245, 240, 240);
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        /* background-size: cover; */
-        background-size: 100% 100%;
-        /* display: flex; */
-        /* align-items: center; */
-        /* justify-content: center; */
-        /* width: 100vw;   ให้เต็มพอดี */
-        /* height: 100vh; ให้เต็มพอดี  */
-    }
-
-    .Bgsidebar {
-        background-image: url('/pkbackoffice/public/images/bgside.jpg');
-        background-repeat: no-repeat;
-    }
-
-    .Bgheader {
-        background-image: url('/pkbackoffice/public/images/bgheader.jpg');
-        background-repeat: no-repeat;
-    }
-    .Head1{
-			font-family: 'Srisakdi', sans-serif;
-            /* font-size: 17px; */
-            /* font-style: normal; */
-          font-weight: 800;
-          font-size: 17px;
-		}
-        .detail{
-            font-size: 14px;
-        }
-        .bgbody{
-            background-color: rgb(252, 225, 240);
+        body {
+            /* background: */
+            /* url(/pkbackoffice/public/images/bg7.png);  */
+            /* -webkit-background-size: cover; */
+            background-color: rgb(245, 240, 240);
             background-repeat: no-repeat;
-            background-attachment: fixed; 
-            background-size: 100% 100%; 
-            font-family: 'Noto Sans Thai', sans-serif;
-            font-size: 14px; 
+            background-attachment: fixed;
+            /* background-size: cover; */
+            background-size: 100% 100%;
+            /* display: flex; */
+            /* align-items: center; */
+            /* justify-content: center; */
+            /* width: 100vw;   ให้เต็มพอดี */
+            /* height: 100vh; ให้เต็มพอดี  */
         }
- 
+
+        .Bgsidebar {
+            background-image: url('/pkbackoffice/public/images/bgside.jpg');
+            background-repeat: no-repeat;
+        }
+
+        .Bgheader {
+            background-image: url('/pkbackoffice/public/images/bgheader.jpg');
+            background-repeat: no-repeat;
+        }
+        .Head1{
+                font-family: 'Srisakdi', sans-serif;
+                /* font-size: 17px; */
+                /* font-style: normal; */
+            font-weight: 800;
+            font-size: 17px;
+            }
+            .detail{
+                font-size: 14px;
+            }
+            .bgbody{
+                background-color: rgb(252, 225, 240);
+                background-repeat: no-repeat;
+                background-attachment: fixed; 
+                background-size: 100% 100%; 
+                font-family: 'Noto Sans Thai', sans-serif;
+                font-size: 14px; 
+            }
+            .card_prs_2b{
+            border-radius: 0em 0em 2em 2em;
+            box-shadow: 0 0 15px rgb(239, 159, 255); 
+            border:solid 1px #c786fc;
+        }
+        .card_anc_4{
+            border-radius: 2em 2em 2em 2em;
+            box-shadow: 0 0 15px rgb(239, 159, 255); 
+            /* border-color: #0583cc */
+            border:solid 1px #c786fc;
+        }
+        .anccheckbox{         
+            width: 20px;
+            height: 20px;       
+            /* border-radius: 2em 2em 2em 2em; */
+            border: 10px solid rgb(250, 128, 124);
+            /* color: teal; */
+            /* border-color: teal; */
+            box-shadow: 0 0 10px rgb(250, 128, 124);
+            /* box-shadow: 0 0 10px teal; */
+        } 
 </style>
 <?php
-if (Auth::check()) {
-    $type = Auth::user()->type;
-    $iduser = Auth::user()->id;
-} else {
-    echo "<body onload=\"TypeAdmin()\"></body>";
-    exit();
-}
-$url = Request::url();
-$pos = strrpos($url, '/') + 1;
+    if (Auth::check()) {
+        $type = Auth::user()->type;
+        $iduser = Auth::user()->id;
+    } else {
+        echo "<body onload=\"TypeAdmin()\"></body>";
+        exit();
+    }
+    $url = Request::url();
+    $pos = strrpos($url, '/') + 1;
 
-use App\Http\Controllers\StaticController;
-use App\Models\Products_request_sub;
-$permiss_account = StaticController::permiss_account($iduser);
-$permiss_setting_upstm = StaticController::permiss_setting_upstm($iduser);
-$permiss_ucs = StaticController::permiss_ucs($iduser);
-$permiss_sss = StaticController::permiss_sss($iduser);
-$permiss_ofc = StaticController::permiss_ofc($iduser);
-$permiss_lgo = StaticController::permiss_lgo($iduser);
-$permiss_prb = StaticController::permiss_prb($iduser);
-$permiss_ti = StaticController::permiss_ti($iduser);
-$permiss_rep_money = StaticController::permiss_rep_money($iduser);
-
+    use App\Http\Controllers\StaticController;
+    use App\Models\Products_request_sub;
+    $permiss_account = StaticController::permiss_account($iduser);
+    $permiss_setting_upstm = StaticController::permiss_setting_upstm($iduser);
+    $permiss_ucs = StaticController::permiss_ucs($iduser);
+    $permiss_sss = StaticController::permiss_sss($iduser);
+    $permiss_ofc = StaticController::permiss_ofc($iduser);
+    $permiss_lgo = StaticController::permiss_lgo($iduser);
+    $permiss_prb = StaticController::permiss_prb($iduser);
+    $permiss_ti = StaticController::permiss_ti($iduser);
+    $permiss_rep_money = StaticController::permiss_rep_money($iduser); 
 ?>
 
 <body data-topbar="dark">
@@ -183,7 +202,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                         id="vertical-menu-btn">
                         <i class="ri-menu-2-line align-middle" style="color: rgb(255, 255, 255)"></i>
                     </button>
-                    <a href="{{url('audiovisual_admin')}}">
+                    <a href="{{url('prenatal_care_db')}}">
                         <h4 style="color:rgb(255, 255, 255)" class="mt-4">PRENATAL CARE</h4>
                     </a>
                    
@@ -255,7 +274,17 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                         <li class="menu-title">Menu</li>
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect"> 
-                                <i class="fa-solid fa-person-breastfeeding " style="color: rgb(209, 180, 255)"></i>
+                                <i class="fa-solid fa-person-breastfeeding " style="color: rgb(99, 30, 209)"></i>
+                                <span>ทาลัสซีเมีย</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('thalassemia_opd_new') }}">ทาลัสซีเมีย</a></li> 
+                            </ul>
+
+                        </li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                                <i class="fa-solid fa-person-breastfeeding " style="color: rgb(250, 81, 199)"></i>
                                 <span>Report</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">

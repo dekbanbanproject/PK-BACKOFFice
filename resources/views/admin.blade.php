@@ -587,12 +587,12 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-start font-size-12 mb-2">PK-OFFICE</p>
-                                            <a href="{{ url('prenatal_care') }}" target="_blank">
+                                            <a href="{{ url('prenatal_care_db') }}" target="_blank">
                                                 <h5 class="text-start mb-2">PEDIATRICS</h5>
                                             </a>
                                         </div>
                                         <div class="avatar ms-2">
-                                            <a href="{{ url('prenatal_care') }}" target="_blank">
+                                            <a href="{{ url('prenatal_care_db') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
                                                     {{-- <i class="fa-solid fa-3x fa-person-breastfeeding font-size-25"

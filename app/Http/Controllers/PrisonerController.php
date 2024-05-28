@@ -92,16 +92,16 @@ class PrisonerController extends Controller
                     ,sum(r.bill_amount) as bill_amount
                     ,sum(v.income) as income                 
                     ,sum(v.income)-sum(v.discount_money)-sum(v.rcpt_money) as total
-                    ,sum(m.AMOUNTPAY) as AMOUNTPAY 
+                  
                     
                     FROM vn_stat v 
-                    left outer join hos.opitemrece oo on oo.vn = v.vn 
-                    left outer join hos.patient p on p.hn = v.hn   
-                    left outer join hos.pttype pt on pt.pttype = v.pttype
-                    left outer join hos.rcpt_print r on r.vn =v.vn
-                    left outer join hos.social_aid s on s.vn = v.vn
-                    left outer join hos.leave_month l on l.MONTH_ID = month(v.vstdate)
-                    left outer join hshooterdb.m_stm m on m.vn = v.vn
+                    left outer join opitemrece oo on oo.vn = v.vn 
+                    left outer join patient p on p.hn = v.hn   
+                    left outer join pttype pt on pt.pttype = v.pttype
+                    left outer join rcpt_print r on r.vn =v.vn
+                    left outer join social_aid s on s.vn = v.vn
+                    left outer join leave_month l on l.MONTH_ID = month(v.vstdate)
+                   
                     WHERE v.vstdate between "'.$newyear.'" and "'.$date.'"
                     AND p.addrpart = "438"
                     group by month(v.vstdate) asc
@@ -116,16 +116,16 @@ class PrisonerController extends Controller
                     ,sum(r.bill_amount) as bill_amount
                     ,sum(v.income) as income
                     ,sum(v.income)-sum(v.discount_money)-sum(v.rcpt_money) as total
-                    ,sum(m.AMOUNTPAY) as AMOUNTPAY 
+                   
 
                     FROM vn_stat v 
-                    left outer join hos.opitemrece oo on oo.vn = v.vn 
-                    left outer join hos.patient p on p.hn = v.hn   
-                    left outer join hos.pttype pt on pt.pttype = v.pttype
-                    left outer join hos.rcpt_print r on r.vn =v.vn
-                    left outer join hos.social_aid s on s.vn = v.vn
-                    left outer join hos.leave_month l on l.MONTH_ID = month(v.vstdate)
-                    left outer join hshooterdb.m_stm m on m.vn = v.vn
+                    left outer join opitemrece oo on oo.vn = v.vn 
+                    left outer join patient p on p.hn = v.hn   
+                    left outer join pttype pt on pt.pttype = v.pttype
+                    left outer join rcpt_print r on r.vn =v.vn
+                    left outer join social_aid s on s.vn = v.vn
+                    left outer join leave_month l on l.MONTH_ID = month(v.vstdate)
+                    
                     WHERE v.vstdate between "'.$startdate.'" and "'.$enddate.'"                    
                     AND p.addrpart = "438"
                     group by month(v.vstdate) asc
@@ -163,16 +163,16 @@ class PrisonerController extends Controller
                     ,v.income-v.discount_money-v.rcpt_money as debit 
                     
                     ,v.rcpno_list rcpno  
-                    ,m.AMOUNTPAY
+             
 
                     FROM vn_stat v 
-                    left outer join hos.opitemrece oo on oo.vn = v.vn 
-                    left outer join hos.patient p on p.hn = v.hn   
-                    left outer join hos.pttype pt on pt.pttype = v.pttype
-                    left outer join hos.rcpt_print r on r.vn =v.vn
-                    left outer join hos.social_aid s on s.vn = v.vn
-                    left outer join hos.leave_month l on l.MONTH_ID = month(v.vstdate)
-                    left outer join hshooterdb.m_stm m on m.vn = v.vn
+                    left outer join opitemrece oo on oo.vn = v.vn 
+                    left outer join patient p on p.hn = v.hn   
+                    left outer join pttype pt on pt.pttype = v.pttype
+                    left outer join rcpt_print r on r.vn =v.vn
+                    left outer join social_aid s on s.vn = v.vn
+                    left outer join leave_month l on l.MONTH_ID = month(v.vstdate)
+               
                     WHERE v.vstdate between "'.$newyear.'" and "'.$date.'"
                     AND p.addrpart = "438"
 					AND month(v.vstdate) ="'.$month.'" 
@@ -189,16 +189,16 @@ class PrisonerController extends Controller
                     ,v.discount_money,v.rcpt_money
                     ,v.income-v.discount_money-v.rcpt_money as debit 
                     ,v.rcpno_list rcpno  
-                    ,m.AMOUNTPAY
+                
 
                     FROM vn_stat v 
-                    left outer join hos.opitemrece oo on oo.vn = v.vn 
-                    left outer join hos.patient p on p.hn = v.hn   
-                    left outer join hos.pttype pt on pt.pttype = v.pttype
-                    left outer join hos.rcpt_print r on r.vn =v.vn
-                    left outer join hos.social_aid s on s.vn = v.vn
-                    left outer join hos.leave_month l on l.MONTH_ID = month(v.vstdate)
-                    left outer join hshooterdb.m_stm m on m.vn = v.vn
+                    left outer join opitemrece oo on oo.vn = v.vn 
+                    left outer join patient p on p.hn = v.hn   
+                    left outer join pttype pt on pt.pttype = v.pttype
+                    left outer join rcpt_print r on r.vn =v.vn
+                    left outer join social_aid s on s.vn = v.vn
+                    left outer join leave_month l on l.MONTH_ID = month(v.vstdate)
+                
                     WHERE v.vstdate between "'.$startdate.'" and "'.$enddate.'"
                     AND p.addrpart = "438"
 					AND month(v.vstdate) ="'.$month.'"
@@ -256,16 +256,16 @@ class PrisonerController extends Controller
                 ,v.discount_money,v.rcpt_money
                 ,v.income-v.discount_money-v.rcpt_money as debit 
                 ,v.rcpno_list rcpno  
-                ,m.AMOUNTPAY
+              
 
                 FROM vn_stat v 
-                left outer join hos.opitemrece oo on oo.vn = v.vn 
-                left outer join hos.patient p on p.hn = v.hn   
-                left outer join hos.pttype pt on pt.pttype = v.pttype
-                left outer join hos.rcpt_print r on r.vn =v.vn
-                left outer join hos.social_aid s on s.vn = v.vn
-                left outer join hos.leave_month l on l.MONTH_ID = month(v.vstdate)
-                left outer join hshooterdb.m_stm m on m.vn = v.vn
+                left outer join opitemrece oo on oo.vn = v.vn 
+                left outer join patient p on p.hn = v.hn   
+                left outer join pttype pt on pt.pttype = v.pttype
+                left outer join rcpt_print r on r.vn =v.vn
+                left outer join social_aid s on s.vn = v.vn
+                left outer join leave_month l on l.MONTH_ID = month(v.vstdate)
+              
                 WHERE v.vstdate between "'.$startdate.'" and "'.$enddate.'"
                 AND p.addrpart = "438"
                 AND month(v.vstdate) ="'.$month.'"
@@ -300,15 +300,14 @@ class PrisonerController extends Controller
                         ,count(distinct a.an) as an 
                         ,sum(a.paid_money) as paid_money 
                         ,sum(a.income) as income 
-                        ,sum(m.AMOUNTPAY) as AMOUNTPAY
+                       
                         
                         FROM ipt i
-                        left outer join hos.an_stat a on a.an = i.an
-                        left outer join hos.opitemrece oo on oo.an = i.an
-                        left outer join hos.patient p on p.hn = i.hn   
-                        left outer join hos.pttype pt on pt.pttype = i.pttype 
-                        left outer join hos.leave_month l on l.MONTH_ID = month(i.dchdate)
-                        left outer join hshooterdb.m_stm m on m.an = i.an
+                        left outer join an_stat a on a.an = i.an
+                        left outer join opitemrece oo on oo.an = i.an
+                        left outer join patient p on p.hn = i.hn   
+                        left outer join pttype pt on pt.pttype = i.pttype 
+                        left outer join leave_month l on l.MONTH_ID = month(i.dchdate) 
                         WHERE i.dchdate BETWEEN "'.$newyear.'" and "'.$date.'"
                         AND p.addrpart = "438"
                         group by month(i.dchdate) asc
@@ -321,14 +320,14 @@ class PrisonerController extends Controller
                         ,count(distinct a.an) as an 
                         ,sum(a.paid_money) as paid_money 
                         ,sum(a.income) as income 
-                        ,sum(m.AMOUNTPAY) as AMOUNTPAY
+                       
                         FROM ipt i
-                        left outer join hos.an_stat a on a.an = i.an
-                        left outer join hos.opitemrece oo on oo.an = i.an
-                        left outer join hos.patient p on p.hn = i.hn   
-                        left outer join hos.pttype pt on pt.pttype = i.pttype 
-                        left outer join hos.leave_month l on l.MONTH_ID = month(i.dchdate)
-                        left outer join hshooterdb.m_stm m on m.an = i.an
+                        left outer join an_stat a on a.an = i.an
+                        left outer join opitemrece oo on oo.an = i.an
+                        left outer join patient p on p.hn = i.hn   
+                        left outer join pttype pt on pt.pttype = i.pttype 
+                        left outer join leave_month l on l.MONTH_ID = month(i.dchdate)
+                     
                         WHERE i.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
                         AND p.addrpart = "438"
                         group by month(i.dchdate) asc
