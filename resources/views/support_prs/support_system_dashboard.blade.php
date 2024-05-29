@@ -146,7 +146,7 @@
                                                     <i class="fa fa-angle-left"></i>
                                                 </span>
                                                 {{ number_format($count_red_all, 0) }}
-                                                <small class="opacity-5 ps-1">ถัง</small>
+                                                {{-- <small class="opacity-5 ps-1">ถัง</small> --}}
                                             </div>
                                             <div class="widget-title ms-auto font-size-lg fw-normal text-muted mt-3">
                                                 <small class="opacity-5 ps-1">พร้อมใช้งาน </small>
@@ -177,7 +177,7 @@
                                                     <i class="fa fa-angle-left"></i>
                                                 </span>
                                              {{ number_format($count_green_all, 0) }}
-                                                <small class="opacity-5 ps-1">ถัง</small>
+                                                {{-- <small class="opacity-5 ps-1">ถัง</small> --}}
                                             </div>
                                             <div class="widget-title ms-auto font-size-lg fw-normal text-muted mt-3">
                                                 <small class="opacity-5 ps-1">พร้อมใช้งาน </small>
@@ -205,7 +205,7 @@
                                             <div>
                                                 <small class="text-danger pe-1">+</small>
                                                 {{ $count_red_back }}
-                                                <small class="opacity-5 ps-1">ถัง</small>
+                                                {{-- <small class="opacity-5 ps-1">ถัง</small> --}}
                                             </div>
                                             {{-- <div class="widget-title ms-auto font-size-lg fw-normal text-muted">
                                                 <div class="circle-progress circle-progress-warning-sm d-inline-block">
@@ -229,7 +229,7 @@
                                             <div>
                                                 <small class="text-success pe-1">+</small>
                                                 {{ $count_green_back }}
-                                                <small class="opacity-5 ps-1">ถัง</small>
+                                                {{-- <small class="opacity-5 ps-1">ถัง</small> --}}
                                             </div>
                                             {{-- <div class="widget-title ms-auto font-size-lg fw-normal text-muted">
                                                 <div class="circle-progress circle-progress-success-sm d-inline-block">
@@ -755,93 +755,132 @@
                         </div>
                     </div>
                 </div> --}}
-                {{-- <div class="main-card mb-3 card">
+                <div class="main-card mb-3 card">
                     <div class="card-header">
                         <div class="card-header-title font-size-lg text-capitalize fw-normal">
-                            Company Agents Status
+                            รายงานผลการตรวจสอบสภาพถังดับเพลิง  โรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ
                         </div>
                         <div class="btn-actions-pane-right">
-                            <button type="button" class="btn-icon btn-wide btn-outline-2x btn btn-outline-focus btn-sm d-flex">
+                            {{-- <button type="button" class="btn-icon btn-wide btn-outline-2x btn btn-outline-focus btn-sm d-flex">
                                 Actions Menu
                                 <span class="ps-2 align-middle opacity-7">
                                     <i class="fa fa-angle-right"></i>
                                 </span>
-                            </button>
+                            </button> --}}
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="align-middle text-truncate mb-0 table table-borderless table-hover">
+                        <table class="align-middle text-truncate mb-0 table table-borderless table-hover table-bordered" style="width: 100%;">
                             <thead>
                                 <tr>
-                                    <th class="text-center">ลำดับ</th>
-                                    <th class="text-center">รายการ</th>
-                                    <th class="text-center">Name</th>
-                                    <th class="text-center">Company</th>
-                                    <th class="text-center">Status</th>
-                                    <th class="text-center">Due Date</th>
-                                    <th class="text-center">Target Achievement</th>
-                                    <th class="text-center">Actions</th>
+                                    <th rowspan="3" class="text-center" style="background-color: rgb(255, 251, 228)">ลำดับ</th>
+                                    <th rowspan="3" class="text-center" style="background-color: rgb(255, 251, 228)">เดือนที่ตรวจ</th>
+                                    <th colspan="6" class="text-center" style="background-color: rgb(255, 237, 117)">ถังดับเพลิงทั้งหมดที่มี (ถัง)</th>
+                                    <th colspan="6" class="text-center" style="background-color: rgb(117, 216, 255)">ถังดับเพลิงที่ได้รับการตรวจสอบ (ถัง)</th>
+                                    <th rowspan="3" class="text-center" style="background-color: rgb(250, 211, 226)">จำนวน<br>ที่ชำรุด<br>รวม(ถัง)</th>
+                                    <th colspan="2" class="text-center" style="background-color: rgb(253, 185, 211)">ร้อยละ</th> 
+                                </tr>
+                                <tr> 
+                                    <th colspan="3" class="text-center" style="background-color: rgb(255, 176, 157)">ชนิดผงเคมีแห้ง (ถังแดง)</th>
+                                    <th colspan="2" class="text-center" style="background-color: rgb(139, 247, 211)">ชนิดน้ำยาระเหย</th>
+                                    <th rowspan="2" class="text-center" style="background-color: rgb(138, 189, 247)">รวมทั้งหมด</th> 
+                                    <th colspan="3" class="text-center" style="background-color: rgb(255, 176, 157)">ชนิดผงเคมีแห้ง (ถังแดง)</th>
+                                    <th colspan="2" class="text-center" style="background-color: rgb(139, 247, 211)">ชนิดน้ำยาระเหย</th>
+                                    <th rowspan="2" class="text-center" style="background-color: rgb(138, 189, 247)">รวมทั้งหมด</th>   
+                                    <th rowspan="2" class="text-center" style="background-color: rgb(255, 251, 228)">ที่ตรวจ<br> รวม(ถัง)</th> 
+                                    <th rowspan="2" class="text-center" style="background-color: rgb(228, 253, 255)">ที่ชำรุด<br> รวม(ถัง)</th> 
+                                </tr>
+                                <tr> 
+                                    <th class="text-center" style="background-color: rgb(253, 210, 199)">10 ปอนด์</th>
+                                    <th class="text-center" style="background-color: rgb(253, 210, 199)">15 ปอนด์</th>
+                                    <th class="text-center" style="background-color: rgb(253, 210, 199)">20 ปอนด์</th>
+                                    <th colspan="2" class="text-center" style="background-color: rgb(218, 252, 241)">(ถังเขียว) 10 ปอนด์</th> 
+                                    <th class="text-center" style="background-color: rgb(253, 210, 199)">10 ปอนด์</th>
+                                    <th class="text-center" style="background-color: rgb(253, 210, 199)">15 ปอนด์</th>
+                                    <th class="text-center" style="background-color: rgb(253, 210, 199)">20 ปอนด์</th>
+                                    <th colspan="2" class="text-center" style="background-color: rgb(218, 252, 241)">(ถังเขียว) 10 ปอนด์</th>  
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="text-center text-muted" style="width: 80px;">#54</td>
-                                    <td class="text-center" style="width: 80px;">
-                                        <img width="40" class="rounded-circle" src="images/avatars/4.jpg" alt="">
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="javascript:void(0)">Juan C. Cargill</a>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="javascript:void(0)">Micro Electronics</a>
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="badge rounded-pill bg-danger">Canceled</div>
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="pe-2 opacity-6">
-                                            <i class="fa fa-business-time"></i>
-                                        </span>
-                                        12 Dec
-                                    </td>
-                                    <td class="text-center" style="width: 200px;">
-                                        <div class="widget-content p-0">
-                                            <div class="widget-content-outer">
-                                                <div class="widget-content-wrapper">
-                                                    <div class="widget-content-left pe-2">
-                                                        <div class="widget-numbers fsize-1 text-danger">71%</div>
-                                                    </div>
-                                                    <div class="widget-content-right w-100">
-                                                        <div class="progress-bar-xs progress">
-                                                            <div class="progress-bar bg-danger" role="progressbar"
-                                                                aria-valuenow="71" aria-valuemin="0"
-                                                                aria-valuemax="100" style="width: 71%;">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        <div role="group" class="btn-group-sm btn-group">
-                                            <button class="btn-shadow btn btn-primary">Hire</button>
-                                            <button class="btn-shadow btn btn-primary">Fire</button>
-                                        </div>
-                                    </td>
-                                </tr> 
+                                <?php $i = 0; ?>
+                                @foreach ($datareport as $itemreport) 
+                                    <?php $i++ ?>
+                                    <?php 
+                                            // $sumyokma_all_ = DB::select(
+                                            //     'SELECT count(DISTINCT U1.vn) as anyokma ,sum(U1.debit_total) as debityokma
+                                            //             FROM acc_1102050101_216 U1 
+                                            //             WHERE month(U1.vstdate) = "'.$item->months.'"
+                                            //             AND year(U1.vstdate) = "'.$item->years.'" 
+                                            //             AND (U1.stm_money IS NULL OR U1.stm_money = "")
+                                            // ');                                     
+                                            // foreach ($sumyokma_all_ as $key => $value6) {
+                                            //     $total_yokma_alls = $value6->debityokma ;
+                                            //     $count_yokma_alls = $value6->anyokma ;
+                                            // }     
+
+                                        $trut          = 100 / $itemreport->total_all * $itemreport->Checktotal_all;
+                                        $chamrootcount = 100 / $itemreport->total_all * $itemreport->camroot;
+                                    
+                                    
+                                    ?>
+                                    <tr> 
+                                        <td class="text-center text-muted" style="width: 5%;">{{$i++}}</td>
+                                        <td class="text-center" style="width: 10%;">
+                                            {{$itemreport->MONTH_NAME}} พ.ศ.{{$itemreport->yearsthai}}
+                                        </td>
+                                        <td class="text-center" style="background-color: rgb(255, 237, 117)">
+                                            <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">{{$itemreport->redten}}</a>
+                                        </td>
+                                        <td class="text-center" style="background-color: rgb(255, 237, 117)">
+                                            <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">{{$itemreport->redfifteen}}</a>
+                                        </td>
+                                        <td class="text-center" style="background-color: rgb(255, 237, 117)">
+                                            <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">{{$itemreport->redtwenty}}</a>
+                                        </td>
+                                        <td colspan="2" class="text-center" style="background-color: rgb(255, 237, 117)">
+                                            <a href="javascript:void(0)" class="badge rounded-pill bg-success me-2 ms-2">{{$itemreport->greenten}}</a>
+                                        </td>
+                                        <td class="text-center" style="background-color: rgb(255, 237, 117)">
+                                            <a href="javascript:void(0)" class="badge rounded-pill bg-info me-2 ms-2">{{$itemreport->total_all}}</a>
+                                        </td>
+                                        <td class="text-center" style="background-color: rgb(117, 216, 255)">
+                                            <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">{{$itemreport->Check_redten}}</a>
+                                        </td>
+                                        <td class="text-center" style="background-color: rgb(117, 216, 255)">
+                                            <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">{{$itemreport->Check_redfifteen}}</a>
+                                        </td>
+                                        <td class="text-center" style="background-color: rgb(117, 216, 255)">
+                                            <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">{{$itemreport->Check_redtwenty}}</a>
+                                        </td>
+                                        <td colspan="2" class="text-center" style="background-color: rgb(117, 216, 255)">
+                                            <a href="javascript:void(0)" class="badge rounded-pill bg-success me-2 ms-2">{{$itemreport->Check_greenten}}</a>
+                                        </td>
+                                        <td class="text-center" style="background-color: rgb(117, 216, 255)">
+                                            <a href="javascript:void(0)" class="badge rounded-pill bg-primary me-2 ms-2">{{$itemreport->Checktotal_all}}</a>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">{{$itemreport->camroot}}</a>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">{{ number_format($trut, 2) }}</a>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">{{ number_format($chamrootcount, 2) }}</a>
+                                        </td>
+                                    </tr> 
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
                     <div class="d-block p-4 text-center card-footer">
-                        <button class="btn-pill btn-shadow btn-wide fsize-1 btn btn-dark btn-lg">
+                        {{-- <button class="btn-pill btn-shadow btn-wide fsize-1 btn btn-dark btn-lg">
                             <span class="me-2 opacity-7">
                                 <i class="fa fa-cog fa-spin"></i>
                             </span>
                             <span class="me-1">View Complete Report</span>
-                        </button>
+                        </button> --}}
                     </div>
-                </div> --}}
+                </div>
 
             </div>
 

@@ -181,7 +181,7 @@
                                     <th class="text-center" width="5%">รหัส</th>  
                                     <th class="text-center" >รายการ</th> 
                                     <th class="text-center">ขนาด(ปอนด์)</th> 
-                                    <th class="text-center" >รัศมีครอบคลุม</th>  
+                                    <th class="text-center" >สถานที่ตั้ง</th>  
                                     <th class="text-center" >วันผลิต</th> 
                                     <th class="text-center" >วันหมดอายุ</th> 
                                     <th class="text-center">จัดการ</th> 

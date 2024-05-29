@@ -141,6 +141,38 @@ class SupportPRSController extends Controller
                 }
             }
 
+            $datareport = DB::connection('mysql')->select(
+                'SELECT
+                    YEAR(f.check_date) as years,(YEAR(f.check_date)+543) as yearsthai,MONTH(f.check_date) as months,l.MONTH_NAME
+
+                    ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red") as red_all
+                    ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="10") as redten
+                    ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="15") as redfifteen
+                    ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="20") as redtwenty 
+                    ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green" AND fire_size ="10") as greenten
+                    ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="10")+
+                    (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="15")+
+                    (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="20")+
+                    (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green" AND fire_size ="10") total_all
+                    
+                    ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="10") as Check_redten
+                    ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="15") as Check_redfifteen
+                    ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="20") as Check_redtwenty
+                    ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "green" AND f.fire_size ="10") as Check_greenten
+                    ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="10")+
+                    (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="15")+
+                    (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="20")+
+                    (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "green" AND f.fire_size ="10") as Checktotal_all
+
+                    ,(SELECT COUNT(fire_id) FROM fire WHERE active = "N") as camroot
+                    ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green") as green_all
+                    ,(SELECT COUNT(fire_id) FROM fire_check WHERE fire_check_color = "green") as Checkgreen_all
+                    ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_backup = "Y") as backup_red
+                    ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green" AND fire_backup = "Y") as backup_green
+                FROM fire_check f
+                LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(f.check_date)
+                GROUP BY MONTH(f.check_date) 
+            '); 
             // $Dataset_show = $dataset_s;
             // dd($count_color_qty);
 
@@ -151,7 +183,7 @@ class SupportPRSController extends Controller
             'count_red_all'           =>  $count_red_all,
             'count_green_all'         =>  $count_green_all,
             'count_red_percent'       =>  $count_red_percent,
-
+            'datareport'              =>  $datareport,
             'count_green_percent'     =>  $count_green_percent,
             'count_color_green_qty'   =>  $count_color_green_qty,
             'count_red_allactive'     =>  $count_red_allactive,

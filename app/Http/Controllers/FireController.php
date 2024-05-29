@@ -448,7 +448,7 @@ class FireController extends Controller
         ]);
 
     }
-    public function fire_qrcode_all_old(Request $request)
+    public function fire_qrcode_all(Request $request)
     {  
             $dataprint = Fire::get();
 
@@ -607,10 +607,10 @@ class FireController extends Controller
         // ]);
     }
 
-    public function fire_qrcode_all(Request $request)
+    public function fire_qrcode_all๘๘๘๘(Request $request)
     {
       
-        $dataprint = Fire::all();
+        $dataprint = Fire::get();
 
         // $qrcode = base64_encode(QrCode::format('svg')->size(200)->errorCorrection('H')->generate('string'));
         // $pdf = PDF::loadView('main.inventory.view_pdf', compact('qrcode'));
