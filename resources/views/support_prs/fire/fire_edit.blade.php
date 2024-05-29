@@ -89,13 +89,26 @@ $loter = $date.''.$time
             <p class="card-title-desc">แก้ไขข้อมูลถังดับเพลิง</p>
         </div>
         <div class="col"></div>
+        <div class="col-md-4 text-end">
+            <div class="form-group">
+                <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                    {{-- <i class="fa-solid fa-floppy-disk me-2"></i> --}}
+                    <i class="fa-solid fa-pen-to-square me-2"></i>
+                    แก้ไขข้อมูล
+                </button>
+                <a href="{{ url('fire_main') }}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                    <i class="fa-solid fa-xmark me-2"></i>
+                    ยกเลิก
+                </a>
+            </div>
+        </div>
         
        
     </div> 
    
         <div class="row">
             <div class="col-md-12">
-                <div class="card cardacc">
+                <div class="card card_prs_4 p-3">
                    
                     <div class="card-body">
 
@@ -116,10 +129,10 @@ $loter = $date.''.$time
                                             {{-- <img src="data:image/png;base64,{{ $pic_fire }}" id="edit_upload_preview" height="450px" width="350px" alt="Image"> --}}
                                     @endif
                                     <br>
-                                    <div class="input-group mb-3">
+                                    <div class="input-group mt-3">
                                         <label class="input-group-text" for="fire_imgname">Upload</label>
                                      
-                                        <input type="file" class="form-control" id="fire_imgname" name="fire_imgname"
+                                        <input type="file" class="form-control-sm" id="fire_imgname" name="fire_imgname"
                                             onchange="addarticle(this)">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                        
@@ -154,6 +167,25 @@ $loter = $date.''.$time
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <input id="fire_date" type="date" class="form-control form-control-sm" name="fire_date" value="{{$data_edit->fire_date}}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3">
+                                    <div class="col-md-2 text-end">
+                                        <label for="fire_year">วันที่ผลิต </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input id="fire_date" type="date" class="form-control form-control-sm" name="fire_date_pdd" value="{{$data_edit->fire_date_pdd}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 text-end">
+                                        <label for="fire_date">วันที่หมดอายุ </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input id="fire_date" type="date" class="form-control form-control-sm" name="fire_date_exp" value="{{$data_edit->fire_date_exp}}">
                                         </div>
                                     </div>
                                 </div>
@@ -268,7 +300,8 @@ $loter = $date.''.$time
                                     </div>
                                     <div class="col-md-1">
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-primary btn-sm" onclick="addunit();">
+                                            <button type="button" class="btn btn-info btn-sm" onclick="addunit();">
+                                                <i class="fa-solid fa-square-plus me-2"></i>
                                                 เพิ่ม
                                             </button>
                                         </div>
@@ -307,7 +340,8 @@ $loter = $date.''.$time
                                     </div>
                                     <div class="col-md-1">
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-primary btn-sm" onclick="addbrand();">
+                                            <button type="button" class="btn btn-info btn-sm" onclick="addbrand();">
+                                                <i class="fa-solid fa-square-plus me-2"></i>
                                                 เพิ่ม
                                             </button>
                                         </div>
@@ -353,7 +387,7 @@ $loter = $date.''.$time
                 </div>
             </div>
         </div>
-        <div class="row">
+        {{-- <div class="row">
             <div class="col"></div>
             <div class="col-md-4 text-end">
                 <div class="form-group">
@@ -367,7 +401,7 @@ $loter = $date.''.$time
                     </a>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
     </div>
 </form>

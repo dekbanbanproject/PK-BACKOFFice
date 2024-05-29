@@ -225,6 +225,25 @@ $loter = $date.''.$time
 
                                 <div class="row mt-3">
                                     <div class="col-md-2 text-end">
+                                        <label for="fire_year">วันที่ผลิต </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input id="fire_date" type="date" class="form-control form-control-sm" name="fire_date_pdd">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 text-end">
+                                        <label for="fire_date">วันที่หมดอายุ </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input id="fire_date" type="date" class="form-control form-control-sm" name="fire_date_exp">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3">
+                                    <div class="col-md-2 text-end">
                                         <label for="fire_num">เลขครุภัณฑ์/รหัสถังดับเพลิง</label>
                                     </div>
                                     <div class="col-md-4">
@@ -327,7 +346,8 @@ $loter = $date.''.$time
                                     </div>
                                     <div class="col-md-1">
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-primary btn-sm" onclick="addunit();">
+                                            <button type="button" class="btn btn-info btn-sm" onclick="addunit();">
+                                                <i class="fa-solid fa-square-plus me-2"></i>
                                                 เพิ่ม
                                             </button>
                                         </div>
@@ -363,7 +383,9 @@ $loter = $date.''.$time
                                     </div>
                                     <div class="col-md-1">
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-primary btn-sm" onclick="addbrand();">
+
+                                            <button type="button" class="btn btn-info btn-sm" onclick="addbrand();">
+                                                <i class="fa-solid fa-square-plus me-2"></i>
                                                 เพิ่ม
                                             </button>
                                         </div>

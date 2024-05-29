@@ -34,6 +34,8 @@ return new class extends Migration
                 $table->string('fire_img_base_name')->nullable(); //
                 $table->enum('fire_edit', ['Chang','Repaire','Dispose','Narmal'])->default('Narmal');
                 $table->enum('fire_backup', ['Y','N'])->default('N');
+                $table->date('fire_date_pdd')->nullable();  // วันที่ผลิต
+                $table->date('fire_date_exp')->nullable();  // วันหมดอายุ
                 $table->timestamps();
             });
         }

@@ -111,7 +111,7 @@ class FireController extends Controller
         $year = date('Y'); 
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        $datashow = DB::select('SELECT * from fire ORDER BY fire_id DESC'); 
+        $datashow = DB::select('SELECT * from fire ORDER BY fire_id ASC'); 
         // WHERE active="Y"
         return view('support_prs.fire.fire_main',[
             'startdate'     => $startdate,
@@ -207,6 +207,8 @@ class FireController extends Controller
         $add->fire_location       = $request->fire_location; 
         $add->fire_size           = $request->fire_size;  
         $add->fire_color          = $request->fire_color; 
+        $add->fire_date_pdd       = $request->fire_date_pdd; 
+        $add->fire_date_exp       = $request->fire_date_exp; 
 
         $add->fire_qty            = '1'; 
         $branid = $request->input('article_brand_id');
@@ -318,6 +320,8 @@ class FireController extends Controller
         $update->fire_location       = $request->fire_location; 
         $update->fire_size           = $request->fire_size;  
         $update->fire_color          = $request->fire_color; 
+        $update->fire_date_pdd       = $request->fire_date_pdd; 
+        $update->fire_date_exp       = $request->fire_date_exp; 
 
         $update->fire_qty            = '1'; 
         $branid = $request->input('article_brand_id');
@@ -444,7 +448,7 @@ class FireController extends Controller
         ]);
 
     }
-    public function fire_qrcode_all(Request $request)
+    public function fire_qrcode_all_old(Request $request)
     {  
             $dataprint = Fire::get();
 
@@ -601,6 +605,19 @@ class FireController extends Controller
         // return response()->json([
         //     'status'    => '200'
         // ]);
+    }
+
+    public function fire_qrcode_all(Request $request)
+    {
+      
+        $dataprint = Fire::all();
+
+        // $qrcode = base64_encode(QrCode::format('svg')->size(200)->errorCorrection('H')->generate('string'));
+        // $pdf = PDF::loadView('main.inventory.view_pdf', compact('qrcode'));
+        // return $pdf->stream();
+    
+        $pdf = PDF::loadView('support_prs.fire.fire_qrcode_all',['dataprint'  =>  $dataprint]);
+        return @$pdf->stream();
     }
     
  

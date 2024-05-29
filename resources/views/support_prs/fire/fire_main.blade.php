@@ -137,7 +137,7 @@
         </div>
         <div class="col"></div>
       
-        <div class="col-md-4 text-end">
+        <div class="col-md-6 text-end">
             <a href="{{url('fire_qrcode_all')}}" class="ladda-button me-2 btn-pill btn btn-info cardacc">  
                 <i class="fa-solid fa-print me-2 text-white me-2" style="font-size:13px"></i>
                 <span>Print QRCODE All</span> 
@@ -180,8 +180,10 @@
                                     <th class="text-center" width="5%">QRcode</th>  
                                     <th class="text-center" width="5%">รหัส</th>  
                                     <th class="text-center" >รายการ</th> 
-                                    <th class="text-center">ขนาด</th> 
+                                    <th class="text-center">ขนาด(ปอนด์)</th> 
                                     <th class="text-center" >รัศมีครอบคลุม</th>  
+                                    <th class="text-center" >วันผลิต</th> 
+                                    <th class="text-center" >วันหมดอายุ</th> 
                                     <th class="text-center">จัดการ</th> 
                                 </tr>
                             </thead>
@@ -199,21 +201,23 @@
                                         </td>
                                       
                                         @if ( $item->fire_imgname == Null )
-                                        <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="40px" width="40px" alt="Image" class="img-thumbnail"></td> 
+                                        <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="30px" width="30px" alt="Image" class="img-thumbnail"></td> 
                                         @else
-                                        <td class="text-center" width="3%"><img src="{{asset('storage/fire/'.$item->fire_imgname)}}" height="40px" width="40px" alt="Image" class="img-thumbnail">  </td>                                
+                                        <td class="text-center" width="3%"><img src="{{asset('storage/fire/'.$item->fire_imgname)}}" height="30px" width="30px" alt="Image" class="img-thumbnail">  </td>                                
                                         @endif
 
                                         <td class="text-center" width="5%"> 
                                           
-                                            {!!QrCode::size(50)->generate(" $item->fire_id ")!!}  
+                                            {!!QrCode::size(30)->generate(" $item->fire_id ")!!}  
 
                                         </td> 
 
-                                        <td class="text-center" width="10%">{{ $item->fire_num }}</td>  
+                                        <td class="text-center" width="7%">{{ $item->fire_num }}</td>  
                                         <td class="p-2">{{ $item->fire_name }}</td>  
                                         <td class="text-center" width="5%">{{ $item->fire_size }}</td>    
                                         <td class="p-2" style="color:rgb(73, 147, 231)" width="20%">{{ $item->fire_location }}</td>  
+                                        <td class="text-center" width="7%">{{ DateThai($item->fire_date_pdd) }}</td> 
+                                        <td class="text-center" width="7%">{{ DateThai($item->fire_date_exp) }}</td> 
                                         <td class="text-center" width="5%">
 
                                             <div class="dropdown d-inline-block">
