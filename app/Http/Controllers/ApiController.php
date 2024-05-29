@@ -1073,7 +1073,7 @@ class ApiController extends Controller
     { 
            $date_now = date('Y-m-d');
            
-           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(fire_id) fire_id FROM fire WHERE fire_color = "green"');
+           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(fire_id) fire_id FROM fire WHERE fire_color = "green" AND fire_backup ="N"');
            foreach ($data_vn_1 as $key => $value) {
             $firegreen = $value->fire_id; 
            }                 
@@ -1083,7 +1083,7 @@ class ApiController extends Controller
     { 
            $date_now = date('Y-m-d');
            
-           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(fire_id) fire_id FROM fire WHERE fire_color = "green" AND active ="Y"');
+           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(fire_id) fire_id FROM fire WHERE fire_color = "green" AND active ="Y" AND fire_edit ="Narmal" AND fire_backup ="N"');
            foreach ($data_vn_1 as $key => $value) {
             $firegreen = $value->fire_id; 
            }                 
@@ -1093,7 +1093,7 @@ class ApiController extends Controller
     { 
            $date_now = date('Y-m-d');
            
-           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(fire_id) fire_id FROM fire WHERE fire_color = "green" AND active ="R"');
+           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(fire_id) fire_id FROM fire WHERE fire_color = "green" AND active ="N" AND fire_edit ="Narmal" AND fire_backup ="N"');
            foreach ($data_vn_1 as $key => $value) {
             $firegreenre = $value->fire_id; 
            }                 
@@ -1103,7 +1103,7 @@ class ApiController extends Controller
     { 
            $date_now = date('Y-m-d');
            
-           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(fire_id) fire_id FROM fire WHERE fire_color = "red"');
+           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(fire_id) fire_id FROM fire WHERE fire_color = "red" AND fire_edit ="Narmal" AND fire_backup ="N"');
            foreach ($data_vn_1 as $key => $value) {
             $firered = $value->fire_id; 
            }                 
@@ -1113,7 +1113,7 @@ class ApiController extends Controller
     { 
            $date_now = date('Y-m-d');
            
-           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(fire_id) fire_id FROM fire WHERE fire_color = "red" AND active ="Y"');
+           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(fire_id) fire_id FROM fire WHERE fire_color = "red" AND active ="Y" AND fire_edit ="Narmal" AND fire_backup ="N"');
            foreach ($data_vn_1 as $key => $value) {
             $firered = $value->fire_id; 
            }                 
@@ -1123,7 +1123,7 @@ class ApiController extends Controller
     { 
            $date_now = date('Y-m-d');
            
-           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(fire_id) fire_id FROM fire WHERE fire_color = "red" AND active ="R"');
+           $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(fire_id) fire_id FROM fire WHERE fire_color = "red" AND active ="N" AND fire_edit ="Narmal" AND fire_backup ="N"');
            foreach ($data_vn_1 as $key => $value) {
             $fireredre = $value->fire_id; 
            }                 
