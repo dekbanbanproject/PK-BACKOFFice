@@ -110,11 +110,11 @@ class SupportPRSController extends Controller
 
 
 
-        $count_red_all                 = Fire::where('fire_color','red')->count(); 
-        $count_green_all               = Fire::where('fire_color','green')->count();
+        $count_red_all                 = Fire::where('fire_color','red')->where('fire_edit','Narmal')->where('fire_backup','N')->count(); 
+        $count_green_all               = Fire::where('fire_color','green')->where('fire_edit','Narmal')->where('fire_backup','N')->count();
 
-        $count_red_allactive           = Fire::where('fire_color','red')->where('active','Y')->count(); 
-        $count_green_allactive         = Fire::where('fire_color','green')->where('active','Y')->count(); 
+        $count_red_allactive           = Fire::where('fire_color','red')->where('active','Y')->where('fire_edit','Narmal')->where('fire_backup','N')->count(); 
+        $count_green_allactive         = Fire::where('fire_color','green')->where('active','Y')->where('fire_edit','Narmal')->where('fire_backup','N')->count(); 
 
         $data['count_red_back']        = Fire::where('fire_color','red')->where('fire_backup','Y')->count(); 
         $data['count_green_back']      = Fire::where('fire_color','green')->where('fire_backup','Y')->count();
@@ -197,30 +197,34 @@ class SupportPRSController extends Controller
         $year = date('Y'); 
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        $count_red                     = Fire::where('fire_color','red')->count(); 
-        $count_green                   = Fire::where('fire_color','green')->count();
-        $count_red_allactive           = Fire::where('fire_color','red')->where('active','Y')->count(); 
-        $count_green_allactive         = Fire::where('fire_color','green')->where('active','Y')->count(); 
+        // $count_red                     = Fire::where('fire_color','red')->where('fire_edit','Narmal')->where('fire_backup','N')->count(); 
+        // $count_green                   = Fire::where('fire_color','green')->where('fire_edit','Narmal')->where('fire_backup','N')->count();
+
+        $count_red_all                 = Fire::where('fire_color','red')->where('fire_edit','Narmal')->where('fire_backup','N')->count(); 
+        $count_green_all               = Fire::where('fire_color','green')->where('fire_edit','Narmal')->where('fire_backup','N')->count();
+
+        $count_red_allactive           = Fire::where('fire_color','red')->where('active','Y')->where('fire_edit','Narmal')->where('fire_backup','N')->count(); 
+        $count_green_allactive         = Fire::where('fire_color','green')->where('active','Y')->where('fire_edit','Narmal')->where('fire_backup','N')->count(); 
 
         $data['count_red_back']        = Fire::where('fire_color','red')->where('fire_backup','Y')->count(); 
         $data['count_green_back']      = Fire::where('fire_color','green')->where('fire_backup','Y')->count();
        
             $chart_red = DB::connection('mysql')->select(' 
                     SELECT * FROM
-                    (SELECT COUNT(fire_num) as count_red FROM fire_check WHERE fire_check_color ="red" AND YEAR(check_date)= "'.$year.'") reds
-                    ,(SELECT COUNT(fire_num) as count_greens FROM fire_check WHERE fire_check_color ="green" AND YEAR(check_date)= "'.$year.'") green
+                    (SELECT COUNT(fire_num) as count_red FROM fire_check WHERE fire_check_color ="red" AND YEAR(check_date)= "'.$year.'" AND month(check_date)= "'.$months.'") reds
+                    ,(SELECT COUNT(fire_num) as count_greens FROM fire_check WHERE fire_check_color ="green" AND YEAR(check_date)= "'.$year.'" AND month(check_date)= "'.$months.'") green
             '); 
             foreach ($chart_red as $key => $value) {                
                 if ($value->count_red > 0) {
                     $dataset2[] = [ 
-                        'count_red'                  => 100 / $count_red * $value->count_red, 
+                        'count_red'                  => 100 / $count_red_all * $value->count_red, 
                         'count_color_red_qty'        => $value->count_red,
-                        'count_red_all'              => $count_red,
+                        'count_red_all'              => $count_red_all,
 
                         // $count_green_percent        = 100 / $count_green_all * $value->count_greens; 
-                        'count_green_percent'        => 100 / $count_green * $value->count_greens, 
+                        'count_green_percent'        => 100 / $count_green_all * $value->count_greens, 
                         'count_color_green_qty'      => $value->count_greens,
-                        'count_green_all'            => $count_green,
+                        'count_green_all'            => $count_green_all,
                     ];
                 }
             }
