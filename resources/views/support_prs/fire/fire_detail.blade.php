@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>PK-Fire</title>
+    <title>รายละเอียดถังดับเพลิง</title>
 
 
 
@@ -66,7 +66,7 @@
         }
         .cardfire{
     border-radius: 2em 2em 2em 2em;
-    box-shadow: 0 0 10px pink;
+    box-shadow: 0 0 15px pink;
     border:solid 1px #80acfd;
     /* box-shadow: 0 0 10px rgb(232, 187, 243); */
 }
@@ -81,7 +81,7 @@
     <body>
         
    
- <div class="container-fluid mt-5">
+ <div class="container-fluid mt-3">
     <div class="row text-center">
         <div class="col"></div>
         <div class="col-md-3"><h2>รายละเอียดถังดับเพลิง</h2></div>
@@ -94,60 +94,135 @@
                         <div class="row">
                             <div class="col text-start">
                                 @if ( $data_detail_->fire_imgname == Null )
-                                <img src="{{asset('assets/images/defailt_img.jpg')}}" height="90px" width="90px" alt="Image" class="img-thumbnail"> 
+                                <img src="{{asset('assets/images/defailt_img.jpg')}}" height="120px" width="90px" alt="Image" class="img-thumbnail"> 
                                 @else
-                                <img src="{{asset('storage/fire/'.$data_detail_->fire_imgname)}}" height="90px" width="90px" alt="Image" class="img-thumbnail">                                
+                                <img src="{{asset('storage/fire/'.$data_detail_->fire_imgname)}}" height="120px" width="90px" alt="Image" class="img-thumbnail">                                
                                 @endif
                             </div> 
-                            <div class="col-8">
+                            <div class="col-9">
                                 <p>รหัส : {{$data_detail_->fire_num}}</p> 
                                 <p>ชื่อ  : {{$data_detail_->fire_name}}</p> 
-                                <p>ที่ตั้ง : {{$data_detail_->fire_location}}</p> 
+                                <p>วันหมดอายุ  : {{DateThai($data_detail_->fire_date_exp)}}</p> 
+                                
                             </div> 
                         </div>
+                        <div class="row">
+                            <div class="col text-start">
+                                <p>ที่ตั้ง : {{$data_detail_->fire_location}}</p> 
+                            </div>
+                        </div>
+                       
                         @foreach ($data_detail as $item) 
-                        <div class="row mt-2"> 
-                            <div class="col">
-                                <p>วันที่ตรวจ : {{dateThaifromFull($item->check_date)}}</p> 
-                                <p>รายการชำรุด  : 
-                                    @if ($item->fire_check_injection == '1')
-                                    สายฉีด,                                                                                                 
-                                    @endif
-                                    @if ($item->fire_check_joystick == '1')
-                                    คันบังคับ,
-                                    @endif
-                                    @if ($item->fire_check_body == '1')
-                                    ตัวถัง,
-                                    @endif
-                                    @if ($item->fire_check_gauge == '1')
-                                    เกจความดัน,
-                                    @endif
-                                    @if ($item->fire_check_drawback == '1')
-                                    สิ่งกีดขวาง,
-                                    @endif
-                                
-                                </p> 
-                                <p style="color: red">การแก้ไข : 
-                                    @if ($item->fire_edit == 'Chang')
-                                        เปลี่ยนถังสำรอง
-                                    @elseif($item->fire_edit == 'Repaire')
-                                        ส่งซ่อม/เติมน้ำยา
-                                    @elseif($item->fire_edit == 'Dispose')
-                                        จำหน่าย
-                                    @else
-                                        ปกติ
-                                    @endif
-                                </p> 
-                                <p>สถานะ :  
                                 @if ($item->active == 'Y')
-                                    พร้อมใช้
+                                        <div class="row">
+                                            <div class="col text-start">
+                                                <p>สถานะ :  
+                                                    @if ($item->active == 'Y')
+                                                        พร้อมใช้
+                                                    @else
+                                                        ไม่พร้อมใช้
+                                                    @endif
+                                                    </p> 
+                                                   
+                                            </div>
+                                           
+                                        </div>
+                                        <div class="row"> 
+                                            <div class="col"> 
+                                                <p>ผู้ตรวจ : {{ $item->fname }} {{ $item->lname }}</p> 
+                                                <p>วันที่ตรวจ : {{dateThaifromFull($item->check_date)}}</p>  
+                                            </div> 
+                                            <div class="col-3">
+                                                @if ($item->img == null)
+                                                    <img src="{{ asset('assets/images/default-image.jpg') }}" height="60px" width="60px" alt="Header Avatar" class="rounded-circle">
+                                                @else
+                                                    <img src="{{ asset('storage/person/'.$item->img) }}" height="60px" width="60px" alt="Header Avatar" class="rounded-circle">
+                                                @endif
+                                            </div>
+                                        </div>
                                 @else
-                                    ไม่พร้อมใช้
+                                <div class="row">
+                                    <div class="col text-start">
+                                      
+                                            @if ($item->active != 'Y')
+                                            <p style="color: red">สถานะ : 
+                                            ไม่พร้อมใช้  </p> 
+                                                @else
+                                                
+                                            @endif 
+                                        
+                                    </div>
+                                    {{-- <div class="col-9 text-start"> 
+                                        @if ($item->active == 'Y')
+                                            พร้อมใช้
+                                        @else
+                                        <p style="color: red"> ไม่พร้อมใช้</p> 
+                                    @endif 
+                                    </div>  --}}
+                                   
+                                </div>
+                                {{-- rounded-circle header-profile-user --}}
+                                <div class="row">
+                                    <div class="col text-start">
+                                        
+                                            @if ($item->active != 'Y')
+                                                <p style="color: red">การแก้ไข : 
+                                                    @if ($item->fire_edit == 'Chang')
+                                                        เปลี่ยนถังสำรอง
+                                                    @elseif($item->fire_edit == 'Repaire')
+                                                        ส่งซ่อม/เติมน้ำยา
+                                                    @elseif($item->fire_edit == 'Dispose')
+                                                        จำหน่าย
+                                                    @else
+                                                        
+                                                    @endif
+                                                </p> 
+                                                <p style="color: red">รายการชำรุด  : 
+                                                    @if ($item->fire_check_injection == '1')
+                                                    สายฉีด,                                                                                                 
+                                                    @endif
+                                                    @if ($item->fire_check_joystick == '1')
+                                                    คันบังคับ,
+                                                    @endif
+                                                    @if ($item->fire_check_body == '1')
+                                                    ตัวถัง,
+                                                    @endif
+                                                    @if ($item->fire_check_gauge == '1')
+                                                    เกจความดัน,
+                                                    @endif
+                                                    @if ($item->fire_check_drawback == '1')
+                                                    สิ่งกีดขวาง,
+                                                    @endif
+                                                
+                                                </p> 
+                                            @else
+                                                 
+                                            @endif
+                                          
+                                          
+                                    </div>
+                                </div>
+                                <div class="row"> 
+                                    <div class="col text-start"> 
+                                        <p>ผู้ตรวจ : {{ $item->fname }} {{ $item->lname }}</p> 
+                                        <p>วันที่ตรวจ : {{dateThaifromFull($item->check_date)}}</p>    
+                                    </div> 
+                                    <div class="col-3">
+                                        @if ($item->img == null)
+                                            <img src="{{ asset('assets/images/default-image.jpg') }}" height="60px" width="60px" alt="Header Avatar" class="rounded-circle">
+                                        @else
+                                            <img src="{{ asset('storage/person/'.$item->img) }}" height="60px" width="60px" alt="Header Avatar" class="rounded-circle">
+                                        @endif
+                                    </div>
+                                </div>
+                                    
                                 @endif
-                                </p> 
-                                <p>ผู้ตรวจ : {{ $item->fname }}-{{ $item->lname }}</p> 
+                       
+                        {{-- <div class="row"> 
+                            <div class="col text-start">  
+                                <p>วันที่ตรวจ : {{dateThaifromFull($item->check_date)}}</p>  
                             </div> 
-                        </div>   
+                        </div> --}}
                         @endforeach
                     
                 </div> 

@@ -124,7 +124,8 @@ class FireController extends Controller
 
         // $dataprint = Fire::where('fire_id', '=', $id)->first();
         // dd($dataprint->fire_num);
-        $data_count = Fire_check::where('fire_num','=', $id)->count();
+        // $data_count = Fire_check::where('fire_num','=', $id)->count();
+        $data_count = Fire::where('fire_num','=', $id)->count();
         // dd($data_count);
         if ($data_count < 1) {
 
