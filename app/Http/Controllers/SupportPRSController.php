@@ -96,6 +96,20 @@ class SupportPRSController extends Controller
         $year = date('Y'); 
         $startdate = $request->startdate;
         $enddate = $request->enddate;
+        $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y')+1;
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+
+
+
         $count_red_all                 = Fire::where('fire_color','red')->count(); 
         $count_green_all               = Fire::where('fire_color','green')->count();
 
@@ -108,8 +122,8 @@ class SupportPRSController extends Controller
         // Narmal
             $chart_red = DB::connection('mysql')->select(' 
                     SELECT * FROM
-                    (SELECT COUNT(fire_num) as count_red FROM fire_check WHERE fire_check_color ="red" AND YEAR(check_date)= "'.$year.'") reds
-                    ,(SELECT COUNT(fire_num) as count_greens FROM fire_check WHERE fire_check_color ="green" AND YEAR(check_date)= "'.$year.'") green
+                    (SELECT COUNT(fire_num) as count_red FROM fire_check WHERE fire_check_color ="red" AND YEAR(check_date)= "'.$year.'" AND month(check_date)= "'.$months.'") reds
+                    ,(SELECT COUNT(fire_num) as count_greens FROM fire_check WHERE fire_check_color ="green" AND YEAR(check_date)= "'.$year.'" AND month(check_date)= "'.$months.'") green
             '); 
             foreach ($chart_red as $key => $value) {                
                 if ($value->count_red > 0) {
