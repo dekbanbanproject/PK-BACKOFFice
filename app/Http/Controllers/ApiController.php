@@ -1102,8 +1102,8 @@ class ApiController extends Controller
     public function countfireredall(Request $request)
     { 
            $date_now = date('Y-m-d');
-           
            $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(fire_id) fire_id FROM fire WHERE fire_color = "red" AND fire_edit ="Narmal" AND fire_backup ="N"');
+        //    $data_vn_1 = DB::connection('mysql')->select('SELECT COUNT(fire_id) fire_id FROM fire WHERE fire_color = "red"');
            foreach ($data_vn_1 as $key => $value) {
             $firered = $value->fire_id; 
            }                 
