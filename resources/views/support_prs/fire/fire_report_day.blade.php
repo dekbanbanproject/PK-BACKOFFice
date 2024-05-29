@@ -1,5 +1,5 @@
 @extends('layouts.support_prs')
-@section('title', 'PK-OFFICE || CCTV')
+@section('title', 'PK-OFFICE || Report')
  
 @section('content')
     <script>
@@ -102,20 +102,15 @@
         
         <div class="row">
             <div class="col-xl-12">
-                <div class="card cardacc">
+                <div class="card card_prs_4">
                     <div class="card-body">    
-                        <div class="row mb-3">
-                           
-                            <div class="col"></div>
-                            <div class="col-md-5 text-end">
-                              
-                            </div>
-                        </div>
-
+                        
                         <p class="mb-0">
                             <div class="table-responsive">
+                                <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                {{-- <table class="table table-striped mb-0 table table-borderless table-hover table-bordered" style="width: 100%;"> --}}
                                 {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
-                                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                {{-- <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                                     <thead>
                                         <tr> 
                                             <th width="5%" class="text-center">ลำดับ</th>  
@@ -135,45 +130,45 @@
                                         @foreach ($datashow as $item) 
                                             <tr id="tr_{{$item->fire_num}}">                                                  
                                                 <td class="text-center" width="5%">{{ $i++ }}</td>  
-                                                <td class="text-center" width="8%">{{ Datethai($item->check_date) }}</td> 
-                                                <td class="text-center" width="8%">{{ $item->fire_num }}</td>  
+                                                <td class="text-center" width="10%" style="font-size: 12px">{{ Datethai($item->check_date) }}</td> 
+                                                <td class="text-center" width="8%" style="font-size: 12px">{{ $item->fire_num }}</td>  
                                                 <td class="text-center" width="7%"> 
                                                     @if ($item->fire_check_injection == '0')
-                                                         <p style="color: #08d6aa">ปกติ</p>
+                                                         <label style="color: #06af8b;font-size: 12px">ปกติ</label>
                                                     @else
-                                                        <p style="color: #fc2424">ชำรุด</p>
+                                                        <label style="color: #fc2424;font-size: 12px">ชำรุด</label>
                                                     @endif
                                                 </td>  
                                                 <td class="text-center" width="7%"> 
                                                     @if ($item->fire_check_joystick == '0')
-                                                        <p style="color: #08d6aa">ปกติ</p>
+                                                        <label style="color: #06af8b;font-size: 12px">ปกติ</label>
                                                     @else
-                                                        <p style="color: #fc2424">ชำรุด</p>
+                                                        <label style="color: #fc2424;font-size: 12px">ชำรุด</label>
                                                     @endif
                                                 </td>   
                                                 <td class="text-center" width="7%"> 
                                                     @if ($item->fire_check_body == '0')
-                                                        <p style="color: #08d6aa">ปกติ</p>
+                                                        <label style="color: #06af8b;font-size: 12px">ปกติ</label>
                                                     @else
-                                                        <p style="color: #fc2424">ชำรุด</p>
+                                                        <label style="color: #fc2424;font-size: 12px">ชำรุด</label>
                                                     @endif
                                                 </td>   
-                                                <td class="text-center" width="7%"> 
+                                                <td class="text-center" width="9%"> 
                                                     @if ($item->fire_check_gauge == '0')
-                                                        <p style="color: #08d6aa">ปกติ</p>
+                                                        <label style="color: #06af8b;font-size: 12px">ปกติ</label>
                                                     @else
-                                                        <p style="color: #fc2424">ชำรุด</p>
+                                                        <label style="color: #fc2424;font-size: 12px">ชำรุด</label>
                                                     @endif
                                                 </td> 
                                                 <td class="text-center" width="7%"> 
                                                     @if ($item->fire_check_drawback == '0')
-                                                        <p style="color: #08d6aa">ปกติ</p>
+                                                        <label style="color: #06af8b;font-size: 12px">ปกติ</label>
                                                     @else
-                                                        <p style="color: #fc2424">ชำรุด</p>
+                                                        <label style="color: #fc2424;font-size: 12px">ชำรุด</label>
                                                     @endif
                                                 </td> 
-                                                <td class="p-2" style="color:rgb(73, 147, 231)">
-                                                    <p style="color: #fc2424">
+                                                <td class="text-start" style="color:rgb(73, 147, 231)">
+                                                    <label style="color: #fc2424;font-size: 12px">
                                                         @if ($item->fire_check_injection == '1')
                                                         สายฉีด,                                                                                                 
                                                         @endif
@@ -189,7 +184,7 @@
                                                         @if ($item->fire_check_drawback == '1')
                                                         สิ่งกีดขวาง,
                                                         @endif
-                                                    </p>  
+                                                    </label>  
                                                 </td>   
                                                 <td class="text-center" width="12%">{{ $item->ptname }}</td>                                              
                                             </tr>

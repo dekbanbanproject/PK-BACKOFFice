@@ -92,8 +92,8 @@
         background-repeat: no-repeat;
     }
     .myTable tbody tr{
-        font-size:13px;
-        height: 13px;
+        font-size:12px;
+        height: 12px;
     }
  
     .card_prs_2b{

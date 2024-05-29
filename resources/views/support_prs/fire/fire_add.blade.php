@@ -1,5 +1,5 @@
 @extends('layouts.support_prs')
-@section('title', 'PK-OFFICE || CCTV')
+@section('title', 'PK-OFFICE || Fire')
 
 <style>
     .btn {
@@ -133,7 +133,7 @@ $loter = $date.''.$time
    
         <div class="row">
             <div class="col-md-12">
-                <div class="card cardacc">
+                <div class="card card_prs_4 p-3">
                    
                     <div class="card-body">
 

@@ -157,7 +157,7 @@
 
 <div class="row">
     <div class="col-xl-12">
-        <div class="card cardacc">
+        <div class="card card_prs_4">
             <div class="card-body">    
                 <div class="row mb-3">
                    
