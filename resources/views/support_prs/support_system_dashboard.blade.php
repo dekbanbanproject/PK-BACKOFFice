@@ -817,7 +817,14 @@
                                             // foreach ($sumyokma_all_ as $key => $value6) {
                                             //     $total_yokma_alls = $value6->debityokma ;
                                             //     $count_yokma_alls = $value6->anyokma ;
-                                            // }     
+                                            // } 
+                                            $sumyokma_all_ = DB::select(
+                                                'SELECT COUNT(f.fire_id) as cfire 
+                                                    FROM fire_check fc  
+                                                    LEFT OUTER JOIN fire f ON f.fire_id = fc.fire_id
+                                                    WHERE month(fc.check_date) = "'.$itemreport->months.'" 
+                                                    AND year(fc.check_date) = "'.$itemreport->years.'" 
+                                                '); 
 
                                         $trut          = 100 / $itemreport->total_all * $itemreport->Checktotal_all;
                                         $chamrootcount = 100 / $itemreport->total_all * $itemreport->camroot;
@@ -825,7 +832,7 @@
                                     
                                     ?>
                                     <tr> 
-                                        <td class="text-center text-muted" style="width: 5%;">{{$i++}}</td>
+                                        <td class="text-center text-muted" style="width: 5%;">{{$i}}</td>
                                         <td class="text-center" style="width: 10%;">
                                             {{$itemreport->MONTH_NAME}} พ.ศ.{{$itemreport->yearsthai}}
                                         </td>
@@ -845,13 +852,13 @@
                                             <a href="javascript:void(0)" class="badge rounded-pill bg-info me-2 ms-2">{{$itemreport->total_all}}</a>
                                         </td>
                                         <td class="text-center" style="background-color: rgb(117, 216, 255)">
-                                            <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">{{$itemreport->Check_redten}}</a>
+                                            <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">{{$itemreport->Check_redten}}</a>
                                         </td>
                                         <td class="text-center" style="background-color: rgb(117, 216, 255)">
-                                            <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">{{$itemreport->Check_redfifteen}}</a>
+                                            <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">{{$itemreport->Check_redfifteen}}</a>
                                         </td>
                                         <td class="text-center" style="background-color: rgb(117, 216, 255)">
-                                            <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">{{$itemreport->Check_redtwenty}}</a>
+                                            <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">{{$itemreport->Check_redtwenty}}</a>
                                         </td>
                                         <td colspan="2" class="text-center" style="background-color: rgb(117, 216, 255)">
                                             <a href="javascript:void(0)" class="badge rounded-pill bg-success me-2 ms-2">{{$itemreport->Check_greenten}}</a>
@@ -861,7 +868,7 @@
                                         </td> 
 
                                         <td class="text-center" style="background-color: rgb(253, 202, 198)">
-                                            <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(247, 157, 151)">{{$itemreport->Checktotal_all}}</a>
+                                            <a href="{{url('support_system_nocheck/'.$itemreport->months.'/'.$itemreport->years)}}" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(253, 80, 68)">{{$itemreport->total_all- $itemreport->Checktotal_all}}</a>
                                         </td>
                                         <td class="text-center">
                                             <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">{{$itemreport->camroot}}</a>

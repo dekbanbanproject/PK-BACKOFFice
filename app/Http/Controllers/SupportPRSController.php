@@ -190,6 +190,26 @@ class SupportPRSController extends Controller
             'count_green_allactive'   =>  $count_green_allactive,
         ]);
     }
+    public function support_system_nocheck(Request $request,$months,$years)
+    {
+        $datenow = date('Y-m-d'); 
+        $datareport = DB::connection('mysql')->select('SELECT * FROM fire_check WHERE month(check_date) = "'.$months.'" AND year(check_date) = "'.$years.'" ORDER BY fire_check_id ASC'); 
+         foreach ($datareport as $key => $value) {
+            $data_array[] = $value->fire_num;
+         }
+         $data_t = $data_array;
+        //  dd($data_t);
+
+        //  foreach ($data_t as $key => $valuess) {
+            $datafire[] = DB::select('SELECT * FROM fire WHERE fire_num <> "'.$data_t[0].'"');
+        //  }
+         $data_tt = $datafire;
+         dd($data_tt);
+        return view('support_prs.support_system_nocheck',[
+            'datareport'     =>     $datareport,
+            'data_tt'        =>     $data_tt, 
+        ]);
+    }   
     public function support_dashboard_chart(Request $request)
     {
         $datenow = date('Y-m-d');

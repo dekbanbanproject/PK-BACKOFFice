@@ -3093,6 +3093,7 @@ Route::match(['get','post'],'tb_main_detail/{id}',[App\Http\Controllers\TbContro
 
 // ************** Support-System ****************************
 Route::match(['get','post'],'support_system_dashboard',[App\Http\Controllers\SupportPRSController::class, 'support_system_dashboard'])->name('prs.support_system_dashboard');//
+Route::match(['get','post'],'support_system_nocheck/{monts}/{years}',[App\Http\Controllers\SupportPRSController::class, 'support_system_nocheck'])->name('prs.support_system_nocheck');//
 Route::match(['get','post'],'support_system',[App\Http\Controllers\SupportPRSController::class, 'support_system'])->name('prs.support_system');//
 Route::match(['get','post'],'support_dashboard_chart',[App\Http\Controllers\SupportPRSController::class, 'support_dashboard_chart'])->name('prs.support_dashboard_chart');//
 
