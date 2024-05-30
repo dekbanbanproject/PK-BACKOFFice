@@ -103,22 +103,17 @@ class SupportPRSController extends Controller
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-        $yearnew = date('Y')+1;
+        $yearnew = date('Y');
         $yearold = date('Y')-1;
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
-
-
-
+ 
         $count_red_all                 = Fire::where('fire_color','red')->where('fire_edit','Narmal')->where('fire_backup','N')->count(); 
-        $count_green_all               = Fire::where('fire_color','green')->where('fire_edit','Narmal')->where('fire_backup','N')->count();
-
+        $count_green_all               = Fire::where('fire_color','green')->where('fire_edit','Narmal')->where('fire_backup','N')->count(); 
         $count_red_allactive           = Fire::where('fire_color','red')->where('active','Y')->where('fire_edit','Narmal')->where('fire_backup','N')->count(); 
         $count_green_allactive         = Fire::where('fire_color','green')->where('active','Y')->where('fire_edit','Narmal')->where('fire_backup','N')->count(); 
-
         $data['count_red_back']        = Fire::where('fire_color','red')->where('fire_backup','Y')->count(); 
-        $data['count_green_back']      = Fire::where('fire_color','green')->where('fire_backup','Y')->count();
-       
+        $data['count_green_back']      = Fire::where('fire_color','green')->where('fire_backup','Y')->count(); 
         // Narmal
             $chart_red = DB::connection('mysql')->select(' 
                     SELECT * FROM
@@ -140,7 +135,6 @@ class SupportPRSController extends Controller
                     // ];
                 }
             }
-
             $datareport = DB::connection('mysql')->select(
                 'SELECT
                     YEAR(f.check_date) as years,(YEAR(f.check_date)+543) as yearsthai,MONTH(f.check_date) as months,l.MONTH_NAME
@@ -173,9 +167,7 @@ class SupportPRSController extends Controller
                 LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(f.check_date)
                 GROUP BY MONTH(f.check_date) 
             '); 
-            // $Dataset_show = $dataset_s;
-            // dd($count_color_qty);
-
+            
         return view('support_prs.support_system_dashboard',$data,[
             'startdate'               =>  $startdate,
             'enddate'                 =>  $enddate, 
@@ -195,23 +187,76 @@ class SupportPRSController extends Controller
         $datenow = date('Y-m-d'); 
         $datareport = DB::connection('mysql')->select('SELECT * FROM fire_check WHERE month(check_date) = "'.$months.'" AND year(check_date) = "'.$years.'" ORDER BY fire_check_id ASC'); 
          foreach ($datareport as $key => $value) {
-            $data_array[] = $value->fire_num;
+            // $data_array[] = $value->fire_num;
+            if ($value->fire_num !='') {
+                Fire::where('fire_num',$value->fire_num)->update(['fire_for_nocheck' => 'Y']); 
+            } else {
+                Fire::where('fire_num',$value->fire_num)->update(['fire_for_nocheck' => '']); 
+            } 
          }
-         $data_t = $data_array;
+        //  $data_t = $data_array;
         //  dd($data_t);
+        $datafire = DB::select('SELECT * FROM fire WHERE fire_backup="N" AND fire_for_nocheck IS NULL AND fire_edit ="Narmal"'); 
+         
         //  foreach ($data_t as $key => $valuess) {
-            $datafire[] = DB::select('SELECT * FROM fire WHERE fire_num <> "'.$data_t[0].'"');
+        //     dd($valuess);
+            // Fire::where('fire_num',$valuess)->update(['fire_for_nocheck' => 'Y']); 
+            // $datafire[] = DB::select('SELECT * FROM fire WHERE fire_num <> "'.$data_t[0].'" AND fire_backup="N"');
         //  }
-         $data_tt = $datafire;
-         foreach ($data_tt as $key => $valuett) {
-            # code...
-         }
-         dd($data_tt);
+
+        // $datafire[] = DB::select('SELECT * FROM fire WHERE fire_num <> "'.$data_t[0].'" AND fire_backup="N"');
+        //  $data_tt = $datafire[0];
+        //  foreach ($data_tt as $key => $valuett) {
+        //     # code...
+        //  }
+        //  dd($data_tt);
         return view('support_prs.support_system_nocheck',[
-            'datareport'     =>     $datareport,
-            'data_tt'        =>     $data_tt, 
+            'datareport'     => $datareport,
+            'datafire'       => $datafire, 
         ]);
-    }   
+    }  
+    public function support_system_check(Request $request,$months,$years)
+    {
+        $datenow = date('Y-m-d'); 
+        $datareport = DB::connection('mysql')->select('SELECT * FROM fire_check WHERE month(check_date) = "'.$months.'" AND year(check_date) = "'.$years.'" ORDER BY fire_check_id ASC'); 
+         foreach ($datareport as $key => $value) { 
+            if ($value->fire_num !='') {
+                Fire::where('fire_num',$value->fire_num)->update(['fire_for_nocheck' => 'Y']); 
+            } else {
+                Fire::where('fire_num',$value->fire_num)->update(['fire_for_nocheck' => '']); 
+            } 
+         }
+       
+        $datafire = DB::select(
+            'SELECT * FROM fire f
+                LEFT JOIN fire_check fc ON fc.fire_id = f.fire_id
+                LEFT JOIN users u ON u.id = fc.user_id
+                WHERE f.fire_backup="N" AND f.fire_for_nocheck IS NOT NULL AND f.fire_edit ="Narmal"
+        '); 
+        // leftJoin('users', 'fire_check.user_id', '=', 'users.id') 
+        return view('support_prs.support_system_check',[
+            'datareport'     => $datareport,
+            'datafire'       => $datafire, 
+        ]);
+    } 
+    public function support_system_process(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate   = $request->enddate;
+
+        $datareport = DB::connection('mysql')->select('SELECT * FROM fire_check WHERE check_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"'); 
+         foreach ($datareport as $key => $value) { 
+            if ($value->fire_num !='') {
+                Fire::where('fire_num',$value->fire_num)->update(['fire_for_nocheck' => 'Y']); 
+            } else {
+                Fire::where('fire_num',$value->fire_num)->update(['fire_for_nocheck' => '']); 
+            } 
+         }  
+       
+        return response()->json([
+            'status'    => '2000'
+        ]);
+    } 
     public function support_dashboard_chart(Request $request)
     {
         $datenow = date('Y-m-d');

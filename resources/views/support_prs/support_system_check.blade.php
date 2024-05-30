@@ -84,10 +84,12 @@
         <div class="row"> 
             <div class="col-md-8">
                 <h4 style="color:rgb(10, 151, 85)"> รายงานผลการตรวจสอบสภาพถังดับเพลิง  โรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ</h4>
-                <p class="card-title-desc"> รายการถังดับเพลิงที่ยังไม้ได้เช็ค</p>
+                <p class="card-title-desc"> รายการถังดับเพลิงที่เช็คไปแล้ว</p>
             </div>
             <div class="col"></div>
-           
+            {{-- <div class="col-md-3"> 
+                รายละเอียดถังดับเพลิง ที่เช็คไปแล้ว
+            </div> --}}
     </div> 
 
         <div class="row">
@@ -95,7 +97,7 @@
                 <div class="card card_prs_2b p-3">
                     {{-- <div class="card-header">
                         <div class="card-header-title font-size-lg text-capitalize fw-normal">
-                            รายงานผลการตรวจสอบสภาพถังดับเพลิง  โรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ
+                            รายละเอียดถังดับเพลิง ที่เช็คไปแล้ว
                         </div> 
                     </div> --}}
                     <div class="table-responsive mt-2">
@@ -108,8 +110,9 @@
                                     <th class="text-center">รายการ</th>
                                     <th class="text-center">ขนาดถัง (ปอนด์)</th>
                                     <th class="text-center">สี</th>
-                                    <th class="text-center">สถานที่ตั้ง</th>
-                                    {{-- <th class="text-center">จำนวน(ถัง)</th>  --}}
+                                    <th class="text-center">สถานที่ตั้ง</th> 
+                                    <th class="text-center">วันที่ตรวจสอบ</th> 
+                                    <th class="text-center">ผู้ตรวจสอบ</th> 
                                 </tr>
                                 
                             </thead>
@@ -119,11 +122,13 @@
                                         <?php $i++ ?> 
                                             <tr> 
                                                 <td class="text-center text-muted" style="width: 5%;">{{$i}}</td>
-                                                <td class="text-center" style="width: 10%;"> {{$item_sub->fire_num}} </td> 
-                                                <td class="text-start" style="width: 20%;"> {{$item_sub->fire_name}} </td> 
-                                                <td class="text-center" style="width: 10%;"> {{$item_sub->fire_size}} </td> 
-                                                <td class="text-center" style="width: 10%;"> {{$item_sub->fire_color}} </td> 
+                                                <td class="text-center" style="width: 7%;"> {{$item_sub->fire_num}} </td> 
+                                                <td class="text-center" style="width: 20%;"> {{$item_sub->fire_name}} </td> 
+                                                <td class="text-center" style="width: 7%;"> {{$item_sub->fire_size}} </td> 
+                                                <td class="text-center" style="width: 5%;"> {{$item_sub->fire_color}} </td> 
                                                 <td class="text-start"> {{$item_sub->fire_location}} </td> 
+                                                <td class="text-center" style="width: 7%;"> {{DateThai($item_sub->check_date)}} </td> 
+                                                <td class="text-center" style="width: 10%;"> {{$item_sub->fname}} {{$item_sub->lname}} </td> 
                                             </tr> 
                                     @endforeach
                             </tbody>

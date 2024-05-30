@@ -761,12 +761,17 @@
                             รายงานผลการตรวจสอบสภาพถังดับเพลิง  โรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ
                         </div>
                         <div class="btn-actions-pane-right">
-                            {{-- <button type="button" class="btn-icon btn-wide btn-outline-2x btn btn-outline-focus btn-sm d-flex">
-                                Actions Menu
-                                <span class="ps-2 align-middle opacity-7">
-                                    <i class="fa fa-angle-right"></i>
-                                </span>
-                            </button> --}}
+                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                                <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' autocomplete="off"
+                                 data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $startdate }}"/>
+                                <input type="text" class="form-control cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' autocomplete="off"
+                                data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $enddate }}"/>
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left" id="Pulldata">
+                                    <i class="fa-solid fa-spinner text-white me-2"></i>
+                                     ประมวลผล
+                                     
+                                </button>  
+                        </div> 
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -849,7 +854,7 @@
                                             <a href="javascript:void(0)" class="badge rounded-pill bg-success me-2 ms-2">{{$itemreport->greenten}}</a>
                                         </td>
                                         <td class="text-center" style="background-color: rgb(255, 237, 117)">
-                                            <a href="javascript:void(0)" class="badge rounded-pill bg-info me-2 ms-2">{{$itemreport->total_all}}</a>
+                                            <a href="{{url('support_system_check/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill bg-info me-2 ms-2">{{$itemreport->total_all}}</a>
                                         </td>
                                         <td class="text-center" style="background-color: rgb(117, 216, 255)">
                                             <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">{{$itemreport->Check_redten}}</a>
@@ -868,7 +873,7 @@
                                         </td> 
 
                                         <td class="text-center" style="background-color: rgb(253, 202, 198)">
-                                            <a href="{{url('support_system_nocheck/'.$itemreport->months.'/'.$itemreport->years)}}" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(253, 80, 68)">{{$itemreport->total_all- $itemreport->Checktotal_all}}</a>
+                                            <a href="{{url('support_system_nocheck/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(253, 80, 68)">{{$itemreport->total_all- $itemreport->Checktotal_all}}</a>
                                         </td>
                                         <td class="text-center">
                                             <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">{{$itemreport->camroot}}</a>
@@ -905,6 +910,31 @@
  
     <script>
      $(document).ready(function() {
+            $('#example').DataTable();
+            $('#example2').DataTable();
+            $('#datepicker').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+            $('#datepicker2').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+            var table = $('#example').DataTable({
+                scrollY: '60vh',
+                scrollCollapse: true,
+                scrollX: true,
+                "autoWidth": false,
+                "pageLength": 100,
+                "lengthMenu": [10, 100, 150, 200, 300, 400, 500],
+            });
+            var table = $('#example2').DataTable({
+                scrollY: '60vh',
+                scrollCollapse: true,
+                scrollX: true,
+                "autoWidth": false,
+                "pageLength": 10,
+                "lengthMenu": [10, 100, 150, 200, 300, 400, 500],
+            });
+
             var xmlhttp = new XMLHttpRequest();
             var url = "{{ url('support_dashboard_chart') }}";
             xmlhttp.open("GET", url, true);
@@ -1101,6 +1131,62 @@
 
                 }
              }
+
+             $("#spinner-div").hide(); //Request is complete so hide spinner
+         
+            $('#Pulldata').click(function() {
+                var startdate = $('#datepicker').val(); 
+                var enddate   = $('#datepicker2').val(); 
+                Swal.fire({
+                        position: "top-end",
+                        title: 'ต้องการประมวลผลใช่ไหม ?',
+                        text: "You Warn Process Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, Process it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+                                
+                                $.ajax({
+                                    url: "{{ route('prs.support_system_process') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {startdate,enddate},
+                                    success: function(data) {
+                                        if (data.status == 2000) { 
+                                            Swal.fire({
+                                                position: "top-end",
+                                                title: 'ประมวลผลสำเร็จ',
+                                                text: "You Process data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+                                        } else {
+                                            
+                                        }
+                                    },
+                                });
+                                
+                            }
+                })
+            });
 
         });
     </script>

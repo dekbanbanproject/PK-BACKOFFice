@@ -36,11 +36,12 @@ return new class extends Migration
                 $table->enum('fire_backup', ['Y','N'])->default('N');
                 $table->date('fire_date_pdd')->nullable();  // วันที่ผลิต
                 $table->date('fire_date_exp')->nullable();  // วันหมดอายุ
+                $table->text('fire_for_nocheck')->nullable(); //   
                 $table->timestamps();
             });
         }
     }
-
+    
     /**
      * Reverse the migrations.
      */
