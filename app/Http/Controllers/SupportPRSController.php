@@ -199,7 +199,6 @@ class SupportPRSController extends Controller
          }
          $data_t = $data_array;
         //  dd($data_t);
-
         //  foreach ($data_t as $key => $valuess) {
             $datafire[] = DB::select('SELECT * FROM fire WHERE fire_num <> "'.$data_t[0].'"');
         //  }
