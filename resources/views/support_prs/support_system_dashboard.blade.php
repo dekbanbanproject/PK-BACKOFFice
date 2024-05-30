@@ -777,6 +777,7 @@
                                     <th rowspan="3" class="text-center" style="background-color: rgb(255, 251, 228)">เดือนที่ตรวจ</th>
                                     <th colspan="6" class="text-center" style="background-color: rgb(255, 237, 117)">ถังดับเพลิงทั้งหมดที่มี (ถัง)</th>
                                     <th colspan="6" class="text-center" style="background-color: rgb(117, 216, 255)">ถังดับเพลิงที่ได้รับการตรวจสอบ (ถัง)</th>
+                                    <th rowspan="3" class="text-center" style="background-color: rgb(247, 157, 151)">จำนวน<br>ที่ไม่ได้ตรวจ<br>รวม(ถัง)</th>
                                     <th rowspan="3" class="text-center" style="background-color: rgb(250, 211, 226)">จำนวน<br>ที่ชำรุด<br>รวม(ถัง)</th>
                                     <th colspan="2" class="text-center" style="background-color: rgb(253, 185, 211)">ร้อยละ</th> 
                                 </tr>
@@ -857,6 +858,10 @@
                                         </td>
                                         <td class="text-center" style="background-color: rgb(117, 216, 255)">
                                             <a href="javascript:void(0)" class="badge rounded-pill bg-primary me-2 ms-2">{{$itemreport->Checktotal_all}}</a>
+                                        </td> 
+
+                                        <td class="text-center" style="background-color: rgb(253, 202, 198)">
+                                            <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(247, 157, 151)">{{$itemreport->Checktotal_all}}</a>
                                         </td>
                                         <td class="text-center">
                                             <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">{{$itemreport->camroot}}</a>

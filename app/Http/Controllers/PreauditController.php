@@ -510,13 +510,13 @@ class PreauditController extends Controller
                     ,count(DISTINCT authen) as countauthen
                     ,count(DISTINCT vn)-count(DISTINCT authen) as count_no_approve,sum(debit) as sum_total 
                     FROM d_fdh WHERE vstdate BETWEEN "'.$start.'" AND "'.$end.'" 
-                    AND projectcode ="OFC" 
+                    AND projectcode ="OFC" AND debit > 0
                     AND (an IS NULL OR an ="")
                     GROUP BY month(vstdate)
             ');  
          
-            $data['fdh_ofc_m']       = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE projectcode ="OFC" AND (pdx IS NULL OR pdx ="") AND (an IS NULL OR an ="") GROUP BY vn'); 
-            $data['fdh_ofc_momth']    = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE month(vstdate) ="'.$month.'" AND year(vstdate) ="'.$year.'" AND projectcode ="OFC" AND (pdx IS NULL OR pdx ="") AND (an IS NULL OR an ="") GROUP BY vn'); 
+            $data['fdh_ofc_m']       = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE projectcode ="OFC" AND (pdx IS NULL OR pdx ="") AND (an IS NULL OR an ="") AND debit > 0 GROUP BY vn'); 
+            $data['fdh_ofc_momth']    = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE month(vstdate) ="'.$month.'" AND debit > 0 AND year(vstdate) ="'.$year.'" AND projectcode ="OFC" AND (pdx IS NULL OR pdx ="") AND (an IS NULL OR an ="") GROUP BY vn'); 
        
                      
         return view('audit.audit_pdx_detail',$data,[
