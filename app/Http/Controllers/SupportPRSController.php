@@ -203,6 +203,9 @@ class SupportPRSController extends Controller
             $datafire[] = DB::select('SELECT * FROM fire WHERE fire_num <> "'.$data_t[0].'"');
         //  }
          $data_tt = $datafire;
+         foreach ($data_tt as $key => $valuett) {
+            # code...
+         }
          dd($data_tt);
         return view('support_prs.support_system_nocheck',[
             'datareport'     =>     $datareport,
