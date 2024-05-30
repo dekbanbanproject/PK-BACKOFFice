@@ -850,7 +850,7 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
-                                            <a href="" target="_blank">
+                                            <a href="{{ url('support_system_dashboard') }}" target="_blank">
                                                 {{-- <h5 class="text-start mb-2">Support System</h5> --}}
                                                 <h5 class="text-start mb-2">ตรวจสอบและบำรุงรักษา ระบบสนับสนุนบริการสุขภาพ</h5> 
                                             </a>
