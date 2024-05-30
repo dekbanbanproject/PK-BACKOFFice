@@ -155,30 +155,65 @@ class PreauditController extends Controller
         $newweek = date('Y-m-d', strtotime($date . ' -3 week')); //ย้อนหลัง 3 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -3 months')); //ย้อนหลัง 3 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-        $yearnew = date('Y')+1;
+        $yearnew = date('Y');
         $yearold = date('Y')-1;
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
         if ($startdate == '') { 
+            // $data['fdh_ofc']    = DB::connection('mysql')->select(
+            //     'SELECT year(vstdate) as years ,month(vstdate) as months,year(vstdate) as days 
+            //         ,count(DISTINCT vn) as countvn
+            //         ,count(DISTINCT authen) as countauthen
+            //         ,count(DISTINCT vn)-count(DISTINCT authen) as count_no_approve
+            //         ,sum(debit) as sum_total 
+            //         FROM d_fdh WHERE vstdate BETWEEN "'.$start.'" AND "'.$end.'" 
+            //         AND projectcode ="OFC" AND debit > 0 
+            //         AND (an IS NULL OR an ="") 
+            //         AND (hn IS NOT NULL OR hn <>"")
+            //         GROUP BY month(vstdate)
+            // ');  
             $data['fdh_ofc']    = DB::connection('mysql')->select(
                 'SELECT year(vstdate) as years ,month(vstdate) as months,year(vstdate) as days 
-                    ,count(DISTINCT vn) as countvn
-                    ,count(DISTINCT authen) as countauthen
-                    ,count(DISTINCT vn)-count(DISTINCT authen) as count_no_approve,sum(debit) as sum_total 
-                    FROM d_fdh WHERE vstdate BETWEEN "'.$start.'" AND "'.$end.'" 
-                    AND projectcode ="OFC" AND debit > 0 
-                    AND (an IS NULL OR an ="") AND (hn IS NOT NULL OR hn <>"")
+                    ,count(DISTINCT vn) as countvn  
+                    ,sum(debit) as sum_total 
+                    FROM d_fdh   
+                    WHERE projectcode ="OFC" AND debit > 0 
+                    AND hn <>"" 
+                    AND (an IS NULL OR an ="")
+                    AND vstdate BETWEEN "'.$start.'" AND "'.$end.'"  
                     GROUP BY month(vstdate)
-            ');  
+            '); 
             // $data['fdh_ofc_m']    = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE month(vstdate) BETWEEN "'.$newDate.'" AND "'.$m.'" AND projectcode ="OFC" AND authen IS NULL AND an IS NULL GROUP BY vn'); 
-            $data['fdh_ofc_m']       = DB::connection('mysql')->select(
+            // $data['fdh_ofc_m']       = DB::connection('mysql')->select(
+            //     'SELECT * FROM d_fdh 
+            //     WHERE projectcode ="OFC" AND debit > 0 
+            //     AND hn<>"" AND (authen IS NULL OR authen ="") 
+            //     AND (an IS NULL OR an ="") AND vstdate BETWEEN "'.$start.'" AND "'.$end.'"           
+            //     '); 
+            $data['fdh_ofc_all']  = DB::connection('mysql')->select(
                 'SELECT * FROM d_fdh 
-                WHERE projectcode ="OFC" AND debit > 0 
-                AND hn<>"" AND (authen IS NULL OR authen ="") 
-                AND (an IS NULL OR an ="") AND vstdate BETWEEN "'.$start.'" AND "'.$end.'" 
-                GROUP BY vn
+                    WHERE projectcode ="OFC"  
+                    AND hn <>"" 
+                    AND (authen IS NULL OR authen ="") 
+                    AND (an IS NULL OR an ="") AND debit > 0
+                    AND vstdate BETWEEN "'.$start.'" AND "'.$end.'" 
+                   
+            '); 
+                // $data['fdh_ofc_momth']    = DB::connection('mysql')->select(
+                //     'SELECT * FROM d_fdh WHERE month(vstdate) ="'.$m.'" AND year(vstdate) ="'.$yy.'" 
+                //     AND projectcode ="OFC" AND debit > 0 AND hn<>"" 
+                //     AND (authen IS NULL OR authen ="") 
+                //     AND (an IS NULL OR an ="")  
+                // '); 
+                $data['fdh_ofc_momth']    = DB::connection('mysql')->select(
+                    'SELECT * FROM d_fdh 
+                    WHERE projectcode ="OFC" 
+                    AND hn <>""
+                    AND (authen IS NULL OR authen ="") 
+                    AND (an IS NULL OR an ="")
+                    AND month(vstdate) ="'.$m.'" AND year(vstdate) ="'.$yy.'" AND debit > 0
+     
                 '); 
-            $data['fdh_ofc_momth']    = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE month(vstdate) ="'.$m.'" AND projectcode ="OFC" AND debit > 0 AND hn<>"" AND (authen IS NULL OR authen ="") AND (an IS NULL OR an ="") GROUP BY vn'); 
             // ,(SELECT sum(debit) FROM d_fdh WHERE month(vstdate)= "'.$newDate.'" AND "'.$date.'" AND authen IS NULL AND projectcode ="OFC") as no_total
             // ,(SELECT sum(debit) FROM d_fdh WHERE vstdate BETWEEN "'.$newDate.'" AND "'.$date.'" AND authen IS NOT NULL AND projectcode ="OFC") as sum_total            
             
@@ -402,22 +437,43 @@ class PreauditController extends Controller
         $newweek = date('Y-m-d', strtotime($date . ' -3 week')); //ย้อนหลัง 3 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -3 months')); //ย้อนหลัง 3 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-        $yearnew = date('Y')+1;
+        $yearnew = date('Y');
         $yearold = date('Y')-1;
         $start = (''.$yearold.'-10-01');
-        $end = (''.$yearnew.'-09-30'); 
+        $end = (''.$yearnew.'-09-30');
+        // dd($end);
         if ($startdate == '') { 
             $data['fdh_ofc']    = DB::connection('mysql')->select(
                 'SELECT year(vstdate) as years ,month(vstdate) as months,year(vstdate) as days 
-                    ,count(DISTINCT vn) as countvn,count(pdx) as countpdx
-                    ,count(DISTINCT vn)- count(pdx) as count_no_diag,sum(debit) as sum_total 
-                    FROM d_fdh WHERE vstdate BETWEEN "'.$start.'" AND "'.$end.'" 
-                    AND projectcode ="OFC" 
-                    AND (an IS NULL OR an ="") AND (hn IS NOT NULL OR hn <>"") 
+                    ,count(DISTINCT vn) as countvn  
+                    ,sum(debit) as sum_total 
+                    FROM d_fdh   
+                    WHERE projectcode ="OFC" AND debit > 0 
+                    AND hn <>""
+                    AND (an IS NULL OR an ="")
+                    AND vstdate BETWEEN "'.$start.'" AND "'.$end.'"  
                     GROUP BY month(vstdate)
-            ');   
-            $data['fdh_ofc_m']        = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE projectcode ="OFC" AND (pdx IS NULL OR pdx ="") AND (an IS NULL OR an ="") AND (hn IS NOT NULL OR hn <>"") GROUP BY vn'); 
-            $data['fdh_ofc_momth']    = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE month(vstdate) ="'.$m.'" AND projectcode ="OFC" AND (pdx IS NULL OR pdx ="") AND (an IS NULL OR an ="") AND (hn IS NOT NULL OR hn <>"") GROUP BY vn'); 
+            ');  
+            // AND (pdx IS NULL OR pdx ="") 
+            // AND projectcode ="OFC"  
+            // AND (an IS NULL OR an ="") AND (hn IS NOT NULL OR hn <>"")  
+            $data['fdh_ofc_all']       = DB::connection('mysql')->select(
+                'SELECT * FROM d_fdh 
+                    WHERE projectcode ="OFC" AND debit > 0 
+                    AND hn <>"" AND (pdx IS NULL OR pdx ="") 
+                    AND (an IS NULL OR an ="") 
+                    AND vstdate BETWEEN "'.$start.'" AND "'.$end.'" 
+                   
+            '); 
+            // $data['fdh_ofc_m']        = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE projectcode ="OFC" AND (pdx IS NULL OR pdx ="") AND (an IS NULL OR an ="") AND (hn IS NOT NULL OR hn <>"") GROUP BY vn'); 
+            $data['fdh_ofc_momth']    = DB::connection('mysql')->select(
+                'SELECT * FROM d_fdh 
+                WHERE projectcode ="OFC" AND debit > 0
+                AND hn <>"" AND (pdx IS NULL OR pdx ="") 
+                AND (an IS NULL OR an ="")
+                AND month(vstdate) ="'.$m.'" AND year(vstdate) ="'.$yy.'" 
+ 
+            '); 
             
         } else {
             $data['fdh_ofc']    = DB::connection('mysql')->select(

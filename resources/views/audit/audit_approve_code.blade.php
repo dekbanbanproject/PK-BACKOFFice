@@ -149,17 +149,23 @@
                                                 <?php $jj = 1; ?>
                                                 @foreach ($fdh_ofc as $item)
                                                 <?php 
-                                                $no_app = DB::connection('mysql')->select(
-                                                    'SELECT year(vstdate) as years ,month(vstdate) as months
-                                                        ,count(DISTINCT vn) as countvn,sum(debit) as sum_total_no  
-                                                        FROM d_fdh WHERE month(vstdate) = "'.$item->months.'" AND year(vstdate) = "'.$item->years.'" 
-                                                        AND projectcode ="OFC" AND (an IS NULL OR an ="") AND debit > 0  
-                                                        AND (authen IS NULL OR authen ="") 
+                                                    // $no_app = DB::connection('mysql')->select(
+                                                    //     'SELECT year(vstdate) as years ,month(vstdate) as months
+                                                    //         ,count(DISTINCT vn) as countvn_no,sum(debit) as sum_total_no  
+                                                    //         FROM d_fdh WHERE month(vstdate) = "'.$item->months.'" AND year(vstdate) = "'.$item->years.'" 
+                                                    //         AND projectcode ="OFC" AND (an IS NULL OR an ="") AND debit > 0  
+                                                    //         AND (authen IS NULL OR authen ="") 
                                                         
+                                                    // ');  
+                                                    $no_app = DB::connection('mysql')->select(
+                                                        'SELECT count(DISTINCT vn) as countvn_no,sum(debit) as sum_total_no  
+                                                            FROM d_fdh WHERE month(vstdate) = "'.$item->months.'" AND year(vstdate) = "'.$item->years.'" 
+                                                            AND projectcode ="OFC" AND (an IS NULL OR an ="") AND debit > 0  
+                                                            AND (authen IS NULL OR authen ="") AND hn <>"" 
                                                     ');  
                                                     foreach ($no_app as $key => $value) {
                                                         $sum_total_no_ = $value->sum_total_no;
-                                                        $countvn_      = $value->countvn;
+                                                        $countvn_      = $value->countvn_no;
                                                     }
                                                 ?>
                                                     <tr>
@@ -190,17 +196,35 @@
                                                         @else
                                                             <td class="text-center" width="15%">ธันวาคม</td> 
                                                         @endif
-                                                        <td class="text-center text-success" width="20%">
-                                                            {{ $item->countvn }} Visit                                                           
+                                                        <td class="text-center text-primary" width="15%">
+                                                            {{ $item->countvn }}                                                             
                                                         </td>
-                                                        <td class="text-center" width="15%" style="color:rgb(22, 168, 132)">{{ number_format($item->sum_total, 2) }}</td> 
-                                                        <td class="text-center" width="15%" style="color:rgb(252, 73, 42)">
+                                                        <td class="text-center" width="15%" style="color:rgb(23, 121, 233)">{{ number_format($item->sum_total, 2) }}</td> 
+                                                        @foreach ($no_app as $item_sub)
+                                                                @if ($item_sub->sum_total_no > 0)
+                                                                    <td class="text-center" width="20%" style="color:rgb(252, 73, 42)">
+                                                                        <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" href="{{ url('audit_approve_detail/' . $item->months . '/' . $item->years) }}" >
+                                                                            {{ number_format($item_sub->sum_total_no, 2) }}
+                                                                        </a> 
+                                                                    </td> 
+                                                                    <td class="text-center" width="15%" style="color:rgb(168, 22, 83)">{{ $item_sub->countvn_no}}</td> 
+                                                                @else
+                                                                    <td class="text-center" width="20%">
+                                                                        <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-success">
+                                                                            ซู๊ดดดดยอดอิหลี
+                                                                        </a> 
+                                                                    </td> 
+                                                                    <td class="text-center" width="15%" style="color:rgb(168, 22, 83)">{{ $item_sub->countvn_no}}</td> 
+                                                                @endif
+                                                                
+                                                        @endforeach
+                                                        {{-- <td class="text-center" width="20%" style="color:rgb(252, 73, 42)">
                                                             <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger"
                                                                 href="{{ url('audit_approve_detail/' . $item->months . '/' . $item->years) }}" >
                                                                 {{ number_format($sum_total_no_, 2) }}
                                                             </a> 
-                                                        </td> 
-                                                        <td class="text-center" width="15%" style="color:rgb(168, 22, 83)">{{ $countvn_}}</td> 
+                                                        </td>  --}}
+                                                        {{-- <td class="text-center" width="15%" style="color:rgb(168, 22, 83)">{{ $countvn_}}</td>  --}}
                                                     </tr>
                                                 @endforeach
 
@@ -264,35 +288,35 @@
                                                 <th class="text-center">ลำดับ</th> 
                                                 <th class="text-center">HN</th> 
                                                 <th class="text-center">CID</th>
-                                                <th class="text-center">PDX</th>
+                                                <th class="text-center">ERROR</th>
                                                 <th class="text-center">วันที่รับบริการ</th>
                                                 <th class="text-center">ชื่อ - สกุล</th>
                                                 <th class="text-center">ลูกหนี้</th>
-                                                <th class="text-center">ชำระเงินเอง</th>
-                                                <th class="text-center">ใบเสร็จ</th> 
-                                                <th class="text-center">ปิดลูกหนี้</th>
+                                                {{-- <th class="text-center">ชำระเงินเอง</th> --}}
+                                                {{-- <th class="text-center">ใบเสร็จ</th>  --}}
+                                                {{-- <th class="text-center">ปิดลูกหนี้</th> --}}
                                                 <th class="text-center">EDC</th> 
-                                                <th class="text-center">Ap HOSxP</th>
-                                                <th class="text-center">Ap KTB</th> 
+                                                {{-- <th class="text-center">Ap HOSxP</th> --}}
+                                                {{-- <th class="text-center">Ap KTB</th>  --}}
                                                 <th class="text-center">cc</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php $jj = 1; ?>
-                                            @foreach ($fdh_ofc_m as $item_n) 
+                                            @foreach ($fdh_ofc_all as $item_n) 
                                                 <tr > <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
                                                     <td class="text-center" style="width: 5%">{{ $item_n->hn }}</td>
                                                     <td class="text-center" style="width: 7%">{{ $item_n->cid }}</td>
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->pdx }}</td>
+                                                    <td class="text-center" style="width: 5%">{{ $item_n->error_c }}</td>
                                                     <td class="text-center" style="width: 5%">{{ $item_n->vstdate }}</td>
                                                     <td class="p-2" style="width: 10%">{{ $item_n->ptname }}</td> 
                                                     <td class="text-center" style="width: 5%">{{ $item_n->debit }}</td>
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->paid_money }}</td> 
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->rcpno }}</td>
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->rramont }}</td>
+                                                    {{-- <td class="text-center" style="width: 5%">{{ $item_n->paid_money }}</td>  --}}
+                                                    {{-- <td class="text-center" style="width: 5%">{{ $item_n->rcpno }}</td> --}}
+                                                    {{-- <td class="text-center" style="width: 5%">{{ $item_n->rramont }}</td> --}}
                                                     <td class="text-center" style="width: 5%">{{ $item_n->edc }}</td> 
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->authen }}</td>
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->AppKTB }}</td> 
+                                                    {{-- <td class="text-center" style="width: 5%">{{ $item_n->authen }}</td> --}}
+                                                    {{-- <td class="text-center" style="width: 5%">{{ $item_n->AppKTB }}</td>  --}}
                                                     <td class="p-2">{{ $item_n->cc }}</td>
                                                 </tr>
                                             @endforeach

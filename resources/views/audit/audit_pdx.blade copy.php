@@ -100,7 +100,7 @@
             </div>
 
             <div class="row">
-                <div class="col-xl-6">
+                <div class="col-xl-5">
                     <div class="card card_audit_4">
                         <div class="card-body">
                             <div class="row">
@@ -141,9 +141,9 @@
                                                     <th class="text-center">Year</th>
                                                     <th class="text-center">Month</th>
                                                     <th class="text-center">Visit ทั้งหมด</th>
-                                                    <th class="text-center">Debit-ทั้งหมด</th>
+                                                    <th class="text-center">Debit-Diag</th>
                                                     <th class="text-center">Debit-ไม่ Diag</th>
-                                                    <th class="text-center">Visit ไม่ Diag</th>
+                                                    <th class="text-center">Visit-ไม่ Diag</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -151,22 +151,17 @@
                                                 @foreach ($fdh_ofc as $item)
                                                 <?php 
                                                     $no_app = DB::connection('mysql')->select(
-                                                        'SELECT count(DISTINCT vn) as countvn_no,sum(debit) as sum_totalnopdx  
+                                                        'SELECT year(vstdate) as years ,month(vstdate) as months
+                                                            ,count(DISTINCT vn) as countvn,sum(debit) as sum_total_no  
                                                             FROM d_fdh WHERE month(vstdate) = "'.$item->months.'" AND year(vstdate) = "'.$item->years.'" 
                                                             AND projectcode ="OFC" AND (an IS NULL OR an ="") AND debit > 0  
-                                                            AND (pdx IS NULL OR pdx ="") AND hn <>"" 
+                                                            AND (pdx IS NULL OR pdx ="")
+                                                            GROUP BY month(vstdate)
                                                     ');  
-                                                    // $sum_app = DB::connection('mysql')->select(
-                                                    //     'SELECT SUM(debit) AS sum_diag,count(DISTINCT vn) as countallvn FROM d_fdh  
-                                                    //     WHERE projectcode ="OFC" 
-                                                    //     AND (an IS NULL OR an ="") AND month(vstdate) = "'.$item->months.'" AND year(vstdate) = "'.$item->years.'" 
-                                                    // ');  
-                                                    foreach ($no_app as $key => $val_sdx) {
-                                                        $sum_total_nodiag = $val_sdx->sum_totalnopdx;
-                                                        $countallnovn_    = $val_sdx->countvn_no;
+                                                    foreach ($no_app as $key => $value) {
+                                                        $sum_total_no_ = $value->sum_total_no;
+                                                        $countvn_      = $value->countvn;
                                                     }
-                                                    // AND (pdx IS NOT NULL OR pdx <>"") 
-                                                    // $sum_totalno = $sum_total_non;
                                                 ?>
                                                 {{-- sum_total_non --}}
                                                     <tr>
@@ -197,30 +192,30 @@
                                                         @else
                                                             <td class="text-center" width="15%">ธันวาคม</td> 
                                                         @endif
-                                                        <td class="text-center text-primary" width="20%">
-                                                            {{-- {{ $countallvn_ }}  --}}
-                                                            {{ $item->countvn }}  
+                                                        <td class="text-center text-success" width="20%">
+                                                            {{ $item->countvn }} Visit
+                                                           
                                                         </td>
-                                                        <td class="text-center" width="20%" style="color:rgb(24, 103, 223)">{{ number_format($item->sum_total, 2) }} ฿</td> 
-                                                        @foreach ($no_app as $item_sub)
+                                                        <td class="text-center" width="20%" style="color:rgb(22, 168, 132)">{{ number_format($item->sum_total, 2) }}</td> 
+                                                            @foreach ($no_app as $item_sub)
                                                                 @if ($item_sub->sum_totalnopdx > 0)
-                                                                    <td class="text-center" width="20%" style="color:rgb(252, 73, 42)">
-                                                                        <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" href="{{ url('audit_pdx_detail/' . $item->months . '/' . $item->years) }}" >
-                                                                            {{ number_format($item_sub->sum_totalnopdx, 2) }}
-                                                                        </a> 
-                                                                    </td> 
-                                                                    <td class="text-center" width="15%" style="color:rgb(168, 22, 83)">{{ $item_sub->countvn_no}}</td> 
+                                                                <td class="text-center" width="20%" style="color:rgb(252, 73, 42)">
+                                                                    <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" href="{{ url('audit_pdx_detail/' . $item->months . '/' . $item->years) }}" >
+                                                                        {{ number_format($item_sub->sum_totalnopdx, 2) }}
+                                                                    </a> 
+                                                                </td>
+                                                                    
                                                                 @else
-                                                                    <td class="text-center" width="20%">
-                                                                        <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-success">
-                                                                            ซู๊ดดดดยอดอิหลี
-                                                                        </a> 
-                                                                    </td> 
-                                                                    <td class="text-center" width="15%" style="color:rgb(168, 22, 83)">{{ $item_sub->countvn_no}}</td> 
+                                                                <td class="text-center" width="20%">
+                                                                    <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-success">
+                                                                        ซู๊ดดดดยอดอิหลี
+                                                                    </a> 
+                                                                </td>
+                                                                        
                                                                 @endif
-                                                                
-                                                        @endforeach
-                                                        
+                                                            
+                                                            @endforeach
+                                                            <td class="text-center" width="15%" style="color:rgb(168, 22, 83)">{{ $countvn_}}</td> 
                                                     </tr>
                                                 @endforeach
 
@@ -233,7 +228,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-6">
+                <div class="col-xl-7">
                     <div class="card card_audit_4">
                         <div class="card-body">
                             <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">รายการที่ไม่ลง DIAG เดือนนี้</h4>  
@@ -248,7 +243,7 @@
                                                 <th class="text-center">pdx</th> 
                                                 <th class="text-center">ERROR</th>
                                                 <th class="text-center">income</th>  
-                                                {{-- <th class="text-center">Approve Code</th> --}}
+                                                <th class="text-center">Approve Code</th>
                                                 {{-- <th class="text-center">EDC</th>  --}}
                                                 {{-- <th class="text-center">Ap KTB</th>  --}}
                                             </tr>
@@ -265,7 +260,7 @@
                                                 <td class="text-center" width="10%">{{ $item_m->pdx }} </td>
                                                 <td class="text-center" style="width: 5%">{{ $item_m->error_c }}</td>
                                                 <td class="text-center" width="10%">{{ $item_m->debit }} </td>
-                                                {{-- <td class="text-center" width="10%">{{ $item_m->authen }} </td>  --}}
+                                                <td class="text-center" width="10%">{{ $item_m->authen }} </td> 
                                                 {{-- <td class="text-center" width="10%">{{ $item_m->edc }} </td> --}}
                                                 {{-- <td class="text-center" width="10%">{{ $item_m->AppKTB }} </td> --}}
                                             </tr>
@@ -306,7 +301,7 @@
                                         </thead>
                                         <tbody>
                                             <?php $jj = 1; ?>
-                                            @foreach ($fdh_ofc_all as $item_n) 
+                                            @foreach ($fdh_ofc_m as $item_n) 
                                                 <tr > <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
                                                     <td class="text-center" style="width: 5%">{{ $item_n->hn }}</td> 
                                                     <td class="text-center" style="width: 5%">{{ $item_n->pdx }}</td>
