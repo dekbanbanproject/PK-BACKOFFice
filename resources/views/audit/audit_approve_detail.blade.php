@@ -256,6 +256,7 @@
                                     <tr>
                                         <th class="text-center">ลำดับ</th>
                                         <th class="text-center">hn</th>
+                                        <th class="text-center">vn</th>
                                         <th class="text-center">cid</th>
                                         <th class="text-center">pttype</th>
                                         <th class="text-center">vstdate</th>
@@ -275,6 +276,7 @@
                                         <tr>
                                             <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
                                             <td class="text-center" width="5%">{{ $item_m->hn }} </td>
+                                            <td class="text-center" width="5%">{{ $item_m->vn }} </td>
                                             <td class="text-center" width="10%">{{ $item_m->cid }} </td>
                                             <td class="text-center" width="7%">{{ $item_m->pttype }} </td>
                                             <td class="text-center" width="10%">{{ $item_m->vstdate }} </td>

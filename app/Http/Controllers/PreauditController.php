@@ -178,11 +178,12 @@ class PreauditController extends Controller
                     ,sum(debit) as sum_total 
                     FROM d_fdh   
                     WHERE projectcode ="OFC" AND debit > 0 
-                    AND hn <>"" 
-                    AND (an IS NULL OR an ="")
+                    AND (an IS NULL OR an ="") 
+                   
                     AND vstdate BETWEEN "'.$start.'" AND "'.$end.'"  
                     GROUP BY month(vstdate)
             '); 
+            // AND (an IS NULL OR an ="")     AND hn <>"" 
             // $data['fdh_ofc_m']    = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE month(vstdate) BETWEEN "'.$newDate.'" AND "'.$m.'" AND projectcode ="OFC" AND authen IS NULL AND an IS NULL GROUP BY vn'); 
             // $data['fdh_ofc_m']       = DB::connection('mysql')->select(
             //     'SELECT * FROM d_fdh 
@@ -317,8 +318,7 @@ class PreauditController extends Controller
                             LEFT OUTER JOIN rcpt_print r on r.vn =v.vn
                             LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn
                             LEFT OUTER JOIN hpc11_ktb_approval hh on hh.pid = pt.cid and hh.transaction_date = v.vstdate                        
-                            LEFT OUTER JOIN ktb_edc_transaction k on k.vn = v.vn 
-                            LEFT OUTER JOIN ipt i on i.vn = v.vn          
+                            LEFT OUTER JOIN ktb_edc_transaction k on k.vn = v.vn  
                             LEFT OUTER JOIN ovst ot on ot.vn = v.vn
                             LEFT OUTER JOIN ovstost ovv on ovv.ovstost = ot.ovstost
 
