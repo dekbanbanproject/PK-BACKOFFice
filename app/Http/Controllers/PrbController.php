@@ -210,8 +210,8 @@ class PrbController extends Controller
                 select month(v.vstdate) as vstdate
                 ,count(distinct v.hn) as hn
                 ,count(distinct v.vn) as vn
-                ,sum(vp.claim_code ="1") as claim_code
-                ,sum(vp.claim_code ="2" or vp.claim_code is null) as noclaim_code
+                ,COUNT(vp.nhso_docno) as claim_code 
+                ,COUNT(distinct v.vn)-COUNT(vp.nhso_docno) as noclaim_code 
                 ,sum(v.income) as income
                 ,sum(vp.nhso_ownright_pid) as ownright_pid
                 ,sum(vp.nhso_ownright_name) as ownright_name
@@ -224,6 +224,8 @@ class PrbController extends Controller
                 and v.pttype in("36","37","38","39")
                 group by month(v.vstdate)
         '); 
+        // ,sum(vp.claim_code ="1") as claim_code
+        // ,sum(vp.claim_code ="2" or vp.claim_code is null) as noclaim_code
         
         return view('prb.prb_repopd', $data,[ 
             'startdate'      =>  $startdate,
@@ -377,11 +379,12 @@ class PrbController extends Controller
             and i.an is null
             and v.pttype in("36","37","38","39")
             and month(v.vstdate) = "'.$months.'"
-            and (vp.claim_code ="2" or vp.claim_code is null)
+            AND (vp.nhso_docno IS NULL OR vp.nhso_docno ="")
+            
             group by v.vn
             order by v.hn,v.vstdate 
         '); 
-        
+        // and (vp.claim_code ="2" or vp.claim_code is null)
         return view('prb.prb_repopd_subnoreq', $data,[ 
             'startdate'      =>  $startdate,
             'enddate'      =>  $enddate,

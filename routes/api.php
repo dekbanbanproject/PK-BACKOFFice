@@ -46,6 +46,8 @@ Route::match(['get','post'],'auth_mini',[App\Http\Controllers\ApiController::cla
 Route::match(['get','post'],'mini_dataset_apicliam',[App\Http\Controllers\ApiController::class, 'mini_dataset_apicliam'])->name('fdh.mini_dataset_apicliam');
 Route::match(['get','post'],'mini_dataset_pulljong',[App\Http\Controllers\ApiController::class, 'mini_dataset_pulljong'])->name('fdh.mini_dataset_pulljong');
 Route::match(['get','post'],'update_authento_hos',[App\Http\Controllers\ApiController::class, 'update_authento_hos'])->name('fdh.update_authento_hos');
+Route::match(['get','post'],'mini_dataset_line',[App\Http\Controllers\ApiController::class, 'mini_dataset_line'])->name('fdh.mini_dataset_line');
+
 
 Route::get('fdh_countvn', [App\Http\Controllers\ApiController::class, 'fdh_countvn'])->name('app.fdh_countvn');
 Route::get('fdh_sumincome', [App\Http\Controllers\ApiController::class, 'fdh_sumincome'])->name('app.fdh_sumincome');

@@ -2036,8 +2036,7 @@ class FdhController extends Controller
 
     public function fdh_mini_dataset_pullauto(Request $request)
     { 
-            $date = date('Y-m-d');
-     
+            $date = date('Y-m-d');     
             $datashow_ = DB::connection('mysql10')->select(
                 'SELECT v.vstdate,o.vsttime
                     ,Time_format(o.vsttime ,"%H:%i") vsttime2
@@ -2045,9 +2044,7 @@ class FdhController extends Controller
                     ,IFNULL(rd.total_amount,v.income) as total_amout
                     ,IFNULL(rd.finance_number,v.vn) as invoice_number
                     ,v.vn,concat(pt.pname,pt.fname," ",pt.lname) as ptname,v.hn,v.pttype
-                    ,IFNULL(vp.claim_code,vp.auth_code) as authen_code
-                    
-               
+                    ,IFNULL(vp.claim_code,vp.auth_code) as authen_code 
                     FROM ovst o
                     LEFT OUTER JOIN vn_stat v ON v.vn = o.vn 
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn
@@ -2299,6 +2296,7 @@ class FdhController extends Controller
         $newyear     = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
  
         if ($startdate == '') {
+            
             $data['fdh_mini_dataset']    = DB::connection('mysql')->select(
                 'SELECT *
                 FROM check_sit_auto 
@@ -2309,6 +2307,47 @@ class FdhController extends Controller
             ');
             // vn,cid,hn,vstdate,pttype,claimcode,fullname,staff 
         } else {
+            $data_vn_1 = DB::connection('mysql10')->select(
+                'SELECT v.vn,p.hn,p.cid,v.vstdate,o.pttype,p.birthday,p.hometel,p.citizenship,p.nationality,v.pdx,o.hospmain,o.hospsub
+                ,concat(p.pname,p.fname," ",p.lname) as fullname
+                ,o.staff,op.name as sname,v.income-v.discount_money-v.rcpt_money as debit
+                FROM vn_stat v
+                LEFT JOIN visit_pttype vs on vs.vn = v.vn
+                LEFT JOIN ovst o on o.vn = v.vn 
+                LEFT JOIN patient p on p.hn=v.hn
+                LEFT JOIN pttype pt on pt.pttype=v.pttype
+                LEFT JOIN opduser op on op.loginname = o.staff
+                WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","X7","10","06","C4") 
+                AND p.cid IS NOT NULL AND p.nationality ="99" AND p.birthday <> "'.$startdate.'" AND (vs.claim_code IS NULL OR vs.claim_code ="")
+                GROUP BY o.vn 
+            ');
+            foreach ($data_vn_1 as $key => $value_1) {                
+                $check = Check_sit_auto::where('vn', $value_1->vn)->count();
+                    if ($check > 0) {   
+                        Check_sit_auto::where('vn', $value_1->vn)->update([  
+                            'vstdate'             => $value_1->vstdate,
+                            'pttype'              => $value_1->pttype,
+                            'debit'               => $value_1->debit, 
+                        ]);              
+                    } else {
+                        Check_sit_auto::insert([
+                            'vn'         => $value_1->vn, 
+                            'hn'         => $value_1->hn,
+                            'cid'        => $value_1->cid,
+                            'vstdate'    => $value_1->vstdate,
+                            'hometel'    => $value_1->hometel, 
+                            'fullname'   => $value_1->fullname,
+                            'pttype'     => $value_1->pttype,
+                            'hospmain'   => $value_1->hospmain,
+                            'hospsub'    => $value_1->hospsub, 
+                            'staff'      => $value_1->staff, 
+                            'debit'      => $value_1->debit,
+                            'pdx'        => $value_1->pdx, 
+                        ]);
+                    }
+            }
+
             $data['fdh_mini_dataset']    = DB::connection('mysql')->select(
                 'SELECT * FROM check_sit_auto 
                 WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 

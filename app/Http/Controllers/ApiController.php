@@ -1416,6 +1416,106 @@ class ApiController extends Controller
                 
     }
 
+    public function mini_dataset_line(Request $request)
+    { 
+           $date_now = date('Y-m-d');
+           $iduser = "754"; 
+
+           $count_visit_all_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'"');      
+           foreach ($count_visit_all_ as $key => $value) {
+                $count_visit_all = $value->Cvn;
+           }  
+           $sum_total_amount_ = DB::connection('mysql')->select('SELECT sum(total_amout) as sumtotal_amout FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'"');      
+           foreach ($sum_total_amount_ as $key => $value5) {
+                $sum_total_amount = $value5->sumtotal_amout;
+           }     
+           $count_invoice_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND invoice_number IS NOT NULL');      
+           foreach ($count_invoice_ as $key => $value2) {
+                $count_invoice = $value2->Cvn;
+           }  
+           $count_uuidnull_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND uuid_booking IS NULL');      
+           foreach ($count_uuidnull_ as $key => $value3) {
+                $count_uuidnull = $value3->Cvn;
+           }  
+           $count_uuidnotnull_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND uuid_booking IS NOT NULL');      
+           foreach ($count_uuidnotnull_ as $key => $value4) {
+                $count_uuidnotnull = $value4->Cvn;
+           }  
+           $jong_success_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND transaction_uid IS NOT NULL');      
+           foreach ($jong_success_ as $key => $value6) {
+                $jong_success = $value6->Cvn;
+           }      
+            
+           //แจ้งเตือน 
+            function DateThailine($strDate)
+            {
+                $strYear = date("Y", strtotime($strDate)) + 543;
+                $strMonth = date("n", strtotime($strDate));
+                $strDay = date("j", strtotime($strDate));
+
+                $strMonthCut = array("", "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
+                $strMonthThai = $strMonthCut[$strMonth];
+                return "$strDay $strMonthThai $strYear";
+            }
+
+            $header = "Mini Data Set";
+            // $linegroup = DB::table('line_token')->where('line_token_id', '=', 6)->first();
+            // $line = $linegroup->line_token_code;
+
+            $link = DB::table('orginfo')->where('orginfo_id', '=', 1)->first();
+            $link_line = $link->orginfo_link;
+
+            $datesend = date('Y-m-d');
+            $sendate = DateThailine($datesend);
+            $user = DB::table('users')->where('id', '=', $iduser)->first();
+
+            function formatetime($strtime)
+            {
+                $H = substr($strtime, 0, 5);
+                return $H;
+            }
+
+            $message = $header .               
+                "\n" . "วันที่ : " . DateThailine($sendate) .
+                "\n" . "Visit : " . $count_visit_all . 
+                "\n" . "ยอดจอง : " . $sum_total_amount . 
+                "\n" . "มีเลข Invoice : " . $count_invoice . 
+                "\n" . "จองสำเร็จ : " . $jong_success .
+                "\n" . "uuid ว่าง : " .$count_uuidnull .
+                "\n" . "uuid ไม่ว่าง : " . $count_uuidnotnull;
+
+            // $linesend = $line;
+            $linesend = "DDpDNOOH6RowPLajt0JUzC2belFNcZOWZPx5lbG8kj1";
+            if ($linesend == null) {
+                $test = '';
+            } else {
+                $test = $linesend;
+            }
+
+            if ($test !== '' && $test !== null) {
+                $chOne = curl_init();
+                curl_setopt($chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+                curl_setopt($chOne, CURLOPT_SSL_VERIFYHOST, 0);
+                curl_setopt($chOne, CURLOPT_SSL_VERIFYPEER, 0);
+                curl_setopt($chOne, CURLOPT_POST, 1);
+                curl_setopt($chOne, CURLOPT_POSTFIELDS, $message);
+                curl_setopt($chOne, CURLOPT_POSTFIELDS, "message=$message");
+                curl_setopt($chOne, CURLOPT_FOLLOWLOCATION, 1);
+                $headers = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $test . '',);
+                curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+                curl_setopt($chOne, CURLOPT_RETURNTRANSFER, 1);
+                $result = curl_exec($chOne);
+                if (curl_error($chOne)) {
+                    echo 'error:' . curl_error($chOne);
+                } else {
+                    $result_ = json_decode($result, true);
+                    //return response()->json(['status'=>200]);                        
+                }
+                curl_close($chOne);
+            }
+           return response()->json('200'); 
+    }
+
     // public function getimage(Request $request,$id)
     // { 
     //     $productID=explode(".",$id);
