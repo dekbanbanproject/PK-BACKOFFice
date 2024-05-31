@@ -24,6 +24,7 @@ return new class extends Migration
                 $table->string('hospital_code')->nullable();//
                 $table->string('user_id')->nullable();//
                 $table->enum('active_mini', ['N','Y'])->default('N'); 
+                $table->text('basic_auth')->nullable();//
                 $table->timestamps();
             });
         }

@@ -115,11 +115,14 @@ $pos = strrpos($url, '/') + 1;
                         <i class="fa-solid fa-spinner text-primary me-2"></i>
                         ค้นหา(ไม่มีเลข invoice_number)
                     </button> --}}
-                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4"  id="Pulldata">
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Pulldata"  data-url="{{url('fdh_authen_pull')}}">
                         <i class="fa-solid fa-spinner text-success me-2"></i>
                         ดึง Authen 
                     </button>
-                   
+                    {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('fdh_mini_dataset_apicliam')}}">
+                        <i class="fa-solid fa-spinner text-success me-2"></i>
+                        ส่ง Minidataset
+                    </button> --}}
                   
                 </div> 
             </div>          
@@ -141,18 +144,16 @@ $pos = strrpos($url, '/') + 1;
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
-                               
-                                    <th class="text-center" width="7%">vstdate</th>
+                                    <th width="5%" class="text-center"><input type="checkbox" class="fdhcheckbox" name="stamp" id="stamp"> </th> 
+                                    <th class="text-center" width="10%">vstdate</th>
                                     {{-- <th class="text-center" width="10%">service_date_time</th> --}}
-                                    <th class="text-center" width="7%">cid</th>
-                                    <th class="text-center" width="7%">vn</th>
+                                    <th class="text-center" width="10%">cid</th>
+                                    <th class="text-center" width="10%">vn</th>
                                     <th class="text-center" width="5%">hn</th>
                                     <th class="text-center" width="5%">pttype</th>
                                     <th class="text-center">ptname</th>
-                                    <th class="text-center" width="5%">claimcode</th>
-                                    <th class="text-center" width="7%">staff</th>
-                                    {{-- <th class="text-center" width="7%">invoice_number</th> --}}
-                                   
+                                    <th class="text-center" width="10%">claimcode</th>
+                                    <th class="text-center" width="10%">staff</th> 
                                 </tr>
                             </thead>
                             <tbody>
@@ -162,18 +163,21 @@ $pos = strrpos($url, '/') + 1;
 
                                         <tr height="20" >
                                             <td class="text-center" width="5%">{{ $number}}</td> 
-                                     
-                                           <td class="text-center" width="10%">{{ $item->vstdate }}</td>
-                                            {{-- <td class="text-center" width="10%">{{ $item->service_date_time }}</td> --}}
+                                            @if ($item->claimcode != '')
+                                            <td class="text-center" width="5%">
+                                                <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
+                                            </td> 
+                                            @else
+                                                <td class="text-center" width="5%"><input type="checkbox" class="fdhcheckbox sub_chk" data-id="{{$item->check_sit_auto_id}}"> </td> 
+                                            @endif 
+                                            <td class="text-center" width="10%">{{ $item->vstdate }}</td> 
                                             <td class="text-center" width="10%">{{ $item->cid }}</td>
                                             <td class="text-center" width="10%">{{ $item->vn }}</td>
                                             <td class="text-center" width="5%">{{ $item->hn }}</td>
                                             <td class="text-center" width="5%">{{ $item->pttype }}</td>
                                             <td class="p-2">{{ $item->fullname }}</td>
                                             <td class="text-center" width="10%">{{ $item->claimcode }}</td>
-                                            <td class="text-center" width="10%">{{ $item->staff }}</td>
-                                            {{-- <td class="text-center" width="7%">{{ $item->invoice_number }}</td> --}}
-                                           
+                                            <td class="text-center" width="10%">{{ $item->staff }}</td> 
                                         </tr>
 
                                 @endforeach
@@ -261,139 +265,94 @@ $pos = strrpos($url, '/') + 1;
         });
         $("#spinner-div").hide(); //Request is complete so hide spinner
        
-        //     $('.Claim').on('click', function(e) {
-        //     // alert('oo');
-        //     var allValls = [];
-        //     // $(".sub_destroy:checked").each(function () {
-        //     $(".sub_chk:checked").each(function () {
-        //         allValls.push($(this).attr('data-id'));
-        //     });
-        //     if (allValls.length <= 0) {
-        //         // alert("SSSS");
-        //         Swal.fire({
-        //             title: 'คุณยังไม่ได้เลือกรายการ ?',
-        //             text: "กรุณาเลือกรายการก่อน",
-        //             icon: 'warning',
-        //             showCancelButton: true,
-        //             confirmButtonColor: '#3085d6',
-        //             cancelButtonColor: '#d33', 
-        //             }).then((result) => {
+        $('.Pulldata').on('click', function(e) {
+            // alert('oo');
+            var allValls = [];
+            // $(".sub_destroy:checked").each(function () {
+            $(".sub_chk:checked").each(function () {
+                allValls.push($(this).attr('data-id'));
+            });
+            if (allValls.length <= 0) {
+                // alert("SSSS");
+                Swal.fire({
+                    position: "top-end",
+                    title: 'คุณยังไม่ได้เลือกรายการ ?',
+                    text: "กรุณาเลือกรายการก่อน",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33', 
+                    }).then((result) => {
                     
-        //             })
-        //     } else {
-        //         Swal.fire({
-        //             title: 'Are you Want Send sure?',
-        //             text: "คุณต้องการ Send รายการนี้ใช่ไหม!",
-        //             icon: 'warning',
-        //             showCancelButton: true,
-        //             confirmButtonColor: '#3085d6',
-        //             cancelButtonColor: '#d33',
-        //             confirmButtonText: 'Yes, Send it.!'
-        //             }).then((result) => {
-        //                 if (result.isConfirmed) {
-        //                     var check = true;
-        //                     if (check == true) {
-        //                         var join_selected_values = allValls.join(",");
-        //                         // alert(join_selected_values);
-        //                         $("#overlay").fadeIn(300);　
-        //                         $("#spinner").show(); //Load button clicked show spinner 
+                    })
+            } else {
+                Swal.fire({
+                    position: "top-end",
+                    title: 'Are you Want Pull sure?',
+                    text: "คุณต้องการ Pull รายการนี้ใช่ไหม!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Pull it.!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            var check = true;
+                            if (check == true) {
+                                var join_selected_values = allValls.join(",");
+                                // alert(join_selected_values);
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
 
-        //                         $.ajax({
-        //                             url:$(this).data('url'),
-        //                             type: 'POST',
-        //                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        //                             data: 'ids='+join_selected_values,
-        //                             success:function(data){ 
-        //                                     if (data.status == 200) {
+                                $.ajax({
+                                    url:$(this).data('url'),
+                                    type: 'POST',
+                                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                                    data: 'ids='+join_selected_values,
+                                    success:function(data){ 
+                                            if (data.status == 200) {
                                                
-        //                                         $(".sub_chk:checked").each(function () {
-        //                                             $(this).parents("tr").remove();
-        //                                         });
-        //                                         Swal.fire({
-        //                                             position: "top-end",
-        //                                             title: 'ดึงข้อมูลสำเร็จ',
-        //                                             text: "You Pull data success",
-        //                                             icon: 'success',
-        //                                             showCancelButton: false,
-        //                                             confirmButtonColor: '#06D177',
-        //                                             confirmButtonText: 'เรียบร้อย'
-        //                                         }).then((result) => {
-        //                                             if (result
-        //                                                 .isConfirmed) {
-        //                                                 console.log(
-        //                                                     data);
-        //                                                 window.location.reload();
-        //                                                 $('#spinner').hide();//Request is complete so hide spinner
-        //                                             setTimeout(function(){
-        //                                                 $("#overlay").fadeOut(300);
-        //                                             },500);
-        //                                             }
-        //                                         })
-        //                                     // } else if (data.status == 100) {
-        //                                     //     Swal.fire({
-        //                                     //         title: 'พบข้อมูลการจองเคลมซ้ำในระบบ',
-        //                                     //         text: "Found duplicate claim booking information in the system.",
-        //                                     //         icon: 'success',
-        //                                     //         showCancelButton: false,
-        //                                     //         confirmButtonColor: '#06D177',
-        //                                     //         confirmButtonText: 'เรียบร้อย'
-        //                                     //     }).then((result) => {
-        //                                     //         if (result
-        //                                     //             .isConfirmed) {
-        //                                     //             console.log(
-        //                                     //                 data);
-        //                                     //             window.location.reload(); 
-        //                                     //         }
-        //                                     //     })
-        //                                     // } else if (data.status == 400) {
-        //                                     //     Swal.fire({
-        //                                     //         title: 'พบข้อมูลการจองเคลมซ้ำในระบบ',
-        //                                     //         text: "Found duplicate claim booking information in the system.",
-        //                                     //         icon: 'success',
-        //                                     //         showCancelButton: false,
-        //                                     //         confirmButtonColor: '#06D177',
-        //                                     //         confirmButtonText: 'เรียบร้อย'
-        //                                     //     }).then((result) => {
-        //                                     //         if (result
-        //                                     //             .isConfirmed) {
-        //                                     //             console.log(
-        //                                     //                 data);
-        //                                     //             window.location.reload(); 
-        //                                     //         }
-        //                                     //     })
-        //                                     // } else if (data.status == 900) {
-        //                                     //     Swal.fire({
-        //                                     //         title: 'ข้อมูลในระบบไม่เจอ',
-        //                                     //         text: "Found information in the system.",
-        //                                     //         icon: 'success',
-        //                                     //         showCancelButton: false,
-        //                                     //         confirmButtonColor: '#06D177',
-        //                                     //         confirmButtonText: 'เรียบร้อย'
-        //                                     //     }).then((result) => {
-        //                                     //         if (result
-        //                                     //             .isConfirmed) {
-        //                                     //             console.log(
-        //                                     //                 data);
-        //                                     //             window.location.reload(); 
-        //                                     //         }
-        //                                     //     })
-        //                                     } else {
+                                                $(".sub_chk:checked").each(function () {
+                                                    $(this).parents("tr").remove();
+                                                });
+                                                Swal.fire({
+                                                    position: "top-end",
+                                                    title: 'ดึงข้อมูลสำเร็จ',
+                                                    text: "You Pull data success",
+                                                    icon: 'success',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#06D177',
+                                                    confirmButtonText: 'เรียบร้อย'
+                                                }).then((result) => {
+                                                    if (result
+                                                        .isConfirmed) {
+                                                        console.log(
+                                                            data);
+                                                        window.location.reload();
+                                                        $('#spinner').hide();//Request is complete so hide spinner
+                                                    setTimeout(function(){
+                                                        $("#overlay").fadeOut(300);
+                                                    },500);
+                                                    }
+                                                })
+                                            
+                                            } else {
                                                 
-        //                                     } 
-        //                                 } 
+                                            } 
+                                        } 
                                     
-        //                         });
-        //                         $.each(allValls,function (index,value) {
-        //                             $('table tr').filter("[data-row-id='"+value+"']").remove();
-        //                         });
-        //                     }
-        //                 }
-        //             }) 
-        //         // var check = confirm("Are you want ?");  
-        //     }
-        // });
+                                });
+                                $.each(allValls,function (index,value) {
+                                    $('table tr').filter("[data-row-id='"+value+"']").remove();
+                                });
+                            }
+                        }
+                    }) 
+                // var check = confirm("Are you want ?");  
+            }
+        });
 
-        $('#Pulldata').click(function() {
+        $('#Pulldata222').click(function() {
                 var startdate = $('#datepicker').val(); 
                 var enddate = $('#datepicker2').val(); 
                 Swal.fire({
@@ -417,6 +376,7 @@ $pos = strrpos($url, '/') + 1;
                                     success: function(data) {
                                         if (data.status == 200) { 
                                             Swal.fire({
+                                                position: "top-end",
                                                 title: 'ดึงข้อมูลสำเร็จ',
                                                 text: "You Pull data success",
                                                 icon: 'success',

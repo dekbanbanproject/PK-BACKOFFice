@@ -1138,6 +1138,284 @@ class ApiController extends Controller
            }                 
            return response()->json($fireactive); 
     }
+     // ************************** จองเคลม **************
+     public function auth_mini(Request $request)
+     { 
+             $username        = $request->username;
+             $password        = $request->password;
+             $password_hash   = strtoupper(hash_hmac('sha256', $password, '$jwt@moph#'));
+             $basic_auth = base64_encode("$username:$password");
+             $context = stream_context_create(array(
+                 'http' => array(
+                     'header' => "Authorization: Basic ".base64_encode("$username:$password")
+                 )
+             ));
+             $curl = curl_init();
+             curl_setopt_array($curl, array(
+                 CURLOPT_URL => 'https://fdh.moph.go.th/token?Action=get_moph_access_token&user=' . $username . '&password_hash=' . $password_hash . '&hospital_code=10978',
+                 CURLOPT_RETURNTRANSFER => true,
+                 CURLOPT_ENCODING => '',
+                 CURLOPT_MAXREDIRS => 10,
+                 CURLOPT_TIMEOUT => 0,
+                 CURLOPT_FOLLOWLOCATION => true,
+                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                 CURLOPT_CUSTOMREQUEST => 'POST',
+                 CURLOPT_HTTPHEADER => array(
+                     'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
+                 ),
+             ));
+             $token = curl_exec($curl);
+             // dd($token); 
+             curl_close($curl); 
+             $check = Api_neweclaim::where('api_neweclaim_user', $username)->where('api_neweclaim_pass', $password)->count();
+             if ($check > 0) {
+                 Api_neweclaim::where('api_neweclaim_user', $username)->update([
+                     'api_neweclaim_token'       => $token,
+                     'user_id'                   => "754",
+                     'password_hash'             => $password_hash,
+                     'hospital_code'             => '10978',
+                     'basic_auth'                => $basic_auth,
+                 ]);
+             } else {
+                 Api_neweclaim::insert([
+                     'api_neweclaim_user'        => $username,
+                     'api_neweclaim_pass'        => $password,
+                     'api_neweclaim_token'       => $token,
+                     'password_hash'             => $password_hash,
+                     'hospital_code'             => '10978',
+                     'basic_auth'                => $basic_auth,
+                     'user_id'                   => "754",
+                 ]);
+             } 
+             
+             return response()->json('200'); 
+  
+     }
+     public function mini_dataset_apicliam(Request $request)
+     { 
+            $date = date('Y-m-d');
+            $iduser = "754"; 
+            $data_vn_1 = DB::connection('mysql')->select('SELECT * FROM fdh_mini_dataset WHERE invoice_number IS NOT NULL AND cid <>"" AND transaction_uid IS NULL LIMIT 10');            
+            $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE active_mini = "Y" AND user_id = "'.$iduser.'"');
+            foreach ($data_token_ as $key => $val_to) {
+                $token_   = $val_to->api_neweclaim_token;
+            }
+            $token = $token_;    
+            $startcount = 1;
+            $data_claim = array();
+            foreach ($data_vn_1 as $key => $val) {
+                $service_date_time_      = $val->service_date_time;    
+                $service_date_time    = substr($service_date_time_,0,16);
+                $cid                  = $val->cid;
+                $hcode                = $val->hcode;
+                $total_amout          = $val->total_amout;
+                $invoice_number       = $val->invoice_number;
+                $vn                   = $val->vn;
+                
+                $curl = curl_init();
+                    $postData_send = [ 
+                        "service_date_time"  => $service_date_time,
+                        "cid"                => $cid,
+                        "hcode"              => $hcode,
+                        "total_amout"        => $total_amout,
+                        "invoice_number"     => $invoice_number,
+                        "vn"                 => $vn 
+                    ];
+                    curl_setopt($curl, CURLOPT_URL,"https://fdh.moph.go.th/api/v1/reservation");
+                    curl_setopt($curl, CURLOPT_POST, 1);
+                    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($postData_send, JSON_UNESCAPED_SLASHES));
+                    curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+                        'Content-Type: application/json',
+                        'Authorization: Bearer '.$token,
+                        'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
+                    ));
+        
+                    $server_output     = curl_exec ($curl);
+                    $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                    // dd($statusCode);
+                    $content = $server_output;
+                    $result = json_decode($content, true);
+                    #echo "<BR>";
+                    @$status = $result['status'];
+                    #echo "<BR>";
+                    @$message = $result['message'];
+                    @$data = $result['data'];
+                    @$uid = $data['transaction_uid'];
+                    #echo "<BR>";
+                    // dd(@$result);
+                    if (@$message == 'success') {
+                            Fdh_mini_dataset::where('vn', $vn)
+                            ->update([
+                                'transaction_uid' =>  @$uid,
+                                'active'          => 'Y'
+                            ]); 
+                    } elseif ($status == '400') {
+                            Fdh_mini_dataset::where('vn', $vn)
+                                ->update([
+                                    'transaction_uid' =>  @$uid,
+                                    'active'          => 'Y'
+                                ]);
+                    } else {
+                        # code...
+                    }
+            }        
+            return response()->json('200'); 
+     }
+
+     public function mini_dataset_pulljong(Request $request)
+    {
+            $date = date('Y-m-d');
+            $iduser = "754"; 
+            $data_vn_1 = DB::connection('mysql')->select('SELECT * FROM fdh_mini_dataset WHERE invoice_number IS NOT NULL AND cid <>"" AND hcode <> "" AND id_booking IS NULL LIMIT 50');
+            $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE active_mini = "Y" AND user_id = "'.$iduser.'"');
+            foreach ($data_token_ as $key => $val_to) {
+                $token_   = $val_to->api_neweclaim_token;
+            }
+            $token = $token_; 
+            foreach ($data_vn_1 as $key => $val) { 
+                $transaction_uid      = $val->transaction_uid;
+                $hcode                = $val->hcode; 
+
+                    $curl = curl_init(); 
+                    curl_setopt_array($curl, array(
+                        CURLOPT_URL => 'https://fdh.moph.go.th/api/v1/reservation',
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_ENCODING => '',
+                        CURLOPT_MAXREDIRS => 10,
+                        CURLOPT_TIMEOUT => 0,
+                        CURLOPT_FOLLOWLOCATION => true,
+                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                        CURLOPT_CUSTOMREQUEST => 'GET',
+                        CURLOPT_POSTFIELDS => '{
+                            "transaction_uid": "'.$transaction_uid.'", 
+                            "hcode"          : "'.$hcode.'" 
+                        }',
+                        CURLOPT_HTTPHEADER => array(
+                            'Content-Type: application/json',
+                            'Authorization: Bearer '.$token,
+                            'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
+                        ),
+                    ));
+                    $response = curl_exec($curl);
+                    // dd($response); 
+                    $result            = json_decode($response, true); 
+                    @$status           = $result['status']; 
+                    @$message          = $result['message'];
+                    @$data             = $result['data'];
+                    @$uidrep           = $data['transaction_uid'];
+                    @$id_booking       = $data['id_booking'];
+                    @$uuid_booking     = $data['uuid_booking']; 
+                    if (@$message == 'success') {
+                            Fdh_mini_dataset::where('transaction_uid', $uidrep)
+                            ->update([
+                                'id_booking'     => @$id_booking,
+                                'uuid_booking'   => @$uuid_booking
+                            ]);  
+                    } elseif ($status == '400') {
+                            Fdh_mini_dataset::where('transaction_uid', $uidrep)
+                                ->update([
+                                    'id_booking'     => @$id_booking,
+                                    'uuid_booking'   => @$uuid_booking
+                                ]);
+                    } else {
+                        # code...
+                    }
+            }
+            return response()->json('200'); 
+             
+    }
+    public function update_authento_hos(Request $request)
+    {  
+            $iduser      = "754";
+            $id          = $request->ids;
+            $date_now    = date('Y-m-d');
+            // $date_now     = date('2024-05-30');
+            // $data_vn_1 = Check_sit_auto::whereIn('check_sit_auto_id', explode(",", $id))->get();
+            $data_vn_1 = DB::connection('mysql10')->select(
+                'SELECT v.vn,p.hn,p.cid,o.vstdate,o.pttype,p.birthday,p.hometel,p.citizenship,p.nationality,v.pdx,o.hospmain,o.hospsub
+                ,o.staff,op.name as sname,v.income-v.discount_money-v.rcpt_money debit
+                FROM vn_stat v
+                LEFT JOIN visit_pttype vs on vs.vn = v.vn
+                LEFT JOIN ovst o on o.vn = v.vn 
+                LEFT JOIN patient p on p.hn=v.hn
+                LEFT JOIN pttype pt on pt.pttype=v.pttype
+                LEFT JOIN opduser op on op.loginname = o.staff
+                WHERE o.vstdate = "'.$date_now.'" 
+                AND p.cid IS NOT NULL AND p.nationality ="99" AND p.birthday <> "'.$date_now.'" AND (vs.claim_code IS NULL OR vs.claim_code ="")
+                GROUP BY o.vn
+                LIMIT 70
+            ');
+            // WHERE o.vstdate = "'.$date_now.'" 
+            // AND p.cid IS NOT NULL AND p.nationality ="99" AND p.birthday <> "2024-05-29" AND (vs.claim_code IS NULL OR vs.claim_code ="")
+            // GROUP BY o.vn
+            // LIMIT 100
+            $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE active_mini = "Y" AND user_id="'.$iduser.'"');
+            foreach ($data_token_ as $key => $val_to) {
+                $token_       = $val_to->api_neweclaim_token;
+                $basic_auth   = $val_to->basic_auth;
+            }
+            $token = $token_;                  
+            foreach ($data_vn_1 as $key => $value) {
+                    $cid         = $value->cid;
+                    $vn          = $value->vn;
+                    $vstdate     = $value->vstdate; 
+
+                    $ch = curl_init(); 
+                    $headers = array();
+                    $headers[] = "Accept: application/json";
+                    $headers[] = "Authorization: Bearer 3045bba2-3cac-4a74-ad7d-ac6f7b187479";
+                    // https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=2024-05-29&claimDateTo=2024-05-29&pid=3361000824057&page=0&size=10&sort=transId,desc   
+                    // $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$vstdate&claimDateTo=$vstdate&pid=$cid&page=0&size=10&sort=transId,desc"; 
+                    curl_setopt($ch, CURLOPT_URL, "https://authenucws.nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cid&serviceDate=$vstdate&serviceCode=PG0060001"); 
+                    // curl_setopt($ch, CURLOPT_URL, $url);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); 
+                    $response = curl_exec($ch); 
+                    $contents = $response; 
+                    // dd($response);
+                    $result = json_decode($contents, true);  
+                    // dd($result);
+                    if ($result != null ) {  
+                            isset( $result['statusAuthen'] ) ? $statusAuthen = $result['statusAuthen'] : $statusAuthen = ""; 
+                            if ($statusAuthen =='false') { 
+                                $his = $result['serviceHistories']; 
+                                // dd($his); 
+                                foreach ($his as $key => $value_s) {
+                                    $cd	           = $value_s["claimCode"];
+                                    $sv_code	   = $value_s["service"]["code"];
+                                    $sv_name	   = $value_s["service"]["name"];
+                                        
+                                    Visit_pttype::where('vn','=', $vn)
+                                        ->update([
+                                            'claim_code'     => $cd, 
+                                            'auth_code'      => $cd, 
+                                    ]);
+                                    
+                                    Check_sit_auto::where('vn','=', $vn)
+                                        ->update([
+                                            'claimcode'     => $cd,
+                                            'claimtype'     => $sv_code,
+                                            'servicename'   => $sv_name, 
+                                    ]);
+                                    Fdh_mini_dataset::where('vn','=', $vn)
+                                        ->update([
+                                            'claimcode'     => $cd,
+                                            'claimtype'     => $sv_code,
+                                            'servicename'   => $sv_name, 
+                                    ]);
+
+                                }  
+                            } 
+                    } 
+
+            }  
+
+            return response()->json('200'); 
+                
+    }
+
     // public function getimage(Request $request,$id)
     // { 
     //     $productID=explode(".",$id);

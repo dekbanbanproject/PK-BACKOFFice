@@ -306,7 +306,7 @@ class Auto_authenController extends Controller
                 'Accept: application/json, text/plain, */*',
                 'Accept-Language: th-TH,th;q=0.9,en-US;q=0.8,en;q=0.7',
                 'Connection: keep-alive',
-                'Cookie: SESSION=OWRlNmFmNTgtMzcyOS00YjlhLWE4ZGItNTQ2MTE4Yjk5Yjc0; TS01bfdc7f=013bd252cb85ce79fee3d31f0c9c16c0d40571b089107cb767097ea2eb0a02fbb1e19f92dfad001968c3c63e994fd35f9345d3a94dedbf4ca04ed425b2fa2ac893d1e574ed; _ga_RD7G4LWTPR=GS1.1.1692756773.3.0.1692756785.48.0.0; _ga_HXZ8WDL874=GS1.1.1701230559.3.1.1701231434.0.0.0; _ga_TRYKLSJ30C=GS1.1.1705463233.18.1.1705463429.0.0.0; _ga=GA1.1.1692725233.1681974953; _ga_HMTQRNS74Y=GS1.3.1711349202.9.1.1711349342.0.0.0; _ga_FQ47EJ77W8=GS1.1.1711521699.12.0.1711521699.0.0.0; _ga_RSYZ8B7GPX=GS1.1.1711607402.11.1.1711607635.0.0.0; dtCookie=v_4_srv_1_sn_E640715B263EB0F7F8C019755F5930E9_perc_100000_ol_0_mul_1_app-3A3e6dee03b6d85468_0; TS0117aec7=013bd252cb2813ce21e5a5062692f327eefd606013eb1b2fb4c45153c791b2b4b179462665915644c6f138ff14dbe1fd3fcf4ca4b334f3a1570360fda58ed943219362fddc; _ga_5LJ60MBV5D=GS1.1.1712718647.266.1.1712721610.0.0.0; __cflb=04dToSWzC9foxLK9TYVM4AQkF9gVE9vpbSfNZBbKdo; TS01e88bc2=013bd252cbb7eb22f42431bfa3a1a726a62cbdb043a4b07d2aea15e3f51e736ad18d8626a9dd053bc2856a40f7d5556e2540fc213b',
+                'Cookie: SESSION=MDliYTRmZTktNDFkMS00OGRiLTgyZmMtNDdkMzUzYjg1ZjNm; TS01bfdc7f=013bd252cb85ce79fee3d31f0c9c16c0d40571b089107cb767097ea2eb0a02fbb1e19f92dfad001968c3c63e994fd35f9345d3a94dedbf4ca04ed425b2fa2ac893d1e574ed; _ga_RD7G4LWTPR=GS1.1.1692756773.3.0.1692756785.48.0.0; _ga_HXZ8WDL874=GS1.1.1701230559.3.1.1701231434.0.0.0; _ga_TRYKLSJ30C=GS1.1.1705463233.18.1.1705463429.0.0.0; _ga=GA1.1.1692725233.1681974953; _ga_HMTQRNS74Y=GS1.3.1711349202.9.1.1711349342.0.0.0; _ga_FQ47EJ77W8=GS1.1.1711521699.12.0.1711521699.0.0.0; _ga_RSYZ8B7GPX=GS1.1.1711607402.11.1.1711607635.0.0.0; dtCookie=v_4_srv_1_sn_E640715B263EB0F7F8C019755F5930E9_perc_100000_ol_0_mul_1_app-3A3e6dee03b6d85468_0; TS0117aec7=013bd252cb2813ce21e5a5062692f327eefd606013eb1b2fb4c45153c791b2b4b179462665915644c6f138ff14dbe1fd3fcf4ca4b334f3a1570360fda58ed943219362fddc; _ga_5LJ60MBV5D=GS1.1.1712718647.266.1.1712721610.0.0.0; __cflb=04dToSWzC9foxLK9TYVM4AQkF9gVE9vpbSfNZBbKdo; TS01e88bc2=013bd252cbb7eb22f42431bfa3a1a726a62cbdb043a4b07d2aea15e3f51e736ad18d8626a9dd053bc2856a40f7d5556e2540fc213b',
                 'Referer: https://authenservice.nhso.go.th/authencode/',
                 'Sec-Fetch-Dest: empty',
                 'Sec-Fetch-Mode: cors',
@@ -1058,10 +1058,9 @@ class Auto_authenController extends Controller
                 // $date_now = date('2024-04-03');
 
                 $data_sits = DB::connection('mysql10')->select(
-                    'SELECT o.an,v.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,p.pname,p.fname,concat(p.pname,p.fname," ",p.lname) as fullname,op.name as staffname,p.hometel,v.pdx,s.cc
-                    ,pt.nhso_code,o.hospmain,o.hospsub,p.birthday
-                    ,o.staff,op.name as sname
-                    ,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
+                    'SELECT o.an,v.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,p.pname,p.fname,concat(p.pname,p.fname," ",p.lname) as fullname,op.name as staffname
+                    ,p.birthday,p.hometel,p.citizenship,p.nationality,v.pdx,s.cc,pt.nhso_code,o.hospmain,o.hospsub,p.birthday
+                    ,o.staff,op.name as sname ,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
                     FROM vn_stat v
                     LEFT JOIN visit_pttype vs on vs.vn = v.vn
                     LEFT JOIN ovst o on o.vn = v.vn
@@ -1069,8 +1068,9 @@ class Auto_authenController extends Controller
                     LEFT JOIN patient p on p.hn=v.hn
                     LEFT JOIN pttype pt on pt.pttype=v.pttype
                     LEFT JOIN opduser op on op.loginname = o.staff
-                    WHERE v.vstdate = "'.$date_now.'" 
-                    group by v.vn
+                    WHERE o.vstdate = "'.$date_now.'"
+                    AND p.cid IS NOT NULL AND p.nationality ="99" AND p.birthday <> "'.$date_now.'"
+                    group by o.vn
                 
                 ');   
         
@@ -1120,7 +1120,7 @@ class Auto_authenController extends Controller
                         AND (claimcode IS NULL OR claimcode ="") AND cid is not null 
                         AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") 
                         GROUP BY vn 
-                        LIMIT 5
+                        LIMIT 15
                     '); 
                 
                 $ch = curl_init(); 
@@ -1172,7 +1172,7 @@ class Auto_authenController extends Controller
                                     // return response()->json([
                                     //     'status'    => 'ว่าง'
                                     // ]);
-                                // } else { 
+                                    // } else { 
                                         // $statusAuthen_     = $result['statusAuthen'];  //true   
                                         //   foreach ($result as $skills) { 
                                         //         isset( $skills['statusAuthen'] ) ? $statusAuthen = $skills['statusAuthen'] : $statusAuthen = "true"; 
@@ -1208,21 +1208,19 @@ class Auto_authenController extends Controller
                                                     Visit_pttype_205::where('vn', $vn)
                                                         ->update([
                                                             'claim_code'     => $cd, 
+                                                            'auth_code'      => $cd, 
                                                     ]);
                                                     Visit_pttype_217::where('vn', $vn)
                                                         ->update([
                                                             'claim_code'     => $cd, 
+                                                            'auth_code'      => $cd, 
                                                     ]);
                                                     Visit_pttype::where('vn','=', $vn)
                                                         ->update([
                                                             'claim_code'     => $cd, 
+                                                            'auth_code'      => $cd, 
                                                     ]);
-                                                    // Check_sit_auto::where('vn','=', $vn)
-                                                    //     ->update([
-                                                    //         'claimcode'     => $claimCode,
-                                                    //         'claimtype'     => $code,
-                                                    //         'servicename'   => $name, 
-                                                    // ]);
+                                                 
                                                     Check_sit_auto::where('vn','=', $vn)
                                                         ->update([
                                                             'claimcode'     => $cd,

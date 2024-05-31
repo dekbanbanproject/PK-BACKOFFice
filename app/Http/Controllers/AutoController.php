@@ -1757,8 +1757,7 @@ class AutoController extends Controller
                 LEFT JOIN patient p on p.hn=o.hn
                 LEFT JOIN pttype pt on pt.pttype=o.pttype
                 LEFT JOIN opduser op on op.loginname = o.staff
-                WHERE o.vstdate = "'.$date.'"
-                AND p.birthday <> "'.$date.'"
+                WHERE o.vstdate = "'.$date.'" AND p.cid IS NOT NULL AND p.nationality ="99" AND p.birthday <> "'.$date.'" 
                 GROUP BY o.vn    
             ');  
             // AND p.birthday <> "'.$date.'"

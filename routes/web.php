@@ -3320,6 +3320,9 @@ Route::match(['get','post'],'sss_insipd302_process',[App\Http\Controllers\Fdh_ss
 Route::match(['get','post'],'sss_insipd302_export',[App\Http\Controllers\Fdh_sss302Controller::class, 'sss_insipd302_export'])->name('fdh.sss_insipd302_export');
 Route::match(['get','post'],'sss_insipd302_zip',[App\Http\Controllers\Fdh_sss302Controller::class, 'sss_insipd302_zip'])->name('fdh.sss_insipd302_zip');
 
+// Route::match(['get','post'],'fdh_mini_dataset_apicliamauto',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_apicliamauto'])->name('fdh.fdh_mini_dataset_apicliamauto');
+// Route::match(['get','post'],'fdh_mini_dataset_pulljongauto',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pulljongauto'])->name('fdh.fdh_mini_dataset_pulljongauto');
+
 
 
 });
