@@ -1966,7 +1966,7 @@ class AccountPKController extends Controller
                 $row_limit    = $sheet->getHighestDataRow();
                 $column_limit = $sheet->getHighestDataColumn();
                 $row_range    = range( '8', $row_limit );
-                $column_range = range( 'AO', $column_limit );
+                // $column_range = range( 'AO', $column_limit );
                 $startcount = '8';
                 // $row_range_namefile  = range( 9, $sheet->getCell( 'A' . $row )->getValue() );
                 $data = array();
@@ -2259,7 +2259,7 @@ class AccountPKController extends Controller
                 $row_limit    = $sheet->getHighestDataRow();
                 $column_limit = $sheet->getHighestDataColumn();
                 $row_range    = range( '11', $row_limit );
-                $column_range = range( 'AO', $column_limit );
+                // $column_range = range( 'AO', $column_limit );
                 $startcount = '11';
                 // $row_range_namefile  = range( 9, $sheet->getCell( 'A' . $row )->getValue() );
                 $data = array();
