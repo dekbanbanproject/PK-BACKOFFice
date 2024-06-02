@@ -155,7 +155,7 @@
                 ?>
                 <tr> 
                     <td class="text-center text-muted;border: 1px solid black;" style="width: 5%;">{{$i}}</td>
-                    <td class="text-start;border: 1px solid black;" style="width: 10%;background-color: rgb(248, 239, 179)">
+                    <td class="text-start;border: 1px solid black;" style="width: 10%;background-color: rgb(255, 251, 228)">
                         {{$itemreport->MONTH_NAME}} พ.ศ.{{$itemreport->yearsthai}}
                     </td>
                     <td class="text-center;border: 1px solid black;" style="background-color: rgb(255, 237, 117)">
@@ -190,9 +190,9 @@
                     </td> 
 
                     <td class="text-center;border: 1px solid black;" style="background-color: rgb(253, 202, 198)"> {{$total_all- $Checktotal_all}} </td>
-                    <td class="text-center;border: 1px solid black;background-color: rgb(248, 239, 179)"> {{$camroot}} </td>
-                    <td class="text-center;border: 1px solid black;background-color: rgb(248, 239, 179)"> {{ number_format($trut, 2) }} </td>
-                    <td class="text-center;border: 1px solid black;background-color: rgb(248, 239, 179)"> {{ number_format($chamrootcount, 2) }} </td>
+                    <td class="text-center;border: 1px solid black;background-color: rgb(255, 251, 228)"> {{$camroot}} </td>
+                    <td class="text-center;border: 1px solid black;background-color: rgb(255, 251, 228)"> {{ number_format($trut, 2) }} </td>
+                    <td class="text-center;border: 1px solid black;background-color: rgb(255, 251, 228)"> {{ number_format($chamrootcount, 2) }} </td>
                 </tr> 
             @endforeach
         </tbody>
