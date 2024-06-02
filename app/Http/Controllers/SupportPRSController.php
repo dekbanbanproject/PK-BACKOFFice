@@ -126,13 +126,20 @@ class SupportPRSController extends Controller
                         // $count_color_qty         = $value->count_color;
                         // $count_color_percent     = 100 / $count_red * $value->count_color;
                         $count_red_percent          = 100 / $count_red_all * $value->count_red; 
-                        $count_color_red_qty        = $value->count_red;
+                        $count_color_red_qty        = $value->count_red_all;
                         $count_red_alls             = $count_red_all;
 
                         $count_green_percent        = 100 / $count_green_all * $value->count_greens; 
-                        $count_color_green_qty      = $value->count_greens;
+                        $count_color_green_qty      = $value->count_green_all;
                         $count_green_alls           = $count_green_all;
                     // ];
+                }else {
+                    $count_red_percent = '';
+                    $count_color_red_qty = '';
+                    $count_red_alls = '';
+                    $count_green_percent = '';
+                    $count_color_green_qty = '';
+                    $count_green_alls = '';
                 }
             }
             $datareport = DB::connection('mysql')->select(

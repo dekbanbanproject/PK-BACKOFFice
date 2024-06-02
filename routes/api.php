@@ -66,7 +66,7 @@ Route::get('countfireredrepaire', [App\Http\Controllers\ApiController::class, 'c
 Route::get('countfiregreenrepaire', [App\Http\Controllers\ApiController::class, 'countfiregreenrepaire'])->name('app.countfiregreenrepaire');
 Route::get('getfirenum/{firenum}', [App\Http\Controllers\ApiController::class, 'getfirenum'])->name('app.getfirenum');
 
-Route::match(['get','post'],'walkin_send_api',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_send_api'])->name('claim.walkin_send_api');//
+// Route::match(['get','post'],'walkin_send_api',[App\Http\Controllers\Fdh_walkinController::class, 'walkin_send_api'])->name('claim.walkin_send_api');//
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
