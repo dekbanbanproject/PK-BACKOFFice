@@ -154,7 +154,7 @@
                         $chamrootcount = 100 / $total_all * $camroot;
                 ?>
                 <tr> 
-                    <td class="text-center text-muted;border: 1px solid black;" style="width: 5%;">{{$i}}</td>
+                    <td class="text-center text-muted;border: 1px solid black;" style="width: 5%;background-color: rgb(255, 251, 228)">{{$i}}</td>
                     <td class="text-start;border: 1px solid black;" style="width: 10%;background-color: rgb(255, 251, 228)">
                         {{$itemreport->MONTH_NAME}} พ.ศ.{{$itemreport->yearsthai}}
                     </td>
@@ -190,9 +190,9 @@
                     </td> 
 
                     <td class="text-center;border: 1px solid black;" style="background-color: rgb(253, 202, 198)"> {{$total_all- $Checktotal_all}} </td>
-                    <td class="text-center;border: 1px solid black;background-color: rgb(255, 251, 228)"> {{$camroot}} </td>
-                    <td class="text-center;border: 1px solid black;background-color: rgb(255, 251, 228)"> {{ number_format($trut, 2) }} </td>
-                    <td class="text-center;border: 1px solid black;background-color: rgb(255, 251, 228)"> {{ number_format($chamrootcount, 2) }} </td>
+                    <td class="text-center;border: 1px solid black;" style="background-color: rgb(252, 216, 214)"> {{$camroot}} </td>
+                    <td class="text-center;border: 1px solid black;" style="background-color: rgb(252, 216, 214)"> {{ number_format($trut, 2) }} </td>
+                    <td class="text-center;border: 1px solid black;" style="background-color: rgb(252, 216, 214)"> {{ number_format($chamrootcount, 2) }} </td>
                 </tr> 
             @endforeach
         </tbody>
@@ -217,7 +217,7 @@
             <td></td> 
             <td colspan="2"> 
                 <center>
-                <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ลงชื่อ..............................................ผู้ตรวจสอบ</label><br>
+                <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ลงชื่อ..........................................ผู้ตรวจสอบ</label><br>
                 <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> (   นายจตุพร   มิ่งศิริ   )<br> 
                 <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ตำแหน่ง พนักงานบริการ</label><br>
                 </center>
@@ -226,7 +226,7 @@
             </td> 
             <td colspan="2"> 
                 <center>
-                <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ลงชื่อ..............................................ผู้ควบคุม</label><br>
+                <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ลงชื่อ..........................................ผู้ควบคุม</label><br>
                 <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ( นายพงศ์วิจักษณ์   พรมทอง)<br> 
                 <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ตำแหน่ง นักจัดการงานทั่วไป </label><br>
                 </center>
@@ -235,7 +235,7 @@
             </td> 
             <td colspan="2"> 
                 <center>
-                <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ลงชื่อ..............................................</label><br>
+                <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ลงชื่อ............................................</label><br>
                 <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ( นายสถาพร   ป้อมสุวรรณ)<br> 
                 <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> หัวหน้ากลุ่มภารกิจด้านอำนวยการ </label><br>
                 </center>
