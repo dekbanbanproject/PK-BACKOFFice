@@ -380,6 +380,7 @@ class ApiController extends Controller
                                     Visit_pttype::where('vn','=', $vn)
                                         ->update([
                                             'claim_code'     => $cd, 
+                                            'auth_code'      => $cd, 
                                     ]);
                                     
                                     Check_sit_auto::where('vn','=', $vn)
@@ -435,6 +436,7 @@ class ApiController extends Controller
                                             Visit_pttype::where('vn','=', $vnti)
                                                 ->update([
                                                     'claim_code'     => $cd_ti, 
+                                                    'auth_code'      => $cd_ti, 
                                             ]);                                    
                                             Check_sit_auto::where('vn','=', $vnti)
                                                 ->update([
