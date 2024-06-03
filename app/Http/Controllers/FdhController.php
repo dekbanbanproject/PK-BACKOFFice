@@ -1799,8 +1799,24 @@ class FdhController extends Controller
                         'vsttime'             => $value->vsttime,
                         'datesave'            => $date,
                         'user_id'             => $iduser
+                    ]);                     
+                }
+                $check_opdsit = Check_sit_auto::where('vn', $value->vn)->count();
+                if ( $check_opdsit > 0) { 
+                } else {
+                    Check_sit_auto::insert([
+                        'cid'                 => $value->cid,
+                        'hospmain'            => $value->hcode,
+                        'debit'               => $value->total_amout, 
+                        'vn'                  => $value->vn,
+                        'pttype'              => $value->pttype,
+                        'ptname'              => $value->ptname,
+                        'hn'                  => $value->hn,
+                        'vstdate'             => $value->vstdate, 
+                        'vsttime'             => $value->vsttime,  
                     ]);
                 }
+                
             }
         }
         $data['fdh_mini_dataset']    = DB::connection('mysql')->select('SELECT * from fdh_mini_dataset WHERE active ="N" ORDER BY total_amout DESC');

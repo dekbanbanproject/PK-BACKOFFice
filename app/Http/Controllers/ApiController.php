@@ -807,16 +807,23 @@ class ApiController extends Controller
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn
                     LEFT OUTER JOIN pttype ptt ON v.pttype = ptt.pttype 
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
-                WHERE o.vstdate = "' . $date_now . '" AND (o.an IS NULL OR o.an = "") 
+                WHERE o.vstdate = "' . $date_now . '" 
+                AND ptt.hipdata_code ="UCS" AND v.income > 0  
                 AND pt.nationality = "99"
-                AND ptt.hipdata_code ="UCS" AND v.income > 0 and rd.finance_number IS NULL  
-                GROUP BY o.vn   
+                AND (o.an IS NULL OR o.an ="")
+                GROUP BY v.vn 
             ');
+            // WHERE o.vstdate = "' . $date_now . '" AND (o.an IS NULL OR o.an = "") 
+            // AND pt.nationality = "99"
+            // AND ptt.hipdata_code ="UCS" AND v.income > 0 and rd.finance_number IS NULL  
+            // GROUP BY o.vn 
             // AND v.pttype NOT IN("M1","M4","M5")  
             foreach ($datashow_ as $key => $value) {
                 $check_opd = Fdh_mini_dataset::where('vn', $value->vn)->count();
                 if ($check_opd > 0) {
-                    Fdh_mini_dataset::where('vn', $value->vn)->update([  
+                    Fdh_mini_dataset::where('vn', $value->vn)->update([   
+                        'cid'                 => $value->cid, 
+                        'pttype'              => $value->pttype, 
                         'total_amout'         => $value->total_amout,
                         'invoice_number'      => $value->invoice_number, 
                     ]);
