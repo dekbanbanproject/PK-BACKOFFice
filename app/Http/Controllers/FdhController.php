@@ -2062,14 +2062,14 @@ class FdhController extends Controller
 
             $message = $header .               
                 "\n" . "วันที่ส่ง: " . $sendate.
-                "\n" . "Visit All: " . $count_visit_all ."คน". 
-                "\n" . "ยอดจอง : " . number_format($sum_total_amount, 2) . "บาท".
-                "\n" . "มีเลข Invoice : " . $count_invoice ."คน". 
-                "\n" . "จองสำเร็จ : " . $jong_success ."คน".
-                "\n" . "จองไม่สำเร็จ : " .$jong_nosuccess ."คน".
-                "\n" . "ดึงข้อมูลจอง : " . $count_uuidnotnull."คน".
-                "\n" . "Authenสำเร็จ : " .$authen_success. "คน".
-                "\n" . "ยอด Authen: " .number_format($sum_total_authen, 2) ."บาท";
+                "\n" . "Visit All: " . $count_visit_all ." คน". 
+                "\n" . "ยอดจอง : " . number_format($sum_total_amount, 2) . " บาท".
+                "\n" . "มีเลข Invoice : " . $count_invoice ." คน". 
+                "\n" . "จองสำเร็จ : " . $jong_success ." คน".
+                "\n" . "จองไม่สำเร็จ : " .$jong_nosuccess ." คน".
+                "\n" . "ดึงข้อมูลจอง : " . $count_uuidnotnull." คน".
+                "\n" . "Authenสำเร็จ : " .$authen_success. " คน".
+                "\n" . "ยอด Authen: " .number_format($sum_total_authen, 2) ." บาท";
 
             // $linesend = $line;
             $linesend = "DDpDNOOH6RowPLajt0JUzC2belFNcZOWZPx5lbG8kj1";
