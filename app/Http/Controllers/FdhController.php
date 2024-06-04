@@ -103,7 +103,6 @@ use App\Models\Fdh_lvd;
 use App\Models\D_dru_out;
 use App\Models\Fdh_mini_dataset;
 use App\Models\Api_neweclaim;
-
 use App\Imports\ImportAcc_stm_ti;
 use App\Imports\ImportAcc_stm_tiexcel_import;
 use App\Imports\ImportAcc_stm_ofcexcel_import;
@@ -122,15 +121,12 @@ use ZipArchive;
 use Illuminate\Support\Facades\Redirect;
 use PhpParser\Node\Stmt\If_;
 use Stevebauman\Location\Facades\Location;
-
 use Auth;
 use Http;
 use SoapClient;
 use Arr;
 use GuzzleHttp\Client;
 use Illuminate\Filesystem\Filesystem;
-
-
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 
@@ -1831,14 +1827,15 @@ class FdhController extends Controller
     {
         $id = $request->ids;
         $iduser = Auth::user()->id;
-        $data_vn_1 = Fdh_mini_dataset::whereIn('fdh_mini_dataset_id', explode(",", $id))->get();
+        $data_vn_1 = Fdh_mini_dataset::whereIn('fdh_mini_dataset_id', explode(",", $id))->where('invoice_number','<>',NULL)->get();
+        // $data_vn_1 = DB::connection('mysql')->select('SELECT * FROM fdh_mini_dataset WHERE invoice_number IS NOT NULL AND vstdate = "'.$date_now.'"');
         $data_token_ = DB::connection('mysql')->select('SELECT * FROM api_neweclaim WHERE user_id = "' . $iduser . '"');
         foreach ($data_token_ as $key => $val_to) {
             $token_   = $val_to->api_neweclaim_token;
         }
         $token = $token_;
-        $startcount = 1;
-        $data_claim = array();
+        // $startcount = 1;
+        // $data_claim = array();
         foreach ($data_vn_1 as $key => $val) {
             $service_date_time_      = $val->service_date_time;
             $service_date_time    = substr($service_date_time_,0,16);
@@ -1847,53 +1844,53 @@ class FdhController extends Controller
             $total_amout          = $val->total_amout;
             $invoice_number       = $val->invoice_number;
             $vn                   = $val->vn;       
-        $curl = curl_init();
-        $postData_send = [ 
-            "service_date_time"  => $service_date_time,
-            "cid"                => $cid,
-            "hcode"              => $hcode,
-            "total_amout"        => $total_amout,
-            "invoice_number"     => $invoice_number,
-            "vn"                 => $vn
-            // "service_date_time"  => '2024-04-30 08:34',
-            // "cid"                => '1368400058025',
-            // "hcode"              => '10978',
-            // "total_amout"        => '737',
-            // "invoice_number"     => '728640',
-            // "vn"                 => '670430083425'
-        ];
-            curl_setopt($curl, CURLOPT_URL,"https://fdh.moph.go.th/api/v1/reservation");
-            curl_setopt($curl, CURLOPT_POST, 1);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($postData_send, JSON_UNESCAPED_SLASHES));
-            curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-                'Content-Type: application/json',
-                'Authorization: Bearer '.$token,
-                'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
-            ));  
-            $server_output     = curl_exec ($curl);
-            $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);            
-            $content = $server_output;
-            $result = json_decode($content, true);
-            @$status = $result['status'];
-            @$message = $result['message'];
-            @$data = $result['data'];
-            @$uid = $data['transaction_uid'];
-            if (@$message == 'success') {
-                    Fdh_mini_dataset::where('vn', $vn)
-                    ->update([
-                        'transaction_uid' =>  @$uid,
-                        'active'          => 'Y'
-                    ]); 
-            } elseif ($status == '400') {
-                    Fdh_mini_dataset::where('vn', $vn)
+            $curl = curl_init();
+            $postData_send = [ 
+                "service_date_time"  => $service_date_time,
+                "cid"                => $cid,
+                "hcode"              => $hcode,
+                "total_amout"        => $total_amout,
+                "invoice_number"     => $invoice_number,
+                "vn"                 => $vn
+                // "service_date_time"  => '2024-04-30 08:34',
+                // "cid"                => '1368400058025',
+                // "hcode"              => '10978',
+                // "total_amout"        => '737',
+                // "invoice_number"     => '728640',
+                // "vn"                 => '670430083425'
+            ];
+                curl_setopt($curl, CURLOPT_URL,"https://fdh.moph.go.th/api/v1/reservation");
+                curl_setopt($curl, CURLOPT_POST, 1);
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($postData_send, JSON_UNESCAPED_SLASHES));
+                curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+                    'Content-Type: application/json',
+                    'Authorization: Bearer '.$token,
+                    'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
+                ));  
+                $server_output     = curl_exec ($curl);
+                $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);            
+                $content = $server_output;
+                $result = json_decode($content, true);
+                @$status = $result['status'];
+                @$message = $result['message'];
+                @$data = $result['data'];
+                @$uid = $data['transaction_uid'];
+                if (@$message == 'success') {
+                        Fdh_mini_dataset::where('vn', $vn)
                         ->update([
                             'transaction_uid' =>  @$uid,
                             'active'          => 'Y'
-                        ]);
-            } else {
+                        ]); 
+                } elseif ($status == '400') {
+                        Fdh_mini_dataset::where('vn', $vn)
+                            ->update([
+                                'transaction_uid' =>  @$uid,
+                                'active'          => 'Y'
+                            ]);
+                } else {
+                }
             }
-        }
             // dd($result);
             return response()->json([
                 'status'    => '200'
