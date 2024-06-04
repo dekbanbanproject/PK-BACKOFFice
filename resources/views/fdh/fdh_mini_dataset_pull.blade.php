@@ -131,6 +131,7 @@ $pos = strrpos($url, '/') + 1;
                     <div class="card-header">
                         FDH MINI DATASET
                         <div class="btn-actions-pane-right">
+                            <a href="{{url('fdh_mini_dataset_line')}}"><i class="fa-brands fa-line me-5 ms-2" style="font-size: 30px"></i></a>
                             {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 <i class="pe-7s-science btn-icon-wrapper"></i>Check Auth
                             </button> --}}

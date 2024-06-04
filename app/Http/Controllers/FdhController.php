@@ -1734,7 +1734,8 @@ class FdhController extends Controller
         }
         $data['fdh_mini_dataset']    = DB::connection('mysql')->select(
             'SELECT * from fdh_mini_dataset 
-            WHERE active ="N" AND transaction_uid IS NULL AND invoice_number IS NOT NULL
+            WHERE active ="N" AND transaction_uid ="" 
+            AND invoice_number <>""
             ORDER BY total_amout DESC');
         //  AND vstdate BETWEEN "' . $newday . '" and "' . $date . '" 
         //  AND invoice_number IS NOT NULL  
@@ -1989,6 +1990,121 @@ class FdhController extends Controller
                 'status'    => '200'
             ]);
            
+    }
+
+    public function fdh_mini_dataset_line(Request $request)
+    { 
+           $date_now = date('Y-m-d');
+           $iduser = "754"; 
+
+           $count_visit_all_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND cid <>""');      
+           foreach ($count_visit_all_ as $key => $value) {
+                $count_visit_all = $value->Cvn;
+           }  
+           $sum_total_amount_ = DB::connection('mysql')->select('SELECT sum(total_amout) as sumtotal_amout FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND cid <>""');      
+           foreach ($sum_total_amount_ as $key => $value5) {
+                $sum_total_amount = $value5->sumtotal_amout;
+           }     
+           $count_invoice_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND invoice_number IS NOT NULL AND cid <>""');      
+           foreach ($count_invoice_ as $key => $value2) {
+                $count_invoice = $value2->Cvn;
+           }  
+           $count_uuidnull_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND uuid_booking IS NULL AND cid <>""');      
+           foreach ($count_uuidnull_ as $key => $value3) {
+                $count_uuidnull = $value3->Cvn;
+           }  
+           $count_uuidnotnull_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND uuid_booking IS NOT NULL AND cid <>""');      
+           foreach ($count_uuidnotnull_ as $key => $value4) {
+                $count_uuidnotnull = $value4->Cvn;
+           }  
+           $jong_success_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND transaction_uid IS NOT NULL AND cid <>""');      
+           foreach ($jong_success_ as $key => $value6) {
+                $jong_success = $value6->Cvn;
+           }  
+           $jong_nosuccess_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND transaction_uid ="" AND cid <>""');      
+           foreach ($jong_nosuccess_ as $key => $value7) {
+                $jong_nosuccess = $value7->Cvn;
+           }  
+           $authen_success_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND claimcode IS NOT NULL');      
+           foreach ($authen_success_ as $key => $value8) {
+                $authen_success = $value8->Cvn;
+           } 
+           $sum_total_authen_ = DB::connection('mysql')->select('SELECT sum(total_amout) as sumtotal_amout FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND claimcode IS NOT NULL');      
+           foreach ($sum_total_authen_ as $key => $value9) {
+                $sum_total_authen = $value9->sumtotal_amout;
+           }    
+            
+           //แจ้งเตือน 
+            function DateThailine($strDate)
+            {
+                $strYear = date("Y", strtotime($strDate)) + 543;
+                $strMonth = date("n", strtotime($strDate));
+                $strDay = date("j", strtotime($strDate));
+
+                $strMonthCut = array("", "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
+                $strMonthThai = $strMonthCut[$strMonth];
+                return "$strDay $strMonthThai $strYear";
+            }
+
+            $header = "จองเคลม";
+            // $linegroup = DB::table('line_token')->where('line_token_id', '=', 6)->first();
+            // $line = $linegroup->line_token_code;
+
+            $link = DB::table('orginfo')->where('orginfo_id', '=', 1)->first();
+            $link_line = $link->orginfo_link;
+
+            $datesend = date('Y-m-d');
+            $sendate = DateThailine($datesend);
+            $user = DB::table('users')->where('id', '=', $iduser)->first();
+
+            function formatetime($strtime)
+            {
+                $H = substr($strtime, 0, 5);
+                return $H;
+            }
+
+            $message = $header .               
+                "\n" . "วันที่ส่ง: " . $sendate.
+                "\n" . "Visit All: " . $count_visit_all ."คน". 
+                "\n" . "ยอดจอง : " . number_format($sum_total_amount, 2) . "บาท".
+                "\n" . "มีเลข Invoice : " . $count_invoice ."คน". 
+                "\n" . "จองสำเร็จ : " . $jong_success ."คน".
+                "\n" . "จองไม่สำเร็จ : " .$jong_nosuccess ."คน".
+                "\n" . "ดึงข้อมูลจอง : " . $count_uuidnotnull."คน".
+                "\n" . "Authenสำเร็จ : " .$authen_success. "คน".
+                "\n" . "ยอด Authen: " .number_format($sum_total_authen, 2) ."บาท";
+
+            // $linesend = $line;
+            $linesend = "DDpDNOOH6RowPLajt0JUzC2belFNcZOWZPx5lbG8kj1";
+            if ($linesend == null) {
+                $test = '';
+            } else {
+                $test = $linesend;
+            }
+
+            if ($test !== '' && $test !== null) {
+                $chOne = curl_init();
+                curl_setopt($chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+                curl_setopt($chOne, CURLOPT_SSL_VERIFYHOST, 0);
+                curl_setopt($chOne, CURLOPT_SSL_VERIFYPEER, 0);
+                curl_setopt($chOne, CURLOPT_POST, 1);
+                curl_setopt($chOne, CURLOPT_POSTFIELDS, $message);
+                curl_setopt($chOne, CURLOPT_POSTFIELDS, "message=$message");
+                curl_setopt($chOne, CURLOPT_FOLLOWLOCATION, 1);
+                $headers = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $test . '',);
+                curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+                curl_setopt($chOne, CURLOPT_RETURNTRANSFER, 1);
+                $result = curl_exec($chOne);
+                if (curl_error($chOne)) {
+                    echo 'error:' . curl_error($chOne);
+                } else {
+                    $result_ = json_decode($result, true);
+                    //return response()->json(['status'=>200]);                        
+                }
+                curl_close($chOne);
+            }
+            return redirect()->back();
+        //    return response()->json('200'); 
     }
 
     // ***************************************** Mini Auto ************************************

@@ -3304,6 +3304,7 @@ Route::match(['get','post'],'fdh_mini_dataset_pullnoinv',[App\Http\Controllers\F
 Route::match(['get','post'],'fdh_mini_dataset_apicliam',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_apicliam'])->name('fdh.fdh_mini_dataset_apicliam');
 Route::match(['get','post'],'fdh_mini_dataset_rep',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_rep'])->name('fdh.fdh_mini_dataset_rep');
 Route::match(['get','post'],'fdh_mini_dataset_pulljong',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pulljong'])->name('fdh.fdh_mini_dataset_pulljong');
+Route::match(['get','post'],'fdh_mini_dataset_line',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_line'])->name('fdh.fdh_mini_dataset_line');
 
 Route::match(['get','post'],'fdh_authen',[App\Http\Controllers\FdhController::class, 'fdh_authen'])->name('fdh.fdh_authen');
 Route::match(['get','post'],'fdh_authen_pull',[App\Http\Controllers\FdhController::class, 'fdh_authen_pull'])->name('fdh.fdh_authen_pull');

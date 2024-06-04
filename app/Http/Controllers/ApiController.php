@@ -586,10 +586,13 @@ class ApiController extends Controller
                     LEFT JOIN opdscreen s ON s.vn = v.vn
                     LEFT JOIN patient p on p.hn=v.hn
                     LEFT JOIN pttype pt on pt.pttype = v.pttype AND v.pttype 
-                    LEFT JOIN opduser op on op.loginname = o.staff
-                    WHERE o.vstdate = "'.$date_now.'" AND pt.hipdata_code ="UCS"  
-                    AND (o.an IS NULL OR o.an = "")
-                    group by o.vn
+                    LEFT JOIN opduser op on op.loginname = o.staff 
+
+                    WHERE o.vstdate = "' . $date_now . '" 
+                    AND ptt.hipdata_code ="UCS" AND v.income > 0  
+                    AND pt.nationality = "99"
+                    AND (o.an IS NULL OR o.an ="")
+                    GROUP BY v.vn
                 
                 
                 ');   
@@ -665,9 +668,12 @@ class ApiController extends Controller
                         LEFT OUTER JOIN patient pt on pt.hn = v.hn
                         LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype   
                         LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
+                   
                     WHERE o.vstdate = "' . $date_now . '" 
-                    AND ptt.hipdata_code ="UCS" AND v.income > 0 AND pt.nationality = "99"
-                    GROUP BY o.vn 
+                    AND ptt.hipdata_code ="UCS" AND v.income > 0  
+                    AND pt.nationality = "99"
+                    AND (o.an IS NULL OR o.an ="")
+                    GROUP BY v.vn
                 ');   
                 // LIMIT 100
                 foreach ($data_sits as $key => $value) {
@@ -759,9 +765,12 @@ class ApiController extends Controller
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn
                     LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype 
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
-                WHERE o.vstdate = "' . $date_now . '"
-                AND ptt.hipdata_code ="UCS" AND pt.nationality = "99"
-                GROUP BY o.vn 
+               
+                WHERE o.vstdate = "' . $date_now . '" 
+                AND ptt.hipdata_code ="UCS" AND v.income > 0  
+                AND pt.nationality = "99"
+                AND (o.an IS NULL OR o.an ="")
+                GROUP BY v.vn
             '); 
             // AND v.pttype NOT IN("M1","M4","M5") 
             // AND v.income > 0 
@@ -982,7 +991,7 @@ class ApiController extends Controller
            
            $data_vn_1 = DB::connection('mysql')->select(
             'SELECT COUNT(DISTINCT vn) as count_vn FROM fdh_mini_dataset 
-            WHERE vstdate = "'.$date_now.'" AND pttype NOT IN("M1","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","x7","10")
+            WHERE vstdate = "'.$date_now.'" AND pttype NOT IN("M1","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","x7","10") AND cid <>""
             ');
            foreach ($data_vn_1 as $key => $value) {
             $countvn = $value->count_vn;
@@ -995,7 +1004,7 @@ class ApiController extends Controller
            
            $data_vn_1 = DB::connection('mysql')->select(
             'SELECT CONCAT(FORMAT(SUM(total_amout), 2)) as total FROM fdh_mini_dataset 
-            WHERE vstdate = "'.$date_now.'" AND pttype NOT IN("M1","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","x7","10")
+            WHERE vstdate = "'.$date_now.'" AND pttype NOT IN("M1","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","x7","10") AND cid <>""
             ');
            foreach ($data_vn_1 as $key => $value) {
             $sumincome = $value->total;
@@ -1009,7 +1018,7 @@ class ApiController extends Controller
            
            $data_vn_1 = DB::connection('mysql')->select(
             'SELECT COUNT(DISTINCT vn) as count_vn FROM fdh_mini_dataset 
-            WHERE vstdate = "'.$date_now.'" AND transaction_uid IS NOT NULL AND pttype NOT IN("M1","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","x7","10")');
+            WHERE vstdate = "'.$date_now.'" AND transaction_uid IS NOT NULL AND pttype NOT IN("M1","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","x7","10") AND cid <>""');
            foreach ($data_vn_1 as $key => $value) {
             $countpidsit = $value->count_vn;
            }                 
@@ -1021,7 +1030,7 @@ class ApiController extends Controller
            
            $data_vn_1 = DB::connection('mysql')->select(
             'SELECT COUNT(DISTINCT vn) as count_vn FROM fdh_mini_dataset 
-            WHERE vstdate = "'.$date_now.'" AND id_booking IS NOT NULL AND pttype NOT IN("M1","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","x7","10")');
+            WHERE vstdate = "'.$date_now.'" AND id_booking IS NOT NULL AND pttype NOT IN("M1","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","x7","10") AND cid <>""');
            foreach ($data_vn_1 as $key => $value) {
             $countpidsit = $value->count_vn;
            }                 
@@ -1033,8 +1042,8 @@ class ApiController extends Controller
            
            $data_vn_1 = DB::connection('mysql')->select(
             'SELECT COUNT(DISTINCT vn) as count_authen FROM fdh_mini_dataset 
-            WHERE vstdate = "'.$date_now.'" AND pttype NOT IN("M1","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","x7","10")
-            AND claimcode IS NOT NULL');
+            WHERE vstdate = "'.$date_now.'" AND pttype NOT IN("M1","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","x7","10") AND cid <>""
+            AND claimcode <> ""');
            foreach ($data_vn_1 as $key => $value) {
             $countauthen = $value->count_authen;
            }                 
@@ -1058,7 +1067,7 @@ class ApiController extends Controller
            
            $data_vn_1 = DB::connection('mysql')->select(
             'SELECT CONCAT(FORMAT(SUM(total_amout), 2)) as total FROM fdh_mini_dataset 
-            WHERE vstdate = "'.$date_now.'" AND claimcode IS NOT NULL AND pttype NOT IN("M1","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","x7","10")');
+            WHERE vstdate = "'.$date_now.'" AND claimcode <> "" AND pttype NOT IN("M1","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","x7","10")');
            foreach ($data_vn_1 as $key => $value) {
             $sumincome = $value->total;
             
@@ -1430,30 +1439,42 @@ class ApiController extends Controller
            $date_now = date('Y-m-d');
            $iduser = "754"; 
 
-           $count_visit_all_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'"');      
+           $count_visit_all_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND cid <>""');      
            foreach ($count_visit_all_ as $key => $value) {
                 $count_visit_all = $value->Cvn;
            }  
-           $sum_total_amount_ = DB::connection('mysql')->select('SELECT sum(total_amout) as sumtotal_amout FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'"');      
+           $sum_total_amount_ = DB::connection('mysql')->select('SELECT sum(total_amout) as sumtotal_amout FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND cid <>""');      
            foreach ($sum_total_amount_ as $key => $value5) {
                 $sum_total_amount = $value5->sumtotal_amout;
            }     
-           $count_invoice_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND invoice_number IS NOT NULL');      
+           $count_invoice_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND invoice_number IS NOT NULL AND cid <>""');      
            foreach ($count_invoice_ as $key => $value2) {
                 $count_invoice = $value2->Cvn;
            }  
-           $count_uuidnull_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND uuid_booking IS NULL');      
+           $count_uuidnull_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND uuid_booking IS NULL AND cid <>""');      
            foreach ($count_uuidnull_ as $key => $value3) {
                 $count_uuidnull = $value3->Cvn;
            }  
-           $count_uuidnotnull_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND uuid_booking IS NOT NULL');      
+           $count_uuidnotnull_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND uuid_booking IS NOT NULL AND cid <>""');      
            foreach ($count_uuidnotnull_ as $key => $value4) {
                 $count_uuidnotnull = $value4->Cvn;
            }  
-           $jong_success_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND transaction_uid IS NOT NULL');      
+           $jong_success_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND transaction_uid IS NOT NULL AND cid <>""');      
            foreach ($jong_success_ as $key => $value6) {
                 $jong_success = $value6->Cvn;
-           }      
+           }  
+           $jong_nosuccess_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND transaction_uid ="" AND cid <>""');      
+           foreach ($jong_nosuccess_ as $key => $value7) {
+                $jong_nosuccess = $value7->Cvn;
+           }  
+           $authen_success_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND claimcode IS NOT NULL');      
+           foreach ($authen_success_ as $key => $value8) {
+                $authen_success = $value8->Cvn;
+           } 
+           $sum_total_authen_ = DB::connection('mysql')->select('SELECT sum(total_amout) as sumtotal_amout FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND claimcode IS NOT NULL');      
+           foreach ($sum_total_authen_ as $key => $value9) {
+                $sum_total_authen = $value9->sumtotal_amout;
+           }    
             
            //แจ้งเตือน 
             function DateThailine($strDate)
@@ -1467,7 +1488,7 @@ class ApiController extends Controller
                 return "$strDay $strMonthThai $strYear";
             }
 
-            $header = "Mini Data Set";
+            $header = "จองเคลม";
             // $linegroup = DB::table('line_token')->where('line_token_id', '=', 6)->first();
             // $line = $linegroup->line_token_code;
 
@@ -1485,13 +1506,15 @@ class ApiController extends Controller
             }
 
             $message = $header .               
-                "\n" . "วันที่ : " . DateThailine($sendate) .
-                "\n" . "Visit : " . $count_visit_all . 
-                "\n" . "ยอดจอง : " . $sum_total_amount . 
-                "\n" . "มีเลข Invoice : " . $count_invoice . 
-                "\n" . "จองสำเร็จ : " . $jong_success .
-                "\n" . "uuid ว่าง : " .$count_uuidnull .
-                "\n" . "uuid ไม่ว่าง : " . $count_uuidnotnull;
+                "\n" . "วันที่ส่ง: " . $sendate.
+                "\n" . "Visit All: " . $count_visit_all ."คน". 
+                "\n" . "ยอดจอง : " . number_format($sum_total_amount, 2) . "บาท".
+                "\n" . "มีเลข Invoice : " . $count_invoice ."คน". 
+                "\n" . "จองสำเร็จ : " . $jong_success ."คน".
+                "\n" . "จองไม่สำเร็จ : " .$jong_nosuccess ."คน".
+                "\n" . "ดึงข้อมูลจอง : " . $count_uuidnotnull."คน".
+                "\n" . "Authenสำเร็จ : " .$authen_success. "คน".
+                "\n" . "ยอด Authen: " .number_format($sum_total_authen, 2) ."บาท";
 
             // $linesend = $line;
             $linesend = "DDpDNOOH6RowPLajt0JUzC2belFNcZOWZPx5lbG8kj1";
