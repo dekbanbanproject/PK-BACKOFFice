@@ -8,6 +8,7 @@
 
         function audiovisual_work_cancel(audiovisual_id) {
             Swal.fire({
+                position: "top-end",
                 title: 'ต้องการยกเลิกใช่ไหม?',
                 text: "กรุณารอการยืนยันการยกเลิก !!",
                 icon: 'warning',
@@ -48,6 +49,7 @@
 
         function audiovisual_admin_finish(audiovisual_id) {
             Swal.fire({
+                position: "top-end",
                 title: 'ต้องการตรวจสอบงานใช่ไหม?',
                 text: "กรุณาตรวจสอบงาน !!",
                 icon: 'warning',
@@ -100,9 +102,9 @@
     $url = Request::url();
     $pos = strrpos($url, '/') + 1;
     $datenow = date('Y-m-d');
-    use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\SoteController; 
-$refnumber = SoteController::refnumber();
+            use Illuminate\Support\Facades\DB;
+            use App\Http\Controllers\SoteController; 
+            $refnumber = SoteController::refnumber();
     ?>
     <style>
         #button {
@@ -216,7 +218,7 @@ $refnumber = SoteController::refnumber();
 
         <div class="row mt-2">
             <div class="col-md-12">
-                <div class="card mb-1 shadow-none"> 
+                <div class="card mb-1 card_user_4"> 
                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
                             data-bs-parent="#accordion">
                         <div class="card-body"> 
@@ -321,7 +323,7 @@ $refnumber = SoteController::refnumber();
 
         <div class="row mt-2">
             <div class="col-xl-12">
-                <div class="card">
+                <div class="card card_user_4 p-2">
                     <div class="card-body py-0 px-2 mt-2">
                         <div class="table-responsive">
                             <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
@@ -331,6 +333,7 @@ $refnumber = SoteController::refnumber();
                                         <th width="5%" class="text-center">ลำดับ</th> 
                                         <th class="text-center" width="5%">สถานะ</th>
                                         <th class="text-center" width="13%">ชื่อ-สกุล</th>
+                                        <th class="text-center" width="6%">ไลน์ไอดี</th>
                                         <th class="text-center" width="7%">เบอร์โทร</th>
                                         <th class="text-center" width="7%">วันที่สั่งงาน</th>
                                         <th class="text-center" width="7%">วันที่ขอรับงาน</th>
@@ -349,27 +352,27 @@ $refnumber = SoteController::refnumber();
                                          
                                             @if ($item->audiovisual_status == 'REQUEST')
                                                 <td class="text-center" width="5%">
-                                                    <div class="badge bg-warning" style="font-size:12px">ร้องขอ</div>
+                                                    <div class="badge bg-info" style="font-size:12px">ร้องขอ</div>
                                                 </td>
                                             @elseif ($item->audiovisual_status == 'ACCEPTING')
                                                 <td class="text-center" width="5%">
-                                                    <div class="badge" style="background-color: #592DF7"
+                                                    <div class="badge" style="background-color: #592DF7;font-size:12px"
                                                         style="font-size:12px">รับทราบ</div>
                                                 </td>
                                             @elseif ($item->audiovisual_status == 'INPROGRESS')
                                                 <td class="text-center" width="5%">
-                                                    <div class="badge" style="background: rgb(96, 221, 243)"
-                                                        style="font-size:12px">กำลังดำเนินการ</div>
+                                                    <div class="badge" style="background: rgb(96, 221, 243);font-size:12px"
+                                                         >กำลังดำเนินการ</div>
                                                 </td>
                                             @elseif ($item->audiovisual_status == 'VERIFY')
                                                 <td class="text-center" width="5%">
-                                                    <div class="badge" style="background: rgb(232,13,239)"
-                                                        style="font-size:12px">ตรวจสอบ</div>
+                                                    <div class="badge" style="background: rgb(232,13,239);font-size:12px"
+                                                         >ตรวจสอบ</div>
                                                 </td>
                                             @elseif ($item->audiovisual_status == 'FINISH')
                                                 <td class="text-center" width="5%">
-                                                    <div class="badge" style="background: rgb(13, 239, 182)"
-                                                        style="font-size:12px">เสร็จสิ้น</div>
+                                                    <div class="badge" style="background: rgb(4, 190, 144);font-size:12px"
+                                                        >เสร็จสิ้น</div>
                                                 </td>
                                             @elseif ($item->audiovisual_status == 'CANCEL')
                                                 <td class="text-center" width="5%">
@@ -386,7 +389,8 @@ $refnumber = SoteController::refnumber();
                                                 </td>
                                             @endif
                                          
-                                            <td class="p-2" width="13%"> {{ $item->fname }} {{ $item->lname }}</td>
+                                            <td class="p-2" width="10%"> {{ $item->fname }} {{ $item->lname }}</td>
+                                            <td class="text-center" width="6%">{{ $item->lineid }}</td> 
                                             <td class="text-center" width="6%">{{ $item->tel }}</td>                                            
                                             <td class="text-center" width="7%">{{ Datethai($item->work_order_date) }} </td>
                                             <td class="text-center" width="7%">{{Datethai($item->job_request_date )}}</td>
@@ -425,12 +429,12 @@ $refnumber = SoteController::refnumber();
                                                         
                                                         </button>
                                                         <a class="dropdown-item text-success" href="javascript:void(0)"
-                                                        onclick="audiovisual_admin_finish({{ $item->audiovisual_id }})"
-                                                        style="font-size:13px">
-                                                        <i class="fa-solid fa-file-pen ms-2 me-2 text-success"
-                                                            style="font-size:13px"></i>
-                                                        <span>ตรวจสอบงาน</span>
-                                                    </a>
+                                                            onclick="audiovisual_admin_finish({{ $item->audiovisual_id }})"
+                                                            style="font-size:13px">
+                                                            <i class="fa-solid fa-file-pen ms-2 me-2 text-success"
+                                                                style="font-size:13px"></i>
+                                                            <span>ตรวจสอบงาน</span>
+                                                        </a>
                                                         
                                                         <a class="dropdown-item text-danger" href="javascript:void(0)"
                                                             onclick="audiovisual_work_cancel({{ $item->audiovisual_id }})"
@@ -528,7 +532,7 @@ $refnumber = SoteController::refnumber();
                                                      
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" >
+                                                        <button type="button" data-bs-dismiss="modal" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" >
                                                             <i class="fa-solid fa-xmark me-2"></i>Close
                                                         </button>
                                                     </div>

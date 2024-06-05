@@ -100,9 +100,14 @@ return new class extends Migration
             $table->string('staff')->nullable();  
             $table->string('loginname')->nullable(); 
             $table->string('passweb')->nullable(); 
+            $table->text('per_cctv')->nullable(); 
+            $table->text('per_fire')->nullable(); 
+            $table->text('per_fdh')->nullable(); 
+            $table->text('lineid')->nullable(); 
             $table->rememberToken();
-            $table->timestamps('created_at')->useCurrent();
-            $table->timestamps('updated_at')->nullable();
+            // $table->timestamps('created_at')->useCurrent();
+            // $table->timestamps('updated_at')->nullable();
+            $table->timestamps();
         });
     }
 }

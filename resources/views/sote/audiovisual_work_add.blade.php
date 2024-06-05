@@ -11,9 +11,10 @@
 
     <?php
     if (Auth::check()) {
-        $type = Auth::user()->type;
-        $iduser = Auth::user()->id;
-        $tel_ = Auth::user()->tel;
+        $type    = Auth::user()->type;
+        $iduser  = Auth::user()->id;
+        $tel_    = Auth::user()->tel;
+        $lineid  = Auth::user()->lineid;
         $debsubsub = Auth::user()->dep_subsubtrueid;
     } else {
         echo "<body onload=\"TypeAdmin()\"></body>";
@@ -22,9 +23,9 @@
     $url = Request::url();
     $pos = strrpos($url, '/') + 1;
     $datenow = date('Y-m-d');
-    use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\SoteController; 
-$refnumber = SoteController::refnumber();
+        use Illuminate\Support\Facades\DB;
+        use App\Http\Controllers\SoteController; 
+        $refnumber = SoteController::refnumber();
     ?>
     <style>
         #button {
@@ -97,7 +98,7 @@ $refnumber = SoteController::refnumber();
                 <div class="row mt-2">
                     <div class="col"></div>
                     <div class="col-md-8">
-                        <div class="card">
+                        <div class="card card_user_4 p-2">
                             <div class="card-header">  
                                 <h5 class="modal-title me-3" id="editModalLabel">เพิ่มรายละเอียดการขอใช้บริการ</h5>  
                                 <div class="btn-actions-pane-right">   
@@ -165,17 +166,23 @@ $refnumber = SoteController::refnumber();
                                         
                                         </div>
                                     </div>  
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label for="audiovisual_type" class="form-label" >ชนิดของงาน</label><label for="tel" class="form-label" style="color: red">*</label>
                                         <div class="input-group input-group-sm">  
                                             <select class="form-control" id="audiovisual_type" name="audiovisual_type" style="width: 100%">
                                                 @foreach ($audiovisual_type as $item3)  
                                                 <option value="{{$item3->audiovisual_type_id}}"> {{$item3->audiovisual_typename}}</option> 
                                                 @endforeach
-                                            </select>
-                                        
+                                            </select> 
                                         </div>
                                     </div>   
+                                    <div class="col-md-2">
+                                        <label for="lineid" class="form-label" >ไอดีไลน์</label><label for="tel" class="form-label" style="color: red">*</label>
+                                        <div class="input-group input-group-sm"> 
+                                            <input type="text" class="form-control" id="lineid" name="lineid" value="{{$lineid}}">  
+                                        </div>
+                                    </div> 
+
                                 </div>  
 
                                 <div class="row mt-2"> 
@@ -251,27 +258,28 @@ $refnumber = SoteController::refnumber();
   
 
             $('#Insertdata').click(function() {
-                var ptname = $('#ptname').val();
-                var tel = $('#tel').val();
-                var work_order_date = $('#datepicker').val();
-                var job_request_date = $('#datepicker2').val();
-                var department = $('#department').val();
-                var audiovisual_type = $('#audiovisual_type').val();
-                var audiovisual_name = $('#audiovisual_name').val();
-                var audiovisual_qty = $('#audiovisual_qty').val();
+                var ptname             = $('#ptname').val();
+                var tel                = $('#tel').val();
+                var work_order_date    = $('#datepicker').val();
+                var job_request_date   = $('#datepicker2').val();
+                var department         = $('#department').val();
+                var audiovisual_type   = $('#audiovisual_type').val();
+                var audiovisual_name   = $('#audiovisual_name').val();
+                var audiovisual_qty    = $('#audiovisual_qty').val();
                 var audiovisual_detail = $('#audiovisual_detail').val();
-                var billno = $('#billno').val();
-                
+                var billno             = $('#billno').val();
+                var lineid             = $('#lineid').val();
                 $.ajax({
                     url: "{{ route('user.audiovisual_work_save') }}",
                     type: "POST",
                     dataType: 'json',
                     data: {
-                        ptname, tel,work_order_date, job_request_date,department,audiovisual_type,audiovisual_name,audiovisual_qty,audiovisual_detail,billno 
+                        ptname, tel,work_order_date, job_request_date,department,audiovisual_type,audiovisual_name,audiovisual_qty,audiovisual_detail,billno,lineid
                     },
                     success: function(data) {
                         if (data.status == 200) {
                             Swal.fire({
+                                position: "top-end",
                                 title: 'เพิ่มข้อมูลสำเร็จ',
                                 text: "You Insert data success",
                                 icon: 'success',

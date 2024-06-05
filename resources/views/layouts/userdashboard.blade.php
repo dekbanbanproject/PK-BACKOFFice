@@ -97,6 +97,27 @@
         background-image: url('/pkbackoffice/public/images/bgheader.jpg');
         background-repeat: no-repeat;
     }
+    .card_user_2b{
+        border-radius: 0em 0em 2em 2em;
+        box-shadow: 0 0 15px rgb(124, 225, 250);
+        border:solid 1px #0583cc;
+    }
+    .card_user_4{
+        border-radius: 2em 2em 2em 2em;
+        box-shadow: 0 0 15px rgb(124, 225, 250);
+        /* border-color: #0583cc */
+        border:solid 1px #0583cc;
+    }
+    .usercheckbox{         
+        width: 20px;
+        height: 20px;       
+        /* border-radius: 2em 2em 2em 2em; */
+        border: 10px solid rgb(250, 128, 124);
+        /* color: teal; */
+        /* border-color: teal; */
+        box-shadow: 0 0 10px rgb(250, 128, 124);
+        /* box-shadow: 0 0 10px teal; */
+    }
 
     /* .myTable thead tr{
     background-color: #b56fca;

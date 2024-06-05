@@ -89,6 +89,7 @@ class SoteController extends Controller
         $add->audiovisual_qty           = $request->input('audiovisual_qty');
         $add->audiovisual_detail        = $request->input('audiovisual_detail');
         $add->billno                    = $request->input('billno');
+        $add->lineid                    = $request->input('lineid');
         $add->save();
 
         return response()->json([
@@ -134,6 +135,7 @@ class SoteController extends Controller
         $update->audiovisual_name          = $request->input('audiovisual_name');
         $update->audiovisual_qty           = $request->input('audiovisual_qty');
         $update->audiovisual_detail        = $request->input('audiovisual_detail');
+        $update->lineid                    = $request->input('lineid');
         // $update->billno                    = $request->input('billno'); 
         $update->save();
 

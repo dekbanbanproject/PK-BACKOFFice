@@ -176,7 +176,7 @@
                                                             WHERE account_code="1102050101.217"
                                                             AND stamp = "N"
                                                             and month(dchdate) = "'.$item->months.'"
-                                                            and year(dchdate) = "'.$item->years.'";
+                                                            and year(dchdate) = "'.$item->years.'"
                                                 ');
                                                 foreach ($datas as $key => $value) {
                                                     $count_N = $value->Can;

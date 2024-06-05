@@ -164,7 +164,7 @@ $refnumber = SoteController::refnumber();
                                         
                                         </div>
                                     </div>  
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label for="audiovisual_type" class="form-label" >ชนิดของงาน</label><label for="tel" class="form-label" style="color: red">*</label>
                                         <div class="input-group input-group-sm">  
                                             <select class="form-control" id="audiovisual_type" name="audiovisual_type" style="width: 100%">
@@ -180,6 +180,12 @@ $refnumber = SoteController::refnumber();
                                         
                                         </div>
                                     </div>   
+                                    <div class="col-md-2">
+                                        <label for="lineid" class="form-label" >ไอดีไลน์</label><label for="tel" class="form-label" style="color: red">*</label>
+                                        <div class="input-group input-group-sm"> 
+                                            <input type="text" class="form-control" id="lineid" name="lineid" value="{{$dataedit->lineid}}">  
+                                        </div>
+                                    </div> 
                                 </div>  
 
                                 <div class="row mt-2"> 
@@ -256,27 +262,28 @@ $refnumber = SoteController::refnumber();
   
 
             $('#Updatedata').click(function() {
-                var ptname = $('#ptname').val();
-                var tel = $('#tel').val();
-                var work_order_date = $('#datepicker').val();
-                var job_request_date = $('#datepicker2').val();
-                var department = $('#department').val();
-                var audiovisual_type = $('#audiovisual_type').val();
-                var audiovisual_name = $('#audiovisual_name').val();
-                var audiovisual_qty = $('#audiovisual_qty').val();
+                var ptname             = $('#ptname').val();
+                var tel                = $('#tel').val();
+                var work_order_date    = $('#datepicker').val();
+                var job_request_date   = $('#datepicker2').val();
+                var department         = $('#department').val();
+                var audiovisual_type   = $('#audiovisual_type').val();
+                var audiovisual_name   = $('#audiovisual_name').val();
+                var audiovisual_qty    = $('#audiovisual_qty').val();
                 var audiovisual_detail = $('#audiovisual_detail').val();
-                var audiovisual_id = $('#audiovisual_id').val();
-                
+                var audiovisual_id     = $('#audiovisual_id').val();
+                var lineid             = $('#lineid').val();
                 $.ajax({
                     url: "{{ route('user.audiovisual_work_update') }}",
                     type: "POST",
                     dataType: 'json',
                     data: {
-                        ptname, tel,work_order_date, job_request_date,department,audiovisual_type,audiovisual_name,audiovisual_qty,audiovisual_detail,audiovisual_id 
+                        ptname, tel,work_order_date, job_request_date,department,audiovisual_type,audiovisual_name,audiovisual_qty,audiovisual_detail,audiovisual_id,lineid
                     },
                     success: function(data) {
                         if (data.status == 200) {
                             Swal.fire({
+                                position: "top-end",
                                 title: 'แก้ไขข้อมูลสำเร็จ',
                                 text: "You Update data success",
                                 icon: 'success',
