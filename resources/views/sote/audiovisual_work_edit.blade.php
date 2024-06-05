@@ -97,7 +97,7 @@ $refnumber = SoteController::refnumber();
                 <div class="row mt-2">
                     <div class="col"></div>
                     <div class="col-md-8">
-                        <div class="card">
+                        <div class="card card_user_4 p-2">
                             <div class="card-header">  
                                 <h5 class="modal-title me-3" id="editModalLabel">แก้ไขรายละเอียดการขอใช้บริการ</h5>  
                                 <div class="btn-actions-pane-right">   

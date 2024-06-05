@@ -35,7 +35,7 @@ class SoteController extends Controller
         $data['department_sub_sub'] = DB::table('department_sub_sub')->get();
         $data['audiovisual_type'] = DB::table('audiovisual_type')->get();
         $data['audiovisual'] = DB::connection('mysql')->select('
-            SELECT * 
+            SELECT a.*,i.fname,i.lname,d.DEPARTMENT_SUB_SUB_NAME,b.audiovisual_typename
             from audiovisual a
             LEFT JOIN users i on i.id = a.ptname
             LEFT JOIN audiovisual_type b on b.audiovisual_type_id = a.audiovisual_type
