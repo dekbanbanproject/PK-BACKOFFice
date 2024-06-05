@@ -1437,6 +1437,7 @@ class ApiController extends Controller
     public function mini_dataset_line(Request $request)
     { 
            $date_now = date('Y-m-d');
+        //    $date_now = date('2024-06-05');
            $iduser = "754"; 
 
            $count_visit_all_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND cid <>""');      
