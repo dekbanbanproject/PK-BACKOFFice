@@ -114,7 +114,7 @@
                                     <th class="text-center">เดือน</th> 
                                     <th class="text-center">ลูกหนี้ที่ต้องตั้ง</th> 
                                     <th class="text-center">ตั้งลูกหนี้</th>  
-                                    <th class="text-center">ลูกหนี้ Walkin</th> 
+                                    {{-- <th class="text-center">ลูกหนี้ Walkin</th>  --}}
                                     <th class="text-center">Statement</th>
                                     <th class="text-center">ยกยอดไปเดือนนี้</th> 
                                 </tr>
@@ -202,7 +202,7 @@
                                             <td class="p-2">{{$item->MONTH_NAME}} {{$ynew}}</td>                                         
                                             <td class="text-end" style="color:rgb(73, 147, 231)" width="10%"> {{ number_format($sum_N, 2) }}</td>  
                                             <td class="text-end" width="10%" style="color:rgb(186, 75, 250)"> {{ number_format($sum_Y, 2) }}</td>  
-                                            <td class="text-end" width="10%" style="color:rgb(253, 60, 47)">{{ number_format($sum_debit_walkin, 2) }}</td> 
+                                            {{-- <td class="text-end" width="10%" style="color:rgb(253, 60, 47)">{{ number_format($sum_debit_walkin, 2) }}</td>  --}}
                                             <td class="text-end" style="color:rgb(4, 161, 135)" width="10%">{{ number_format($sum_stm_money, 2) }}</td> 
                                             <td class="text-end" style="color:rgb(224, 128, 17)" width="10%">0.00</td> 
                                         </tr>
@@ -219,7 +219,7 @@
                                     <td colspan="1" class="text-end" style="background-color: #fca1a1"></td>
                                     <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
                                     <td class="text-end" style="background-color: #9f4efc" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td> 
-                                    <td class="text-end" style="background-color: #c5224b"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td>
+                                    {{-- <td class="text-end" style="background-color: #c5224b"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td> --}}
                                     <td class="text-end" style="background-color: #0ea080"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td>
                                     <td class="text-end" style="background-color: #f89625"><label for="" style="color: #FFFFFF">0.00</label></td>  
                                 
@@ -322,7 +322,7 @@
                                             <th class="text-center">income</th>
                                             <th class="text-center">ชำระเงินเอง</th> 
                                             <th class="text-center">ตั้งลูกหนี้</th> 
-                                            <th class="text-center">ลูกหนี้ Walkin</th> 
+                                            {{-- <th class="text-center">Walkin</th>  --}}
                                             <th class="text-center">ส่วนต่าง</th>  
                                         </tr>
                                     </thead>
@@ -347,14 +347,14 @@
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->income, 2) }}</td>  
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->rcpt_money, 2) }}</td> 
                                                 <td class="text-center" style="color:rgb(207, 28, 37)" width="7%"> {{ number_format($item->debit_total, 2) }}</td> 
-                                                <td class="text-center"  width="7%" style="color:#108A1A"> {{ number_format($item->debit_walkin, 2) }}</td>  
+                                                {{-- <td class="text-center"  width="7%" style="color:#108A1A"> {{ number_format($item->debit_walkin, 2) }}</td>   --}}
                                                 <td class="text-end"  width="7%" style="color:#E9540F"> {{ number_format(($item->income)-($item->rcpt_money)-($item->debit_total),2) }}</td>  
                                             </tr>
                                                 <?php 
                                                     $total111 = $total111 + $item->income;
                                                     $total222 = $total222 + $item->rcpt_money; 
                                                     $total333 = $total333 + $item->debit_total;
-                                                    $total444 = $total444 + $item->debit_walkin;
+                                                    // $total444 = $total444 + $item->debit_walkin;
                                                     $total555 = $total555 + (($item->income)-($item->rcpt_money)-($item->debit_total));
                                                 ?>
                                     @endforeach
@@ -365,7 +365,7 @@
                                         <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total111, 2) }}</label></td>
                                         <td class="text-center" style="background-color: #9f4efc" ><label for="" style="color: #FFFFFF">{{ number_format($total222, 2) }}</label></td>
                                         <td class="text-center" style="background-color: #c5224b"><label for="" style="color: #FFFFFF">{{ number_format($total333, 2) }}</label> </td>
-                                        <td class="text-center" style="background-color: #0ea080"><label for="" style="color: #FFFFFF">{{ number_format($total444, 2) }}</label></td>
+                                        {{-- <td class="text-center" style="background-color: #0ea080"><label for="" style="color: #FFFFFF">{{ number_format($total444, 2) }}</label></td> --}}
                                         <td class="text-center" style="background-color: #f89625"><label for="" style="color: #FFFFFF">{{ number_format($total555, 2) }}</label></td>  
                                     </tr>  
                              

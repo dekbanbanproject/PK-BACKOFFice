@@ -379,27 +379,34 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_301_dash') }}">dashboard</a></li>
                                             <li><a href="{{ url('account_301_pull') }}">ดึงลูกหนี้</a> </li>
-                                            <li><a href="{{ url('account_301_detail_date') }}">ลูกหนี้</a> </li>
+                                            <li><a href="{{ url('account_301_detail_date') }}">ค้นหาลูกหนี้</a> </li>
+                                            <li><a href="javascript: void(0);" class="has-arrow">3011-OP-อุปกรณ์เบิกเอกสาร</a>
+                                                <ul class="sub-menu" aria-expanded="true"> 
+                                                    <li><a href="{{ url('account_3011_dash') }}">dashboard</a></li>
+                                                    {{-- <li><a href="{{ url('account_3011_pull') }}">ดึงลูกหนี้</a> </li> --}}
+                                                    <li><a href="{{ url('account_3011_detail_date') }}">ค้นหาลูกหนี้</a> </li>
+                                                </ul>
+                                            </li>
                                         </ul>
                                     </li>
-                                    <li><a href="javascript: void(0);" class="has-arrow">3011-OP-อุปกรณ์เบิกเอกสาร</a>
+                                    {{-- <li><a href="javascript: void(0);" class="has-arrow">3011-OP-อุปกรณ์เบิกเอกสาร</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_3011_dash') }}">dashboard</a></li>
                                             <li><a href="{{ url('account_3011_pull') }}">ดึงลูกหนี้</a> </li>
-                                            <li><a href="{{ url('account_3011_detail_date') }}">ลูกหนี้</a> </li>
+                                            <li><a href="{{ url('account_3011_detail_date') }}">ค้นหาลูกหนี้</a> </li>
                                         </ul>
-                                    </li>
-                                    <li><a href="javascript: void(0);" class="has-arrow">3012-อุปกรณ์เบิก New-Eclaim</a>
+                                    </li> --}}
+                                    {{-- <li><a href="javascript: void(0);" class="has-arrow">3012-อุปกรณ์เบิก New-Eclaim</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_3012_dash') }}">dashboard</a></li>
                                             <li><a href="{{ url('account_3012_pull') }}">ดึงลูกหนี้</a> </li>
-                                            <li><a href="{{ url('account_3012_detail_date') }}">ลูกหนี้</a> </li>
+                                            <li><a href="{{ url('account_3012_detail_date') }}">ค้นหาลูกหนี้</a> </li>
                                         </ul>
-                                    </li>
-                                    <li><a href="javascript: void(0);" class="has-arrow">3013-OP-CT</a>
+                                    </li> --}}
+                                    <li><a href="javascript: void(0);" class="has-arrow">3013-OP/IP-CT</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_3013_dash') }}">dashboard</a></li>
-                                            <li><a href="{{ url('account_3013_pull') }}">ดึงลูกหนี้</a> </li>
+                                            {{-- <li><a href="{{ url('account_3013_pull') }}">ดึงลูกหนี้</a> </li> --}}
                                             <li><a href="{{ url('account_3013_search') }}">ค้นหาลูกหนี้</a> </li>
                                         </ul>
                                     </li>
@@ -408,7 +415,14 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_302_dash') }}">dashboard</a></li>
                                             <li><a href="{{ url('account_302_pull') }}">ดึงลูกหนี้</a></li>
-                                            <li><a href="{{ url('account_302_detail_date') }}">ลูกหนี้</a></li>
+                                            <li><a href="{{ url('account_302_detail_date') }}">ค้นหาลูกหนี้</a></li>
+                                            <li><a href="javascript: void(0);" class="has-arrow">3012-อุปกรณ์เบิก New-Eclaim</a>
+                                                <ul class="sub-menu" aria-expanded="true"> 
+                                                    <li><a href="{{ url('account_3012_dash') }}">dashboard</a></li>
+                                                    {{-- <li><a href="{{ url('account_3012_pull') }}">ดึงลูกหนี้</a> </li> --}}
+                                                    <li><a href="{{ url('account_3012_detail_date') }}">ค้นหาลูกหนี้</a> </li>
+                                                </ul>
+                                            </li>
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">303-OPนอกเครือข่าย สังกัด สป.สธ.</a>
@@ -702,47 +716,47 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                         </li>
 
                         @if ($permiss_setting_upstm != 0)
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
-                                <i class="fa-solid fa-cloud-arrow-up text-warning"></i>
-                                <span>UP STM</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                {{-- <li><a href="{{ url('upstm_all') }}">STM ALL</a></li> --}}
-                                <li><a href="javascript: void(0);" class="has-arrow">REPORT STM ALL</a>
-                                    <ul class="sub-menu" aria-expanded="true"> 
-                                        {{-- <li><a href="{{ url('upstm_all') }}">STM ALL</a></li> --}}
-                                        {{-- <li><a href="{{ url('upstm_ucs_opd') }}">UCS OPD 201</a></li> --}}
-                                        <li><a href="{{ url('upstm_ucs_ipd') }}">UCS IPD 202</a></li>
-                                        <li><a href="{{ url('upstm_ucs_opd216') }}">UCS OPD 216</a></li>
-                                        <li><a href="{{ url('upstm_ucs_ipd217') }}">UCS IPD 217</a></li>
-                                        <li><a href="{{ url('upstm_ucs_ti') }}">UCS ไต 2166</a></li>
-                                        <li><a href="{{ url('upstm_sss_ti') }}">SSS ไต 3099</a></li>
-                                        <li><a href="{{ url('upstm_ofc_ti') }}">OFC ไต 4011</a></li>
-                                        <li><a href="{{ url('upstm_ofc_ti_ipd') }}">OFC ไต 4022</a></li>
-                                        <li><a href="{{ url('upstm_lgo_ti') }}">LGO ไต 8011</a></li>
-                                        <li><a href="{{ url('upstm_ofc_opd') }}">OFC OPD 401</a></li>
-                                        <li><a href="{{ url('upstm_ofc_ipd') }}">OFC IPD 402</a></li>
-                                        <li><a href="{{ url('upstm_lgo_opd') }}">LGO OPD 801</a></li>
-                                        <li><a href="{{ url('upstm_lgo_ipd') }}">LGO IPD 802</a></li>
-                                        <li><a href="{{ url('upstm_bkk_opd') }}">BKK OPD 803</a></li>
-                                        <li><a href="{{ url('upstm_bkk_ipd') }}">BKK IPD 804</a></li>
-                                    </ul>
-                                </li>
+                            <li>
+                                <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                                    <i class="fa-solid fa-cloud-arrow-up text-warning"></i>
+                                    <span>UP STM</span>
+                                </a>
+                                <ul class="sub-menu" aria-expanded="true">
+                                    {{-- <li><a href="{{ url('upstm_all') }}">STM ALL</a></li> --}}
+                                    <li><a href="javascript: void(0);" class="has-arrow">REPORT STM ALL</a>
+                                        <ul class="sub-menu" aria-expanded="true"> 
+                                            {{-- <li><a href="{{ url('upstm_all') }}">STM ALL</a></li> --}}
+                                            {{-- <li><a href="{{ url('upstm_ucs_opd') }}">UCS OPD 201</a></li> --}}
+                                            <li><a href="{{ url('upstm_ucs_ipd') }}">UCS IPD 202</a></li>
+                                            <li><a href="{{ url('upstm_ucs_opd216') }}">UCS OPD 216</a></li>
+                                            <li><a href="{{ url('upstm_ucs_ipd217') }}">UCS IPD 217</a></li>
+                                            <li><a href="{{ url('upstm_ucs_ti') }}">UCS ไต 2166</a></li>
+                                            <li><a href="{{ url('upstm_sss_ti') }}">SSS ไต 3099</a></li>
+                                            <li><a href="{{ url('upstm_ofc_ti') }}">OFC ไต 4011</a></li>
+                                            <li><a href="{{ url('upstm_ofc_ti_ipd') }}">OFC ไต 4022</a></li>
+                                            <li><a href="{{ url('upstm_lgo_ti') }}">LGO ไต 8011</a></li>
+                                            <li><a href="{{ url('upstm_ofc_opd') }}">OFC OPD 401</a></li>
+                                            <li><a href="{{ url('upstm_ofc_ipd') }}">OFC IPD 402</a></li>
+                                            <li><a href="{{ url('upstm_lgo_opd') }}">LGO OPD 801</a></li>
+                                            <li><a href="{{ url('upstm_lgo_ipd') }}">LGO IPD 802</a></li>
+                                            <li><a href="{{ url('upstm_bkk_opd') }}">BKK OPD 803</a></li>
+                                            <li><a href="{{ url('upstm_bkk_ipd') }}">BKK IPD 804</a></li>
+                                        </ul>
+                                    </li>
 
-                                <li><a href="{{ url('upstm_ucsopd') }}">UCS(Excel-OPD)</a></li>
-                                <li><a href="{{ url('upstm_ucs') }}">UCS(Excel-IPD)OK</a></li>
-                                <li><a href="{{ url('upstm_ofcexcel') }}">OFC(Excel)OK</a></li> 
-                                <li><a href="{{ url('upstm_bkkexcel') }}">BKK(Excel)OK</a></li> 
-                                <li><a href="{{ url('upstm_lgoexcel') }}">LGO(Excel)OK</a></li>  
-                                <li><a href="{{ url('upstm_ti') }}">UCS(Excel-ไต)OK</a></li>
-                                <li><a href="{{ url('upstm_tixml') }}">OFC(Xml-ไต)OK</a></li>
-                                <li><a href="{{ url('upstm_lgotiexcel') }}">LGO(Excel-ไต)OK</a></li>
-                                <li><a href="{{ url('upstm_tixml_sss') }}">SSS(Xml-ไต)OK</a></li>
-                                <li><a href="{{ url('upstm_sss_xml') }}">SSS(Xml)</a></li>
-                            </ul>
-                        </li>
-                    @endif
+                                    <li><a href="{{ url('upstm_ucsopd') }}">UCS(Excel-OPD)</a></li>
+                                    <li><a href="{{ url('upstm_ucs') }}">UCS(Excel-IPD)OK</a></li>
+                                    <li><a href="{{ url('upstm_ofcexcel') }}">OFC(Excel)OK</a></li> 
+                                    <li><a href="{{ url('upstm_bkkexcel') }}">BKK(Excel)OK</a></li> 
+                                    <li><a href="{{ url('upstm_lgoexcel') }}">LGO(Excel)OK</a></li>  
+                                    <li><a href="{{ url('upstm_ti') }}">UCS(Excel-ไต)OK</a></li>
+                                    <li><a href="{{ url('upstm_tixml') }}">OFC(Xml-ไต)OK</a></li>
+                                    <li><a href="{{ url('upstm_lgotiexcel') }}">LGO(Excel-ไต)OK</a></li>
+                                    <li><a href="{{ url('upstm_tixml_sss') }}">SSS(Xml-ไต)OK</a></li>
+                                    <li><a href="{{ url('upstm_sss_xml') }}">SSS(Xml)</a></li>
+                                </ul>
+                            </li>
+                        @endif
                         
 
                         @if ($permiss_rep_money != 0)

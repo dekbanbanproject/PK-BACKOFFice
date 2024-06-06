@@ -148,7 +148,7 @@
                                         <th class="text-center">เดือน</th> 
                                         <th class="text-center">ลูกหนี้ที่ต้องตั้ง</th> 
                                         <th class="text-center">ตั้งลูกหนี้</th> 
-                                        <th class="text-center">ลูกหนี้ Walkin</th> 
+                                        {{-- <th class="text-center">ลูกหนี้ Walkin</th>  --}}
                                         <th class="text-center">Statement</th>
                                         <th class="text-center">ยกยอดไปเดือนนี้</th> 
                                     </tr>
@@ -234,14 +234,14 @@
                                                 <td class="p-2">{{$item->MONTH_NAME}} {{$ynew}}</td>                                         
                                                 <td class="text-end" style="color:rgb(73, 147, 231)" width="10%"> {{ number_format($sum_N, 2) }}</td>  
                                                 <td class="text-end" width="10%">  <a href="{{url('account_pkucs216_detail/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(186, 75, 250)"> {{ number_format($sum_Y, 2) }}</a></td> 
-                                                <td class="text-end" width="10%"><a href="" style="color:rgb(238, 36, 86)">{{ number_format($sum_walkin, 2) }}</a></td> 
+                                                {{-- <td class="text-end" width="10%"><a href="" style="color:rgb(238, 36, 86)">{{ number_format($sum_walkin, 2) }}</a></td>  --}}
                                                 <td class="text-end" style="color:rgb(4, 161, 135)" width="10%">{{ number_format($sum_stm_money, 2) }}</td> 
                                                 <td class="text-end" style="color:rgb(224, 128, 17)" width="10%">0.00</td> 
                                             </tr>
                                         <?php
                                                 $total1 = $total1 + $sum_N;
                                                 $total2 = $total2 + $sum_Y; 
-                                                $total3 = $total3 + $sum_walkin; 
+                                                // $total3 = $total3 + $sum_walkin; 
                                                 $total4 = $total4 + $sum_stm_money; 
                                         ?>
                                     @endforeach
@@ -251,7 +251,7 @@
                                     <td colspan="2" class="text-end" style="background-color: #fca1a1"></td>
                                     <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
                                     <td class="text-end" style="background-color: #9f4efc" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td> 
-                                    <td class="text-end" style="background-color: #c5224b"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td>
+                                    {{-- <td class="text-end" style="background-color: #c5224b"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td> --}}
                                     <td class="text-end" style="background-color: #0ea080"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td> 
                                     <td class="text-end" style="background-color: #f89625"><label for="" style="color: #FFFFFF">0.00</label></td> 
                                  
