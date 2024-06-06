@@ -1442,12 +1442,12 @@ class ApiController extends Controller
                 $date_now = date('Y-m-d');
                 // $date_now = date('2024-04-03');
                 // $date_now = date('2024-04-15');
-                // $data_ = DB::connection('mysql')->select(
+                // $data_vn_1 = DB::connection('mysql')->select(
                 //     'SELECT vn,cid,hn,vstdate,claimcode 
-                //         FROM check_sit_auto WHERE vstdate = "'.$date_now.'"
+                //         FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'"
                 //         AND (claimcode IS NULL OR claimcode ="") AND cid is not null  
                 //         GROUP BY vn 
-                //         LIMIT 15
+                       
                 //     '); 
                 $data_vn_1 = DB::connection('mysql10')->select(
                     'SELECT v.vn,p.hn,p.cid,o.vstdate,o.pttype,p.birthday,p.hometel,p.citizenship,p.nationality,v.pdx,o.hospmain,o.hospsub
@@ -1522,6 +1522,10 @@ class ApiController extends Controller
                                                             'claimtype'     => $sv_code,
                                                             'servicename'   => $sv_name, 
                                                     ]);
+                                                    Fdh_mini_dataset::where('vn','=', $vn)
+                                                        ->update([
+                                                            'claimcode'     => $cd, 
+                                                    ]);
                                                 }  
                                             }
                                         // }
@@ -1537,12 +1541,12 @@ class ApiController extends Controller
                 $date_now = date('Y-m-d');
                 // $date_now = date('2024-04-03');
                 // $date_now = date('2024-04-15');
-                // $data_ = DB::connection('mysql')->select(
+                // $data_vn_1 = DB::connection('mysql')->select(
                 //     'SELECT vn,cid,hn,vstdate,claimcode 
-                //         FROM check_sit_auto WHERE vstdate = "'.$date_now.'"
+                //         FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'"
                 //         AND (claimcode IS NULL OR claimcode ="") AND cid is not null  
                 //         GROUP BY vn 
-                //         LIMIT 15
+                       
                 //     '); 
                 $data_vn_1 = DB::connection('mysql10')->select(
                     'SELECT v.vn,p.hn,p.cid,o.vstdate,o.pttype,p.birthday,p.hometel,p.citizenship,p.nationality,v.pdx,o.hospmain,o.hospsub
@@ -1616,6 +1620,10 @@ class ApiController extends Controller
                                                             'claimcode'     => $cd,
                                                             'claimtype'     => $sv_code,
                                                             'servicename'   => $sv_name, 
+                                                    ]);
+                                                    Fdh_mini_dataset::where('vn','=', $vn)
+                                                        ->update([
+                                                            'claimcode'     => $cd, 
                                                     ]);
                                                 }  
                                             }
