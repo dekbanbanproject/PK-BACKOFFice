@@ -178,7 +178,7 @@
                                             }
                                             // ตั้งลูกหนี้ OPD
                                             $datasum_ = DB::select('
-                                                SELECT sum(income)-sum(rcpt_money) as debit_total,count(DISTINCT vn) as Cvit
+                                                SELECT sum(debit_total) as debit_total,count(DISTINCT vn) as Cvit
                                                 from acc_1102050101_216
                                                 where month(vstdate) = "'.$item->months.'"
                                                 AND year(vstdate) = "'.$item->year.'"
