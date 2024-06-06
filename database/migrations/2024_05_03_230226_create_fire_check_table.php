@@ -20,12 +20,16 @@ return new class extends Migration
                 $table->string('fire_check_color')->nullable(); // 
                 $table->string('fire_check_location')->nullable(); // 
                 $table->date('check_date')->nullable();  //          
-                $table->string('fire_check_injection')->nullable(); // 1.สายฉีด
-                $table->string('fire_check_joystick')->nullable(); // 2.คันบังคับ
-                $table->string('fire_check_body')->nullable(); // 3.ตัวถัง
-                $table->string('fire_check_gauge')->nullable(); // 4.เกจความดัน
-                $table->string('fire_check_drawback')->nullable(); // 5.สิ่งกีดขวาง
-          
+                $table->text('fire_check_injection')->nullable(); // 1.สายฉีด
+                $table->text('fire_check_injection_name')->nullable(); //
+                $table->text('fire_check_joystick')->nullable(); // 2.คันบังคับ
+                $table->text('fire_check_joystick_name')->nullable(); //
+                $table->text('fire_check_body')->nullable(); // 3.ตัวถัง
+                $table->text('fire_check_body_name')->nullable(); // 
+                $table->text('fire_check_gauge')->nullable(); // 4.เกจความดัน
+                $table->text('fire_check_gauge_name')->nullable(); // 
+                $table->text('fire_check_drawback')->nullable(); // 5.สิ่งกีดขวาง
+                $table->text('fire_check_drawback_name')->nullable(); //
                 $table->string('user_id')->nullable(); // ผู้ตรวจ
                 
                 $table->timestamps();
