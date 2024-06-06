@@ -1730,9 +1730,10 @@ class FdhController extends Controller
         }
         $data['fdh_mini_dataset']    = DB::connection('mysql')->select(
             'SELECT * from fdh_mini_dataset 
-            WHERE active ="N" AND transaction_uid ="" 
+            WHERE active ="N" AND (transaction_uid ="" OR transaction_uid IS NULL) 
             AND invoice_number <>""
             ORDER BY total_amout DESC');
+            // AND transaction_uid =""
         //  AND vstdate BETWEEN "' . $newday . '" and "' . $date . '" 
         //  AND invoice_number IS NOT NULL  
         return view('fdh.fdh_mini_dataset_pull',$data, [
@@ -1807,7 +1808,7 @@ class FdhController extends Controller
                         'debit'               => $value->total_amout, 
                         'vn'                  => $value->vn,
                         'pttype'              => $value->pttype,
-                        'ptname'              => $value->ptname,
+                        'fullname'            => $value->ptname,
                         'hn'                  => $value->hn,
                         'vstdate'             => $value->vstdate, 
                         'vsttime'             => $value->vsttime,  
@@ -2275,142 +2276,136 @@ class FdhController extends Controller
      // ************************** จองเคลม **************
      public function fdh_mini_dataset_apicliamauto(Request $request)
      { 
-            $date = date('Y-m-d');
-            $iduser = Auth::user()->id;
-            // $data_vn_1 = Fdh_mini_dataset::where('vstdate','=',$date)->where('invoice_number','<>','')->where('transaction_uid',NULL)->get();
-            $data_vn_1 = DB::connection('mysql')->select('SELECT * FROM fdh_mini_dataset WHERE invoice_number IS NOT NULL AND cid <>"" AND transaction_uid IS NULL LIMIT 10');
+        $date = date('Y-m-d');
+        $iduser = "754"; 
+        $data_vn_1 = DB::connection('mysql')->select('SELECT * from fdh_mini_dataset WHERE active ="N" AND cid <> "" AND (transaction_uid ="" OR transaction_uid IS NULL) AND invoice_number <>"" LIMIT 10');            
+        $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE active_mini = "Y" AND user_id = "'.$iduser.'"');
+        foreach ($data_token_ as $key => $val_to) {
+            $token_   = $val_to->api_neweclaim_token;
+        }
+        $token = $token_;    
+        $startcount = 1;
+        $data_claim = array();
+        foreach ($data_vn_1 as $key => $val) {
+            $service_date_time_      = $val->service_date_time;    
+            $service_date_time    = substr($service_date_time_,0,16);
+            $cid                  = $val->cid;
+            $hcode                = $val->hcode;
+            $total_amout          = $val->total_amout;
+            $invoice_number       = $val->invoice_number;
+            $vn                   = $val->vn;
             
-            $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE active_mini = "Y" AND user_id = "'.$iduser.'"');
-            foreach ($data_token_ as $key => $val_to) {
-                $token_   = $val_to->api_neweclaim_token;
-            }
-            $token = $token_;    
-            $startcount = 1;
-            $data_claim = array();
-            foreach ($data_vn_1 as $key => $val) {
-                $service_date_time_      = $val->service_date_time;    
-                $service_date_time    = substr($service_date_time_,0,16);
-                $cid                  = $val->cid;
-                $hcode                = $val->hcode;
-                $total_amout          = $val->total_amout;
-                $invoice_number       = $val->invoice_number;
-                $vn                   = $val->vn;
-                
-                $curl = curl_init();
-                    $postData_send = [ 
-                        "service_date_time"  => $service_date_time,
-                        "cid"                => $cid,
-                        "hcode"              => $hcode,
-                        "total_amout"        => $total_amout,
-                        "invoice_number"     => $invoice_number,
-                        "vn"                 => $vn 
-                    ];
-                    curl_setopt($curl, CURLOPT_URL,"https://fdh.moph.go.th/api/v1/reservation");
-                    curl_setopt($curl, CURLOPT_POST, 1);
-                    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-                    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($postData_send, JSON_UNESCAPED_SLASHES));
-                    curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-                        'Content-Type: application/json',
-                        'Authorization: Bearer '.$token,
-                        'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
-                    ));
-        
-                    $server_output     = curl_exec ($curl);
-                    $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-                    // dd($statusCode);
-                    $content = $server_output;
-                    $result = json_decode($content, true);
-                    #echo "<BR>";
-                    @$status = $result['status'];
-                    #echo "<BR>";
-                    @$message = $result['message'];
-                    @$data = $result['data'];
-                    @$uid = $data['transaction_uid'];
-                    #echo "<BR>";
-                    dd(@$result);
-                    if (@$message == 'success') {
-                            Fdh_mini_dataset::where('vn', $vn)
+            $curl = curl_init();
+                $postData_send = [ 
+                    "service_date_time"  => $service_date_time,
+                    "cid"                => $cid,
+                    "hcode"              => $hcode,
+                    "total_amout"        => $total_amout,
+                    "invoice_number"     => $invoice_number,
+                    "vn"                 => $vn 
+                ];
+                curl_setopt($curl, CURLOPT_URL,"https://fdh.moph.go.th/api/v1/reservation");
+                curl_setopt($curl, CURLOPT_POST, 1);
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($postData_send, JSON_UNESCAPED_SLASHES));
+                curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+                    'Content-Type: application/json',
+                    'Authorization: Bearer '.$token,
+                    'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
+                ));
+    
+                $server_output     = curl_exec ($curl);
+                $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                // dd($statusCode);
+                $content = $server_output;
+                $result = json_decode($content, true);
+                #echo "<BR>";
+                @$status = $result['status'];
+                #echo "<BR>";
+                @$message = $result['message'];
+                @$data = $result['data'];
+                @$uid = $data['transaction_uid'];
+                #echo "<BR>";
+                // dd(@$result);
+                if (@$message == 'success') {
+                        Fdh_mini_dataset::where('vn', $vn)
+                        ->update([
+                            'transaction_uid' =>  @$uid,
+                            'active'          => 'Y'
+                        ]); 
+                } elseif ($status == '400') {
+                        Fdh_mini_dataset::where('vn', $vn)
                             ->update([
                                 'transaction_uid' =>  @$uid,
                                 'active'          => 'Y'
-                            ]); 
-                    } elseif ($status == '400') {
-                            Fdh_mini_dataset::where('vn', $vn)
-                                ->update([
-                                    'transaction_uid' =>  @$uid,
-                                    'active'          => 'Y'
-                                ]);
-                    } else {
-                        # code...
-                    }
-            }        
-            return response()->json('200'); 
+                            ]);
+                } else {
+                    # code...
+                }
+        }        
+        return response()->json('200'); 
      }
 
     public function fdh_mini_dataset_pulljongauto(Request $request)
     {
-            $date = date('Y-m-d');
-            $iduser = Auth::user()->id;
-            // $data_vn_1 = Fdh_mini_dataset::where('vstdate','=',$date)->where('transaction_uid','<>','')->get();
-            $data_vn_1 = DB::connection('mysql')->select('SELECT * FROM fdh_mini_dataset WHERE invoice_number IS NOT NULL AND cid <>"" AND hcode <> "" id_booking IS NULL LIMIT 50');
-            $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE active_mini = "Y" AND user_id = "'.$iduser.'"');
-            foreach ($data_token_ as $key => $val_to) {
-                $token_   = $val_to->api_neweclaim_token;
-            }
-            $token = $token_; 
-            foreach ($data_vn_1 as $key => $val) { 
-                $transaction_uid      = $val->transaction_uid;
-                $hcode                = $val->hcode; 
+        $date = date('Y-m-d');
+        $iduser = "754"; 
+        $data_vn_1 = DB::connection('mysql')->select('SELECT * FROM fdh_mini_dataset WHERE invoice_number IS NOT NULL AND cid <>"" AND hcode <> "" AND id_booking IS NULL LIMIT 50');
+        $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE active_mini = "Y" AND user_id = "'.$iduser.'"');
+        foreach ($data_token_ as $key => $val_to) {
+            $token_   = $val_to->api_neweclaim_token;
+        }
+        $token = $token_; 
+        foreach ($data_vn_1 as $key => $val) { 
+            $transaction_uid      = $val->transaction_uid;
+            $hcode                = $val->hcode; 
 
-                    $curl = curl_init(); 
-                    curl_setopt_array($curl, array(
-                        CURLOPT_URL => 'https://fdh.moph.go.th/api/v1/reservation',
-                        CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_ENCODING => '',
-                        CURLOPT_MAXREDIRS => 10,
-                        CURLOPT_TIMEOUT => 0,
-                        CURLOPT_FOLLOWLOCATION => true,
-                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                        CURLOPT_CUSTOMREQUEST => 'GET',
-                        CURLOPT_POSTFIELDS => '{
-                            "transaction_uid": "'.$transaction_uid.'", 
-                            "hcode"          : "'.$hcode.'" 
-                        }',
-                        CURLOPT_HTTPHEADER => array(
-                            'Content-Type: application/json',
-                            'Authorization: Bearer '.$token,
-                            'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
-                        ),
-                    ));
-                    $response = curl_exec($curl);
-                    // dd($response); 
-                    $result            = json_decode($response, true); 
-                    @$status           = $result['status']; 
-                    @$message          = $result['message'];
-                    @$data             = $result['data'];
-                    @$uidrep           = $data['transaction_uid'];
-                    @$id_booking       = $data['id_booking'];
-                    @$uuid_booking     = $data['uuid_booking']; 
-                    if (@$message == 'success') {
-                            Fdh_mini_dataset::where('transaction_uid', $uidrep)
+                $curl = curl_init(); 
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => 'https://fdh.moph.go.th/api/v1/reservation',
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'GET',
+                    CURLOPT_POSTFIELDS => '{
+                        "transaction_uid": "'.$transaction_uid.'", 
+                        "hcode"          : "'.$hcode.'" 
+                    }',
+                    CURLOPT_HTTPHEADER => array(
+                        'Content-Type: application/json',
+                        'Authorization: Bearer '.$token,
+                        'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
+                    ),
+                ));
+                $response = curl_exec($curl);
+                // dd($response); 
+                $result            = json_decode($response, true); 
+                @$status           = $result['status']; 
+                @$message          = $result['message'];
+                @$data             = $result['data'];
+                @$uidrep           = $data['transaction_uid'];
+                @$id_booking       = $data['id_booking'];
+                @$uuid_booking     = $data['uuid_booking']; 
+                if (@$message == 'success') {
+                        Fdh_mini_dataset::where('transaction_uid', $uidrep)
+                        ->update([
+                            'id_booking'     => @$id_booking,
+                            'uuid_booking'   => @$uuid_booking
+                        ]);  
+                } elseif ($status == '400') {
+                        Fdh_mini_dataset::where('transaction_uid', $uidrep)
                             ->update([
                                 'id_booking'     => @$id_booking,
                                 'uuid_booking'   => @$uuid_booking
-                            ]);  
-                    } elseif ($status == '400') {
-                            Fdh_mini_dataset::where('transaction_uid', $uidrep)
-                                ->update([
-                                    'id_booking'     => @$id_booking,
-                                    'uuid_booking'   => @$uuid_booking
-                                ]);
-                    } else {
-                        # code...
-                    }
-            }
-            return response()->json('200'); 
-            // return response()->json([
-            //     'status'    => '200'
-            // ]); 
+                            ]);
+                } else {
+                    # code...
+                }
+        }
+        return response()->json('200'); 
     }
 
     public function fdh_authen(Request $request)
