@@ -53,11 +53,7 @@ Route::match(['get','post'],'authen_auth_new',[App\Http\Controllers\Auto_authenC
 Route::match(['get','post'],'authen_auth_tinew',[App\Http\Controllers\Auto_authenController::class, 'authen_auth_tinew'])->name('auto.authen_auth_tinew');//
 Route::match(['get','post'],'pullauthen_spschnew',[App\Http\Controllers\Auto_authenController::class, 'pullauthen_spschnew'])->name('auto.pullauthen_spschnew');//
 
-Route::match(['get','post'],'fdh_mini_dataset_authauto',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_authauto'])->name('fdh.fdh_mini_dataset_authauto');
-Route::match(['get','post'],'fdh_mini_dataset_pullauto',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pullauto'])->name('fdh.fdh_mini_dataset_pullauto');
-Route::match(['get','post'],'fdh_mini_dataset_pullnoinauto',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pullnoinauto'])->name('fdh.fdh_mini_dataset_pullnoinauto'); 
-Route::match(['get','post'],'fdh_mini_dataset_apicliamauto',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_apicliamauto'])->name('fdh.fdh_mini_dataset_apicliamauto');
-Route::match(['get','post'],'fdh_mini_dataset_pulljongauto',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pulljongauto'])->name('fdh.fdh_mini_dataset_pulljongauto');
+
 // Route::match(['get','post'],'fdh_mini_dataset_rep',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_rep'])->name('fdh.fdh_mini_dataset_rep');
 // Route::match(['get','post'],'fdh_mini_dataset_pulljong',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pulljong'])->name('fdh.fdh_mini_dataset_pulljong');
 
@@ -477,6 +473,11 @@ Route::match(['get','post'],'equipment_spsch/{months}/{startdate}/{enddate}',[Ap
 Route::match(['get','post'],'equipment_nokey/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'equipment_nokey'])->name('pt.equipment_nokey');//
 
 Route::match(['get','post'],'acc_stm_ct',[App\Http\Controllers\AccdashboardController::class, 'acc_stm_ct'])->name('acc.acc_stm_ct');//
+Route::match(['get','post'],'fdh_mini_dataset_authauto',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_authauto'])->name('fdh.fdh_mini_dataset_authauto');
+Route::match(['get','post'],'fdh_mini_dataset_pullauto',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pullauto'])->name('fdh.fdh_mini_dataset_pullauto');
+Route::match(['get','post'],'fdh_mini_dataset_pullnoinauto',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pullnoinauto'])->name('fdh.fdh_mini_dataset_pullnoinauto'); 
+Route::match(['get','post'],'fdh_mini_dataset_apicliamauto',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_apicliamauto'])->name('fdh.fdh_mini_dataset_apicliamauto');
+Route::match(['get','post'],'fdh_mini_dataset_pulljongauto',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pulljongauto'])->name('fdh.fdh_mini_dataset_pulljongauto');
 
 
 Route::get('/', function () {
