@@ -355,7 +355,7 @@ class SupportPRSController extends Controller
             'SELECT * FROM fire f
                 LEFT JOIN fire_check fc ON fc.fire_id = f.fire_id
                 LEFT JOIN users u ON u.id = fc.user_id
-                WHERE f.fire_backup="N" AND f.fire_for_nocheck = "Y" AND f.fire_edit ="Narmal"
+                WHERE f.fire_backup="N" AND f.fire_for_nocheck = "Y" AND f.fire_edit ="Narmal" AND month(fc.check_date) = "'.$months.'" AND year(fc.check_date) = "'.$years.'"
         '); 
         // leftJoin('users', 'fire_check.user_id', '=', 'users.id') 
         return view('support_prs.support_system_check',[
