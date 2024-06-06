@@ -49,8 +49,8 @@ Route::match(['get','post'],'contact_save',[App\Http\Controllers\CustormerContro
 Route::match(['get','post'],'connectdb',[App\Http\Controllers\ConfigDatabaseController::class, 'connectdb'])->name('db.connectdb');//
 Route::match(['get','post'],'connectdb_save',[App\Http\Controllers\ConfigDatabaseController::class, 'connectdb_save'])->name('db.connectdb_save');//
 
-Route::match(['get','post'],'authen_auth_new',[App\Http\Controllers\Auto_authenController::class, 'authen_auth_new'])->name('auto.authen_auth_new');//
-Route::match(['get','post'],'authen_auth_tinew',[App\Http\Controllers\Auto_authenController::class, 'authen_auth_tinew'])->name('auto.authen_auth_tinew');//
+// Route::match(['get','post'],'authen_auth_new',[App\Http\Controllers\Auto_authenController::class, 'authen_auth_new'])->name('auto.authen_auth_new');//
+// Route::match(['get','post'],'authen_auth_tinew',[App\Http\Controllers\Auto_authenController::class, 'authen_auth_tinew'])->name('auto.authen_auth_tinew');//
 Route::match(['get','post'],'pullauthen_spschnew',[App\Http\Controllers\Auto_authenController::class, 'pullauthen_spschnew'])->name('auto.pullauthen_spschnew');//
 
 
