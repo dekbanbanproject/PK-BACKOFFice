@@ -114,7 +114,7 @@ class Account203Controller extends Controller
                     WHERE a.vstdate between "'.$start.'" and "'.$end.'"
                     and account_code="1102050101.203"
                     group by month(a.vstdate)                     
-                    order by a.vstdate desc limit 9;
+                    order by a.vstdate desc;
             ');  
         } else {
             $datashow = DB::select('

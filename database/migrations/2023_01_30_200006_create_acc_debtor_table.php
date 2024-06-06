@@ -69,6 +69,8 @@ return new class extends Migration
                 $table->string('fokliad')->nullable();//                
                 $table->string('debit_total')->nullable();//          ลูกหนี้
                 $table->string('debit_ucep')->nullable();// 
+                $table->string('debit_walkin')->nullable();// 
+
                 $table->string('toklong')->nullable();//
                 $table->string('debit_cr')->nullable();//
                 $table->string('max_debt_amount')->nullable();// 

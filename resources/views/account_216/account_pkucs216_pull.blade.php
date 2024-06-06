@@ -153,16 +153,12 @@
                                             <th class="text-end">drug</th> 
                                             <th class="text-end">เลนส์</th> 
                                             <th class="text-end">refer</th>  
+                                            <th class="text-end">walkin</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php $i = 1; 
-                                            $total1 = 0;
-                                            $total2 = 0;
-                                            $total3 = 0;
-                                            $total4 = 0;
-                                            $total5 = 0;
-                                            $total6 = 0;
+                                            $total1 = 0; $total2 = 0; $total3 = 0; $total4 = 0; $total5 = 0; $total6 = 0; $total7 = 0;
                                         ?>
                                         @foreach ($acc_debtor as $item) 
                                             <tr id="tr_{{$item->acc_debtor_id}}">                                                  
@@ -192,6 +188,7 @@
                                                 <td class="text-end" width="5%">{{ number_format($item->debit_drug, 2) }}</td> 
                                                 <td class="text-end" width="5%">{{ number_format($item->debit_toa, 2) }}</td> 
                                                 <td class="text-end" width="5%">{{ number_format($item->debit_refer, 2) }}</td> 
+                                                <td class="text-end" width="5%" style="color:rgb(129, 54, 250)">{{ number_format($item->debit_walkin, 2) }}</td> 
                                             </tr>
                                             <?php
                                                     $total1 = $total1 + $item->income;
@@ -200,6 +197,7 @@
                                                     $total4 = $total4 + $item->debit_drug;
                                                     $total5 = $total5 + $item->debit_toa;
                                                     $total6 = $total6 + $item->debit_refer;
+                                                    $total7 = $total7 + $item->debit_walkin;
                                             ?>
                                         @endforeach
                                     </tbody>
@@ -211,6 +209,7 @@
                                         <td class="text-center" style="background-color: #FC7373"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td>
                                         <td class="text-center" style="background-color: #FC7373"><label for="" style="color: #FFFFFF">{{ number_format($total5, 2) }}</label></td>
                                         <td class="text-center" style="background-color: #FC7373"><label for="" style="color: #FFFFFF">{{ number_format($total6, 2) }}</label></td>
+                                        <td class="text-center" style="background-color: #9037f5"><label for="" style="color: #FFFFFF">{{ number_format($total7, 2) }}</label></td>
                                     </tr>  
                                 </table>
                             </div>
