@@ -310,7 +310,7 @@ class SupportPRSController extends Controller
          }
         //  $data_t = $data_array;
         //  dd($data_t);
-        $datafire = DB::select('SELECT * FROM fire WHERE fire_backup="N" AND fire_for_nocheck = "N" AND fire_edit ="Narmal"'); 
+        $datafire = DB::select('SELECT * FROM fire WHERE fire_backup="N" AND fire_for_nocheck = "N" AND fire_edit ="Narmal" AND active="Y"'); 
          
         //  foreach ($data_t as $key => $valuess) {
         //     dd($valuess);
