@@ -42,6 +42,8 @@ return new class extends Migration
                 $table->string('debit_refer')->nullable();// เฉพาะ Refer
                 $table->string('debit_toa')->nullable();//
                 $table->string('debit_total')->nullable();//
+                $table->char('debit_ins_sss', length: 100)->nullable();//
+                $table->char('debit_ct_sss', length: 100)->nullable();//
                 $table->string('sauntang')->nullable();// 
                 $table->longtext('cc')->nullable();// 
                 $table->string('referin_no')->nullable();//  

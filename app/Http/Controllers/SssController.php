@@ -740,7 +740,7 @@ class SssController extends Controller
                         where o.vstdate between "'.$startdate.'" AND "'.$enddate.'"
                         and month(o.vstdate) = "'.$months.'" 
                         and o.pttype="a7"
-                        and n.billcode  not in (select `CODE` from eclaimdb.l_instrumentitem where `CODE`= l.`CODE`)
+                        and n.billcode not in(select `CODE` from eclaimdb.l_instrumentitem where `CODE`= l.`CODE`)
                         and n.billcode like "8%"
                         and n.billcode not in ("8608","8307")
                         and o.an is null

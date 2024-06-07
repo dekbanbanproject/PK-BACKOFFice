@@ -10,63 +10,59 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    { 
-        if (!Schema::hasTable('acc_1102050101_3011'))
-        {
-            Schema::create('acc_1102050101_3011', function (Blueprint $table) {
-                $table->bigIncrements('acc_1102050101_3011_id'); 
-                $table->string('vn')->nullable();// รหัส
-                $table->string('an')->nullable();// 
-                $table->string('hn')->nullable();// 
-                $table->string('cid')->nullable();//  
-                $table->string('ptname')->nullable();// 
-                $table->date('vstdate')->nullable();//
-                $table->Time('vsttime')->nullable();// 
-                $table->date('regdate')->nullable();//
-                $table->date('dchdate')->nullable();//            
-                $table->string('pttype')->nullable();//  
-                $table->string('pttype_nhso')->nullable();// 
-                $table->date('pttype_nhso_startdate')->nullable();// 
-                $table->string('income_group')->nullable();// 
-                $table->string('acc_code')->nullable();// 
-                $table->string('account_code')->nullable();// 
-                $table->string('income')->nullable();// 
-                $table->string('uc_money')->nullable();// 
-                $table->string('discount_money')->nullable();//  
-                $table->string('rcpt_money')->nullable();//  paid_money
-                $table->string('rcpno')->nullable();//  
-                $table->string('debit')->nullable();// 
-                $table->string('debit_drug')->nullable();//เฉพาะรายการยา
-                $table->string('debit_instument')->nullable();// เฉพาะรอวัยวะเทียม
-                $table->string('debit_refer')->nullable();// เฉพาะ Refer
-                $table->string('debit_toa')->nullable();//
-                $table->string('debit_total')->nullable();//
-                $table->string('max_debt_amount')->nullable();//  
-                $table->string('acc_debtor_filename')->nullable();// 
-                $table->string('stm_rep')->nullable();//  
-                $table->string('stm_money')->nullable();//                
-                $table->string('stm_uc_money')->nullable();// 
-                $table->string('stm_rcpt_money')->nullable();// 
-                $table->string('stm_rcpno')->nullable();//  
-                $table->string('stm_rw')->nullable();// 
-                $table->string('acc_debtor_userid')->nullable();// 
-                $table->enum('status', ['Y', 'N'])->default('N');
-                $table->string('nhso_docno')->nullable();// เลขที่หนังสือ
-                $table->string('nhso_ownright_pid')->nullable();//ลงรับใน hos    
-                $table->string('nhso_ownright_name')->nullable();//   วันที่    
-                $table->string('nhso_govname')->nullable();//    
-                $table->string('recieve_true')->nullable();//รับจริง
-                $table->string('difference')->nullable();//ส่วนต่าง
-                $table->string('recieve_no')->nullable();//เลขที่ใบเสร็จ
-                $table->string('recieve_date')->nullable();//ลงวันที่
-                $table->string('recieve_user')->nullable();//ผู้ลง
-                $table->date('savedate')->nullable();// 
-                $table->string('comment')->nullable();// 
-                $table->date('date_req')->nullable();// 
-                $table->string('STMdoc')->nullable();// 
-                $table->timestamps();
-            });
-        }
+    {  
+            
+            if (!Schema::hasTable('acc_1102050101_3011'))
+            {
+                Schema::create('acc_1102050101_3011', function (Blueprint $table) {
+                    $table->bigIncrements('acc_1102050101_3011_id'); 
+                    $table->char('vn', length: 100)->nullable();// รหัส
+                    $table->char('an', length: 100)->nullable();// 
+                    $table->char('hn', length: 100)->nullable();// 
+                    $table->char('cid', length: 100)->nullable();//  
+                    $table->char('ptname', length: 100)->nullable();// 
+                    $table->date('vstdate')->nullable();//
+                    $table->Time('vsttime')->nullable();// 
+                    $table->date('regdate')->nullable();//
+                    $table->date('dchdate')->nullable();//            
+                    $table->char('pttype', length: 100)->nullable();//  
+                    $table->char('pttype_nhso', length: 100)->nullable();// 
+                    $table->date('pttype_nhso_startdate')->nullable();//  
+                    $table->char('acc_code', length: 100)->nullable();// 
+                    $table->char('account_code', length: 100)->nullable();// 
+                    $table->char('income', length: 100)->nullable();// 
+                    $table->char('uc_money', length: 100)->nullable();// 
+                    $table->char('discount_money', length: 100)->nullable();//  
+                    $table->char('rcpt_money', length: 100)->nullable();//  paid_money
+                    $table->char('rcpno', length: 100)->nullable();//  
+                    $table->char('debit', length: 100)->nullable();// 
+                    $table->char('debit_drug', length: 100)->nullable();//เฉพาะรายการยา
+                    $table->char('debit_instument', length: 100)->nullable();// เฉพาะรอวัยวะเทียม
+                    $table->char('debit_refer', length: 100)->nullable();// เฉพาะ Refer
+                    $table->char('debit_toa', length: 100)->nullable();//
+                    $table->char('debit_total', length: 100)->nullable();//
+    
+                    $table->char('debit_ins_sss', length: 100)->nullable();//
+                    $table->char('debit_ct_sss', length: 100)->nullable();//
+    
+                    $table->char('max_debt_amount', length: 100)->nullable();//  
+                    $table->char('acc_debtor_filename', length: 100)->nullable();// 
+                    $table->char('stm_rep', length: 100)->nullable();//  
+                    $table->char('stm_money', length: 100)->nullable();//                
+                    $table->char('stm_uc_money', length: 100)->nullable();// 
+                    $table->char('stm_rcpt_money', length: 100)->nullable();// 
+                    $table->char('stm_rcpno', length: 100)->nullable();//  
+                    $table->char('stm_rw', length: 100)->nullable();// 
+                    $table->char('acc_debtor_userid', length: 100)->nullable();// 
+                    $table->enum('status', ['Y', 'N'])->default('N');
+                    $table->text('comment')->nullable();// 
+                    $table->date('date_req')->nullable();// 
+                    $table->string('STMdoc')->nullable();// 
+                    $table->timestamps();
+                });
+                
+            }
+        
     }
 
     /**

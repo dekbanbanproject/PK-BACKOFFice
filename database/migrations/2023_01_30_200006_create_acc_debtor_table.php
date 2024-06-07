@@ -70,6 +70,8 @@ return new class extends Migration
                 $table->string('debit_total')->nullable();//          ลูกหนี้
                 $table->string('debit_ucep')->nullable();// 
                 $table->string('debit_walkin')->nullable();// 
+                $table->string('debit_ins_sss')->nullable();// 3011
+                $table->string('debit_ct_sss')->nullable();//  3013
 
                 $table->string('toklong')->nullable();//
                 $table->string('debit_cr')->nullable();//
