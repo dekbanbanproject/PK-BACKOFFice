@@ -2032,6 +2032,10 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_301_stmnull_all/{months}/{year}',[App\Http\Controllers\Account301Controller::class, 'account_301_stmnull_all'])->name('acc.account_301_stmnull_all');//
     Route::match(['get','post'],'account_301_destroy_all',[App\Http\Controllers\Account301Controller::class, 'account_301_destroy_all'])->name('acc.account_301_destroy_all');//
 
+    Route::match(['get','post'],'account_301_income/{startdate}/{enddate}',[App\Http\Controllers\Account301Controller::class, 'account_301_dashsub'])->name('acc.account_301_dashsub');//
+    Route::match(['get','post'],'account_301_ins/{startdate}/{enddate}',[App\Http\Controllers\Account301Controller::class, 'account_301_ins'])->name('acc.account_301_ins');//
+    Route::match(['get','post'],'account_301_ct/{startdate}/{enddate}',[App\Http\Controllers\Account301Controller::class, 'account_301_ct'])->name('acc.account_301_ct');//
+
     Route::match(['get','post'],'account_3011_dash',[App\Http\Controllers\Account3011Controller::class, 'account_3011_dash'])->name('acc.account_3011_dash');//
     Route::match(['get','post'],'account_3011_pull',[App\Http\Controllers\Account3011Controller::class, 'account_3011_pull'])->name('acc.account_3011_pull');//
     Route::match(['get','post'],'account_3011_pulldata',[App\Http\Controllers\Account3011Controller::class, 'account_3011_pulldata'])->name('acc.account_3011_pulldata');//

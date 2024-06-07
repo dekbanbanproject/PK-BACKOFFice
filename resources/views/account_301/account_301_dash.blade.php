@@ -91,11 +91,11 @@
             @csrf
             <div class="row mt-2"> 
                 <div class="col"></div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail 1102050101.301</h4>
                     <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.301</p>
                 </div>
-            
+              
                 <div class="col-md-1 text-end mt-2">วันที่</div>
                 <div class="col-md-3 text-center ">
                     <select name="acc_trimart_id" id="acc_trimart_id" class="form-control inputacc">
@@ -118,7 +118,7 @@
         <div class="row">  
             <div class="col"></div> 
             {{-- @if ($startdate !='')  --}}
-                <div class="col-xl-8 col-md-8">
+                <div class="col-xl-9 col-md-9">
                     <div class="card card_audit_4c" style="background-color: rgb(246, 235, 247)">   
                         <div class="table-responsive p-3">                                
                             <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable"
@@ -128,11 +128,12 @@
                                         <th class="text-center">ลำดับ</th> 
                                         <th class="text-center">ไตรมาส</th> 
                                         <th class="text-center">ลูกหนี้ที่ต้องตั้ง</th> 
+                                        <th class="text-center">income</th>
                                         <th class="text-center">ลูกหนี้-301</th>  
                                         <th class="text-center">ลูกหนี้-3011</th> 
                                         <th class="text-center">ลูกหนี้-3013</th> 
                                         <th class="text-center">Statement</th>
-                                        <th class="text-center">ยกยอดไปเดือนนี้</th> 
+                                        <th class="text-center">ยกยอดไป</th> 
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -162,13 +163,14 @@
                                             
                                                 // ตั้งลูกหนี้
                                                 $datasum_ = DB::select('
-                                                    SELECT sum(debit_total) as debit_total,count(DISTINCT vn) as Cvit
+                                                    SELECT sum(debit_total) as debit_total,sum(income) as sincome,count(DISTINCT vn) as Cvit
                                                     from acc_1102050101_301
                                                     where vstdate between "'.$item->acc_trimart_start_date.'" and "'.$item->acc_trimart_end_date.'"
                                                 ');   
                                                 foreach ($datasum_ as $key => $value2) {
-                                                    $sum_Y = $value2->debit_total;
-                                                    $count_Y = $value2->Cvit;
+                                                    $sum_Y      = $value2->debit_total;
+                                                    $sum_income = $value2->sincome;
+                                                    $count_Y    = $value2->Cvit;
                                                 }
                                                 $total_sumY   = $sum_Y ;
                                                 $total_countY = $count_Y; 
@@ -229,16 +231,17 @@
                                                 <td class="text-font" style="text-align: center;" width="4%">{{ $number }} </td>  
                                                 <td class="p-2">{{$item->acc_trimart_name}} {{$y}}</td>                                         
                                                 <td class="text-end" style="color:rgb(73, 147, 231)" width="10%"> {{ number_format($sum_N, 2) }}</td>  
-                                                <td class="text-end" width="10%"><a href="{{url('account_301_dashsub/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank" style="color:rgb(186, 75, 250)"> {{ number_format($sum_Y, 2) }}</a></td> 
-                                                <td class="text-end" width="10%"><a href="{{url('account_301_dashsub/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank" style="color:rgb(250, 75, 142)"> {{ number_format($sum_ins_sss, 2) }}</a></td> 
-                                                <td class="text-end" width="10%"><a href="{{url('account_301_dashsub/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank" style="color:rgb(138, 13, 40)"> {{ number_format($sum_ct_sss, 2) }}</a></td> 
-                                                
+                                                <td class="text-end" width="10%"><a href="{{url('account_301_income/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank" style="color:rgb(186, 75, 250)"> {{ number_format($sum_income, 2) }}</a></td> 
+                                                <td class="text-end" width="10%"><a href="{{url('account_301_dashsub/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank" style="color:rgb(78, 75, 243)"> {{ number_format($sum_Y, 2) }}</a></td> 
+                                                <td class="text-end" width="10%"><a href="{{url('account_301_ins/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank" style="color:rgb(250, 75, 142)"> {{ number_format($sum_ins_sss, 2) }}</a></td> 
+                                                <td class="text-end" width="10%"><a href="{{url('account_301_ct/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank" style="color:rgb(138, 13, 40)"> {{ number_format($sum_ct_sss, 2) }}</a></td>                                                 
                                                 <td class="text-end" style="color:rgb(4, 161, 135)" width="10%">{{ number_format($total301, 2) }} </td> 
                                                 <td class="text-end" style="color:rgb(224, 128, 17)" width="10%">0.00</td> 
                                             </tr>
                                         <?php
                                                 $total1 = $total1 + $sum_N;
-                                                $total2 = $total2 + $sum_Y;  
+                                                $total6 = $total6 + $sum_income; 
+                                                $total2 = $total2 + $sum_Y;                                                
                                                 $total3 = $total3 + $sum_ins_sss; 
                                                 $total4 = $total4 + $sum_ct_sss; 
                                                 $total5 = $total5 + $total301; 
@@ -249,7 +252,8 @@
                                 <tr style="background-color: #f3fca1">
                                     <td colspan="2" class="text-end" style="background-color: #fca1a1"></td>
                                     <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
-                                    <td class="text-end" style="background-color: #9f4efc" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td> 
+                                    <td class="text-end" style="background-color: #6842f1"><label for="" style="color: #FFFFFF">{{ number_format($total6, 2) }}</label></td> 
+                                    <td class="text-end" style="background-color: #9f4efc" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>                                   
                                     <td class="text-end" style="background-color: #c5224b"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td>
                                     <td class="text-end" style="background-color: #86122f"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td>
                                     <td class="text-end" style="background-color: #0ea080"><label for="" style="color: #FFFFFF">{{ number_format($total5, 2) }}</label></td> 

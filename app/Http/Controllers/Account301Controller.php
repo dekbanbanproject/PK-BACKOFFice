@@ -537,8 +537,7 @@ class Account301Controller extends Controller
                             'pttype_nhso'       => $value->pttype_spsch,
                             'acc_code'          => $value->acc_code,
                             'account_code'      => $value->account_code,
-                            'income'            => $value->income,
-                            // 'income_group'      => $value->income_group,
+                            'income'            => $value->income, 
                             'uc_money'          => $value->uc_money,
                             'discount_money'    => $value->discount_money,
                             'rcpt_money'        => $value->rcpt_money,
@@ -547,11 +546,9 @@ class Account301Controller extends Controller
                             'debit_instument'   => $value->debit_instument,
                             'debit_refer'       => $value->debit_refer,
                             'debit_toa'         => $value->debit_toa,
-                            'debit_total'       => $value->debit_total,
-
-                            // 'debit_ins_sss'      => $value->debit_ins_sss,
-                            // 'debit_ct_sss'       => $value->debit_ct_sss, 
-
+                            'debit_total'       => $value->debit_total, 
+                            'debit_ins_sss'     => $value->debit_ins_sss,
+                            'debit_ct_sss'      => $value->debit_ct_sss,  
                             'max_debt_amount'   => $value->max_debt_amount,
                             'acc_debtor_userid' => $iduser
                     ]);
