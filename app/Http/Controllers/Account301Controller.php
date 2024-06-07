@@ -328,62 +328,8 @@ class Account301Controller extends Controller
                         Acc_debtor::where('vn', $value->vn)->update([
                             'debit_ins_sss'      => $value->debit_ins_sss,
                             'debit_ct_sss'       => $value->debit_ct_sss,
-                        ]);
-                     
-                        if ($value->debit_ins_sss > 0) {
-                            Acc_1102050101_3011::insert([
-                                'hn'                 => $value->hn,
-                                'an'                 => $value->an,
-                                'vn'                 => $value->vn,
-                                'cid'                => $value->cid,
-                                'ptname'             => $value->ptname,
-                                'pttype'             => $value->pttype,
-                                'vstdate'            => $value->vstdate, 
-                                'account_code'       => "1102050101.3011", 
-                                'income'             => $value->income,
-                                'uc_money'           => $value->uc_money,
-                                'discount_money'     => $value->discount_money, 
-                                'rcpt_money'         => $value->rcpt_money,
-                                'debit'              => $value->debit,
-                                'debit_drug'         => $value->debit_drug,
-                                'debit_instument'    => $value->debit_instument,
-                                'debit_toa'          => $value->debit_toa,
-                                'debit_refer'        => $value->debit_refer,  
-                                'debit_total'        => $value->debit_ins_sss, 
-                                'debit_ins_sss'      => $value->debit_ins_sss,
-                                'debit_ct_sss'       => $value->debit_ct_sss, 
-                                'max_debt_amount'    => $value->max_debt_money,
-                                'acc_debtor_userid'  => Auth::user()->id
-                            ]);
-                        }
-                        if ($value->debit_ct_sss > 0) {
-                            Acc_1102050101_3013::insert([
-                                'hn'                 => $value->hn,
-                                'an'                 => $value->an,
-                                'vn'                 => $value->vn,
-                                'cid'                => $value->cid,
-                                'ptname'             => $value->ptname,
-                                'pttype'             => $value->pttype,
-                                'vstdate'            => $value->vstdate, 
-                                'account_code'       => "1102050101.3013", 
-                                'income'             => $value->income,
-                                'uc_money'           => $value->uc_money,
-                                'discount_money'     => $value->discount_money, 
-                                'rcpt_money'         => $value->rcpt_money,
-                                'debit'              => $value->debit,
-                                'debit_drug'         => $value->debit_drug,
-                                'debit_instument'    => $value->debit_instument,
-                                'debit_toa'          => $value->debit_toa,
-                                'debit_refer'        => $value->debit_refer,  
-                                'debit_total'        => $value->debit_ct_sss, 
-                                'debit_ins_sss'      => $value->debit_ins_sss,
-                                'debit_ct_sss'       => $value->debit_ct_sss, 
-                                'max_debt_amount'    => $value->max_debt_money,
-                                'acc_debtor_userid'  => Auth::user()->id
-                            ]);
-                        }
-                       
-                       
+                        ]);                     
+                                                                    
                     } else {
                         if ($value->cid !='') {
                             Acc_debtor::insert([
@@ -408,50 +354,68 @@ class Account301Controller extends Controller
                                 'debit_toa'          => $value->debit_toa,
                                 'debit_refer'        => $value->debit_refer, 
                                 'fokliad'            => $value->fokliad,
-                                'debit_total'        => $value->debit,
-                                // 'debit_total'        => $value->debit - $value->debit_instument,
+                                // 'debit_total'        => $value->debit,
+                                'debit_total'        => $value->debit - ($value->debit_ins_sss+$value->debit_ct_sss),
                                 'debit_ins_sss'      => $value->debit_ins_sss,
                                 'debit_ct_sss'       => $value->debit_ct_sss, 
                                 'max_debt_amount'    => $value->max_debt_money,
                                 'acc_debtor_userid'  => Auth::user()->id
                             ]); 
-                        }
-                        
-                       
-                    }
-                    
-                    // if ($check == 0) {
-                    //     Acc_debtor::insert([
-                    //         'hn'                 => $value->hn,
-                    //         'an'                 => $value->an,
-                    //         'vn'                 => $value->vn,
-                    //         'cid'                => $value->cid,
-                    //         'ptname'             => $value->ptname,
-                    //         'pttype'             => $value->pttype,
-                    //         'vstdate'            => $value->vstdate,
-                    //         'acc_code'           => $value->acc_code,
-                    //         'account_code'       => $value->account_code,
-                    //         'account_name'       => $value->account_name, 
-                    //         'income'             => $value->income,
-                    //         'uc_money'           => $value->uc_money,
-                    //         'discount_money'     => $value->discount_money,
-                    //         'paid_money'         => $value->paid_money,
-                    //         'rcpt_money'         => $value->rcpt_money,
-                    //         'debit'              => $value->debit,
-                    //         'debit_drug'         => $value->debit_drug,
-                    //         'debit_instument'    => $value->debit_instument,
-                    //         'debit_toa'          => $value->debit_toa,
-                    //         'debit_refer'        => $value->debit_refer, 
-                    //         'fokliad'            => $value->fokliad,
-                    //         'debit_total'        => $value->debit - $value->debit_instument,
-                    //         'debit_ins_sss'      => $value->debit_ins_sss,
-                    //         'debit_ct_sss'       => $value->debit_ct_sss, 
-                    //         'max_debt_amount'    => $value->max_debt_money,
-                    //         'acc_debtor_userid'  => Auth::user()->id
-                    //     ]);
-                    // }
-                     
-                     
+
+                            if ($value->debit_ins_sss > 0) {
+                                Acc_1102050101_3011::insert([
+                                    'hn'                 => $value->hn,
+                                    'an'                 => $value->an,
+                                    'vn'                 => $value->vn,
+                                    'cid'                => $value->cid,
+                                    'ptname'             => $value->ptname,
+                                    'pttype'             => $value->pttype,
+                                    'vstdate'            => $value->vstdate, 
+                                    'account_code'       => "1102050101.3011", 
+                                    'income'             => $value->income,
+                                    'uc_money'           => $value->uc_money,
+                                    'discount_money'     => $value->discount_money, 
+                                    'rcpt_money'         => $value->rcpt_money,
+                                    'debit'              => $value->debit,
+                                    'debit_drug'         => $value->debit_drug,
+                                    'debit_instument'    => $value->debit_instument,
+                                    'debit_toa'          => $value->debit_toa,
+                                    'debit_refer'        => $value->debit_refer,  
+                                    'debit_total'        => $value->debit_ins_sss, 
+                                    'debit_ins_sss'      => $value->debit_ins_sss,
+                                    'debit_ct_sss'       => $value->debit_ct_sss, 
+                                    'max_debt_amount'    => $value->max_debt_money,
+                                    'acc_debtor_userid'  => Auth::user()->id
+                                ]);
+                            }
+                            if ($value->debit_ct_sss > 0) {
+                                Acc_1102050101_3013::insert([
+                                    'hn'                 => $value->hn,
+                                    'an'                 => $value->an,
+                                    'vn'                 => $value->vn,
+                                    'cid'                => $value->cid,
+                                    'ptname'             => $value->ptname,
+                                    'pttype'             => $value->pttype,
+                                    'vstdate'            => $value->vstdate, 
+                                    'account_code'       => "1102050101.3013", 
+                                    'income'             => $value->income,
+                                    'uc_money'           => $value->uc_money,
+                                    'discount_money'     => $value->discount_money, 
+                                    'rcpt_money'         => $value->rcpt_money,
+                                    'debit'              => $value->debit,
+                                    'debit_drug'         => $value->debit_drug,
+                                    'debit_instument'    => $value->debit_instument,
+                                    'debit_toa'          => $value->debit_toa,
+                                    'debit_refer'        => $value->debit_refer,  
+                                    'debit_total'        => $value->debit_ct_sss, 
+                                    'debit_ins_sss'      => $value->debit_ins_sss,
+                                    'debit_ct_sss'       => $value->debit_ct_sss, 
+                                    'max_debt_amount'    => $value->max_debt_money,
+                                    'acc_debtor_userid'  => Auth::user()->id
+                                ]);
+                            }
+                        }   
+                    }     
         }
 
             return response()->json([
@@ -584,6 +548,10 @@ class Account301Controller extends Controller
                             'debit_refer'       => $value->debit_refer,
                             'debit_toa'         => $value->debit_toa,
                             'debit_total'       => $value->debit_total,
+
+                            // 'debit_ins_sss'      => $value->debit_ins_sss,
+                            // 'debit_ct_sss'       => $value->debit_ct_sss, 
+
                             'max_debt_amount'   => $value->max_debt_amount,
                             'acc_debtor_userid' => $iduser
                     ]);

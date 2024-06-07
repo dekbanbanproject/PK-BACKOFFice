@@ -128,7 +128,9 @@
                                         <th class="text-center">ลำดับ</th> 
                                         <th class="text-center">ไตรมาส</th> 
                                         <th class="text-center">ลูกหนี้ที่ต้องตั้ง</th> 
-                                        <th class="text-center">ตั้งลูกหนี้</th>  
+                                        <th class="text-center">ลูกหนี้-301</th>  
+                                        <th class="text-center">ลูกหนี้-3011</th> 
+                                        <th class="text-center">ลูกหนี้-3013</th> 
                                         <th class="text-center">Statement</th>
                                         <th class="text-center">ยกยอดไปเดือนนี้</th> 
                                     </tr>
@@ -170,6 +172,28 @@
                                                 }
                                                 $total_sumY   = $sum_Y ;
                                                 $total_countY = $count_Y; 
+
+                                                // ตั้งลูกหนี้ OPD 3011
+                                                $datasum_3011 = DB::select('
+                                                    SELECT sum(debit_total) as debit_total,count(DISTINCT vn) as Cvits
+                                                    from acc_1102050101_3011
+                                                    where vstdate between "'.$item->acc_trimart_start_date.'" and "'.$item->acc_trimart_end_date.'" 
+                                                ');   
+                                                foreach ($datasum_3011 as $key => $value5) {
+                                                    $sum_ins_sss   = $value5->debit_total;
+                                                    $count_vn_sss  = $value5->Cvits;
+                                                }
+
+                                                 // ตั้งลูกหนี้ OPD 3013
+                                                 $datasum_3013 = DB::select('
+                                                    SELECT sum(debit_total) as debit_total,count(DISTINCT vn) as Cvits
+                                                    from acc_1102050101_3013
+                                                    where vstdate between "'.$item->acc_trimart_start_date.'" and "'.$item->acc_trimart_end_date.'" 
+                                                ');   
+                                                foreach ($datasum_3013 as $key => $value6) {
+                                                    $sum_ct_sss      = $value6->debit_total;
+                                                    $count_vnct_sss  = $value6->Cvits;
+                                                }
                                             
                                                 // STM
                                                 // $stm_ = DB::select(
@@ -205,7 +229,9 @@
                                                 <td class="text-font" style="text-align: center;" width="4%">{{ $number }} </td>  
                                                 <td class="p-2">{{$item->acc_trimart_name}} {{$y}}</td>                                         
                                                 <td class="text-end" style="color:rgb(73, 147, 231)" width="10%"> {{ number_format($sum_N, 2) }}</td>  
-                                                <td class="text-end" width="10%">  <a href="{{url('account_301_dashsub/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank" style="color:rgb(186, 75, 250)"> {{ number_format($sum_Y, 2) }}</a></td> 
+                                                <td class="text-end" width="10%"><a href="{{url('account_301_dashsub/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank" style="color:rgb(186, 75, 250)"> {{ number_format($sum_Y, 2) }}</a></td> 
+                                                <td class="text-end" width="10%"><a href="{{url('account_301_dashsub/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank" style="color:rgb(250, 75, 142)"> {{ number_format($sum_ins_sss, 2) }}</a></td> 
+                                                <td class="text-end" width="10%"><a href="{{url('account_301_dashsub/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank" style="color:rgb(138, 13, 40)"> {{ number_format($sum_ct_sss, 2) }}</a></td> 
                                                 
                                                 <td class="text-end" style="color:rgb(4, 161, 135)" width="10%">{{ number_format($total301, 2) }} </td> 
                                                 <td class="text-end" style="color:rgb(224, 128, 17)" width="10%">0.00</td> 
@@ -213,7 +239,9 @@
                                         <?php
                                                 $total1 = $total1 + $sum_N;
                                                 $total2 = $total2 + $sum_Y;  
-                                                $total4 = $total4 + $total301; 
+                                                $total3 = $total3 + $sum_ins_sss; 
+                                                $total4 = $total4 + $sum_ct_sss; 
+                                                $total5 = $total5 + $total301; 
                                         ?>
                                     @endforeach
 
@@ -222,8 +250,9 @@
                                     <td colspan="2" class="text-end" style="background-color: #fca1a1"></td>
                                     <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
                                     <td class="text-end" style="background-color: #9f4efc" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td> 
-                                    {{-- <td class="text-end" style="background-color: #c5224b"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td> --}}
-                                    <td class="text-end" style="background-color: #0ea080"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td> 
+                                    <td class="text-end" style="background-color: #c5224b"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td>
+                                    <td class="text-end" style="background-color: #86122f"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td>
+                                    <td class="text-end" style="background-color: #0ea080"><label for="" style="color: #FFFFFF">{{ number_format($total5, 2) }}</label></td> 
                                     <td class="text-end" style="background-color: #f89625"><label for="" style="color: #FFFFFF">0.00</label></td> 
                                  
                                 </tr>  

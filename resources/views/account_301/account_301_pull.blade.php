@@ -169,6 +169,7 @@
                                             <th class="text-center">pttype</th> 
                                             <th class="text-center">spsch</th>  
                                             <th class="text-center">income</th>  
+                                            <th class="text-center">301</th>  
                                             <th class="text-center">ins-3011</th> 
                                             <th class="text-center">ct-3013</th> 
                                             {{-- <th class="text-center"><input type="checkbox" class="dcheckbox" name="destroy" id="destroy"> </th>  --}}
@@ -196,6 +197,7 @@
                                                 <td class="text-center" width="10%">{{ $item->vstdate }}</td>   
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>  
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td>  
+                                                <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td> 
                                                 <td class="text-center" width="10%">{{ number_format($item->debit_total, 2) }}</td> 
                                                 <td class="text-center" width="10%">{{ number_format($item->debit_ins_sss, 2) }}</td> 
                                                 <td class="text-center" width="10%">{{ number_format($item->debit_ct_sss, 2) }}</td> 
