@@ -8,6 +8,7 @@
         }
         function air_destroy(air_list_id) {
             Swal.fire({
+                position: "top-end",
                 title: 'ต้องการลบใช่ไหม?',
                 text: "ข้อมูลนี้จะถูกลบไปเลย !!",
                 icon: 'warning',

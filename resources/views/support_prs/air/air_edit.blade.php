@@ -119,7 +119,7 @@ $loter = $date.''.$time
             </div>
         </div>
     </div>
-    <form class="custom-validation" action="{{ route('prs.air_save') }}" method="POST" id="update_Form" enctype="multipart/form-data">
+    <form class="custom-validation" action="{{ route('prs.air_update') }}" method="POST" id="update_Form" enctype="multipart/form-data">
         @csrf
     <div class="row"> 
         <div class="col-md-3">
@@ -142,7 +142,8 @@ $loter = $date.''.$time
                     <div class="card-body">
 
                         <input type="hidden" name="store_id" id="store_id" value=" {{ Auth::user()->store_id }}">
-                        
+                        <input type="hidden" name="air_list_id" id="air_list_id" value=" {{ $data_edit->air_list_id }}">
+
                         <div class="row">
 
                             <div class="col-md-3">
@@ -152,7 +153,7 @@ $loter = $date.''.$time
                                         <img src="{{ asset('assets/images/default-image.jpg') }}" id="edit_upload_preview"
                                             height="450px" width="380px" alt="Image" class="img-thumbnail">
                                     @else
-                                        <img src="{{ asset('storage/fire/' . $data_edit->air_img) }}"
+                                        <img src="{{ asset('storage/air/' . $data_edit->air_img) }}"
                                             id="edit_upload_preview" height="450px" width="350px" alt="Image"
                                             class="img-thumbnail">
                                             {{-- <img src="data:image/png;base64,{{ $pic_fire }}" id="edit_upload_preview" height="450px" width="350px" alt="Image"> --}}

@@ -223,8 +223,10 @@ class AirController extends Controller
         $branid = $request->input('bran_id');
         if ($branid != '') {
             $bransave = DB::table('product_brand')->where('brand_id', '=', $branid)->first(); 
+            $add->bran_id = $bransave->brand_id;
             $add->brand_name = $bransave->brand_name;
         } else { 
+            $add->bran_id = '';
             $add->brand_name = '';
         }
  
@@ -304,77 +306,66 @@ class AirController extends Controller
     }
     public function air_update(Request $request)
     { 
-        $id = $request->fire_id;
-   
-
-        $fire_num = $request->fire_num;
-       
-        $update = Fire::find($id); 
-        $update->fire_year           = $request->fire_year;
-        $update->fire_date           = $request->fire_date;
-        $update->fire_num            = $fire_num;
-        $update->fire_name           = $request->fire_name;
-        $update->fire_price          = $request->fire_price;
+        $id = $request->air_list_id; 
+        $air_list_num = $request->air_list_num;
+        $update = Air_list::find($id);
+        $update->air_year            = $request->air_year;
+        $update->air_recive_date     = $request->air_recive_date;
+        $update->air_list_num        = $air_list_num;
+        $update->air_list_name       = $request->air_list_name;
+        $update->air_price           = $request->air_price;
         $update->active              = $request->active;
-        $update->fire_location       = $request->fire_location; 
-        $update->fire_size           = $request->fire_size;  
-        $update->fire_color          = $request->fire_color; 
-        $update->fire_date_pdd       = $request->fire_date_pdd; 
-        $update->fire_date_exp       = $request->fire_date_exp; 
+        $update->detail              = $request->detail; 
+        $update->btu                 = $request->btu;  
+        $update->air_room_class      = $request->air_room_class;  
 
-        $update->fire_qty            = '1'; 
-        $branid = $request->input('article_brand_id');
+        $locationid = $request->input('air_location_id');
+        if ($locationid != '') {
+            $losave = DB::table('building_data')->where('building_id', '=', $locationid)->first(); 
+            $update->air_location_id = $losave->building_id;
+            $update->air_location_name = $losave->building_name;
+        } else { 
+            $update->air_location_id = '';
+            $update->air_location_name = '';
+        }
+        // brand_id
+        $branid = $request->input('bran_id');
         if ($branid != '') {
             $bransave = DB::table('product_brand')->where('brand_id', '=', $branid)->first(); 
-            $update->fire_brand = $bransave->brand_name;
+            $update->bran_id = $bransave->brand_id;
+            $update->brand_name = $bransave->brand_name;
         } else { 
-            $update->fire_brand = '';
-        }
-
-        $uniid = $request->input('article_unit_id');
-        if ($uniid != '') {
-            $unisave = DB::table('product_unit')->where('unit_id', '=', $uniid)->first();             
-            $update->fire_unit = $unisave->unit_name;
-        } else {         
-            $update->fire_unit = '';
+            $update->bran_id = '';
+            $update->brand_name = '';
         }
  
-        if ($request->hasfile('fire_imgname')) {
+        if ($request->hasfile('air_imgname')) {
 
-            $description = 'storage/fire/' . $update->fire_imgname;
+            $description = 'storage/air/' . $update->air_imgname;
             if (File::exists($description)) {
                 File::delete($description);
             }
-            $image_64 = $request->file('fire_imgname'); 
-            // $image_64 = $data['fire_imgname']; //your base64 encoded data
-            // $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[0])[0];   // .jpg .png .pdf            
-            // $replace = substr($image_64, 0, strpos($image_64, ',')+1);             
-            // // find substring fro replace here eg: data:image/png;base64,      
-            // $image = str_replace($replace, '', $image_64);             
-            // $image = str_replace(' ', '+', $image);             
-            // $imageName = Str::random(10).'.'.$extension;
-            // Storage::disk('public')->put($imageName, base64_decode($image));
-
+            $image_64 = $request->file('air_imgname');  
             $extention = $image_64->getClientOriginalExtension(); 
-            $filename = $fire_num. '.' . $extention;
-            $request->fire_imgname->storeAs('fire', $filename, 'public');    
+            $filename = $air_list_num. '.' . $extention;
+            $request->air_imgname->storeAs('air', $filename, 'public');    
 
             // $destinationPath = public_path('/fire/');
             // $image_64->move($destinationPath, $filename);
-            $update->fire_img            = $filename;
-            $update->fire_imgname        = $filename;
+            $update->air_img            = $filename;
+            $update->air_imgname        = $filename;
             // $update->fire_imgname = $destinationPath . $filename;
             if ($extention =='.jpg') {
-                $file64 = "data:image/jpg;base64,".base64_encode(file_get_contents($request->file('fire_imgname')));
+                $file64 = "data:image/jpg;base64,".base64_encode(file_get_contents($request->file('air_imgname')));
                 // $file65 = base64_encode(file_get_contents($request->file('fire_imgname')->pat‌​h($image_path)));
             } else {
-                $file64 = "data:image/png;base64,".base64_encode(file_get_contents($request->file('fire_imgname')));
+                $file64 = "data:image/png;base64,".base64_encode(file_get_contents($request->file('air_imgname')));
                 // $file65 = base64_encode(file_get_contents($request->file('fire_imgname')->pat‌​h($image_path)));
             }
             // $file64 = "data:image/png;base64,".base64_encode(file_get_contents($request->file('fire_imgname')));
             // $file65 = base64_encode(file_get_contents($request->file('fire_imgname')->pat‌​h($image_path)));
   
-            $update->fire_img_base       = $file64;
+            $update->air_img_base       = $file64;
             // $update->fire_img_base_name  = $file65;
         }
  
@@ -384,10 +375,10 @@ class AirController extends Controller
         ]);
     }
 
-    public function fire_destroy(Request $request,$id)
+    public function air_destroy(Request $request,$id)
     {
-        $del = Fire::find($id);  
-        $description = 'storage/fire/'.$del->fire_imgname;
+        $del = Air_list::find($id);  
+        $description = 'storage/air/'.$del->air_imgname;
         if (File::exists($description)) {
             File::delete($description);
         }
