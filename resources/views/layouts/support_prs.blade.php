@@ -278,6 +278,25 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
                         <li class="menu-title">Menu</li> 
+                        <li><a href="javascript: void(0);" class="has-arrow">  
+                            <i class="fa-solid fa-fire-extinguisher" style="color: #1699f0"></i>
+                                <span>ถังดับเพลิง</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true"> 
+                                <li><a href="{{ url('fire_main') }}">รายการถังดับเพลิง</a></li>
+                                <li><a href="{{ url('fire_report_day') }}">report รายวัน</a></li>
+                                <li><a href="{{ url('fire_pramuan_admin') }}">แบบประเมิน</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="javascript: void(0);" class="has-arrow">   
+                            <i class="fa-solid fa-fan" style="color: #B216F0"></i>
+                                <span>แอร์</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true"> 
+                                <li><a href="{{ url('air_main') }}">รายการแอร์</a></li>
+                                <li><a href="{{ url('air_report_day') }}">report รายวัน</a></li> 
+                            </ul>
+                        </li>
                   
                         <li><a href="javascript: void(0);" class="has-arrow"> 
                             <i class="fa-solid fa-video" style="color: #55595a"></i>
@@ -289,16 +308,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                
                             </ul>
                         </li>  
-                        <li><a href="javascript: void(0);" class="has-arrow">  
-                            <i class="fa-solid fa-fire-extinguisher" style="color: #1699f0"></i>
-                                <span>ถังดับเพลิง</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true"> 
-                                <li><a href="{{ url('fire_main') }}">รายการถังดับเพลิง</a></li>
-                                <li><a href="{{ url('fire_report_day') }}">report รายวัน</a></li>
-                                <li><a href="{{ url('fire_pramuan_admin') }}">แบบประเมิน</a></li>
-                            </ul>
-                        </li>   
+                           
                        {{-- - <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-invoice-dollar" style="color: #55595a"></i>

@@ -310,6 +310,37 @@
                 </div>
             </div>
             @endif
+
+            <div class="col-xl-3 col-md-3">
+                <div class="main-card mb-3 card shadow-lg rounded-pill"
+                    style="background-color: rgba(174, 180, 177, 0.781)">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover rounded-pill">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                            <a href="{{ url('article/article_index') }}" target="_blank">
+                                                <h5 class="text-start mb-2">ASSET</h5>
+                                            </a>
+                                        </div>
+                                        <div class="avatar ms-2">
+                                            <a href="{{ url('article/article_index') }}" target="_blank">
+                                                <button
+                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                    <i class="fa-solid fa-4x fa-building-shield font-size-35 ms-2 me-2 mt-2"
+                                                        style="color: rgba(131, 150, 140, 0.692)" ></i>
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
              
             @if ($countpesmiss_supplies != 0)  
             <div class="col-xl-3 col-md-3">

@@ -2032,7 +2032,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_301_stmnull_all/{months}/{year}',[App\Http\Controllers\Account301Controller::class, 'account_301_stmnull_all'])->name('acc.account_301_stmnull_all');//
     Route::match(['get','post'],'account_301_destroy_all',[App\Http\Controllers\Account301Controller::class, 'account_301_destroy_all'])->name('acc.account_301_destroy_all');//
 
-    Route::match(['get','post'],'account_301_income/{startdate}/{enddate}',[App\Http\Controllers\Account301Controller::class, 'account_301_dashsub'])->name('acc.account_301_dashsub');//
+    Route::match(['get','post'],'account_301_income/{startdate}/{enddate}',[App\Http\Controllers\Account301Controller::class, 'account_301_income'])->name('acc.account_301_income');//
     Route::match(['get','post'],'account_301_ins/{startdate}/{enddate}',[App\Http\Controllers\Account301Controller::class, 'account_301_ins'])->name('acc.account_301_ins');//
     Route::match(['get','post'],'account_301_ct/{startdate}/{enddate}',[App\Http\Controllers\Account301Controller::class, 'account_301_ct'])->name('acc.account_301_ct');//
 
@@ -3329,7 +3329,16 @@ Route::match(['get','post'],'sss_insipd302_zip',[App\Http\Controllers\Fdh_sss302
 
 // Route::match(['get','post'],'fdh_mini_dataset_apicliamauto',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_apicliamauto'])->name('fdh.fdh_mini_dataset_apicliamauto');
 // Route::match(['get','post'],'fdh_mini_dataset_pulljongauto',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pulljongauto'])->name('fdh.fdh_mini_dataset_pulljongauto');
+Route::match(['get','post'],'air_dashboard',[App\Http\Controllers\AirController::class, 'air_dashboard'])->name('prs.air_dashboard');//
+Route::match(['get','post'],'air_main',[App\Http\Controllers\AirController::class, 'air_main'])->name('prs.air_main');//
+Route::match(['get','post'],'air_pramuan_admin',[App\Http\Controllers\AirController::class, 'air_pramuan_admin'])->name('prs.air_pramuan_admin');//
+Route::match(['get','post'],'air_add',[App\Http\Controllers\AirController::class, 'air_add'])->name('prs.air_add');//
+Route::match(['get','post'],'air_save',[App\Http\Controllers\AirController::class, 'air_save'])->name('prs.air_save');//
+Route::match(['get','post'],'air_edit/{id}',[App\Http\Controllers\AirController::class, 'air_edit'])->name('prs.air_edit');//
+Route::match(['get','post'],'air_update',[App\Http\Controllers\AirController::class, 'air_update'])->name('prs.air_update');//
 
+Route::match(['get','post'],'air_qrcode_all',[App\Http\Controllers\AirController::class, 'air_qrcode_all'])->name('prs.air_qrcode_all');//
+Route::match(['get','post'],'air_qrcode_detail_all',[App\Http\Controllers\AirController::class, 'air_qrcode_detail_all'])->name('prs.air_qrcode_detail_all');//
 
 
 });
