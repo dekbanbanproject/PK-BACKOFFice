@@ -40,7 +40,7 @@ use App\Models\Acc_stm_ti_excel;
 use App\Models\Acc_stm_ofc;
 use App\Models\acc_stm_ofcexcel;
 use App\Models\Acc_stm_lgo;
-use App\Models\Acc_stm_lgoexcel;
+use App\Models\Air_list;
 use App\Models\Product_buy;
 use App\Models\Fire_pramuan;
 use App\Models\Article_status;
@@ -164,7 +164,7 @@ class AirController extends Controller
         
     }
 
-    public function fire_add(Request $request)
+    public function air_add(Request $request)
     { 
         $data['article_data']       = DB::select('SELECT * from article_data WHERE cctv="Y" order by article_id desc'); 
         $data['department_sub_sub'] = Department_sub_sub::get();
@@ -186,6 +186,7 @@ class AirController extends Controller
         $data['land_data']          = DB::table('land_data')->get();
         $data['product_budget']     = Product_budget::get();
         // $data['product_method']     = Product_method::get();
+        $data['building_data']      = DB::table('building_data')->get();
         $data['product_buy']        = Product_buy::get();
         $data['users']              = User::get(); 
         $data['products_vendor']    = Products_vendor::get();
@@ -193,43 +194,42 @@ class AirController extends Controller
         $data['product_brand']      = DB::table('product_brand')->get();
         $data['medical_typecat']    = DB::table('medical_typecat')->get();
 
-        return view('support_prs.fire.fire_add', $data);
+        return view('support_prs.air.air_add', $data);
     }
-    public function fire_save(Request $request)
+    public function air_save(Request $request)
     {
-        $fire_num = $request->fire_num;
-        $add = new Fire();
-        $add->fire_year           = $request->fire_year;
-        $add->fire_date           = $request->fire_date;
-        $add->fire_num            = $fire_num;
-        $add->fire_name           = $request->fire_name;
-        $add->fire_price          = $request->fire_price;
+        $air_list_num = $request->air_list_num;
+        $add = new Air_list();
+        $add->air_year            = $request->air_year;
+        $add->air_recive_date     = $request->air_recive_date;
+        $add->air_list_num        = $air_list_num;
+        $add->air_list_name       = $request->air_list_name;
+        $add->air_price           = $request->air_price;
         $add->active              = $request->active;
-        $add->fire_location       = $request->fire_location; 
-        $add->fire_size           = $request->fire_size;  
-        $add->fire_color          = $request->fire_color; 
-        $add->fire_date_pdd       = $request->fire_date_pdd; 
-        $add->fire_date_exp       = $request->fire_date_exp; 
-
-        $add->fire_qty            = '1'; 
-        $branid = $request->input('article_brand_id');
+        $add->detail              = $request->detail; 
+        $add->btu                 = $request->btu;  
+        $add->air_room_class      = $request->air_room_class;   
+    
+        $locationid = $request->input('air_location_id');
+        if ($locationid != '') {
+            $losave = DB::table('building_data')->where('building_id', '=', $locationid)->first(); 
+            $add->air_location_id = $losave->building_id;
+            $add->air_location_name = $losave->building_name;
+        } else { 
+            $add->air_location_id = '';
+            $add->air_location_name = '';
+        }
+        // brand_id
+        $branid = $request->input('bran_id');
         if ($branid != '') {
             $bransave = DB::table('product_brand')->where('brand_id', '=', $branid)->first(); 
-            $add->fire_brand = $bransave->brand_name;
+            $add->brand_name = $bransave->brand_name;
         } else { 
-            $add->fire_brand = '';
-        }
-
-        $uniid = $request->input('article_unit_id');
-        if ($uniid != '') {
-            $unisave = DB::table('product_unit')->where('unit_id', '=', $uniid)->first();             
-            $add->fire_unit = $unisave->unit_name;
-        } else {         
-            $add->fire_unit = '';
+            $add->brand_name = '';
         }
  
-        if ($request->hasfile('fire_imgname')) {
-            $image_64 = $request->file('fire_imgname'); 
+        if ($request->hasfile('air_imgname')) {
+            $image_64 = $request->file('air_imgname'); 
             // $image_64 = $data['fire_imgname']; //your base64 encoded data
             // $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[0])[0];   // .jpg .png .pdf            
             // $replace = substr($image_64, 0, strpos($image_64, ',')+1);             
@@ -240,26 +240,23 @@ class AirController extends Controller
             // Storage::disk('public')->put($imageName, base64_decode($image));
 
             $extention = $image_64->getClientOriginalExtension(); 
-            $filename = $fire_num. '.' . $extention;
-            $request->fire_imgname->storeAs('fire', $filename, 'public');    
+            $filename = $air_list_num. '.' . $extention;
+            $request->air_imgname->storeAs('air', $filename, 'public');    
 
             // $destinationPath = public_path('/fire/');
             // $image_64->move($destinationPath, $filename);
-            $add->fire_img            = $filename;
-            $add->fire_imgname        = $filename;
+            $add->air_img            = $filename;
+            $add->air_imgname        = $filename;
             // $add->fire_imgname        = $destinationPath . $filename;
-
             if ($extention =='.jpg') {
-                $file64 = "data:image/jpg;base64,".base64_encode(file_get_contents($request->file('fire_imgname')));
+                $file64 = "data:image/jpg;base64,".base64_encode(file_get_contents($request->file('air_imgname')));
                 // $file65 = base64_encode(file_get_contents($request->file('fire_imgname')->pat‌​h($image_path)));
             } else {
-                $file64 = "data:image/png;base64,".base64_encode(file_get_contents($request->file('fire_imgname')));
+                $file64 = "data:image/png;base64,".base64_encode(file_get_contents($request->file('air_imgname')));
                 // $file65 = base64_encode(file_get_contents($request->file('fire_imgname')->pat‌​h($image_path)));
-            }
-            
-            
+            }                       
   
-            $add->fire_img_base       = $file64;
+            $add->air_img_base       = $file64;
             // $add->fire_img_base_name  = $file65;
         }
  
@@ -268,7 +265,7 @@ class AirController extends Controller
             'status'     => '200'
         ]);
     }
-    public function fire_edit(Request $request,$id)
+    public function air_edit(Request $request,$id)
     {  
         $data['department_sub_sub'] = Department_sub_sub::get();
         $data['article_status']     = Article_status::get();
@@ -292,22 +289,23 @@ class AirController extends Controller
         $data['products_vendor']    = Products_vendor::get(); 
         $data['product_brand']      = DB::table('product_brand')->get();
         $data['medical_typecat']    = DB::table('medical_typecat')->get();
-        $data_edit                  = Fire::where('fire_id', '=', $id)->first();
+        $data['building_data']      = DB::table('building_data')->get();
+        // $data_edit                  = Fire::where('fire_id', '=', $id)->first();
+        $data_edit                  = Air_list::where('air_list_id', '=', $id)->first();
+        
         // $signat                     = $data_edit->fire_img_base;
         // dd($signat); 
         // $pic_fire = base64_encode(file_get_contents($signat)); 
         // dd($pic_fire); 
-        return view('support_prs.fire.fire_edit', $data,[
+        return view('support_prs.air.air_edit', $data,[
             'data_edit'    => $data_edit,
             // 'pic_fire'     => $pic_fire
         ]);
     }
-    public function fire_update(Request $request)
+    public function air_update(Request $request)
     { 
         $id = $request->fire_id;
-        // $update_base = Fire::find($id); 
-        // $update_base->fire_img_base   = '';
-        // $update_base->save();
+   
 
         $fire_num = $request->fire_num;
        

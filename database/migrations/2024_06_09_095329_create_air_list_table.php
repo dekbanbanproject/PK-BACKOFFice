@@ -24,9 +24,9 @@ return new class extends Migration
                 $table->char('serial_no', length: 200)->nullable(); //
                 $table->char('air_location_id', length: 200)->nullable(); //   
                 $table->char('air_location_name', length: 200)->nullable();  //  
-                $table->decimal('fire_price',total: 12, places: 2)->nullable(); // 
+                $table->decimal('air_price',total: 12, places: 2)->nullable(); // 
                 $table->char('air_room_class', length: 200)->nullable(); // 
-                
+                $table->char('air_year', length: 200)->nullable(); // 
                 $table->binary('air_img')->nullable(); //                 
                 $table->char('air_imgname', length: 200)->nullable(); //
                 $table->longText('air_img_base')->nullable(); // 
