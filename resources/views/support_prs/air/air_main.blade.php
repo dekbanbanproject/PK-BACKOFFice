@@ -132,21 +132,24 @@
     </div>
    
     <div class="row"> 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <h4 class="card-title" style="color:rgb(10, 151, 85)">Register Air</h4>
             <p class="card-title-desc">ทะเบียนครุภัณฑ์แอร์</p>
         </div>
         <div class="col"></div>
       
-        <div class="col-md-6 text-end">
+        <div class="col-md-8 text-end">
             <a href="{{url('air_qrcode_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-info cardacc">  
                 <i class="fa-solid fa-print me-2 text-white me-2" style="font-size:13px"></i>
-                <span>Print QRCODE All</span> 
+                <span>QRCODE All</span> 
             </a> 
             <a href="{{url('air_qrcode_detail_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-secondary cardacc">  
                 <i class="fa-solid fa-print me-2 text-white me-2" style="font-size:13px"></i>
-                <span>Print QRCODE Detail All</span>
-                
+                <span>QRCODE Detail All</span> 
+            </a> 
+            <a href="{{url('air_qrcode_repaire')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-warning cardacc">  
+                <i class="fa-solid fa-print me-2 text-white me-2" style="font-size:13px"></i>
+                <span>QRCODE Repaire All</span> 
             </a> 
             <a href="{{url('air_add')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-primary cardacc"> 
                 <i class="fa-solid fa-circle-plus text-white me-2"></i>
