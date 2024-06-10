@@ -2506,7 +2506,120 @@ class FdhController extends Controller
                         $cid         = $value->cid;
                         $vn          = $value->vn;
                         $vstdate     = $value->vstdate; 
- 
+
+                        // $curl = curl_init(); 
+                        // curl_setopt_array($curl, array(
+                        // CURLOPT_URL => 'https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=2024-05-29&claimDateTo=2024-05-29&pid=3361000824057',
+                        // CURLOPT_RETURNTRANSFER => true,
+                        // CURLOPT_ENCODING => '',
+                        // CURLOPT_MAXREDIRS => 10,
+                        // CURLOPT_TIMEOUT => 0,
+                        // CURLOPT_FOLLOWLOCATION => true,
+                        // CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                        // CURLOPT_CUSTOMREQUEST => 'GET',
+                        // CURLOPT_HTTPHEADER => array(
+                        //     'Authorization: Basic '.$basic_auth,
+                        //     'Cookie: SESSION=NWY5NGQ0OWYtYjk5My00YTEyLWJlMTEtY2E4NjgzMzU4MjAy; TS01bfdc7f=013bd252cbf15507b135a7d55907100b9295828615f3e8b191af0ab0c7e53d97f67047c6b896939472699fc5d961b525073756a815cbf27b31c2eb3abf6393fe7c51cf187b; TS01e88bc2=013bd252cbb3f4bc71305e0553c6a508adaf52358ffe03a63f35afbd94919eca1388129f88a3cfdb9701913375d19e0421427ae14b; __cflb=04dToSWzC9foxLK9TYSwYMuig32kUeHPxteDFusckM'
+                        //     ),
+                        // )); 
+                        // $response = curl_exec($curl); 
+                        // curl_close($curl);
+                        // dd($response);
+                        // NjUwODYzNDI5NjY4ODpkMTIzNDU=',  
+                        // $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$vstdate&claimDateTo=$vstdate&pid=$cid&page=0&size=1000&sort=transId,desc";
+                        // $curl = curl_init();
+                        // curl_setopt_array($curl, array( 
+                        //     CURLOPT_URL => $url,
+                        //     CURLOPT_RETURNTRANSFER => 1,
+                        //     CURLOPT_SSL_VERIFYHOST => 0,
+                        //     CURLOPT_SSL_VERIFYPEER => 0,
+                        //     CURLOPT_CUSTOMREQUEST => 'GET',
+                        //     // curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+                        //     //     'Content-Type: application/json',
+                        //     //     'Authorization: Bearer '.$token,
+                        //     //     'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
+                        //     // ));
+                        //     CURLOPT_HTTPHEADER => array(
+                        //         'Content-Type: application/json',
+                        //         'Authorization: Bearer '.$token,
+                        //         'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
+                        //         // 'Accept: application/json, text/plain, */*',
+                        //         // 'Accept-Language: th-TH,th;q=0.9,en-US;q=0.8,en;q=0.7',
+                        //         // 'Connection: keep-alive',
+                        //         // 'Cookie: SESSION=MDliYTRmZTktNDFkMS00OGRiLTgyZmMtNDdkMzUzYjg1ZjNm; TS01bfdc7f=013bd252cb85ce79fee3d31f0c9c16c0d40571b089107cb767097ea2eb0a02fbb1e19f92dfad001968c3c63e994fd35f9345d3a94dedbf4ca04ed425b2fa2ac893d1e574ed; _ga_RD7G4LWTPR=GS1.1.1692756773.3.0.1692756785.48.0.0; _ga_HXZ8WDL874=GS1.1.1701230559.3.1.1701231434.0.0.0; _ga_TRYKLSJ30C=GS1.1.1705463233.18.1.1705463429.0.0.0; _ga=GA1.1.1692725233.1681974953; _ga_HMTQRNS74Y=GS1.3.1711349202.9.1.1711349342.0.0.0; _ga_FQ47EJ77W8=GS1.1.1711521699.12.0.1711521699.0.0.0; _ga_RSYZ8B7GPX=GS1.1.1711607402.11.1.1711607635.0.0.0; dtCookie=v_4_srv_1_sn_E640715B263EB0F7F8C019755F5930E9_perc_100000_ol_0_mul_1_app-3A3e6dee03b6d85468_0; TS0117aec7=013bd252cb2813ce21e5a5062692f327eefd606013eb1b2fb4c45153c791b2b4b179462665915644c6f138ff14dbe1fd3fcf4ca4b334f3a1570360fda58ed943219362fddc; _ga_5LJ60MBV5D=GS1.1.1712718647.266.1.1712721610.0.0.0; __cflb=04dToSWzC9foxLK9TYVM4AQkF9gVE9vpbSfNZBbKdo; TS01e88bc2=013bd252cbb7eb22f42431bfa3a1a726a62cbdb043a4b07d2aea15e3f51e736ad18d8626a9dd053bc2856a40f7d5556e2540fc213b',
+                        //         // 'Referer: https://authenservice.nhso.go.th/authencode/',
+                        //         // 'Sec-Fetch-Dest: empty',
+                        //         // 'Sec-Fetch-Mode: cors',
+                        //         // 'Sec-Fetch-Site: same-origin',
+                        //         // 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+                        //         // 'sec-ch-ua: "Google Chrome";v="123", "Not:A-Brand";v="8", "Chromium";v="123"',
+                        //         // 'sec-ch-ua-mobile: ?0',
+                        //         // 'sec-ch-ua-platform: "Windows"'
+                        //     ),
+                        // ));
+                        // $response = curl_exec($curl);
+                        // curl_close($curl);
+                        // // dd($curl);
+                        // $contents = $response;
+                        // // dd($contents);
+                        // $result = json_decode($contents, true);
+                        // @$content = $result['content'];
+                        // dd($result);
+                        
+                        // $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$vstdate&claimDateTo=$vstdate&pid=$cid&page=0&size=10&sort=transId%2Cdesc";
+                        // $curl = curl_init();
+                        // curl_setopt_array($curl, array(
+                        //   CURLOPT_URL => 'https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=2024-05-29&claimDateTo=2024-05-29&pid=3361000824057&page=0&size=10&sort=transId%2Cdesc',
+                        //   CURLOPT_RETURNTRANSFER => true,
+                        //   CURLOPT_ENCODING => '',
+                        //   CURLOPT_MAXREDIRS => 10,
+                        //   CURLOPT_TIMEOUT => 0,
+                        //   CURLOPT_FOLLOWLOCATION => true,
+                        //   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                        //   CURLOPT_CUSTOMREQUEST => 'GET',
+                        //   CURLOPT_HTTPHEADER => array(
+                        //     'Authorization: Basic NjUwODYzNDI5NjY4ODpkMTIzNDU=',
+                        //     'Cookie: SESSION=NWY5NGQ0OWYtYjk5My00YTEyLWJlMTEtY2E4NjgzMzU4MjAy; TS01bfdc7f=013bd252cbf15507b135a7d55907100b9295828615f3e8b191af0ab0c7e53d97f67047c6b896939472699fc5d961b525073756a815cbf27b31c2eb3abf6393fe7c51cf187b; TS01e88bc2=013bd252cb422eda47ab2f4d66de9ccae827eb6a82760e58184c3d266a5f68b1d1cdea7a1c72dbb287ad45a6c2c9403e50670c83b0; __cflb=04dToSWzC9foxLK9TYVM4AQkF9gVE9vrkVy5VZs8SR'
+                        //   ),
+                        // ));                        
+                        // $response = curl_exec($curl);                        
+                        // curl_close($curl);
+                        // $curl = curl_init(); 
+                        // curl_setopt_array($curl, array( 
+                        // CURLOPT_URL => $url,
+                        // CURLOPT_RETURNTRANSFER => true,
+                        // CURLOPT_ENCODING => '',
+                        // CURLOPT_MAXREDIRS => 10,
+                        // CURLOPT_TIMEOUT => 0,
+                        // CURLOPT_FOLLOWLOCATION => true,
+                        // CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                        // CURLOPT_CUSTOMREQUEST => 'GET',
+                        // // CURLOPT_HTTPHEADER => array(
+                        // //     'Authorization: Basic NjUwODYzNDI5NjY4ODpkMTIzNDU=',
+                        // //     'Cookie: SESSION=MDliYTRmZTktNDFkMS00OGRiLTgyZmMtNDdkMzUzYjg1ZjNm; TS01bfdc7f=013bd252cb85ce79fee3d31f0c9c16c0d40571b089107cb767097ea2eb0a02fbb1e19f92dfad001968c3c63e994fd35f9345d3a94dedbf4ca04ed425b2fa2ac893d1e574ed; _ga_RD7G4LWTPR=GS1.1.1692756773.3.0.1692756785.48.0.0; _ga_HXZ8WDL874=GS1.1.1701230559.3.1.1701231434.0.0.0; _ga_TRYKLSJ30C=GS1.1.1705463233.18.1.1705463429.0.0.0; _ga=GA1.1.1692725233.1681974953; _ga_HMTQRNS74Y=GS1.3.1711349202.9.1.1711349342.0.0.0; _ga_FQ47EJ77W8=GS1.1.1711521699.12.0.1711521699.0.0.0; _ga_RSYZ8B7GPX=GS1.1.1711607402.11.1.1711607635.0.0.0; dtCookie=v_4_srv_1_sn_E640715B263EB0F7F8C019755F5930E9_perc_100000_ol_0_mul_1_app-3A3e6dee03b6d85468_0; TS0117aec7=013bd252cb2813ce21e5a5062692f327eefd606013eb1b2fb4c45153c791b2b4b179462665915644c6f138ff14dbe1fd3fcf4ca4b334f3a1570360fda58ed943219362fddc; _ga_5LJ60MBV5D=GS1.1.1712718647.266.1.1712721610.0.0.0; __cflb=04dToSWzC9foxLK9TYVM4AQkF9gVE9vpbSfNZBbKdo; TS01e88bc2=013bd252cbb7eb22f42431bfa3a1a726a62cbdb043a4b07d2aea15e3f51e736ad18d8626a9dd053bc2856a40f7d5556e2540fc213b'
+                        // //   ),
+                        //   CURLOPT_HTTPHEADER => array(
+                        //     'Accept: application/json, text/plain, */*',
+                        //     'Accept-Language: th-TH,th;q=0.9,en-US;q=0.8,en;q=0.7',
+                        //     'Connection: keep-alive',
+                        //     'Cookie: SESSION=MDliYTRmZTktNDFkMS00OGRiLTgyZmMtNDdkMzUzYjg1ZjNm; TS01bfdc7f=013bd252cb85ce79fee3d31f0c9c16c0d40571b089107cb767097ea2eb0a02fbb1e19f92dfad001968c3c63e994fd35f9345d3a94dedbf4ca04ed425b2fa2ac893d1e574ed; _ga_RD7G4LWTPR=GS1.1.1692756773.3.0.1692756785.48.0.0; _ga_HXZ8WDL874=GS1.1.1701230559.3.1.1701231434.0.0.0; _ga_TRYKLSJ30C=GS1.1.1705463233.18.1.1705463429.0.0.0; _ga=GA1.1.1692725233.1681974953; _ga_HMTQRNS74Y=GS1.3.1711349202.9.1.1711349342.0.0.0; _ga_FQ47EJ77W8=GS1.1.1711521699.12.0.1711521699.0.0.0; _ga_RSYZ8B7GPX=GS1.1.1711607402.11.1.1711607635.0.0.0; dtCookie=v_4_srv_1_sn_E640715B263EB0F7F8C019755F5930E9_perc_100000_ol_0_mul_1_app-3A3e6dee03b6d85468_0; TS0117aec7=013bd252cb2813ce21e5a5062692f327eefd606013eb1b2fb4c45153c791b2b4b179462665915644c6f138ff14dbe1fd3fcf4ca4b334f3a1570360fda58ed943219362fddc; _ga_5LJ60MBV5D=GS1.1.1712718647.266.1.1712721610.0.0.0; __cflb=04dToSWzC9foxLK9TYVM4AQkF9gVE9vpbSfNZBbKdo; TS01e88bc2=013bd252cbb7eb22f42431bfa3a1a726a62cbdb043a4b07d2aea15e3f51e736ad18d8626a9dd053bc2856a40f7d5556e2540fc213b',
+                        //     'Referer: https://authenservice.nhso.go.th/authencode/',
+                        //     'Sec-Fetch-Dest: empty',
+                        //     'Sec-Fetch-Mode: cors',
+                        //     'Sec-Fetch-Site: same-origin',
+                        //     'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+                        //     'sec-ch-ua: "Google Chrome";v="123", "Not:A-Brand";v="8", "Chromium";v="123"',
+                        //     'sec-ch-ua-mobile: ?0',
+                        //     'sec-ch-ua-platform: "Windows"'
+                        // ),
+                        // ));
+
+                        // $response = curl_exec($curl);
+
+                        // curl_close($curl);
+                        // 670529072019
+                        // dd($response);
+                        // https://authenucws.nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cid&serviceDate=$vstdate&serviceCode=PG0060001
 
                         $ch = curl_init(); 
                         $headers = array();

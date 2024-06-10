@@ -87,7 +87,7 @@ date_default_timezone_set("Asia/Bangkok");
 
 class Account402Controller extends Controller
  { 
-    public function account_402_dash(Request $request)
+    public function account_402_dash_old(Request $request)
     {
         $startdate = $request->startdate;
         $enddate   = $request->enddate;
@@ -148,6 +148,66 @@ class Account402Controller extends Controller
             'leave_year'       => $leave_year,
         ]);
     }
+    public function account_402_dash(Request $request)
+    {  
+        $budget_year        = $request->budget_year;
+        $dabudget_year      = DB::table('budget_year')->where('active','=',true)->get();
+        $leave_month_year   = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+         
+        if ($budget_year == '') {
+            $yearnew     = date('Y');
+            $year_old    = date('Y')-1; 
+            $startdate   = (''.$year_old.'-10-01');
+            $enddate     = (''.$yearnew.'-09-30'); 
+            // dd($startdate);
+            $datashow = DB::select('
+                    SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn ,count(distinct a.an) as an
+                    ,sum(a.income) as income ,sum(a.paid_money) as paid_money
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money)-sum(a.fokliad) as debit402,sum(a.fokliad) as sumfokliad
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
+                    WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
+                    and account_code="1102050101.402"
+                    group by month(a.dchdate)                     
+                    order by a.dchdate desc;
+            ');  
+        } else {
+          
+            $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
+            $startdate    = $bg->date_begin;
+            $enddate      = $bg->date_end; 
+            // dd($startdate);
+            $datashow = DB::select('
+                    SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn
+                    ,count(distinct a.an) as an ,sum(a.income) as income ,sum(a.paid_money) as paid_money
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
+                    WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
+                    and account_code="1102050101.402" 
+                    group by month(a.dchdate)                    
+                    order by a.dchdate desc;
+            ');
+        }
+        // dd($startdate);
+        return view('account_402.account_402_dash',[
+            'startdate'         =>  $startdate,
+            'enddate'           =>  $enddate, 
+            'leave_month_year'  =>  $leave_month_year, 
+            'datashow'          =>  $datashow,
+            'dabudget_year'     =>  $dabudget_year,
+            'budget_year'       =>  $budget_year,
+            'y'                 =>  $y,
+        ]);
+    }
     public function account_402_pull(Request $request)
     {
         $datenow = date('Y-m-d');
@@ -185,26 +245,16 @@ class Account402Controller extends Controller
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
         // Acc_opitemrece::truncate();
-        $acc_debtor = DB::connection('mysql2')->select('             
-                SELECT i.vn,i.an,a.hn,pt.cid
-                ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
-                ,pt.hcode,op.income as income_group
-                ,v.vstdate ,a.dchdate
-                ,ptt.pttype_eclaim_id
-                ,ipt.pttype,ptt.name as namelist
-                ,"17" as acc_code
-                ,"1102050101.402" as account_code
-                ,"เบิกจ่ายตรงกรมบัญชีกลาง" as account_name 
-                ,a.income,a.uc_money,a.discount_money,a.paid_money,a.rcpt_money
-                ,a.rcpno_list as rcpno
-                ,a.income-a.discount_money-a.rcpt_money as debit
-                ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
+        $acc_debtor = DB::connection('mysql2')->select(
+            'SELECT i.vn,i.an,a.hn,pt.cid ,concat(pt.pname,pt.fname," ",pt.lname) as ptname ,pt.hcode,op.income as income_group ,v.vstdate ,a.dchdate
+                ,ptt.pttype_eclaim_id ,ipt.pttype,ptt.name as namelist ,"17" as acc_code,"1102050101.402" as account_code ,"เบิกจ่ายตรงกรมบัญชีกลาง" as account_name 
+                ,a.income,a.uc_money,a.discount_money,a.paid_money,a.rcpt_money ,a.rcpno_list as rcpno ,a.income-a.discount_money-a.rcpt_money as debit               
                 ,sum(if(op.income="02",sum_price,0)) as debit_instument
                 ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
                 ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
                 ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
-                ,ptt.max_debt_money
-                ,i.rw,i.adjrw,i.adjrw*9000 as total_adjrw_income
+                ,(SELECT SUM(sum_price) FROM opitemrece WHERE an = a.an AND icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.4022" AND icode IS NOT NULL)) as fokliad
+                ,ptt.max_debt_money,i.rw,i.adjrw,i.adjrw*9000 as total_adjrw_income
                 
                 from ipt i
                 left join an_stat a on a.an=i.an
@@ -219,6 +269,7 @@ class Account402Controller extends Controller
                 AND ipt.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.402" AND opdipd ="IPD")                            
                 GROUP BY i.an 
         '); 
+        // ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
         // ,e.code as acc_code
         // ,e.ar_ipd as account_code
         // dd($acc_debtor);
@@ -258,26 +309,30 @@ class Account402Controller extends Controller
                         'total_adjrw_income' => $value->total_adjrw_income,
                         'acc_debtor_userid'  => Auth::user()->id
                     ]);
-                    $acc_debtor_fok = DB::connection('mysql2')->select('
-                        SELECT sum(o.sum_price) total 
-                        FROM opitemrece o  
-                        LEFT OUTER JOIN s_drugitems s on s.icode = o.icode   
-                        WHERE o.an = "'.$value->an.'" 
-                        AND s.icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.4022" AND icode IS NOT NULL)
-                    ');
-                    foreach ($acc_debtor_fok as $key => $value_fok) {
-                        $deb = Acc_debtor::where('an', $value->an)->first();
-                        $totalold = $deb->debit_total;
-                        Acc_debtor::where('an', $value->an)->update([
-                            'debit'              => $totalold - $value_fok->total,
-                            'debit_total'        => $totalold - $value_fok->total,
-                            'fokliad'            => $value_fok->total
-                        ]);
-                    }   
+
+                    // $acc_debtor_fok = DB::connection('mysql2')->select('
+                    //     SELECT sum(o.sum_price) total 
+                    //     FROM opitemrece o  
+                    //     LEFT OUTER JOIN s_drugitems s on s.icode = o.icode   
+                    //     WHERE o.an = "'.$value->an.'" 
+                    //     AND s.icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.4022" AND icode IS NOT NULL)
+                    // ');
+                    // foreach ($acc_debtor_fok as $key => $value_fok) {
+                    //     $deb = Acc_debtor::where('an', $value->an)->first();
+                    //     $totalold = $deb->debit_total;
+                    //     Acc_debtor::where('an', $value->an)->update([
+                    //         'debit'              => $totalold - $value_fok->total,
+                    //         'debit_total'        => $totalold - $value_fok->total,
+                    //         'fokliad'            => $value_fok->total
+                    //     ]);
+                    // }   
                     
                 } 
             } else {
-                # code...
+                Acc_debtor::where('an', $value->an)->where('account_code','1102050101.402')->update([
+                    'fokliad'        => $value->fokliad,
+                    'debit_total'    => $value->debit - $value->fokliad,
+                ]);
             }
 
             

@@ -392,12 +392,12 @@ class ApiController extends Controller
                                             'claimtype'     => $sv_code,
                                             'servicename'   => $sv_name, 
                                     ]);
-                                    // Fdh_mini_dataset::where('vn','=', $vn)
-                                    //     ->update([
-                                    //         'claimcode'     => $cd,
-                                    //         'claimtype'     => $sv_code,
-                                    //         'servicename'   => $sv_name, 
-                                    // ]);
+                                    Fdh_mini_dataset::where('vn','=', $vn)
+                                        ->update([
+                                            'claimcode'     => $cd,
+                                            'claimtype'     => $sv_code,
+                                            'servicename'   => $sv_name, 
+                                    ]);
                                     
                                 }  
                             } 
@@ -1388,7 +1388,7 @@ class ApiController extends Controller
                     $headers[] = "Authorization: Bearer 3045bba2-3cac-4a74-ad7d-ac6f7b187479";
                     // https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=2024-05-29&claimDateTo=2024-05-29&pid=3361000824057&page=0&size=10&sort=transId,desc   
                     // $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$vstdate&claimDateTo=$vstdate&pid=$cid&page=0&size=10&sort=transId,desc"; 
-                    curl_setopt($ch, CURLOPT_URL, "https://authenucws.nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cid&serviceDate=$vstdate&serviceCode=PG0060001"); 
+                    curl_setopt($ch, CURLOPT_URL, "https://nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cid&serviceDate=$vstdate&serviceCode=PG0060001"); 
                     // curl_setopt($ch, CURLOPT_URL, $url);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
@@ -1461,7 +1461,7 @@ class ApiController extends Controller
                     WHERE o.vstdate = "'.$date_now.'" 
                     AND p.cid IS NOT NULL AND p.nationality ="99" 
                     AND (vs.claim_code IS NULL OR vs.claim_code ="")
-                    AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6") 
+                    AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") 
                     GROUP BY o.vn LIMIT 70
                 ');
                     // AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") 
@@ -1473,7 +1473,8 @@ class ApiController extends Controller
                         $headers = array();
                         $headers[] = "Accept: application/json";
                         $headers[] = "Authorization: Bearer 3045bba2-3cac-4a74-ad7d-ac6f7b187479";    
-                        curl_setopt($ch, CURLOPT_URL, "https://authenucws.nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cid&serviceDate=$vstdate&serviceCode=PG0060001");
+                        // curl_setopt($ch, CURLOPT_URL, "https://authenucws.nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cid&serviceDate=$vstdate&serviceCode=PG0060001");
+                        curl_setopt($ch, CURLOPT_URL, "https://nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cid&serviceDate=$vstdate&serviceCode=PG0060001");
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);                         
@@ -1560,7 +1561,7 @@ class ApiController extends Controller
                     WHERE o.vstdate = "'.$date_now.'" 
                     AND p.cid IS NOT NULL AND p.nationality ="99" 
                     AND (vs.claim_code IS NULL OR vs.claim_code ="")
-                    AND v.pttype IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6") 
+                    AND v.pttype IN("M1","M2","M3","M4","M5","M6") 
                     GROUP BY o.vn
                 ');
                     // AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") 
@@ -1572,7 +1573,7 @@ class ApiController extends Controller
                         $headers = array();
                         $headers[] = "Accept: application/json";
                         $headers[] = "Authorization: Bearer 3045bba2-3cac-4a74-ad7d-ac6f7b187479";    
-                        curl_setopt($ch, CURLOPT_URL, "https://authenucws.nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cid&serviceDate=$vstdate&serviceCode=PG0130001");
+                        curl_setopt($ch, CURLOPT_URL, "https://nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cid&serviceDate=$vstdate&serviceCode=PG0130001");
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);                         

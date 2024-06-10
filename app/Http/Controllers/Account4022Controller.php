@@ -199,8 +199,8 @@ class Account4022Controller extends Controller
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
         // Acc_opitemrece::truncate();
-        $acc_debtor = DB::connection('mysql2')->select(' 
-                SELECT v.vn,i.an,a.hn,pt.cid
+        $acc_debtor = DB::connection('mysql2')->select(
+            'SELECT v.vn,i.an,a.hn,pt.cid
                     ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
                     ,pt.hcode,op.income as income_group
                     ,v.vstdate,op.rxdate,a.dchdate
@@ -212,11 +212,12 @@ class Account4022Controller extends Controller
                     ,a.income,a.uc_money,a.discount_money,a.paid_money,a.rcpt_money
                     ,a.rcpno_list as rcpno
                     ,a.income-a.discount_money-a.rcpt_money as debit
-                    ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
+                 
                     ,sum(if(op.income="02",sum_price,0)) as debit_instument
                     ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
                     ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
                     ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
+                    ,(SELECT SUM(sum_price) FROM opitemrece WHERE an = a.an AND icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.4022" AND icode IS NOT NULL)) as fokliad
                     ,ptt.max_debt_money
 
                     from ipt i
@@ -233,9 +234,10 @@ class Account4022Controller extends Controller
                    
                     AND ipt.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.4022" AND opdipd ="IPD")
                     AND op.icode IN (SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.4022" AND icode IS NOT NULL)
-                    GROUP BY i.an,op.rxdate 
+                    GROUP BY i.an  
             
         ');
+        // ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
         // AND op.icode ="3010058"
         // ,e.code as acc_code  AND ipt.pttype IN("O1","O2","O3","O4","O5")
         // ,e.ar_ipd as account_code
@@ -244,17 +246,23 @@ class Account4022Controller extends Controller
             // $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.4022')->where('rxdate',$value->rxdate)->count();
             $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.4022')->count();
             if ($check > 0) {
-                Acc_debtor::where('an', $value->an)->where('account_code','1102050101.4022')->update([  
-                    'rxdate'             => $value->rxdate, 
+                Acc_debtor::where('an', $value->an)->where('account_code','1102050101.4022')->update([   
                     'income'             => $value->income,
                     'uc_money'           => $value->uc_money,
-                    'discount_money'     => $value->discount_money,
-                    'paid_money'         => $value->paid_money,
+                    'discount_money'     => $value->discount_money, 
                     'rcpt_money'         => $value->rcpt_money,
                     'debit'              => $value->debit, 
-                    'debit_total'        => $value->fokliad,
-                   
+                    'debit_total'        => $value->fokliad, 
                 ]);  
+                // Acc_1102050101_4022::where('an', $value->an)->update([   
+                //     'income'             => $value->income,
+                //     'uc_money'           => $value->uc_money,
+                //     'discount_money'     => $value->discount_money, 
+                //     'rcpt_money'         => $value->rcpt_money,
+                //     'debit'              => $value->debit, 
+                //     'debit_total'        => $value->fokliad,
+                   
+                // ]);  
             } else {
                 Acc_debtor::insert([
                     'hn'                 => $value->hn,
