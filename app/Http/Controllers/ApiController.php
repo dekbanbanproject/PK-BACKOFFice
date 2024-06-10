@@ -1670,14 +1670,15 @@ class ApiController extends Controller
            foreach ($jong_nosuccess_ as $key => $value7) {
                 $jong_nosuccess = $value7->Cvn;
            }  
-           $authen_success_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND claimcode IS NOT NULL');      
+           $authen_success_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn,sum(total_amout) as sumtotal_amout FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND claimcode IS NOT NULL');      
            foreach ($authen_success_ as $key => $value8) {
-                $authen_success = $value8->Cvn;
+                $authen_success   = $value8->Cvn;
+                $sum_total_authen = $value8->sumtotal_amout;
            } 
-           $sum_total_authen_ = DB::connection('mysql')->select('SELECT sum(total_amout) as sumtotal_amout FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND claimcode IS NOT NULL');      
-           foreach ($sum_total_authen_ as $key => $value9) {
-                $sum_total_authen = $value9->sumtotal_amout;
-           }    
+        //    $sum_total_authen_ = DB::connection('mysql')->select('SELECT sum(total_amout) as sumtotal_amout FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND claimcode IS NOT NULL');      
+        //    foreach ($sum_total_authen_ as $key => $value9) {
+        //         $sum_total_authen = $value9->sumtotal_amout;
+        //    }    
             
            //แจ้งเตือน 
             function DateThailine($strDate)
