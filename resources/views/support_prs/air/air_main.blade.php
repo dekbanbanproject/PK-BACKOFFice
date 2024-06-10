@@ -139,16 +139,16 @@
         <div class="col"></div>
       
         <div class="col-md-6 text-end">
-            <a href="{{url('air_qrcode_all')}}" class="ladda-button me-2 btn-pill btn btn-info cardacc">  
+            <a href="{{url('air_qrcode_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-info cardacc">  
                 <i class="fa-solid fa-print me-2 text-white me-2" style="font-size:13px"></i>
                 <span>Print QRCODE All</span> 
             </a> 
-            <a href="{{url('air_qrcode_detail_all')}}" class="ladda-button me-2 btn-pill btn btn-secondary cardacc">  
+            <a href="{{url('air_qrcode_detail_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-secondary cardacc">  
                 <i class="fa-solid fa-print me-2 text-white me-2" style="font-size:13px"></i>
                 <span>Print QRCODE Detail All</span>
                 
             </a> 
-            <a href="{{url('air_add')}}" class="ladda-button me-2 btn-pill btn btn-primary cardacc"> 
+            <a href="{{url('air_add')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-primary cardacc"> 
                 <i class="fa-solid fa-circle-plus text-white me-2"></i>
                เพิ่มรายการ
             </a>  
@@ -230,13 +230,13 @@
                                                     ทำรายการ
                                                 </button>
                                                 <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-hover-link dropdown-menu"> 
-                                                    <a class="dropdown-item text-primary" href="{{ url('air_qrcode/'.$item->air_list_id) }}" style="font-size:13px"> 
+                                                    <a class="dropdown-item text-primary" href="{{ url('air_qrcode/'.$item->air_list_id) }}" style="font-size:13px" target="_blank"> 
                                                         <i class="fa-solid fa-print me-2 text-primary" style="font-size:13px"></i>
                                                         <span>Print QR</span>
                                                     </a> 
                                                     
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item text-info" href="{{ url('air_qrcode_detail/'.$item->air_list_id) }}" style="font-size:13px"> 
+                                                    <a class="dropdown-item text-info" href="{{ url('air_qrcode_detail/'.$item->air_list_id) }}" style="font-size:13px" target="_blank"> 
                                                         <i class="fa-solid fa-print me-2 text-info" style="font-size:13px"></i>
                                                         <span>Print QR Detail</span>
                                                     </a> 

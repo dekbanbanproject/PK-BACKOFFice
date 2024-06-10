@@ -79,9 +79,9 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
                                 <div class="card mb-5 mt-5"
                                     style="max-width: 25rem;border-color:rgb(193, 20, 236);background-color:rgb(218, 250, 248);border-radius: 2em 2em 2em 2em">
                                     <div class="body"><br>
-                                        {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/fire_detail/' . $item->fire_num) !!}
+                                        {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_detail/' . $item->air_list_num) !!}
                                         <hr style="color:rgb(193, 20, 236)">
-                                        <p style="font-size: 17px;color:rgb(193, 20, 236)"> รหัส {{ $item->fire_num }} <br>
+                                        <p style="font-size: 17px;color:rgb(193, 20, 236)"> {{ $item->air_list_num }} <br>
                                             แสกนดูผลตรวจสอบ</p>
                                     </div>
                                 </div>

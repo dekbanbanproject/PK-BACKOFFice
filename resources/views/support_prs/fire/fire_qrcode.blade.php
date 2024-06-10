@@ -26,7 +26,7 @@
      use SimpleSoftwareIO\QrCode\Facades\QrCode; 
  ?>
 <body>
-{{-- <body onload="window.print()"> --}}
+<body onload="window.print()">
     <div class="container">
         <div class="row mt-5">
             <div class="col-md-2 text-center">
@@ -91,7 +91,72 @@
             </div>
         </div>  
     </div>
+
     <div class="container">
+        <div class="row mt-5">
+            <div class="col-md-2 text-center">
+                <div class="card">
+                    <div class="body"><br>
+                        {!! QrCode::size(112)->encoding('UTF-8')->generate($dataprint->fire_num);!!} 
+                        <p style="font-size: 17px"> รหัส {{ $dataprint->fire_num }} <br>
+                            แสกนตรวจสอบ<br>
+                            สำหรับเจ้าหน้าที่</p>
+                    </div> 
+                </div> 
+            </div>
+            <div class="col-md-2 text-center">
+                <div class="card">
+                    <div class="body"><br>
+                        {!! QrCode::size(112)->encoding('UTF-8')->generate($dataprint->fire_num);!!} 
+                        <p style="font-size: 17px"> รหัส {{ $dataprint->fire_num }} <br>
+                            แสกนตรวจสอบ<br>
+                            สำหรับเจ้าหน้าที่</p>
+                    </div> 
+                </div> 
+            </div>
+            <div class="col-md-2 text-center">
+                <div class="card">
+                    <div class="body"><br>
+                        {!! QrCode::size(112)->encoding('UTF-8')->generate($dataprint->fire_num);!!} 
+                        <p style="font-size: 17px"> รหัส {{ $dataprint->fire_num }} <br>
+                            แสกนตรวจสอบ<br>
+                            สำหรับเจ้าหน้าที่</p>
+                    </div> 
+                </div> 
+            </div>
+            <div class="col-md-2 text-center">
+                <div class="card">
+                    <div class="body"><br>
+                        {!! QrCode::size(112)->encoding('UTF-8')->generate($dataprint->fire_num);!!} 
+                        <p style="font-size: 17px"> รหัส {{ $dataprint->fire_num }} <br>
+                            แสกนตรวจสอบ<br>
+                            สำหรับเจ้าหน้าที่</p>
+                    </div> 
+                </div> 
+            </div>
+            <div class="col-md-2 text-center">
+                <div class="card">
+                    <div class="body"><br>
+                        {!! QrCode::size(112)->encoding('UTF-8')->generate($dataprint->fire_num);!!} 
+                        <p style="font-size: 17px"> รหัส {{ $dataprint->fire_num }} <br>
+                            แสกนตรวจสอบ<br>
+                            สำหรับเจ้าหน้าที่</p>
+                    </div> 
+                </div> 
+            </div>
+            <div class="col-md-2 text-center">
+                <div class="card">
+                    <div class="body"><br>
+                        {!! QrCode::size(112)->encoding('UTF-8')->generate($dataprint->fire_num);!!} 
+                        <p style="font-size: 17px"> รหัส {{ $dataprint->fire_num }} <br>
+                            แสกนตรวจสอบ<br>
+                            สำหรับเจ้าหน้าที่</p>
+                    </div> 
+                </div> 
+            </div>
+        </div>  
+    </div>
+    {{-- <div class="container">
         <div class="row mt-5">
             <div class="col-md-2 text-center">
 
@@ -108,7 +173,7 @@
            
           
         </div>  
-    </div>
+    </div> --}}
     {{-- <div class="container">
         <div class="row mt-5">
             <div class="col-md-2 text-center">

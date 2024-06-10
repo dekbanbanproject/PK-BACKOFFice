@@ -427,22 +427,22 @@ class AirController extends Controller
         ]);
     }
  
-    public function fire_qrcode(Request $request, $id)
+    public function air_qrcode(Request $request, $id)
     {
 
-            $dataprint = Fire::where('fire_id', '=', $id)->first();
+            $dataprint = Air_list::where('air_list_id', '=', $id)->first();
             // $dataprint = Fire::where('fire_id', '=', $id)->get();
 
-        return view('support_prs.fire.fire_qrcode', [
+        return view('support_prs.air.air_qrcode', [
             'dataprint'  =>  $dataprint
         ]);
 
     }
-    public function fire_qrcode_all(Request $request)
+    public function air_qrcode_all(Request $request)
     {  
-            $dataprint = Fire::get();
+            $dataprint = Air_list::get();
 
-        return view('support_prs.fire.fire_qrcode_all', [
+        return view('support_prs.air.air_qrcode_all', [
             'dataprint'  =>  $dataprint
         ]);
 
@@ -460,9 +460,9 @@ class AirController extends Controller
             'id'           => $id
         ]); 
     }
-    public function fire_qrcode_detail_all(Request $request)
+    public function air_qrcode_detail_all(Request $request)
     {  
-            $dataprint_main = Fire::get();
+            $dataprint_main = Air_list::get();
             // $dataprint_main = Fire::paginate();
             // $dataprint_main = Fire::paginate(12);
             // $dataprint = Fire::where('fire_id', '=', $id)->first();
@@ -471,7 +471,7 @@ class AirController extends Controller
             // }
             // $data_detail_ = $data_detail;
         // dd($dataprint_main);
-        return view('support_prs.fire.fire_qrcode_detail_all', [
+        return view('support_prs.air.air_qrcode_detail_all', [
             'dataprint_main'  =>  $dataprint_main,
             // 'dataprint'        =>  $dataprint
         ]);

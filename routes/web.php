@@ -3339,6 +3339,7 @@ Route::match(['get','post'],'air_update',[App\Http\Controllers\AirController::cl
 Route::match(['get','post'],'air_destroy/{id}',[App\Http\Controllers\AirController::class, 'air_destroy'])->name('prs.air_destroy');//
 Route::match(['get','post'],'air_qrcode_all',[App\Http\Controllers\AirController::class, 'air_qrcode_all'])->name('prs.air_qrcode_all');//
 Route::match(['get','post'],'air_qrcode_detail_all',[App\Http\Controllers\AirController::class, 'air_qrcode_detail_all'])->name('prs.air_qrcode_detail_all');//
+Route::match(['get','post'],'air_qrcode/{id}',[App\Http\Controllers\AirController::class, 'air_qrcode'])->name('prs.air_qrcode');//
 
 
 });

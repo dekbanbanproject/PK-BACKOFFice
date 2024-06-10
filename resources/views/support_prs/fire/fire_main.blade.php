@@ -138,16 +138,16 @@
         <div class="col"></div>
       
         <div class="col-md-6 text-end">
-            <a href="{{url('fire_qrcode_all')}}" class="ladda-button me-2 btn-pill btn btn-info cardacc">  
+            <a href="{{url('fire_qrcode_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-info cardacc">  
                 <i class="fa-solid fa-print me-2 text-white me-2" style="font-size:13px"></i>
                 <span>Print QRCODE All</span> 
             </a> 
-            <a href="{{url('fire_qrcode_detail_all')}}" class="ladda-button me-2 btn-pill btn btn-secondary cardacc">  
+            <a href="{{url('fire_qrcode_detail_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-secondary cardacc">  
                 <i class="fa-solid fa-print me-2 text-white me-2" style="font-size:13px"></i>
                 <span>Print QRCODE Detail All</span>
                 
             </a> 
-            <a href="{{url('fire_add')}}" class="ladda-button me-2 btn-pill btn btn-primary cardacc"> 
+            <a href="{{url('fire_add')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-primary cardacc"> 
                 <i class="fa-solid fa-circle-plus text-white me-2"></i>
                เพิ่มรายการ
             </a>  
