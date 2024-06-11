@@ -130,7 +130,8 @@ class AirController extends Controller
             ->where('air_list.air_list_id', '=', $id)
             ->get();
 
-            $data['air_repaire_ploblem']        = DB::table('air_repaire_ploblem')->get();
+            $data['air_repaire_ploblem']     = DB::table('air_repaire_ploblem')->get();
+            $data['users']                   = DB::table('users')->get();
 
             $data_detail_ = Air_list::where('air_list_id', '=', $id)->first();
             // $signat = $data_detail_->air_img_base;

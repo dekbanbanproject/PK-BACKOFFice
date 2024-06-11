@@ -67,53 +67,184 @@
                         <hr style="color:red">
                         <div class="row">
                             <div class="col text-start">
-                                <p style="color:red">ส่วนที่ 2 : ช่างนอก </p>
-                            </div>
-                            <div class="col-6"> </div>
+                                <p style="color:red">ส่วนที่ 2 : ช่างซ่อม(นอก รพ.) </p> 
+                            </div> 
                         </div>
 
                         <div class="row">
-                            <div class="col text-start">
-                                <p>อาการ :</p>
+                            <div class="col text-start"> 
+                                <p style="color:rgb(9, 119, 209)">- รายการซ่อม(ตามปัญหา) </p> 
                             </div>
-                            <div class="col-4">
-                                {{-- <select class="custom-select custom-select-sm" id="department" name="department" style="width: 100%">
-                                    <option value="" class="text-center">- เลือก -</option>
-                                    @foreach ($air_repaire_ploblem as $item_p)
-                                        <option value="{{$item_p->air_repaire_ploblem_id}}">{{$item_p->air_repaire_ploblemname}}</option>
-                                    @endforeach
-                                </select> --}}
-                               
+                        </div>
+                        <div class="row"> 
+                            <div class="col-3 text-start"> 
                                     <div class="input-group">
-                                        <input type="checkbox" class="discheckbox" > 
-                                        <p class="ms-2">ไม่เย็น</p> 
+                                        <input type="checkbox" class="discheckbox" id="air_problems_1" name="air_problems_1"> 
+                                        &nbsp;<p>น้ำหยด</p> 
                                     </div>
                             </div>
                             <div class="col-5">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" > 
-                                    <p class="ms-2">เสียงดัง</p> 
+                                    <input type="checkbox" class="discheckbox" id="air_problems_2" name="air_problems_2"> 
+                                    <p class="ms-1">ไม่เย็นมีแต่ลม</p> 
                                 </div>
-                            </div>
-                        </div> 
-                        <div class="row">
-                            <div class="col text-start">
-                             
                             </div>
                             <div class="col-4">  
+                                <div class="input-group">
+                                    <input type="checkbox" class="discheckbox" id="air_problems_3" name="air_problems_3"> 
+                                    &nbsp;<p> มีกลิ่นเหม็น</p> 
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="row"> 
+                            <div class="col-3 text-start">  
                                     <div class="input-group">
-                                        <input type="checkbox" class="discheckbox" > 
-                                        <p class="ms-2">มีน้ำหยด</p> 
+                                        <input type="checkbox" class="discheckbox" id="air_problems_4" name="air_problems_4"> 
+                                      <p>เสียงดัง</p> 
                                     </div>
                             </div>
                             <div class="col-5">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" > 
-                                    <p class="ms-2">เปิดไม่ติด</p> 
+                                    <input type="checkbox" class="discheckbox" id="air_problems_5" name="air_problems_5"> 
+                                    <p class="ms-1">ไม่ติด/ติดๆ ดับๆ</p> 
                                 </div>
                             </div>
+                            <div class="col text-start"> 
+                            </div>
+                        </div> 
+                        
+                        <hr style="color:rgb(7, 114, 141)">
+                        <div class="row">
+                            <div class="col text-start"> 
+                                <p style="color:rgb(9, 119, 209)">- การบำรุงรักษา ประจำปี ครั้ง 1 </p> 
+                            </div>
+                        </div>
+                        <div class="row"> 
+                            <div class="col-7 text-start"> 
+                                    <div class="input-group">
+                                        <input type="checkbox" class="discheckbox" id="air_problems_6" name="air_problems_6"> 
+                                        &nbsp;&nbsp;<p>ถอดล้างพัดลมกรงกระรอก</p> 
+                                    </div>
+                            </div> 
+                            <div class="col-5"> 
+                                <div class="input-group">
+                                    <input type="checkbox" class="discheckbox" id="air_problems_7" name="air_problems_7"> 
+                                    &nbsp;&nbsp;<p>ล้างถาดหลังแอร์</p> 
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <div class="row"> 
+                            <div class="col-6 text-start"> 
+                                <div class="input-group">
+                                    <input type="checkbox" class="discheckbox" id="air_problems_8" name="air_problems_8"> 
+                                    &nbsp;&nbsp;<p>ล้างแผงคอยล์เย็น</p> 
+                                </div>
+                            </div> 
+                            <div class="col-6"> 
+                                <div class="input-group">
+                                    <input type="checkbox" class="discheckbox" id="air_problems_9" name="air_problems_9" > 
+                                    &nbsp;&nbsp;<p>ล้างแผงคอยล์ร้อน</p> 
+                                </div>
+                            </div> 
+                        </div>
+                        <div class="row">
+                            <div class="col text-start">
+                                <div class="input-group">
+                                    <input type="checkbox" class="discheckbox" id="air_problems_10" name="air_problems_10"> 
+                                    &nbsp;&nbsp;<p>ตรวจเช็คน้ำยา</p> 
+                                </div>
+                            </div> 
                         </div> 
 
+                        <hr style="color:rgb(7, 114, 141)">
+                        <div class="row">
+                            <div class="col text-start"> 
+                                <p style="color:rgb(9, 119, 209)">- การบำรุงรักษา ประจำปี ครั้ง 2 </p> 
+                            </div>
+                        </div>
+                        <div class="row"> 
+                            <div class="col-7 text-start"> 
+                                    <div class="input-group">
+                                        <input type="checkbox" class="discheckbox" id="air_problems_11" name="air_problems_11"> 
+                                        &nbsp;&nbsp;<p>ถอดล้างพัดลมกรงกระรอก</p> 
+                                    </div>
+                            </div> 
+                            <div class="col-5"> 
+                                <div class="input-group">
+                                    <input type="checkbox" class="discheckbox" id="air_problems_12" name="air_problems_12"> 
+                                    &nbsp;&nbsp;<p>ล้างถาดหลังแอร์</p> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row"> 
+                            <div class="col-6 text-start"> 
+                                <div class="input-group">
+                                    <input type="checkbox" class="discheckbox" id="air_problems_13" name="air_problems_13"> 
+                                    &nbsp;&nbsp;<p>ล้างแผงคอยล์เย็น</p> 
+                                </div>
+                            </div> 
+                            <div class="col-6"> 
+                                <div class="input-group">
+                                    <input type="checkbox" class="discheckbox" id="air_problems_14" name="air_problems_14"> 
+                                    &nbsp;&nbsp;<p>ล้างแผงคอยล์ร้อน</p> 
+                                </div>
+                            </div> 
+                        </div>
+                        <div class="row">
+                            <div class="col text-start">
+                                <div class="input-group">
+                                    <input type="checkbox" class="discheckbox" id="air_problems_15" name="air_problems_15"> 
+                                    &nbsp;&nbsp;<p>ตรวจเช็คน้ำยา</p> 
+                                </div>
+                            </div> 
+                        </div> 
+
+                        <hr style="color:rgb(7, 114, 141)">
+                        <div class="row">
+                            <div class="col text-start"> 
+                                <p style="color:rgb(9, 119, 209)">- การบำรุงรักษา ประจำปี ครั้ง 3 </p> 
+                            </div>
+                        </div>
+                        <div class="row"> 
+                            <div class="col-7 text-start"> 
+                                    <div class="input-group">
+                                        <input type="checkbox" class="discheckbox" id="air_problems_16" name="air_problems_16"> 
+                                        &nbsp;&nbsp;<p>ถอดล้างพัดลมกรงกระรอก</p> 
+                                    </div>
+                            </div> 
+                            <div class="col-5"> 
+                                <div class="input-group">
+                                    <input type="checkbox" class="discheckbox" id="air_problems_17" name="air_problems_17"> 
+                                    &nbsp;&nbsp;<p>ล้างถาดหลังแอร์</p> 
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <div class="row"> 
+                            <div class="col-6 text-start"> 
+                                <div class="input-group">
+                                    <input type="checkbox" class="discheckbox" id="air_problems_18" name="air_problems_18"> 
+                                    &nbsp;&nbsp;<p>ล้างแผงคอยล์เย็น</p> 
+                                </div>
+                            </div> 
+                            <div class="col-6"> 
+                                <div class="input-group">
+                                    <input type="checkbox" class="discheckbox" id="air_problems_19" name="air_problems_19"> 
+                                    &nbsp;&nbsp;<p>ล้างแผงคอยล์ร้อน</p> 
+                                </div>
+                            </div> 
+                        </div>
+                        <div class="row">
+                            <div class="col text-start">
+                                <div class="input-group">
+                                    <input type="checkbox" class="discheckbox" id="air_problems_20" name="air_problems_20"> 
+                                    &nbsp;&nbsp;<p>ตรวจเช็คน้ำยา</p> 
+                                </div>
+                            </div> 
+                        </div> 
+
+                        <hr style="color:rgb(7, 114, 141)">                        
                         <div class="row">
                             <div class="col text-start">
                                 <p >สถานะซ่อม :</p>
@@ -131,7 +262,7 @@
                                 <p>ชื่อ-นามสกุล :</p>
                             </div>
                             <div class="col-8">
-                                 <input type="text" class="form-control form-control-sm" id="" name="">
+                                 <input type="text" class="form-control form-control-sm" id="air_techout_name" name="air_techout_name">
                             </div>
                         </div>
                         <div class="row">
@@ -157,10 +288,7 @@
                                     </button>
                                 </div>
                         </div>
-
-
-
-
+ 
 
 
                         <hr style="color:red">
@@ -175,7 +303,7 @@
                                 <p >สถานะซ่อม :</p>
                             </div>
                             <div class="col-8">
-                                <select class="custom-select custom-select-sm" id="air_status_techout" name="air_status_techout" style="width: 100%">
+                                <select class="custom-select custom-select-sm" id="air_status_staff" name="air_status_staff" style="width: 100%">
                                     <option value="" class="text-center">- เลือก -</option>
                                     <option value="Y" class="text-center">- พร้อมใช้งาน -</option>
                                     <option value="N" class="text-center">- ไม่พร้อมใช้งาน -</option> 
@@ -187,7 +315,13 @@
                                 <p>ชื่อ-นามสกุล :</p>
                             </div>
                             <div class="col-8">
-                                 <input type="text" class="form-control form-control-sm" id="" name="">
+                                 {{-- <input type="text" class="form-control form-control-sm" id="air_staff_id" name="air_staff_id"> --}}
+                                 <select class="custom-select custom-select-sm" id="air_staff_id" name="air_staff_id" style="width: 100%">
+                                    <option value="" class="text-center">- เลือก -</option>
+                                    @foreach ($users as $item_u)
+                                        <option value="{{$item_u->id}}" class="text-center">{{$item_u->fname}} {{$item_u->lname}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="row">
@@ -216,7 +350,7 @@
                         <hr style="color:red">
                         <div class="row">
                             <div class="col text-start">
-                                <p style="color:red">ส่วนที่ 3 : ช่างซ่อม(รพ.) </p>
+                                <p style="color:red">ส่วนที่ 4 : ช่างซ่อม(รพ.) </p>
                             </div>
                             <div class="col-6"> </div>
                         </div>
@@ -225,7 +359,7 @@
                                 <p >สถานะซ่อม :</p>
                             </div>
                             <div class="col-8">
-                                <select class="custom-select custom-select-sm" id="air_status_techout" name="air_status_techout" style="width: 100%">
+                                <select class="custom-select custom-select-sm" id="air_status_tech" name="air_status_tech" style="width: 100%">
                                     <option value="" class="text-center">- เลือก -</option>
                                     <option value="Y" class="text-center">- พร้อมใช้งาน -</option>
                                     <option value="N" class="text-center">- ไม่พร้อมใช้งาน -</option> 
@@ -237,7 +371,13 @@
                                 <p>ชื่อ-นามสกุล :</p>
                             </div>
                             <div class="col-8">
-                                 <input type="text" class="form-control form-control-sm" id="" name="">
+                                 {{-- <input type="text" class="form-control form-control-sm" id="air_tech_id" name="air_tech_id"> --}}
+                                 <select class="custom-select custom-select-sm" id="air_tech_id" name="air_tech_id" style="width: 100%">
+                                    <option value="" class="text-center">- เลือก -</option>
+                                    @foreach ($users as $item_u)
+                                        <option value="{{$item_u->id}}" class="text-center">{{$item_u->fname}} {{$item_u->lname}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="row">
@@ -263,8 +403,6 @@
                             </div>
                         </div>
 
-
-
                         <hr style="color:red">
                         <div class="row mt-3">
                             <div class="col text-center">
@@ -287,8 +425,13 @@
 @section('footer')
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
 <script src="{{ asset('js/gcpdfviewer.js') }}"></script>
-     
+     <script>
+         $(document).ready(function() {
+            $('select').select2();
+         });
+     </script>
 <script>
+     
     //ช่างซ่อมนอก
     var wrapper = document.getElementById("signature-pad");
     var clearButton = wrapper.querySelector("[data-action=clear]");

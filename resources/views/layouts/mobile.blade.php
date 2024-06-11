@@ -73,13 +73,13 @@
             /* box-shadow: 0 0 10px rgb(232, 187, 243); */
         }
         .discheckbox{         
-        width: 25px;
-        height: 25px;       
+        width: 18px;
+        height: 18px;       
         /* border-radius: 2em 2em 2em 2em; */
-        border: 5px solid rgb(250, 128, 124);
+        border: 10px solid rgb(250, 128, 124);
         /* color: teal; */
         /* border-color: teal; */
-        box-shadow: 0 0 5px rgb(250, 128, 124);
+        box-shadow: 0 0 10px rgb(250, 128, 124);
         /* box-shadow: 0 0 10px teal; */
     }
     </style>
