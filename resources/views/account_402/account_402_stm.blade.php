@@ -67,11 +67,11 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Detail STM</h4>
+                <h4 class="mb-sm-0">รายละเอียดข้อมูลตั้งลูกหนี้ 1102050101.402 STM</h4>
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Detail STM</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">รายละเอียดข้อมูลตั้งลูกหนี้</a></li>
                         <li class="breadcrumb-item active">1102050101.402</li>
                     </ol>
                 </div>
@@ -84,7 +84,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <div class="card cardacc">
+                <div class="card card_audit_4c">
                    
                     <div class="card-body">
                         {{-- <input type="hidden" name="months" id="months" value="{{$months}}">
