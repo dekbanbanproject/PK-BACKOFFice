@@ -114,11 +114,15 @@
                         <div class="row mb-3">
                             
                             <div class="col"></div>
-                            <div class="col-md-2 text-end">
+                            <div class="col-md-3 text-end">
                                 {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info Savestamp" data-url="{{url('account_pkti4022_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
                                 </button> --}}
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-info cardacc" id="Check_sit">
+                                    <i class="fa-solid fa-user me-2"></i>
+                                    ตรวจสอบสิทธิ์
+                                </button>
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_pkti4022_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
@@ -139,13 +143,15 @@
                                           
                                             <th width="5%" class="text-center">ลำดับ</th> 
                                             <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox" name="stamp" id="stamp"> </th> 
-                                            <th class="text-center" width="5%">vn</th> 
+                                            {{-- <th class="text-center" width="5%">vn</th>  --}}
                                             <th class="text-center">an</th>
                                             <th class="text-center" >hn</th>
                                             <th class="text-center" >cid</th>
                                             <th class="text-center">ptname</th>
-                                            <th class="text-center">dchdate</th>  
+                                            <th class="text-center">vstdate</th> 
                                             <th class="text-center">rxdate</th> 
+                                            <th class="text-center">dchdate</th>  
+                                        
                                             <th class="text-center">pttype</th> 
                                             <th class="text-center">spsch</th> 
                                             <th class="text-center">income</th>
@@ -167,13 +173,15 @@
                                                 @endif
                                                 {{-- <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox sub_chk" data-id="{{$item->acc_debtor_id}}"> </td>  --}}
 
-                                                <td class="text-center" width="5%">{{ $item->vn }}</td> 
+                                                {{-- <td class="text-center" width="5%">{{ $item->vn }}</td>  --}}
                                                 <td class="text-center" width="5%">{{ $item->an }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  
                                                 <td class="text-center" width="10%">{{ $item->cid }}</td>  
                                                 <td class="p-2" >{{ $item->ptname }}</td> 
+                                                <td class="text-center" width="10%">{{ $item->vstdate }}</td> 
+                                                <td class="text-center" width="10%">{{ $item->rxdate }}</td> 
                                                 <td class="text-center" width="10%">{{ $item->dchdate }}</td>  
-                                                <td class="text-center" width="10%">{{ $item->rxdate }}</td>  
+                                               
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td> 
                                                 
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td> 
@@ -361,6 +369,61 @@
                                 });
                                 
                             }
+                })
+            });
+
+            $('#Check_sit').click(function() {
+                var datepicker = $('#datepicker').val(); 
+                var datepicker2 = $('#datepicker2').val(); 
+                //    alert(datepicker);
+                Swal.fire({ position: "top-end",
+                        title: 'ต้องการตรวจสอบสอทธิ์ใช่ไหม ?',
+                        text: "You Check Sit Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, pull it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner-div").show(); //Load button clicked show spinner 
+                            $.ajax({
+                                url: "{{ route('acc.account_pkti4022_checksit') }}",
+                                type: "POST",
+                                dataType: 'json',
+                                data: {
+                                    datepicker,
+                                    datepicker2                        
+                                },
+                                success: function(data) {
+                                    if (data.status == 200) { 
+                                        Swal.fire({ position: "top-end",
+                                            title: 'เช็คสิทธิ์สำเร็จ',
+                                            text: "You Check sit success",
+                                            icon: 'success',
+                                            showCancelButton: false,
+                                            confirmButtonColor: '#06D177',
+                                            confirmButtonText: 'เรียบร้อย'
+                                        }).then((result) => {
+                                            if (result
+                                                .isConfirmed) {
+                                                console.log(
+                                                    data);
+                                                window.location.reload();
+                                                $('#spinner-div').hide();//Request is complete so hide spinner
+                                                    setTimeout(function(){
+                                                        $("#overlay").fadeOut(300);
+                                                    },500);
+                                            }
+                                        })
+                                    } else {
+                                        
+                                    }
+
+                                },
+                            });
+                        }
                 })
             });
 

@@ -150,16 +150,16 @@
                                     style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr>
-                                            <th class="text-center">ลำดับ</th> 
-                                            <th class="text-center">เดือน</th> 
-                                            <th class="text-center">income</th> 
+                                            <th class="text-center" style="background-color: rgb(219, 247, 232)">ลำดับ</th> 
+                                            <th class="text-center" style="background-color: rgb(219, 247, 232)">เดือน</th> 
+                                            <th class="text-center" style="background-color: rgb(219, 247, 232)">income</th> 
                                             <th class="text-center" style="background-color: rgb(135, 190, 253)">ต้องตั้ง-402</th>  
                                             <th class="text-center" style="background-color: rgb(135, 190, 253)">ตั้งลูกหนี้-402</th> 
                                             <th class="text-center" style="background-color: rgb(135, 190, 253)">Stm-402</th>
                                             <th class="text-center" style="background-color: rgb(253, 135, 174)">ต้องตั้ง-4022</th> 
                                             <th class="text-center" style="background-color: rgb(253, 135, 174)">ตั้งลูกหนี้-4022</th> 
                                             <th class="text-center" style="background-color: rgb(253, 135, 174)">Stm-4022</th>
-                                            <th class="text-center">ยกยอดไป</th> 
+                                            <th class="text-center" style="background-color: rgb(250, 225, 234)">ยกยอดไป</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -240,7 +240,7 @@
                                                  $stm_4022 = DB::select(
                                                     'SELECT sum(U2.Total_amount) as Total_amount,count(DISTINCT U1.an) as Countvisit 
                                                         from acc_1102050101_4022 U1
-                                                        LEFT JOIN acc_stm_ti_total U2 on U2.hn = U1.hn 
+                                                        LEFT JOIN acc_stm_ti_total U2 on U2.hn = U1.hn AND U2.vstdate = U1.rxdate
                                                         WHERE month(U1.dchdate) = "'.$item->months.'" AND year(U1.dchdate) = "'.$item->year.'" 
                                                         AND U2.Total_amount is not null AND U2.HDflag IN("CIC")
                                                       
@@ -268,14 +268,23 @@
                                     
                                                 <tr>
                                                     <td class="text-font" style="text-align: center;" width="4%">{{ $number }} </td>  
-                                                    <td class="p-2">{{$item->MONTH_NAME}} {{$ynew}}</td>    
+                                                    <td class="p-2">
+                                                        {{-- <p style="font-size: 14px;"> {{$item->MONTH_NAME}}</p> --}}
+                                                        {{$item->MONTH_NAME}} {{$ynew}}
+                                                    </td>    
                                                     <td class="text-end" style="color:rgb(73, 147, 231)" width="10%"> {{ number_format($item->income, 2) }}</td>                                      
                                                     <td class="text-end" style="color:rgb(6, 82, 170);background-color: rgb(203, 227, 255)" width="10%"> {{ number_format($sum_N, 2) }}</td>                                                    
-                                                    <td class="text-end" style="color:rgb(231, 73, 139);background-color: rgb(203, 227, 255)" width="10%"> {{ number_format($total_sumY, 2) }}</td> 
-                                                    <td class="text-end" style="color:rgb(2, 116, 63);background-color: rgb(203, 227, 255)" width="10%"> {{ number_format($sum_stm_money, 2) }}</td> 
+                                                    <td class="text-end" style="color:rgb(231, 73, 139);background-color: rgb(203, 227, 255)" width="10%"> 
+                                                        <a href="{{url('account_402_detail/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(231, 73, 139);"> {{ number_format($total_sumY, 2) }}</a>
+                                                     
+                                                    </td> 
+                                                    <td class="text-end" style="color:rgb(2, 116, 63);background-color: rgb(203, 227, 255)" width="10%"> 
+                                                         <a href="{{url('account_402_stm/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(2, 116, 63);"> {{ number_format($sum_stm_money, 2) }}</a> 
+                                                    </td> 
                                                     <td class="text-end" style="color:rgb(45, 57, 230);background-color: rgb(255, 174, 201)" width="10%"> {{ number_format($sum_N4022, 2) }}</td> 
-                                                    <td class="text-end" width="10%" style="background-color: rgb(255, 174, 201)">  <a href="{{url('account_pkucs216_detail/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(101, 12, 153);"> {{ number_format($sum_fokliad, 2) }}</a></td> 
-                                                    {{-- <td class="text-end" width="10%"><a href="" style="color:rgb(238, 36, 86)">{{ number_format($sum_walkin, 2) }}</a></td>  --}}
+                                                    <td class="text-end" width="10%" style="background-color: rgb(255, 174, 201)">  
+                                                        <a href="{{url('account_pkucs216_detail/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(101, 12, 153);"> {{ number_format($sum_fokliad, 2) }}</a>
+                                                    </td>                                               
                                                     <td class="text-end" style="color:rgb(5, 114, 96);background-color: rgb(255, 174, 201)" width="10%">{{ number_format($sum_stm_moneyti, 2) }}</td> 
                                                     <td class="text-end" style="color:rgb(224, 128, 17)" width="10%">0.00</td> 
                                                 </tr>
@@ -298,7 +307,7 @@
                                         <td class="text-end" style="background-color: #055fb4"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
                                         <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
                                         <td class="text-end" style="background-color: #fc5089"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td>
-                                        <td class="text-end" style="background-color: #9f4efc" ><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td> 
+                                        <td class="text-end" style="background-color: #149966" ><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td> 
                                         <td class="text-end" style="background-color: #2e41e9" ><label for="" style="color: #FFFFFF">{{ number_format($total7, 2) }}</label></td> 
                                         <td class="text-end" style="background-color: #c5224b"><label for="" style="color: #FFFFFF">{{ number_format($total5, 2) }}</label></td>
                                         <td class="text-end" style="background-color: #0ea080"><label for="" style="color: #FFFFFF">{{ number_format($total6, 2) }}</label></td> 

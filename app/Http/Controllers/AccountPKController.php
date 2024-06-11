@@ -4360,8 +4360,7 @@ class AccountPKController extends Controller
             $bills_       = @$TBills;
             // dd($bills_ );
                 $checkchead = Acc_stm_ti_totalhead::where('AccPeriod', @$AccPeriod)->count();
-                if ($checkchead > 0) {
-                    # code...
+                if ($checkchead > 0) { 
                 } else {
                     Acc_stm_ti_totalhead::insert([
                         'stmAccountID'    => @$stmAccountID,
@@ -4438,6 +4437,15 @@ class AccountPKController extends Controller
                                 'stm_total'       => $amount,
                                 'STMdoc'          => @$STMdoc, 
                             ]);
+
+                            // Acc_1102050101_4022::where('hn',$hn)->where('vstdate',$dttdate)
+                            // ->update([
+                            //     'status'            => 'Y',
+                            //     'stm_money'       => $amount, 
+                            //     'stm_trainid'     => $invno,
+                            //     'stm_total'       => $amount,
+                            //     'STMdoc'          => @$STMdoc, 
+                            // ]);
                     }
                 }
                 // return redirect()->back();

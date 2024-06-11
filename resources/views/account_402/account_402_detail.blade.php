@@ -84,11 +84,11 @@ $pos = strrpos($url, '/') + 1;
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">Detail</h4>
+                    <h4 class="mb-sm-0">รายละเอียดข้อมูลตั้งลูกหนี้ 1102050101.402</h4>
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Detail</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">รายละเอียดข้อมูลตั้งลูกหนี้</a></li>
                             <li class="breadcrumb-item active">1102050101.402</li>
                         </ol>
                     </div>
@@ -101,7 +101,7 @@ $pos = strrpos($url, '/') + 1;
 
         <div class="row">
             <div class="col-md-12">
-                <div class="card cardacc">
+                <div class="card card_audit_4c">
                     {{-- <div class="card-header">
                     รายละเอียด 1102050101.402
                       
@@ -114,12 +114,13 @@ $pos = strrpos($url, '/') + 1;
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th> 
-                                    <th class="text-center" >vn</th>
+                                    {{-- <th class="text-center" >vn</th> --}}
                                     <th class="text-center" >an</th>
                                     <th class="text-center" >hn</th>
                                     <th class="text-center" >cid</th>
                                     <th class="text-center">ptname</th>
                                     <th class="text-center">vstdate</th> 
+                                    {{-- <th class="text-center">rxdate</th>  --}}
                                     <th class="text-center">dchdate</th> 
                                     <th class="text-center">pttype</th> 
                                     <th class="text-center">income</th> 
@@ -139,17 +140,18 @@ $pos = strrpos($url, '/') + 1;
                                    
                                         <tr>
                                             <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td>  
-                                            <td class="text-center" width="10%">{{ $item->vn }}</td> 
+                                            {{-- <td class="text-center" width="10%">{{ $item->vn }}</td>  --}}
                                             <td class="text-center" width="10%">{{ $item->an }}</td> 
                                             <td class="text-center" width="5%">{{ $item->hn }}</td>   
                                             <td class="text-center" width="10%">{{ $item->cid }}</td>  
                                             <td class="p-2" >{{ $item->ptname }}</td>  
-                                            <td class="text-center" width="8%">{{ $item->vstdate }}</td>   
+                                            <td class="text-center" width="8%">{{ $item->vstdate }}</td>  
+                                            {{-- <td class="text-center" width="8%">{{ $item->rxdate }}</td>   --}}
                                             <td class="text-center" width="8%">{{ $item->dchdate }}</td>  
                                             <td class="text-center" width="5%">{{ $item->pttype }}</td>  
-                                            <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td> 
-                                            <td class="text-center" width="10%">{{ number_format($item->rcpt_money, 2) }}</td> 
-                                            <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>  
+                                            <td class="text-center" style="color:rgb(236, 60, 127)" width="10%">{{ number_format($item->income, 2) }}</td> 
+                                            <td class="text-center" style="color:rgb(10, 179, 128)" width="10%">{{ number_format($item->rcpt_money, 2) }}</td> 
+                                            <td class="text-end" style="color:rgb(31, 106, 192)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>  
                                         </tr>
                                         
                                         <?php
@@ -162,10 +164,10 @@ $pos = strrpos($url, '/') + 1;
 
                             </tbody>
                             <tr style="background-color: #f3fca1">
-                                <td colspan="9" class="text-end" style="background-color: #fca1a1"></td>
-                                <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
-                                <td class="text-center" style="background-color: #FCA533" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
-                                <td class="text-center" style="background-color: #44E952"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td> 
+                                <td colspan="8" class="text-end" style="background-color: rgb(255, 192, 203)""></td>
+                                <td class="text-center" style="background-color: #ec4585"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
+                                <td class="text-center" style="background-color: #1ec585" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
+                                <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td> 
                             </tr>
                         </table>
                     </div>

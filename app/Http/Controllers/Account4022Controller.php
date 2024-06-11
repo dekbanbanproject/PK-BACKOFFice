@@ -212,12 +212,12 @@ class Account4022Controller extends Controller
                     ,a.income,a.uc_money,a.discount_money,a.paid_money,a.rcpt_money
                     ,a.rcpno_list as rcpno
                     ,a.income-a.discount_money-a.rcpt_money as debit
-                 
+                    ,if(op.icode="3010058",sum_price,0) as fokliad
                     ,sum(if(op.income="02",sum_price,0)) as debit_instument
                     ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
                     ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
                     ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
-                    ,(SELECT SUM(sum_price) FROM opitemrece WHERE an = a.an AND icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.4022" AND icode IS NOT NULL)) as fokliad
+                    
                     ,ptt.max_debt_money
 
                     from ipt i
@@ -234,9 +234,10 @@ class Account4022Controller extends Controller
                    
                     AND ipt.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.4022" AND opdipd ="IPD")
                     AND op.icode IN (SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.4022" AND icode IS NOT NULL)
-                    GROUP BY i.an  
+                    GROUP BY i.an,op.rxdate 
             
         ');
+        // ,(SELECT SUM(sum_price) FROM opitemrece WHERE an = a.an AND icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.4022" AND icode IS NOT NULL)) as fokliad
         // ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
         // AND op.icode ="3010058"
         // ,e.code as acc_code  AND ipt.pttype IN("O1","O2","O3","O4","O5")
@@ -244,9 +245,9 @@ class Account4022Controller extends Controller
 
         foreach ($acc_debtor as $key => $value) {
             // $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.4022')->where('rxdate',$value->rxdate)->count();
-            $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.4022')->count();
+            $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.4022')->where('rxdate',$value->rxdate)->count();
             if ($check > 0) {
-                Acc_debtor::where('an', $value->an)->where('account_code','1102050101.4022')->update([   
+                Acc_debtor::where('an', $value->an)->where('account_code','1102050101.4022')->where('rxdate',$value->rxdate)->update([   
                     'income'             => $value->income,
                     'uc_money'           => $value->uc_money,
                     'discount_money'     => $value->discount_money, 
@@ -260,8 +261,7 @@ class Account4022Controller extends Controller
                 //     'discount_money'     => $value->discount_money, 
                 //     'rcpt_money'         => $value->rcpt_money,
                 //     'debit'              => $value->debit, 
-                //     'debit_total'        => $value->fokliad,
-                   
+                //     'debit_total'        => $value->fokliad                   
                 // ]);  
             } else {
                 Acc_debtor::insert([
@@ -300,6 +300,86 @@ class Account4022Controller extends Controller
 
                 'status'    => '200'
             ]);
+    }
+    public function account_pkti4022_checksit(Request $request)
+    {
+        $datestart = $request->datestart;
+        $dateend = $request->dateend;
+        $date = date('Y-m-d');
+        
+        $data_sitss = DB::connection('mysql')->select('SELECT vn,an,cid,vstdate,dchdate FROM acc_debtor WHERE account_code="1102050101.4022" AND stamp = "N" GROUP BY vn');
+ 
+        $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
+        foreach ($token_data as $key => $value) { 
+            $cid_    = $value->cid;
+            $token_  = $value->token;
+        }
+        foreach ($data_sitss as $key => $item) {
+            $pids = $item->cid;
+            $vn   = $item->vn; 
+            $an   = $item->an; 
+                
+                    $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
+                        array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1',"trace" => 1,"exceptions" => 0,"cache_wsdl" => 0)
+                        );
+                        $params = array(
+                            'sequence' => array(
+                                "user_person_id"   => "$cid_",
+                                "smctoken"         => "$token_",
+                                // "user_person_id" => "$value->cid",
+                                // "smctoken"       => "$value->token",
+                                "person_id"        => "$pids"
+                        )
+                    );
+                    $contents = $client->__soapCall('searchCurrentByPID',$params);
+                    foreach ($contents as $v) {
+                        @$status = $v->status ;
+                        @$maininscl = $v->maininscl;
+                        @$startdate = $v->startdate;
+                        @$hmain = $v->hmain ;
+                        @$subinscl = $v->subinscl ;
+                        @$person_id_nhso = $v->person_id;
+
+                        @$hmain_op = $v->hmain_op;  //"10978"
+                        @$hmain_op_name = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
+                        @$hsub = $v->hsub;    //"04047"
+                        @$hsub_name = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
+                        @$subinscl_name = $v->subinscl_name ; //"ช่วงอายุ 12-59 ปี"
+
+                        IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
+                            $date = date("Y-m-d");
+                          
+                            Acc_debtor::where('vn', $vn)
+                            ->update([
+                                'status'         => 'จำหน่าย/เสียชีวิต',
+                                'maininscl'      => @$maininscl,
+                                'pttype_spsch'   => @$subinscl,
+                                'hmain'          => @$hmain,
+                                'subinscl'       => @$subinscl, 
+                            ]);
+                            
+                        }elseif(@$maininscl !="" || @$subinscl !=""){
+                           Acc_debtor::where('vn', $vn)
+                           ->update([
+                               'status'         => @$status,
+                               'maininscl'      => @$maininscl,
+                               'pttype_spsch'   => @$subinscl,
+                               'hmain'          => @$hmain,
+                               'subinscl'       => @$subinscl,
+                           
+                           ]); 
+                                    
+                        }
+
+                    }
+           
+        }
+
+        return response()->json([
+
+           'status'    => '200'
+       ]);
+
     }
     public function account_pkti4022_destroy_all(Request $request)
     {
