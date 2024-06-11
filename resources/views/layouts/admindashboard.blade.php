@@ -236,11 +236,11 @@
                         <div class="col-md-12 text-end">
                             <div class="form-group">
                                 <button type="button" id="SaveChang" class="btn btn-outline-info btn-sm" >
-                                    <i class="fa-solid fa-floppy-disk me-1"></i>
+                                    <i class="fa-solid fa-floppy-disk me-1 text-info"></i>
                                     เปลี่ยน
                                 </button>
                                 <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal"><i
-                                        class="fa-solid fa-xmark me-2"></i>ปิด</button>
+                                        class="fa-solid fa-xmark text-danger me-2"></i>ปิด</button>
 
                             </div>
                         </div>
@@ -358,11 +358,45 @@
             $('#example4').DataTable();
             $('#example5').DataTable();
             $('#example_user').DataTable();
-            // $.ajaxSetup({
-            //     headers: {
-            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //     }
-            // });
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $('#SaveChang').click(function() {
+                var password = $('#password').val();  
+                $.ajax({
+                    url: "{{ route('user.password_update') }}",
+                    type: "POST",
+                    dataType: 'json',
+                    data: { 
+                        password                       
+                    },
+                    success: function(data) {
+                        if (data.status == 200) {
+                            Swal.fire({
+                                title: 'เปลี่ยนรหัสผ่านสำเร็จ',
+                                text: "You Chang password success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result
+                                    .isConfirmed) {
+                                    console.log(
+                                        data);
+                                    window.location.reload();
+                                     
+                                }
+                            })
+                        } else {
+                             
+                        }
+
+                    },
+                });
+            });
         });
 
     </script>

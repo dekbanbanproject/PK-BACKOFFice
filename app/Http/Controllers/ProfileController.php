@@ -149,7 +149,7 @@ class ProfileController extends Controller
         $update = User::find($idper);
 
         $update->password = Hash::make($request->password);
-        
+        $update->passapp = $request->password;
         $update->save();
 
         return response()->json([
