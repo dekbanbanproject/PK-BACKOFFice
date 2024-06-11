@@ -2733,6 +2733,15 @@ class FdhController extends Controller
                 
     }
 
+    public function fdh_mini_dataset_destroy(Request $request)
+    {
+        $id = $request->ids;
+        Fdh_mini_dataset::whereIn('fdh_mini_dataset_id',explode(",",$id))->delete();               
+        return response()->json([
+            'status'    => '200'
+        ]);
+    }
+
     // ********************************** FDH AUTH *********************************
     // public function fdh_mini_dataset_authauto(Request $request)
     // {

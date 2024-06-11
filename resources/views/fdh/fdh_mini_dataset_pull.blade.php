@@ -93,7 +93,7 @@ $pos = strrpos($url, '/') + 1;
     <div class="row"> 
             <div class="col-md-3">
                 <h4 class="card-title" style="color:rgba(21, 177, 164, 0.871)">Detail Financial Data Hub</h4>
-                <p class="card-title-desc">รายละเอียดข้อมูล FDH</p>
+                <p class="card-title-desc">รายละเอียดข้อมูล  FDH MINI DATASET</p>
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
@@ -128,16 +128,27 @@ $pos = strrpos($url, '/') + 1;
         <div class="row">
             <div class="col-md-12">
                 <div class="card card_fdh_4">
-                    <div class="card-header">
-                        FDH MINI DATASET
-                        <div class="btn-actions-pane-right">
-                            <a href="{{url('fdh_mini_dataset_line')}}"><i class="fa-brands fa-line me-5 ms-2" style="font-size: 30px"></i></a>
-                            {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                <i class="pe-7s-science btn-icon-wrapper"></i>Check Auth
-                            </button> --}}
-                        </div>
-                    </div>
+                     
                     <div class="card-body">
+                        <div class="row mb-3">
+                            {{-- <div class="col-md-4">
+                                <h4 class="card-title">Detail Account</h4>
+                                <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
+                            </div> --}}
+                            <div class="col"></div>
+                            <div class="col-md-2 text-end">
+                                <a href="{{url('fdh_mini_dataset_line')}}" class="ladda-button me-2 btn-pill btn btn-info cardacc"><i class="fa-brands fa-line me-2 ms-2" style="font-size: 19px"></i></a>
+                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_402_stam')}}">
+                                    <i class="fa-solid fa-file-waveform me-2"></i>
+                                    ตั้งลูกหนี้
+                                </button> --}}
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-danger cardacc Destroystamp" data-url="{{url('fdh_mini_dataset_destroy')}}">
+                                    <i class="fa-solid fa-trash-can me-2"></i>
+                                    ลบ
+                                </button>
+                             
+                            </div>
+                        </div>
                         <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
@@ -456,6 +467,89 @@ $pos = strrpos($url, '/') + 1;
 
 
         });
+
+        $('.Destroystamp').on('click', function(e) {
+                // alert('oo');
+                var allValls = [];
+                // $(".sub_destroy:checked").each(function () {
+                $(".sub_chk:checked").each(function () {
+                    allValls.push($(this).attr('data-id'));
+                });
+                if (allValls.length <= 0) {
+                    // alert("SSSS");
+                    Swal.fire({
+                        title: 'คุณยังไม่ได้เลือกรายการ ?',
+                        text: "กรุณาเลือกรายการก่อน",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33', 
+                        }).then((result) => {
+                        
+                        })
+                } else {
+                    Swal.fire({
+                        title: 'Are you Want Delete sure?',
+                        text: "คุณต้องการลบรายการนี้ใช่ไหม!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, Delete it.!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                var check = true;
+                                if (check == true) {
+                                    var join_selected_values = allValls.join(",");
+                                    // alert(join_selected_values);
+                                    $("#overlay").fadeIn(300);　
+                                    $("#spinner").show(); //Load button clicked show spinner 
+
+                                    $.ajax({
+                                        url:$(this).data('url'),
+                                        type: 'POST',
+                                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                                        data: 'ids='+join_selected_values,
+                                        success:function(data){ 
+                                                if (data.status == 200) {
+                                                    // $(".sub_destroy:checked").each(function () {
+                                                    $(".sub_chk:checked").each(function () {
+                                                        $(this).parents("tr").remove();
+                                                    });
+                                                    Swal.fire({
+                                                        title: 'ลบข้อมูลสำเร็จ',
+                                                        text: "You Delete data success",
+                                                        icon: 'success',
+                                                        showCancelButton: false,
+                                                        confirmButtonColor: '#06D177',
+                                                        confirmButtonText: 'เรียบร้อย'
+                                                    }).then((result) => {
+                                                        if (result
+                                                            .isConfirmed) {
+                                                            console.log(
+                                                                data);
+                                                            window.location.reload();
+                                                            $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                        }
+                                                    })
+                                                } else {
+                                                    
+                                                }
+                                                 
+                                        }
+                                    });
+                                    $.each(allValls,function (index,value) {
+                                        $('table tr').filter("[data-row-id='"+value+"']").remove();
+                                    });
+                                }
+                            }
+                        }) 
+                    // var check = confirm("Are you want ?");  
+                }
+            });
  
     </script>
 @endsection
