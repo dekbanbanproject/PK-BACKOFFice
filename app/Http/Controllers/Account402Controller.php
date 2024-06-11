@@ -466,11 +466,13 @@ class Account402Controller extends Controller
         $data = DB::select('
             SELECT *
                 from acc_1102050101_402 U1
-                LEFT JOIN acc_stm_ofc U2 on U2.an = U1.an 
+            
                 WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 
-                AND U2.pricereq_all is not null 
+                AND (U1.stm_money IS NOT NULL OR U1.stm_money <> "") 
                 group by U1.an
         ');
+        // LEFT JOIN acc_stm_ofc U2 on U2.an = U1.an 
+        // AND U2.pricereq_all is not null 
         // U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc ,U1.adjrw,U1.total_adjrw_income
         return view('account_402.account_402_stm', $data, [ 
             'data'          =>     $data,
