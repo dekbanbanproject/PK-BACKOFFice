@@ -219,7 +219,7 @@
                 });
                 if (allValls.length <= 0) {
                     // alert("SSSS");
-                    Swal.fire({
+                    Swal.fire({ position: "top-end",
                         title: 'คุณยังไม่ได้เลือกรายการ ?',
                         text: "กรุณาเลือกรายการก่อน",
                         icon: 'warning',
@@ -230,7 +230,7 @@
                         
                         })
                 } else {
-                    Swal.fire({
+                    Swal.fire({ position: "top-end",
                         title: 'Are you sure?',
                         text: "คุณต้องการตั้งลูกหนี้รายการนี้ใช่ไหม!",
                         icon: 'warning',
@@ -257,7 +257,7 @@
                                                     $(".sub_chk:checked").each(function () {
                                                         $(this).parents("tr").remove();
                                                     });
-                                                    Swal.fire({
+                                                    Swal.fire({ position: "top-end",
                                                         title: 'ตั้งลูกหนี้สำเร็จ',
                                                         text: "You Debtor data success",
                                                         icon: 'success',
@@ -301,7 +301,7 @@
             $('#Pulldata').click(function() {
                 var datepicker = $('#datepicker').val(); 
                 var datepicker2 = $('#datepicker2').val(); 
-                Swal.fire({
+                Swal.fire({ position: "top-end",
                         title: 'ต้องการดึงข้อมูลใช่ไหม ?',
                         text: "You Warn Pull Data!",
                         icon: 'warning',
@@ -324,7 +324,7 @@
                                     },
                                     success: function(data) {
                                         if (data.status == 200) { 
-                                            Swal.fire({
+                                            Swal.fire({ position: "top-end",
                                                 title: 'ดึงข้อมูลสำเร็จ',
                                                 text: "You Pull data success",
                                                 icon: 'success',
@@ -357,7 +357,7 @@
                 var datepicker = $('#datepicker').val(); 
                 var datepicker2 = $('#datepicker2').val(); 
                 //    alert(datepicker);
-                Swal.fire({
+                Swal.fire({ position: "top-end",
                         title: 'ต้องการตรวจสอบสอทธิ์ใช่ไหม ?',
                         text: "You Check Sit Data!",
                         icon: 'warning',
@@ -379,7 +379,7 @@
                                 },
                                 success: function(data) {
                                     if (data.status == 200) { 
-                                        Swal.fire({
+                                        Swal.fire({ position: "top-end",
                                             title: 'เช็คสิทธิ์สำเร็จ',
                                             text: "You Check sit success",
                                             icon: 'success',
@@ -417,7 +417,7 @@
                 });
                 if (allValls.length <= 0) {
                     // alert("SSSS");
-                    Swal.fire({
+                    Swal.fire({ position: "top-end",
                         title: 'คุณยังไม่ได้เลือกรายการ ?',
                         text: "กรุณาเลือกรายการก่อน",
                         icon: 'warning',
@@ -428,7 +428,7 @@
                         
                         })
                 } else {
-                    Swal.fire({
+                    Swal.fire({ position: "top-end",
                         title: 'Are you Want Claim sure?',
                         text: "คุณต้องการ Claim รายการนี้ใช่ไหม!",
                         icon: 'warning',
@@ -456,7 +456,7 @@
                                                     $(".sub_chk:checked").each(function () {
                                                         $(this).parents("tr").remove();
                                                     });
-                                                    Swal.fire({
+                                                    Swal.fire({ position: "top-end",
                                                         title: 'ส่งข้อมูลเคลมสำเร็จ',
                                                         text: "You Claim data success",
                                                         icon: 'success',
@@ -509,7 +509,7 @@
                 });
                 if (allValls.length <= 0) {
                     // alert("SSSS");
-                    Swal.fire({
+                    Swal.fire({ position: "top-end",
                         title: 'คุณยังไม่ได้เลือกรายการ ?',
                         text: "กรุณาเลือกรายการก่อน",
                         icon: 'warning',
@@ -520,7 +520,7 @@
                         
                         })
                 } else {
-                    Swal.fire({
+                    Swal.fire({ position: "top-end",
                         title: 'Are you Want Delete sure?',
                         text: "คุณต้องการลบรายการนี้ใช่ไหม!",
                         icon: 'warning',
@@ -548,7 +548,7 @@
                                                     $(".sub_chk:checked").each(function () {
                                                         $(this).parents("tr").remove();
                                                     });
-                                                    Swal.fire({
+                                                    Swal.fire({ position: "top-end",
                                                         title: 'ลบข้อมูลสำเร็จ',
                                                         text: "You Delete data success",
                                                         icon: 'success',
