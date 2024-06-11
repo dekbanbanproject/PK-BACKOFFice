@@ -23,12 +23,17 @@ return new class extends Migration
                 $table->char('serial_no', length: 200)->nullable(); //
                 $table->char('air_location_id', length: 200)->nullable(); //   
                 $table->char('air_location_name', length: 200)->nullable();  // 
-                $table->char('air_problems_a', length: 200)->nullable();  //  
-                $table->char('air_problems_b', length: 200)->nullable();  // 
-                $table->char('air_problems_c', length: 200)->nullable();  // 
-                $table->char('air_problems_d', length: 200)->nullable();  // 
+                
+                $table->char('air_problems_a', length: 200)->nullable();  //  แอร์ไม่เย็น
+                $table->char('air_problems_b', length: 200)->nullable();  // แอร์เสียงดัง
+                $table->char('air_problems_c', length: 200)->nullable();  // แอร์มีน้ำหยด
+                $table->char('air_problems_d', length: 200)->nullable();  // แอร์เปิดไม่ติด
                 $table->char('air_problems_e', length: 200)->nullable();  // 
                 $table->char('air_problems_f', length: 200)->nullable();  // 
+
+                $table->enum('air_status_techout', ['N','R','Y'])->default('Y');   //    พร้อมใช้งาน /ไม่พร้อมใช้งาน
+                $table->char('air_techout_name', length: 200)->nullable();          //     ช่างนอก
+                $table->longText('air_techout_base')->nullable();  
 
                 $table->enum('air_status_staff', ['N','R','Y'])->default('Y');   //    พร้อมใช้งาน /ไม่พร้อมใช้งาน
                 $table->char('air_staff_id', length: 200)->nullable();          //     เจ้าหน้าที่หน้างานรับทราบ

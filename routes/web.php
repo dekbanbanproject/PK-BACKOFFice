@@ -35,6 +35,9 @@ use App\Models\Fire;
 Route::match(['get','post'],'fire_pramuan',[App\Http\Controllers\FireController::class, 'fire_pramuan'])->name('prs.fire_pramuan');//
 Route::match(['get','post'],'fire_pramuan_save',[App\Http\Controllers\FireController::class, 'fire_pramuan_save'])->name('prs.fire_pramuan_save');//
 Route::match(['get','post'],'fire_detail/{id}',[App\Http\Controllers\FireController::class, 'fire_detail'])->name('prs.fire_detail');//
+
+Route::match(['get','post'],'air_repiare/{id}',[App\Http\Controllers\AirController::class, 'air_repiare'])->name('prs.air_repiare');//
+
 // ***************   Report  **********************************
 Route::match(['get','post'],'ins_dashboard',[App\Http\Controllers\InstrumentController::class, 'ins_dashboard'])->name('ins.ins_dashboard');//
 Route::match(['get','post'],'ins_a',[App\Http\Controllers\InstrumentController::class, 'ins_a'])->name('ins.ins_a');//
@@ -3342,7 +3345,7 @@ Route::match(['get','post'],'air_destroy/{id}',[App\Http\Controllers\AirControll
 Route::match(['get','post'],'air_qrcode_all',[App\Http\Controllers\AirController::class, 'air_qrcode_all'])->name('prs.air_qrcode_all');//
 Route::match(['get','post'],'air_qrcode_detail_all',[App\Http\Controllers\AirController::class, 'air_qrcode_detail_all'])->name('prs.air_qrcode_detail_all');//
 Route::match(['get','post'],'air_qrcode/{id}',[App\Http\Controllers\AirController::class, 'air_qrcode'])->name('prs.air_qrcode');//
-Route::match(['get','post'],'air_repiare/{id}',[App\Http\Controllers\AirController::class, 'air_repiare'])->name('prs.air_repiare');//
+
 Route::match(['get','post'],'air_qrcode_repaire',[App\Http\Controllers\AirController::class, 'air_qrcode_repaire'])->name('prs.air_qrcode_repaire');//
 
 });

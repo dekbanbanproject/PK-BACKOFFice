@@ -39,7 +39,7 @@ use App\Models\Acc_stm_ti_totalhead;
 use App\Models\Acc_stm_ti_excel;
 use App\Models\Acc_stm_ofc;
 use App\Models\acc_stm_ofcexcel;
-use App\Models\Acc_stm_lgo;
+use App\Models\Air_repaire;
 use App\Models\Air_list;
 use App\Models\Product_buy;
 use App\Models\Fire_pramuan;
@@ -130,15 +130,18 @@ class AirController extends Controller
             ->where('air_list.air_list_id', '=', $id)
             ->get();
 
-            $data_detail_ = Fire::where('fire_num', '=', $id)->first();
-            $signat = $data_detail_->fire_img_base;
-            $pic_fire = base64_encode(file_get_contents($signat));  
+            $data['air_repaire_ploblem']        = DB::table('air_repaire_ploblem')->get();
+
+            $data_detail_ = Air_list::where('air_list_id', '=', $id)->first();
+            // $signat = $data_detail_->air_img_base;
+            // $pic_fire = base64_encode(file_get_contents($signat));  
       
-            return view('support_prs.air.air_repiare', [
+            // dd($data_detail_);
+            return view('support_prs.air.air_repiare',$data, [
                 // 'dataprint'    => $dataprint,
                 'data_detail'   => $data_detail,
                 'data_detail_'  => $data_detail_,
-                'pic_fire'      => $pic_fire,
+                // 'pic_fire'      => $pic_fire,
                 'id'            => $id
             ]);
         
