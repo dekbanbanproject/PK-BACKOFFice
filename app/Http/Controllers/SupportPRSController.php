@@ -215,6 +215,12 @@ class SupportPRSController extends Controller
         $count_green_all               = Fire::where('fire_color','green')->where('fire_edit','Narmal')->where('fire_backup','N')->count(); 
         $count_red_allactive           = Fire::where('fire_color','red')->where('active','Y')->where('fire_edit','Narmal')->where('fire_backup','N')->count(); 
         $count_green_allactive         = Fire::where('fire_color','green')->where('active','Y')->where('fire_edit','Narmal')->where('fire_backup','N')->count(); 
+
+        $count_red_alls_                 = Fire::where('fire_color','red')->where('fire_edit','Narmal')->count(); 
+        $count_green_alls_               = Fire::where('fire_color','green')->where('fire_edit','Narmal')->count(); 
+        $count_red_allactives_           = Fire::where('fire_color','red')->where('active','Y')->where('fire_edit','Narmal')->count(); 
+        $count_green_allactives_         = Fire::where('fire_color','green')->where('active','Y')->where('fire_edit','Narmal')->count(); 
+
         $data['count_red_back']        = Fire::where('fire_color','red')->where('fire_backup','Y')->count(); 
         $data['count_green_back']      = Fire::where('fire_color','green')->where('fire_backup','Y')->count(); 
         // Narmal
@@ -228,13 +234,13 @@ class SupportPRSController extends Controller
                     // $dataset_s[] = [ 
                         // $count_color_qty         = $value->count_color;
                         // $count_color_percent     = 100 / $count_red * $value->count_color;
-                        $count_red_percent          = 100 / $count_red_all * $value->count_red; 
+                        $count_red_percent          = 100 / $count_red_alls_ * $value->count_red; 
                         $count_color_red_qty        = $value->count_red;
-                        $count_red_alls             = $count_red_all;
+                        $count_red_alls             = $count_red_alls_;
 
-                        $count_green_percent        = 100 / $count_green_all * $value->count_greens; 
+                        $count_green_percent        = 100 / $count_green_alls_ * $value->count_greens; 
                         $count_color_green_qty      = $value->count_greens;
-                        $count_green_alls           = $count_green_all;
+                        $count_green_alls           = $count_green_alls_;
                     // ];
                 }else {
                     $count_red_percent = '';
@@ -391,11 +397,11 @@ class SupportPRSController extends Controller
         // $count_red                     = Fire::where('fire_color','red')->where('fire_edit','Narmal')->where('fire_backup','N')->count(); 
         // $count_green                   = Fire::where('fire_color','green')->where('fire_edit','Narmal')->where('fire_backup','N')->count();
 
-        $count_red_all                 = Fire::where('fire_color','red')->where('fire_edit','Narmal')->where('fire_backup','N')->count(); 
-        $count_green_all               = Fire::where('fire_color','green')->where('fire_edit','Narmal')->where('fire_backup','N')->count();
+        $count_red_all                 = Fire::where('fire_color','red')->where('fire_edit','Narmal')->count(); 
+        $count_green_all               = Fire::where('fire_color','green')->where('fire_edit','Narmal')->count();
 
-        $count_red_allactive           = Fire::where('fire_color','red')->where('active','Y')->where('fire_edit','Narmal')->where('fire_backup','N')->count(); 
-        $count_green_allactive         = Fire::where('fire_color','green')->where('active','Y')->where('fire_edit','Narmal')->where('fire_backup','N')->count(); 
+        $count_red_allactive           = Fire::where('fire_color','red')->where('active','Y')->where('fire_edit','Narmal')->count(); 
+        $count_green_allactive         = Fire::where('fire_color','green')->where('active','Y')->where('fire_edit','Narmal')->count(); 
 
         $data['count_red_back']        = Fire::where('fire_color','red')->where('fire_backup','Y')->count(); 
         $data['count_green_back']      = Fire::where('fire_color','green')->where('fire_backup','Y')->count();
