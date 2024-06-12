@@ -1216,7 +1216,7 @@ class ApiController extends Controller
      { 
             $date = date('Y-m-d');
             $iduser = "754"; 
-            $data_vn_1 = DB::connection('mysql')->select('SELECT * from fdh_mini_dataset WHERE active ="N" AND cid <> "" AND (transaction_uid ="" OR transaction_uid IS NULL) AND invoice_number <>"" LIMIT 10');            
+            $data_vn_1 = DB::connection('mysql')->select('SELECT * from fdh_mini_dataset WHERE active ="N" AND cid <> "" AND (transaction_uid ="" OR transaction_uid IS NULL) AND invoice_number <>"" LIMIT 20');            
             $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE active_mini = "Y" AND user_id = "'.$iduser.'"');
             foreach ($data_token_ as $key => $val_to) {
                 $token_   = $val_to->api_neweclaim_token;
