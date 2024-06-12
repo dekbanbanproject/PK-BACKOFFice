@@ -2470,6 +2470,25 @@ class FdhController extends Controller
                             'pdx'        => $value_1->pdx, 
                         ]);
                     }
+                    // $check2 = Fdh_mini_dataset::where('vn', $value_1->vn)->count();
+                    // if ($check2 > 0) { 
+                    // } else {
+                    //     Fdh_mini_dataset::insert([
+                    //         'vn'         => $value_1->vn, 
+                    //         'hn'         => $value_1->hn,
+                    //         'cid'        => $value_1->cid,
+                    //         'vstdate'    => $value_1->vstdate,
+                    //         'hcode'      => '10978', 
+                    //         'ptname'     => $value_1->fullname,
+                    //         'pttype'     => $value_1->pttype,
+                    //         'hospmain'   => $value_1->hospmain,
+                    //         'hospsub'    => $value_1->hospsub, 
+                    //         'staff'      => $value_1->staff, 
+                    //         'debit'      => $value_1->debit,
+                    // ]);
+                    // }
+                    
+                   
             }
 
             $data['fdh_mini_dataset']    = DB::connection('mysql')->select(

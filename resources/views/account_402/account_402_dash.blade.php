@@ -273,15 +273,18 @@
                                                         {{$item->MONTH_NAME}} {{$ynew}}
                                                     </td>    
                                                     <td class="text-end" style="color:rgb(73, 147, 231)" width="10%"> {{ number_format($item->income, 2) }}</td>                                      
-                                                    <td class="text-end" style="color:rgb(6, 82, 170);background-color: rgb(203, 227, 255)" width="10%"> {{ number_format($sum_N, 2) }}</td>                                                    
+                                                    <td class="text-end" style="color:rgb(6, 82, 170);background-color: rgb(203, 227, 255)" width="10%">
+                                                        <a href="{{url('account_402_pull')}}" target="_blank" style="color:rgb(5, 58, 173);"> {{ number_format($sum_N, 2) }}</a>
+                                                    </td>                                                    
                                                     <td class="text-end" style="color:rgb(231, 73, 139);background-color: rgb(203, 227, 255)" width="10%"> 
-                                                        <a href="{{url('account_402_detail/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(231, 73, 139);"> {{ number_format($total_sumY, 2) }}</a>
-                                                     
+                                                        <a href="{{url('account_402_detail/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(231, 73, 139);"> {{ number_format($total_sumY, 2) }}</a> 
                                                     </td> 
                                                     <td class="text-end" style="color:rgb(2, 116, 63);background-color: rgb(203, 227, 255)" width="10%"> 
                                                          <a href="{{url('account_402_stm/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(2, 116, 63);"> {{ number_format($sum_stm_money, 2) }}</a> 
                                                     </td> 
-                                                    <td class="text-end" style="color:rgb(45, 57, 230);background-color: rgb(255, 174, 201)" width="10%"> {{ number_format($sum_N4022, 2) }}</td> 
+                                                    <td class="text-end" style="color:rgb(45, 57, 230);background-color: rgb(255, 174, 201)" width="10%"> 
+                                                       <a href="{{url('account_pkti4022_pull')}}" target="_blank" style="color:rgb(21, 85, 223);"> {{ number_format($sum_N4022, 2) }}</a>
+                                                    </td> 
                                                     <td class="text-end" width="10%" style="background-color: rgb(255, 174, 201)">  
                                                         <a href="{{url('account_pkti4022_detail/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(101, 12, 153);"> {{ number_format($sum_fokliad, 2) }}</a>
                                                     </td>                                               
@@ -306,8 +309,8 @@
                                     </tbody>
                                     <tr style="background-color: #f3fca1">
                                         <td colspan="2" class="text-end" style="background-color: #fca1a1"></td>
-                                        <td class="text-end" style="background-color: #055fb4"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
-                                        <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
+                                        <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
+                                        <td class="text-end" style="background-color: #033a6d"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
                                         <td class="text-end" style="background-color: #fc5089"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td>
                                         <td class="text-end" style="background-color: #149966" ><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td> 
                                         <td class="text-end" style="background-color: #2e41e9" ><label for="" style="color: #FFFFFF">{{ number_format($total7, 2) }}</label></td> 

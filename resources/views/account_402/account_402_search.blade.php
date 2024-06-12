@@ -97,7 +97,7 @@
         
         <div class="row ">
             <div class="col-md-12">
-                <div class="card cardacc">
+                <div class="card card_audit_4c">
                     {{-- <div class="card-header"> 
                        รายละเอียดตั้งลูกหนี้ผัง 1102050101.202
                         <div class="btn-actions-pane-right">                           

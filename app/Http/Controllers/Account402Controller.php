@@ -302,7 +302,7 @@ class Account402Controller extends Controller
                         'debit_instument'    => $value->debit_instument,
                         'debit_toa'          => $value->debit_toa,
                         'debit_refer'        => $value->debit_refer,
-                        'debit_total'        => $value->debit,
+                        'debit_total'        => $value->debit - $value->fokliad,
                         'max_debt_amount'    => $value->max_debt_money,
                         'rw'                 => $value->rw,
                         'adjrw'              => $value->adjrw,
