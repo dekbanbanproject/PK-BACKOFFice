@@ -2043,6 +2043,15 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_3011_dash',[App\Http\Controllers\Account3011Controller::class, 'account_3011_dash'])->name('acc.account_3011_dash');//
     Route::match(['get','post'],'account_3011_pull',[App\Http\Controllers\Account3011Controller::class, 'account_3011_pull'])->name('acc.account_3011_pull');//
     Route::match(['get','post'],'account_3011_pulldata',[App\Http\Controllers\Account3011Controller::class, 'account_3011_pulldata'])->name('acc.account_3011_pulldata');//
+    Route::match(['get','post'],'account_3011_stam',[App\Http\Controllers\Account3011Controller::class, 'account_3011_stam'])->name('acc.account_3011_stam');//
+    Route::match(['get','post'],'account_3011_stm/{months}/{year}',[App\Http\Controllers\Account3011Controller::class, 'account_3011_stm'])->name('acc.account_3011_stm');//
+    Route::match(['get','post'],'account_3011_detail/{startdate}/{enddate}',[App\Http\Controllers\Account3011Controller::class, 'account_3011_detail'])->name('acc.account_3011_detail');//
+    Route::match(['get','post'],'account_3011_detail_date',[App\Http\Controllers\Account3011Controller::class, 'account_3011_detail_date'])->name('acc.account_3011_detail_date');//
+    Route::match(['get','post'],'account_3011_search',[App\Http\Controllers\Account3011Controller::class, 'account_3011_search'])->name('acc.account_3011_search');// 
+    Route::match(['get','post'],'account_3011_destroy',[App\Http\Controllers\Account3011Controller::class, 'account_3011_destroy'])->name('acc.account_3011_destroy');//
+    
+
+
 
     Route::match(['get','post'],'account_3013_dash',[App\Http\Controllers\Account3013Controller::class, 'account_3013_dash'])->name('acc.account_3013_dash');// 
     Route::match(['get','post'],'account_3013_pull',[App\Http\Controllers\Account3013Controller::class, 'account_3013_pull'])->name('acc.account_3013_pull');//

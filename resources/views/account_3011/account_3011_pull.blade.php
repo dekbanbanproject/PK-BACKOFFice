@@ -93,8 +93,8 @@
        
         <div class="row"> 
             <div class="col-md-4">
-                <h5 class="card-title">Detail 1102050101.301</h5>
-                <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.301</p>
+                <h5 class="card-title">Detail 1102050101.3011</h5>
+                <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.3011</p>
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
@@ -121,7 +121,7 @@
         
         <div class="row">
             <div class="col-xl-12">
-                <div class="card cardacc">
+                <div class="card card_audit_4c">
                     <div class="card-body">
                        
                       
@@ -132,11 +132,11 @@
                             </div> --}}
                             <div class="col"></div>
                             <div class="col-md-2 text-end mb-2">
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_301_stam')}}">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_3011_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
                                 </button>
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-danger cardacc Destroystamp" data-url="{{url('account_301_destroy_all')}}">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-danger cardacc Destroystamp" data-url="{{url('account_3011_destroy')}}">
                                     <i class="fa-solid fa-trash-can me-2"></i>
                                     ลบ
                                 </button>
@@ -248,7 +248,7 @@
                 });
                 if (allValls.length <= 0) {
                     // alert("SSSS");
-                    Swal.fire({
+                    Swal.fire({position: "top-end",
                         title: 'คุณยังไม่ได้เลือกรายการ ?',
                         text: "กรุณาเลือกรายการก่อน",
                         icon: 'warning',
@@ -259,7 +259,7 @@
                         
                         })
                 } else {
-                    Swal.fire({
+                    Swal.fire({position: "top-end",
                         title: 'Are you sure?',
                         text: "คุณต้องการตั้งลูกหนี้รายการนี้ใช่ไหม!",
                         icon: 'warning',
@@ -286,7 +286,7 @@
                                                     $(".sub_chk:checked").each(function () {
                                                         $(this).parents("tr").remove();
                                                     });
-                                                    Swal.fire({
+                                                    Swal.fire({position: "top-end",
                                                         title: 'ตั้งลูกหนี้สำเร็จ',
                                                         text: "You Debtor data success",
                                                         icon: 'success',
@@ -330,7 +330,7 @@
             $('#Pulldata').click(function() {
                 var datepicker = $('#datepicker').val(); 
                 var datepicker2 = $('#datepicker2').val(); 
-                Swal.fire({
+                Swal.fire({position: "top-end",
                         title: 'ต้องการดึงข้อมูลใช่ไหม ?',
                         text: "You Warn Pull Data!",
                         icon: 'warning',
@@ -353,7 +353,7 @@
                                     },
                                     success: function(data) {
                                         if (data.status == 200) { 
-                                            Swal.fire({
+                                            Swal.fire({position: "top-end",
                                                 title: 'ดึงข้อมูลสำเร็จ',
                                                 text: "You Pull data success",
                                                 icon: 'success',
@@ -386,7 +386,7 @@
                 var datepicker = $('#datepicker').val(); 
                 var datepicker2 = $('#datepicker2').val(); 
                 //    alert(datepicker);
-                Swal.fire({
+                Swal.fire({position: "top-end",
                         title: 'ต้องการตรวจสอบสอทธิ์ใช่ไหม ?',
                         text: "You Check Sit Data!",
                         icon: 'warning',
@@ -408,7 +408,7 @@
                                 },
                                 success: function(data) {
                                     if (data.status == 200) { 
-                                        Swal.fire({
+                                        Swal.fire({position: "top-end",
                                             title: 'เช็คสิทธิ์สำเร็จ',
                                             text: "You Check sit success",
                                             icon: 'success',
@@ -445,7 +445,7 @@
                 });
                 if (allValls.length <= 0) {
                     // alert("SSSS");
-                    Swal.fire({
+                    Swal.fire({position: "top-end",
                         title: 'คุณยังไม่ได้เลือกรายการ ?',
                         text: "กรุณาเลือกรายการก่อน",
                         icon: 'warning',
@@ -456,7 +456,7 @@
                         
                         })
                 } else {
-                    Swal.fire({
+                    Swal.fire({position: "top-end",
                         title: 'Are you Want Delete sure?',
                         text: "คุณต้องการลบรายการนี้ใช่ไหม!",
                         icon: 'warning',
@@ -483,7 +483,7 @@
                                                     $(".sub_chk:checked").each(function () {
                                                         $(this).parents("tr").remove();
                                                     });
-                                                    Swal.fire({
+                                                    Swal.fire({position: "top-end",
                                                         title: 'ลบข้อมูลสำเร็จ',
                                                         text: "You Delete data success",
                                                         icon: 'success',
