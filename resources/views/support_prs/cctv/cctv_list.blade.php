@@ -1,5 +1,5 @@
 @extends('layouts.support_prs')
-@section('title', 'PK-OFFICERR || CCTV')
+@section('title', 'PK-OFFICER || CCTV')
  
 @section('content')
     <script>

@@ -1,5 +1,5 @@
 @extends('layouts.fdh_font')
-@section('title', 'PK-OFFICERR || FDH')
+@section('title', 'PK-OFFICER || FDH')
 @section('content')
  
 <div class="tabs-animation">

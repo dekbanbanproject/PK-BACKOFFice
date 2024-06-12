@@ -1,5 +1,5 @@
 @extends('layouts.person')
-@section('title', 'PK-OFFICERR || Day-Off')
+@section('title', 'PK-OFFICER || Day-Off')
 
      <?php
      use App\Http\Controllers\P4pController;

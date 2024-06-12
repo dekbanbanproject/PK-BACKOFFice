@@ -1149,7 +1149,7 @@
                                                         <hr style="height: 2px;color:white;">
  
                                                         <h3 style="color:rgb(136, 43, 241)" class="Head2 text-center"> 
-                                                             BY ทีมพัฒนา PK-OFFICERR
+                                                             BY ทีมพัฒนา PK-OFFICER
                                                         </h3>  
                                                         
                                             @endif

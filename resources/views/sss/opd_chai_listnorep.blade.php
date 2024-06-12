@@ -1,5 +1,5 @@
 @extends('layouts.pkclaim')
-@section('title', 'PK-OFFICERR || ประกันสังคม')
+@section('title', 'PK-OFFICER || ประกันสังคม')
 @section('content')
     <?php
     if (Auth::check()) {

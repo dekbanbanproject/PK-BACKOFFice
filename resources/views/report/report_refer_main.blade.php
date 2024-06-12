@@ -1,6 +1,6 @@
 {{-- @extends('layouts.pkclaim_refer') --}}
 @extends('layouts.user')
-@section('title','PK-OFFICERR || ผู้ใช้งานทั่วไป')
+@section('title','PK-OFFICER || ผู้ใช้งานทั่วไป')
 @section('content')
 <script>
     function TypeAdmin() {

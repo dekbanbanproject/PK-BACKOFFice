@@ -105,11 +105,11 @@
                     <div class="col-md-6">
                         <script>
                             document.write(new Date().getFullYear())
-                        </script>© โรงพยาบาลภูเขียวเฉลิมพระเกียรติ <i class="mdi mdi-heart text-danger"></i> PK-OFFICERRR
+                        </script>© โรงพยาบาลภูเขียวเฉลิมพระเกียรติ <i class="mdi mdi-heart text-danger"></i> PK-OFFICERR
                     </div>
                     {{-- <div class="col-md-6">
                         <div class="text-sm-end d-none d-sm-block">
-                            Created with <i class="mdi mdi-heart text-danger"></i> by PK-OFFICERR
+                            Created with <i class="mdi mdi-heart text-danger"></i> by PK-OFFICER
                         </div>
                     </div> --}}
                 </div>

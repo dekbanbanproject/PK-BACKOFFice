@@ -1,5 +1,5 @@
 @extends('layouts.meettingnew')
-@section('title', 'PK-OFFICERR || ห้องประชุม')
+@section('title', 'PK-OFFICER || ห้องประชุม')
 
 <?php
 use App\Http\Controllers\StaticController;

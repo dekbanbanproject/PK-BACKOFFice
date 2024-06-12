@@ -113,7 +113,7 @@ background-repeat: no-repeat;
                                     </span>
                                     <span class="logo-lg">
                                         {{-- <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-dark" height="20"> --}}
-                                        <h4 style="color:rgba(23, 189, 147, 0.74)" class="mt-4">PK-OFFICERR</h4>
+                                        <h4 style="color:rgba(23, 189, 147, 0.74)" class="mt-4">PK-OFFICER</h4>
                                     </span>
                                 </a>
         
@@ -123,7 +123,7 @@ background-repeat: no-repeat;
                                             height="40">
                                     </span>
                                     <span class="logo-lg">
-                                        <h4 style="color:rgba(23, 189, 147, 0.74)" class="mt-4">PK-OFFICERR</h4>
+                                        <h4 style="color:rgba(23, 189, 147, 0.74)" class="mt-4">PK-OFFICER</h4>
                                     </span>
                                 </a>
                             </div>
@@ -257,7 +257,7 @@ background-repeat: no-repeat;
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="text-sm-end d-none d-sm-block">
-                                        Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-OFFICERR
+                                        Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-OFFICER
                                     </div>
                                 </div>
                             </div>

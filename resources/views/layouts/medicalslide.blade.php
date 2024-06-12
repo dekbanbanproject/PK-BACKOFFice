@@ -101,7 +101,7 @@
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h5 style="color:rgb(54, 53, 53)" class="mt-4">PK-OFFICERR</h5> 
+                                <h5 style="color:rgb(54, 53, 53)" class="mt-4">PK-OFFICER</h5> 
                             </span>
                         </a>
                     </div>
@@ -261,7 +261,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-OFFICERR
+                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-OFFICER
                             </div>
                         </div>
                     </div>

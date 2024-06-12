@@ -1,5 +1,5 @@
 @extends('layouts.admin_setting')
-@section('title', 'PK-OFFICERR || กำหนดสิทธิ์การเห็นชอบ')
+@section('title', 'PK-OFFICER || กำหนดสิทธิ์การเห็นชอบ')
 
 
 @section('content')

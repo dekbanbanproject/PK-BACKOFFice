@@ -1,7 +1,7 @@
 @extends('layouts.medicalslide')
 {{-- @extends('layouts.medicalhozi') --}}
 
-@section('title', 'PK-OFFICERR || เครื่องมือแพทย์')
+@section('title', 'PK-OFFICER || เครื่องมือแพทย์')
 @section('content')
     <script>
         function TypeAdmin() {

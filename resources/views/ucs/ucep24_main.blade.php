@@ -1,5 +1,5 @@
 @extends('layouts.fdh')
-@section('title', 'PK-OFFICERR || UCS')
+@section('title', 'PK-OFFICER || UCS')
 @section('content')
 <script>
     function TypeAdmin() {

@@ -1,5 +1,5 @@
 @extends('layouts.admin_setting')
-@section('title', 'PK-OFFICERR || หน่วยงาน')
+@section('title', 'PK-OFFICER || หน่วยงาน')
 
 @section('content')
 <script>

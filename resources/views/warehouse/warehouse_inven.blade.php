@@ -1,5 +1,5 @@
 @extends('layouts.warehouse_new')
-@section('title', 'PK-OFFICERR || คลังวัสดุ')
+@section('title', 'PK-OFFICER || คลังวัสดุ')
 @section('content')
     <style>
         #button {

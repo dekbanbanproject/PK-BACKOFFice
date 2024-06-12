@@ -1,5 +1,5 @@
 @extends('layouts.user')
-@section('title', 'PK-OFFICERR || คลังย่อย')
+@section('title', 'PK-OFFICER || คลังย่อย')
 @section('content')
 
     <script>

@@ -1,5 +1,5 @@
 @extends('layouts.report_font')
-@section('title', 'PK-OFFICERR || Detail')
+@section('title', 'PK-OFFICER || Detail')
 @section('content')
 <style>
     #button{

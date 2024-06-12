@@ -1,5 +1,5 @@
 @extends('layouts.repaire')
-@section('title', 'PK-OFFICERR || แจ้งซ่อมทั่วไป')
+@section('title', 'PK-OFFICER || แจ้งซ่อมทั่วไป')
 @section('content')
     <script>
         function TypeAdmin() {

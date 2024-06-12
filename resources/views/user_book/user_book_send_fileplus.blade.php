@@ -1,5 +1,5 @@
 @extends('layouts.user')
-@section('title','PK-OFFICERR || หนังสือเข้า')
+@section('title','PK-OFFICER || หนังสือเข้า')
 
 
 @section('content')

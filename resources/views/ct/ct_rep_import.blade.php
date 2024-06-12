@@ -1,5 +1,5 @@
 @extends('layouts.ctnew')
-@section('title', 'PK-OFFICERR || CT')
+@section('title', 'PK-OFFICER || CT')
 
 @section('content')
     <script>

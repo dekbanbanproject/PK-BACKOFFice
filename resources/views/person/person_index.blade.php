@@ -1,5 +1,5 @@
 @extends('layouts.person')
-@section('title', 'PK-OFFICERR || บุคลากร')
+@section('title', 'PK-OFFICER || บุคลากร')
 @section('content') 
 <script>
     function TypeAdmin() {

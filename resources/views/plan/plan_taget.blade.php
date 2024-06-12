@@ -1,5 +1,5 @@
 @extends('layouts.plannew')
-@section('title','PK-OFFICERR || Plan')
+@section('title','PK-OFFICER || Plan')
 @section('content')
 <script>
     function TypeAdmin() {

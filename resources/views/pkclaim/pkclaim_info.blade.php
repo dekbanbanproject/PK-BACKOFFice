@@ -1,5 +1,5 @@
 @extends('layouts.pkclaim')
-@section('title', 'PK-OFFICERR || KPI-งานประกัน')
+@section('title', 'PK-OFFICER || KPI-งานประกัน')
 @section('content')
     <style>
         * {

@@ -1,5 +1,5 @@
 @extends('layouts.audiovi')
-@section('title', 'PK-OFFICERR || Sot')
+@section('title', 'PK-OFFICER || Sot')
 @section('content')
     <script>
         function TypeAdmin() {

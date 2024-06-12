@@ -1,5 +1,5 @@
 @extends('layouts.auto')
-@section('title', 'PK-OFFICERR || Auto')
+@section('title', 'PK-OFFICER || Auto')
 @section('content')
 
     <div class="tabs-animation">

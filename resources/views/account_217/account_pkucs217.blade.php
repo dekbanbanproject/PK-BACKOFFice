@@ -1,5 +1,5 @@
 @extends('layouts.accountpk')
-@section('title', 'PK-OFFICERR || ACCOUNT')
+@section('title', 'PK-OFFICER || ACCOUNT')
   
 @section('content')
     <script>

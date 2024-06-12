@@ -214,7 +214,7 @@ $pos = strrpos($url, '/') + 1;
         <a class="navbar-brand" href="{{ url('admin/home') }}">
             {{-- {{ config('app.name', 'Laravel') }} --}}
             {{-- <img src="{{ asset('apkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40"> --}}
-          <label for="" style="color: white;font-size:25px;" class="ms-2 mt-2 text-center">PK-OFFICERR</label>
+          <label for="" style="color: white;font-size:25px;" class="ms-2 mt-2 text-center">PK-OFFICER</label>
             {{-- class="ms-2 mt-2">PKClaim</label> --}}
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">

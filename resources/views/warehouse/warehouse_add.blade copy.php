@@ -1,5 +1,5 @@
 @extends('layouts.warehouse')
-@section('title', 'PK-OFFICERR || คลังวัสดุ')
+@section('title', 'PK-OFFICER || คลังวัสดุ')
 <script>
     function TypeAdmin() {
         window.location.href = '{{ route('index') }}';

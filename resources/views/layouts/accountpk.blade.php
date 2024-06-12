@@ -189,7 +189,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                             </span>
                             <span class="logo-lg">
                                 {{-- <img src="{{ asset('assets/images/logo-dark.png') }}" alt="logo-dark" height="20"> --}}
-                                <h4 style="color:pink" class="mt-4">PK-OFFICERR</h4>
+                                <h4 style="color:pink" class="mt-4">PK-OFFICER</h4>
                             </span>
                         </a>
 
@@ -199,7 +199,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:pink" class="mt-4">PK-OFFICERR</h4>
+                                <h4 style="color:pink" class="mt-4">PK-OFFICER</h4>
                             </span>
                         </a>
                     </div>
@@ -887,7 +887,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-OFFICERR
+                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-OFFICER
                             </div>
                         </div>
                     </div>

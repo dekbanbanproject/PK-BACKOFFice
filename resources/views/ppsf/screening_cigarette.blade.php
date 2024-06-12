@@ -1,5 +1,5 @@
 @extends('layouts.screening')
-@section('title', 'PK-OFFICERR || PP')
+@section('title', 'PK-OFFICER || PP')
 @section('content')
   
 <div class="tabs-animation">

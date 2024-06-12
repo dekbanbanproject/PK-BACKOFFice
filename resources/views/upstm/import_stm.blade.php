@@ -1,5 +1,5 @@
 @extends('layouts.upstm')
-@section('title', 'PK-OFFICERR || Stm')
+@section('title', 'PK-OFFICER || Stm')
  
 @section('content')
 

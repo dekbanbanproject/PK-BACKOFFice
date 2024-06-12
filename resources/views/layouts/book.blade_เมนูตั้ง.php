@@ -183,7 +183,7 @@
                         <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                         <button type="button" class="btn header-item waves-effect" data-bs-toggle="dropdown"
                             aria-haspopup="false" aria-expanded="false">
-                            <h4 style="color:rgb(109, 14, 172)" class="mt-3">PK-OFFICERR</h4>
+                            <h4 style="color:rgb(109, 14, 172)" class="mt-3">PK-OFFICER</h4>
 
                         </button>
                     </div>

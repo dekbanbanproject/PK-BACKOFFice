@@ -1,6 +1,6 @@
 {{-- @extends('layouts.accpk') --}}
 @extends('layouts.warehouse')
-@section('title', 'PK-OFFICERR || คลังวัสดุ')
+@section('title', 'PK-OFFICER || คลังวัสดุ')
 @section('content')
 <script>
     function TypeAdmin() {

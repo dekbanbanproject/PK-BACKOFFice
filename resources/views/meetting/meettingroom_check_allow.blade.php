@@ -1,5 +1,5 @@
 @extends('layouts.meetting')
-@section('title', 'PK-OFFICERR || ห้องประชุม')
+@section('title', 'PK-OFFICER || ห้องประชุม')
 
 {{-- @section('menu')
     <style>

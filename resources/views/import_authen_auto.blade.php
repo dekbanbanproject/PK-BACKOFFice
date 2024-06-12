@@ -1,6 +1,6 @@
 {{-- @extends('layouts.authenthemes_new') --}}
 @extends('layouts.rpst_themes')
-@section('title', 'PK-OFFICERR || Authen Code')
+@section('title', 'PK-OFFICER || Authen Code')
 @section('content')
 
     <div class="tabs-animation">

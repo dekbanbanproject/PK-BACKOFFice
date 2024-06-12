@@ -1,5 +1,5 @@
 @extends('layouts.reportall')
-@section('title', 'PK-OFFICERR || Report-จำนวนการเกิด Respiratory failure ในผู้ป่วย Pneumonia >= 15ปี')
+@section('title', 'PK-OFFICER || Report-จำนวนการเกิด Respiratory failure ในผู้ป่วย Pneumonia >= 15ปี')
 
 @section('content')
     <script>

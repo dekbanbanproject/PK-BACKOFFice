@@ -1,6 +1,6 @@
 
 @extends('layouts.adminbackup')
-@section('title', 'PK-OFFICERR || Backup')
+@section('title', 'PK-OFFICER || Backup')
 
 @section('content')
 <?php

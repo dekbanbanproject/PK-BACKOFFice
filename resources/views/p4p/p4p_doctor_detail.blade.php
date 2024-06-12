@@ -1,5 +1,5 @@
 @extends('layouts.p4pnew')
-@section('title', 'PK-OFFICERR || P4P')
+@section('title', 'PK-OFFICER || P4P')
 @section('content')
     <script>
         function TypeAdmin() {

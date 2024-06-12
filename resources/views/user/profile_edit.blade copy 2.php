@@ -1,5 +1,5 @@
 @extends('layouts.user')
-@section('title', 'PK-OFFICERR || บุคลากร')
+@section('title', 'PK-OFFICER || บุคลากร')
 <script>
     function TypeAdmin() {
         window.location.href = '{{ route('index') }}';

@@ -1,5 +1,5 @@
 @extends('layouts.medicalslide')
-@section('title', 'PK-OFFICERR || เครื่องมือแพทย์')
+@section('title', 'PK-OFFICER || เครื่องมือแพทย์')
 
 <?php
 use App\Http\Controllers\StaticController;

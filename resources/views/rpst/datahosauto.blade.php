@@ -1,5 +1,5 @@
 @extends('layouts.auto_rpst')
-@section('title', 'PK-OFFICERR || checksit')
+@section('title', 'PK-OFFICER || checksit')
 @section('content')
 <style>
     #button{

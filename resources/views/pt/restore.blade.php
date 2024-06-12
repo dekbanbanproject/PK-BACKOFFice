@@ -1,5 +1,5 @@
 @extends('layouts.report_font')
-@section('title', 'PK-OFFICERR || งานจิตเวชและยาเสพติด')
+@section('title', 'PK-OFFICER || งานจิตเวชและยาเสพติด')
 @section('content')
     
     <div class="container-fluid">

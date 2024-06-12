@@ -1,5 +1,5 @@
 @extends('layouts.reportall')
-@section('title', 'PK-OFFICERR || Report-จำนวน GDM IPD ทั้งหมด : GDM (O244) IPD AN')
+@section('title', 'PK-OFFICER || Report-จำนวน GDM IPD ทั้งหมด : GDM (O244) IPD AN')
 
 @section('content')
     <script>

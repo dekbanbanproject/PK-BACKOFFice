@@ -153,7 +153,7 @@
                             {{-- @foreach ($datadetail as $item)
                                 <h4 style="color:blueviolet" class="mt-3">{{$item->orginfo_name}}</h4>
                             @endforeach --}}
-                            <h4 style="color:rgb(109, 14, 172)" class="mt-3">PK-OFFICERR</h4>
+                            <h4 style="color:rgb(109, 14, 172)" class="mt-3">PK-OFFICER</h4>
                         </button>
                     </div>
 

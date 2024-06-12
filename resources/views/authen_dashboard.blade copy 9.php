@@ -1,5 +1,5 @@
 @extends('layouts.authen')
-@section('title', 'PK-OFFICERR || authen')
+@section('title', 'PK-OFFICER || authen')
 
 @section('content')
     <style>

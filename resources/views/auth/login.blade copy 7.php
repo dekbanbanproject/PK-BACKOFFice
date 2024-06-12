@@ -245,7 +245,7 @@
                         alt="">
                 </a>
                 <span class="mb-3 mb-md-0 text-body-secondary">
-                    <label for="" class=" ms-2 mt-2" style="color: white"> By Team PK-OFFICERR</label></span>
+                    <label for="" class=" ms-2 mt-2" style="color: white"> By Team PK-OFFICER</label></span>
             </div>
 
             <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">

@@ -1,5 +1,5 @@
 @extends('layouts.supplies')
-@section('title', 'PK-OFFICERR || ข้อมูลบริการ')
+@section('title', 'PK-OFFICER || ข้อมูลบริการ')
  
 
     <?php
