@@ -83,7 +83,7 @@ $pos = strrpos($url, '/') + 1;
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">Detail</h4>
+                    <h4 class="mb-sm-0">ACCOUNT ผัง 1102050101.4022 Detail</h4>
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
@@ -100,7 +100,7 @@ $pos = strrpos($url, '/') + 1;
 
         <div class="row">
             <div class="col-md-12">
-                <div class="card cardacc">
+                <div class="card card_audit_4c">
                     
                     <div class="card-body">
                         <input type="hidden" name="months" id="months" value="{{$months}}">
@@ -143,25 +143,25 @@ $pos = strrpos($url, '/') + 1;
                                             <td class="text-center" width="8%">{{ $item->vstdate }}</td>   
                                             <td class="text-center" width="8%">{{ $item->dchdate }}</td>  
                                             <td class="text-center" width="5%">{{ $item->pttype }}</td>  
-                                            <td class="text-center" width="8%">{{ number_format($item->income, 2) }}</td> 
-                                            <td class="text-center" width="8%">{{ number_format($item->rcpt_money, 2) }}</td> 
-                                            <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>  
+                                            <td class="text-center" style="color:rgb(13, 113, 228)" width="8%">{{ number_format($item->income, 2) }}</td> 
+                                            <td class="text-center" style="color:rgb(245, 137, 14)" width="8%">{{ number_format($item->rcpt_money, 2) }}</td> 
+                                            <td class="text-end" style="color:rgb(6, 138, 83)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>  
                                         </tr>
                                         
                                         <?php
-                                        $total1 = $total1 + $item->income;
-                                        $total2 = $total2 + $item->rcpt_money;
-                                        $total3 = $total3 + $item->debit_total; 
-                                ?>
+                                                $total1 = $total1 + $item->income;
+                                                $total2 = $total2 + $item->rcpt_money;
+                                                $total3 = $total3 + $item->debit_total; 
+                                        ?>
  
                                 @endforeach
 
                             </tbody>
                             <tr style="background-color: #f3fca1">
                                 <td colspan="9" class="text-end" style="background-color: #fca1a1"></td>
-                                <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
-                                <td class="text-center" style="background-color: #FCA533" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
-                                <td class="text-center" style="background-color: #44E952"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td> 
+                                <td class="text-center" style="background-color: #116dc4"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
+                                <td class="text-center" style="background-color: #f89411" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
+                                <td class="text-center" style="background-color: #05770f"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td> 
                             </tr> 
                         </table>
                     </div>

@@ -255,14 +255,14 @@ class Account4022Controller extends Controller
                     'debit'              => $value->debit, 
                     'debit_total'        => $value->fokliad, 
                 ]);  
-                // Acc_1102050101_4022::where('an', $value->an)->update([   
-                //     'income'             => $value->income,
-                //     'uc_money'           => $value->uc_money,
-                //     'discount_money'     => $value->discount_money, 
-                //     'rcpt_money'         => $value->rcpt_money,
-                //     'debit'              => $value->debit, 
-                //     'debit_total'        => $value->fokliad                   
-                // ]);  
+                Acc_1102050101_4022::where('an', $value->an)->update([   
+                    'income'             => $value->income,
+                    'uc_money'           => $value->uc_money,
+                    'discount_money'     => $value->discount_money, 
+                    'rcpt_money'         => $value->rcpt_money,
+                    'debit'              => $value->debit, 
+                    'debit_total'        => $value->fokliad                   
+                ]);  
             } else {
                 Acc_debtor::insert([
                     'hn'                 => $value->hn,
@@ -422,7 +422,7 @@ class Account4022Controller extends Controller
                     'cid'               => $value->cid,
                     'ptname'            => $value->ptname,
                     'vstdate'           => $value->vstdate,
-                    'rxdate'           => $value->rxdate,
+                    'rxdate'            => $value->rxdate,
                     'dchdate'           => $value->dchdate,
                     'pttype'            => $value->pttype,
                     'pttype_nhso'       => $value->pttype_spsch,
@@ -476,12 +476,27 @@ class Account4022Controller extends Controller
 
         $data = DB::select('
             SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.rxdate,U1.dchdate,U1.pttype,U1.debit_total,U2.Total_amount ,U2.STMdoc,U2.invno 
-                from acc_1102050101_4022 U1
-                LEFT JOIN acc_stm_ti_total U2 on U2.hn = U1.hn AND U2.vstdate = U1.vstdate
-                WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 
-                AND U2.Total_amount is not null AND U2.HDflag IN("CIC")
-                group by U1.an,U1.rxdate
+            from acc_1102050101_4022 U1
+            LEFT JOIN acc_stm_ti_total U2 on U2.hn = U1.hn AND U2.vstdate = U1.rxdate
+            WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 
+            AND U2.Total_amount is not null AND U2.HDflag IN("CIC")
+
         ');
+        
+        // SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.rxdate,U1.dchdate,U1.pttype,U1.debit_total,U2.Total_amount ,U2.STMdoc,U2.invno 
+        // from acc_1102050101_4022 U1
+        // LEFT JOIN acc_stm_ti_total U2 on U2.hn = U1.hn AND U2.vstdate = U1.rxdate
+        // WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 
+        // AND U2.Total_amount is not null AND U2.HDflag IN("CIC")
+        // group by U1.rxdate
+
+        // SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.rxdate,U1.dchdate,U1.pttype,U1.debit_total,U2.Total_amount ,U2.STMdoc,U2.invno 
+        //         from acc_1102050101_4022 U1
+        //         LEFT JOIN acc_stm_ti_total U2 on U2.hn = U1.hn AND U2.vstdate = U1.rxdate
+        //         WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 
+        //         AND U2.Total_amount is not null AND U2.HDflag IN("CIC")
+        //         group by U1.an,U1.rxdate
+
         // group by U1.an
         return view('account_4022.account_pkti4022_stm', $data, [ 
             'data'          =>     $data,

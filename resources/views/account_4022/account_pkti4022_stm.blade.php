@@ -67,7 +67,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">Detail STM</h4>
+                    <h4 class="mb-sm-0">ACCOUNT ผัง 1102050101.4022 STM</h4>
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
@@ -84,7 +84,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <div class="card cardacc">
+                <div class="card card_audit_4c">
                      
                     <div class="card-body">
                         {{-- <input type="hidden" name="months" id="months" value="{{$months}}">
@@ -111,7 +111,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $number = 1; ?>
+                                <?php $number = 1;$total1 = 0;$total2 = 0;$total3 = 0;$total4 = 0;?>
                                 @foreach ($data as $item) 
 
                                     <tr>
@@ -126,17 +126,27 @@
                                         <td class="text-center" width="7%">{{ $item->dchdate }}</td>
                                         <td class="text-center" width="5%">{{ $item->pttype }}</td>
                                         
-                                        <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td> 
+                                        <td class="text-end" style="color:rgb(12, 103, 207)" width="7%"> {{ number_format($item->debit_total, 2) }}</td> 
                                         @if ($item->Total_amount < $item->debit_total)
                                             <td class="text-end" style="color:rgb(243, 74, 45)" width="7%"> {{ number_format($item->Total_amount, 2) }}</td>
                                         @else
-                                            <td class="text-end" style="color:rgb(32, 216, 124)" width="7%"> {{ number_format($item->Total_amount, 2) }}</td>
+                                            <td class="text-end" style="color:rgb(8, 126, 67)" width="7%"> {{ number_format($item->Total_amount, 2) }}</td>
                                         @endif
                                         <td class="text-center" width="14%">{{ $item->STMdoc }}</td>
                                     </tr>
+                                    <?php
+                                                $total1 = $total1 + $item->debit_total;
+                                                $total2 = $total2 + $item->Total_amount; 
+                                        ?>
                                 @endforeach
 
                             </tbody>
+                            <tr style="background-color: #f3fca1">
+                                <td colspan="10" class="text-end" style="background-color: #fca1a1"></td>
+                                <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
+                                <td class="text-center" style="background-color: #068a57" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
+                                <td class="text-end" style="background-color: #fca1a1"></td>
+                            </tr> 
                         </table>
                     </div>
                 </div>

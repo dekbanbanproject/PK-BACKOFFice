@@ -283,9 +283,11 @@
                                                     </td> 
                                                     <td class="text-end" style="color:rgb(45, 57, 230);background-color: rgb(255, 174, 201)" width="10%"> {{ number_format($sum_N4022, 2) }}</td> 
                                                     <td class="text-end" width="10%" style="background-color: rgb(255, 174, 201)">  
-                                                        <a href="{{url('account_pkucs216_detail/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(101, 12, 153);"> {{ number_format($sum_fokliad, 2) }}</a>
+                                                        <a href="{{url('account_pkti4022_detail/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(101, 12, 153);"> {{ number_format($sum_fokliad, 2) }}</a>
                                                     </td>                                               
-                                                    <td class="text-end" style="color:rgb(5, 114, 96);background-color: rgb(255, 174, 201)" width="10%">{{ number_format($sum_stm_moneyti, 2) }}</td> 
+                                                    <td class="text-end" style="color:rgb(5, 114, 96);background-color: rgb(255, 174, 201)" width="10%">
+                                                        <a href="{{url('account_pkti4022_stm/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(101, 12, 153);">{{ number_format($sum_stm_moneyti, 2) }}</a>
+                                                    </td> 
                                                     <td class="text-end" style="color:rgb(224, 128, 17)" width="10%">0.00</td> 
                                                 </tr>
                                             <?php
