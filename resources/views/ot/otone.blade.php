@@ -1,5 +1,5 @@
 @extends('layouts.otsystem')
-@section('title', 'PK-OFFICE || OT Report')
+@section('title', 'PK-OFFICERR || OT Report')
 @section('content')
     <style>
         #button {

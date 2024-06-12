@@ -400,7 +400,7 @@ $pos = strrpos($url, '/') + 1;
             </div>
             <div class="col"></div>
             <div class="col-md-4 text-center">
-                <label for="" style="color: rgb(82, 11, 148);font-size:17px">PK-OFFICE</label>
+                <label for="" style="color: rgb(82, 11, 148);font-size:17px">PK-OFFICERR</label>
             </div>
 
         </div>

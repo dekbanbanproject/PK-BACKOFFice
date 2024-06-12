@@ -1,5 +1,5 @@
 @extends('layouts.ctnew')
-@section('title', 'PK-OFFICE || CT')
+@section('title', 'PK-OFFICERR || CT')
 @section('content')
     <style>
         #button {

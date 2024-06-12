@@ -1,5 +1,5 @@
 @extends('layouts.report_font')
-@section('title', 'PK-OFFICE || Colostomy')
+@section('title', 'PK-OFFICERR || Colostomy')
  
 @section('content')
    

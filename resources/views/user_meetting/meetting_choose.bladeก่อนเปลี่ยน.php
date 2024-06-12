@@ -1,5 +1,5 @@
 @extends('layouts.userdashboard')
-@section('title', 'PK-OFFICE || ช้อมูลการจองห้องประชุม')
+@section('title', 'PK-OFFICERR || ช้อมูลการจองห้องประชุม')
 
 
 <link href="{{ asset('select2/select2.min.css') }}" rel="stylesheet" />

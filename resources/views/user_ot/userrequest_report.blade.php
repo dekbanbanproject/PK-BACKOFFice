@@ -1,5 +1,5 @@
 @extends('layouts.userdashboard')
-@section('title', 'PK-OFFICE || Report')
+@section('title', 'PK-OFFICERR || Report')
 @section('content')
 <?php
 if (Auth::check()) {

@@ -1,5 +1,5 @@
 @extends('layouts.accountnew')
-@section('title', 'PK-OFFICE || ACCOUNT')
+@section('title', 'PK-OFFICERR || ACCOUNT')
 @section('content')
     <style>
         #button {

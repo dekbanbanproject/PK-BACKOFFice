@@ -1,5 +1,5 @@
 @extends('layouts.admindashboard')
-@section('title', 'PK-OFFICE  || ผู้ดูแลระบบ')
+@section('title', 'PK-OFFICERR  || ผู้ดูแลระบบ')
 
 @section('content')
 <?php
@@ -51,7 +51,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <a href="{{ url('person/person_index') }}" target="_blank">   <h5 class="text-start mb-2">บุคคลากร</h5>   </a>
                                             </div>
                                             <div class="avatar ms-2">
@@ -80,7 +80,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <a href="{{ url('time_dashboard') }}" target="_blank"> <h5 class="text-start mb-2">ระบบลงเวลา</h5>         </a>
                                             </div>
                                             <div class="avatar ms-2">
@@ -110,7 +110,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <a href="{{ url('otone') }}" target="_blank"> <h5 class="text-start mb-2">โอที</h5>      </a>
                                             </div>
                                             <div class="avatar ms-2">
@@ -140,7 +140,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <h5 class="text-start mb-2">ระบบการลา</h5>
                                             </div>
                                             <div class="avatar ms-2">
@@ -170,7 +170,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <h5 class="text-start mb-2">สารบรรณ</h5>
                                             </div>
                                             <div class="avatar ms-2">
@@ -200,7 +200,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <h5 class="text-start mb-2">ยานพาหนะ</h5>    
                                             </div>
                                             <div class="avatar ms-2">
@@ -230,7 +230,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <h5 class="text-start mb-2">ห้องประชุม</h5>
                                             </div>
                                             <div class="avatar-sm me-2">
@@ -259,7 +259,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <h5 class="text-start mb-2">ซ่อมบำรุง</h5>
                                             </div>
                                             <div class="avatar-sm me-2">
@@ -291,7 +291,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <a href="{{ url('plan') }}" target="_blank"><h5 class="text-start mb-2">แผนงาน</h5>     </a>
                                             </div>
                                             <div class="avatar ms-2">
@@ -321,7 +321,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <a href="{{ url('article/article_index') }}" target="_blank"> <h5 class="text-start mb-2">ทรัพย์สิน</h5>    </a>
                                             </div>
                                             <div class="avatar ms-2">
@@ -350,7 +350,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <a href="{{ url('supplies/supplies_index') }}" target="_blank">  <h5 class="text-start mb-2">พัสดุ</h5>    </a>
                                             </div>
                                             <div class="avatar ms-2">
@@ -379,7 +379,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <a href="{{ url('computer/com_staff_calenda') }}" target="_blank"><h5 class="text-start mb-2">คอมพิวเตอร์</h5>    </a>
                                             </div>
                                             <div class="avatar ms-2">
@@ -408,7 +408,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <a href="{{ url('medical/med_calenda') }}" target="_blank"> <h6 class="text-start mb-2">เครื่องมือแพทย์</h6>        </a>
                                             </div>
                                             <div class="avatar">
@@ -437,7 +437,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <a href="{{ url('repaire_narmal') }}" target="_blank"> <h5 class="text-start mb-2">ซ่อมบำรุง</h5>      </a>
                                             </div>
                                             <div class="avatar ms-2">
@@ -470,7 +470,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <a href="{{ url('warehouse/warehouse_index') }}" target="_blank"> <h5 class="text-start mb-2">คลังวัสดุ</h5>   </a>
                                             </div>
                                             <div class="avatar ms-2">
@@ -499,7 +499,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <a href="{{ url('meetting/meettingroom_dashboard') }}" target="_blank"> <h5 class="text-start mb-2">ห้องประชุม</h5>      </a>
                                             </div>
                                             <div class="avatar ms-2">
@@ -529,7 +529,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <a href="{{ url('housing/housing_dashboard') }}" target="_blank"> <h5 class="text-start mb-2">บ้านพัก</h5>    </a>
                                             </div>
                                             <div class="avatar ms-2">
@@ -559,7 +559,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <h5 class="text-start mb-2">คลังยา</h5>
                                             </div>
                                             <div class="avatar-sm me-2">
@@ -588,7 +588,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <h5 class="text-start mb-2">จ่ายกลาง</h5>
                                             </div>
                                             <div class="avatar-sm me-2">
@@ -617,7 +617,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <a href="{{ url('pkclaim_info') }}" target="_blank"> <h5 class="text-start mb-2">งานประกัน</h5>     </a>
                                             </div>
                                             <div class="avatar ms-2">
@@ -646,7 +646,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <a href="{{ url('account_info') }}" target="_blank"> <h5 class="text-start mb-2">การเงิน</h5>      </a>
                                             </div>
                                             <div class="avatar ms-2">
@@ -671,7 +671,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <a href="{{ url('account_pk_dash') }}" target="_blank"> <h5 class="text-start mb-2">การบัญชี</h5>    </a>
                                             </div>
                                             <div class="avatar ms-2">
@@ -703,7 +703,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <a href="{{ url('p4p') }}" target="_blank"> <h5 class="text-start">P4P</h5>   </a>
                                             </div>
                                             <div class="avatar ms-2">
@@ -735,7 +735,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <a href="{{ url('medicine_salt') }}" target="_blank"> <h5 class="text-start mb-2">แพทย์แผนไทย</h5>   </a>
                                             </div>
                                             <div class="avatar">
@@ -764,7 +764,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <h5 class="text-start mb-2">ระบบลงเวลา</h5>
                                             </div>
                                             <div class="avatar-sm me-2">
@@ -794,7 +794,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <h5 class="text-start mb-2">โอที</h5>
                                             </div>
                                             <div class="avatar-sm me-2">
@@ -823,7 +823,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <a href="{{ url('env_dashboard') }}" target="_blank"><h5 class="text-start mb-2">ENV</h5>   </a>
                                             </div>
                                             <div class="avatar ms-2">
@@ -852,7 +852,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <a href="{{ url('dental') }}" target="_blank"> <h5 class="text-start mb-2">DENTAL</h5>   </a>
                                             </div>
                                             <div class="avatar ms-2">
@@ -882,7 +882,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <a href="{{ url('audiovisual_admin') }}" target="_blank"><h5 class="text-start mb-2">งานโสต</h5>   </a>
                                             </div>
                                             <div class="avatar ms-2">
@@ -912,7 +912,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-12 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-12 mb-2">PK-OFFICERR</p>
                                                 <a href="{{ url('prenatal_care') }}" target="_blank"><h5 class="text-start mb-2">Prenatal care</h5>   </a>
                                             </div>
                                             <div class="avatar ms-2">
@@ -937,7 +937,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="widget-chart widget-chart-hover">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICERR</p>
                                                 <h5 class="text-start mb-2">แพทย์แผนไทย</h5>
                                             </div>
                                             <div class="avatar-sm me-2">

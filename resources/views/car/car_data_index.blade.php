@@ -1,5 +1,5 @@
 @extends('layouts.car')
-@section('title', 'PK-OFFICE || ยานพาหนะ')
+@section('title', 'PK-OFFICERR || ยานพาหนะ')
 
 @section('content')
     <script>

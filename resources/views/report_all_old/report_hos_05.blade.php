@@ -1,5 +1,5 @@
 @extends('layouts.reportall')
-@section('title', 'PK-OFFICE || Report-(Died) จำนวนผู้ป่วยที่เสียชีวิตใน รพ.ER')
+@section('title', 'PK-OFFICERR || Report-(Died) จำนวนผู้ป่วยที่เสียชีวิตใน รพ.ER')
 
 @section('content')
     <script>

@@ -1,5 +1,5 @@
 @extends('layouts.reportall')
-@section('title', 'PK-OFFICE || Report-ประชากรในอำเภอภูเขียว มีค่า BMI > 25')
+@section('title', 'PK-OFFICERR || Report-ประชากรในอำเภอภูเขียว มีค่า BMI > 25')
 
 @section('content')
     <script>

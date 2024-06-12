@@ -1,5 +1,5 @@
 @extends('layouts.support_prs')
-@section('title', 'PK-OFFICE || Air-Service')
+@section('title', 'PK-OFFICERR || Air-Service')
 
 <style>
     .btn {

@@ -1,5 +1,5 @@
 @extends('layouts.envnew')
-@section('title', 'PK-OFFICE || ENV')
+@section('title', 'PK-OFFICERR || ENV')
 @section('content')
 <script>
     function TypeAdmin() {

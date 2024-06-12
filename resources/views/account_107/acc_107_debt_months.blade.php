@@ -1,5 +1,5 @@
 @extends('layouts.accountpk')
-@section('title', 'PK-OFFICE || ACCOUNT')
+@section('title', 'PK-OFFICERR || ACCOUNT')
 {{-- <link href="{{ asset('fonts') }}" rel="stylesheet" type="text/css" /> --}}
 {{-- <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

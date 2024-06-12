@@ -1,5 +1,5 @@
 @extends('layouts.user')
-@section('title', 'PK-OFFICE || แจ้งซ่อมคอมพิวเตอร์')
+@section('title', 'PK-OFFICERR || แจ้งซ่อมคอมพิวเตอร์')
 
 @section('content')
     <script>

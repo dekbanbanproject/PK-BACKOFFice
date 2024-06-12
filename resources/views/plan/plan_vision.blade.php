@@ -1,5 +1,5 @@
 @extends('layouts.plannew')
-@section('title', 'PK-OFFICE || Plan')
+@section('title', 'PK-OFFICERR || Plan')
 @section('content')
 <script>
      

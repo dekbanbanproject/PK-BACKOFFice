@@ -505,7 +505,7 @@
                                     <li class="nav-item">
                                         <a data-bs-placement="top" rel="popover-focus" data-offset="300"
                                             data-toggle="popover-custom" class="nav-link">
-                                            Create By ทีมพัฒนา PK-OFFICE
+                                            Create By ทีมพัฒนา PK-OFFICERR
                                             <i class="fa fa-angle-up ms-2 opacity-8"></i>
                                         </a>
                                        

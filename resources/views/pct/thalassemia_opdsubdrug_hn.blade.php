@@ -1,5 +1,5 @@
 @extends('layouts.pkclaim')
-@section('title', 'PK-OFFICE || PCT')
+@section('title', 'PK-OFFICERR || PCT')
 
 <?php
 use App\Http\Controllers\StaticController;

@@ -1,5 +1,5 @@
 @extends('layouts.userdashboard')
-@section('title', 'PK-OFFICE || Sot')
+@section('title', 'PK-OFFICERR || Sot')
 @section('content')
     <script>
         function TypeAdmin() {

@@ -1,5 +1,5 @@
 @extends('layouts.pkclaim')
-@section('title', 'PK-OFFICE || SSOP-REPORT')
+@section('title', 'PK-OFFICERR || SSOP-REPORT')
  
 @section('content')
     <script>

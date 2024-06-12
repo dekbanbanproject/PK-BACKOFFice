@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', 'PK-OFFICE || Air-Service')
+@section('title', 'PK-OFFICERR || Air-Service')
 
 @section('content')
     <style>

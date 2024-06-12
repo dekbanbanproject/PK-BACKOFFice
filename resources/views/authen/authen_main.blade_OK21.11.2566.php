@@ -653,7 +653,7 @@
                         {{-- Created with  --}}
                         
                         
-                         <h6 style="color:rgb(220, 134, 247)" class="mt-2">by ทีมพัฒนา PK-OFFICE</h6> 
+                         <h6 style="color:rgb(220, 134, 247)" class="mt-2">by ทีมพัฒนา PK-OFFICERR</h6> 
                     {{-- </div> --}}
                 </div>
                 <div class="col-sm-1"></div>

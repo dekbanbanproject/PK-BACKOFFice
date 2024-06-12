@@ -1,5 +1,5 @@
 @extends('layouts.fdh')
-@section('title', 'PK-OFFICE || FDH')
+@section('title', 'PK-OFFICERR || FDH')
 
 @section('content')
     <script>

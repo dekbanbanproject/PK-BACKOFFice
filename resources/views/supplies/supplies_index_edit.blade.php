@@ -1,5 +1,5 @@
 @extends('layouts.supplies')
-@section('title', 'PK-OFFICE || พัสดุ')
+@section('title', 'PK-OFFICERR || พัสดุ')
 @section('menu')
     <script>
         function TypeAdmin() {

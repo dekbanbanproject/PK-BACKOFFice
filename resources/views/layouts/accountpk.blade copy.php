@@ -122,7 +122,7 @@
                 <div class="navbar-header shadow-lg" style="background-color: rgb(255, 255, 255)">
                 {{-- <div class="d-flex">
                     <div class="navbar-brand-box">
-                        <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-OFFICE</h4>
+                        <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-OFFICERR</h4>
                     </div>
                     <button type="button" class="btn btn-sm px-3 font-size-24 d-lg-none header-item"
                         data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
@@ -161,7 +161,7 @@
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgb(3, 3, 3)" class="mt-4">PK-OFFICE</h4>
+                                <h4 style="color:rgb(3, 3, 3)" class="mt-4">PK-OFFICERR</h4>
                             </span>
                         </a>
                     </div>
@@ -467,7 +467,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-OFFICE
+                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-OFFICERR
                             </div>
                         </div>
                     </div>

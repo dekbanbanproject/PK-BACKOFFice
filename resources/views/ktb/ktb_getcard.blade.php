@@ -1,5 +1,5 @@
 @extends('layouts.ktbfont')
-@section('title', 'PK-OFFICE || KTB')
+@section('title', 'PK-OFFICERR || KTB')
 
    
 

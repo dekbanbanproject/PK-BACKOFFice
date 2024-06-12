@@ -79,7 +79,7 @@
                                 {{-- <img src="{{ asset('apkclaim/images/logo150.png') }}" alt="logo-sm-light"
                                     height="40"> --}}
                                 <label for="" style="color: white;font-size:25px;"
-                                    class="ms-1 mt-2">PK-OFFICE</label>
+                                    class="ms-1 mt-2">PK-OFFICERR</label>
                                     
                             </span>
                         </a>

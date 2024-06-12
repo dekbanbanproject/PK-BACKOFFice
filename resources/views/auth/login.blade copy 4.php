@@ -372,7 +372,7 @@
             {{-- <div class="row text-center">
                 <div class="col-md-1"></div>
                 <div class="col-md-2 ">
-                    <label for="" class=" ms-2 mt-2" style="color: white"> By ทีมพัฒนา PK-OFFICE</label>
+                    <label for="" class=" ms-2 mt-2" style="color: white"> By ทีมพัฒนา PK-OFFICERR</label>
                 </div>
                 <div class="col-md-9"></div>
             </div>
