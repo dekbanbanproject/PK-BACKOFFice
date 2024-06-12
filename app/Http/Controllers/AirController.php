@@ -144,8 +144,73 @@ class AirController extends Controller
                 'data_detail_'  => $data_detail_,
                 // 'pic_fire'      => $pic_fire,
                 'id'            => $id
+            ]); 
+    }
+    public function air_repiare_save(Request $request)
+    {
+        $date_now = date('Y-m-d');
+        $add_img  = $request->input('signature');
+        $add_img2 = $request->input('signature2');
+        $add_img3 = $request->input('signature3');
+          
+        if ($add_img =='') {
+            return response()->json([
+                'status'     => '50'
             ]);
-        
+        } else if ($add_img2 =='') {
+            return response()->json([
+                'status'     => '60'
+            ]);
+        } else { 
+                $add = new Air_repaire();
+                $add->repaire_date        = $date_now;
+                $add->air_list_id         = $request->air_list_id;
+                $add->air_list_num        = $request->air_list_num;
+                $add->air_list_name       = $request->air_list_name;
+                $add->btu                 = $request->btu;
+                $add->serial_no           = $request->serial_no;
+                $add->air_location_id     = $request->air_location_id;
+                $add->air_location_name   = $request->air_location_name;
+
+                $add->air_problems_1      = $request->air_problems_1;
+                $add->air_problems_2      = $request->air_problems_2;
+                $add->air_problems_3      = $request->air_problems_3;
+                $add->air_problems_4      = $request->air_problems_4;
+                $add->air_problems_5      = $request->air_problems_5;
+                $add->air_problems_6      = $request->air_problems_6;
+                $add->air_problems_7      = $request->air_problems_7;
+                $add->air_problems_8      = $request->air_problems_8;
+                $add->air_problems_9      = $request->air_problems_9;
+                $add->air_problems_10     = $request->air_problems_10;
+                $add->air_problems_11     = $request->air_problems_11;
+                $add->air_problems_12     = $request->air_problems_12;
+                $add->air_problems_13     = $request->air_problems_13;
+                $add->air_problems_14     = $request->air_problems_14;
+                $add->air_problems_15     = $request->air_problems_15;
+                $add->air_problems_16     = $request->air_problems_16;
+                $add->air_problems_17     = $request->air_problems_17;
+                $add->air_problems_18     = $request->air_problems_18;
+                $add->air_problems_19     = $request->air_problems_19;
+                $add->air_problems_20     = $request->air_problems_20;
+
+                $add->signature           = $add_img;
+                $add->signature2          = $add_img2;
+                $add->signature3          = $add_img3;
+
+                $add->air_status_techout  = $request->air_status_techout; 
+                $add->air_techout_name    = $request->air_techout_name;  
+                $add->air_status_staff    = $request->air_status_staff;   
+                $add->air_staff_id        = $request->air_staff_id; 
+                $add->air_status_tech     = $request->air_status_tech; 
+                $add->air_tech_id         = $request->air_tech_id; 
+                
+                $add->save();
+                return response()->json([
+                    'status'     => '200'
+                ]);
+        }
+
+       
         
     }
 
@@ -432,30 +497,11 @@ class AirController extends Controller
         ]);
 
     }
-    // public function fire_qrcode_detail(Request $request, $id)
-    // {
-
-    //     $dataprint = Fire::where('fire_id', '=', $id)->first();
-    //     $data_detail = Fire_check::where('fire_num', '=', $dataprint->fire_num) 
-    //     // ->leftJoin('users', 'fire_check.user_id', '=', 'users.id')
-    //     ->get(); 
-    //     return view('support_prs.fire.fire_qrcode_detail', [
-    //         'dataprint'    => $dataprint,
-    //         'data_detail'  => $data_detail,
-    //         'id'           => $id
-    //     ]); 
-    // }
+   
     public function air_qrcode_detail_all(Request $request)
     {  
             $dataprint_main = Air_list::get();
-            // $dataprint_main = Fire::paginate();
-            // $dataprint_main = Fire::paginate(12);
-            // $dataprint = Fire::where('fire_id', '=', $id)->first();
-            // foreach ($dataprint_main as $key => $value) {
-            //     $data_detail  = Fire_check::where('fire_num', '=', $value->fire_num)->get();
-            // }
-            // $data_detail_ = $data_detail;
-        // dd($dataprint_main);
+           
         return view('support_prs.air.air_qrcode_detail_all', [
             'dataprint_main'  =>  $dataprint_main,
             // 'dataprint'        =>  $dataprint
@@ -472,139 +518,6 @@ class AirController extends Controller
         ]);
 
     }
-    // public function fire_pramuan_admin(Request $request)
-    // {  
-    //     $dataprint_main = Fire::get();
-    //     $startdate = $request->startdate;
-    //     $enddate = $request->enddate;
-    //     $datashow = DB::select('SELECT * from fire WHERE active="Y" ORDER BY fire_id DESC'); 
-            
-    //     return view('support_prs.fire.fire_pramuan_admin', [
-    //         'startdate'       => $startdate,
-    //         'enddate'         => $enddate, 
-    //         'datashow'        => $datashow,
-    //     ]);
-
-    // }
-    // public function fire_pramuan(Request $request)
-    // {  
-    //         $dataprint_main = Fire::get();
-    //         $datashow = DB::select('SELECT * from fire_pramuan ORDER BY fire_pramuan_id ASC'); 
-
-    //     return view('support_prs.fire.fire_pramuan', [
-    //         'dataprint_main'  =>  $dataprint_main, 
-    //         'datashow'        =>  $datashow, 
-    //     ]);
-
-    // }
-    // public function fire_pramuan_save(Request $request)
-    // {
-    //     // $this->validate($request, [
-    //     //     'student_id'   => 'required',
-    //     //     'book_id'      => 'required',
-    //     //     'quantity'     => 'required',
-    //     // ]);
-
-    //     // $student_id    = $request->input('student[]');
-    //     // $book_id       = $request->input('book[]');
-    //     // $quantity      = $request->input('quantity[]');  
-
-    //     // for ($i = 0; $i < count($student_id); $i++) {
-    //     //     $data = [
-    //     //         'student_id' => $student_id[$i],
-    //     //         'book_id' => $book_id[$i],
-    //     //         'quantity' => $quantity[$i], 
-    //     //     ];
-    //     //     Fire_pramuan_sub::create($data);
-    //     // }
-    //     dd($request->all());
-    //     $checked_array = $request->fire_pramuan_id;
-    //     foreach ($request->fire_pramuan_name as $key => $value) {
-    //         if (in_array($request->fire_pramuan_name[$key],$checked_array)) {
-    //             $add                    = new Fire_pramuan_sub;
-    //             $add->fire_pramuan_name = $request->fire_pramuan_name[$key];
-    //             $add->pramuan_5         = $request->pramuan_5[$key];
-    //             $add->pramuan_4         = $request->pramuan_4[$key];
-    //             $add->pramuan_3         = $request->pramuan_3[$key];
-    //             $add->pramuan_2         = $request->pramuan_2[$key];
-    //             $add->pramuan_1         = $request->pramuan_1[$key];
-    //             $add->pramuan_0         = $request->pramuan_0[$key];
-    //             $add->save();
-    //         }
-    //         // return response()->json([
-    //         //     'status'    => '200'
-    //         // ]);
-    //     }
-
-
-    //     // $id      = $request->join_selected_values;
-    //     // $name      = $request->join_selected_name;        
-    //     // $startcount = '1'; 
-    //     // $row_range = Fire_pramuan::whereIn('fire_pramuan_id',explode(",",$id))->get();
-    //     // $data = array();
-    //     // foreach ($row_range as $row ) {
-    //     //     $data[] = [
-    //     //         'fire_pramuan_id'            =>$row->fire_pramuan_id,
-    //     //         'fire_pramuan_name'          =>$row->fire_pramuan_name,
-    //     //         'fire_pramuan_name_number'   =>$name,
-    //     //     ]; 
-    //     //     $startcount++;
-    //     // }
-    //     // $for_insert = array_chunk($data, length:1000);
-    //     // foreach ($for_insert as $key => $data_) { 
-    //     //     Fire_pramuan_sub::insert($data_);  
-    //     // }
-
-
-
-    //     // $subs = [];
-    //     // $id      = $request->ids;
-    //     // $data = Fire_pramuan::where('fire_pramuan_id',$id)->get();
-    //     // foreach ($data as $index => $unit) {
-    //     //     $subs[] = [ 
-    //     //         "fire_pramuan_id" => $fire_pramuan_id[$index], 
-    //     //         "unit_title" => $unit_title[$index]
-    //     //     ];
-    //     // }
-        
-    //     // $created = Fire_pramuan_sub::insert($subs);
-
-    //     // dd($id);
-    //     // $name    = $request->join_selected_name;
-    //     // $iduser = Auth::user()->id;
-    //     // $data = Fire_pramuan::where('fire_pramuan_id',$id)->get();
-    //         // Fire_pramuan::whereIn('acc_debtor_id',explode(",",$id))
-    //         //         ->update([
-    //         //             'stamp' => 'Y'
-    //         //         ]);
-    //     // foreach ($data as $key => $value) {
-    //     // //         $date = date('Y-m-d H:m:s'); 
-    //     //         Fire_pramuan_sub::insert([
-    //     //             'fire_pramuan_id'                 => $value->fire_pramuan_id,
-    //     //             'fire_pramuan_sub_name'           => $value->fire_pramuan_name,
-    //     //             // 'fire_pramuan_name_number'        => $name, 
-    //     //         ]);
-        
-    //     // }
-    //     // dd($data);
-    //     // return response()->json([
-    //     //     'status'    => '200'
-    //     // ]);
-    // }
-
-    public function fire_qrcode_all๘๘๘๘(Request $request)
-    {
       
-        $dataprint = Fire::get();
-
-        // $qrcode = base64_encode(QrCode::format('svg')->size(200)->errorCorrection('H')->generate('string'));
-        // $pdf = PDF::loadView('main.inventory.view_pdf', compact('qrcode'));
-        // return $pdf->stream();
-    
-        $pdf = PDF::loadView('support_prs.fire.fire_qrcode_all',['dataprint'  =>  $dataprint]);
-        return @$pdf->stream();
-    }
-    
- 
 
  }

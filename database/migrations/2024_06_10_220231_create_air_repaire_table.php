@@ -54,15 +54,15 @@ return new class extends Migration
 
                 $table->enum('air_status_techout', ['N','R','Y'])->default('N');   // พร้อมใช้งาน /ไม่พร้อมใช้งาน
                 $table->char('air_techout_name', length: 200)->nullable();          // ช่างนอก
-                $table->longText('air_techout_base')->nullable();  
+                $table->longText('signature')->nullable();  
 
                 $table->enum('air_status_staff', ['N','R','Y'])->default('N');   // พร้อมใช้งาน /ไม่พร้อมใช้งาน
                 $table->char('air_staff_id', length: 200)->nullable();          // เจ้าหน้าที่หน้างานรับทราบ
-                $table->longText('air_staff_base')->nullable();                //  ลายเซนเจ้าหน้าที่
+                $table->longText('signature2')->nullable();                //  ลายเซนเจ้าหน้าที่
 
                 $table->enum('air_status_tech', ['N','R','Y'])->default('N');   //  พร้อมใช้งาน /ไม่พร้อมใช้งาน
                 $table->char('air_tech_id', length: 200)->nullable();          //  เจ้าหน้าที่หน้างานรับทราบ
-                $table->longText('air_tech_base')->nullable();                //  ลายเซนเจ้าหน้าที่
+                $table->longText('signature3')->nullable();                //  ลายเซนเจ้าหน้าที่
                 
                  
                 $table->timestamps();

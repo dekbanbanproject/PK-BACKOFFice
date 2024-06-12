@@ -37,6 +37,7 @@ Route::match(['get','post'],'fire_pramuan_save',[App\Http\Controllers\FireContro
 Route::match(['get','post'],'fire_detail/{id}',[App\Http\Controllers\FireController::class, 'fire_detail'])->name('prs.fire_detail');//
 
 Route::match(['get','post'],'air_repiare/{id}',[App\Http\Controllers\AirController::class, 'air_repiare'])->name('prs.air_repiare');//
+Route::match(['get','post'],'air_repiare_save',[App\Http\Controllers\AirController::class, 'air_repiare_save'])->name('prs.air_repiare_save');//
 
 // ***************   Report  **********************************
 Route::match(['get','post'],'ins_dashboard',[App\Http\Controllers\InstrumentController::class, 'ins_dashboard'])->name('ins.ins_dashboard');//

@@ -134,7 +134,7 @@
     <div class="row"> 
         <div class="col-md-3">
             <h4 class="card-title" style="color:rgb(10, 151, 85)">Register Air</h4>
-            <p class="card-title-desc">ทะเบียนครุภัณฑ์แอร์</p>
+            <p class="card-title-desc">ทะเบียนครุภัณฑ์เครื่องปรับอากาศ</p>
         </div>
         <div class="col"></div>
       
@@ -208,7 +208,7 @@
                                         @if ( $item->air_imgname == Null )
                                         <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="30px" width="30px" alt="Image" class="img-thumbnail"></td> 
                                         @else
-                                        <td class="text-center" width="3%"><img src="{{asset('storage/fire/'.$item->air_imgname)}}" height="30px" width="30px" alt="Image" class="img-thumbnail">  </td>                                
+                                        <td class="text-center" width="3%"><img src="{{asset('storage/air/'.$item->air_imgname)}}" height="30px" width="30px" alt="Image" class="img-thumbnail">  </td>                                
                                         @endif
 
                                         <td class="text-center" width="5%"> 
