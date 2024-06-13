@@ -301,7 +301,7 @@ $pos = strrpos($url, '/') + 1;
                             if (check == true) {
                                 var join_selected_values = allValls.join(",");
                                 // alert(join_selected_values);
-                                $("#overlay").fadeIn(300);　
+                                $("#overlay").fadeIn(500);　
                                 $("#spinner").show(); //Load button clicked show spinner 
 
                                 $.ajax({
