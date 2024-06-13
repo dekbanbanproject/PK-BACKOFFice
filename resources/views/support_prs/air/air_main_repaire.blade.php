@@ -6,7 +6,7 @@
         function TypeAdmin() {
             window.location.href = '{{ route('index') }}';
         }
-        function air_destroy(air_list_id) {
+        function air_main_repaire_destroy(air_repaire_id) {
             Swal.fire({
                 position: "top-end",
                 title: 'ต้องการลบใช่ไหม?',
@@ -20,7 +20,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "{{ url('air_destroy') }}" + '/' + air_list_id,
+                        url: "{{ url('air_main_repaire_destroy') }}" + '/' + air_repaire_id,
                         type: 'POST',
                         data: {
                             _token: $("input[name=_token]").val()
@@ -38,9 +38,9 @@
                                     confirmButtonText: 'เรียบร้อย'
                                 }).then((result) => {
                                     if (result.isConfirmed) {
-                                        $("#sid" + air_list_id).remove();
-                                        // window.location.reload();
-                                        window.location = "{{ url('air_main') }}";
+                                        $("#sid" + air_repaire_id).remove();
+                                        window.location.reload();
+                                        // window.location = "{{ url('air_main') }}";
                                     }
                                 })
                             } else {  
@@ -243,13 +243,13 @@
                                                     </a> 
                                                   
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item text-warning" href="{{ url('air_edit/' . $item->air_repaire_id) }}" style="font-size:13px" target="blank">
+                                                    <a class="dropdown-item text-warning" href="{{ url('air_repaire_edit/' . $item->air_repaire_id) }}" style="font-size:13px" target="blank">
                                                         <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
                                                         <span>แก้ไข</span>
                                                     </a>
                                                     <div class="dropdown-divider"></div>
                                                     
-                                                    <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="air_destroy({{ $item->air_repaire_id }})"
+                                                    <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="air_main_repaire_destroy({{ $item->air_repaire_id }})"
                                                         data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="ลบ">
                                                         <i class="fa-solid fa-trash-can me-2 mb-1"></i>
                                                         <label for="" style="color: rgb(255, 2, 2);font-size:13px">ลบ</label>

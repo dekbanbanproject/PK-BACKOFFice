@@ -40,7 +40,7 @@
         <div class="row text-center">
             <div class="col"></div>
             <div class="col-md-8 text-center">
-                <h2>ทะเบียนแจ้งซ่อม-เครื่องปรับอากาศ</h2>
+                <h2>แก้ไขทะเบียนซ่อม-เครื่องปรับอากาศ</h2>
             </div>
             <div class="col"></div>
         </div>
@@ -50,27 +50,29 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col text-start">
-                                {{-- <p style="color:red">ส่วนที่ 1 : รายละเอียดทะเบียนครุภัณฑ์แอร์ </p> --}}
+                        
                                 <p style="color:red">ส่วนที่ 1 : รายละเอียด </p>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col text-start">
-                                @if ($data_detail_->air_imgname == null)
-                                    <img src="{{ asset('assets/images/defailt_img.jpg') }}" height="190px" width="220px"
-                                        alt="Image" class="img-thumbnail">
-                                @else
-                                    <img src="{{ asset('storage/air/' . $data_detail_->air_imgname) }}" height="170px"
-                                        width="220px" alt="Image" class="img-thumbnail">
-                                @endif
-                            </div>
-                            <div class="col-7">
-                                <p>รหัส : {{ $data_detail_->air_list_num }}</p>
-                                <p>ชื่อ : {{ $data_detail_->air_list_name }}</p>
-                                <p>Btu : {{ $data_detail_->btu }}</p>
-                                <p>serial_no : {{ $data_detail_->serial_no }}</p>
-                                <p>ที่ตั้ง : {{ $data_detail_->air_location_name }}</p>
-                            </div>
+                            {{-- @foreach ($data_edit as $data_detail_)  --}}
+                                <div class="col text-start">
+                                    @if ($data_detail_->air_imgname == null)
+                                        <img src="{{ asset('assets/images/defailt_img.jpg') }}" height="190px" width="220px"
+                                            alt="Image" class="img-thumbnail">
+                                    @else
+                                        <img src="{{ asset('storage/air/' . $data_detail_->air_imgname) }}" height="170px"
+                                            width="220px" alt="Image" class="img-thumbnail">
+                                    @endif
+                                </div>
+                                <div class="col-7">
+                                    <p>รหัส : {{ $data_detail_->air_list_num }}</p>
+                                    <p>ชื่อ : {{ $data_detail_->air_list_name }}</p>
+                                    <p>Btu : {{ $data_detail_->btu }}</p>
+                                    <p>serial_no : {{ $data_detail_->serial_no }}</p>
+                                    <p>ที่ตั้ง : {{ $data_detail_->air_location_name }}</p>
+                                </div>
+                            {{-- @endforeach --}}
                         </div>
                                                     
                         <hr style="color:red">
@@ -88,19 +90,31 @@
                         <div class="row">
                             <div class="col-3 text-start">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_1" name="air_problems_1">
+                                    @if ($data_edit->air_problems_1 == 'on')
+                                        <input type="checkbox" class="discheckbox" id="air_problems_1" name="air_problems_1" checked>
+                                    @else
+                                        <input type="checkbox" class="discheckbox" id="air_problems_1" name="air_problems_1">
+                                    @endif                                   
                                     &nbsp;&nbsp;<p>น้ำหยด</p>
                                 </div>
                             </div>
                             <div class="col-5">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_2" name="air_problems_2">
+                                    @if ($data_edit->air_problems_2 == 'on')
+                                        <input type="checkbox" class="discheckbox" id="air_problems_2" name="air_problems_2" checked>
+                                    @else
+                                        <input type="checkbox" class="discheckbox" id="air_problems_2" name="air_problems_2">
+                                    @endif 
                                     &nbsp;&nbsp;<p>ไม่เย็นมีแต่ลม</p>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_3" name="air_problems_3">
+                                    @if ($data_edit->air_problems_3 == 'on')
+                                        <input type="checkbox" class="discheckbox" id="air_problems_3" name="air_problems_3" checked>
+                                    @else
+                                        <input type="checkbox" class="discheckbox" id="air_problems_3" name="air_problems_3">
+                                    @endif 
                                     &nbsp;&nbsp;<p> มีกลิ่นเหม็น</p>
                                 </div>
                             </div>
@@ -108,13 +122,23 @@
                         <div class="row">
                             <div class="col-3 text-start">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_4" name="air_problems_4">
+                                
+                                    @if ($data_edit->air_problems_4 == 'on')
+                                        <input type="checkbox" class="discheckbox" id="air_problems_4" name="air_problems_4" checked>
+                                    @else
+                                        <input type="checkbox" class="discheckbox" id="air_problems_4" name="air_problems_4">
+                                    @endif
                                     &nbsp;&nbsp;<p>เสียงดัง</p>
                                 </div>
                             </div>
                             <div class="col-5">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_5" name="air_problems_5">
+               
+                                    @if ($data_edit->air_problems_5 == 'on')
+                                        <input type="checkbox" class="discheckbox" id="air_problems_5" name="air_problems_5" checked>
+                                    @else
+                                        <input type="checkbox" class="discheckbox" id="air_problems_5" name="air_problems_5">
+                                    @endif
                                     &nbsp;&nbsp;<p>ไม่ติด/ติดๆ ดับๆ</p>
                                 </div>
                             </div>
@@ -131,13 +155,23 @@
                         <div class="row">
                             <div class="col-6 text-start">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_6" name="air_problems_6">
+                           
+                                    @if ($data_edit->air_problems_6 == 'on')
+                                        <input type="checkbox" class="discheckbox" id="air_problems_6" name="air_problems_6" checked>
+                                    @else
+                                        <input type="checkbox" class="discheckbox" id="air_problems_6" name="air_problems_6">
+                                    @endif
                                     &nbsp;&nbsp;<p>ถอดล้างพัดลมกรงกระรอก</p>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_7" name="air_problems_7">
+                                  
+                                    @if ($data_edit->air_problems_7 == 'on')
+                                        <input type="checkbox" class="discheckbox" id="air_problems_7" name="air_problems_7" checked>
+                                    @else
+                                        <input type="checkbox" class="discheckbox" id="air_problems_7" name="air_problems_7">
+                                    @endif
                                     &nbsp;&nbsp;<p>ล้างถาดหลังแอร์</p>
                                 </div>
                             </div>
@@ -146,13 +180,23 @@
                         <div class="row">
                             <div class="col-6 text-start">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_8" name="air_problems_8">
+                                
+                                    @if ($data_edit->air_problems_8 == 'on')
+                                        <input type="checkbox" class="discheckbox" id="air_problems_8" name="air_problems_8" checked>
+                                    @else
+                                        <input type="checkbox" class="discheckbox" id="air_problems_8" name="air_problems_8">
+                                    @endif
                                     &nbsp;&nbsp;<p>ล้างแผงคอยล์เย็น</p>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_9" name="air_problems_9">
+                               
+                                    @if ($data_edit->air_problems_9 == 'on')
+                                        <input type="checkbox" class="discheckbox" id="air_problems_9" name="air_problems_9" checked>
+                                    @else
+                                        <input type="checkbox" class="discheckbox" id="air_problems_9" name="air_problems_9">
+                                    @endif
                                     &nbsp;&nbsp;<p>ล้างแผงคอยล์ร้อน</p>
                                 </div>
                             </div>
@@ -160,8 +204,11 @@
                         <div class="row">
                             <div class="col text-start">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_10"
-                                        name="air_problems_10">
+                                        @if ($data_edit->air_problems_10 == 'on')
+                                        <input type="checkbox" class="discheckbox" id="air_problems_10" name="air_problems_10" checked>
+                                    @else
+                                        <input type="checkbox" class="discheckbox" id="air_problems_10" name="air_problems_10">
+                                    @endif
                                     &nbsp;&nbsp;<p>ตรวจเช็คน้ำยา</p>
                                 </div>
                             </div>
@@ -176,15 +223,21 @@
                         <div class="row">
                             <div class="col-6 text-start">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_11"
-                                        name="air_problems_11">
+                                        @if ($data_edit->air_problems_11 == 'on')
+                                        <input type="checkbox" class="discheckbox" id="air_problems_11" name="air_problems_11" checked>
+                                    @else
+                                        <input type="checkbox" class="discheckbox" id="air_problems_11" name="air_problems_11">
+                                    @endif
                                     &nbsp;&nbsp;<p>ถอดล้างพัดลมกรงกระรอก</p>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_12"
-                                        name="air_problems_12">
+                                    @if ($data_edit->air_problems_12 == 'on')
+                                    <input type="checkbox" class="discheckbox" id="air_problems_12" name="air_problems_12" checked>
+                                @else
+                                    <input type="checkbox" class="discheckbox" id="air_problems_12" name="air_problems_12">
+                                @endif
                                     &nbsp;&nbsp;<p>ล้างถาดหลังแอร์</p>
                                 </div>
                             </div>
@@ -192,15 +245,21 @@
                         <div class="row">
                             <div class="col-6 text-start">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_13"
-                                        name="air_problems_13">
+                                    @if ($data_edit->air_problems_13 == 'on')
+                                    <input type="checkbox" class="discheckbox" id="air_problems_13" name="air_problems_13" checked>
+                                @else
+                                    <input type="checkbox" class="discheckbox" id="air_problems_13" name="air_problems_13">
+                                @endif
                                     &nbsp;&nbsp;<p>ล้างแผงคอยล์เย็น</p>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_14"
-                                        name="air_problems_14">
+                                    @if ($data_edit->air_problems_14 == 'on')
+                                    <input type="checkbox" class="discheckbox" id="air_problems_14" name="air_problems_14" checked>
+                                @else
+                                    <input type="checkbox" class="discheckbox" id="air_problems_14" name="air_problems_14">
+                                @endif
                                     &nbsp;&nbsp;<p>ล้างแผงคอยล์ร้อน</p>
                                 </div>
                             </div>
@@ -208,8 +267,11 @@
                         <div class="row">
                             <div class="col text-start">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_15"
-                                        name="air_problems_15">
+                                    @if ($data_edit->air_problems_15 == 'on')
+                                    <input type="checkbox" class="discheckbox" id="air_problems_15" name="air_problems_15" checked>
+                                @else
+                                    <input type="checkbox" class="discheckbox" id="air_problems_15" name="air_problems_15">
+                                @endif
                                     &nbsp;&nbsp;<p>ตรวจเช็คน้ำยา</p>
                                 </div>
                             </div>
@@ -224,15 +286,21 @@
                         <div class="row">
                             <div class="col-6 text-start">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_16"
-                                        name="air_problems_16">
+                                    @if ($data_edit->air_problems_16 == 'on')
+                                    <input type="checkbox" class="discheckbox" id="air_problems_16" name="air_problems_16" checked>
+                                @else
+                                    <input type="checkbox" class="discheckbox" id="air_problems_16" name="air_problems_16">
+                                @endif
                                     &nbsp;&nbsp;<p>ถอดล้างพัดลมกรงกระรอก</p>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_17"
-                                        name="air_problems_17">
+                                    @if ($data_edit->air_problems_17 == 'on')
+                                        <input type="checkbox" class="discheckbox" id="air_problems_17" name="air_problems_17" checked>
+                                    @else
+                                        <input type="checkbox" class="discheckbox" id="air_problems_17" name="air_problems_17">
+                                    @endif
                                     &nbsp;&nbsp;<p>ล้างถาดหลังแอร์</p>
                                 </div>
                             </div>
@@ -241,15 +309,21 @@
                         <div class="row">
                             <div class="col-6 text-start">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_18"
-                                        name="air_problems_18">
+                                    @if ($data_edit->air_problems_18 == 'on')
+                                    <input type="checkbox" class="discheckbox" id="air_problems_18" name="air_problems_18" checked>
+                                @else
+                                    <input type="checkbox" class="discheckbox" id="air_problems_18" name="air_problems_18">
+                                @endif
                                     &nbsp;&nbsp;<p>ล้างแผงคอยล์เย็น</p>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_19"
-                                        name="air_problems_19">
+                                    @if ($data_edit->air_problems_19 == 'on')
+                                    <input type="checkbox" class="discheckbox" id="air_problems_19" name="air_problems_19" checked>
+                                @else
+                                    <input type="checkbox" class="discheckbox" id="air_problems_19" name="air_problems_19">
+                                @endif
                                     &nbsp;&nbsp;<p>ล้างแผงคอยล์ร้อน</p>
                                 </div>
                             </div>
@@ -257,8 +331,11 @@
                         <div class="row">
                             <div class="col text-start">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_20"
-                                        name="air_problems_20">
+                                    @if ($data_edit->air_problems_20 == 'on')
+                                    <input type="checkbox" class="discheckbox" id="air_problems_20" name="air_problems_20" checked>
+                                @else
+                                    <input type="checkbox" class="discheckbox" id="air_problems_20" name="air_problems_20">
+                                @endif
                                     &nbsp;&nbsp;<p>ตรวจเช็คน้ำยา</p>
                                 </div>
                             </div>
@@ -270,11 +347,15 @@
                                 <p>สถานะซ่อม :</p>
                             </div>
                             <div class="col-8">
-                                <select class="custom-select custom-select-sm" id="air_status_techout"
-                                    name="air_status_techout" style="width: 100%">
-                                    {{-- <option value="" class="text-center">- เลือก -</option> --}}
-                                    <option value="Y" class="text-center">- พร้อมใช้งาน -</option>
-                                    <option value="N" class="text-center">- ไม่พร้อมใช้งาน -</option>
+                                <select class="custom-select custom-select-sm" id="air_status_techout" name="air_status_techout" style="width: 100%"> 
+                                    @if ($data_edit->air_status_techout =='Y')
+                                         <option value="Y" class="text-center" selected>- พร้อมใช้งาน -</option>
+                                         <option value="N" class="text-center">- ไม่พร้อมใช้งาน -</option>
+                                    @else 
+                                        <option value="Y" class="text-center">- พร้อมใช้งาน -</option>
+                                     <option value="N" class="text-center" >- ไม่พร้อมใช้งาน -</option>                                        
+                                    @endif
+                                   
                                 </select>
                             </div>
                         </div>
@@ -284,12 +365,12 @@
                             </div>
                             <div class="col-8">
                                 <input type="text" class="form-control form-control-sm" id="air_techout_name"
-                                    name="air_techout_name">
+                                    name="air_techout_name" value="{{$data_edit->air_techout_name}}">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col"> </div>
-                            <div class="col-7">
+                            <div class="col mt-2"> <img src="data:image/png;base64,{{ $signature }}" alt=""></div>
+                            <div class="col-6">
                                 <div id="signature-pad" class="mt-2 text-center">
                                     <div style="border:solid 1px teal;height:120px;">
                                         <div id="note" onmouseover="my_function();" class="text-center">The
@@ -310,7 +391,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="col"> </div>
+                            {{-- <div class="col"> </div> --}}
                         </div>
 
 
@@ -327,11 +408,14 @@
                                 <p>สถานะซ่อม :</p>
                             </div>
                             <div class="col-8">
-                                <select class="custom-select custom-select-sm" id="air_status_staff"
-                                    name="air_status_staff" style="width: 100%">
-                                    {{-- <option value="" class="text-center">- เลือก -</option> --}}
-                                    <option value="Y" class="text-center">- พร้อมใช้งาน -</option>
-                                    <option value="N" class="text-center">- ไม่พร้อมใช้งาน -</option>
+                                <select class="custom-select custom-select-sm" id="air_status_staff" name="air_status_staff" style="width: 100%">                            
+                                    @if ($data_edit->air_status_staff =='Y')
+                                         <option value="Y" class="text-center" selected>- พร้อมใช้งาน -</option>
+                                         <option value="N" class="text-center">- ไม่พร้อมใช้งาน -</option>
+                                    @else 
+                                        <option value="Y" class="text-center">- พร้อมใช้งาน -</option>
+                                     <option value="N" class="text-center" >- ไม่พร้อมใช้งาน -</option>                                        
+                                    @endif
                                 </select>
                             </div>
                         </div>
@@ -340,18 +424,21 @@
                                 <p>ชื่อ-นามสกุล :</p>
                             </div>
                             <div class="col-8"> 
-                                <select class="custom-select custom-select-sm" id="air_staff_id" name="air_staff_id"
-                                    style="width: 100%"> 
+                                <select class="custom-select custom-select-sm" id="air_staff_id" name="air_staff_id" style="width: 100%"> 
                                     @foreach ($users as $item_u)
-                                        <option value="{{ $item_u->id }}" class="text-center">{{ $item_u->fname }}
-                                            {{ $item_u->lname }}</option>
+                                    @if ($data_edit->air_staff_id == $item_u->id)
+                                        <option value="{{ $item_u->id }}" class="text-center" selected>{{ $item_u->fname }} {{ $item_u->lname }}</option>
+                                    @else
+                                        <option value="{{ $item_u->id }}" class="text-center">{{ $item_u->fname }} {{ $item_u->lname }}</option>
+                                    @endif
+                                       
                                     @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col"> </div>
-                            <div class="col-7">
+                            <div class="col mt-2"> <img src="data:image/png;base64,{{ $signature2 }}" alt=""></div>
+                            <div class="col-6">
                                 <div id="signature-pad2" class="mt-2 text-center">
                                     <div style="border:solid 1px teal;height:120px;">
                                         <div id="note2" onmouseover="my_function2();" class="text-center">The
@@ -372,7 +459,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="col"> </div>
+                         
                         </div>
 
                         <hr style="color:red">
@@ -387,10 +474,14 @@
                                 <p>สถานะซ่อม :</p>
                             </div>
                             <div class="col-8">
-                                <select class="custom-select custom-select-sm" id="air_status_tech"
-                                    name="air_status_tech" style="width: 100%"> 
-                                    <option value="Y" class="text-center">- พร้อมใช้งาน -</option>
-                                    <option value="N" class="text-center">- ไม่พร้อมใช้งาน -</option>
+                                <select class="custom-select custom-select-sm" id="air_status_tech" name="air_status_tech" style="width: 100%">                                
+                                    @if ($data_edit->air_status_tech =='Y')
+                                        <option value="Y" class="text-center" selected>- พร้อมใช้งาน -</option>
+                                        <option value="N" class="text-center">- ไม่พร้อมใช้งาน -</option>
+                                    @else 
+                                        <option value="Y" class="text-center">- พร้อมใช้งาน -</option>
+                                        <option value="N" class="text-center" >- ไม่พร้อมใช้งาน -</option>                                        
+                                    @endif
                                 </select>
                             </div>
                         </div>
@@ -398,20 +489,22 @@
                             <div class="col text-start">
                                 <p>ชื่อ-นามสกุล :</p>
                             </div>
-                            <div class="col-8">
-                                {{-- <input type="text" class="form-control form-control-sm" id="air_tech_id" name="air_tech_id"> --}}
-                                <select class="custom-select custom-select-sm" id="air_tech_id" name="air_tech_id"
-                                    style="width: 100%"> 
-                                    @foreach ($users as $item_u)
-                                        <option value="{{ $item_u->id }}" class="text-center">{{ $item_u->fname }}
-                                            {{ $item_u->lname }}</option>
+                            <div class="col-8"> 
+                                <select class="custom-select custom-select-sm" id="air_tech_id" name="air_tech_id" style="width: 100%"> 
+                                    @foreach ($users as $item_ut)
+                                    @if ($data_edit->air_tech_id == $item_ut->id)
+                                        <option value="{{ $item_ut->id }}" class="text-center" selected>{{ $item_ut->fname }} {{ $item_ut->lname }}</option>
+                                    @else
+                                        <option value="{{ $item_ut->id }}" class="text-center">{{ $item_ut->fname }} {{ $item_ut->lname }}</option>
+                                    @endif
+                                        
                                     @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col"> </div>
-                            <div class="col-7">
+                            <div class="col mt-2"> <img src="data:image/png;base64,{{ $signature3 }}" alt=""></div>
+                            <div class="col-6">
                                 <div id="signature-pad3" class="mt-2 text-center">
                                     <div style="border:solid 1px teal;height:120px;">
                                         <div id="note3" onmouseover="my_function3();" class="text-center">The
@@ -433,9 +526,10 @@
 
                                 </div>
                             </div>
-                            <div class="col"> </div>
+                           
                         </div>
-
+                        
+                        <input type="hidden" name="air_repaire_id" id="air_repaire_id" value="{{ $data_edit->air_repaire_id}}">
                         <input type="hidden" name="air_list_id" id="air_list_id" value="{{ $data_detail_->air_list_id}}">
                         <input type="hidden" name="air_list_num" id="air_list_num" value="{{ $data_detail_->air_list_num}}">
                         <input type="hidden" name="air_list_name" id="air_list_name" value="{{ $data_detail_->air_list_name}}">
@@ -447,9 +541,9 @@
                         <hr style="color:red">
                         <div class="row mt-3">
                             <div class="col text-center">
-                                <button type="button" id="saveBtn" class="ladda-button btn-pill btn btn-success">
+                                <button type="button" id="updateBtn" class="ladda-button btn-pill btn btn-success">
                                     <i class="fa-solid fa-circle-check text-white me-2"></i>
-                                    บันทึกข้อมูล
+                                    แก้ไขข้อมูล
                                 </button>
                             </div>
                         </div>
@@ -500,6 +594,7 @@
 
                 // ข้อความแจ้ง
                 Swal.fire({
+                    position: "top-end",
                     title: 'สร้างสำเร็จ',
                     text: "You create success",
                     icon: 'success',
@@ -544,6 +639,7 @@
 
                 // ข้อความแจ้ง
                 Swal.fire({
+                    position: "top-end",
                     title: 'สร้างสำเร็จ',
                     text: "You create success",
                     icon: 'success',
@@ -588,6 +684,7 @@
 
                 // ข้อความแจ้ง
                 Swal.fire({
+                    position: "top-end",
                     title: 'สร้างสำเร็จ',
                     text: "You create success",
                     icon: 'success',
@@ -608,7 +705,7 @@
         $(document).ready(function() {
             $("#spinner-div").hide(); //Request is complete so hide spinner
 
-            $('#saveBtn').click(function() {
+            $('#updateBtn').click(function() {
                 // alert('okkkkk'); 
                 var air_problems_1     = $('#air_problems_1').val();
                 var air_problems_2     = $('#air_problems_2').val();
@@ -646,8 +743,9 @@
                 var serial_no          = $('#serial_no').val();
                 var air_location_id    = $('#air_location_id').val();
                 var air_location_name  = $('#air_location_name').val();
-
-                Swal.fire({
+                var air_repaire_id     = $('#air_repaire_id').val();
+                
+                Swal.fire({ position: "top-end",
                         title: 'ต้องการบันทึกข้อมูลใช่ไหม ?',
                         text: "You Warn Save Data!",
                         icon: 'warning',
@@ -661,12 +759,12 @@
                                 $("#spinner").show(); //Load button clicked show spinner 
 
                                 $.ajax({ 
-                                    url: "{{ route('prs.air_repiare_save') }}",
+                                    url: "{{ route('prs.air_repiare_update') }}",
                                     type: "POST",
                                     dataType: 'json',
                                     data: {
                                         "_token": "{{ csrf_token() }}",
-                                       air_problems_1,air_problems_2,air_problems_3,air_problems_4,air_problems_5,air_problems_6,air_problems_7,air_problems_8
+                                        air_repaire_id,air_problems_1,air_problems_2,air_problems_3,air_problems_4,air_problems_5,air_problems_6,air_problems_7,air_problems_8
                                         ,air_problems_9,air_problems_10,air_problems_11,air_problems_12,air_problems_13,air_problems_14,air_problems_15,air_problems_16
                                         ,air_problems_17,air_problems_18,air_problems_19,air_problems_20,air_status_techout,air_techout_name,air_status_staff,air_staff_id
                                         ,air_status_tech,air_tech_id,signature,signature2,signature3
@@ -694,9 +792,9 @@
                                                 'warning'
                                             )
                                         } else {
-                                            Swal.fire({
-                                                title: 'บันทึกข้อมูลสำเร็จ',
-                                                text: "You Insert data success",
+                                            Swal.fire({ position: "top-end",
+                                                title: 'แก้ไขข้อมูลสำเร็จ',
+                                                text: "You Update data success",
                                                 icon: 'success',
                                                 showCancelButton: false,
                                                 confirmButtonColor: '#06D177',

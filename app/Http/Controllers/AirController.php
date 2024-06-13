@@ -146,6 +146,134 @@ class AirController extends Controller
                 'id'            => $id
             ]); 
     }
+    public function air_repaire_edit(Request $request,$id)
+    {  
+        $data['department_sub_sub'] = Department_sub_sub::get();
+        $data['article_status']     = Article_status::get();
+        $data['product_decline']    = Product_decline::get();
+        $data['product_prop']       = Product_prop::get();
+        $data['supplies_prop']      = DB::table('supplies_prop')->get();
+        $data['budget_year']        = DB::table('budget_year')->where('active','=',true)->orderBy('leave_year_id', 'DESC')->get();
+        $data['product_data']       = Products::get();
+        $data['product_category']   = Products_category::get();
+        $data['product_type']       = Products_type::get();
+        $data['product_spyprice']   = Product_spyprice::get();
+        $data['product_group']      = Product_group::get();
+        $data['product_unit']       = Product_unit::get();
+        $data['data_province']      = DB::table('data_province')->get();
+        $data['data_amphur']        = DB::table('data_amphur')->get();
+        $data['data_tumbon']        = DB::table('data_tumbon')->get(); 
+        $data['land_data']          = DB::table('land_data')->get();
+        $data['product_budget']     = Product_budget::get(); 
+        $data['product_buy']        = Product_buy::get();
+        $data['users']              = User::get(); 
+        $data['products_vendor']    = Products_vendor::get(); 
+        $data['product_brand']      = DB::table('product_brand')->get();
+        $data['medical_typecat']    = DB::table('medical_typecat')->get();
+        $data['building_data']      = DB::table('building_data')->get();  
+           
+        $data_detail_ = Air_repaire::leftJoin('users', 'air_repaire.air_tech_id', '=', 'users.id') 
+        ->leftJoin('air_list', 'air_list.air_list_id', '=', 'air_repaire.air_list_id') 
+        ->where('air_repaire.air_repaire_id', '=', $id)
+        ->first();
+
+        $data_edit                  = Air_repaire::where('air_repaire_id', '=', $id)->first();
+        $signat                     = $data_edit->signature; 
+        $signature                  = base64_encode(file_get_contents($signat));
+        $signat2                    = $data_edit->signature2; 
+        $signature2                 = base64_encode(file_get_contents($signat2));
+        $signat3                    = $data_edit->signature3; 
+        $signature3                 = base64_encode(file_get_contents($signat3));
+
+        return view('support_prs.air.air_repaire_edit', $data,[
+            'data_detail_'     => $data_detail_,
+            'data_edit'        => $data_edit,
+            'signature'        => $signature,
+            'signature2'       => $signature2,
+            'signature3'       => $signature3
+        ]);
+    }
+    public function air_repiare_update(Request $request)
+    {
+        $date_now    = date('Y-m-d');
+        $add_img     = $request->input('signature');
+        $add_img2    = $request->input('signature2');
+        $add_img3    = $request->input('signature3');
+        $id          = $request->air_repaire_id;
+        $data_edit   = Air_repaire::where('air_repaire_id', '=', $id)->first();
+
+        if ($add_img =='') {
+            // $checkcount   = Air_repaire::where('air_repaire_id', '=', $id)->where('signature', '<>', '')->count();
+            // if ($checkcount > 0) { 
+            // } else {
+                return response()->json([
+                    'status'     => '50'
+                ]);
+            // } 
+           
+        } else if ($add_img2 =='') {
+            return response()->json([
+                'status'     => '60'
+            ]);
+        } else { 
+                $update = Air_repaire::find($id);
+                $update->repaire_date        = $date_now;
+                $update->air_list_id         = $request->air_list_id;
+                $update->air_list_num        = $request->air_list_num;
+                $update->air_list_name       = $request->air_list_name;
+                $update->btu                 = $request->btu;
+                $update->serial_no           = $request->serial_no;
+                $update->air_location_id     = $request->air_location_id;
+                $update->air_location_name   = $request->air_location_name;
+
+                $update->air_problems_1      = $request->air_problems_1;
+                $update->air_problems_2      = $request->air_problems_2;
+                $update->air_problems_3      = $request->air_problems_3;
+                $update->air_problems_4      = $request->air_problems_4;
+                $update->air_problems_5      = $request->air_problems_5;
+                $update->air_problems_6      = $request->air_problems_6;
+                $update->air_problems_7      = $request->air_problems_7;
+                $update->air_problems_8      = $request->air_problems_8;
+                $update->air_problems_9      = $request->air_problems_9;
+                $update->air_problems_10     = $request->air_problems_10;
+                $update->air_problems_11     = $request->air_problems_11;
+                $update->air_problems_12     = $request->air_problems_12;
+                $update->air_problems_13     = $request->air_problems_13;
+                $update->air_problems_14     = $request->air_problems_14;
+                $update->air_problems_15     = $request->air_problems_15;
+                $update->air_problems_16     = $request->air_problems_16;
+                $update->air_problems_17     = $request->air_problems_17;
+                $update->air_problems_18     = $request->air_problems_18;
+                $update->air_problems_19     = $request->air_problems_19;
+                $update->air_problems_20     = $request->air_problems_20;
+
+                $update->signature           = $add_img;
+                $update->signature2          = $add_img2;
+                $update->signature3          = $add_img3;
+
+                $update->air_status_techout  = $request->air_status_techout; 
+                $update->air_techout_name    = $request->air_techout_name;  
+                $update->air_status_staff    = $request->air_status_staff;   
+                $update->air_staff_id        = $request->air_staff_id; 
+                $update->air_status_tech     = $request->air_status_tech; 
+                $update->air_tech_id         = $request->air_tech_id; 
+                $update->save();
+
+                return response()->json([
+                    'status'     => '200'
+                ]);
+        }
+
+       
+        
+    }
+    public function air_main_repaire_destroy(Request $request,$id)
+    {
+        $del = Air_repaire::find($id);  
+        $del->delete();  
+
+        return response()->json(['status' => '200']);
+    }
     public function air_repiare_save(Request $request)
     {
         $date_now = date('Y-m-d');
@@ -233,6 +361,8 @@ class AirController extends Controller
             'datashow'      => $datashow,
         ]);
     }
+
+    // *******************************************************************
 
     public function air_add(Request $request)
     { 

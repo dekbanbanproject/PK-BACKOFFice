@@ -3358,6 +3358,8 @@ Route::match(['get','post'],'air_qrcode/{id}',[App\Http\Controllers\AirControlle
 
 Route::match(['get','post'],'air_qrcode_repaire',[App\Http\Controllers\AirController::class, 'air_qrcode_repaire'])->name('prs.air_qrcode_repaire');//
 Route::match(['get','post'],'air_main_repaire',[App\Http\Controllers\AirController::class, 'air_main_repaire'])->name('prs.air_main_repaire');//
-
+Route::match(['get','post'],'air_main_repaire_destroy/{id}',[App\Http\Controllers\AirController::class, 'air_main_repaire_destroy'])->name('prs.air_main_repaire_destroy');//
+Route::match(['get','post'],'air_repaire_edit/{id}',[App\Http\Controllers\AirController::class, 'air_repaire_edit'])->name('prs.air_repaire_edit');//
+Route::match(['get','post'],'air_repiare_update',[App\Http\Controllers\AirController::class, 'air_repiare_update'])->name('prs.air_repiare_update');//
 
 });
