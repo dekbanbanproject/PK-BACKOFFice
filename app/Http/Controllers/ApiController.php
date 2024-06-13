@@ -1460,7 +1460,7 @@ class ApiController extends Controller
                     LEFT JOIN opduser op on op.loginname = o.staff
                     WHERE o.vstdate = "'.$date_now.'" 
                     AND p.cid IS NOT NULL AND p.nationality ="99" 
-                    AND (vs.claim_code IS NULL OR vs.claim_code ="")
+                    AND (vs.claim_code IS NULL OR vs.claim_code ="") AND v.income > 0
                     AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") 
                     GROUP BY o.vn LIMIT 70
                 ');
@@ -1639,7 +1639,7 @@ class ApiController extends Controller
     public function mini_dataset_line(Request $request)
     { 
            $date_now = date('Y-m-d');
-        //    $date_now = date('2024-06-05');
+        //    $date_now = date('2024-06-13');
            $iduser = "754"; 
 
            $count_visit_all_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND cid <>""');      
