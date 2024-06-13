@@ -50,7 +50,8 @@ Route::match(['get','post'],'mini_dataset_line',[App\Http\Controllers\ApiControl
 
 Route::match(['get','post'],'authen_auth_apinew',[App\Http\Controllers\ApiController::class, 'authen_auth_apinew'])->name('fdh.authen_auth_apinew');//
 Route::match(['get','post'],'authen_auth_apitinew',[App\Http\Controllers\ApiController::class, 'authen_auth_apitinew'])->name('fdh.authen_auth_apitinew');//
- 
+Route::match(['get','post'],'authen_update',[App\Http\Controllers\ApiController::class, 'authen_update'])->name('fdh.authen_update');//
+
 Route::get('fdh_countvn', [App\Http\Controllers\ApiController::class, 'fdh_countvn'])->name('app.fdh_countvn');
 Route::get('fdh_sumincome', [App\Http\Controllers\ApiController::class, 'fdh_sumincome'])->name('app.fdh_sumincome');
 Route::get('fdh_countpidsit', [App\Http\Controllers\ApiController::class, 'fdh_countpidsit'])->name('app.fdh_countpidsit');

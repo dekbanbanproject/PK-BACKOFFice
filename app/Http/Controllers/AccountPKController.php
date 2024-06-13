@@ -3257,7 +3257,7 @@ class AccountPKController extends Controller
                 $row_limit    = $sheet->getHighestDataRow();
                 $column_limit = $sheet->getHighestDataColumn();
                 $row_range    = range( '15', $row_limit );
-                $column_range = range( 'AO', $column_limit );
+                // $column_range = range( 'AO', $column_limit );
                 $startcount = '15';
                 $data = array();
                 foreach ($row_range as $row ) {
@@ -3378,7 +3378,7 @@ class AccountPKController extends Controller
                 $row_limit2    = $sheet2->getHighestDataRow();
                 $column_limit2 = $sheet2->getHighestDataColumn();
                 $row_range2    = range( '15', $row_limit2 );
-                $column_range2 = range( 'AO', $column_limit2 );
+                // $column_range2 = range( 'AO', $column_limit2 );
                 $startcount2 = '15';
                 $data2 = array();
                 foreach ($row_range2 as $row2 ) {
@@ -3509,6 +3509,11 @@ class AccountPKController extends Controller
                 if ($value->cid != '') {
                     $check = Acc_stm_ucs::where('tranid','=',$value->tranid)->count();
                     if ($check > 0) {
+                        // Acc_stm_ucs::where('tranid','=', $value->tranid)
+                        //     ->update([
+                        //         'claimcode'     => $value->claimcode, 
+                        //         'claimtype'     => $value->claimtype, 
+                        // ]);
                     } else {
                         $add = new Acc_stm_ucs();
                         $add->rep            = $value->rep;
@@ -3576,10 +3581,11 @@ class AccountPKController extends Controller
                             ->update([
                                 'status'          => 'Y',
                                 'stm_rep'         => $value->debit,
-                                // 'stm_money'       => $value->ip_paytrue,
+                                'stm_money'       => "0.00",
+                                  // 'stm_money'       => $value->ip_paytrue,
                                 'stm_rcpno'       => $value->rep.'-'.$value->repno,
                                 'stm_trainid'     => $value->tranid,
-                                'stm_total'       => $value->total_approve,
+                                'stm_total'       => "0.00",
                                 'STMdoc'          => $value->STMdoc,
                                 'va'              => $value->va,
                         ]);
@@ -3591,7 +3597,7 @@ class AccountPKController extends Controller
                                     'stm_money'       => $value->ip_paytrue,
                                     'stm_rcpno'       => $value->rep.'-'.$value->repno,
                                     'stm_trainid'     => $value->tranid,
-                                    'stm_total'       => $value->total_approve,
+                                    'stm_total'       => $value->ip_paytrue,
                                     'STMdoc'          => $value->STMdoc,
                                     'va'              => $value->va,
                             ]);
@@ -4228,7 +4234,7 @@ class AccountPKController extends Controller
                 $row_limit    = $sheet->getHighestDataRow();
                 $column_limit = $sheet->getHighestDataColumn();
                 $row_range    = range( '9', $row_limit );
-                $column_range = range( 'F', $column_limit );
+                // $column_range = range( 'F', $column_limit );
                 $startcount = '9';
  
                 $data = array();

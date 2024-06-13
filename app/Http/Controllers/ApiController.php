@@ -1442,28 +1442,30 @@ class ApiController extends Controller
                 $date_now = date('Y-m-d');
                 // $date_now = date('2024-04-03');
                 // $date_now = date('2024-04-15');
-                // $data_vn_1 = DB::connection('mysql')->select(
-                //     'SELECT vn,cid,hn,vstdate,claimcode 
-                //         FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'"
-                //         AND (claimcode IS NULL OR claimcode ="") AND cid is not null  
-                //         GROUP BY vn 
-                       
-                //     '); 
-                $data_vn_1 = DB::connection('mysql10')->select(
-                    'SELECT v.vn,p.hn,p.cid,o.vstdate,o.pttype,p.birthday,p.hometel,p.citizenship,p.nationality,v.pdx,o.hospmain,o.hospsub
-                    ,o.staff,op.name as sname,v.income-v.discount_money-v.rcpt_money debit,vs.claim_code,vs.auth_code
-                    FROM vn_stat v
-                    LEFT JOIN visit_pttype vs on vs.vn = v.vn
-                    LEFT JOIN ovst o on o.vn = v.vn 
-                    LEFT JOIN patient p on p.hn=v.hn
-                    LEFT JOIN pttype pt on pt.pttype=v.pttype
-                    LEFT JOIN opduser op on op.loginname = o.staff
-                    WHERE o.vstdate = "'.$date_now.'" 
-                    AND p.cid IS NOT NULL AND p.nationality ="99" 
-                    AND (vs.claim_code IS NULL OR vs.claim_code ="") AND v.income > 0
-                    AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") 
-                    GROUP BY o.vn LIMIT 70
-                ');
+                $data_vn_1 = DB::connection('mysql')->select(
+                    'SELECT vn,cid,hn,vstdate,claimcode 
+                        FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'"
+                        AND (claimcode IS NULL OR claimcode ="") AND cid is not null  
+                        GROUP BY vn  
+                    '); 
+                // $data_vn_1 = DB::connection('mysql10')->select(
+                //     'SELECT v.vn,p.hn,p.cid,o.vstdate,o.pttype,p.birthday,p.hometel,p.citizenship,p.nationality,v.pdx,o.hospmain,o.hospsub
+                //     ,o.staff,op.name as sname,v.income-v.discount_money-v.rcpt_money debit,vs.claim_code,vs.auth_code
+                //     FROM vn_stat v
+                //     LEFT JOIN visit_pttype vs on vs.vn = v.vn
+                //     LEFT JOIN ovst o on o.vn = v.vn 
+                //     LEFT JOIN patient p on p.hn=v.hn
+                //     LEFT JOIN pttype pt on pt.pttype=v.pttype
+                //     LEFT JOIN opduser op on op.loginname = o.staff
+                //     WHERE o.vstdate = "'.$date_now.'" 
+                //     AND p.cid IS NOT NULL AND p.nationality ="99" 
+                //     AND (vs.claim_code IS NULL OR vs.claim_code = "") 
+                //     AND v.income > 0
+                //     AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") 
+                //     GROUP BY o.vn 
+                // ');
+                // AND (vs.claim_code IS NULL OR vs.claim_code ="") 
+                // LIMIT 70
                     // AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") 
                 $ch = curl_init(); 
                 foreach ($data_vn_1 as $key => $value) {
@@ -1481,7 +1483,7 @@ class ApiController extends Controller
                         $response = curl_exec($ch); 
                         $contents = $response; 
                         $result = json_decode($contents, true); 
- 
+                        // dd($result); 
                                 if ($result != null ) { 
                                     
                                             isset( $result['statusAuthen'] ) ? $statusAuthen = $result['statusAuthen'] : $statusAuthen = "";
@@ -1495,34 +1497,34 @@ class ApiController extends Controller
                                                     $sv_code	   = $value_s["service"]["code"];
                                                     $sv_name	   = $value_s["service"]["name"];
                                                     // dd($sv_name);                                               
-                                                    Check_sit_205_auto::where('vn', $vn)
-                                                        ->update([
-                                                            'claimcode'     => $cd,
-                                                            'claimtype'     => $sv_code,
-                                                            'servicename'   => $sv_name, 
-                                                    ]);
-                                                    Visit_pttype_205::where('vn', $vn)
-                                                        ->update([
-                                                            'claim_code'     => $cd, 
-                                                            'auth_code'      => $cd, 
-                                                    ]);
-                                                    Visit_pttype_217::where('vn', $vn)
-                                                        ->update([
-                                                            'claim_code'     => $cd, 
-                                                            'auth_code'      => $cd, 
-                                                    ]);
-                                                    Visit_pttype::where('vn','=', $vn)
-                                                        ->update([
-                                                            'claim_code'     => $cd, 
-                                                            'auth_code'      => $cd, 
-                                                    ]);
+                                                    // Check_sit_205_auto::where('vn', $vn)
+                                                    //     ->update([
+                                                    //         'claimcode'     => $cd,
+                                                    //         'claimtype'     => $sv_code,
+                                                    //         'servicename'   => $sv_name, 
+                                                    // ]);
+                                                    // Visit_pttype_205::where('vn', $vn)
+                                                    //     ->update([
+                                                    //         'claim_code'     => $cd, 
+                                                    //         'auth_code'      => $cd, 
+                                                    // ]);
+                                                    // Visit_pttype_217::where('vn', $vn)
+                                                    //     ->update([
+                                                    //         'claim_code'     => $cd, 
+                                                    //         'auth_code'      => $cd, 
+                                                    // ]);
+                                                    // Visit_pttype::where('vn','=', $vn)
+                                                    //     ->update([
+                                                    //         'claim_code'     => $cd, 
+                                                    //         'auth_code'      => $cd, 
+                                                    // ]);
                                                  
-                                                    Check_sit_auto::where('vn','=', $vn)
-                                                        ->update([
-                                                            'claimcode'     => $cd,
-                                                            'claimtype'     => $sv_code,
-                                                            'servicename'   => $sv_name, 
-                                                    ]);
+                                                    // Check_sit_auto::where('vn','=', $vn)
+                                                    //     ->update([
+                                                    //         'claimcode'     => $cd,
+                                                    //         'claimtype'     => $sv_code,
+                                                    //         'servicename'   => $sv_name, 
+                                                    // ]);
                                                     Fdh_mini_dataset::where('vn','=', $vn)
                                                         ->update([
                                                             'claimcode'     => $cd, 
@@ -1635,7 +1637,19 @@ class ApiController extends Controller
                 
                 return response()->json('200'); 
     }
-
+    public function authen_update(Request $request)
+    {
+        $date_now = date('Y-m-d');
+        $data =  Check_sit_auto::where('vstdate','=', $date_now)->get();
+        foreach ($data as $key => $value) {
+             Fdh_mini_dataset::where('vn','=', $value->vn)
+                ->update([
+                    'claimcode'     => $value->claimcode, 
+                    'claimtype'     => $value->claimtype, 
+            ]);
+        } 
+        return response()->json('200'); 
+    }
     public function mini_dataset_line(Request $request)
     { 
            $date_now = date('Y-m-d');
