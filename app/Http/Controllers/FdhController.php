@@ -2183,6 +2183,7 @@ class FdhController extends Controller
                     LEFT OUTER JOIN visit_pttype vp on vp.vn = o.vn
                 WHERE o.vstdate = "' . $date . '"  
                 AND ptt.hipdata_code ="UCS" AND v.income > 0 AND pt.cid IS NOT NULL AND pt.nationality ="99" AND pt.birthday <> "'.$date.'"
+                AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","X7","10","06","C4") 
                 AND (o.an IS NULL OR o.an ="")
                 GROUP BY v.vn LIMIT 50
             ');
