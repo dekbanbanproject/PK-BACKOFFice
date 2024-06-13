@@ -79,7 +79,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
                                 <div class="card mb-5 mt-5"
                                     style="max-width: 25rem;border-color:rgb(193, 20, 236);background-color:rgb(218, 250, 248);border-radius: 2em 2em 2em 2em">
                                     <div class="body"><br>
-                                        {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_repiare/' . $item->air_list_id) !!}
+                                        {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_repaire/' . $item->air_list_id) !!}
                                         <hr style="color:rgb(193, 20, 236)">
                                         <p style="font-size: 17px;color:rgb(193, 20, 236)"> {{ $item->air_list_num }} <br>
                                             สแกนเพื่อซ่อม</p>

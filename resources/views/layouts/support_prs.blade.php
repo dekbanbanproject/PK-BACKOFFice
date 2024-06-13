@@ -294,6 +294,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                             </a>
                             <ul class="sub-menu" aria-expanded="true"> 
                                 <li><a href="{{ url('air_main') }}">ทะเบียนเครื่องปรับอากาศ</a></li>
+                                <li><a href="{{ url('air_main_repaire') }}">ทะเบียนแจ้งซ่อม</a></li>
                                 <li><a href="{{ url('air_report_day') }}">report รายวัน</a></li> 
                             </ul>
                         </li>
