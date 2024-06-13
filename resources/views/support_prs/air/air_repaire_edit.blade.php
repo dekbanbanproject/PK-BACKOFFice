@@ -91,9 +91,9 @@
                             <div class="col-3 text-start">
                                 <div class="input-group">
                                     @if ($data_edit->air_problems_1 == 'on')
-                                        <input type="checkbox" class="discheckbox" id="air_problems_1" name="air_problems_1" checked>
+                                        <input type="checkbox" class="discheckbox" id="air_problems_1" name="air_problems_1" checked/>
                                     @else
-                                        <input type="checkbox" class="discheckbox" id="air_problems_1" name="air_problems_1">
+                                        <input type="checkbox" class="discheckbox" id="air_problems_1" name="air_problems_1"/>
                                     @endif                                   
                                     &nbsp;&nbsp;<p>น้ำหยด</p>
                                 </div>
@@ -101,9 +101,9 @@
                             <div class="col-5">
                                 <div class="input-group">
                                     @if ($data_edit->air_problems_2 == 'on')
-                                        <input type="checkbox" class="discheckbox" id="air_problems_2" name="air_problems_2" checked>
+                                        <input type="checkbox" class="discheckbox" id="air_problems_2" name="air_problems_2" checked/>
                                     @else
-                                        <input type="checkbox" class="discheckbox" id="air_problems_2" name="air_problems_2">
+                                        <input type="checkbox" class="discheckbox" id="air_problems_2" name="air_problems_2"/>
                                     @endif 
                                     &nbsp;&nbsp;<p>ไม่เย็นมีแต่ลม</p>
                                 </div>
@@ -111,9 +111,9 @@
                             <div class="col-4">
                                 <div class="input-group">
                                     @if ($data_edit->air_problems_3 == 'on')
-                                        <input type="checkbox" class="discheckbox" id="air_problems_3" name="air_problems_3" checked>
+                                        <input type="checkbox" class="discheckbox" id="air_problems_3" name="air_problems_3" checked/>
                                     @else
-                                        <input type="checkbox" class="discheckbox" id="air_problems_3" name="air_problems_3">
+                                        <input type="checkbox" class="discheckbox" id="air_problems_3" name="air_problems_3"/>
                                     @endif 
                                     &nbsp;&nbsp;<p> มีกลิ่นเหม็น</p>
                                 </div>
@@ -124,9 +124,9 @@
                                 <div class="input-group">
                                 
                                     @if ($data_edit->air_problems_4 == 'on')
-                                        <input type="checkbox" class="discheckbox" id="air_problems_4" name="air_problems_4" checked>
+                                        <input type="checkbox" class="discheckbox" id="air_problems_4" name="air_problems_4" checked/>
                                     @else
-                                        <input type="checkbox" class="discheckbox" id="air_problems_4" name="air_problems_4">
+                                        <input type="checkbox" class="discheckbox" id="air_problems_4" name="air_problems_4"/>
                                     @endif
                                     &nbsp;&nbsp;<p>เสียงดัง</p>
                                 </div>
@@ -135,9 +135,9 @@
                                 <div class="input-group">
                
                                     @if ($data_edit->air_problems_5 == 'on')
-                                        <input type="checkbox" class="discheckbox" id="air_problems_5" name="air_problems_5" checked>
+                                        <input type="checkbox" class="discheckbox" id="air_problems_5" name="air_problems_5" checked/>
                                     @else
-                                        <input type="checkbox" class="discheckbox" id="air_problems_5" name="air_problems_5">
+                                        <input type="checkbox" class="discheckbox" id="air_problems_5" name="air_problems_5"/>
                                     @endif
                                     &nbsp;&nbsp;<p>ไม่ติด/ติดๆ ดับๆ</p>
                                 </div>
@@ -157,9 +157,9 @@
                                 <div class="input-group">
                            
                                     @if ($data_edit->air_problems_6 == 'on')
-                                        <input type="checkbox" class="discheckbox" id="air_problems_6" name="air_problems_6" checked>
+                                        <input type="checkbox" class="discheckbox" id="air_problems_6" name="air_problems_6" checked/>
                                     @else
-                                        <input type="checkbox" class="discheckbox" id="air_problems_6" name="air_problems_6">
+                                        <input type="checkbox" class="discheckbox" id="air_problems_6" name="air_problems_6"/>
                                     @endif
                                     &nbsp;&nbsp;<p>ถอดล้างพัดลมกรงกระรอก</p>
                                 </div>
@@ -168,9 +168,9 @@
                                 <div class="input-group">
                                   
                                     @if ($data_edit->air_problems_7 == 'on')
-                                        <input type="checkbox" class="discheckbox" id="air_problems_7" name="air_problems_7" checked>
+                                        <input type="checkbox" class="discheckbox" id="air_problems_7" name="air_problems_7" checked/>
                                     @else
-                                        <input type="checkbox" class="discheckbox" id="air_problems_7" name="air_problems_7">
+                                        <input type="checkbox" class="discheckbox" id="air_problems_7" name="air_problems_7"/>
                                     @endif
                                     &nbsp;&nbsp;<p>ล้างถาดหลังแอร์</p>
                                 </div>
@@ -182,9 +182,9 @@
                                 <div class="input-group">
                                 
                                     @if ($data_edit->air_problems_8 == 'on')
-                                        <input type="checkbox" class="discheckbox" id="air_problems_8" name="air_problems_8" checked>
+                                        <input type="checkbox" class="discheckbox" id="air_problems_8" name="air_problems_8" checked/>
                                     @else
-                                        <input type="checkbox" class="discheckbox" id="air_problems_8" name="air_problems_8">
+                                        <input type="checkbox" class="discheckbox" id="air_problems_8" name="air_problems_8"/>
                                     @endif
                                     &nbsp;&nbsp;<p>ล้างแผงคอยล์เย็น</p>
                                 </div>
@@ -193,9 +193,9 @@
                                 <div class="input-group">
                                
                                     @if ($data_edit->air_problems_9 == 'on')
-                                        <input type="checkbox" class="discheckbox" id="air_problems_9" name="air_problems_9" checked>
+                                        <input type="checkbox" class="discheckbox" id="air_problems_9" name="air_problems_9" checked/>
                                     @else
-                                        <input type="checkbox" class="discheckbox" id="air_problems_9" name="air_problems_9">
+                                        <input type="checkbox" class="discheckbox" id="air_problems_9" name="air_problems_9"/>
                                     @endif
                                     &nbsp;&nbsp;<p>ล้างแผงคอยล์ร้อน</p>
                                 </div>
@@ -205,9 +205,9 @@
                             <div class="col text-start">
                                 <div class="input-group">
                                         @if ($data_edit->air_problems_10 == 'on')
-                                        <input type="checkbox" class="discheckbox" id="air_problems_10" name="air_problems_10" checked>
+                                        <input type="checkbox" class="discheckbox" id="air_problems_10" name="air_problems_10" checked/>
                                     @else
-                                        <input type="checkbox" class="discheckbox" id="air_problems_10" name="air_problems_10">
+                                        <input type="checkbox" class="discheckbox" id="air_problems_10" name="air_problems_10"/>
                                     @endif
                                     &nbsp;&nbsp;<p>ตรวจเช็คน้ำยา</p>
                                 </div>
@@ -224,9 +224,9 @@
                             <div class="col-6 text-start">
                                 <div class="input-group">
                                         @if ($data_edit->air_problems_11 == 'on')
-                                        <input type="checkbox" class="discheckbox" id="air_problems_11" name="air_problems_11" checked>
+                                        <input type="checkbox" class="discheckbox" id="air_problems_11" name="air_problems_11" checked/>
                                     @else
-                                        <input type="checkbox" class="discheckbox" id="air_problems_11" name="air_problems_11">
+                                        <input type="checkbox" class="discheckbox" id="air_problems_11" name="air_problems_11"/>
                                     @endif
                                     &nbsp;&nbsp;<p>ถอดล้างพัดลมกรงกระรอก</p>
                                 </div>
@@ -234,9 +234,9 @@
                             <div class="col-6">
                                 <div class="input-group">
                                     @if ($data_edit->air_problems_12 == 'on')
-                                    <input type="checkbox" class="discheckbox" id="air_problems_12" name="air_problems_12" checked>
+                                    <input type="checkbox" class="discheckbox" id="air_problems_12" name="air_problems_12" checked/>
                                 @else
-                                    <input type="checkbox" class="discheckbox" id="air_problems_12" name="air_problems_12">
+                                    <input type="checkbox" class="discheckbox" id="air_problems_12" name="air_problems_12"/>
                                 @endif
                                     &nbsp;&nbsp;<p>ล้างถาดหลังแอร์</p>
                                 </div>
@@ -246,9 +246,9 @@
                             <div class="col-6 text-start">
                                 <div class="input-group">
                                     @if ($data_edit->air_problems_13 == 'on')
-                                    <input type="checkbox" class="discheckbox" id="air_problems_13" name="air_problems_13" checked>
+                                    <input type="checkbox" class="discheckbox" id="air_problems_13" name="air_problems_13" checked/>
                                 @else
-                                    <input type="checkbox" class="discheckbox" id="air_problems_13" name="air_problems_13">
+                                    <input type="checkbox" class="discheckbox" id="air_problems_13" name="air_problems_13"/>
                                 @endif
                                     &nbsp;&nbsp;<p>ล้างแผงคอยล์เย็น</p>
                                 </div>
@@ -256,9 +256,9 @@
                             <div class="col-6">
                                 <div class="input-group">
                                     @if ($data_edit->air_problems_14 == 'on')
-                                    <input type="checkbox" class="discheckbox" id="air_problems_14" name="air_problems_14" checked>
+                                    <input type="checkbox" class="discheckbox" id="air_problems_14" name="air_problems_14" checked/>
                                 @else
-                                    <input type="checkbox" class="discheckbox" id="air_problems_14" name="air_problems_14">
+                                    <input type="checkbox" class="discheckbox" id="air_problems_14" name="air_problems_14"/>
                                 @endif
                                     &nbsp;&nbsp;<p>ล้างแผงคอยล์ร้อน</p>
                                 </div>
@@ -268,9 +268,9 @@
                             <div class="col text-start">
                                 <div class="input-group">
                                     @if ($data_edit->air_problems_15 == 'on')
-                                    <input type="checkbox" class="discheckbox" id="air_problems_15" name="air_problems_15" checked>
+                                    <input type="checkbox" class="discheckbox" id="air_problems_15" name="air_problems_15" checked/>
                                 @else
-                                    <input type="checkbox" class="discheckbox" id="air_problems_15" name="air_problems_15">
+                                    <input type="checkbox" class="discheckbox" id="air_problems_15" name="air_problems_15"/>
                                 @endif
                                     &nbsp;&nbsp;<p>ตรวจเช็คน้ำยา</p>
                                 </div>
@@ -287,9 +287,9 @@
                             <div class="col-6 text-start">
                                 <div class="input-group">
                                     @if ($data_edit->air_problems_16 == 'on')
-                                    <input type="checkbox" class="discheckbox" id="air_problems_16" name="air_problems_16" checked>
+                                    <input type="checkbox" class="discheckbox" id="air_problems_16" name="air_problems_16" checked/>
                                 @else
-                                    <input type="checkbox" class="discheckbox" id="air_problems_16" name="air_problems_16">
+                                    <input type="checkbox" class="discheckbox" id="air_problems_16" name="air_problems_16"/>
                                 @endif
                                     &nbsp;&nbsp;<p>ถอดล้างพัดลมกรงกระรอก</p>
                                 </div>
@@ -297,9 +297,9 @@
                             <div class="col-6">
                                 <div class="input-group">
                                     @if ($data_edit->air_problems_17 == 'on')
-                                        <input type="checkbox" class="discheckbox" id="air_problems_17" name="air_problems_17" checked>
+                                        <input type="checkbox" class="discheckbox" id="air_problems_17" name="air_problems_17" checked/>
                                     @else
-                                        <input type="checkbox" class="discheckbox" id="air_problems_17" name="air_problems_17">
+                                        <input type="checkbox" class="discheckbox" id="air_problems_17" name="air_problems_17"/>
                                     @endif
                                     &nbsp;&nbsp;<p>ล้างถาดหลังแอร์</p>
                                 </div>
@@ -310,9 +310,9 @@
                             <div class="col-6 text-start">
                                 <div class="input-group">
                                     @if ($data_edit->air_problems_18 == 'on')
-                                    <input type="checkbox" class="discheckbox" id="air_problems_18" name="air_problems_18" checked>
+                                    <input type="checkbox" class="discheckbox" id="air_problems_18" name="air_problems_18" checked/>
                                 @else
-                                    <input type="checkbox" class="discheckbox" id="air_problems_18" name="air_problems_18">
+                                    <input type="checkbox" class="discheckbox" id="air_problems_18" name="air_problems_18"/>
                                 @endif
                                     &nbsp;&nbsp;<p>ล้างแผงคอยล์เย็น</p>
                                 </div>
@@ -320,9 +320,9 @@
                             <div class="col-6">
                                 <div class="input-group">
                                     @if ($data_edit->air_problems_19 == 'on')
-                                    <input type="checkbox" class="discheckbox" id="air_problems_19" name="air_problems_19" checked>
+                                    <input type="checkbox" class="discheckbox" id="air_problems_19" name="air_problems_19" checked/>
                                 @else
-                                    <input type="checkbox" class="discheckbox" id="air_problems_19" name="air_problems_19">
+                                    <input type="checkbox" class="discheckbox" id="air_problems_19" name="air_problems_19"/>
                                 @endif
                                     &nbsp;&nbsp;<p>ล้างแผงคอยล์ร้อน</p>
                                 </div>
@@ -332,9 +332,9 @@
                             <div class="col text-start">
                                 <div class="input-group">
                                     @if ($data_edit->air_problems_20 == 'on')
-                                    <input type="checkbox" class="discheckbox" id="air_problems_20" name="air_problems_20" checked>
+                                    <input type="checkbox" class="discheckbox" id="air_problems_20" name="air_problems_20" checked/>
                                 @else
-                                    <input type="checkbox" class="discheckbox" id="air_problems_20" name="air_problems_20">
+                                    <input type="checkbox" class="discheckbox" id="air_problems_20" name="air_problems_20"/>
                                 @endif
                                     &nbsp;&nbsp;<p>ตรวจเช็คน้ำยา</p>
                                 </div>
@@ -706,7 +706,7 @@
             $("#spinner-div").hide(); //Request is complete so hide spinner
 
             $('#updateBtn').click(function() {
-                // alert('okkkkk'); 
+              
                 var air_problems_1     = $('#air_problems_1').val();
                 var air_problems_2     = $('#air_problems_2').val();
                 var air_problems_3     = $('#air_problems_3').val();
@@ -744,7 +744,7 @@
                 var air_location_id    = $('#air_location_id').val();
                 var air_location_name  = $('#air_location_name').val();
                 var air_repaire_id     = $('#air_repaire_id').val();
-                
+                //   alert(air_problems_1); 
                 Swal.fire({ position: "top-end",
                         title: 'ต้องการบันทึกข้อมูลใช่ไหม ?',
                         text: "You Warn Save Data!",
