@@ -199,7 +199,8 @@ class AirController extends Controller
         $add_img     = $request->input('signature');
         $add_img2    = $request->input('signature2');
         $add_img3    = $request->input('signature3');
-        $id          = $request->air_repaire_id;
+        $id          = $request->input('air_repaire_id');
+
         $data_edit   = Air_repaire::where('air_repaire_id', '=', $id)->first();
 
         if ($add_img =='') {
@@ -215,7 +216,15 @@ class AirController extends Controller
             return response()->json([
                 'status'     => '60'
             ]);
+        } else if ($add_img3 =='') {
+            return response()->json([
+                'status'     => '70'
+            ]);
         } else { 
+
+                $pro_1 = $request->input('air_problems_1');
+                dd($pro_1);
+                
                 $update = Air_repaire::find($id);
                 $update->repaire_date        = $date_now;
                 $update->air_list_id         = $request->air_list_id;
@@ -226,7 +235,7 @@ class AirController extends Controller
                 $update->air_location_id     = $request->air_location_id;
                 $update->air_location_name   = $request->air_location_name;
 
-                $update->air_problems_1      = $request->air_problems_1;
+                $update->air_problems_1      = $pro_1;  
                 $update->air_problems_2      = $request->air_problems_2;
                 $update->air_problems_3      = $request->air_problems_3;
                 $update->air_problems_4      = $request->air_problems_4;
@@ -257,12 +266,12 @@ class AirController extends Controller
                 $update->air_staff_id        = $request->air_staff_id; 
                 $update->air_status_tech     = $request->air_status_tech; 
                 $update->air_tech_id         = $request->air_tech_id; 
-                $update->save();
-
-                return response()->json([
-                    'status'     => '200'
-                ]);
+                $update->save(); 
         }
+
+        return response()->json([
+            'status'     => '200'
+        ]);
 
        
         

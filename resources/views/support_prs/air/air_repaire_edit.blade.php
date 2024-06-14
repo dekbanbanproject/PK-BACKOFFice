@@ -93,7 +93,7 @@
                                     @if ($data_edit->air_problems_1 == 'on')
                                         <input type="checkbox" class="discheckbox" id="air_problems_1" name="air_problems_1" checked/>
                                     @else
-                                        <input type="checkbox" class="discheckbox" id="air_problems_1" name="air_problems_1"/>
+                                        <input type="checkbox" class="discheckbox" id="air_problems_1" name="air_problems_1" />
                                     @endif                                   
                                     &nbsp;&nbsp;<p>น้ำหยด</p>
                                 </div>
@@ -744,7 +744,7 @@
                 var air_location_id    = $('#air_location_id').val();
                 var air_location_name  = $('#air_location_name').val();
                 var air_repaire_id     = $('#air_repaire_id').val();
-                //   alert(air_problems_1); 
+                  alert(air_problems_1); 
                 Swal.fire({ position: "top-end",
                         title: 'ต้องการบันทึกข้อมูลใช่ไหม ?',
                         text: "You Warn Save Data!",
@@ -804,7 +804,8 @@
                                                     .isConfirmed) {
                                                     console.log(
                                                         data);
-                                                        window.location.reload();
+                                                        // window.location.reload();
+                                                        window.location="{{url('air_main_repaire')}}"; 
                                                         $('#spinner').hide();//Request is complete so hide spinner
                                                         setTimeout(function(){
                                                             $("#overlay").fadeOut(300);
