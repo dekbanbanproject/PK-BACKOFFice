@@ -202,11 +202,13 @@
                                 @foreach ($datashow as $item) 
                                     <tr id="tr_{{$item->air_repaire_id}}">                                                  
                                         <td class="text-center" width="3%">{{ $i++ }}</td>  
-                                        <td class="text-center" width="3%">
+                                        <td class="text-center" width="3%" style="font-size: 12px">
                                             @if ($item->active == 'Y')
-                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">พร้อมใช้งาน</span> 
+                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                                    พร้อมใช้งาน
+                                                    </span> 
                                             @else
-                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">ไม่พร้อมใช้งาน</span>
+                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger"> ไม่พร้อมใช้งาน</span>
                                             @endif
                                         </td>
                                       
@@ -223,11 +225,11 @@
                                         <td class="p-2" style="color:rgb(73, 147, 231)" width="20%">{{ $item->air_location_name }}</td>  
                                         <td class="p-2" style="color:rgb(73, 147, 231)" width="10%">{{ $item->ptname }}</td>  
                                         <td class="p-2" style="color:rgb(73, 147, 231)" width="10%">{{ $item->tectname }}</td>  
-                                        <td class="text-center" width="5%"> 
+                                        <td class="text-center" width="5%" style="font-size: 12px"> 
                                             <div class="dropdown d-inline-block">
                                                 <button type="button" aria-haspopup="true" aria-expanded="false"
                                                     data-bs-toggle="dropdown"
-                                                    class="dropdown-toggle btn btn-outline-secondary btn-sm">
+                                                    class="dropdown-toggle btn btn-outline-secondary btn-sm">    
                                                     ทำรายการ
                                                 </button>
                                                 <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-hover-link dropdown-menu"> 

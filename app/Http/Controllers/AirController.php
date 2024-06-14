@@ -137,12 +137,13 @@ class AirController extends Controller
             // $signat = $data_detail_->air_img_base;
             // $pic_fire = base64_encode(file_get_contents($signat));  
       
-            // dd($data_detail_);
+            $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE REPAIR_SYSTEM ="1" AND REPAIR_STATUS ="RECEIVE" ORDER BY REPAIR_ID ASC'); 
+
             return view('support_prs.air.air_repaire',$data, [
                 // 'dataprint'    => $dataprint,
                 'data_detail'   => $data_detail,
                 'data_detail_'  => $data_detail_,
-                // 'pic_fire'      => $pic_fire,
+                'air_no'        => $air_no,
                 'id'            => $id
             ]); 
     }
@@ -185,12 +186,15 @@ class AirController extends Controller
         $signat3                    = $data_edit->signature3; 
         $signature3                 = base64_encode(file_get_contents($signat3));
 
+        $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE REPAIR_SYSTEM ="1" AND REPAIR_STATUS ="RECEIVE" ORDER BY REPAIR_ID ASC'); 
+
         return view('support_prs.air.air_repaire_edit', $data,[
             'data_detail_'     => $data_detail_,
             'data_edit'        => $data_edit,
             'signature'        => $signature,
             'signature2'       => $signature2,
-            'signature3'       => $signature3
+            'signature3'       => $signature3,
+            'air_no'           => $air_no,
         ]);
     }
     public function air_repiare_update(Request $request)
@@ -223,10 +227,11 @@ class AirController extends Controller
         } else { 
 
                 $pro_1 = $request->input('air_problems_1');
-                dd($pro_1);
+                // dd($pro_1);
                 
                 $update = Air_repaire::find($id);
                 $update->repaire_date        = $date_now;
+                $update->air_repaire_no      = $request->air_repaire_no;
                 $update->air_list_id         = $request->air_list_id;
                 $update->air_list_num        = $request->air_list_num;
                 $update->air_list_name       = $request->air_list_name;
@@ -301,6 +306,7 @@ class AirController extends Controller
         } else { 
                 $add = new Air_repaire();
                 $add->repaire_date        = $date_now;
+                $add->air_repaire_no      = $request->air_repaire_no;
                 $add->air_list_id         = $request->air_list_id;
                 $add->air_list_num        = $request->air_list_num;
                 $add->air_list_name       = $request->air_list_name;

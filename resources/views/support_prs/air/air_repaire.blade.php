@@ -78,6 +78,17 @@
                             <div class="col text-start">
                                 <p style="color:red">ส่วนที่ 2 : ช่างซ่อม(นอก รพ.) </p>
                             </div>
+                            <div class="col-2 text-start">
+                                <p style="color:rgb(22, 61, 236)">เลขที่แจ้งซ่อม :  </p>
+                            </div>
+                            <div class="col-6 text-start">
+                                <select class="custom-select custom-select-sm" id="air_repaire_no" name="air_repaire_no"
+                                    style="width: 100%"> 
+                                    @foreach ($air_no as $item_no)
+                                        <option value="{{ $item_no->REPAIR_ID }}" class="text-center">{{ $item_no->REPAIR_ID }} {{ $item_no->REPAIR_NAME }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -646,8 +657,9 @@
                 var serial_no          = $('#serial_no').val();
                 var air_location_id    = $('#air_location_id').val();
                 var air_location_name  = $('#air_location_name').val();
-
-                Swal.fire({
+                var air_repaire_no     = $('#air_repaire_no').val();
+                
+                Swal.fire({ position: "top-end",
                         title: 'ต้องการบันทึกข้อมูลใช่ไหม ?',
                         text: "You Warn Save Data!",
                         icon: 'warning',
@@ -670,7 +682,7 @@
                                         ,air_problems_9,air_problems_10,air_problems_11,air_problems_12,air_problems_13,air_problems_14,air_problems_15,air_problems_16
                                         ,air_problems_17,air_problems_18,air_problems_19,air_problems_20,air_status_techout,air_techout_name,air_status_staff,air_staff_id
                                         ,air_status_tech,air_tech_id,signature,signature2,signature3
-                                        ,air_list_id,air_list_num,air_list_name,btu,serial_no,air_location_id,air_location_name
+                                        ,air_list_id,air_list_num,air_list_name,btu,serial_no,air_location_id,air_location_name,air_repaire_no
                                     },
                                     success: function(data) {
                                         if (data.status == 0) {

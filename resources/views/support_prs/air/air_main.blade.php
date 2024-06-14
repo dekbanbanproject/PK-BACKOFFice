@@ -186,7 +186,7 @@
                                     <th class="text-center" >รายการ</th> 
                                     <th class="text-center">ขนาด(BTU)</th> 
                                     <th class="text-center" >สถานที่ตั้ง</th>  
-                                    <th class="text-center" >รายละเอียด</th> 
+                                    <th class="text-center" >หน่วยงาน</th> 
                                     {{-- <th class="text-center" >วันผลิต</th>  --}}
                                     {{-- <th class="text-center" >วันหมดอายุ</th>  --}}
                                     <th class="text-center">จัดการ</th> 
