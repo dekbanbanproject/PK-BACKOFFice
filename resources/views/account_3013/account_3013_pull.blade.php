@@ -97,7 +97,7 @@
     </div>    
         <div class="row">
             <div class="col-xl-12">
-                <div class="card cardacc">
+                <div class="card card_audit_4c">
                     <div class="card-body">
                         <div class="row mb-3"> 
                             <div class="col"></div>
@@ -128,16 +128,15 @@
                                             <th class="text-center" >cid</th>
                                             <th class="text-center">ptname</th>
                                             <th class="text-center">vstdate</th>
-                                            <th class="text-center">pdx</th>
-
-                                            <th class="text-center">refer_no</th> 
-
-                                            <th class="text-center">hospcode</th>  
+                                            <th class="text-center">pdx</th> 
+                                            {{-- <th class="text-center">refer_no</th>  --}} 
+                                            {{-- <th class="text-center">hospcode</th>   --}}
                                             <th class="text-center">pttype</th> 
                                             <th class="text-center">spsch</th>  
+                                            <th class="text-center">income</th> 
                                             <th class="text-center">ลูกหนี้</th> 
-                                            <th class="text-center">ลูกหนี้CT</th>                                            
-                                            <th class="text-center">ลูกหนี้ตามข้อตกลง</th>  
+                                            {{-- <th class="text-center">ลูกหนี้ CT</th>                                             --}}
+                                            {{-- <th class="text-center">ลูกหนี้ตามข้อตกลง</th>   --}}
                                             <th class="text-center">สถานะ</th>
                                             {{-- <th class="text-center">ส่วนต่าง</th>   --}}
                                         </tr>
@@ -161,24 +160,26 @@
                                                 <td class="text-center" width="7%">{{ $item->vstdate }}</td>  
                                                 <td class="text-center" width="7%">{{ $item->pdx }}</td>  
 
-                                                <td class="text-center" width="7%">{{ $item->referin_no }}</td> 
+                                                {{-- <td class="text-center" width="7%">{{ $item->referin_no }}</td>  --}}
 
-                                                <td class="text-center" width="7%">{{ $item->hospcode }}</td>  
+                                                {{-- <td class="text-center" width="7%">{{ $item->hospcode }}</td>   --}}
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>  
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td>  
-                                                <td class="text-center" width="10%">{{ number_format($item->uc_money, 2) }}</td> 
-                                                @if ($item->ct_sumprice > '0')
+                                                <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td> 
+                                                <td class="text-center" width="10%">{{ number_format($item->debit_total, 2) }}</td> 
+                                                <td class="text-center" width="10%">{{ number_format($item->debit_ct_sss, 2) }}</td> 
+                                                {{-- @if ($item->debit_ct_sss > '0')
                                                     <td class="text-center" width="5%"> 
-                                                        <span class="bg-success badge me-2">{{ $item->ct_price }}</span> 
+                                                        <span class="bg-success badge me-2">{{ $item->debit_ct_sss }}</span> 
                                                     </td> 
                                                 @else
                                                     <td class="text-center" width="5%">  
                                                         <span class="bg-danger badge me-2">N</span> 
                                                     </td> 
-                                                @endif
+                                                @endif --}}
                                                
-                                                <td class="text-center" width="10%">{{ number_format($item->debit_total, 2) }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->active_status }}</td> 
+                                              
+                                                {{-- <td class="text-center" width="5%">{{ $item->active_status }}</td>  --}}
                                                 {{-- <td class="text-center" width="10%">{{ number_format($item->sauntang, 2) }}</td>  --}}
                                             </tr>
                                         @endforeach

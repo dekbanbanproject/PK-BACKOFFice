@@ -68,12 +68,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Detail</h4>
+                        <h4 class="mb-sm-0"> รายละเอียด 1102050101.3013</h4>
     
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Detail</a></li>
-                                <li class="breadcrumb-item active">1102050101.203</li>
+                                <li class="breadcrumb-item active">1102050101.3013</li>
                             </ol>
                         </div>
     
@@ -85,7 +85,7 @@
 
         <div class="row">
             <div class="col-xl-12">
-                    <div class="card cardacc"> 
+                    <div class="card card_audit_4c"> 
                   
                     <div class="card-body">
                      
@@ -102,14 +102,14 @@
                                         <th class="text-center">cid</th>
                                         <th class="text-center">ptname</th>                                       
                                         <th class="text-center">pttype</th>  
-                                        <th class="text-center">เลขที่ใบเสร็จ</th> 
+                                        {{-- <th class="text-center">เลขที่ใบเสร็จ</th>  --}}
                                         <th class="text-center">ค่ารักษา</th>
                                         <th class="text-center">ชำระเงินเอง</th> 
                                         {{-- <th class="text-center">income</th> --}}
-                                        <th class="text-center">ลูกหนี้ตามข้อตกลง</th> 
-                                        <th class="text-center">ลูกหนี้CT</th> 
+                                        <th class="text-center">ลูกหนี้</th> 
+                                        {{-- <th class="text-center">ลูกหนี้CT</th>  --}}
                                         <th class="text-center">ส่วนต่าง</th> 
-                                        <th class="text-center">Hcode</th> 
+                                        {{-- <th class="text-center">Hcode</th>  --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -131,35 +131,35 @@
                                                 <td class="text-center" width="7%">{{ $item->cid }}</td>
                                                 <td class="p-2">{{ $item->ptname }}</td>                                            
                                                 <td class="text-center" width="5%">{{ $item->pttype }}</td>   
-                                                <td class="text-end" style="color:rgb(243, 157, 27)" width="7%"> {{ $item->nhso_ownright_pid }}</td>                                         
+                                                {{-- <td class="text-end" style="color:rgb(243, 157, 27)" width="7%"> {{ $item->nhso_ownright_pid }}</td>                                          --}}
                                                 <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->income, 2) }}</td>  
-                                                <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->rcpt_money, 2) }}</td> 
+                                                <td class="text-end" style="color:rgb(9, 90, 184)" width="7%"> {{ number_format($item->rcpt_money, 2) }}</td> 
                                                 {{-- <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->income - $item->rcpt_money, 2) }}</td>  --}}
-                                                <td class="text-end"  width="7%" style="color:#0A4F87"> {{ $item->debit_total }}</td>   
-                                                <td class="text-end"  width="7%" style="color:#108A1A"> {{ $item->ct_price }}</td> 
-                                                <td class="text-end"  width="7%" style="color:#E9540F"> {{ number_format(($item->income)-($item->rcpt_money)-($item->debit_total)-($item->ct_price),2) }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->hospcode }}</td>
+                                                <td class="text-end"  width="7%" style="color:#6b045d"> {{ $item->debit_total }}</td>   
+                                                {{-- <td class="text-end"  width="7%" style="color:#108A1A"> {{ $item->ct_price }}</td>  --}}
+                                                <td class="text-end"  width="7%" style="color:#E9540F"> {{ number_format(($item->income)-($item->rcpt_money)-($item->debit_ct_sss),2) }}</td> 
+                                                {{-- <td class="text-center" width="5%">{{ $item->hospcode }}</td> --}}
                                             </tr>
                                         <?php
                                                 $total1 = $total1 + $item->income;
                                                 $total2 = $total2 + $item->rcpt_money;
                                                 // $total3 = $total3 + ($item->income - $item->rcpt_money);
                                                 $total3 = $total3 + $item->debit_total;
-                                                $total4 = $total4 + $item->ct_price;
-                                                $total5 = $total5 + (($item->income)-($item->rcpt_money)-($item->debit_total)-($item->ct_price));
+                                                $total4 = $total4 + ($item->income)-($item->rcpt_money)-($item->debit_ct_sss);
+                                                // $total5 = $total5 + (($item->income)-($item->rcpt_money)-($item->debit_total)-($item->ct_price));
                                         ?>
                                     @endforeach
 
                                 </tbody>
                                 <tr style="background-color: #f3fca1">
-                                    <td colspan="8" class="text-end" style="background-color: #fca1a1"></td>
+                                    <td colspan="7" class="text-end" style="background-color: #fca1a1"></td>
                                     <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
-                                    <td class="text-center" style="background-color: #FCA533" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
+                                    <td class="text-center" style="background-color: #2124a7" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
                                     {{-- <td class="text-center" style="background-color: #44E952"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td> --}}
-                                    <td class="text-center" style="background-color: #0A4F87"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td>
-                                    <td class="text-center" style="background-color: #108A1A"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td>
-                                    <td class="text-center" style="background-color: #E9540F"><label for="" style="color: #FFFFFF">{{ number_format($total5, 2) }}</label></td>
-                                    <td colspan="1" class="text-end" style="background-color: #fca1a1"></td>
+                                    <td class="text-center" style="background-color: #7c0a87"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td>
+                                    <td class="text-center" style="background-color: #e46c0b"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td>
+                                    {{-- <td class="text-center" style="background-color: #E9540F"><label for="" style="color: #FFFFFF">{{ number_format($total5, 2) }}</label></td> --}}
+                                    {{-- <td colspan="1" class="text-end" style="background-color: #fca1a1"></td> --}}
                                 </tr>  
                             </table>
                         </div>

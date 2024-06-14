@@ -2780,14 +2780,15 @@ class AccountPKController extends Controller
         $datenow             = date('Y-m-d');
         $startdate           = $request->startdate;
         $enddate             = $request->enddate;        
-        $data['ofc_ti']     = DB::connection('mysql')->select('
-                SELECT b.STMDoc,SUM(b.Total_amount) as total 
-                FROM acc_1102050101_4011 a 
-                LEFT JOIN acc_stm_ti_total b ON b.hn = a.hn AND b.vstdate = a.vstdate
-                WHERE b.HDflag IN("COC")
-                GROUP BY b.STMDoc 
+        $data['ofc_ti']     = DB::connection('mysql')->select(
+            'SELECT a.STMDoc,SUM(a.Total_amount) as total 
+                FROM acc_stm_ti_total a 
+               
+                WHERE a.HDflag IN("COC")
+                GROUP BY a.STMDoc 
                 ORDER BY STMDoc DESC
         ');        
+        //  LEFT JOIN acc_stm_ti_total b ON b.hn = a.hn AND b.vstdate = a.vstdate
         return view('account_pk.upstm_ofc_ti',$data,[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate, 
@@ -2799,19 +2800,18 @@ class AccountPKController extends Controller
         $startdate           = $request->startdate;
         $enddate             = $request->enddate; 
         $data['ofc_ti']     = DB::connection('mysql')->select('
-                SELECT b.STMDoc,SUM(b.Total_amount) as total 
-                FROM acc_1102050101_4011 a 
-                LEFT JOIN acc_stm_ti_total b ON b.hn = a.hn AND b.vstdate = a.vstdate
-                WHERE b.HDflag IN("COC")
-                GROUP BY b.STMDoc 
+                SELECT a.STMDoc,SUM(a.Total_amount) as total 
+                FROM acc_stm_ti_total a  
+                WHERE a.HDflag IN("COC")
+                GROUP BY a.STMDoc 
                 ORDER BY STMDoc DESC
         ');  
         $data['datashow']     = DB::connection('mysql')->select('
             SELECT a.vn,a.hn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit_total,b.STMdoc,b.Total_amount
             FROM acc_1102050101_4011 a 
             LEFT JOIN acc_stm_ti_total b ON b.hn = a.hn AND b.vstdate = a.vstdate
-            WHERE b.STMdoc = "'.$id.'" AND b.HDflag IN("COC")
-       
+            WHERE b.STMdoc = "'.$id.'" AND b.HDflag IN("COC") AND b.Total_amount <> ""
+            GROUP BY a.hn,a.vstdate
         ');
         // AND b.Total_amount IS NOT NULL 
         return view('account_pk.upstm_ofc_ti_detail',$data,[

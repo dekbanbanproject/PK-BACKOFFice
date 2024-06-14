@@ -84,7 +84,7 @@ $pos = strrpos($url, '/') + 1;
             <div class="col-md-12">
                 <div class="card cardacc">
                     <div class="card-header">
-                    รายละเอียด 1102050101.301
+                    รายละเอียด 1102050101.3011
                         <div class="btn-actions-pane-right">
 
                         </div>

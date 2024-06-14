@@ -92,8 +92,8 @@
             <div class="row mt-2"> 
                
                 <div class="col-md-6 text-start">
-                    <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail 1102050101.301</h4>
-                    <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.301</p>
+                    <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail SSS OPD</h4>
+                    <p class="card-title-desc">รายละเอียดข้อมูลประกันสังคม ผู้ป่วยนอก</p>
                 </div>
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
@@ -298,10 +298,11 @@
                                                     0.00000000
                                                  </td> 
                                                 <td class="text-end" width="5%" style="background-color: rgb(253, 246, 223)">
-                                                    <a href="{{url('account_301_ct/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank" style="color:rgb(13, 67, 138)"> {{ number_format($sum_tongtung3013, 2) }}</a>
+                                                    <a href="{{url('account_3013_pull')}}" target="_blank" style="color:rgb(13, 67, 138)"> {{ number_format($sum_tongtung3013, 2) }}</a>
                                                 </td>                                                 
                                                 <td class="text-end" style="color:rgb(84, 4, 131);background-color: rgb(253, 246, 223)" width="5%">
-                                                    {{ number_format($sum_ct_sss, 2) }} 
+                                                    <a href="{{url('account_3013_detail/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank" style="color:rgb(84, 4, 131)"> {{ number_format($sum_ct_sss, 2) }}</a>
+                                                 
                                                 </td> 
                                                 <td class="text-end" style="color:rgb(6, 155, 142);background-color: rgb(253, 246, 223)" width="5%">
                                                     0.00000000
