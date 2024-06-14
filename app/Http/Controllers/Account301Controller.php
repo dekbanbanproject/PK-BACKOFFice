@@ -668,12 +668,14 @@ class Account301Controller extends Controller
         $enddate = $request->enddate;
 
         $data = DB::select('
-        SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
+        SELECT *
+    
             from acc_1102050101_301 U1
         
             WHERE U1.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
             GROUP BY U1.vn
         ');
+        // U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
         return view('account_301.account_301_detail_date', $data, [ 
             'data'           =>     $data,
             'startdate'      =>     $startdate,
