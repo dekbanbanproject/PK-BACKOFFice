@@ -420,7 +420,10 @@ class AirController extends Controller
             $datashow  = DB::select(
                 'SELECT a.air_repaire_id,a.repaire_date as repaire_date,concat(a.air_list_num," ",a.air_list_name) as air_list,a.btu as btu,a.air_location_name as air_location_name,al.detail as debsubsub
                     ,a.air_problems_1 as problems_1 ,a.air_problems_2 as problems_2 ,a.air_problems_3 as problems_3 ,a.air_problems_4 as problems_4 ,a.air_problems_5 as problems_5
-                    ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tectname
+                    ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as staff_name
+                    ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
+                    ,a.air_techout_name
+                   
                     FROM air_repaire a
                     LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
                     LEFT JOIN users p ON p.id = a.air_staff_id 
@@ -432,7 +435,9 @@ class AirController extends Controller
             $datashow  = DB::select(
                 'SELECT a.air_repaire_id,a.repaire_date as repaire_date,concat(a.air_list_num," ",a.air_list_name) as air_list,a.btu as btu,a.air_location_name as air_location_name,al.detail as debsubsub
                     ,a.air_problems_6 as problems_1 ,a.air_problems_7 as problems_2 ,a.air_problems_8 as problems_3 ,a.air_problems_9 as problems_4 ,a.air_problems_10 as problems_5 
-                    ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tectname
+                    ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as staff_name
+                    ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
+                    ,a.air_techout_name
                     FROM air_repaire a
                     LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
                     LEFT JOIN users p ON p.id = a.air_staff_id 
@@ -444,7 +449,9 @@ class AirController extends Controller
             $datashow  = DB::select(
                 'SELECT a.air_repaire_id,a.repaire_date as repaire_date,concat(a.air_list_num," ",a.air_list_name) as air_list,a.btu as btu,a.air_location_name as air_location_name,al.detail as debsubsub
                     ,a.air_problems_11 as problems_1 ,a.air_problems_12 as problems_2 ,a.air_problems_13 as problems_3 ,a.air_problems_14 as problems_4 ,a.air_problems_15 as problems_5 
-                    ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tectname
+                   ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as staff_name
+                    ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
+                    ,a.air_techout_name
                     FROM air_repaire a
                     LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
                     LEFT JOIN users p ON p.id = a.air_staff_id 
@@ -456,7 +463,9 @@ class AirController extends Controller
                 $datashow  = DB::select(
                     'SELECT a.air_repaire_id,a.repaire_date as repaire_date,concat(a.air_list_num," ",a.air_list_name) as air_list,a.btu as btu,a.air_location_name as air_location_name,al.detail as debsubsub
                     ,a.air_problems_16 as problems_1 ,a.air_problems_17 as problems_2 ,a.air_problems_18 as problems_3 ,a.air_problems_19 as problems_4 ,a.air_problems_20 as problems_5 
-                    ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tectname
+                    ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as staff_name
+                    ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
+                    ,a.air_techout_name
                         FROM air_repaire a
                         LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
                         LEFT JOIN users p ON p.id = a.air_staff_id 
@@ -468,7 +477,9 @@ class AirController extends Controller
             $datashow  = DB::select(
                 'SELECT a.air_repaire_id,a.repaire_date as repaire_date,concat(a.air_list_num," ",a.air_list_name) as air_list,a.btu as btu,a.air_location_name as air_location_name,al.detail as debsubsub
                     ,a.air_problems_1 as problems_1 ,a.air_problems_2 as problems_2 ,a.air_problems_3 as problems_3 ,a.air_problems_4 as problems_4 ,a.air_problems_5 as problems_5
-                    ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tectname
+                   ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as staff_name
+                    ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
+                    ,a.air_techout_name
                     FROM air_repaire a
                     LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
                     LEFT JOIN users p ON p.id = a.air_staff_id 

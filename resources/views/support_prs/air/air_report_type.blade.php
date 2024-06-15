@@ -186,7 +186,7 @@
                                         <th width="3%" class="text-center">ลำดับ</th>   
                                         <th class="text-center" width="5%">วันที่ซ่อม</th>   
                                         <th class="text-center" >รายการ</th>  
-                                        <th class="text-center" >นาด(btu)</th>  
+                                        <th class="text-center" >ขนาด(btu)</th>  
                                         <th class="text-center" >อาคารที่ตั้ง</th>  
                                         <th class="text-center" >หน่วยงาน</th>  
                                         <th class="text-center">น้ำหยด</th> 
@@ -194,13 +194,16 @@
                                         <th class="text-center">เสียงดัง</th>
                                         <th class="text-center">กลิ่นเหม็น</th>
                                         <th class="text-center">ไม่ติด/ติดๆ/ดับๆ</th>
+                                        <th class="text-center">เจ้าหน้าที่</th>
+                                        <th class="text-center">ช่างซ่อม(รพ)</th>
+                                        <th class="text-center">ช่างแอร์</th>
                                     </tr>
                                 @else
                                     <tr style="font-size:13px"> 
                                         <th width="3%" class="text-center">ลำดับ</th>   
                                         <th class="text-center" width="5%">วันที่ซ่อม</th>   
                                         <th class="text-center" >รายการ</th>  
-                                        <th class="text-center" >นาด(btu)</th>  
+                                        <th class="text-center" >ขนาด(btu)</th>  
                                         <th class="text-center" >อาคารที่ตั้ง</th>  
                                         <th class="text-center" >หน่วยงาน</th>  
                                         <th class="text-center">ถอดล้างพัดลมกรงกระรอก</th> 
@@ -208,6 +211,9 @@
                                         <th class="text-center">ล้างแผงคอยล์เย็น</th>
                                         <th class="text-center">ล้างแผงคอยล์ร้อน</th>
                                         <th class="text-center">ตรวจเช็คน้ำยา</th>
+                                        <th class="text-center">เจ้าหน้าที่</th>
+                                        <th class="text-center">ช่างซ่อม(รพ)</th>
+                                        <th class="text-center">ช่างแอร์</th>
                                     </tr> 
                                 @endif
                                
@@ -224,34 +230,37 @@
                                         <td class="p-2" width="10%">{{ $item->debsubsub }}</td>  
                                         <td class="text-center" width="5%"> 
                                             @if ($item->problems_1 == 'on')
-                                            <img src="{{ asset('images/true.png') }}" height="10px" width="10px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                            <img src="{{ asset('images/true_sm_50.png') }}" height="5px" width="5px" alt="Header Avatar" class="rounded-circle header-profile-user">
                                             @else 
                                             @endif
                                         </td> 
                                         <td class="text-center" width="5%"> 
                                             @if ($item->problems_2 == 'on')
-                                            <img src="{{ asset('images/true.png') }}" height="10px" width="10px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                            <img src="{{ asset('images/true_sm_50.png') }}" height="5px" width="5px" alt="Header Avatar" class="rounded-circle header-profile-user">
                                             @else 
                                             @endif
                                         </td>
                                         <td class="text-center" width="5%"> 
                                             @if ($item->problems_3 == 'on')
-                                            <img src="{{ asset('images/true.png') }}" height="10px" width="10px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                            <img src="{{ asset('images/true_sm_50.png') }}" height="5px" width="5px" alt="Header Avatar" class="rounded-circle header-profile-user">
                                             @else 
                                             @endif
                                         </td>
                                         <td class="text-center" width="5%"> 
                                             @if ($item->problems_4 == 'on')
-                                            <img src="{{ asset('images/true.png') }}" height="10px" width="10px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                            <img src="{{ asset('images/true_sm_50.png') }}" height="5px" width="5px" alt="Header Avatar" class="rounded-circle header-profile-user">
                                             @else 
                                             @endif
                                         </td>
                                         <td class="text-center" width="5%"> 
                                             @if ($item->problems_5 == 'on')
-                                            <img src="{{ asset('images/true.png') }}" height="10px" width="10px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                            <img src="{{ asset('images/true_sm_50.png') }}" height="5px" width="5px" alt="Header Avatar" class="rounded-circle header-profile-user">
                                             @else 
                                             @endif
                                         </td> 
+                                        <td class="p-2" width="10%">{{ $item->staff_name }}</td> 
+                                        <td class="p-2" width="10%">{{ $item->tect_name }}</td> 
+                                        <td class="p-2" width="10%">{{ $item->air_techout_name }}</td> 
                                     </tr>
                                 @endforeach
                             </tbody>
