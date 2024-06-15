@@ -84,18 +84,21 @@
                                     <p style="color:red">ส่วนที่ 2 : ช่างซ่อม(นอก รพ.) </p>
                                 </div>
                                 <div class="col-2 text-start">
+                                    {{-- @foreach ($air_no as $item_no) --}}
+                                   
                                     <p style="color:rgb(22, 61, 236)">เลขที่แจ้งซ่อม : </p>
+                                    {{-- @endforeach --}}
                                 </div>
                                 <div class="col-6 text-start">
                                     <select class="custom-select custom-select-sm" id="air_repaire_no" name="air_repaire_no"
                                         style="width: 100%">
                                         @foreach ($air_no as $item_no)
+                                        {{-- {{ $item_no->ID }} --}}
                                             @if ($data_edit->air_repaire_no == $item_no->REPAIR_ID)
-                                                <option value="{{ $item_no->REPAIR_ID }}" class="text-center" selected>
-                                                    {{ $item_no->REPAIR_ID }} {{ $item_no->REPAIR_NAME }}</option>
+                                            
+                                                <option value="{{ $item_no->ID }}" class="text-center" selected> {{ $item_no->REPAIR_ID }} {{ $item_no->REPAIR_NAME }}</option>
                                             @else
-                                                <option value="{{ $item_no->REPAIR_ID }}" class="text-center">
-                                                    {{ $item_no->REPAIR_ID }} {{ $item_no->REPAIR_NAME }}</option>
+                                                <option value="{{ $item_no->ID }}" class="text-center"> {{ $item_no->REPAIR_ID }} {{ $item_no->REPAIR_NAME }}</option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -868,158 +871,158 @@
                 });
             });
 
-            $('#updateBtn').click(function() {
+            // $('#updateBtn').click(function() {
 
-                var air_problems_1 = $('#air_problems_1').val();
-                var air_problems_2 = $('#air_problems_2').val();
-                var air_problems_3 = $('#air_problems_3').val();
-                var air_problems_4 = $('#air_problems_4').val();
-                var air_problems_5 = $('#air_problems_5').val();
-                var air_problems_6 = $('#air_problems_6').val();
-                var air_problems_7 = $('#air_problems_7').val();
-                var air_problems_8 = $('#air_problems_8').val();
-                var air_problems_9 = $('#air_problems_9').val();
-                var air_problems_10 = $('#air_problems_10').val();
-                var air_problems_11 = $('#air_problems_11').val();
-                var air_problems_12 = $('#air_problems_12').val();
-                var air_problems_13 = $('#air_problems_13').val();
-                var air_problems_14 = $('#air_problems_14').val();
-                var air_problems_15 = $('#air_problems_15').val();
-                var air_problems_16 = $('#air_problems_16').val();
-                var air_problems_17 = $('#air_problems_17').val();
-                var air_problems_18 = $('#air_problems_18').val();
-                var air_problems_19 = $('#air_problems_19').val();
-                var air_problems_20 = $('#air_problems_20').val();
-                var air_status_techout = $('#air_status_techout').val();
-                var air_techout_name = $('#air_techout_name').val();
-                var air_status_staff = $('#air_status_staff').val();
-                var air_staff_id = $('#air_staff_id').val();
-                var air_status_tech = $('#air_status_tech').val();
-                var air_tech_id = $('#air_tech_id').val();
-                var signature = $('#signature').val(); //ช่างนอก
-                var signature2 = $('#signature2').val(); //เจ้าหน้าที่
-                var signature3 = $('#signature3').val(); //ช่าง รพ
-                var air_list_id = $('#air_list_id').val();
-                var air_list_num = $('#air_list_num').val();
-                var air_list_name = $('#air_list_name').val();
-                var btu = $('#btu').val();
-                var serial_no = $('#serial_no').val();
-                var air_location_id = $('#air_location_id').val();
-                var air_location_name = $('#air_location_name').val();
-                var air_repaire_id = $('#air_repaire_id').val();
-                var air_repaire_no = $('#air_repaire_no').val();
-                alert(air_problems_1);
-                Swal.fire({
-                    position: "top-end",
-                    title: 'ต้องการบันทึกข้อมูลใช่ไหม ?',
-                    text: "You Warn Save Data!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, Save it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $("#overlay").fadeIn(300);
-                        $("#spinner").show(); //Load button clicked show spinner 
+            //     var air_problems_1 = $('#air_problems_1').val();
+            //     var air_problems_2 = $('#air_problems_2').val();
+            //     var air_problems_3 = $('#air_problems_3').val();
+            //     var air_problems_4 = $('#air_problems_4').val();
+            //     var air_problems_5 = $('#air_problems_5').val();
+            //     var air_problems_6 = $('#air_problems_6').val();
+            //     var air_problems_7 = $('#air_problems_7').val();
+            //     var air_problems_8 = $('#air_problems_8').val();
+            //     var air_problems_9 = $('#air_problems_9').val();
+            //     var air_problems_10 = $('#air_problems_10').val();
+            //     var air_problems_11 = $('#air_problems_11').val();
+            //     var air_problems_12 = $('#air_problems_12').val();
+            //     var air_problems_13 = $('#air_problems_13').val();
+            //     var air_problems_14 = $('#air_problems_14').val();
+            //     var air_problems_15 = $('#air_problems_15').val();
+            //     var air_problems_16 = $('#air_problems_16').val();
+            //     var air_problems_17 = $('#air_problems_17').val();
+            //     var air_problems_18 = $('#air_problems_18').val();
+            //     var air_problems_19 = $('#air_problems_19').val();
+            //     var air_problems_20 = $('#air_problems_20').val();
+            //     var air_status_techout = $('#air_status_techout').val();
+            //     var air_techout_name = $('#air_techout_name').val();
+            //     var air_status_staff = $('#air_status_staff').val();
+            //     var air_staff_id = $('#air_staff_id').val();
+            //     var air_status_tech = $('#air_status_tech').val();
+            //     var air_tech_id = $('#air_tech_id').val();
+            //     var signature = $('#signature').val(); //ช่างนอก
+            //     var signature2 = $('#signature2').val(); //เจ้าหน้าที่
+            //     var signature3 = $('#signature3').val(); //ช่าง รพ
+            //     var air_list_id = $('#air_list_id').val();
+            //     var air_list_num = $('#air_list_num').val();
+            //     var air_list_name = $('#air_list_name').val();
+            //     var btu = $('#btu').val();
+            //     var serial_no = $('#serial_no').val();
+            //     var air_location_id = $('#air_location_id').val();
+            //     var air_location_name = $('#air_location_name').val();
+            //     var air_repaire_id = $('#air_repaire_id').val();
+            //     var air_repaire_no = $('#air_repaire_no').val();
+            //     alert(air_problems_1);
+            //     Swal.fire({
+            //         position: "top-end",
+            //         title: 'ต้องการบันทึกข้อมูลใช่ไหม ?',
+            //         text: "You Warn Save Data!",
+            //         icon: 'warning',
+            //         showCancelButton: true,
+            //         confirmButtonColor: '#3085d6',
+            //         cancelButtonColor: '#d33',
+            //         confirmButtonText: 'Yes, Save it!'
+            //     }).then((result) => {
+            //         if (result.isConfirmed) {
+            //             $("#overlay").fadeIn(300);
+            //             $("#spinner").show(); //Load button clicked show spinner 
 
-                        $.ajax({
-                            url: "{{ route('prs.air_repiare_update') }}",
-                            type: "POST",
-                            dataType: 'json',
-                            data: {
-                                "_token": "{{ csrf_token() }}",
-                                air_repaire_id,
-                                air_problems_1,
-                                air_problems_2,
-                                air_problems_3,
-                                air_problems_4,
-                                air_problems_5,
-                                air_problems_6,
-                                air_problems_7,
-                                air_problems_8,
-                                air_problems_9,
-                                air_problems_10,
-                                air_problems_11,
-                                air_problems_12,
-                                air_problems_13,
-                                air_problems_14,
-                                air_problems_15,
-                                air_problems_16,
-                                air_problems_17,
-                                air_problems_18,
-                                air_problems_19,
-                                air_problems_20,
-                                air_status_techout,
-                                air_techout_name,
-                                air_status_staff,
-                                air_staff_id,
-                                air_status_tech,
-                                air_tech_id,
-                                signature,
-                                signature2,
-                                signature3,
-                                air_list_id,
-                                air_list_num,
-                                air_list_name,
-                                btu,
-                                serial_no,
-                                air_location_id,
-                                air_location_name,
-                                air_repaire_no
-                            },
-                            success: function(data) {
-                                if (data.status == 0) {
+            //             $.ajax({
+            //                 url: "{{ route('prs.air_repiare_update') }}",
+            //                 type: "POST",
+            //                 dataType: 'json',
+            //                 data: {
+            //                     "_token": "{{ csrf_token() }}",
+            //                     air_repaire_id,
+            //                     air_problems_1,
+            //                     air_problems_2,
+            //                     air_problems_3,
+            //                     air_problems_4,
+            //                     air_problems_5,
+            //                     air_problems_6,
+            //                     air_problems_7,
+            //                     air_problems_8,
+            //                     air_problems_9,
+            //                     air_problems_10,
+            //                     air_problems_11,
+            //                     air_problems_12,
+            //                     air_problems_13,
+            //                     air_problems_14,
+            //                     air_problems_15,
+            //                     air_problems_16,
+            //                     air_problems_17,
+            //                     air_problems_18,
+            //                     air_problems_19,
+            //                     air_problems_20,
+            //                     air_status_techout,
+            //                     air_techout_name,
+            //                     air_status_staff,
+            //                     air_staff_id,
+            //                     air_status_tech,
+            //                     air_tech_id,
+            //                     signature,
+            //                     signature2,
+            //                     signature3,
+            //                     air_list_id,
+            //                     air_list_num,
+            //                     air_list_name,
+            //                     btu,
+            //                     serial_no,
+            //                     air_location_id,
+            //                     air_location_name,
+            //                     air_repaire_no
+            //                 },
+            //                 success: function(data) {
+            //                     if (data.status == 0) {
 
-                                } else if (data.status == 50) {
-                                    Swal.fire(
-                                        'กรุณาลงลายชื่อช่างภายนอก !',
-                                        'You clicked the button !',
-                                        'warning'
-                                    )
-                                } else if (data.status == 60) {
-                                    Swal.fire(
-                                        'กรุณาลงลายชื่อเจ้าหน้าที่ !',
-                                        'You clicked the button !',
-                                        'warning'
-                                    )
-                                } else if (data.status == 70) {
-                                    Swal.fire(
-                                        'กรุณาลงลายชื่อช่าง รพ !',
-                                        'You clicked the button !',
-                                        'warning'
-                                    )
-                                } else {
-                                    Swal.fire({
-                                        position: "top-end",
-                                        title: 'แก้ไขข้อมูลสำเร็จ',
-                                        text: "You Update data success",
-                                        icon: 'success',
-                                        showCancelButton: false,
-                                        confirmButtonColor: '#06D177',
-                                        confirmButtonText: 'เรียบร้อย'
-                                    }).then((result) => {
-                                        if (result
-                                            .isConfirmed) {
-                                            console.log(
-                                                data);
-                                            // window.location.reload();
-                                            window.location =
-                                                "{{ url('air_main_repaire') }}";
-                                            $('#spinner')
-                                        .hide(); //Request is complete so hide spinner
-                                            setTimeout(function() {
-                                                $("#overlay").fadeOut(
-                                                    300);
-                                            }, 500);
-                                        }
-                                    })
-                                }
-                            },
-                        });
-                    }
-                })
-            });
+            //                     } else if (data.status == 50) {
+            //                         Swal.fire(
+            //                             'กรุณาลงลายชื่อช่างภายนอก !',
+            //                             'You clicked the button !',
+            //                             'warning'
+            //                         )
+            //                     } else if (data.status == 60) {
+            //                         Swal.fire(
+            //                             'กรุณาลงลายชื่อเจ้าหน้าที่ !',
+            //                             'You clicked the button !',
+            //                             'warning'
+            //                         )
+            //                     } else if (data.status == 70) {
+            //                         Swal.fire(
+            //                             'กรุณาลงลายชื่อช่าง รพ !',
+            //                             'You clicked the button !',
+            //                             'warning'
+            //                         )
+            //                     } else {
+            //                         Swal.fire({
+            //                             position: "top-end",
+            //                             title: 'แก้ไขข้อมูลสำเร็จ',
+            //                             text: "You Update data success",
+            //                             icon: 'success',
+            //                             showCancelButton: false,
+            //                             confirmButtonColor: '#06D177',
+            //                             confirmButtonText: 'เรียบร้อย'
+            //                         }).then((result) => {
+            //                             if (result
+            //                                 .isConfirmed) {
+            //                                 console.log(
+            //                                     data);
+            //                                 // window.location.reload();
+            //                                 window.location =
+            //                                     "{{ url('air_main_repaire') }}";
+            //                                 $('#spinner')
+            //                             .hide(); //Request is complete so hide spinner
+            //                                 setTimeout(function() {
+            //                                     $("#overlay").fadeOut(
+            //                                         300);
+            //                                 }, 500);
+            //                             }
+            //                         })
+            //                     }
+            //                 },
+            //             });
+            //         }
+            //     })
+            // });
 
         });
     </script>

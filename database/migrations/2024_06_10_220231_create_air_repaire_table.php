@@ -16,8 +16,10 @@ return new class extends Migration
             Schema::create('air_repaire', function (Blueprint $table) {
                 $table->bigIncrements('air_repaire_id');
                 $table->date('repaire_date')->nullable();  //
+
                 $table->char('air_repaire_no', length: 150)->nullable();  //  เลขที่แจ้ง
-                
+                $table->char('air_repaire_num', length: 250)->nullable();  //  เลขครุภัณฑ์
+
                 $table->char('air_list_id', length: 10)->nullable();  //   
                 $table->char('air_list_num', length: 200)->nullable();  //           
                 $table->char('air_list_name', length: 200)->nullable(); //   

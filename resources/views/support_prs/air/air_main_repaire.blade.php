@@ -204,11 +204,11 @@
                                         <td class="text-center" width="3%">{{ $i++ }}</td>  
                                         <td class="text-center" width="3%" style="font-size: 12px">
                                             @if ($item->active == 'Y')
-                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-success">
                                                     พร้อมใช้งาน
                                                     </span> 
                                             @else
-                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger"> ไม่พร้อมใช้งาน</span>
+                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger"> ไม่พร้อมใช้งาน</span>
                                             @endif
                                         </td>
                                       
