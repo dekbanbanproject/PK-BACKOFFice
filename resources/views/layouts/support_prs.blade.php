@@ -290,12 +290,12 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                         </li>
                         <li><a href="javascript: void(0);" class="has-arrow">   
                             <i class="fa-solid fa-fan" style="color: #B216F0"></i>
-                                <span>แอร์</span>
+                                <span>เครื่องปรับอากาศ</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true"> 
                                 <li><a href="{{ url('air_main') }}">ทะเบียนเครื่องปรับอากาศ</a></li>
                                 <li><a href="{{ url('air_main_repaire') }}">ทะเบียนแจ้งซ่อม</a></li>
-                                <li><a href="{{ url('air_report_day') }}">report รายวัน</a></li> 
+                                <li><a href="{{ url('air_report_type') }}">รายงานแยกตามประเภท</a></li> 
                             </ul>
                         </li>
                   

@@ -215,7 +215,7 @@
                 "autoWidth": false,
                 "pageLength": 10,
                 "lengthMenu": [10,25,30,31,50,100,150,200,300],
-        });
+            });
         
             $('#datepicker').datepicker({
                 format: 'yyyy-mm-dd'

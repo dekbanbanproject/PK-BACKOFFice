@@ -133,8 +133,8 @@
    
     <div class="row"> 
         <div class="col-md-3">
-            <h4 class="card-title" style="color:rgb(10, 151, 85)">Register Air Repaire</h4>
-            <p class="card-title-desc">ทะเบียนแจ้งซ่อม-เครื่องปรับอากาศ</p>
+            <h4 class="card-title" style="color:rgb(10, 151, 85)">ทะเบียนแจ้งซ่อม-เครื่องปรับอากาศ</h4>
+            {{-- <p class="card-title-desc">ทะเบียนแจ้งซ่อม-เครื่องปรับอากาศ</p> --}}
         </div>
         <div class="col"></div>
         <div class="col-md-2 text-end">
