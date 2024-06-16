@@ -384,17 +384,35 @@ class AirController extends Controller
     }
     public function air_main_repaire(Request $request)
     {
-        $datenow = date('Y-m-d');
-        $months = date('m');
-        $year = date('Y'); 
+        $datenow   = date('Y-m-d');
+        $months    = date('m');
+        $year      = date('Y'); 
         $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        $datashow = DB::select(
-            'SELECT a.* ,al.air_imgname,al.active,al.detail,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tectname
-            FROM air_repaire a
-            LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
-             LEFT JOIN users p ON p.id = a.air_staff_id 
-            ORDER BY air_repaire_id DESC'); 
+        $enddate   = $request->enddate;
+        $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
+        if ($startdate =='') {
+            $datashow = DB::select(
+                'SELECT a.* ,al.air_imgname,al.active,al.detail,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tectname
+                FROM air_repaire a
+                LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
+                 LEFT JOIN users p ON p.id = a.air_staff_id 
+                 WHERE a.repaire_date BETWEEN "'.$newDate.'" AND "'.$datenow.'"
+                ORDER BY air_repaire_id DESC
+            '); 
+        } else {
+            $datashow = DB::select(
+                'SELECT a.* ,al.air_imgname,al.active,al.detail,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tectname
+                FROM air_repaire a
+                LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
+                LEFT JOIN users p ON p.id = a.air_staff_id 
+                WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                ORDER BY air_repaire_id DESC
+            '); 
+        }
+        
+       
         // WHERE active="Y"
         return view('support_prs.air.air_main_repaire',[
             'startdate'     => $startdate,

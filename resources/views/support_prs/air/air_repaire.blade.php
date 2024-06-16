@@ -39,10 +39,22 @@
         </div>
         <div class="row text-center">
             <div class="col"></div>
-            <div class="col-md-8 text-center">
+            <div class="col-md-3 text-center">
                 <h2>ทะเบียนแจ้งซ่อม-เครื่องปรับอากาศ</h2>
             </div>
             <div class="col"></div>
+            {{-- <div class="col-md-4 text-end"> 
+                <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                    <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                        data-date-language="th-th" value="{{ $startdate }}" required/>
+                    <input type="text" class="form-control cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                        data-date-language="th-th" value="{{ $enddate }}"/>  
+                        <button type="submit" class="ladda-button btn-pill btn btn-primary cardacc" data-style="expand-left">
+                            <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
+                        </button> 
+                  
+                </div> 
+            </div> --}}
         </div>
         <div class="row mt-2">
             <div class="col-sm-12">
@@ -78,10 +90,12 @@
                             <div class="col text-start">
                                 <p style="color:red">ส่วนที่ 2 : ช่างซ่อม(นอก รพ.) </p>
                             </div>
-                            <div class="col-2 text-start">
+                        </div>
+                        <div class="row">
+                            <div class="col-4 text-start">
                                 <p style="color:rgb(22, 61, 236)">เลขที่แจ้งซ่อม :  </p>
                             </div>
-                            <div class="col-6 text-start">
+                            <div class="col-8 text-start">
                                 <select class="custom-select custom-select-sm" id="air_repaire_no" name="air_repaire_no"
                                     style="width: 100%"> 
                                     @foreach ($air_no as $item_no)
@@ -97,19 +111,13 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-3 text-start">
+                            <div class="col-6 text-start">
                                 <div class="input-group">
                                     <input type="checkbox" class="discheckbox" id="air_problems_1" name="air_problems_1">
                                     &nbsp;&nbsp;<p>น้ำหยด</p>
                                 </div>
-                            </div>
-                            <div class="col-5">
-                                <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_2" name="air_problems_2">
-                                    &nbsp;&nbsp;<p>ไม่เย็นมีแต่ลม</p>
-                                </div>
-                            </div>
-                            <div class="col-4">
+                            </div> 
+                            <div class="col-6">
                                 <div class="input-group">
                                     <input type="checkbox" class="discheckbox" id="air_problems_3" name="air_problems_3">
                                     &nbsp;&nbsp;<p> มีกลิ่นเหม็น</p>
@@ -117,20 +125,27 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-3 text-start">
+                            <div class="col-6 text-start">
                                 <div class="input-group">
                                     <input type="checkbox" class="discheckbox" id="air_problems_4" name="air_problems_4">
                                     &nbsp;&nbsp;<p>เสียงดัง</p>
                                 </div>
                             </div>
-                            <div class="col-5">
+                            <div class="col-6">
                                 <div class="input-group">
                                     <input type="checkbox" class="discheckbox" id="air_problems_5" name="air_problems_5">
                                     &nbsp;&nbsp;<p>ไม่ติด/ติดๆ ดับๆ</p>
                                 </div>
                             </div>
-                            <div class="col text-start">
+                        </div>
+                        <div class="row">
+                            <div class="col-6 text-start"> 
+                                <div class="input-group">
+                                    <input type="checkbox" class="discheckbox" id="air_problems_2" name="air_problems_2">
+                                    &nbsp;&nbsp;<p>ไม่เย็นมีแต่ลม</p>
+                                </div>
                             </div>
+                            <div class="col"> </div>
                         </div>
 
                         <hr style="color:rgb(7, 114, 141)">
@@ -140,10 +155,11 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-6 text-start">
+                            <div class="col-6">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_6" name="air_problems_6">
-                                    &nbsp;&nbsp;<p>ถอดล้างพัดลมกรงกระรอก</p>
+                                    <input type="checkbox" class="discheckbox" id="air_problems_10"
+                                        name="air_problems_10">
+                                    &nbsp;&nbsp;<p>ตรวจเช็คน้ำยา</p>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -168,12 +184,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row"> 
                             <div class="col text-start">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_10"
-                                        name="air_problems_10">
-                                    &nbsp;&nbsp;<p>ตรวจเช็คน้ำยา</p>
+                                    <input type="checkbox" class="discheckbox" id="air_problems_6" name="air_problems_6">
+                                    &nbsp;&nbsp;<p>ถอดล้างพัดลมกรงกระรอก</p>
                                 </div>
                             </div>
                         </div>
@@ -187,9 +202,9 @@
                         <div class="row">
                             <div class="col-6 text-start">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_11"
-                                        name="air_problems_11">
-                                    &nbsp;&nbsp;<p>ถอดล้างพัดลมกรงกระรอก</p>
+                                    <input type="checkbox" class="discheckbox" id="air_problems_15"
+                                        name="air_problems_15">
+                                    &nbsp;&nbsp;<p>ตรวจเช็คน้ำยา</p>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -217,11 +232,11 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col text-start">
+                            <div class="col text-start"> 
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_15"
-                                        name="air_problems_15">
-                                    &nbsp;&nbsp;<p>ตรวจเช็คน้ำยา</p>
+                                    <input type="checkbox" class="discheckbox" id="air_problems_11"
+                                        name="air_problems_11">
+                                    &nbsp;&nbsp;<p>ถอดล้างพัดลมกรงกระรอก</p>
                                 </div>
                             </div>
                         </div>
@@ -235,9 +250,9 @@
                         <div class="row">
                             <div class="col-6 text-start">
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_16"
-                                        name="air_problems_16">
-                                    &nbsp;&nbsp;<p>ถอดล้างพัดลมกรงกระรอก</p>
+                                    <input type="checkbox" class="discheckbox" id="air_problems_20"
+                                        name="air_problems_20">
+                                    &nbsp;&nbsp;<p>ตรวจเช็คน้ำยา</p>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -266,11 +281,11 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col text-start">
+                            <div class="col text-start"> 
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_20"
-                                        name="air_problems_20">
-                                    &nbsp;&nbsp;<p>ตรวจเช็คน้ำยา</p>
+                                    <input type="checkbox" class="discheckbox" id="air_problems_16"
+                                        name="air_problems_16">
+                                    &nbsp;&nbsp;<p>ถอดล้างพัดลมกรงกระรอก</p>
                                 </div>
                             </div>
                         </div>
@@ -299,10 +314,10 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col"> </div>
-                            <div class="col-7">
+                            {{-- <div class="col"> </div> --}}
+                            <div class="col">
                                 <div id="signature-pad" class="mt-2 text-center">
-                                    <div style="border:solid 1px teal;height:120px;">
+                                    <div style="border:solid 1px teal;height:120px;width: auto">
                                         <div id="note" onmouseover="my_function();" class="text-center">The
                                             signature should be inside box</div>
                                         <canvas id="the_canvas" width="320px" height="120px"> </canvas>
@@ -310,7 +325,7 @@
 
                                     <input type="hidden" id="signature" name="signature">
 
-                                    <button type="button" id="clear_btn" class="btn btn-secondary btn-sm mt-3 ms-2 me-2"
+                                    <button type="button" id="clear_btn" class="btn btn-secondary btn-sm mt-3 ms-3 me-3"
                                         data-action="clear"><span class="glyphicon glyphicon-remove"></span>
                                         Clear</button>
 
@@ -321,7 +336,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="col"> </div>
+                            {{-- <div class="col"> </div> --}}
                         </div>
 
 
@@ -361,10 +376,10 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col"> </div>
-                            <div class="col-7">
+                            {{-- <div class="col"> </div> --}}
+                            <div class="col">
                                 <div id="signature-pad2" class="mt-2 text-center">
-                                    <div style="border:solid 1px teal;height:120px;">
+                                    <div style="border:solid 1px teal;height:120px;width: auto">
                                         <div id="note2" onmouseover="my_function2();" class="text-center">The
                                             signature should be inside box</div>
                                         <canvas id="the_canvas2" width="320px" height="120px"> </canvas>
@@ -372,7 +387,7 @@
 
                                     <input type="hidden" id="signature2" name="signature2">
                                     <button type="button" id="clear_btn2"
-                                        class="btn btn-secondary btn-sm mt-3 ms-2 me-2" data-action="clear2"><span
+                                        class="btn btn-secondary btn-sm mt-3 ms-3 me-3" data-action="clear2"><span
                                             class="glyphicon glyphicon-remove"></span>
                                         Clear</button>
 
@@ -383,7 +398,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="col"> </div>
+                            {{-- <div class="col"> </div> --}}
                         </div>
 
                         <hr style="color:red">
@@ -421,10 +436,10 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col"> </div>
-                            <div class="col-7">
+                            {{-- <div class="col"> </div> --}}
+                            <div class="col">
                                 <div id="signature-pad3" class="mt-2 text-center">
-                                    <div style="border:solid 1px teal;height:120px;">
+                                    <div style="border:solid 1px teal;height:120px;width: auto;">
                                         <div id="note3" onmouseover="my_function3();" class="text-center">The
                                             signature should be inside box</div>
                                         <canvas id="the_canvas3" width="320px" height="120px"> </canvas>
@@ -432,7 +447,7 @@
 
                                     <input type="hidden" id="signature3" name="signature3">
                                     <button type="button" id="clear_btn3"
-                                        class="btn btn-secondary btn-sm mt-3 ms-2 me-2" data-action="clear3"><span
+                                        class="btn btn-secondary btn-sm mt-3 ms-3 me-3" data-action="clear3"><span
                                             class="glyphicon glyphicon-remove"></span>
                                         Clear</button>
 
@@ -444,7 +459,7 @@
 
                                 </div>
                             </div>
-                            <div class="col"> </div>
+                            {{-- <div class="col"> </div> --}}
                         </div>
 
                         <input type="hidden" name="air_list_id" id="air_list_id" value="{{ $data_detail_->air_list_id}}">

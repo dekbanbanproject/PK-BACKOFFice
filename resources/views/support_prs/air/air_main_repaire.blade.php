@@ -130,14 +130,30 @@
             </div>
         </div>
     </div>
+    <form action="{{ url('air_main_repaire') }}" method="GET">
+        @csrf
    
-    <div class="row"> 
-        <div class="col-md-3">
-            <h4 class="card-title" style="color:rgb(10, 151, 85)">ทะเบียนแจ้งซ่อม-เครื่องปรับอากาศ</h4>
-            {{-- <p class="card-title-desc">ทะเบียนแจ้งซ่อม-เครื่องปรับอากาศ</p> --}}
+        <div class="row"> 
+            <div class="col-md-3">
+                <h4 class="card-title" style="color:rgb(10, 151, 85)">เครื่องปรับอากาศ</h4>
+                <p class="card-title-desc">ทะเบียนแจ้งซ่อม-เครื่องปรับอากาศ</p>
+            </div>
+            <div class="col"></div>
+        
+            <div class="col-md-4 text-end"> 
+                <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                    <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                        data-date-language="th-th" value="{{ $startdate }}" required/>
+                    <input type="text" class="form-control cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                        data-date-language="th-th" value="{{ $enddate }}"/>  
+                        <button type="submit" class="ladda-button btn-pill btn btn-primary cardacc" data-style="expand-left">
+                            <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
+                        </button> 
+                    
+                </div> 
+            </div>
         </div>
-        <div class="col"></div>
-        <div class="col-md-2 text-end">
+    </form>
             {{-- <a href="{{url('air_main')}}" class="ladda-button me-2 btn-pill btn btn-warning cardacc"> 
                 <i class="fa-solid fa-arrow-left me-2"></i> 
                ย้อนกลับ
@@ -146,7 +162,7 @@
                 <i class="fa-solid fa-circle-plus text-white me-2"></i>
                เพิ่มรายการ
             </a>  --}}
-        </div>
+      
         {{-- <div class="col-md-8 text-end">
             <a href="{{url('air_qrcode_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-info cardacc">  
                 <i class="fa-solid fa-print me-2 text-white me-2" style="font-size:13px"></i>
@@ -165,7 +181,7 @@
                เพิ่มรายการ
             </a>             
         </div> --}}
-</div> 
+{{-- </div>  --}}
 
 <div class="row">
     <div class="col-xl-12">
@@ -222,9 +238,9 @@
                                         <td class="text-center" width="7%">{{ $item->air_list_num }}</td>  
                                         <td class="p-2">{{ $item->air_list_name }}</td>  
                                         {{-- <td class="text-center" width="5%">{{ $item->btu }}</td>     --}}
-                                        <td class="p-2" style="color:rgb(73, 147, 231)" width="20%">{{ $item->air_location_name }}</td>  
-                                        <td class="p-2" style="color:rgb(73, 147, 231)" width="10%">{{ $item->ptname }}</td>  
-                                        <td class="p-2" style="color:rgb(73, 147, 231)" width="10%">{{ $item->tectname }}</td>  
+                                        <td class="p-2" width="20%">{{ $item->air_location_name }}</td>  
+                                        <td class="p-2" width="10%">{{ $item->ptname }}</td>  
+                                        <td class="p-2" width="10%">{{ $item->tectname }}</td>  
                                         <td class="text-center" width="5%" style="font-size: 12px"> 
                                             <div class="dropdown d-inline-block">
                                                 <button type="button" aria-haspopup="true" aria-expanded="false"
