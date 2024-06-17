@@ -98,7 +98,7 @@
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-5 text-end"> 
+            <div class="col-md-4 text-end"> 
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' autocomplete="off"
                      data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $startdate }}"/>
@@ -114,7 +114,7 @@
     </div> 
         <div class="row">
             <div class="col-xl-12">
-                <div class="card cardacc">
+                <div class="card card_audit_4c">
                     <div class="card-body">
                       
                         {{-- <div class="row">
@@ -153,8 +153,8 @@
                                           
                                             <th width="5%" class="text-center">ลำดับ</th> 
                                             <th width="5%" class="text-center"><input type="checkbox" name="stamp" class="dcheckbox_" id="stamp"> </th> 
-                                            <th class="text-center" width="5%">vn</th> 
-                                            <th class="text-center">an</th>
+                                            {{-- <th class="text-center" width="5%">vn</th>  --}}
+                                            {{-- <th class="text-center">an</th> --}}
                                             <th class="text-center" >hn</th>
                                             <th class="text-center" >cid</th>
                                             <th class="text-center">ptname</th>
@@ -179,8 +179,8 @@
                                                 @endif --}}
                                                 <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox_ sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
 
-                                                <td class="text-center" width="5%">{{ $item->vn }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->an }}</td> 
+                                                {{-- <td class="text-center" width="5%">{{ $item->vn }}</td>  --}}
+                                                {{-- <td class="text-center" width="5%">{{ $item->an }}</td>  --}}
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  
                                                 <td class="text-center" width="10%">{{ $item->cid }}</td>  
                                                 <td class="p-2" >{{ $item->ptname }}</td> 
