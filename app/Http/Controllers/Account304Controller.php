@@ -87,7 +87,7 @@ date_default_timezone_set("Asia/Bangkok");
 
 class Account304Controller extends Controller
  {     
-    public function account_304_dash(Request $request)
+    public function account_304_dash_old(Request $request)
     {
         $datenow = date('Y-m-d');
         $startdate = $request->startdate;
@@ -131,7 +131,7 @@ class Account304Controller extends Controller
                     left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
                     WHERE a.dchdate between "'.$start.'" and "'.$end.'"
                     and account_code="1102050101.304"
-                    group by month(a.dchdate) order by a.dchdate desc limit 6;
+                    group by month(a.dchdate) order by a.dchdate desc;
             ');
             // and stamp = "N"
         } else {
@@ -159,6 +159,78 @@ class Account304Controller extends Controller
             'data_trimart'     =>  $data_trimart,
             'datashow'         =>  $datashow,
         ]);
+    }
+    public function account_304_dash(Request $request)
+    {
+        $budget_year        = $request->budget_year;
+        $acc_trimart_id = $request->acc_trimart_id;
+        $dabudget_year      = DB::table('budget_year')->where('active','=',true)->get();
+        $leave_month_year   = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+         
+        if ($budget_year == '') {
+            $yearnew     = date('Y');
+            $year_old    = date('Y')-1; 
+            $startdate   = (''.$year_old.'-10-01');
+            $enddate     = (''.$yearnew.'-09-30'); 
+            // dd($startdate);
+            $datashow = DB::select('
+                    SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn ,count(distinct a.an) as an
+                    ,sum(a.income) as income ,sum(a.paid_money) as paid_money
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money)-sum(a.fokliad) as debit402,sum(a.fokliad) as sumfokliad
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
+                    WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
+                    and account_code="1102050101.304"
+                    group by month(a.dchdate)                     
+                    order by a.dchdate desc;
+            ');  
+        } else {
+          
+            $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
+            $startdate    = $bg->date_begin;
+            $enddate      = $bg->date_end; 
+            // dd($startdate);
+            $datashow = DB::select('
+                    SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn
+                    ,count(distinct a.an) as an ,sum(a.income) as income ,sum(a.paid_money) as paid_money
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
+                    WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
+                    and account_code="1102050101.304" 
+                    group by month(a.dchdate)                    
+                    order by a.dchdate desc;
+            ');
+        }
+        // dd($startdate);
+        return view('account_304.account_304_dash',[
+            'startdate'         =>  $startdate,
+            'enddate'           =>  $enddate, 
+            'leave_month_year'  =>  $leave_month_year, 
+            'datashow'          =>  $datashow,
+            'dabudget_year'     =>  $dabudget_year,
+            'budget_year'       =>  $budget_year,
+            'y'                 =>  $y,
+            // 'trimart'          => $trimart,
+        ]);
+
+        // return view('account_304.account_304_dash',[
+        //     'startdate'        => $startdate,
+        //     'enddate'          => $enddate,
+        //     'leave_month_year' => $leave_month_year,
+        //     'data_trimart'     => $data_trimart,
+        //     'newyear'          => $newyear,
+        //     'date'             => $date,
+        //     'trimart'          => $trimart,
+        // ]);
     }
     public function account_304_pull(Request $request)
     {
@@ -356,7 +428,6 @@ class Account304Controller extends Controller
             'status'    => '200'
         ]);
     }
-
     public function account_304_checksit(Request $request)
     {
         $datestart = $request->datestart;
@@ -442,21 +513,16 @@ class Account304Controller extends Controller
        ]);
 
     }
-
     public function account_304_detail(Request $request,$months,$year)
     {
-        $datenow = date('Y-m-d');
-        
+        $datenow = date('Y-m-d');        
         $data['users'] = User::get();
-
         $data = DB::select('
             SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
-                from acc_1102050101_304 U1
-            
+                from acc_1102050101_304 U1            
                 WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'"
                 GROUP BY U1.an
-        ');
-       
+        ');       
         return view('account_304.account_304_detail', $data, [ 
             'data'          =>     $data,
             'months'        =>     $months,
@@ -465,19 +531,15 @@ class Account304Controller extends Controller
     }
     public function account_304_stm(Request $request,$months,$year)
     {
-        $datenow = date('Y-m-d');
-        
+        $datenow = date('Y-m-d');        
         $data['users'] = User::get();
-
         $data = DB::select('
             SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
-                from acc_1102050101_304 U1
-            
+                from acc_1102050101_304 U1            
                 WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'"
                 AND U1.recieve_true is not null
                 GROUP BY U1.an
-        ');
-       
+        ');       
         return view('account_304.account_304_stm', $data, [ 
             'data'          =>     $data,
             'months'        =>     $months,

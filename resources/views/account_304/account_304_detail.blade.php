@@ -84,12 +84,16 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Detail</h4>
+                        <h4 class="card-title" style="color:green">Detail 1102050101.304</h4> 
     
                         <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Detail</a></li>
-                                <li class="breadcrumb-item active">1102050101.304</li>
+                            <ol class="breadcrumb m-0"> 
+                                <li class="breadcrumb-item active"> 
+                                    <button type="button" class="ladda-button btn-pill btn btn-sm btn-danger cardacc PulldataAll" data-style="expand-left">
+                                        <span class="ladda-label">  <i class="fa-solid fa-arrows-rotate text-white me-2"></i> Sync Data All </span>
+                                        <span class="ladda-spinner"></span>
+                                    </button>  
+                                </li>
                             </ol>
                         </div>
     
@@ -100,17 +104,8 @@
         </div> <!-- container-fluid -->
         <div class="row">
             <div class="col-md-12">
-                <div class="card cardacc">
-                    {{-- <div class="card-header">
-                        รายละเอียด 1102050101.304
-                        <div class="btn-actions-pane-right">
-                            <button type="button"
-                                class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll">
-                                <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>
-                                Sync Data All
-                            </button>
-                        </div>
-                    </div> --}}
+                <div class="card card_audit_4c">
+                     
                     <div class="card-body">
                         <input type="hidden" name="year" id="year" value="{{ $year }}">
                         <input type="hidden" name="months" id="months" value="{{ $months }}">
@@ -270,7 +265,7 @@
                 var months = $('#months').val();
                 var year = $('#year').val();
                 // alert(months);
-                Swal.fire({
+                Swal.fire({position: "top-end",
                     title: 'ต้องการซิ้งค์ข้อมูลใช่ไหม ?',
                     text: "You Sync Data!",
                     icon: 'warning',
@@ -293,7 +288,7 @@
                             },
                             success: function(data) {
                                 if (data.status == 200) {
-                                    Swal.fire({
+                                    Swal.fire({position: "top-end",
                                         title: 'ซิ้งค์ข้อมูลสำเร็จ',
                                         text: "You Sync data success",
                                         icon: 'success',
@@ -316,7 +311,7 @@
                                     })
 
                                 } else if (data.status == 100) {
-                                    Swal.fire({
+                                    Swal.fire({position: "top-end",
                                         title: 'ยังไม่ได้ลงเลขที่หนังสือ',
                                         text: "Please enter the number of the book.",
                                         icon: 'warning',
