@@ -277,6 +277,26 @@
                                                 @else
                                                     <label for="" style="font-size: 14px;color:red">{{$count_p6}}</label>
                                                 @endif
+                                            @elseif ($repaire_type =='3')
+                                                <?php 
+                                                    $datas_count_11= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_11 ="on"');
+                                                    foreach ($datas_count_11 as $key => $value11) { $count_p11 = $value11->c_air_list_num; }
+                                                ?> 
+                                                @if ($count_p11 < 1)
+                                                    <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p11}}</label>
+                                                @else
+                                                    <label for="" style="font-size: 14px;color:red">{{$count_p11}}</label>
+                                                @endif
+                                            @elseif ($repaire_type =='4')
+                                                <?php 
+                                                    $datas_count_16= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_16 ="on"');
+                                                    foreach ($datas_count_16 as $key => $value16) { $count_p16 = $value16->c_air_list_num; }
+                                                ?> 
+                                                @if ($count_p16 < 1)
+                                                    <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p16}}</label>
+                                                @else
+                                                    <label for="" style="font-size: 14px;color:red">{{$count_p16}}</label>
+                                                @endif
 
                                             @endif
                                         </td> 
@@ -304,6 +324,26 @@
                                                     <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p7}}</label>
                                                 @else
                                                     <label for="" style="font-size: 14px;color:red">{{$count_p7}}</label>
+                                                @endif
+                                            @elseif ($repaire_type =='3')
+                                                <?php 
+                                                    $datas_count_12= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_12 ="on"');
+                                                    foreach ($datas_count_12 as $key => $value12) { $count_p12 = $value12->c_air_list_num; }
+                                                ?> 
+                                                @if ($count_p12 < 1)
+                                                    <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p12}}</label>
+                                                @else
+                                                    <label for="" style="font-size: 14px;color:red">{{$count_p12}}</label>
+                                                @endif
+                                            @elseif ($repaire_type =='4')
+                                                <?php 
+                                                    $datas_count_17= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_17 ="on"');
+                                                    foreach ($datas_count_17 as $key => $value17) { $count_p17 = $value17->c_air_list_num; }
+                                                ?> 
+                                                @if ($count_p17 < 1)
+                                                    <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p17}}</label>
+                                                @else
+                                                    <label for="" style="font-size: 14px;color:red">{{$count_p17}}</label>
                                                 @endif
                                                  
                                             @endif
@@ -333,6 +373,26 @@
                                                 @else
                                                     <label for="" style="font-size: 14px;color:red">{{$count_p8}}</label>
                                                 @endif
+                                            @elseif ($repaire_type =='3')
+                                                <?php 
+                                                    $datas_count_13= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_13 ="on"');
+                                                    foreach ($datas_count_13 as $key => $value13) { $count_p13 = $value13->c_air_list_num; }
+                                                ?> 
+                                                @if ($count_p13 < 1)
+                                                    <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p13}}</label>
+                                                @else
+                                                    <label for="" style="font-size: 14px;color:red">{{$count_p13}}</label>
+                                                @endif
+                                            @elseif ($repaire_type =='4')
+                                                <?php 
+                                                    $datas_count_18= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_18 ="on"');
+                                                    foreach ($datas_count_18 as $key => $value18) { $count_p18 = $value18->c_air_list_num; }
+                                                ?> 
+                                                @if ($count_p18 < 1)
+                                                    <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p18}}</label>
+                                                @else
+                                                    <label for="" style="font-size: 14px;color:red">{{$count_p18}}</label>
+                                                @endif
                                                  
                                             @endif
                                         </td>
@@ -361,7 +421,26 @@
                                                 @else
                                                     <label for="" style="font-size: 14px;color:red">{{$count_p9}}</label>
                                                 @endif
-                                                
+                                            @elseif ($repaire_type =='3')
+                                                <?php 
+                                                    $datas_count_14= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_14 ="on"');
+                                                    foreach ($datas_count_14 as $key => $value14) { $count_p14 = $value14->c_air_list_num; }
+                                                ?> 
+                                                @if ($count_p14 < 1)
+                                                    <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p14}}</label>
+                                                @else
+                                                    <label for="" style="font-size: 14px;color:red">{{$count_p14}}</label>
+                                                @endif
+                                            @elseif ($repaire_type =='4')
+                                                <?php 
+                                                    $datas_count_19= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_19 ="on"');
+                                                    foreach ($datas_count_19 as $key => $value19) { $count_p19 = $value19->c_air_list_num; }
+                                                ?> 
+                                                @if ($count_p19 < 1)
+                                                    <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p19}}</label>
+                                                @else
+                                                    <label for="" style="font-size: 14px;color:red">{{$count_p19}}</label>
+                                                @endif
                                             @endif
                                         </td>
                                         <td class="text-center" width="5%"> 
@@ -389,9 +468,29 @@
                                                 @else
                                                     <label for="" style="font-size: 14px;color:red">{{$count_p10}}</label>
                                                 @endif
+                                            @elseif ($repaire_type =='3')
+                                                <?php 
+                                                    $datas_count_15= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_15 ="on"');
+                                                    foreach ($datas_count_15 as $key => $value15) { $count_p15 = $value15->c_air_list_num; }
+                                                ?> 
+                                                @if ($count_p15 < 1)
+                                                    <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p15}}</label>
+                                                @else
+                                                    <label for="" style="font-size: 14px;color:red">{{$count_p15}}</label>
+                                                @endif
+                                            @elseif ($repaire_type =='4')
+                                                <?php 
+                                                    $datas_count_20= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_20 ="on"');
+                                                    foreach ($datas_count_20 as $key => $value20) { $count_p20 = $value20->c_air_list_num; }
+                                                ?> 
+                                                @if ($count_p20 < 1)
+                                                    <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p20}}</label>
+                                                @else
+                                                    <label for="" style="font-size: 14px;color:red">{{$count_p20}}</label>
+                                                @endif
 
                                             @endif
-                                        </td> 
+                                        </td>
                                         <td class="p-2" width="10%">{{ $item->staff_name }}</td> 
                                         <td class="p-2" width="10%">{{ $item->tect_name }}</td> 
                                         <td class="p-2" width="10%">{{ $item->air_techout_name }}</td> 
