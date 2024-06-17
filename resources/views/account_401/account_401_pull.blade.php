@@ -76,9 +76,9 @@
         </div>
        
         <div class="row"> 
-            <div class="col-md-4">
-                <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail Account ผัง 1102050101.401</h4>
-                <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
+            <div class="col-md-4"> 
+                <h5 class="card-title" style="color:green">Process data 1102050101.401</h5>
+                <p class="card-title-desc">ประมวลผลข้อมูล ผัง 1102050101.401</p>
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
@@ -98,7 +98,7 @@
         
         <div class="row">
             <div class="col-xl-12">
-                <div class="card cardacc">
+                <div class="card card_audit_4c">
                     <div class="card-body">    
                         <div class="row mb-3">
                            
@@ -135,7 +135,7 @@
                                         <tr>
                                           
                                             <th width="5%" class="text-center">ลำดับ</th> 
-                                            <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox" name="stamp" id="stamp"> </th> 
+                                            <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox_" name="stamp" id="stamp"> </th> 
                                             <th class="text-center" width="5%">vn</th> 
                                             {{-- <th class="text-center">an</th> --}}
                                             <th class="text-center" >hn</th>
@@ -159,7 +159,7 @@
                                                         <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
                                                     </td> 
                                                 @else
-                                                    <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
+                                                    <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox_ sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
                                                 @endif
                                                 {{-- <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox sub_chk" data-id="{{$item->acc_debtor_id}}"> </td>  --}}
                                                 <td class="text-center" width="5%">{{ $item->vn }}</td> 
