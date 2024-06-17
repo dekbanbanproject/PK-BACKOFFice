@@ -440,27 +440,38 @@ class AirController extends Controller
                     ,a.air_problems_1 as problems_1 ,a.air_problems_2 as problems_2 ,a.air_problems_3 as problems_3 ,a.air_problems_4 as problems_4 ,a.air_problems_5 as problems_5
                     ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as staff_name
                     ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
-                    ,a.air_techout_name
+                    ,a.air_techout_name,a.air_list_num
                    
                     FROM air_repaire a
                     LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
                     LEFT JOIN users p ON p.id = a.air_staff_id 
                     WHERE (a.air_problems_1 = "on" OR a.air_problems_2 = "on" OR a.air_problems_3 = "on" OR a.air_problems_4 = "on" OR a.air_problems_5 = "on")
-                    AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                    AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" GROUP BY al.air_list_id
                 ORDER BY air_repaire_id DESC
             '); 
+            
+            // นับปัญหา
+              // $datas_count_1= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_1 ="on"');
+              // foreach ($datas_count_1 as $key => $value) {
+              //     $count_p1 = $value->c_air_list_num; 
+              // }
+              // $datas_count_1= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_1 ="on"');
+              // foreach ($datas_count_1 as $key => $value) {
+              //     $count_p1 = $value->c_air_list_num; 
+              // }
+ 
         }else if ($repaire_type == '2') {
             $datashow  = DB::select(
                 'SELECT a.air_repaire_id,a.repaire_date as repaire_date,concat(a.air_list_num," ",a.air_list_name) as air_list,a.btu as btu,a.air_location_name as air_location_name,al.detail as debsubsub
                     ,a.air_problems_6 as problems_1 ,a.air_problems_7 as problems_2 ,a.air_problems_8 as problems_3 ,a.air_problems_9 as problems_4 ,a.air_problems_10 as problems_5 
                     ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as staff_name
                     ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
-                    ,a.air_techout_name
+                    ,a.air_techout_name,a.air_list_num
                     FROM air_repaire a
                     LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
                     LEFT JOIN users p ON p.id = a.air_staff_id 
                     WHERE (a.air_problems_6 = "on" OR a.air_problems_7 = "on" OR a.air_problems_8 = "on" OR a.air_problems_9 = "on" OR a.air_problems_10 = "on")
-                    AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                    AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" GROUP BY al.air_list_id
                 ORDER BY air_repaire_id DESC
             '); 
         }else if ($repaire_type == '3') {
@@ -474,7 +485,7 @@ class AirController extends Controller
                     LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
                     LEFT JOIN users p ON p.id = a.air_staff_id 
                     WHERE (a.air_problems_11 = "on" OR a.air_problems_12 = "on" OR a.air_problems_13 = "on" OR a.air_problems_14 = "on" OR a.air_problems_15 = "on")
-                    AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                    AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" GROUP BY al.air_list_id
                 ORDER BY air_repaire_id DESC
             '); 
         }else if ($repaire_type == '4') {
@@ -488,7 +499,7 @@ class AirController extends Controller
                         LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
                         LEFT JOIN users p ON p.id = a.air_staff_id 
                         WHERE (a.air_problems_16 = "on" OR a.air_problems_17 = "on" OR a.air_problems_18 = "on" OR a.air_problems_19 = "on" OR a.air_problems_20 = "on")
-                        AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                        AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" GROUP BY al.air_list_id
                     ORDER BY air_repaire_id DESC
                 '); 
         } else {
@@ -502,7 +513,7 @@ class AirController extends Controller
                     LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
                     LEFT JOIN users p ON p.id = a.air_staff_id 
                     WHERE (a.air_problems_1 = "on" OR a.air_problems_2 = "on" OR a.air_problems_3 = "on" OR a.air_problems_4 = "on" OR a.air_problems_5 = "on")
-                    AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                    AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" GROUP BY al.air_list_id
                 ORDER BY air_repaire_id DESC
             '); 
         }
@@ -515,6 +526,167 @@ class AirController extends Controller
             'enddate'       => $enddate, 
             'datashow'      => $datashow,
             'repaire_type'  => $repaire_type,
+            
+        ]);
+    }
+    public function air_report_typesub(Request $request,$id,$air_repaire_type,$startdate,$enddate)
+    {
+        $date = date('Y-m-d'); 
+        $data_edit         = Air_repaire::where('air_repaire_id', '=', $id)->first();
+        $air_list_id       = $data_edit->air_list_id;
+        $air_list          = $data_edit->air_list_num.'   '.$data_edit->air_list_name;
+        
+        if ($air_repaire_type == '1') {
+            $datashow  = DB::select(
+                'SELECT a.air_repaire_id,a.repaire_date as repaire_date,concat(a.air_list_num," ",a.air_list_name) as air_list,a.btu as btu,a.air_location_name as air_location_name,al.detail as debsubsub
+                    ,a.air_problems_1 as problems_1 ,a.air_problems_2 as problems_2 ,a.air_problems_3 as problems_3 ,a.air_problems_4 as problems_4 ,a.air_problems_5 as problems_5
+                    ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as staff_name
+                    ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
+                    ,a.air_techout_name,a.air_list_num
+                   
+                    FROM air_repaire a
+                    LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
+                    LEFT JOIN users p ON p.id = a.air_staff_id 
+                    WHERE (a.air_problems_1 = "on" OR a.air_problems_2 = "on" OR a.air_problems_3 = "on" OR a.air_problems_4 = "on" OR a.air_problems_5 = "on")
+                    AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" GROUP BY al.air_list_id
+                ORDER BY air_repaire_id DESC
+            ');  
+            $datashow_sub  = DB::select(
+                'SELECT a.air_repaire_id,a.repaire_date as repaire_date,concat(a.air_list_num," ",a.air_list_name) as air_list,a.btu as btu,a.air_location_name as air_location_name,al.detail as debsubsub
+                    ,a.air_problems_1 as problems_1 ,a.air_problems_2 as problems_2 ,a.air_problems_3 as problems_3 ,a.air_problems_4 as problems_4 ,a.air_problems_5 as problems_5
+                    ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as staff_name
+                    ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
+                    ,a.air_techout_name,a.air_list_num
+                   
+                    FROM air_repaire a
+                    LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
+                    LEFT JOIN users p ON p.id = a.air_staff_id 
+                    WHERE (a.air_problems_1 = "on" OR a.air_problems_2 = "on" OR a.air_problems_3 = "on" OR a.air_problems_4 = "on" OR a.air_problems_5 = "on")
+                    AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND a.air_list_id ="'.$air_list_id.'"
+                ORDER BY air_repaire_id DESC
+            ');  
+ 
+        }else if ($air_repaire_type == '2') {
+            $datashow  = DB::select(
+                'SELECT a.air_repaire_id,a.repaire_date as repaire_date,concat(a.air_list_num," ",a.air_list_name) as air_list,a.btu as btu,a.air_location_name as air_location_name,al.detail as debsubsub
+                    ,a.air_problems_6 as problems_1 ,a.air_problems_7 as problems_2 ,a.air_problems_8 as problems_3 ,a.air_problems_9 as problems_4 ,a.air_problems_10 as problems_5 
+                    ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as staff_name
+                    ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
+                    ,a.air_techout_name,a.air_list_num
+                    FROM air_repaire a
+                    LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
+                    LEFT JOIN users p ON p.id = a.air_staff_id 
+                    WHERE (a.air_problems_6 = "on" OR a.air_problems_7 = "on" OR a.air_problems_8 = "on" OR a.air_problems_9 = "on" OR a.air_problems_10 = "on")
+                    AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" GROUP BY al.air_list_id
+                ORDER BY air_repaire_id DESC
+            '); 
+            $datashow_sub  = DB::select(
+                'SELECT a.air_repaire_id,a.repaire_date as repaire_date,concat(a.air_list_num," ",a.air_list_name) as air_list,a.btu as btu,a.air_location_name as air_location_name,al.detail as debsubsub
+                    ,a.air_problems_6 as problems_1 ,a.air_problems_7 as problems_2 ,a.air_problems_8 as problems_3 ,a.air_problems_9 as problems_4 ,a.air_problems_10 as problems_5 
+                    ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as staff_name
+                    ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
+                    ,a.air_techout_name,a.air_list_num
+                   
+                    FROM air_repaire a
+                    LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
+                    LEFT JOIN users p ON p.id = a.air_staff_id 
+                    WHERE (a.air_problems_6 = "on" OR a.air_problems_7 = "on" OR a.air_problems_8 = "on" OR a.air_problems_9 = "on" OR a.air_problems_10 = "on")
+                    AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND a.air_list_id ="'.$air_list_id.'"
+                ORDER BY air_repaire_id DESC
+            '); 
+        }else if ($air_repaire_type == '3') {
+            $datashow  = DB::select(
+                'SELECT a.air_repaire_id,a.repaire_date as repaire_date,concat(a.air_list_num," ",a.air_list_name) as air_list,a.btu as btu,a.air_location_name as air_location_name,al.detail as debsubsub
+                    ,a.air_problems_11 as problems_1 ,a.air_problems_12 as problems_2 ,a.air_problems_13 as problems_3 ,a.air_problems_14 as problems_4 ,a.air_problems_15 as problems_5 
+                   ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as staff_name
+                    ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
+                    ,a.air_techout_name,a.air_list_num
+                    FROM air_repaire a
+                    LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
+                    LEFT JOIN users p ON p.id = a.air_staff_id 
+                    WHERE (a.air_problems_11 = "on" OR a.air_problems_12 = "on" OR a.air_problems_13 = "on" OR a.air_problems_14 = "on" OR a.air_problems_15 = "on")
+                    AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" GROUP BY al.air_list_id
+                ORDER BY air_repaire_id DESC
+            '); 
+            $datashow_sub  = DB::select(
+                'SELECT a.air_repaire_id,a.repaire_date as repaire_date,concat(a.air_list_num," ",a.air_list_name) as air_list,a.btu as btu,a.air_location_name as air_location_name,al.detail as debsubsub
+                    ,a.air_problems_11 as problems_1 ,a.air_problems_12 as problems_2 ,a.air_problems_13 as problems_3 ,a.air_problems_14 as problems_4 ,a.air_problems_15 as problems_5 
+                   ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as staff_name
+                    ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
+                    ,a.air_techout_name,a.air_list_num
+                    FROM air_repaire a
+                    LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
+                    LEFT JOIN users p ON p.id = a.air_staff_id 
+                    WHERE (a.air_problems_11 = "on" OR a.air_problems_12 = "on" OR a.air_problems_13 = "on" OR a.air_problems_14 = "on" OR a.air_problems_15 = "on")
+                    AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND a.air_list_id ="'.$air_list_id.'"
+                ORDER BY air_repaire_id DESC
+            '); 
+        }else if ($air_repaire_type == '4') {
+                $datashow  = DB::select(
+                    'SELECT a.air_repaire_id,a.repaire_date as repaire_date,concat(a.air_list_num," ",a.air_list_name) as air_list,a.btu as btu,a.air_location_name as air_location_name,al.detail as debsubsub
+                    ,a.air_problems_16 as problems_1 ,a.air_problems_17 as problems_2 ,a.air_problems_18 as problems_3 ,a.air_problems_19 as problems_4 ,a.air_problems_20 as problems_5 
+                    ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as staff_name
+                    ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
+                    ,a.air_techout_name,a.air_list_num
+                        FROM air_repaire a
+                        LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
+                        LEFT JOIN users p ON p.id = a.air_staff_id 
+                        WHERE (a.air_problems_16 = "on" OR a.air_problems_17 = "on" OR a.air_problems_18 = "on" OR a.air_problems_19 = "on" OR a.air_problems_20 = "on")
+                        AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" GROUP BY al.air_list_id
+                    ORDER BY air_repaire_id DESC
+                '); 
+                $datashow_sub  = DB::select(
+                    'SELECT a.air_repaire_id,a.repaire_date as repaire_date,concat(a.air_list_num," ",a.air_list_name) as air_list,a.btu as btu,a.air_location_name as air_location_name,al.detail as debsubsub
+                       ,a.air_problems_16 as problems_1 ,a.air_problems_17 as problems_2 ,a.air_problems_18 as problems_3 ,a.air_problems_19 as problems_4 ,a.air_problems_20 as problems_5 
+                       ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as staff_name
+                        ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
+                        ,a.air_techout_name,a.air_list_num
+                        FROM air_repaire a
+                        LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
+                        LEFT JOIN users p ON p.id = a.air_staff_id 
+                        WHERE (a.air_problems_16 = "on" OR a.air_problems_17 = "on" OR a.air_problems_18 = "on" OR a.air_problems_19 = "on" OR a.air_problems_20 = "on")
+                        AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND a.air_list_id ="'.$air_list_id.'"
+                    ORDER BY air_repaire_id DESC
+                '); 
+        } else {
+            $datashow  = DB::select(
+                'SELECT a.air_repaire_id,a.repaire_date as repaire_date,concat(a.air_list_num," ",a.air_list_name) as air_list,a.btu as btu,a.air_location_name as air_location_name,al.detail as debsubsub
+                    ,a.air_problems_1 as problems_1 ,a.air_problems_2 as problems_2 ,a.air_problems_3 as problems_3 ,a.air_problems_4 as problems_4 ,a.air_problems_5 as problems_5
+                   ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as staff_name
+                    ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
+                    ,a.air_techout_name,a.air_list_num
+                    FROM air_repaire a
+                    LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
+                    LEFT JOIN users p ON p.id = a.air_staff_id 
+                    WHERE (a.air_problems_1 = "on" OR a.air_problems_2 = "on" OR a.air_problems_3 = "on" OR a.air_problems_4 = "on" OR a.air_problems_5 = "on")
+                    AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" GROUP BY al.air_list_id
+                ORDER BY air_repaire_id DESC
+            '); 
+            $datashow_sub  = DB::select(
+                'SELECT a.air_repaire_id,a.repaire_date as repaire_date,concat(a.air_list_num," ",a.air_list_name) as air_list,a.btu as btu,a.air_location_name as air_location_name,al.detail as debsubsub
+                  ,a.air_problems_1 as problems_1 ,a.air_problems_2 as problems_2 ,a.air_problems_3 as problems_3 ,a.air_problems_4 as problems_4 ,a.air_problems_5 as problems_5
+                   ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as staff_name
+                    ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
+                    ,a.air_techout_name,a.air_list_num
+                    FROM air_repaire a
+                    LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
+                    LEFT JOIN users p ON p.id = a.air_staff_id 
+                    WHERE (a.air_problems_1 = "on" OR a.air_problems_2 = "on" OR a.air_problems_3 = "on" OR a.air_problems_4 = "on" OR a.air_problems_5 = "on")
+                    AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND a.air_list_id ="'.$air_list_id.'"
+                ORDER BY air_repaire_id DESC
+            ');
+        }
+         
+
+        $data['air_repaire_type']      = DB::table('air_repaire_type')->get();
+
+        return view('support_prs.air.air_report_typesub',$data,[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate, 
+            'datashow'      => $datashow,
+            'repaire_type'  => $air_repaire_type,
+            'datashow_sub'  => $datashow_sub,
+            'air_list'      => $air_list
             
         ]);
     }

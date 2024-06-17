@@ -179,7 +179,7 @@
                             <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 181, 236)"><i class="fa-solid fa-tenge-sign me-2" style="color: #8c07c0"></i> ไม่ติด/ติดๆ/ดับๆ</button> 
                         </div> 
                     @else
-                        <div class="col-md-6 text-end">
+                        <div class="col-md-7 text-end">
                             <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(236, 232, 181)"><i class="fa-solid fa-fan me-2" style="color: #B216F0"></i> ถอดล้างพัดลมกรงกระรอก</button>                   
                             <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(202, 236, 181)"><i class="fa-solid fa-hard-drive me-2" style="color: #07c095"></i> ล้างถาดหลังแอร์</button>
                             <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(181, 203, 236)"><i class="fa-solid fa-solar-panel me-2" style="color: #0760c0"></i> ล้างแผงคอยล์เย็น</button>
@@ -243,9 +243,11 @@
                                         <td class="p-2">
                                            <a href="{{url('air_report_typesub/'.$item->air_repaire_id.'/'.$repaire_type.'/'.$startdate.'/'.$enddate)}}">{{ $item->air_list }}</a> 
                                         </td> 
-                                        {{-- @else --}}
-                                            
-                                        {{-- @endif --}}
+                                        {{-- @else
+                                        <td class="p-2">
+                                            <a href="{{url('air_report_typesub/'.$item->air_repaire_id.'/'.$repaire_type.'/'.$startdate.'/'.$enddate)}}">{{ $item->air_list }}</a> 
+                                         </td>
+                                        @endif --}}
                                           
                                         <td class="p-2" width="5%">{{ $item->btu }}</td>  
                                         <td class="p-2" width="10%">{{ $item->air_location_name }}</td>  
@@ -389,6 +391,250 @@
                                                 @endif
 
                                             @endif
+                                        </td> 
+                                        <td class="p-2" width="10%">{{ $item->staff_name }}</td> 
+                                        <td class="p-2" width="10%">{{ $item->tect_name }}</td> 
+                                        <td class="p-2" width="10%">{{ $item->air_techout_name }}</td> 
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card card_prs_4">
+            <div class="card-body">    
+                <div class="row mb-3">
+                    <div class="col text-start">
+                        <h3>รายการ {{$air_list}}</h3>
+                        </div> 
+                    @if ($repaire_type =='1')
+                        <div class="col-md-5 text-end">  
+                            <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(236, 232, 181)"><i class="fa-solid fa-glass-water-droplet me-2" style="color: #B216F0"></i> น้ำหยด</button>                   
+                            <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(202, 236, 181)"><i class="fab fa-slack me-2" style="color: #07c095"></i> ไม่เย็นมีแต่ลม</button>
+                            <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(181, 203, 236)"><i class="fa-solid fa-volume-high me-2" style="color: #0760c0"></i> เสียงดัง</button>
+                            <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(236, 181, 181)"><i class="fa-solid fa-soap me-2" style="color: #c0072f"></i> กลิ่นเหม็น</button>
+                            <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 181, 236)"><i class="fa-solid fa-tenge-sign me-2" style="color: #8c07c0"></i> ไม่ติด/ติดๆ/ดับๆ</button> 
+                        </div> 
+                    @else
+                        <div class="col-md-7 text-end">
+                            <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(236, 232, 181)"><i class="fa-solid fa-fan me-2" style="color: #B216F0"></i> ถอดล้างพัดลมกรงกระรอก</button>                   
+                            <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(202, 236, 181)"><i class="fa-solid fa-hard-drive me-2" style="color: #07c095"></i> ล้างถาดหลังแอร์</button>
+                            <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(181, 203, 236)"><i class="fa-solid fa-solar-panel me-2" style="color: #0760c0"></i> ล้างแผงคอยล์เย็น</button>
+                            <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(236, 181, 181)"><i class="fa-solid fa-solar-panel me-2" style="color: #c0072f"></i> ล้างแผงคอยล์ร้อน</button>
+                            <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 181, 236)"><i class="fa-solid fa-flask-vial me-2" style="color: #8c07c0"></i> ตรวจเช็คน้ำยา</button> 
+                        </div> 
+                    @endif
+                    
+                </div>
+
+                <p class="mb-0">
+                    <div class="table-responsive">
+                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        {{-- <table id="example" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;"> --}}
+                            <thead>
+                                @if ($repaire_type =='1')
+                                    <tr style="font-size:13px"> 
+                                        <th width="3%" class="text-center">ลำดับ</th>   
+                                        <th class="text-center" width="5%">วันที่ซ่อม</th>   
+                                        <th class="text-center" >รายการ</th>  
+                                        <th class="text-center" >btu</th>  
+                                        <th class="text-center" >อาคารที่ตั้ง</th>  
+                                        <th class="text-center" >หน่วยงาน</th>  
+                                        <th class="text-center"><button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(236, 232, 181)"><i class="fa-solid fa-glass-water-droplet" style="color: #B216F0"></i></button></th> 
+                                        <th class="text-center"><button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(202, 236, 181)"><i class="fab fa-slack" style="color: #07c095"></i> </button></th>
+                                        <th class="text-center"> <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(181, 203, 236)"><i class="fa-solid fa-volume-high" style="color: #0760c0"></i> </button></th>
+                                        <th class="text-center"><button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(236, 181, 181)"><i class="fa-solid fa-soap" style="color: #c0072f"></i></button></th>
+                                        <th class="text-center"><button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 181, 236)"><i class="fa-solid fa-tenge-sign" style="color: #8c07c0"></i></button> </th>
+                                        <th class="text-center">เจ้าหน้าที่</th>
+                                        <th class="text-center">ช่างซ่อม(รพ)</th>
+                                        <th class="text-center">ช่างแอร์</th>
+                                    </tr>
+                                @else
+                                    <tr style="font-size:13px"> 
+                                        <th width="3%" class="text-center">ลำดับ</th>   
+                                        <th class="text-center" width="5%">วันที่ซ่อม</th>   
+                                        <th class="text-center" >รายการ</th>  
+                                        <th class="text-center" >btu</th>  
+                                        <th class="text-center" >อาคารที่ตั้ง</th>  
+                                        <th class="text-center" >หน่วยงาน</th>  
+                                        <th class="text-center"><button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(236, 232, 181)"><i class="fa-solid fa-fan" style="color: #B216F0"></i></button></th> 
+                                        <th class="text-center"><button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(202, 236, 181)"><i class="fa-solid fa-hard-drive" style="color: #07c095"></i> </button></th>
+                                        <th class="text-center"> <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(181, 203, 236)"><i class="fa-solid fa-solar-panel" style="color: #0760c0"></i> </button></th>
+                                        <th class="text-center"><button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(236, 181, 181)"><i class="fa-solid fa-solar-panel" style="color: #c0072f"></i></button></th>
+                                        <th class="text-center"><button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 181, 236)"><i class="fa-solid fa-flask-vial" style="color: #8c07c0"></i></button> </th>
+                                        <th class="text-center">เจ้าหน้าที่</th>
+                                        <th class="text-center">ช่างซ่อม(รพ)</th>
+                                        <th class="text-center">ช่างแอร์</th>
+                                    </tr> 
+                                @endif
+                               
+                            </thead>
+                            <tbody>
+                                <?php $i = 1; ?>
+                                @foreach ($datashow_sub as $item) 
+                                
+                                    <tr id="tr_{{$item->air_repaire_id}}">                                                  
+                                        <td class="text-center" width="3%">{{ $i++ }}</td>   
+                                        <td class="text-center" width="6%">{{ DateThai($item->repaire_date )}}</td>     
+                                        {{-- @if ($repaire_type =='1') --}}
+                                        <td class="p-2">
+                                           {{-- <a href="{{url('air_report_typesub/'.$item->air_repaire_id.'/'.$repaire_type.'/'.$startdate.'/'.$enddate)}}"> --}}
+                                            {{ $item->air_list }}
+                                        {{-- </a>  --}}
+                                        </td> 
+                                        {{-- @else --}}
+                                            
+                                        {{-- @endif --}}
+                                          
+                                        <td class="p-2" width="5%">{{ $item->btu }}</td>  
+                                        <td class="p-2" width="10%">{{ $item->air_location_name }}</td>  
+                                        <td class="p-2" width="10%">{{ $item->debsubsub }}</td>  
+                                        <td class="text-center" width="3%"> 
+                                            @if ($item->problems_1 == 'on')
+                                            <img src="{{ asset('images/true_sm_50.png') }}" height="5px" width="5px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                            @else 
+                                            @endif
+                                            {{-- @if ($repaire_type =='1')
+                                                <?php 
+                                                    $datas_count_1= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_1 ="on"');
+                                                    foreach ($datas_count_1 as $key => $value) { $count_p1 = $value->c_air_list_num; }
+                                                ?> 
+                                                 @if ($count_p1 < 1)
+                                                    <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p1}}</label>
+                                                @else
+                                                    <label for="" style="font-size: 14px;color:red">{{$count_p1}}</label>
+                                                @endif
+                                            @elseif ($repaire_type =='2')
+                                                <?php 
+                                                    $datas_count_6= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_6 ="on"');
+                                                    foreach ($datas_count_6 as $key => $value6) { $count_p6 = $value6->c_air_list_num; }
+                                                ?> 
+                                                @if ($count_p6 < 1)
+                                                    <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p6}}</label>
+                                                @else
+                                                    <label for="" style="font-size: 14px;color:red">{{$count_p6}}</label>
+                                                @endif
+
+                                            @endif --}}
+                                        </td> 
+                                        <td class="text-center" width="5%"> 
+                                            @if ($item->problems_2 == 'on')
+                                            <img src="{{ asset('images/true_sm_50.png') }}" height="5px" width="5px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                            @else 
+                                            @endif
+                                            {{-- @if ($repaire_type =='1')
+                                                <?php 
+                                                    $datas_count_2= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_2 ="on"');
+                                                    foreach ($datas_count_2 as $key => $value2) {$count_p2 = $value2->c_air_list_num; }
+                                                ?>
+                                                @if ($count_p2 < 1)
+                                                    <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p2}}</label>
+                                                @else
+                                                    <label for="" style="font-size: 14px;color:red">{{$count_p2}}</label>
+                                                @endif
+                                            @elseif ($repaire_type =='2')
+                                                <?php 
+                                                    $datas_count_7= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_7 ="on"');
+                                                    foreach ($datas_count_7 as $key => $value7) { $count_p7 = $value7->c_air_list_num; }
+                                                ?> 
+                                                @if ($count_p7 < 1)
+                                                    <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p7}}</label>
+                                                @else
+                                                    <label for="" style="font-size: 14px;color:red">{{$count_p7}}</label>
+                                                @endif
+                                                 
+                                            @endif --}}
+                                        </td>
+                                        <td class="text-center" width="5%"> 
+                                            @if ($item->problems_3 == 'on')
+                                            <img src="{{ asset('images/true_sm_50.png') }}" height="5px" width="5px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                            @else 
+                                            @endif
+                                            {{-- @if ($repaire_type =='1')
+                                                <?php 
+                                                    $datas_count_3= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_3 ="on"');
+                                                    foreach ($datas_count_3 as $key => $value3) {$count_p3 = $value3->c_air_list_num; }
+                                                ?>
+                                                @if ($count_p3 < 1)
+                                                    <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p3}}</label>
+                                                @else
+                                                    <label for="" style="font-size: 14px;color:red">{{$count_p3}}</label>
+                                                @endif
+                                            @elseif ($repaire_type =='2')
+                                                <?php 
+                                                    $datas_count_8= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_8 ="on"');
+                                                    foreach ($datas_count_8 as $key => $value8) { $count_p8 = $value8->c_air_list_num; }
+                                                ?> 
+                                                @if ($count_p8 < 1)
+                                                    <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p8}}</label>
+                                                @else
+                                                    <label for="" style="font-size: 14px;color:red">{{$count_p8}}</label>
+                                                @endif
+                                                 
+                                            @endif --}}
+                                        </td>
+                                        <td class="text-center" width="5%"> 
+                                            @if ($item->problems_4 == 'on')
+                                            <img src="{{ asset('images/true_sm_50.png') }}" height="5px" width="5px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                            @else 
+                                            @endif
+                                            {{-- @if ($repaire_type =='1')
+                                                <?php 
+                                                    $datas_count_4= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_4 ="on"');
+                                                    foreach ($datas_count_4 as $key => $value4) {$count_p4 = $value4->c_air_list_num; }
+                                                ?>
+                                                @if ($count_p4 < 1)
+                                                    <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p4}}</label>
+                                                @else
+                                                    <label for="" style="font-size: 14px;color:red">{{$count_p4}}</label>
+                                                @endif
+                                            @elseif ($repaire_type =='2')
+                                                <?php 
+                                                    $datas_count_9= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_9 ="on"');
+                                                    foreach ($datas_count_9 as $key => $value9) { $count_p9 = $value9->c_air_list_num; }
+                                                ?> 
+                                                @if ($count_p9 < 1)
+                                                    <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p9}}</label>
+                                                @else
+                                                    <label for="" style="font-size: 14px;color:red">{{$count_p9}}</label>
+                                                @endif
+                                                
+                                            @endif --}}
+                                        </td>
+                                        <td class="text-center" width="5%"> 
+                                            @if ($item->problems_5 == 'on')
+                                            <img src="{{ asset('images/true_sm_50.png') }}" height="5px" width="5px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                            @else 
+                                            @endif
+                                            {{-- @if ($repaire_type =='1')
+                                                <?php 
+                                                    $datas_count_5= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_5 ="on"');
+                                                    foreach ($datas_count_5 as $key => $value5) {$count_p5 = $value5->c_air_list_num; }
+                                                ?>
+                                                @if ($count_p5 < 1)
+                                                    <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p5}}</label>
+                                                @else
+                                                    <label for="" style="font-size: 14px;color:red">{{$count_p5}}</label>
+                                                @endif
+                                            @elseif ($repaire_type =='2')
+                                                <?php 
+                                                    $datas_count_10= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_10 ="on"');
+                                                    foreach ($datas_count_10 as $key => $value10) { $count_p10 = $value10->c_air_list_num; }
+                                                ?> 
+                                                @if ($count_p10 < 1)
+                                                    <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p10}}</label>
+                                                @else
+                                                    <label for="" style="font-size: 14px;color:red">{{$count_p10}}</label>
+                                                @endif
+
+                                            @endif --}}
                                         </td> 
                                         <td class="p-2" width="10%">{{ $item->staff_name }}</td> 
                                         <td class="p-2" width="10%">{{ $item->tect_name }}</td> 

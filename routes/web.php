@@ -3370,7 +3370,7 @@ Route::match(['get','post'],'air_main_repaire_destroy/{id}',[App\Http\Controller
 Route::match(['get','post'],'air_repaire_edit/{id}',[App\Http\Controllers\AirController::class, 'air_repaire_edit'])->name('prs.air_repaire_edit');//
 Route::match(['get','post'],'air_repiare_update',[App\Http\Controllers\AirController::class, 'air_repiare_update'])->name('prs.air_repiare_update');//
 Route::match(['get','post'],'air_report_type',[App\Http\Controllers\AirController::class, 'air_report_type'])->name('prs.air_report_type');//
-
+Route::match(['get','post'],'air_report_typesub/{id}/{air_repaire_type}/{startdate}/{enddate}',[App\Http\Controllers\AirController::class, 'air_report_typesub'])->name('prs.air_report_typesub');//
 
 
 
