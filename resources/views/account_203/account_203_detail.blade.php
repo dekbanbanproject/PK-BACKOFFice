@@ -272,7 +272,7 @@
                                                 'SELECT count(DISTINCT vn) as Can,SUM(debit_total) as sumdebit
                                                     FROM acc_1102050101_203
                                                     WHERE month(vstdate) = "'.$months.'" AND year(vstdate) ="'.$year.'"
-                                                    AND hospcode = "'.$item_h->hospcode.'" 
+                                                    AND hospmain = "'.$item_h->hospmain.'" 
                                             ');
                                             foreach ($datas as $key => $value) {
                                                 $count_N     = $value->Can;
@@ -283,7 +283,7 @@
                                                 'SELECT count(DISTINCT vn) as Canct,SUM(ct_price) as sumctdebit
                                                     FROM acc_1102050101_203
                                                     WHERE month(vstdate) = "'.$months.'" AND year(vstdate) ="'.$year.'"
-                                                    AND hospcode = "'.$item_h->hospcode.'" 
+                                                    AND hospmain = "'.$item_h->hospmain.'" 
                                             ');
                                             foreach ($datas as $key => $value) {
                                                 $count_ct     = $value->Canct;
@@ -370,7 +370,7 @@
                                                 <td class="text-end"  width="7%" style="color:#108A1A"> {{ $item->ct_price }}</td> 
                                                 <td class="text-end"  width="7%" style="color:#E9540F"> {{ number_format(($item->income)-($item->rcpt_money)-($item->debit_total)-($item->ct_price),2) }}</td> 
 
-                                                <td class="text-center" width="5%">{{ $item->hospcode }}</td>
+                                                <td class="text-center" width="5%">{{ $item->hospmain }}</td>
                                             </tr>
                                                 <?php 
                                                     $total111 = $total111 + $item->income;

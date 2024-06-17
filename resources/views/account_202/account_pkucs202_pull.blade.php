@@ -140,7 +140,7 @@
                                     <thead>
                                         <tr>                                          
                                             <th width="5%" class="text-center">ลำดับ</th> 
-                                            <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox" name="stamp" id="stamp"> </th>   
+                                            <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox_" name="stamp" id="stamp"> </th>   
                                             <th class="text-center">an</th>
                                             <th class="text-center" >hn</th> 
                                             <th class="text-center">ptname</th> 
@@ -169,7 +169,7 @@
                                                         <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
                                                     </td> 
                                                 @else
-                                                    <td class="text-center" width="5%"><input type="checkbox" class="sub_chk dcheckbox" data-id="{{$item->acc_debtor_id}}"> </td> 
+                                                    <td class="text-center" width="5%"><input type="checkbox" class="sub_chk dcheckbox_" data-id="{{$item->acc_debtor_id}}"> </td> 
                                                 @endif                                                
                                                 <td class="text-center" width="5%">{{ $item->an }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>   

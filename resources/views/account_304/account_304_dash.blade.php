@@ -100,7 +100,7 @@
                      
                     @if ($budget_year =='')
                     <div class="col-md-2"> 
-                            <select name="budget_year" id="budget_year" class="form-control inputmedsalt text-center" style="width: 100%">
+                            <select name="budget_year" id="budget_year" class="form-control inputmedsalt text-center card_audit_4c" style="width: 100%;font-size:13px">
                                 @foreach ($dabudget_year as $item_y)
                                     @if ($y == $item_y->leave_year_id )
                                         <option value="{{$item_y->leave_year_id}}" selected>{{$item_y->leave_year_name}}</option>
@@ -112,7 +112,7 @@
                     </div>
                     @else
                     <div class="col-md-2"> 
-                            <select name="budget_year" id="budget_year" class="form-control inputmedsalt text-center" style="width: 100%">
+                            <select name="budget_year" id="budget_year" class="form-control inputmedsalt text-center card_audit_4c" style="width: 100%;font-size:13px">
                                 @foreach ($dabudget_year as $item_y)
                                     @if ($budget_year == $item_y->leave_year_id )
                                         <option value="{{$item_y->leave_year_id}}" selected>{{$item_y->leave_year_name}}</option>
@@ -235,7 +235,7 @@
                                                     </td> 
                                                   
                                                     <td class="text-end" style="color:rgb(224, 128, 17)" width="10%">  
-                                                        <a href="{{url('account_402_stm/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(224, 128, 17);"> {{ number_format($sum_yokpai, 2) }}</a> 
+                                                        <a href="{{url('account_304_yok/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(224, 128, 17);"> {{ number_format($sum_yokpai, 2) }}</a> 
                                                     </td>
                                                 </tr>
                                             <?php

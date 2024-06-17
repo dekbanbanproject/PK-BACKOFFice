@@ -25,7 +25,8 @@ return new class extends Migration
                 $table->date('vstdate')->nullable();//
                 $table->Time('vsttime')->nullable();// 
                 $table->date('regdate')->nullable();//
-                $table->date('dchdate')->nullable();//            
+                $table->date('dchdate')->nullable();//      
+                $table->string('hospmain')->nullable();//       
                 $table->string('pttype')->nullable();//  
                 $table->string('pttype_nhso')->nullable();// 
                 $table->date('pttype_nhso_startdate')->nullable();// 

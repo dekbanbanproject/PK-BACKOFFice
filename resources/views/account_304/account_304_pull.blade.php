@@ -83,12 +83,12 @@
        
         <div class="row"> 
             <div class="col-md-4">
-                <h5 class="card-title">Detail 1102050101.304</h5>
-                <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.304</p>
+                <h5 class="card-title" style="color:green">Process data 1102050101.304</h5>
+                <p class="card-title-desc">ประมวลผลข้อมูล ผัง 1102050101.304</p>
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-5 text-end">
+            <div class="col-md-4 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control inputaccs" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
@@ -109,7 +109,7 @@
        
         <div class="row">
             <div class="col-xl-12">
-                <div class="card cardacc">
+                <div class="card card_audit_4c">
                     <div class="card-body">
                      
                       
@@ -144,13 +144,14 @@
                                         <tr>
                                           
                                             <th width="5%" class="text-center">ลำดับ</th> 
-                                            <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox" name="stamp" id="stamp"> </th> 
-                                            <th class="text-center" width="5%">vn</th> 
-                                            <th class="text-center">an</th>
-                                            <th class="text-center" >hn</th>
-                                            <th class="text-center" >cid</th>
+                                            <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox_" name="stamp" id="stamp"> </th> 
+                                            {{-- <th class="text-center" width="5%">vn</th>  --}}
+                                            <th class="text-center" width="5%">an</th>
+                                            <th class="text-center" width="5%">hn</th>
+                                            <th class="text-center">cid</th>
                                             <th class="text-center">ptname</th>
                                             <th class="text-center">dchdate</th>  
+                                            <th class="text-center">hospmain</th>  
                                             <th class="text-center">pttype</th> 
                                             <th class="text-center">spsch</th> 
                                             <th class="text-center">income</th>
@@ -168,16 +169,17 @@
                                                         <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
                                                     </td> 
                                                 @else
-                                                    <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
+                                                    <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox_ sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
                                                 @endif
                                                 {{-- <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox sub_chk" data-id="{{$item->acc_debtor_id}}"> </td>  --}}
 
-                                                <td class="text-center" width="5%">{{ $item->vn }}</td> 
+                                                {{-- <td class="text-center" width="5%">{{ $item->vn }}</td>  --}}
                                                 <td class="text-center" width="5%">{{ $item->an }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  
                                                 <td class="text-center" width="10%">{{ $item->cid }}</td>  
                                                 <td class="p-2" >{{ $item->ptname }}</td> 
-                                                <td class="text-center" width="10%">{{ $item->dchdate }}</td>   
+                                                <td class="text-center" width="10%">{{ $item->dchdate }}</td>  
+                                                <td class="text-center" width="7%">{{ $item->hospmain }}</td>  
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>                                                 
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td>                                                 
                                                 <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td> 

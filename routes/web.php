@@ -2103,6 +2103,8 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_304_sync',[App\Http\Controllers\Account304Controller::class, 'account_304_sync'])->name('acc.account_304_sync');//
     Route::match(['get','post'],'account_304_syncall',[App\Http\Controllers\Account304Controller::class, 'account_304_syncall'])->name('acc.account_304_syncall');//
     Route::match(['get','post'],'account_304_destroy_all',[App\Http\Controllers\Account304Controller::class, 'account_304_destroy_all'])->name('acc.account_304_destroy_all');// 
+    Route::match(['get','post'],'account_304_yok/{months}/{year}',[App\Http\Controllers\Account304Controller::class, 'account_304_yok'])->name('acc.account_304_yok');//
+    Route::match(['get','post'],'account_304_search',[App\Http\Controllers\Account304Controller::class, 'account_304_search'])->name('acc.account_304_search');// 
 
     Route::match(['get','post'],'account_307_pull',[App\Http\Controllers\Account307Controller::class, 'account_307_pull'])->name('acc.account_307_pull');//
     Route::match(['get','post'],'account_307_checksit',[App\Http\Controllers\Account307Controller::class, 'account_307_checksit'])->name('acc.account_307_checksit');//
@@ -2119,6 +2121,8 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_307_sync',[App\Http\Controllers\Account307Controller::class, 'account_307_sync'])->name('acc.account_307_sync');//
     Route::match(['get','post'],'account_307_syncall',[App\Http\Controllers\Account307Controller::class, 'account_307_syncall'])->name('acc.account_307_syncall');//
     Route::match(['get','post'],'account_307_destroy_all',[App\Http\Controllers\Account307Controller::class, 'account_307_destroy_all'])->name('acc.account_307_destroy_all');// 
+    Route::match(['get','post'],'account_307_yok/{months}/{year}',[App\Http\Controllers\Account307Controller::class, 'account_307_yok'])->name('acc.account_307_yok');//
+    Route::match(['get','post'],'account_307_search',[App\Http\Controllers\Account307Controller::class, 'account_307_search'])->name('acc.account_307_search');//
 
     Route::match(['get','post'],'account_308_pull',[App\Http\Controllers\Account308Controller::class, 'account_308_pull'])->name('acc.account_308_pull');//
     Route::match(['get','post'],'account_308_pulldata',[App\Http\Controllers\Account308Controller::class, 'account_308_pulldata'])->name('acc.account_308_pulldata');//

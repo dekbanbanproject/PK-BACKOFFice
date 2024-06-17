@@ -84,15 +84,15 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="card-title" style="color:green">Detail 1102050101.304</h4> 
+                        <h4 style="color:green">Statment 1102050101.307</h4> 
     
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0"> 
-                                <li class="breadcrumb-item active"> 
-                                    <button type="button" class="ladda-button btn-pill btn btn-sm btn-danger cardacc PulldataAll" data-style="expand-left">
-                                        <span class="ladda-label">  <i class="fa-solid fa-arrows-rotate text-white me-2"></i> Sync Data All </span>
-                                        <span class="ladda-spinner"></span>
-                                    </button>  
+                                
+                                <a href="{{url('account_307_dash')}}" class="ladda-button me-2 btn-pill btn btn-warning cardacc"> 
+                                    <i class="fa-solid fa-arrow-left me-2"></i> 
+                                   ย้อนกลับ
+                                </a> 
                                 </li>
                             </ol>
                         </div>
@@ -115,7 +115,7 @@
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
                                     {{-- <th class="text-center" width="5%">repno</th> --}}
-                                    {{-- <th class="text-center">vn</th> --}}
+                                    <th class="text-center">vn</th>
                                     <th class="text-center">an</th>
                                     <th class="text-center">hn</th>
                                     <th class="text-center">cid</th>
@@ -161,7 +161,7 @@
                                         <td class="text-font" style="text-align: center;" width="4%">{{ $number }}
                                         </td>
                                         {{-- <td class="text-center" width="10%">{{ $item->repno }}</td>   --}}
-                                        {{-- <td class="text-center" width="10%">{{ $item->vn }}</td> --}}
+                                        <td class="text-center" width="10%">{{ $item->vn }}</td>
                                         <td class="text-center" width="10%">{{ $item->an }}</td>
                                         <td class="text-center" width="10%">{{ $item->hn }}</td>
                                         <td class="text-center" width="10%">{{ $item->cid }}</td>
@@ -220,7 +220,7 @@
 
                             </tbody>
                             <tr style="background-color: #f3fca1">
-                                <td colspan="9" class="text-end" style="background-color: #fca1a1"></td>
+                                <td colspan="10" class="text-end" style="background-color: #fca1a1"></td>
                                 <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
                                 <td class="text-center" style="background-color: #FCA533" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
                                 <td class="text-center" style="background-color: #44E952"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td>
@@ -231,10 +231,7 @@
                     </div>
                 </div>
             </div>
-            {{-- <div class="col-md-2">
-                <div class="card card_audit_4c">
-                </div>
-            </div> --}}
+
         </div>
     </div>
 
@@ -340,39 +337,7 @@
                     }
                 })
             });
-
-            // $(document).on('click', '.Pulldata', function() {
-            //     var an = $(this).val();
-            //     alert(an);
-
-            //     $.ajax({
-            //         type: "POST",
-            //         url: "{{ url('account_304_sync') }}",
-            //         dataType: 'json',
-            //         data: { an },
-            //         success: function(data) {
-            //             // if (data.status == 200) { 
-            //                     // Swal.fire({
-            //                     //     title: 'Sync ข้อมูลสำเร็จ',
-            //                     //     text: "You Sync data success",
-            //                     //     icon: 'success',
-            //                     //     showCancelButton: false,
-            //                     //     confirmButtonColor: '#06D177',
-            //                     //     confirmButtonText: 'เรียบร้อย'
-            //                     // }).then((result) => {
-            //                     //     if (result
-            //                     //         .isConfirmed) {
-            //                     //         console.log(
-            //                     //             data);
-            //                     //         window.location.reload(); 
-            //                     // })
-            //             // } else {
-
-            //             // }
-
-            //         }
-            //     });
-            // });
+ 
 
         });
     </script>

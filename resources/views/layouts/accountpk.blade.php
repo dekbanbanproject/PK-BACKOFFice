@@ -112,7 +112,7 @@
         border-radius: 3em 3em 3em 3em;
         box-shadow: 0 0 10px rgb(250, 128, 124);
     }
-    .auditcheckbox{         
+    .dcheckbox_{         
         width: 20px;
         height: 20px;       
         /* border-radius: 2em 2em 2em 2em; */
@@ -437,6 +437,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_304_dash') }}">dashboard</a></li>
                                             <li><a href="{{ url('account_304_pull') }}">ดึงลูกหนี้</a></li>
+                                            <li><a href="{{ url('account_304_search') }}">ค้นหาลูกหนี้</a> </li>
                                        
                                         </ul>
                                     </li>
@@ -444,7 +445,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_307_dash') }}">dashboard</a></li>
                                             <li><a href="{{ url('account_307_pull') }}">ดึงลูกหนี้</a></li>
-                                        
+                                            <li><a href="{{ url('account_307_search') }}">ค้นหาลูกหนี้</a> </li>
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">308-72ชั่วโมงแรก</a>

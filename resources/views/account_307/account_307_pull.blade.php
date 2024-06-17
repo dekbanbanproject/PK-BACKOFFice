@@ -82,13 +82,13 @@
         </div>
        
         <div class="row"> 
-            <div class="col-md-4">
-                <h5 class="card-title">Detail 1102050101.307</h5>
-                <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.307</p>
+            <div class="col-md-4"> 
+                <h5 class="card-title" style="color:green">Process data 1102050101.307</h5>
+                <p class="card-title-desc">ประมวลผลข้อมูล ผัง 1102050101.307</p>
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-5 text-end">
+            <div class="col-md-4 text-end">
                 {{-- <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
@@ -115,9 +115,9 @@
     </div>    
         <div class="row">
             <div class="col-xl-12">
-                <div class="card cardacc">
+                <div class="card card_audit_4c">
                     <div class="card-body">
-                        <div class="row mb-3">
+                        <div class="row mb-2">
                             {{-- <div class="col-md-4">                                
                                 <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail Account ผัง 1102050101.307</h4>
                                 <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
@@ -145,9 +145,9 @@
                                     <thead>
                                         <tr>                                          
                                             <th width="5%" class="text-center">ลำดับ</th> 
-                                            <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox" name="stamp" id="stamp"> </th> 
+                                            <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox_" name="stamp" id="stamp"> </th> 
                                             <th class="text-center" width="5%">vn</th> 
-                                            <th class="text-center">an</th>
+                                            {{-- <th class="text-center">an</th> --}}
                                             <th class="text-center" >hn</th>
                                             <th class="text-center" >cid</th>
                                             <th class="text-center">ptname</th>
@@ -169,12 +169,12 @@
                                                         <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
                                                     </td> 
                                                 @else --}}
-                                                    <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
+                                                    <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox_ sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
                                                 {{-- @endif --}}
                                                 {{-- <td class="text-center" width="5%"><input type="checkbox" class="cardacc sub_chk" data-id="{{$item->acc_debtor_id}}"> </td>  --}}
 
                                                 <td class="text-center" width="5%">{{ $item->vn }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->an }}</td> 
+                                                {{-- <td class="text-center" width="5%">{{ $item->an }}</td>  --}}
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  
                                                 <td class="text-center" width="10%">{{ $item->cid }}</td>  
                                                 <td class="p-2" >{{ $item->ptname }}</td> 
@@ -230,7 +230,7 @@
                 });
                 if (allValls.length <= 0) {
                     // alert("SSSS");
-                    Swal.fire({
+                    Swal.fire({position: "top-end",
                         title: 'คุณยังไม่ได้เลือกรายการ ?',
                         text: "กรุณาเลือกรายการก่อน",
                         icon: 'warning',
@@ -241,7 +241,7 @@
                         
                         })
                 } else {
-                    Swal.fire({
+                    Swal.fire({position: "top-end",
                         title: 'Are you sure?',
                         text: "คุณต้องการตั้งลูกหนี้รายการนี้ใช่ไหม!",
                         icon: 'warning',
@@ -268,7 +268,7 @@
                                                     $(".sub_chk:checked").each(function () {
                                                         $(this).parents("tr").remove();
                                                     });
-                                                    Swal.fire({
+                                                    Swal.fire({position: "top-end",
                                                         title: 'ตั้งลูกหนี้สำเร็จ',
                                                         text: "You Debtor data success",
                                                         icon: 'success',
@@ -310,7 +310,7 @@
             $('#Pulldata').click(function() {
                 var datepicker = $('#datepicker').val(); 
                 var datepicker2 = $('#datepicker2').val(); 
-                Swal.fire({
+                Swal.fire({position: "top-end",
                         title: 'ต้องการดึงข้อมูลใช่ไหม ?',
                         text: "You Warn Pull Data!",
                         icon: 'warning',
@@ -333,7 +333,7 @@
                                     },
                                     success: function(data) {
                                         if (data.status == 200) { 
-                                            Swal.fire({
+                                            Swal.fire({position: "top-end",
                                                 title: 'ดึงข้อมูลสำเร็จ',
                                                 text: "You Pull data success",
                                                 icon: 'success',
@@ -366,7 +366,7 @@
                 var datepicker = $('#datepicker').val(); 
                 var datepicker2 = $('#datepicker2').val(); 
                 //    alert(datepicker);
-                Swal.fire({
+                Swal.fire({position: "top-end",
                         title: 'ต้องการตรวจสอบสอทธิ์ใช่ไหม ?',
                         text: "You Check Sit Data!",
                         icon: 'warning',
@@ -388,7 +388,7 @@
                                 },
                                 success: function(data) {
                                     if (data.status == 200) { 
-                                        Swal.fire({
+                                        Swal.fire({position: "top-end",
                                             title: 'เช็คสิทธิ์สำเร็จ',
                                             text: "You Check sit success",
                                             icon: 'success',
@@ -433,7 +433,7 @@
                 });
                 if (allValls.length <= 0) {
                     // alert("SSSS");
-                    Swal.fire({
+                    Swal.fire({position: "top-end",
                         title: 'คุณยังไม่ได้เลือกรายการ ?',
                         text: "กรุณาเลือกรายการก่อน",
                         icon: 'warning',
@@ -444,7 +444,7 @@
                         
                         })
                 } else {
-                    Swal.fire({
+                    Swal.fire({position: "top-end",
                         title: 'Are you Want Delete sure?',
                         text: "คุณต้องการลบรายการนี้ใช่ไหม!",
                         icon: 'warning',
@@ -471,7 +471,7 @@
                                                     $(".sub_chk:checked").each(function () {
                                                         $(this).parents("tr").remove();
                                                     });
-                                                    Swal.fire({
+                                                    Swal.fire({position: "top-end",
                                                         title: 'ลบข้อมูลสำเร็จ',
                                                         text: "You Delete data success",
                                                         icon: 'success',
