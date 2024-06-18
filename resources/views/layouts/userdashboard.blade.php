@@ -204,7 +204,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                         id="vertical-menu-btn">
                         <i class="ri-menu-2-line align-middle" style="color: rgb(255, 255, 255)"></i>
                     </button>
-                    <a href="{{ url('/') }}">
+                    <a href="{{ url('user/home') }}">
                         <h4 style="color:rgb(255, 255, 255)" class="mt-4">GENERAL USERS</h4>
                     </a>
 
