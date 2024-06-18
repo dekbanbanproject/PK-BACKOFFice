@@ -153,12 +153,9 @@
                                             <th class="text-center" style="background-color: rgb(219, 247, 232)">ลำดับ</th> 
                                             <th class="text-center" style="background-color: rgb(219, 247, 232)">เดือน</th> 
                                             <th class="text-center" style="background-color: rgb(219, 247, 232)">income</th> 
-                                            <th class="text-center" style="background-color: rgb(135, 190, 253)">ต้องตั้ง-402</th>  
-                                            <th class="text-center" style="background-color: rgb(135, 190, 253)">ตั้งลูกหนี้-402</th> 
-                                            <th class="text-center" style="background-color: rgb(135, 190, 253)">Stm-402</th>
-                                            <th class="text-center" style="background-color: rgb(253, 135, 174)">ต้องตั้ง-4022</th> 
-                                            <th class="text-center" style="background-color: rgb(253, 135, 174)">ตั้งลูกหนี้-4022</th> 
-                                            <th class="text-center" style="background-color: rgb(253, 135, 174)">Stm-4022</th>
+                                            <th class="text-center" style="background-color: rgb(135, 190, 253)">ลูกหนี้ต้องตั้ง</th>  
+                                            <th class="text-center" style="background-color: rgb(135, 190, 253)">ตั้งลูกหนี้</th> 
+                                            <th class="text-center" style="background-color: rgb(135, 190, 253)">Stm</th> 
                                             <th class="text-center" style="background-color: rgb(250, 225, 234)">ยกยอดไป</th> 
                                         </tr>
                                     </thead>
@@ -171,7 +168,7 @@
                                                 $number++;
                                                 $y = $item->year;
                                                     $ynew = $y + 543;
-                                                // ลูกหนี้ที่ต้องตั้ง 402
+                                                // ลูกหนี้ที่ต้องตั้ง 502
                                                 $datas = DB::select('
                                                     SELECT count(DISTINCT an) as Can
                                                         ,SUM(debit_total) as sumdebit
@@ -185,7 +182,7 @@
                                                     $count_N = $value->Can;
                                                     $sum_N = $value->sumdebit;
                                                 }
-                                                // ตั้งลูกหนี้ IPD 402
+                                                // ตั้งลูกหนี้ IPD 502
                                                 $datasum_ = DB::select('
                                                     SELECT sum(debit_total) as debit_total,count(DISTINCT an) as Cvit
                                                     from acc_1102050101_502
@@ -198,44 +195,16 @@
                                                     $total_countY = $value2->Cvit;
                                                 } 
  
-                                                // STM 402
+                                                // STM 502
                                                 $stm_ = DB::select(
-                                                    'SELECT sum(stm_money) as stm_money,count(DISTINCT an) as Countvisit FROM acc_1102050101_402 
+                                                    'SELECT sum(stm_money) as stm_money,count(DISTINCT an) as Countvisit FROM acc_1102050101_502 
                                                     WHERE month(dchdate) = "'.$item->months.'" AND year(dchdate) = "'.$item->year.'" AND (stm_money IS NOT NULL OR stm_money <> "")
                                                 ');                                           
                                                 foreach ($stm_ as $key => $value3) {
                                                     $sum_stm_money  = $value3->stm_money; 
                                                     $count_stm      = $value3->Countvisit; 
                                                 }
-
-                                                 // STM 4022
-                                                 $stm_4022 = DB::select(
-                                                    'SELECT sum(U2.Total_amount) as Total_amount,count(DISTINCT U1.an) as Countvisit 
-                                                        from acc_1102050101_4022 U1
-                                                        LEFT JOIN acc_stm_ti_total U2 on U2.hn = U1.hn AND U2.vstdate = U1.rxdate
-                                                        WHERE month(U1.dchdate) = "'.$item->months.'" AND year(U1.dchdate) = "'.$item->year.'" 
-                                                        AND U2.Total_amount is not null AND U2.HDflag IN("CIC")
-                                                      
-                                                ');   
-                                                // group by U1.an,U1.rxdate 
-                                                // AND U2.vstdate = U1.vstdate                                        
-                                                foreach ($stm_4022 as $key => $value4) {
-                                                    $sum_stm_moneyti  = $value4->Total_amount; 
-                                                    $count_stmti      = $value4->Countvisit; 
-                                                }
-    
-                                                // // ยกไป
-                                                // $yokpai_ = DB::select('
-                                                //         SELECT sum(debit_total) as debit_total,count(vn) as Countvi
-                                                //             from acc_1102050101_216
-                                                //             where month(vstdate) = "'.$item->months.'"
-                                                //             AND year(vstdate) = "'.$item->year.'"                                                        
-                                                //     ');                                           
-                                                //     foreach ($yokpai_ as $key => $valpai) {
-                                                //         $sum_yokpai = $valpai->debit_total; 
-                                                //         $count_yokpai = $valpai->Countvi; 
-                                                // }
-    
+  
                                             ?>
                                     
                                                 <tr>
@@ -246,23 +215,16 @@
                                                     </td>    
                                                     <td class="text-end" style="color:rgb(73, 147, 231)" width="10%"> {{ number_format($item->income, 2) }}</td>                                      
                                                     <td class="text-end" style="color:rgb(6, 82, 170);background-color: rgb(203, 227, 255)" width="10%">
-                                                        <a href="{{url('account_402_pull')}}" target="_blank" style="color:rgb(5, 58, 173);"> {{ number_format($sum_N, 2) }}</a>
+                                                        <a href="{{url('account_502_pull')}}" target="_blank" style="color:rgb(5, 58, 173);"> {{ number_format($sum_N, 2) }}</a>
                                                     </td>                                                    
                                                     <td class="text-end" style="color:rgb(231, 73, 139);background-color: rgb(203, 227, 255)" width="10%"> 
-                                                        <a href="{{url('account_402_detail/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(231, 73, 139);"> {{ number_format($total_sumY, 2) }}</a> 
+                                                        <a href="{{url('account_502_detail/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(231, 73, 139);"> {{ number_format($total_sumY, 2) }}</a> 
                                                     </td> 
                                                     <td class="text-end" style="color:rgb(2, 116, 63);background-color: rgb(203, 227, 255)" width="10%"> 
-                                                         <a href="{{url('account_402_stm/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(2, 116, 63);"> {{ number_format($sum_stm_money, 2) }}</a> 
+                                                        {{ number_format($sum_stm_money, 2) }}
+                                                         {{-- <a href="{{url('account_502_stm/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(2, 116, 63);"> {{ number_format($sum_stm_money, 2) }}</a>  --}}
                                                     </td> 
-                                                    <td class="text-end" style="color:rgb(45, 57, 230);background-color: rgb(255, 174, 201)" width="10%"> 
-                                                       <a href="{{url('account_pkti4022_pull')}}" target="_blank" style="color:rgb(21, 85, 223);"> {{ number_format($sum_N4022, 2) }}</a>
-                                                    </td> 
-                                                    <td class="text-end" width="10%" style="background-color: rgb(255, 174, 201)">  
-                                                        <a href="{{url('account_pkti4022_detail/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(101, 12, 153);"> {{ number_format($sum_fokliad, 2) }}</a>
-                                                    </td>                                               
-                                                    <td class="text-end" style="color:rgb(5, 114, 96);background-color: rgb(255, 174, 201)" width="10%">
-                                                        <a href="{{url('account_pkti4022_stm/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(101, 12, 153);">{{ number_format($sum_stm_moneyti, 2) }}</a>
-                                                    </td> 
+                                                   
                                                     <td class="text-end" style="color:rgb(224, 128, 17)" width="10%">0.00</td> 
                                                 </tr>
                                             <?php
@@ -271,10 +233,7 @@
                                                    
                                                     $total3 = $total3 + $total_sumY; 
                                                     $total4 = $total4 + $sum_stm_money; 
-                                                    $total7 = $total7 + $sum_N4022; 
-                                                    $total5 = $total5 + $sum_fokliad;
-                                                    $total6 = $total6 + $sum_stm_moneyti; 
-                                                    // $total4 = $total4 + $sum_fokliad; 
+                                                
                                             ?> 
                                         @endforeach
     
@@ -285,11 +244,7 @@
                                         <td class="text-end" style="background-color: #033a6d"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
                                         <td class="text-end" style="background-color: #fc5089"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td>
                                         <td class="text-end" style="background-color: #149966" ><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td> 
-                                        <td class="text-end" style="background-color: #2e41e9" ><label for="" style="color: #FFFFFF">{{ number_format($total7, 2) }}</label></td> 
-                                        <td class="text-end" style="background-color: #c5224b"><label for="" style="color: #FFFFFF">{{ number_format($total5, 2) }}</label></td>
-                                        <td class="text-end" style="background-color: #0ea080"><label for="" style="color: #FFFFFF">{{ number_format($total6, 2) }}</label></td> 
-                                        <td class="text-end" style="background-color: #f89625"><label for="" style="color: #FFFFFF">0.00</label></td> 
-                                     
+                                        <td class="text-end" style="background-color: #f89625"><label for="" style="color: #FFFFFF">0.00</label></td>  
                                     </tr>  
                                 </table>
                             </div>

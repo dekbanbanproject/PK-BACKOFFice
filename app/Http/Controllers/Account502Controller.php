@@ -87,17 +87,17 @@ date_default_timezone_set("Asia/Bangkok");
 
 class Account502Controller extends Controller
  { 
-    public function account_502_dash(Request $request)
+    public function account_502_dash_old(Request $request)
     {
-        $startdate = $request->startdate;
-        $enddate   = $request->enddate;
-        $year      = $request->year;
-        $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
-        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
-        $leave_year = DB::table('leave_year')->orderBy('year', 'ASC')->get();
-        
-        $date = date('Y-m-d');
-        $y = date('Y');
+        $startdate          = $request->startdate;
+        $enddate            = $request->enddate;
+        $year               = $request->year;
+        $budget_year        = $request->budget_year;
+        $dabudget_year      = DB::table('budget_year')->where('active','=',true)->get();
+        $leave_month_year   = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $leave_year         = DB::table('leave_year')->orderBy('year', 'ASC')->get(); 
+        $date               = date('Y-m-d');
+        $y                  = date('Y');
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
@@ -119,7 +119,7 @@ class Account502Controller extends Controller
                     WHERE a.dchdate between "'.$start.'" and "'.$end.'"
                     and account_code="1102050101.502"
                     and income <> 0
-                    group by month(a.dchdate) order by a.dchdate desc limit 3;
+                    group by month(a.dchdate) order by a.dchdate desc;
             ');
 
         } else {
@@ -146,6 +146,69 @@ class Account502Controller extends Controller
             'newyear'          => $newyear,
             'date'             => $date,
             'leave_year'       => $leave_year,
+            'budget_year'       => $budget_year,
+            'dabudget_year'     => $dabudget_year,
+            'y'                 => $y,
+        ]);
+    }
+    public function account_502_dash(Request $request)
+    {  
+        $budget_year        = $request->budget_year;
+        $dabudget_year      = DB::table('budget_year')->where('active','=',true)->get();
+        $leave_month_year   = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+         
+        if ($budget_year == '') {
+            $yearnew     = date('Y');
+            $year_old    = date('Y')-1; 
+            $startdate   = (''.$year_old.'-10-01');
+            $enddate     = (''.$yearnew.'-09-30'); 
+            // dd($startdate);
+            $datashow = DB::select('
+                    SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn ,count(distinct a.an) as an
+                    ,sum(a.income) as income ,sum(a.paid_money) as paid_money
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money)-sum(a.fokliad) as debit402,sum(a.fokliad) as sumfokliad
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
+                    WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
+                    and account_code="1102050101.502"
+                    group by month(a.dchdate)                     
+                    order by a.dchdate desc;
+            ');  
+        } else {
+          
+            $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
+            $startdate    = $bg->date_begin;
+            $enddate      = $bg->date_end; 
+            // dd($startdate);
+            $datashow = DB::select('
+                    SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn
+                    ,count(distinct a.an) as an ,sum(a.income) as income ,sum(a.paid_money) as paid_money
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
+                    WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
+                    and account_code="1102050101.502" 
+                    group by month(a.dchdate)                    
+                    order by a.dchdate desc;
+            ');
+        }
+        // dd($startdate);
+        return view('account_502.account_502_dash',[
+            'startdate'         =>  $startdate,
+            'enddate'           =>  $enddate, 
+            'leave_month_year'  =>  $leave_month_year, 
+            'datashow'          =>  $datashow,
+            'dabudget_year'     =>  $dabudget_year,
+            'budget_year'       =>  $budget_year,
+            'y'                 =>  $y,
         ]);
     }
     public function account_502_pull(Request $request)
@@ -337,6 +400,40 @@ class Account502Controller extends Controller
             'data'       =>     $data,
             'months'     =>     $months,
             'year'       =>     $year
+        ]);
+    }
+    public function account_502_search (Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $date = date('Y-m-d'); 
+        $new_day = date('Y-m-d', strtotime($date . ' -5 day')); //ย้อนหลัง 1 วัน
+        $data['users'] = User::get();
+        if ($startdate =='') {
+           $datashow = DB::select(' 
+           SELECT U1.* 
+           from acc_1102050101_502 U1
+          
+               WHERE dchdate BETWEEN "'.$new_day.'" AND  "'.$date.'" 
+               group by U1.an 
+           ');
+        //    LEFT JOIN acc_stm_ofc U2 on U2.an = U1.an 
+        } else {
+           $datashow = DB::select(' 
+           SELECT U1.* 
+           from acc_1102050101_502 U1
+         
+               WHERE dchdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"  
+               group by U1.an
+           ');
+        } 
+        return view('account_502.account_502_search ', $data, [
+            'startdate'     => $startdate,
+            'enddate'       => $enddate,
+            'datashow'      => $datashow,
+            'startdate'     => $startdate,
+            'enddate'       => $enddate
         ]);
     }
     // public function account_402_stm(Request $request,$months,$year)

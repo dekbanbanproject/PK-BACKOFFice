@@ -71,19 +71,29 @@ $pos = strrpos($url, '/') + 1;
             </div>
         </div>
     </div>
+     
+    <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0" style="color:rgb(10, 151, 85)">รายละเอียดข้อมูลตั้งลูกหนี้ 1102050101.502</h4>
 
-        <div class="row mt-2">
-            <div class="col-md-12">
-                <div class="main-card mb-3 card">
-                    <div class="card-header">
-                    รายละเอียด 1102050101.502
-                        {{-- <div class="btn-actions-pane-right">
-                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll" >
-                                <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>
-                                Sync Data All 
-                            </button>
-                        </div> --}}
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">รายละเอียดข้อมูลตั้งลูกหนี้</a></li>
+                            <li class="breadcrumb-item active">1102050101.502</li>
+                        </ol>
                     </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+    </div> <!-- container-fluid -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card_audit_4c"> 
                     <div class="card-body">
                         <input type="hidden" name="months" id="months" value="{{$months}}">
                         <input type="hidden" name="year" id="year" value="{{$year}}">
@@ -92,7 +102,7 @@ $pos = strrpos($url, '/') + 1;
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th> 
-                                    <th class="text-center" >vn</th>
+                                    {{-- <th class="text-center" >vn</th> --}}
                                     <th class="text-center" >an</th>
                                     <th class="text-center" >hn</th>
                                     <th class="text-center" >cid</th>
@@ -117,7 +127,7 @@ $pos = strrpos($url, '/') + 1;
                                    
                                         <tr height="20" style="font-size: 14px;">
                                             <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td>  
-                                            <td class="text-center" width="8%">{{ $item->vn }}</td> 
+                                            {{-- <td class="text-center" width="8%">{{ $item->vn }}</td>  --}}
                                             <td class="text-center" width="8%">{{ $item->an }}</td> 
                                             <td class="text-center" width="5%">{{ $item->hn }}</td>   
                                             <td class="text-center" width="10%">{{ $item->cid }}</td>  
@@ -125,8 +135,8 @@ $pos = strrpos($url, '/') + 1;
                                             <td class="text-center" width="8%">{{ $item->vstdate }}</td>   
                                             <td class="text-center" width="8%">{{ $item->dchdate }}</td>  
                                             <td class="text-center" width="5%">{{ $item->pttype }}</td>  
-                                            <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td> 
-                                            <td class="text-center" width="10%">{{ number_format($item->rcpt_money, 2) }}</td> 
+                                            <td class="text-center" style="color:rgb(3, 68, 143)" width="10%">{{ number_format($item->income, 2) }}</td> 
+                                            <td class="text-center" style="color:rgb(4, 140, 145)" width="10%">{{ number_format($item->rcpt_money, 2) }}</td> 
                                             <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>  
                                         </tr>
                                         <?php
@@ -140,10 +150,10 @@ $pos = strrpos($url, '/') + 1;
 
                             </tbody>
                             <tr style="background-color: #f3fca1">
-                                <td colspan="9" class="text-end" style="background-color: #fca1a1"></td>
-                                <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
-                                <td class="text-center" style="background-color: #FCA533" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
-                                <td class="text-center" style="background-color: #44E952"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td> 
+                                <td colspan="8" class="text-end" style="background-color: #fca1a1"></td>
+                                <td class="text-center" style="background-color: #0652aa"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
+                                <td class="text-center" style="background-color: #06858a" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
+                                <td class="text-center" style="background-color: #0c7dc9"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td> 
                             </tr>  
                         </table>
                     </div>
