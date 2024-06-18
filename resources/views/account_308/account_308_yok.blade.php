@@ -90,11 +90,11 @@ $yb =  date('Y')+542;
                         <h4 class="card-title" style="color:green">Detail 1102050101.308</h4> 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0"> 
-                                <li class="breadcrumb-item active"> 
-                                    <button type="button" class="ladda-button btn-pill btn btn-sm btn-danger cardacc PulldataAll" data-style="expand-left">
-                                        <span class="ladda-label">  <i class="fa-solid fa-arrows-rotate text-white me-2"></i> Sync Data All </span>
-                                        <span class="ladda-spinner"></span>
-                                    </button>  
+                                
+                                <a href="{{url('account_308_dash')}}" class="ladda-button me-2 btn-pill btn btn-warning cardacc"> 
+                                    <i class="fa-solid fa-arrow-left me-2"></i> 
+                                   ย้อนกลับ
+                                </a> 
                                 </li>
                             </ol>
                         </div>
@@ -155,9 +155,9 @@ $yb =  date('Y')+542;
                                         <th class="text-center">ลูกหนี้</th>
                                         <th class="text-center">เบิกจริง</th> 
                                         <th class="text-center">รับชำระ</th>
-                                        <th class="text-center">ส่วนต่าง</th> 
-                                        <th class="text-center">เลขที่ใบเสร็จ</th> 
-                                        <th class="text-center">วันที่ลงรับ</th> 
+                                        {{-- <th class="text-center">ส่วนต่าง</th>  --}}
+                                        {{-- <th class="text-center">เลขที่ใบเสร็จ</th>  --}}
+                                        {{-- <th class="text-center">วันที่ลงรับ</th>  --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -196,16 +196,16 @@ $yb =  date('Y')+542;
                                                         <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{number_format($item->debit_total, 2)}}</td>  
                                                         <td class="text-end" style="color:rgb(243, 157, 27)" width="7%"> {{number_format($item->nhso_ownright_pid, 2)}}</td>   
                                                         <td class="text-end text-success"  width="7%" style="color:#44E952"> {{number_format($item->recieve_true, 2)}}</td>  
-                                                        <td class="text-end" style="color:rgb(231, 73, 134)" width="7%"> {{$item->debit_total - $item->recieve_true }}</td>  
-                                                        <td class="text-center">{{ $item->recieve_no }}</td>
-                                                        <td class="text-center">{{ $item->recieve_date }}</td>
+                                                        {{-- <td class="text-end" style="color:rgb(231, 73, 134)" width="7%"> {{$item->debit_total - $item->recieve_true }}</td>   --}}
+                                                        {{-- <td class="text-center">{{ $item->recieve_no }}</td> --}}
+                                                        {{-- <td class="text-center">{{ $item->recieve_date }}</td> --}}
                                                     </td>
                                             </tr>
                                             <?php
                                                     $total1 = $total1 + $item->debit_total;
                                                     $total2 = $total2 + $item->nhso_ownright_pid;
                                                     $total3 = $total3 + $item->recieve_true;
-                                                    $total4 = ($total1 - $total3 );
+                                                    // $total4 = ($total1 - $total3 );
                                             ?>
                                         
     
@@ -217,8 +217,8 @@ $yb =  date('Y')+542;
                                     <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
                                     <td class="text-center" style="background-color: #FCA533" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
                                     <td class="text-center" style="background-color: #44E952"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td>
-                                    <td class="text-center" style="background-color: #FC7373"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td>
-                                    <td colspan="2" class="text-end" style="background-color: #fca1a1"></td>
+                                    {{-- <td class="text-center" style="background-color: #FC7373"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td> --}}
+                                    {{-- <td colspan="2" class="text-end" style="background-color: #fca1a1"></td> --}}
                                 </tr>  
                             </table>
                     </div>

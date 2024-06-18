@@ -88,9 +88,9 @@
             </div>
 
             <div class="row">
-                <div class="col-md-4">
-                    <h5 class="card-title">Detail 1102050101.308</h5>
-                    <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.308</p>
+                <div class="col-md-4"> 
+                    <h5 class="card-title" style="color:green">Process data 1102050101.308</h5>
+                <p class="card-title-desc">ประมวลผลข้อมูล ผัง 1102050101.308</p>
                 </div>
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
@@ -125,7 +125,7 @@
 
             <div class="row">
                 <div class="col-xl-12">
-                    <div class="card cardacc">
+                    <div class="card card_audit_4c">
                         <div class="card-body">
 
 
@@ -135,7 +135,11 @@
                                     <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
                                 </div>
                                 <div class="col"></div>
-                                <div class="col-md-2 text-end">
+                                <div class="col-md-3 text-end">
+                                    <button type="button" class="ladda-button me-2 btn-pill btn btn-info cardacc" id="Check_sit">
+                                        <i class="fa-solid fa-user me-2"></i>
+                                        ตรวจสอบสิทธิ์
+                                    </button>
                                     <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{ url('account_308_stam') }}">
                                         <i class="fa-solid fa-file-waveform me-2"></i>
                                         ตั้งลูกหนี้
@@ -155,7 +159,7 @@
                                         <tr>
 
                                             <th width="5%" class="text-center">ลำดับ</th>
-                                            <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox" name="stamp"
+                                            <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox_" name="stamp"
                                                     id="stamp"> </th>
                                             <th class="text-center" width="5%">vn</th>
                                             <th class="text-center">an</th>
@@ -178,7 +182,7 @@
                                                 @if ($item->debit_total == '')
                                                     <td class="text-center" width="5%"> <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> </td> 
                                                 @else
-                                                    <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
+                                                    <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox_ sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
                                                 @endif
                                                 {{-- <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox sub_chk"
                                                         data-id="{{ $item->acc_debtor_id }}"> </td> --}}
@@ -471,6 +475,61 @@
                         }) 
                     // var check = confirm("Are you want ?");  
                 }
+            });
+
+            $('#Check_sit').click(function() {
+                var datepicker = $('#datepicker').val(); 
+                var datepicker2 = $('#datepicker2').val(); 
+                //    alert(datepicker);
+                Swal.fire({position: "top-end",
+                        title: 'ต้องการตรวจสอบสอทธิ์ใช่ไหม ?',
+                        text: "You Check Sit Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, pull it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner-div").show(); //Load button clicked show spinner 
+                            $.ajax({
+                                url: "{{ route('acc.account_308_checksit') }}",
+                                type: "POST",
+                                dataType: 'json',
+                                data: {
+                                    datepicker,
+                                    datepicker2                        
+                                },
+                                success: function(data) {
+                                    if (data.status == 200) { 
+                                        Swal.fire({position: "top-end",
+                                            title: 'เช็คสิทธิ์สำเร็จ',
+                                            text: "You Check sit success",
+                                            icon: 'success',
+                                            showCancelButton: false,
+                                            confirmButtonColor: '#06D177',
+                                            confirmButtonText: 'เรียบร้อย'
+                                        }).then((result) => {
+                                            if (result
+                                                .isConfirmed) {
+                                                console.log(
+                                                    data);
+                                                window.location.reload();
+                                                $('#spinner-div').hide();//Request is complete so hide spinner
+                                                    setTimeout(function(){
+                                                        $("#overlay").fadeOut(300);
+                                                    },500);
+                                            }
+                                        })
+                                    } else {
+                                        
+                                    }
+
+                                },
+                            });
+                        }
+                })
             });
 
         });

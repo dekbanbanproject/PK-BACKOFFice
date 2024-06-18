@@ -111,11 +111,9 @@
             <div class="col-xl-12">
                 <div class="card card_audit_4c">
                     <div class="card-body">
-                     
-                      
+                                           
                         <div class="row mb-2">
-                            <div class="col-md-4">
-                               
+                            <div class="col-md-4">                               
                                 {{-- <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail Account ผัง 1102050101.304</h4> --}}
                                 {{-- <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p> --}}
                             </div>

@@ -2136,6 +2136,8 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_308_stam',[App\Http\Controllers\Account308Controller::class, 'account_308_stam'])->name('acc.account_308_stam');//  stamp IPD
     Route::match(['get','post'],'account_308_syncall',[App\Http\Controllers\Account308Controller::class, 'account_308_syncall'])->name('acc.account_308_syncall');//
     Route::match(['get','post'],'account_308_destroy_all',[App\Http\Controllers\Account308Controller::class, 'account_308_destroy_all'])->name('acc.account_308_destroy_all');// 
+    Route::match(['get','post'],'account_308_yok/{months}/{year}',[App\Http\Controllers\Account308Controller::class, 'account_308_yok'])->name('acc.account_308_yok');//
+    Route::match(['get','post'],'account_308_checksit',[App\Http\Controllers\Account308Controller::class, 'account_308_checksit'])->name('acc.account_308_checksit');//
 
     Route::match(['get','post'],'account_309_pull',[App\Http\Controllers\Account309Controller::class, 'account_309_pull'])->name('acc.account_309_pull');//
     Route::match(['get','post'],'account_309_checksit',[App\Http\Controllers\Account309Controller::class, 'account_309_checksit'])->name('acc.account_309_checksit');//
