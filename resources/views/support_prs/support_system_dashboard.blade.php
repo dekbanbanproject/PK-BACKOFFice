@@ -380,8 +380,7 @@
                         </div>
                     </div> --}}
                 </div>
-                {{-- <div class="row">
-                   
+                {{-- <div class="row">                   
                     <div class="col-sm-12 col-md-6 col-lg-6">
                         <div class="mb-3 card">
                             <div class="card-header-tab card-header">
@@ -449,7 +448,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div> --}}
   
                 <div class="main-card mb-3 card">
