@@ -251,7 +251,7 @@
                                     <th class="text-center">ลำดับ</th> 
                                     <th class="text-center">HCODE</th>  
                                     <th class="text-center">ลูกหนี้กรณีส่งต่อ</th> 
-                                    <th class="text-center">ลูกหนี้CT</th>  
+                                    <th class="text-center">ลูกหนี้-CT</th>  
                                 </tr>
                             </thead>
                             <tbody>
@@ -338,7 +338,7 @@
                                             <th class="text-center">ชำระเงินเอง</th> 
                                             <th class="text-center">ตั้งลูกหนี้</th>
                                             <th class="text-center">ลูกหนี้ตามข้อตกลง</th>  
-                                            <th class="text-center">ลูกหนี้CT</th> 
+                                            <th class="text-center">ลูกหนี้-CT</th> 
                                             <th class="text-center">ส่วนต่าง</th> 
                                             <th class="text-center">Hcode</th> 
                                         </tr>

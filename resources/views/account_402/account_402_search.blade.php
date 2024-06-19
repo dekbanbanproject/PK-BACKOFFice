@@ -115,8 +115,8 @@
                                         <th class="text-center" >an</th> 
                                         <th class="text-center" >hn</th> 
                                         <th class="text-center">ptname</th>  
+                                        <th class="text-center">vstdate</th> 
                                         <th class="text-center">dchdate</th> 
-    
                                         <th class="text-center">drug</th> 
                                         <th class="text-center">inst</th> 
                                         <th class="text-center">toa</th> 
@@ -141,7 +141,8 @@
                                             <td class="text-center" width="5%">{{ $item->stm_rcpno }}</td>  
                                             <td class="text-center" width="7%">{{ $item->an }}</td>
                                             <td class="text-center" width="4%">{{ $item->hn }}</td>   
-                                            <td class="p-2" width="8%">{{ $item->ptname }}</td>    
+                                            <td class="p-2" width="8%">{{ $item->ptname }}</td>   
+                                            <td class="text-center" width="6%">{{ $item->vstdate }}</td> 
                                             <td class="text-center" width="6%">{{ $item->dchdate }}</td>
     
                                             <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_drug,2)}}</td> 
@@ -174,7 +175,7 @@
                                    
                                 </tbody>
                                             <tr style="background-color: #f3fca1">
-                                                <td colspan="6" class="text-end" style="background-color: #ff9d9d"></td>
+                                                <td colspan="7" class="text-end" style="background-color: #ff9d9d"></td>
                                                 <td class="text-end" style="background-color: #f58d73">{{ number_format($total1,2)}}</td> 
                                                 <td class="text-end" style="background-color: #f58d73">{{ number_format($total2,2)}}</td> 
                                                 <td class="text-end" style="background-color: #f58d73">{{ number_format($total3,2)}}</td> 

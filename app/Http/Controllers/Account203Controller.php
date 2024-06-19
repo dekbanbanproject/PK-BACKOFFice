@@ -329,11 +329,12 @@ class Account203Controller extends Controller
                         ) as price_xray
                         
                         
-                        ,case
-                        when (v.uc_money-(SELECT SUM(ot.sum_price) FROM opitemrece ot LEFT JOIN xray_items xr ON xr.icode = ot.icode WHERE ot.vn =v.vn AND ot.income ="08" AND xr.xray_items_group ="3")) < 1000 then (v.uc_money-(SELECT SUM(ot.sum_price) FROM opitemrece ot LEFT JOIN xray_items xr ON xr.icode = ot.icode WHERE ot.vn =v.vn AND ot.income ="08" AND xr.xray_items_group ="3"))
-                        when v.uc_money < 1000 then v.uc_money
-                        else "1000"
-                        end as toklong
+                        ,CASE
+                        WHEN (v.uc_money-(SELECT SUM(ot.sum_price) FROM opitemrece ot WHERE ot.vn =v.vn AND ot.icode IN(SELECT icode FROM xray_items WHERE xray_items_group ="3" AND icode <> ""))) < 1000 
+                        THEN (v.uc_money-(SELECT SUM(ot.sum_price) FROM opitemrece ot WHERE ot.vn =v.vn AND ot.icode IN(SELECT icode FROM xray_items WHERE xray_items_group ="3" AND icode <> "")))
+                        WHEN v.uc_money < 1000 then v.uc_money
+                        ELSE "1000"
+                        END as toklong
 
                         from vn_stat v                      
                         left outer join patient p on p.hn = v.hn
@@ -412,11 +413,12 @@ class Account203Controller extends Controller
                         WHERE ot.vn =v.vn AND ot.income ="08" AND xr.xray_items_group ="1"
                         ) as price_xray
 
-                        ,case
-                        when (v.uc_money-(SELECT SUM(ot.sum_price) FROM opitemrece ot LEFT JOIN xray_items xr ON xr.icode = ot.icode WHERE ot.vn =v.vn AND ot.income ="08" AND xr.xray_items_group ="3")) < 700 then (v.uc_money-(SELECT SUM(ot.sum_price) FROM opitemrece ot LEFT JOIN xray_items xr ON xr.icode = ot.icode WHERE ot.vn =v.vn AND ot.income ="08" AND xr.xray_items_group ="3"))
-                        when v.uc_money < 700 then v.uc_money
-                        else "700"
-                        end as toklong
+                        ,CASE
+                        WHEN (v.uc_money-(SELECT SUM(ot.sum_price) FROM opitemrece ot WHERE ot.vn =v.vn AND ot.icode IN(SELECT icode FROM xray_items WHERE xray_items_group ="3" AND icode <> ""))) < 700 
+                        THEN (v.uc_money-(SELECT SUM(ot.sum_price) FROM opitemrece ot WHERE ot.vn =v.vn AND ot.icode IN(SELECT icode FROM xray_items WHERE xray_items_group ="3" AND icode <> "")))
+                        WHEN v.uc_money < 700 then v.uc_money
+                        ELSE "700"
+                        END as toklong
 
                         from vn_stat v                      
                         left outer join patient p on p.hn = v.hn
@@ -478,7 +480,7 @@ class Account203Controller extends Controller
                                             'dx0'                => $value->dx0, 
                                             'cc'                 => $value->cc, 
                                             // 'ct_price'           => $value->price_08-$value->price_xray,  
-                                            'ct_price'           => ($value->debit_without+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug50+$value->debit_drug100+$value->debit_drug150+$value->ct_chest_with+$value->ct_brain_with+$value->debit_cta), 
+                                            'ct_price'           => ($value->debit_without+$value->debit_upper+$value->debit_lower+$value->debit_drug50+$value->debit_drug100+$value->debit_drug150+$value->ct_chest_with+$value->ct_brain_with+$value->debit_cta), 
                                             'ct_sumprice'        => '100',  
                                             'sauntang'           => ($value->uc_money)-($value->price_08-$value->price_xray), 
                                             'acc_debtor_userid'  => Auth::user()->id,
@@ -513,7 +515,7 @@ class Account203Controller extends Controller
                                         'dx0'                => $value->dx0, 
                                         'cc'                 => $value->cc, 
                                         // 'ct_price'           => $value->price_08-$value->price_xray,  
-                                        'ct_price'           => ($value->debit_without+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug50+$value->debit_drug100+$value->debit_drug150+$value->ct_chest_with+$value->ct_brain_with+$value->debit_cta), 
+                                        'ct_price'           => ($value->debit_without+$value->debit_upper+$value->debit_lower+$value->debit_drug50+$value->debit_drug100+$value->debit_drug150+$value->ct_chest_with+$value->ct_brain_with+$value->debit_cta), 
                                         'ct_sumprice'        => '100',  
                                         'sauntang'           => ($value->uc_money)-($value->price_08-$value->price_xray), 
                                         'acc_debtor_userid'  => Auth::user()->id,
@@ -596,7 +598,7 @@ class Account203Controller extends Controller
         $datashow = DB::select('
                 SELECT 
                     U1.hospmain,U2.name as hname,month(U1.vstdate) as months,year(U1.vstdate) as years,COUNT(DISTINCT U1.vn) as Cvn,SUM(U1.income) as S_income,SUM(U1.uc_money) as S_uc_money
-                    ,SUM(U1.debit) as S_debit,SUM(U1.debit_total) as S_debit_total,SUM(U1.sauntang) as S_sauntang
+                    ,SUM(U1.debit) as S_debit,SUM(U1.debit_total) as S_debit_total,SUM(U1.sauntang) as S_sauntang,U2.hospcode
                 from acc_1102050101_203 U1    
                 LEFT OUTER JOIN hospcode U2 ON U2.hospcode = U1.hospmain         
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
