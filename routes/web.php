@@ -3373,7 +3373,7 @@ Route::match(['get','post'],'air_repaire_edit/{id}',[App\Http\Controllers\AirCon
 Route::match(['get','post'],'air_repiare_update',[App\Http\Controllers\AirController::class, 'air_repiare_update'])->name('prs.air_repiare_update');//
 Route::match(['get','post'],'air_report_type',[App\Http\Controllers\AirController::class, 'air_report_type'])->name('prs.air_report_type');//
 Route::match(['get','post'],'air_report_typesub/{id}/{air_repaire_type}/{startdate}/{enddate}',[App\Http\Controllers\AirController::class, 'air_report_typesub'])->name('prs.air_report_typesub');//
-
-
+Route::match(['get','post'],'air_report_building',[App\Http\Controllers\AirController::class, 'air_report_building'])->name('prs.air_report_building');//
+Route::match(['get','post'],'air_report_building_excel',[App\Http\Controllers\AirController::class, 'air_report_building_excel'])->name('prs.air_report_building_excel');//
 
 });

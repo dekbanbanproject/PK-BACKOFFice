@@ -92,8 +92,8 @@
         background-repeat: no-repeat;
     }
     .myTable tbody tr{
-        font-size:12px;
-        height: 12px;
+        font-size:13px;
+        height: 13px;
     }
  
     .card_prs_2b{
@@ -341,6 +341,7 @@ use App\Models\Products_request_sub;
                                 <li><a href="{{ url('air_main') }}">ทะเบียนเครื่องปรับอากาศ</a></li>
                                 <li><a href="{{ url('air_main_repaire') }}">ทะเบียนแจ้งซ่อม</a></li>
                                 <li><a href="{{ url('air_report_type') }}">รายงานแยกตามประเภท</a></li> 
+                                <li><a href="{{ url('air_report_building') }}">รายงานแยกตามอาคาร</a></li> 
                             </ul>
                         </li>
                         @endif

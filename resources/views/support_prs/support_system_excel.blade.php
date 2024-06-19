@@ -60,7 +60,7 @@
 </center>
    <br><br>
    <center>
-    <table class="align-middle text-truncate mb-0 table table-borderless table-hover table-bordered" style="width: 100%;">
+    <table class="table table-borderless table-bordered" style="width: 100%;">
         <thead>
             <tr>
                 <th rowspan="3" class="text-center" style="background-color: rgb(255, 251, 228);border: 1px solid black;">ลำดับ</th>
@@ -155,45 +155,45 @@
                         $chamrootcount = 100 / $total_all * $camroot;
                 ?>
                 <tr> 
-                    <td class="text-center text-muted;border: 1px solid black;" style="width: 5%;background-color: rgb(255, 251, 228)">{{$i}}</td>
-                    <td class="text-start;border: 1px solid black;" style="width: 10%;background-color: rgb(255, 251, 228)">
+                    <td class="text-center" style="border: 1px;color:black;width: 5%;background-color: rgb(255, 251, 228)">{{$i}}</td>
+                    <td class="text-start;" style="border: 1px;color:black;width: 10%;background-color: rgb(255, 251, 228)">
                         {{$itemreport->MONTH_NAME}} พ.ศ.{{$itemreport->yearsthai}}
                     </td>
-                    <td class="text-center;border: 1px solid black;" style="background-color: rgb(255, 237, 117)">
+                    <td class="text-center" style="border: 1px;color:black;background-color: rgb(255, 237, 117)">
                        {{$redten}}
                     </td>
-                    <td class="text-center;border: 1px solid black;" style="background-color: rgb(255, 237, 117)">
+                    <td class="text-center;" style="border: 1px;color:black;background-color: rgb(255, 237, 117)">
                        {{$redfifteen}}
                     </td>
-                    <td class="text-center;border: 1px solid black;" style="background-color: rgb(255, 237, 117)">
+                    <td class="text-center;" style="border: 1px;color:black;background-color: rgb(255, 237, 117)">
                        {{$redtwenty}}
                     </td>
-                    <td colspan="2" class="text-center;border: 1px solid black;" style="background-color: rgb(255, 237, 117)">
+                    <td colspan="2" class="text-center;" style="background-color: rgb(255, 237, 117)">
                         {{$greenten}}
                     </td>
-                    <td class="text-center;border: 1px solid black;" style="background-color: rgb(255, 237, 117)">
+                    <td class="text-center;" style="border: 1px;color:black;background-color: rgb(255, 237, 117)">
                         {{$total_all}}
                     </td>
-                    <td class="text-center;border: 1px solid black;" style="background-color: rgb(117, 216, 255)">
+                    <td class="text-center;" style="border: 1px;color:black;background-color: rgb(117, 216, 255)">
                        {{$Check_redten}}
                     </td>
-                    <td class="text-center;border: 1px solid black;" style="background-color: rgb(117, 216, 255)">
+                    <td class="text-center;" style="border: 1px;color:black;background-color: rgb(117, 216, 255)">
                        {{$Check_redfifteen}}
                     </td>
-                    <td class="text-center;border: 1px solid black;" style="background-color: rgb(117, 216, 255)">
+                    <td class="text-center;" style="border: 1px;color:black;background-color: rgb(117, 216, 255)">
                        {{$Check_redtwenty}}
                     </td>
-                    <td colspan="2" class="text-center;border: 1px solid black;" style="background-color: rgb(117, 216, 255)">
+                    <td colspan="2" class="text-center;" style="border: 1px;color:black;background-color: rgb(117, 216, 255)">
                         {{$Check_greenten}}
                     </td>
-                    <td class="text-center;border: 1px solid black;" style="background-color: rgb(117, 216, 255)">
+                    <td class="text-center;" style="border: 1px;color:black;background-color: rgb(117, 216, 255)">
                        {{$Checktotal_all}}
                     </td> 
 
-                    <td class="text-center;border: 1px solid black;" style="background-color: rgb(253, 202, 198)"> {{$total_all- $Checktotal_all}} </td>
-                    <td class="text-center;border: 1px solid black;" style="background-color: rgb(252, 216, 214)"> {{$camroot}} </td>
-                    <td class="text-center;border: 1px solid black;" style="background-color: rgb(252, 216, 214)"> {{ number_format($trut, 2) }} </td>
-                    <td class="text-center;border: 1px solid black;" style="background-color: rgb(252, 216, 214)"> {{ number_format($chamrootcount, 2) }} </td>
+                    <td class="text-center;" style="border: 1px;color:black;background-color: rgb(253, 202, 198)"> {{$total_all- $Checktotal_all}} </td>
+                    <td class="text-center;" style="border: 1px;color:black;background-color: rgb(252, 216, 214)"> {{$camroot}} </td>
+                    <td class="text-center;" style="border: 1px;color:black;background-color: rgb(252, 216, 214)"> {{ number_format($trut, 2) }} </td>
+                    <td class="text-center;" style="border: 1px;color:black;background-color: rgb(252, 216, 214)"> {{ number_format($chamrootcount, 2) }} </td>
                 </tr> 
             @endforeach
         </tbody>
