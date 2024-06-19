@@ -91,16 +91,17 @@
                             <div>
                                 <div class="page-title-head center-elem">
                                     <span class="d-inline-block pe-2">
-                                        <i class="lnr-apartment opacity-6" style="color:rgb(228, 8, 129)"></i>
+                                        <i class="lnr-apartment opacity-6"></i>
                                     </span>
-                                    <span class="d-inline-block">ตรวจสอบและบำรุงรักษา ระบบสนับสนุนบริการสุขภาพ Dashboard</span>
+                                    <span class="d-inline-block">ตรวจสอบและบำรุงรักษา ระบบสนับสนุนบริการสุขภาพ
+                                        Dashboard</span>
                                 </div>
                                 <div class="page-title-subheading opacity-10">
                                     <nav class="" aria-label="breadcrumb">
                                         <ol class="breadcrumb">
                                             <li class="breadcrumb-item">
                                                 <a>
-                                                    <i aria-hidden="true" class="fa fa-home" style="color:rgb(252, 52, 162)"></i>
+                                                    <i aria-hidden="true" class="fa fa-home"></i>
                                                 </a>
                                             </li>
                                             <li class="breadcrumb-item">
@@ -114,184 +115,25 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="page-title-actions"> 
+                        <div class="page-title-actions">
+                            {{-- <div class="d-inline-block pe-3">
+                                <select id="custom-inp-top" type="select" class="form-select">
+                                    <option>Select period...</option>
+                                    <option>Last Week</option>
+                                    <option>Last Month</option>
+                                    <option>Last Year</option>
+                                </select>
+                            </div> --}}
+                            {{-- <button type="button" data-bs-toggle="tooltip" data-bs-placement="left"
+                                class="btn btn-dark" title="Show a Toastr Notification!">
+                                <i class="fa fa-battery-three-quarters"></i>
+                            </button> --}}
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-danger border-danger card">
-                                        <div class="widget-chat-wrapper-outer">
-                                            <div class="widget-chart-content">
-                                                <div class="widget-title opacity-5 text-uppercase">ถังดับเพลิง (RED)</div>
-                                                <div class="widget-numbers mt-2 fsize-4 mb-0 w-100">
-                                                    <div class="widget-chart-flex align-items-center">
-                                                        <div>
-                                                            <span class="opacity-10 text-danger pe-2">
-                                                                <i class="fa fa-angle-left"></i>
-                                                            </span>
-                                                            {{ number_format($count_red_all, 0) }} 
-                                                        </div>
-                                                        <div class="widget-title ms-auto font-size-lg fw-normal text-muted mt-3">
-                                                            <small class="opacity-5 ps-1">พร้อมใช้งาน </small>
-                                                        
-                                                            {{$count_red_allactive}} 
-                                                            <small class="opacity-5 ps-1">ถัง</small> 
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-success border-success card">
-                                        <div class="widget-chat-wrapper-outer">
-                                            <div class="widget-chart-content">
-                                                <div class="widget-title opacity-5 text-uppercase">ถังดับเพลิง (GREEN)</div>
-                                                <div class="widget-numbers mt-2 fsize-4 mb-0 w-100">
-                                                    <div class="widget-chart-flex align-items-center">
-                                                        <div>
-                                                            <span class="opacity-10 text-success pe-2">
-                                                                <i class="fa fa-angle-left"></i>
-                                                            </span>
-                                                        {{ number_format($count_green_all, 0) }} 
-                                                        </div>
-                                                        <div class="widget-title ms-auto font-size-lg fw-normal text-muted mt-3">
-                                                            <small class="opacity-5 ps-1">พร้อมใช้งาน </small>
-                                                        
-                                                            {{$count_green_allactive}} 
-                                                            <small class="opacity-5 ps-1">ถัง</small> 
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-danger border-danger card">
-                                        <div class="widget-chat-wrapper-outer">
-                                            <div class="widget-chart-content">
-                                                <div class="widget-title opacity-5 text-uppercase">ถังดับเพลิง (RED สำรอง)</div>
-                                                <div class="widget-numbers mt-2 fsize-4 mb-0 w-100">
-                                                    <div class="widget-chart-flex align-items-center">
-                                                        <div>
-                                                            <small class="text-danger pe-1">+</small>
-                                                            {{ $count_red_back }} 
-                                                        </div> 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-success border-success card">
-                                        <div class="widget-chat-wrapper-outer">
-                                            <div class="widget-chart-content">
-                                                <div class="widget-title opacity-5 text-uppercase">ถังดับเพลิง (GREEN สำรอง)</div>
-                                                <div class="widget-numbers mt-2 fsize-4 mb-0 w-100">
-                                                    <div class="widget-chart-flex align-items-center">
-                                                        <div>
-                                                            <small class="text-success pe-1">+</small>
-                                                            {{ $count_green_back }} 
-                                                        </div> 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                      
-                    </div>
-                    <div class="col-md-8">
-                        <div class="row">
-                   
-                            <div class="col-sm-12 col-md-6 col-lg-6">
-                                <div class="mb-3 card">
-                                    <div class="card-header-tab card-header">
-                                        <div class="card-header-title font-size-lg text-capitalize fw-normal">ถังดับเพลิง (RED) Check ไปแล้วคิดเป็น( % ) ของทั้งหมดในเดือนนี้
-                                        </div>
-                                       
-                                    </div>
-                                    <div class="p-0 card-body">
-                                        <div id="radials"></div>
-        
-                                        <div class="widget-content pt-0 w-100">
-                                            <div class="widget-content-outer">
-                                                <div class="widget-content-wrapper">
-                                                    <div class="widget-content-left pe-2 fsize-1">
-                                                        <div class="widget-numbers mt-0 fsize-3 text-danger">{{ $count_color_red_qty }}ถัง</div> 
-                                                    </div>
-                                                    <div class="widget-content-right w-100">
-                                                        <div class="progress-bar-xs progress">
-                                                            <div class="progress-bar bg-danger" role="progressbar"
-                                                                aria-valuenow="{{$count_color_red_qty}}" aria-valuemin="0" aria-valuemax="100"
-                                                                style="width: {{$count_red_percent}}%;">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="widget-content-left fsize-1">
-                                                    <div class="text-muted opacity-6">Check Qty</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-12 col-md-6 col-lg-6">
-                                <div class="mb-3 card">
-                                    <div class="card-header-tab card-header">
-                                        <div class="card-header-title font-size-lg text-capitalize fw-normal">ถังดับเพลิง (GREEN) Check ไปแล้วคิดเป็น( % ) ของทั้งหมดในเดือนนี้
-                                        </div>
-                                        <div class="btn-actions-pane-right text-capitalize actions-icon-btn">
-                                           
-                                        </div>
-                                    </div>
-                                    <div class="p-0 card-body">
-                                        <div id="radials_green"></div>
-                                        <div class="widget-content pt-0 w-100">
-                                            <div class="widget-content-outer">
-                                                <div class="widget-content-wrapper">
-                                                    <div class="widget-content-left pe-2 fsize-1">
-                                                        <div class="widget-numbers mt-0 fsize-3 text-success">{{$count_color_green_qty}}ถัง</div>
-                                                    </div>
-                                                    <div class="widget-content-right w-100">
-                                                        <div class="progress-bar-xs progress">
-                                                            <div class="progress-bar bg-success" role="progressbar"
-                                                                aria-valuenow="{{$count_color_green_qty}}" aria-valuemin="0" aria-valuemax="100"
-                                                                style="width: {{$count_green_percent}}%;">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="widget-content-left fsize-1">
-                                                    <div class="text-muted opacity-6">Check Qty</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-        
-                        </div>
-
                     </div>
                 </div>
 
                 <div class="row">
-                    {{-- <div class="col-md-6 col-lg-3">
+                    <div class="col-md-6 col-lg-3">
                         <div
                             class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-danger border-danger card">
                             <div class="widget-chat-wrapper-outer">
@@ -303,21 +145,26 @@
                                                 <span class="opacity-10 text-danger pe-2">
                                                     <i class="fa fa-angle-left"></i>
                                                 </span>
-                                                {{ number_format($count_red_all, 0) }} 
+                                                {{ number_format($count_red_all, 0) }}
+                                                {{-- <small class="opacity-5 ps-1">ถัง</small> --}}
                                             </div>
                                             <div class="widget-title ms-auto font-size-lg fw-normal text-muted mt-3">
                                                 <small class="opacity-5 ps-1">พร้อมใช้งาน </small>
                                             
                                                  {{$count_red_allactive}} 
-                                                 <small class="opacity-5 ps-1">ถัง</small> 
+                                                 <small class="opacity-5 ps-1">ถัง</small>
+                                                {{-- <small class="opacity-10 ps-1">ใช้งานได้ {{$count_red_allactive}} ถัง</small> --}}
+                                                {{-- <div class="circle-progress circle-progress-danger-sm d-inline-block">
+                                                    <small></small>
+                                                </div> --}}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div> --}}
-                    {{-- <div class="col-md-6 col-lg-3">
+                    </div>
+                    <div class="col-md-6 col-lg-3">
                         <div
                             class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-success border-success card">
                             <div class="widget-chat-wrapper-outer">
@@ -329,21 +176,25 @@
                                                 <span class="opacity-10 text-success pe-2">
                                                     <i class="fa fa-angle-left"></i>
                                                 </span>
-                                             {{ number_format($count_green_all, 0) }} 
+                                             {{ number_format($count_green_all, 0) }}
+                                                {{-- <small class="opacity-5 ps-1">ถัง</small> --}}
                                             </div>
                                             <div class="widget-title ms-auto font-size-lg fw-normal text-muted mt-3">
                                                 <small class="opacity-5 ps-1">พร้อมใช้งาน </small>
                                             
                                                 {{$count_green_allactive}} 
-                                                <small class="opacity-5 ps-1">ถัง</small> 
+                                                <small class="opacity-5 ps-1">ถัง</small>
+                                                {{-- <div class="circle-progress circle-progress-success-sm d-inline-block">
+                                                    <small></small>
+                                                </div> --}}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div> --}}
-                    {{-- <div class="col-md-6 col-lg-3">
+                    </div>
+                    <div class="col-md-6 col-lg-3">
                         <div
                             class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-danger border-danger card">
                             <div class="widget-chat-wrapper-outer">
@@ -353,15 +204,21 @@
                                         <div class="widget-chart-flex align-items-center">
                                             <div>
                                                 <small class="text-danger pe-1">+</small>
-                                                {{ $count_red_back }} 
-                                            </div> 
+                                                {{ $count_red_back }}
+                                                {{-- <small class="opacity-5 ps-1">ถัง</small> --}}
+                                            </div>
+                                            {{-- <div class="widget-title ms-auto font-size-lg fw-normal text-muted">
+                                                <div class="circle-progress circle-progress-warning-sm d-inline-block">
+                                                    <small></small>
+                                                </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div> --}}
-                    {{-- <div class="col-md-6 col-lg-3">
+                    </div>
+                    <div class="col-md-6 col-lg-3">
                         <div
                             class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-success border-success card">
                             <div class="widget-chat-wrapper-outer">
@@ -371,16 +228,22 @@
                                         <div class="widget-chart-flex align-items-center">
                                             <div>
                                                 <small class="text-success pe-1">+</small>
-                                                {{ $count_green_back }} 
-                                            </div> 
+                                                {{ $count_green_back }}
+                                                {{-- <small class="opacity-5 ps-1">ถัง</small> --}}
+                                            </div>
+                                            {{-- <div class="widget-title ms-auto font-size-lg fw-normal text-muted">
+                                                <div class="circle-progress circle-progress-success-sm d-inline-block">
+                                                    <small></small>
+                                                </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
                 </div>
-                {{-- <div class="row">
+                <div class="row">
                    
                     <div class="col-sm-12 col-md-6 col-lg-6">
                         <div class="mb-3 card">
@@ -450,8 +313,33 @@
                         </div>
                     </div>
 
-                </div> --}}
-  
+                </div>
+
+                {{-- <div class="main-card mb-3 card">
+                    <div class="card-header">
+                        <div class="card-header-title font-size-lg text-capitalize fw-normal">
+                            รายงานผลการตรวจสอบสภาพถังดับเพลิง  โรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ
+                        </div>
+                    </div>  
+                    <div class="table-responsive">
+                        <table class="align-middle text-truncate mb-0 table table-borderless table-hover table-bordered" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th rowspan="3" class="text-center" style="background-color: rgb(255, 251, 228)">ลำดับ</th>
+                                    <th rowspan="3" class="text-center" style="background-color: rgb(255, 251, 228)">เดือนที่ตรวจ</th>
+                                    <th colspan="6" class="text-center" style="background-color: rgb(255, 237, 117)">ถังดับเพลิงทั้งหมดที่มี (ถัง)</th>
+                                    <th colspan="6" class="text-center" style="background-color: rgb(117, 216, 255)">ถังดับเพลิงที่ได้รับการตรวจสอบ (ถัง)</th>
+                                    <th rowspan="3" class="text-center" style="background-color: rgb(247, 157, 151)">จำนวน<br>ที่ไม่ได้ตรวจ<br>รวม(ถัง)</th>
+                                    <th rowspan="3" class="text-center" style="background-color: rgb(250, 211, 226)">จำนวน<br>ที่ชำรุด<br>รวม(ถัง)</th>
+                                    <th colspan="2" class="text-center" style="background-color: rgb(253, 185, 211)">ร้อยละ</th> 
+                                </tr>
+                                <tbody>
+                                </tbody>
+                            </thead>
+                        </table>
+                    </div>
+                </div>  --}}
+
                 <div class="main-card mb-3 card">
                     <div class="card-header">
                         <div class="card-header-title font-size-lg text-capitalize fw-normal">
@@ -463,7 +351,19 @@
                                 Export To Excel
                             </a>
                         </div>
-                       
+                        {{-- <div class="btn-actions-pane-right">
+                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                                <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' autocomplete="off"
+                                 data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $startdate }}"/>
+                                <input type="text" class="form-control cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' autocomplete="off"
+                                data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $enddate }}"/>
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left" id="Pulldata">
+                                    <i class="fa-solid fa-spinner text-white me-2"></i>
+                                     ประมวลผล
+                                     
+                                </button>  
+                        </div>  --}}
+                        {{-- </div> --}}
                     </div>
                     <div class="table-responsive">
                         <table class="align-middle text-truncate mb-0 table table-borderless table-hover table-bordered" style="width: 100%;">
@@ -578,7 +478,7 @@
                                             <a href="javascript:void(0)" class="badge rounded-pill bg-success me-2 ms-2">{{$greenten}}</a>
                                         </td>
                                         <td class="text-center" style="background-color: rgb(255, 237, 117)">
-                                           
+                                            {{-- <a href="{{url('support_system_check/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill bg-info me-2 ms-2">{{$total_all}}</a> --}}
                                             <a href="javascript:void(0)" class="badge rounded-pill bg-info me-2 ms-2">{{$total_all}}</a>
                                         </td>
                                         <td class="text-center" style="background-color: rgb(117, 216, 255)">
@@ -615,7 +515,12 @@
                         </table>
                     </div>
                     <div class="d-block p-4 text-center card-footer">
-                       
+                        {{-- <button class="btn-pill btn-shadow btn-wide fsize-1 btn btn-dark btn-lg">
+                            <span class="me-2 opacity-7">
+                                <i class="fa fa-cog fa-spin"></i>
+                            </span>
+                            <span class="me-1">View Complete Report</span>
+                        </button> --}}
                     </div>
                 </div>
 

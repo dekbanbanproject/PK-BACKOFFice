@@ -68,11 +68,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Detail</h4>
+                        <h4 class="mb-sm-0" style="color:rgb(10, 151, 85)">Detail STM 1102050101.202</h4>
     
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Detail</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Detail STM</a></li>
                                 <li class="breadcrumb-item active">1102050101.202</li>
                             </ol>
                         </div>
@@ -85,7 +85,7 @@
         
         <div class="row ">
             <div class="col-md-12">
-                <div class="card cardacc">
+                <div class="card card_audit_4c">
                     {{-- <div class="card-header"> 
                        รายละเอียดตั้งลูกหนี้ผัง 1102050101.202
                         <div class="btn-actions-pane-right">                           
@@ -132,10 +132,10 @@
                                         {{-- <td class="text-center" width="7%">{{ $item->adjrw }}</td> --}}
                                         <td class="text-center" width="7%">{{ $item->total_adjrw_income }}</td>
                                         <td class="text-center" width="6%">{{ $item->dchdate }}</td>  
-                                        <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td> 
+                                        <td class="text-end" style="color:rgb(31, 128, 240)" width="7%">{{ number_format($item->debit_total,2)}}</td> 
                                         <td class="text-end" style="color:rgb(184, 12, 169)" width="7%">{{ number_format(($item->debit_total-$item->stm_money),2)}}</td> 
                                         <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($item->stm_money,2)}}</td> 
-                                        <td class="text-end" style="color:rgb(9, 196, 180)" width="8%">{{ number_format($item->stm_total,2)}}</td>  
+                                        <td class="text-end" style="color:rgb(6, 155, 142)" width="8%">{{ number_format($item->stm_total,2)}}</td>  
                                         <td class="p-2" width="10%">{{ $item->STMdoc }}</td>  
                                     
                                     </tr>
@@ -152,10 +152,10 @@
                             </tbody>
                                         <tr style="background-color: #f3fca1">
                                             <td colspan="7" class="text-end" style="background-color: #ff9d9d"></td>
-                                            <td class="text-end" style="background-color: #ace5fc">{{ number_format($total1,2)}}</td> 
-                                            <td class="text-end" style="background-color: #e09be9">{{ number_format($total2,2)}}</td> 
-                                            <td class="text-end" style="background-color: #f5a382">{{ number_format($total3,2)}}</td> 
-                                            <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total4,2)}}</td>  
+                                            <td class="text-end" style="background-color: #19abe6;color:white">{{ number_format($total1,2)}}</td> 
+                                            <td class="text-end" style="background-color: #e35df5;color:white">{{ number_format($total2,2)}}</td> 
+                                            <td class="text-end" style="background-color: #f5a382;color:white">{{ number_format($total3,2)}}</td> 
+                                            <td class="text-end" style="background-color: #068d92;color:white">{{ number_format($total4,2)}}</td>  
                                             <td class="text-end" style="background-color: #ff9d9d"></td> 
                                         </tr>  
                         </table>

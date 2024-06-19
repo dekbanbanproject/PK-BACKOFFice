@@ -312,12 +312,19 @@ class SupportPRSController extends Controller
                 // Fire::where('fire_num','<>',$value->fire_num)
                 // Fire::where('fire_num','!=',$value->fire_num)->update(['fire_for_nocheck' => '']); 
             } 
-            Fire::where('fire_num','!=',$value->fire_num)->update(['fire_for_nocheck' => 'N']); 
+            // Fire::where('fire_num','!=',$value->fire_num)->update(['fire_for_nocheck' => 'N']); 
          }
         //  $data_t = $data_array;
         //  dd($data_t);
-        $datafire = DB::select('SELECT * FROM fire WHERE fire_backup="N" AND fire_for_nocheck = "N" AND fire_edit ="Narmal" AND active="Y"'); 
-         
+        // $datafire = DB::select('SELECT * FROM fire WHERE fire_backup="N" AND fire_for_nocheck = "Y" AND fire_edit ="Narmal" AND active="Y"'); 
+        // $datafire = DB::select('SELECT * FROM fire WHERE fire_for_nocheck = "N" AND active="Y"'); 
+        $datafire = DB::select(
+            'SELECT * FROM fire f
+                LEFT JOIN fire_check fc ON fc.fire_id = f.fire_id
+                LEFT JOIN users u ON u.id = fc.user_id
+                WHERE f.fire_for_nocheck = "N" AND f.fire_edit ="Narmal" AND month(fc.check_date) = "'.$months.'" AND year(fc.check_date) = "'.$years.'"
+        '); 
+        //   AND fire_edit ="Narmal"
         //  foreach ($data_t as $key => $valuess) {
         //     dd($valuess);
             // Fire::where('fire_num',$valuess)->update(['fire_for_nocheck' => 'Y']); 
@@ -361,8 +368,9 @@ class SupportPRSController extends Controller
             'SELECT * FROM fire f
                 LEFT JOIN fire_check fc ON fc.fire_id = f.fire_id
                 LEFT JOIN users u ON u.id = fc.user_id
-                WHERE f.fire_backup="N" AND f.fire_for_nocheck = "Y" AND f.fire_edit ="Narmal" AND month(fc.check_date) = "'.$months.'" AND year(fc.check_date) = "'.$years.'"
+                WHERE f.fire_for_nocheck = "Y" AND f.fire_edit ="Narmal" AND month(fc.check_date) = "'.$months.'" AND year(fc.check_date) = "'.$years.'"
         '); 
+        // f.fire_backup="N" AND 
         // leftJoin('users', 'fire_check.user_id', '=', 'users.id') 
         return view('support_prs.support_system_check',[
             'datareport'     => $datareport,

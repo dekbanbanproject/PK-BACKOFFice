@@ -199,16 +199,16 @@
                                         <td class="text-center" width="3%">{{ $i++ }}</td>  
                                         <td class="text-center" width="3%">
                                             @if ($item->active == 'Y')
-                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">ปกติ</span> 
+                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">พร้อมใช้งาน</span> 
                                             @else
-                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">ชำรุด</span>
+                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">ไม่พร้อมใช้งาน</span>
                                             @endif
                                         </td>
                                       
                                         @if ( $item->air_imgname == Null )
-                                        <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="30px" width="30px" alt="Image" class="img-thumbnail"></td> 
+                                        <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="40px" width="50px" alt="Image" class="img-thumbnail"></td> 
                                         @else
-                                        <td class="text-center" width="3%"><img src="{{asset('storage/air/'.$item->air_imgname)}}" height="30px" width="30px" alt="Image" class="img-thumbnail">  </td>                                
+                                        <td class="text-center" width="3%"><img src="{{asset('storage/air/'.$item->air_imgname)}}" height="40px" width="50px" alt="Image" class="img-thumbnail">  </td>                                
                                         @endif
 
                                         <td class="text-center" width="5%"> 
@@ -220,8 +220,8 @@
                                         <td class="text-center" width="7%">{{ $item->air_list_num }}</td>  
                                         <td class="p-2">{{ $item->air_list_name }}</td>  
                                         <td class="text-center" width="5%">{{ $item->btu }}</td>    
-                                        <td class="p-2" style="color:rgb(73, 147, 231)" width="20%">{{ $item->air_location_name }}</td>  
-                                        <td class="p-2" style="color:rgb(73, 147, 231)" width="20%">{{ $item->detail }}</td> 
+                                        <td class="p-2" width="20%">{{ $item->air_location_name }}</td>  
+                                        <td class="p-2" width="20%">{{ $item->detail }}</td> 
                                         {{-- <td class="text-center" width="7%">{{ DateThai($item->air_date_pdd) }}</td>  --}}
                                         {{-- <td class="text-center" width="7%">{{ DateThai($item->air_date_exp) }}</td>  --}}
                                         <td class="text-center" width="5%">
@@ -238,11 +238,11 @@
                                                         <span>Print QR</span>
                                                     </a> 
                                                     
-                                                    <div class="dropdown-divider"></div>
+                                                    {{-- <div class="dropdown-divider"></div>
                                                     <a class="dropdown-item text-info" href="{{ url('air_qrcode_detail/'.$item->air_list_id) }}" style="font-size:13px" target="_blank"> 
                                                         <i class="fa-solid fa-print me-2 text-info" style="font-size:13px"></i>
                                                         <span>Print QR Detail</span>
-                                                    </a> 
+                                                    </a>  --}}
                                                     <div class="dropdown-divider"></div>
                                                     <a class="dropdown-item text-warning" href="{{ url('air_edit/' . $item->air_list_id) }}" style="font-size:13px" target="blank">
                                                         <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>

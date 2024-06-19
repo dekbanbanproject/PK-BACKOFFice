@@ -1,6 +1,22 @@
 @extends('layouts.accountpk')
 @section('title', 'PK-OFFICER || ACCOUNT')
 @section('content')
+<script>
+    function TypeAdmin() {
+        window.location.href = '{{ route('index') }}';
+    }
+</script>
+<?php
+if (Auth::check()) {
+    $type = Auth::user()->type;
+    $iduser = Auth::user()->id;
+} else {
+    echo "<body onload=\"TypeAdmin()\"></body>";
+    exit();
+}
+$url = Request::url();
+$pos = strrpos($url, '/') + 1;
+?>
     <style>
         #button {
             display: block;
@@ -68,7 +84,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Detail</h4>
+                        <h5 class="card-title" style="color:rgb(10, 151, 85)">Detail 1102050101.202</h5>
                         <form action="{{ route('acc.account_pkucs202_search') }}" method="GET">
                             @csrf
                                 <div class="page-title-right">
@@ -97,7 +113,7 @@
         
         <div class="row ">
             <div class="col-md-12">
-                <div class="card cardacc">
+                <div class="card card_audit_4c">
                     {{-- <div class="card-header"> 
                        รายละเอียดตั้งลูกหนี้ผัง 1102050101.202
                         <div class="btn-actions-pane-right">                           

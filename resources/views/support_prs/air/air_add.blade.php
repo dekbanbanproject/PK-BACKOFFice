@@ -228,13 +228,21 @@ $loter = $date.''.$time
                                     <div class="col-md-2 text-end">
                                         <label for="air_list_name">ชื่อครุภัณฑ์ </label>
                                     </div>
-                                    <div class="col-md-10">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <input id="air_list_name" type="text" class="form-control form-control-sm"
                                                 name="air_list_name">
                                         </div>
                                     </div>
-                                   
+                                    <div class="col-md-2 text-end">
+                                        <label for="serial_no">Serial no </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input id="serial_no" type="text" class="form-control form-control-sm"
+                                                name="serial_no">
+                                        </div>
+                                    </div>
                                     
 
 
@@ -251,7 +259,7 @@ $loter = $date.''.$time
                                             <select id="air_location_id" name="air_location_id" class="form-select form-select-lg show_brand" style="width: 100%">
                                             <option value=""></option>
                                             @foreach ($building_data as $bra)
-                                                <option value="{{ $bra->building_id }}"> {{ $bra->building_name }} </option>
+                                                <option value="{{ $bra->building_id }}"> {{ $bra->building_id }} {{ $bra->building_name }} </option>
                                             @endforeach
                                         </select>
                                         </div>
@@ -260,7 +268,7 @@ $loter = $date.''.$time
 
                                 <div class="row mt-3"> 
                                     <div class="col-md-2 text-end">
-                                        <label for="detail">รายละเอียด </label>
+                                        <label for="detail">แผนก/ห้อง </label>
                                     </div>
                                     <div class="col-md-10">
                                         <div class="form-group">
@@ -287,8 +295,8 @@ $loter = $date.''.$time
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <select id="active" name="active" class="form-select form-select-lg" style="width: 100%">
-                                                <option value="Y">ปกติ</option>
-                                                <option value="N">ชำรุด</option> 
+                                                <option value="Y">พร้อมใช้งาน</option>
+                                                <option value="N">ไม่พร้อมใช้งาน</option> 
                                             </select>
                                         </div>
                                     </div> 

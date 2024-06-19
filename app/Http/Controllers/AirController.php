@@ -111,7 +111,7 @@ class AirController extends Controller
         $year = date('Y'); 
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        $datashow = DB::select('SELECT * from air_list ORDER BY air_list_id ASC'); 
+        $datashow = DB::select('SELECT * FROM air_list ORDER BY air_list_id DESC'); 
         // WHERE active="Y"
         return view('support_prs.air.air_main',[
             'startdate'     => $startdate,
@@ -297,7 +297,17 @@ class AirController extends Controller
                 $update->air_staff_id        = $request->air_staff_id; 
                 $update->air_status_tech     = $request->air_status_tech; 
                 $update->air_tech_id         = $request->air_tech_id; 
+
                 $update->save(); 
+
+                // air_status_techout
+                // air_status_staff
+                // air_status_tech
+                // $data_detail_ = Air_list::where('air_list_id', '=', $id)->first();
+                if ($request->air_status_techout == 'N' || $request->air_status_staff == 'N' || $request->air_status_tech == 'N') {
+                    Air_list::where('air_list_id', '=', $request->air_list_id)->update(['active' => 'N']); 
+                }
+                
         }
 
         return response()->json([
@@ -735,6 +745,7 @@ class AirController extends Controller
         $add->air_list_name       = $request->air_list_name;
         $add->air_price           = $request->air_price;
         $add->active              = $request->active;
+        $add->serial_no           = $request->serial_no;
         $add->detail              = $request->detail; 
         $add->btu                 = $request->btu;  
         $add->air_room_class      = $request->air_room_class;   
@@ -844,6 +855,7 @@ class AirController extends Controller
         $update->air_list_name       = $request->air_list_name;
         $update->air_price           = $request->air_price;
         $update->active              = $request->active;
+        $update->serial_no           = $request->serial_no;
         $update->detail              = $request->detail; 
         $update->btu                 = $request->btu;  
         $update->air_room_class      = $request->air_room_class;  

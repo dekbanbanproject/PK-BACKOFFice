@@ -1011,7 +1011,7 @@ class Account202Controller extends Controller
 
                 $datashow = DB::select(' 
                         SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
-                        ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
+                        ,count(DISTINCT a.an) as total_an,l.MONTH_NAME,sum(a.income) as income
                         ,sum(a.debit_total) as tung_looknee  
                         FROM acc_1102050101_202 a 
                         LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
@@ -1026,7 +1026,7 @@ class Account202Controller extends Controller
                 // dd($enddate);
                 $datashow = DB::select(' 
                         SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
-                        ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
+                        ,count(DISTINCT a.an) as total_an,l.MONTH_NAME,sum(a.income) as income
                         ,sum(a.debit_total) as tung_looknee  
                         FROM acc_1102050101_202 a 
                         LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)

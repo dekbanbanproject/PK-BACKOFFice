@@ -79,7 +79,7 @@
             @csrf --}}
         <div class="row"> 
             <div class="col-md-4">
-                <h5 class="card-title">Detail 1102050101.202</h5>
+                <h5 class="card-title" style="color:rgb(10, 151, 85)">Detail 1102050101.202</h5>
                 <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.202</p>
             </div>
             <div class="col"></div>
@@ -109,7 +109,7 @@
      
         <div class="row ">
             <div class="col-xl-12">
-                <div class="card cardacc">
+                <div class="card card_audit_4c">
                     <div class="card-body ">
                                              
                         <div class="row mb-3">
