@@ -90,6 +90,10 @@ public function permiss_save(Request $request)
         $update->permiss_clinic_tb       = $request->input('permiss_clinic_tb'); 
         $update->permiss_medicine_salt   = $request->input('permiss_medicine_salt'); 
         $update->pesmiss_ct              = $request->input('pesmiss_ct'); 
+        $update->per_prs                 = $request->input('per_prs');
+        $update->per_cctv                = $request->input('per_cctv');
+        $update->per_fire                = $request->input('per_fire');
+        $update->per_air                 = $request->input('per_air');
 
         $update->save(); 
 

@@ -540,7 +540,7 @@ class Account217Controller extends Controller
             'status'    => '200'
         ]);
     }
-    public function account_pkucs217_dash(Request $request)
+    public function account_pkucs217_dash_old(Request $request)
     {
         // $datenow = date('Y-m-d');
         // $startdate = $request->startdate;
@@ -648,6 +648,72 @@ class Account217Controller extends Controller
             'dabudget_year'    =>  $dabudget_year,
             'budget_year'      =>  $budget_year,
             'y'                =>  $y,
+        ]);
+    }
+    public function account_pkucs217_dash(Request $request)
+    {  
+        $budget_year        = $request->budget_year;
+        $dabudget_year      = DB::table('budget_year')->where('active','=',true)->get();
+        $leave_month_year   = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+         
+        if ($budget_year == '') {
+            $yearnew     = date('Y');
+            $year_old    = date('Y')-1; 
+            $startdate   = (''.$year_old.'-10-01');
+            $enddate     = (''.$yearnew.'-09-30'); 
+            // dd($startdate);
+            $datashow = DB::select(
+                'SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
+                    ,count(DISTINCT a.an) as total_an,l.MONTH_NAME,sum(a.income) as income
+                    ,sum(a.debit_total) as tung_looknee  
+                    FROM acc_1102050101_217 a 
+                    LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
+                    WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                    AND a.account_code ="1102050101.217"
+                    GROUP BY months ORDER BY a.dchdate DESC
+            ');  
+            // SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
+            //         ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn ,count(distinct a.an) as an
+            //         ,sum(a.income) as income ,sum(a.paid_money) as paid_money
+            //         ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
+            //         ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money)-sum(a.fokliad) as debit402,sum(a.fokliad) as sumfokliad
+            //         FROM acc_debtor a
+            //         left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
+            //         WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
+            //         and account_code="1102050101.217"
+            //         group by month(a.dchdate)                     
+            //         order by a.dchdate desc;
+        } else {
+          
+            $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
+            $startdate    = $bg->date_begin;
+            $enddate      = $bg->date_end; 
+            // dd($startdate);
+            $datashow = DB::select(
+                'SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
+                ,count(DISTINCT a.an) as total_an,l.MONTH_NAME,sum(a.income) as income
+                ,sum(a.debit_total) as tung_looknee  
+                FROM acc_1102050101_217 a 
+                LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
+                WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                AND a.account_code ="1102050101.217"
+                GROUP BY months ORDER BY a.dchdate DESC
+            ');
+        }
+        // dd($startdate);
+        return view('account_217.account_pkucs217_dash',[
+            'startdate'         =>  $startdate,
+            'enddate'           =>  $enddate, 
+            'leave_month_year'  =>  $leave_month_year, 
+            'datashow'          =>  $datashow,
+            'dabudget_year'     =>  $dabudget_year,
+            'budget_year'       =>  $budget_year,
+            'y'                 =>  $y,
         ]);
     }
     public function account_pkucs217_search(Request $request)

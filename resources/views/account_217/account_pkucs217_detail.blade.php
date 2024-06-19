@@ -88,11 +88,12 @@ $yb = date('Y') + 542;
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">Detail</h4>
+                
+                    <h4 class="mb-sm-0" style="color:rgb(10, 151, 85)">Detail STM Account ผัง 1102050101.217</h4>
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Detail</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Detail STM</a></li>
                             <li class="breadcrumb-item active">1102050101.217</li>
                         </ol>
                     </div>
@@ -105,7 +106,7 @@ $yb = date('Y') + 542;
 
         <div class="row">
             <div class="col-md-12">
-                <div class="card cardacc">
+                <div class="card card_audit_4c">
                    
                     <div class="card-body">
                         <div class="table-responsive">
@@ -140,8 +141,8 @@ $yb = date('Y') + 542;
                                         <td class="text-center" width="10%">{{ $item->vn }}</td>
                                                 <td class="text-center" width="10%">{{ $item->an }}</td>
                                                 <td class="text-center" width="5%">
-                                                   
-                                                    <button type="button" class="btn btn-icon btn-shadow btn-dashed btn-outline-primary" data-bs-toggle="modal" data-bs-target="#DetailModal{{ $item->an }}" data-bs-placement="right" title="ค่าใช้จ่าย"> {{ $item->hn }} </button>
+                                                    {{ $item->hn }}
+                                                    {{-- <button type="button" class="btn btn-icon btn-shadow btn-dashed btn-outline-primary" data-bs-toggle="modal" data-bs-target="#DetailModal{{ $item->an }}" data-bs-placement="right" title="ค่าใช้จ่าย"> {{ $item->hn }} </button> --}}
                                                 </td>
                                                 <td class="text-center" width="10%">{{ $item->cid }}</td>
                                                 <td class="p-2" >{{ $item->ptname }}</td>

@@ -203,6 +203,33 @@ class StaticController extends Controller
     $pesmiss_ctcount =  User::where('id','=',$iduser)->where('pesmiss_ct','=','on')->count();   
     return $pesmiss_ctcount;
   }
+  public static function per_prs($iduser)
+  {
+    $per_prscount =  User::where('id','=',$iduser)->where('per_prs','=','on')->count();   
+    return $per_prscount;
+  }
+  public static function per_cctv($iduser)
+  {
+    $per_cctvcount =  User::where('id','=',$iduser)->where('per_cctv','=','on')->count();   
+    return $per_cctvcount;
+  }
+  public static function per_fire($iduser)
+  {
+    $per_firecount =  User::where('id','=',$iduser)->where('per_fire','=','on')->count();   
+    return $per_firecount;
+  }
+  public static function per_air($iduser)
+  {
+    $per_aircount =  User::where('id','=',$iduser)->where('per_air','=','on')->count();   
+    return $per_aircount;
+  }
+
+
+
+
+
+
+
   public static function countpesmiss_claim($iduser)
   {
     $claimcount =  User::where('id','=',$iduser)->where('permiss_claim','=','on')->count();   

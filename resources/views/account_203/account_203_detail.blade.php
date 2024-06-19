@@ -125,7 +125,7 @@
                                     <th class="text-center">ลูกหนี้ที่ต้องตั้ง</th> 
                                     <th class="text-center">ตั้งลูกหนี้</th> 
                                     <th class="text-center">ลูกหนี้ตามข้อตกลง</th> 
-                                    <th class="text-center">ลูกหนี้CT</th> 
+                                    <th class="text-center">ลูกหนี้-CT</th> 
                                     <th class="text-center">Statement</th>
                                     <th class="text-center">ยกยอดไปเดือนนี้</th> 
                                 </tr>

@@ -711,6 +711,55 @@ $permiss_account = StaticController::permiss_account($iduser);
                             </div>
                         </div>
 
+                      
+                        <div class="col-4 col-md-3 col-xl-3">
+                            <div class="card">
+                                <div class="card-body shadow-lg"> 
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-regular fa-heart" style="color: rgb(110, 4, 54)"></i> 
+                                        @if ($dataedits->per_prs == 'on') 
+                                            <input class="form-check-input" type="checkbox" id="per_prs" name="per_prs" checked/>
+                                        @else
+                                            <input class="form-check-input" type="checkbox" id="per_prs" name="per_prs"/>
+                                        @endif
+                                            <label class="form-check-label" for="per_prs">สนับสนุนบริการสุขภาพ</label>                                     
+                                        
+                                    </div> 
+
+
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-gear text-danger" style="color: rgb(197, 9, 103)"></i>   
+                                        @if ($dataedits->per_cctv == 'on') 
+                                            <input class="form-check-input" type="checkbox" id="per_cctv" name="per_cctv" checked/>
+                                        @else
+                                            <input class="form-check-input" type="checkbox" id="per_cctv" name="per_cctv"/>
+                                        @endif
+                                            <label class="form-check-label" for="per_cctv">CCTV</label> 
+                                    </div> 
+
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-gear text-danger" style="color: rgb(9, 169, 197)"></i>   
+                                        @if ($dataedits->per_fire == 'on') 
+                                            <input class="form-check-input" type="checkbox" id="per_fire" name="per_fire" checked/>
+                                        @else
+                                            <input class="form-check-input" type="checkbox" id="per_fire" name="per_fire"/>
+                                        @endif
+                                            <label class="form-check-label" for="per_fire">ถังดับเพลิง</label> 
+                                    </div> 
+
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-gear text-danger" style="color: rgb(9, 169, 197)"></i>   
+                                        @if ($dataedits->per_air == 'on') 
+                                            <input class="form-check-input" type="checkbox" id="per_air" name="per_air" checked/>
+                                        @else
+                                            <input class="form-check-input" type="checkbox" id="per_air" name="per_air"/>
+                                        @endif
+                                            <label class="form-check-label" for="per_air">เครื่องปรับอากาศ</label> 
+                                    </div> 
+                                    
+                                </div>
+                            </div> 
+                        </div> 
                         <div class="col-4 col-md-3 col-xl-3">
                             <div class="card">
                                 <div class="card-body shadow-lg"> 

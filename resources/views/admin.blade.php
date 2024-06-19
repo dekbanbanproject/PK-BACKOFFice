@@ -51,7 +51,11 @@
     $permiss_clinic_tb        = StaticController::permiss_clinic_tb($iduser);
     $permiss_medicine_salt    = StaticController::permiss_medicine_salt($iduser);
     $pesmiss_ct               = StaticController::pesmiss_ct($iduser);
-    
+    $per_prs                  = StaticController::per_prs($iduser);
+    $per_cctv                 = StaticController::per_cctv($iduser);
+    $per_fire                 = StaticController::per_fire($iduser);
+    $per_air                  = StaticController::per_air($iduser);
+    // $per_prs                  = StaticController::per_prs($iduser);
     ?>
     <style>
         #button{
@@ -871,6 +875,7 @@
                 </div> 
             </div> --}}
 
+            @if ($per_prs != 0) 
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
                     style="background-color: rgba(147, 204, 248, 0.871)">
@@ -901,6 +906,7 @@
                     </div>
                 </div> 
             </div>
+            @endif
             {{-- <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
                     style="background-color: rgba(147, 204, 248, 0.871)">

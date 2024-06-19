@@ -172,7 +172,7 @@
 
         </div>
 
-        <form action="{{ url('ppfs_30011') }}" method="POST">
+        <form action="{{ url('audiovisual_work') }}" method="GET">
             @csrf
             <div class="row">
                 <div class="col"></div>

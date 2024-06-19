@@ -153,16 +153,56 @@ $url = Request::url();
 $pos = strrpos($url, '/') + 1;
 
 use App\Http\Controllers\StaticController;
+use App\Http\Controllers\UsersuppliesController;
 use App\Models\Products_request_sub;
-$permiss_account = StaticController::permiss_account($iduser);
-$permiss_setting_upstm = StaticController::permiss_setting_upstm($iduser);
-$permiss_ucs = StaticController::permiss_ucs($iduser);
-$permiss_sss = StaticController::permiss_sss($iduser);
-$permiss_ofc = StaticController::permiss_ofc($iduser);
-$permiss_lgo = StaticController::permiss_lgo($iduser);
-$permiss_prb = StaticController::permiss_prb($iduser);
-$permiss_ti = StaticController::permiss_ti($iduser);
-$permiss_rep_money = StaticController::permiss_rep_money($iduser);
+    $permiss_account         = StaticController::permiss_account($iduser);
+    $permiss_setting_upstm   = StaticController::permiss_setting_upstm($iduser);
+    $permiss_ucs             = StaticController::permiss_ucs($iduser);
+    $permiss_sss             = StaticController::permiss_sss($iduser);
+    $permiss_ofc             = StaticController::permiss_ofc($iduser);
+    $permiss_lgo             = StaticController::permiss_lgo($iduser);
+    $permiss_prb             = StaticController::permiss_prb($iduser);
+    $permiss_ti              = StaticController::permiss_ti($iduser);
+    $permiss_rep_money       = StaticController::permiss_rep_money($iduser);
+
+    $refnumber                = UsersuppliesController::refnumber();
+    $checkhn                  = StaticController::checkhn($iduser);
+    $checkhnshow              = StaticController::checkhnshow($iduser);
+    $count_suprephn           = StaticController::count_suprephn($iduser);
+    $count_bookrep_rong       = StaticController::count_bookrep_rong();
+    $count_bookrep_po         = StaticController::count_bookrep_po();
+    $countpesmiss_per         = StaticController::countpesmiss_per($iduser);
+    $countpesmiss_book        = StaticController::countpesmiss_book($iduser);
+    $countpesmiss_car         = StaticController::countpesmiss_car($iduser);
+    $countpesmiss_meetting    = StaticController::countpesmiss_meetting($iduser);
+    $countpesmiss_repair      = StaticController::countpesmiss_repair($iduser);
+    $countpesmiss_com         = StaticController::countpesmiss_com($iduser);
+    $countpesmiss_medical     = StaticController::countpesmiss_medical($iduser);
+    $countpesmiss_hosing      = StaticController::countpesmiss_hosing($iduser);
+    $countpesmiss_plan        = StaticController::countpesmiss_plan($iduser);
+    $countpesmiss_asset       = StaticController::countpesmiss_asset($iduser);
+    $countpesmiss_supplies    = StaticController::countpesmiss_supplies($iduser);
+    $countpesmiss_store       = StaticController::countpesmiss_store($iduser);
+    $countpesmiss_store_dug   = StaticController::countpesmiss_store_dug($iduser);
+    $countpesmiss_pay         = StaticController::countpesmiss_pay($iduser);
+    $countpesmiss_money       = StaticController::countpesmiss_money($iduser);
+    $countpesmiss_claim       = StaticController::countpesmiss_claim($iduser);
+    $countpermiss_gleave      = StaticController::countpermiss_gleave($iduser);
+    $countpermiss_ot          = StaticController::countpermiss_ot($iduser);
+    $countpermiss_medicine    = StaticController::countpermiss_medicine($iduser);
+    $countpermiss_p4p         = StaticController::countpermiss_p4p($iduser);
+    $countpermiss_time        = StaticController::countpermiss_time($iduser);
+    $countpermiss_env         = StaticController::countpermiss_env($iduser);
+    $permiss_account          = StaticController::permiss_account($iduser);
+    $permiss_report_all       = StaticController::permiss_report_all($iduser);
+    $permiss_sot              = StaticController::permiss_sot($iduser);
+    $permiss_clinic_tb        = StaticController::permiss_clinic_tb($iduser);
+    $permiss_medicine_salt    = StaticController::permiss_medicine_salt($iduser);
+    $pesmiss_ct               = StaticController::pesmiss_ct($iduser);
+    $per_prs                  = StaticController::per_prs($iduser);
+    $per_cctv                 = StaticController::per_cctv($iduser);
+    $per_fire                 = StaticController::per_fire($iduser);
+    $per_air                  = StaticController::per_air($iduser);
 
 ?>
  {{-- <body data-sidebar="white" data-keep-enlarged="true" class="vertical-collpsed"> --}}
@@ -278,6 +318,8 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
                         <li class="menu-title">Menu</li> 
+                        
+                        @if ($per_fire != 0) 
                         <li><a href="javascript: void(0);" class="has-arrow">  
                             <i class="fa-solid fa-fire-extinguisher" style="color: #1699f0"></i>
                                 <span>ถังดับเพลิง</span>
@@ -288,6 +330,9 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <li><a href="{{ url('fire_pramuan_admin') }}">แบบประเมิน</a></li>
                             </ul>
                         </li>
+                        @endif
+
+                        @if ($per_air != 0) 
                         <li><a href="javascript: void(0);" class="has-arrow">   
                             <i class="fa-solid fa-fan" style="color: #B216F0"></i>
                                 <span>เครื่องปรับอากาศ</span>
@@ -298,7 +343,9 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <li><a href="{{ url('air_report_type') }}">รายงานแยกตามประเภท</a></li> 
                             </ul>
                         </li>
+                        @endif
                   
+                        @if ($per_cctv != 0) 
                         <li><a href="javascript: void(0);" class="has-arrow"> 
                             <i class="fa-solid fa-video" style="color: #55595a"></i>
                                 <span>กล้อง CCTV </span>
@@ -309,6 +356,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                
                             </ul>
                         </li>  
+                        @endif
                            
                        {{-- - <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">

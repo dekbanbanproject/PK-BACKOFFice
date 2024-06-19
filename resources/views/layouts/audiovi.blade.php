@@ -86,6 +86,27 @@
         /* width: 100vw;   ให้เต็มพอดี */
         /* height: 100vh; ให้เต็มพอดี  */
     }
+    .card_sote_2b{
+        border-radius: 0em 0em 2em 2em;
+        box-shadow: 0 0 15px rgb(194, 197, 250);
+        border:solid 1px rgba(125, 148, 252);
+    }
+    .card_sote_4{
+        border-radius: 2em 2em 2em 2em;
+        box-shadow: 0 0 15px rgb(124, 225, 250);
+        /* border-color: #0583cc */
+        border:solid 1px rgba(125, 148, 252);
+    }
+    .sotecheckbox{         
+        width: 20px;
+        height: 20px;       
+        /* border-radius: 2em 2em 2em 2em; */
+        border: 10px solid rgb(250, 128, 124);
+        /* color: teal; */
+        /* border-color: teal; */
+        box-shadow: 0 0 10px rgb(250, 128, 124);
+        /* box-shadow: 0 0 10px teal; */
+    }
 
     .Bgsidebar {
         background-image: url('/pkbackoffice/public/images/bgside.jpg');

@@ -213,10 +213,10 @@
 
         <form action="{{ url('audiovisual_admin') }}" method="GET">
             @csrf
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
-                <div class="col-md-5 text-end">
+                <div class="col-md-4 text-end">
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
                         data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                         <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
@@ -247,7 +247,7 @@
 
         <div class="row mt-2">
             <div class="col-xl-12">
-                <div class="card">
+                <div class="card card_sote_4 p-3">
                     <div class="card-body py-0 px-2 mt-2">
                         <div class="table-responsive">
                             <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
@@ -257,6 +257,7 @@
                                         <th width="5%" class="text-center">ลำดับ</th>
                                         <th class="text-center" width="5%">สถานะ</th>
                                         <th class="text-center" width="13%">ชื่อ-สกุล</th>
+                                        <th class="text-center" width="7%">Line ID</th>
                                         <th class="text-center" width="7%">เบอร์โทร</th>
                                         <th class="text-center" width="7%">วันที่สั่งงาน</th>
                                         <th class="text-center" width="7%">วันที่ขอรับงาน</th>
@@ -275,27 +276,27 @@
 
                                             @if ($item->audiovisual_status == 'REQUEST')
                                                 <td class="text-center" width="5%">
-                                                    <div class="badge bg-warning" style="font-size:12px">ร้องขอ</div>
+                                                    <div class="badge bg-info" style="font-size:12px">ร้องขอ</div>
                                                 </td>
                                             @elseif ($item->audiovisual_status == 'ACCEPTING')
                                                 <td class="text-center" width="5%">
-                                                    <div class="badge" style="background-color: #592DF7"
+                                                    <div class="badge" style="background-color: #592DF7;font-size:12px"
                                                         style="font-size:12px">รับทราบ</div>
                                                 </td>
                                             @elseif ($item->audiovisual_status == 'INPROGRESS')
                                                 <td class="text-center" width="5%">
-                                                    <div class="badge" style="background: rgb(96, 221, 243)"
-                                                        style="font-size:12px">กำลังดำเนินการ</div>
+                                                    <div class="badge" style="background: rgb(96, 221, 243);font-size:12px"
+                                                         >กำลังดำเนินการ</div>
                                                 </td>
                                             @elseif ($item->audiovisual_status == 'VERIFY')
                                                 <td class="text-center" width="5%">
-                                                    <div class="badge" style="background: rgb(232,13,239)"
-                                                        style="font-size:12px">ตรวจสอบ</div>
+                                                    <div class="badge" style="background: rgb(232,13,239);font-size:12px"
+                                                         >ตรวจสอบ</div>
                                                 </td>
                                             @elseif ($item->audiovisual_status == 'FINISH')
                                                 <td class="text-center" width="5%">
-                                                    <div class="badge" style="background: rgb(13, 239, 182)"
-                                                        style="font-size:12px">เสร็จสิ้น</div>
+                                                    <div class="badge" style="background: rgb(4, 190, 144);font-size:12px"
+                                                        >เสร็จสิ้น</div>
                                                 </td>
                                             @elseif ($item->audiovisual_status == 'CANCEL')
                                                 <td class="text-center" width="5%">
@@ -312,8 +313,8 @@
                                                 </td>
                                             @endif
 
-                                            <td class="p-2" width="13%"> {{ $item->fname }} {{ $item->lname }}
-                                            </td>
+                                            <td class="p-2" width="13%"> {{ $item->fname }} {{ $item->lname }} </td>
+                                            <td class="text-center" width="6%">{{ $item->lineid }}</td>
                                             <td class="text-center" width="6%">{{ $item->tel }}</td>
                                             <td class="text-center" width="7%">{{ Datethai($item->work_order_date) }} </td>
                                             <td class="text-center" width="7%">{{Datethai($item->job_request_date )}}</td>
