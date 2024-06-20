@@ -187,7 +187,7 @@
                                     <th class="text-center">ขนาด(BTU)</th> 
                                     <th class="text-center" >สถานที่ตั้ง</th>  
                                     <th class="text-center" >หน่วยงาน</th> 
-                                    {{-- <th class="text-center" >วันผลิต</th>  --}}
+                                    <th class="text-center" >ชั้น</th> 
                                     {{-- <th class="text-center" >วันหมดอายุ</th>  --}}
                                     <th class="text-center">จัดการ</th> 
                                 </tr>
@@ -221,8 +221,9 @@
                                         <td class="text-center" width="7%">{{ $item->air_list_num }}</td>  
                                         <td class="p-2">{{ $item->air_list_name }}</td>  
                                         <td class="text-center" width="5%">{{ $item->btu }}</td>    
-                                        <td class="p-2" width="20%">{{ $item->air_location_name }}</td>  
+                                        <td class="p-2" width="20%">{{ $item->air_location_id }} - {{ $item->air_location_name }}</td>  
                                         <td class="p-2" width="20%">{{ $item->detail }}</td> 
+                                        <td class="text-center" width="5%">{{ $item->air_room_class }}</td> 
                                         {{-- <td class="text-center" width="7%">{{ DateThai($item->air_date_pdd) }}</td>  --}}
                                         {{-- <td class="text-center" width="7%">{{ DateThai($item->air_date_exp) }}</td>  --}}
                                         <td class="text-center" width="5%">

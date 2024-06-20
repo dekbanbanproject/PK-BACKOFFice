@@ -200,7 +200,7 @@ $loter = $date.''.$time
                                     <div class="col-md-6"> 
                                         <div class="input-group input-group-sm">
                                             <div class="input-group-prepend">
-                                            <span class="input-group-text" id="inputGroup-sizing-sm">รหัสแอร์</span>
+                                            <span class="input-group-text" id="inputGroup-sizing-sm">วันที่รับเข้า</span>
                                             </div>
                                             <input type="date" style="font-size: 13px" type="text" class="form-control" id="air_recive_date" name="air_recive_date" aria-label="air_recive_date" aria-describedby="inputGroup-sizing-sm" value="{{$data_edit->air_recive_date}}">
                                         </div>

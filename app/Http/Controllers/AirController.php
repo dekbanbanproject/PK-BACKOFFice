@@ -136,7 +136,7 @@ class AirController extends Controller
             $air_no = DB::connection('mysql6')->select(
                 'SELECT * from informrepair_index 
                 WHERE REPAIR_STATUS ="RECEIVE" AND TECH_RECEIVE_DATE BETWEEN "'.$newDate.'" AND "'.$datenow.'" ORDER BY REPAIR_ID ASC'); 
-// REPAIR_SYSTEM ="1" AND 
+            // REPAIR_SYSTEM ="1" AND 
             return view('support_prs.air.air_repaire',$data, [
                 // 'dataprint'    => $dataprint,
                 'data_detail'   => $data_detail,
