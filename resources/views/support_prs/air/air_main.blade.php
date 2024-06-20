@@ -213,7 +213,8 @@
 
                                         <td class="text-center" width="5%"> 
                                           
-                                            {!!QrCode::size(30)->generate(" $item->air_list_id ")!!}  
+                                            {{-- {!!QrCode::size(30)->generate(" $item->air_list_id ")!!}   --}}
+                                            {!! QrCode::size(30)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_repaire/' . $item->air_list_id) !!}
 
                                         </td> 
 

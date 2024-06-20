@@ -111,6 +111,14 @@ class AirController extends Controller
         // if ($data_count < 1) {
  
         // } else {
+            $datenow   = date('Y-m-d');
+            $months    = date('m');
+            $year      = date('Y'); 
+            $startdate = $request->startdate;
+            $enddate   = $request->enddate;
+            $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+            $newDate   = date('Y-m-d', strtotime($datenow . ' -3 months')); //ย้อนหลัง 3 เดือน
+
             $data_detail = Air_repaire::leftJoin('users', 'air_repaire.air_tech_id', '=', 'users.id') 
             ->leftJoin('air_list', 'air_list.air_list_id', '=', 'air_repaire.air_list_id') 
             ->where('air_list.air_list_id', '=', $id)
@@ -118,13 +126,17 @@ class AirController extends Controller
 
             $data['air_repaire_ploblem']     = DB::table('air_repaire_ploblem')->get();
             $data['users']                   = DB::table('users')->get();
+            $data['users_tech']              = DB::table('users')->where('dep_id','=','1')->get();
+            
 
             $data_detail_ = Air_list::where('air_list_id', '=', $id)->first();
             // $signat = $data_detail_->air_img_base;
             // $pic_fire = base64_encode(file_get_contents($signat));  
       
-            $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE REPAIR_SYSTEM ="1" AND REPAIR_STATUS ="RECEIVE" ORDER BY REPAIR_ID ASC'); 
-
+            $air_no = DB::connection('mysql6')->select(
+                'SELECT * from informrepair_index 
+                WHERE REPAIR_STATUS ="RECEIVE" AND TECH_RECEIVE_DATE BETWEEN "'.$newDate.'" AND "'.$datenow.'" ORDER BY REPAIR_ID ASC'); 
+// REPAIR_SYSTEM ="1" AND 
             return view('support_prs.air.air_repaire',$data, [
                 // 'dataprint'    => $dataprint,
                 'data_detail'   => $data_detail,
@@ -153,7 +165,8 @@ class AirController extends Controller
         $data['land_data']          = DB::table('land_data')->get();
         $data['product_budget']     = Product_budget::get(); 
         $data['product_buy']        = Product_buy::get();
-        $data['users']              = User::get(); 
+        $data['users']              = User::get();
+        $data['users_tech']              = DB::table('users')->where('dep_id','=','1')->get(); 
         $data['products_vendor']    = Products_vendor::get(); 
         $data['product_brand']      = DB::table('product_brand')->get();
         $data['medical_typecat']    = DB::table('medical_typecat')->get();
@@ -272,7 +285,8 @@ class AirController extends Controller
                 $update->air_problems_18     = $request->air_problems_18;
                 $update->air_problems_19     = $request->air_problems_19;
                 $update->air_problems_20     = $request->air_problems_20;
-
+                $update->air_problems_orther     = $request->air_problems_orther;
+                $update->air_problems_orthersub  = $request->air_problems_orthersub;
                 $update->signature           = $add_img;
                 $update->signature2          = $add_img2;
                 $update->signature3          = $add_img3;
@@ -284,15 +298,14 @@ class AirController extends Controller
                 $update->air_status_tech     = $request->air_status_tech; 
                 $update->air_tech_id         = $request->air_tech_id; 
 
-                $update->save(); 
-
-                // air_status_techout
-                // air_status_staff
-                // air_status_tech
-                // $data_detail_ = Air_list::where('air_list_id', '=', $id)->first();
+                $update->save();   
+               
                 if ($request->air_status_techout == 'N' || $request->air_status_staff == 'N' || $request->air_status_tech == 'N') {
                     Air_list::where('air_list_id', '=', $request->air_list_id)->update(['active' => 'N']); 
+                } else {
+                    Air_list::where('air_list_id', '=', $request->air_list_id)->update(['active' => 'Y']); 
                 }
+                
                 
         }
 
@@ -328,6 +341,7 @@ class AirController extends Controller
         } else { 
                 $add = new Air_repaire();
                 $add->repaire_date        = $date_now;
+                $add->air_num             = $request->air_num;
                 $add->air_repaire_no      = $request->air_repaire_no;
                 $add->air_list_id         = $request->air_list_id;
                 $add->air_list_num        = $request->air_list_num;
@@ -357,6 +371,8 @@ class AirController extends Controller
                 $add->air_problems_18     = $request->air_problems_18;
                 $add->air_problems_19     = $request->air_problems_19;
                 $add->air_problems_20     = $request->air_problems_20;
+                $add->air_problems_orther     = $request->air_problems_orther;
+                $add->air_problems_orthersub  = $request->air_problems_orthersub;
 
                 $add->signature           = $add_img;
                 $add->signature2          = $add_img2;

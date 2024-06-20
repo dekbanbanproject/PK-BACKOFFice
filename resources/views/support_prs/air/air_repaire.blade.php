@@ -18,7 +18,7 @@
     <?php
     
     use SimpleSoftwareIO\QrCode\Facades\QrCode;
-    
+        
     ?>
 
 
@@ -61,9 +61,17 @@
                 <div class="card cardfire">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col text-start">
-                                {{-- <p style="color:red">ส่วนที่ 1 : รายละเอียดทะเบียนครุภัณฑ์แอร์ </p> --}}
+                            <div class="col text-start"> 
                                 <p style="color:red">ส่วนที่ 1 : รายละเอียด </p>
+                            </div>
+                            <div class="col-6 text-end"> 
+                                <?php 
+                                    $countqti_ = DB::select('SELECT COUNT(air_list_num) as air_list_num FROM air_repaire WHERE air_list_num = "'.$data_detail_->air_list_num.'"');
+                                    foreach ($countqti_ as $key => $value) {
+                                        $countqti = $value->air_list_num;
+                                    }
+                                ?>
+                                <p style="color:red">ซ่อมไปแล้ว {{$countqti}} ครั้ง</p>
                             </div>
                         </div>
                         <div class="row">
@@ -81,10 +89,13 @@
                                 <p>ชื่อ : {{ $data_detail_->air_list_name }}</p>
                                 <p>Btu : {{ $data_detail_->btu }}</p>
                                 <p>serial_no : {{ $data_detail_->serial_no }}</p>
-                                <p>ที่ตั้ง : {{ $data_detail_->air_location_name }}</p>
+                               
                             </div>
                         </div>
-                                                    
+                        <div class="row">
+                            <div class="col text-start"> <p>ที่ตั้ง : {{ $data_detail_->air_location_name }}</p>
+                            </div>
+                        </div>                         
                         <hr style="color:red">
                         <div class="row">
                             <div class="col text-start">
@@ -139,14 +150,20 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-6 text-start"> 
+                            <div class="col-3 text-start"> 
                                 <div class="input-group">
-                                    <input type="checkbox" class="discheckbox" id="air_problems_2" name="air_problems_2">
-                                    &nbsp;&nbsp;<p>ไม่เย็นมีแต่ลม</p>
+                                    <input type="checkbox" class="discheckbox" id="air_problems_orther" name="air_problems_orther">
+                                    &nbsp;&nbsp;<p>อื่นๆ</p>
                                 </div>
                             </div>
-                            <div class="col"> </div>
+                            <div class="col"> 
+                                <div class="input-group"> 
+                                    {{-- <input type="text" class="form-control form-control-sm" id="air_problems_orther" name="air_problems_orther"> --}}
+                                    <textarea class="form-control form-control-sm" id="air_problems_orthersub" name="air_problems_orthersub" rows="3"></textarea>
+                                </div>
+                            </div>
                         </div>
+
 
                         <hr style="color:rgb(7, 114, 141)">
                         <div class="row">
@@ -309,8 +326,7 @@
                                 <p>ชื่อ-นามสกุล :</p>
                             </div>
                             <div class="col-8">
-                                <input type="text" class="form-control form-control-sm" id="air_techout_name"
-                                    name="air_techout_name">
+                                <input type="text" class="form-control form-control-sm" id="air_techout_name" name="air_techout_name">
                             </div>
                         </div>
                         <div class="row">
@@ -428,7 +444,7 @@
                                 {{-- <input type="text" class="form-control form-control-sm" id="air_tech_id" name="air_tech_id"> --}}
                                 <select class="custom-select custom-select-sm" id="air_tech_id" name="air_tech_id"
                                     style="width: 100%"> 
-                                    @foreach ($users as $item_u)
+                                    @foreach ($users_tech as $item_u)
                                         <option value="{{ $item_u->id }}" class="text-center">{{ $item_u->fname }}
                                             {{ $item_u->lname }}</option>
                                     @endforeach
@@ -673,7 +689,9 @@
                 var air_location_id    = $('#air_location_id').val();
                 var air_location_name  = $('#air_location_name').val();
                 var air_repaire_no     = $('#air_repaire_no').val();
-                
+                var air_problems_orther     = $('#air_problems_orther').val();
+                var air_problems_orthersub  = $('#air_problems_orthersub').val();
+                var air_num            = $('#air_num').val();
                 Swal.fire({ position: "top-end",
                         title: 'ต้องการบันทึกข้อมูลใช่ไหม ?',
                         text: "You Warn Save Data!",
@@ -696,8 +714,7 @@
                                        air_problems_1,air_problems_2,air_problems_3,air_problems_4,air_problems_5,air_problems_6,air_problems_7,air_problems_8
                                         ,air_problems_9,air_problems_10,air_problems_11,air_problems_12,air_problems_13,air_problems_14,air_problems_15,air_problems_16
                                         ,air_problems_17,air_problems_18,air_problems_19,air_problems_20,air_status_techout,air_techout_name,air_status_staff,air_staff_id
-                                        ,air_status_tech,air_tech_id,signature,signature2,signature3
-                                        ,air_list_id,air_list_num,air_list_name,btu,serial_no,air_location_id,air_location_name,air_repaire_no
+                                        ,air_status_tech,air_tech_id,signature,signature2,signature3,air_list_id,air_list_num,air_list_name,btu,serial_no,air_location_id,air_location_name,air_repaire_no,air_problems_orther,air_problems_orthersub,air_num
                                     },
                                     success: function(data) {
                                         if (data.status == 0) {

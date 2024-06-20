@@ -13,16 +13,47 @@
     .bga {
         background-color: #fbff7d;
     }
-   
+    /* .optgroup { font-size:40px; } */
+    /* .select2-selection {
+        height: auto !important;
+    } */
+    /* .wrap.select2-selection--single {
+        height: 100%;
+    }
+    .select2-container .wrap.select2-selection--single .select2-selection__rendered {
+        word-wrap: break-word;
+        text-overflow: inherit;
+        white-space: normal;
+    } */
+    /* // Change the select container width and allow it to take the full parent width */
+    /* .select2 
+    {
+        width: 90% !important
+    } */
+
+    /* // Set the select field height, background color etc ... */
+    .select2-selection
+    {    
+        height: 50px !important
+        background-color: $light-color
+    }
+
+    /* // Set selected value position, color , font size, etc ... */
+    .select2-selection__rendered
+    { 
+        line-height: 35px !important
+        color: yellow !important
+    }
 </style>
 <?php
-use App\Http\Controllers\StaticController;
-use Illuminate\Support\Facades\DB;
-$count_land = StaticController::count_land();
-$count_building = StaticController::count_building();
-$count_article = StaticController::count_article();
+    use App\Http\Controllers\StaticController;
+    use Illuminate\Support\Facades\DB;
+    $count_land = StaticController::count_land();
+    $count_building = StaticController::count_building();
+    $count_article = StaticController::count_article();
 ?>
-
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 @section('content')
     <script>
@@ -138,7 +169,7 @@ $loter = $date.''.$time
    
         <div class="row">
             <div class="col-md-12">
-                <div class="card card_prs_4 p-3">
+                <div class="card card_prs_4 p-2">
                    
                     <div class="card-body">
 
@@ -146,7 +177,7 @@ $loter = $date.''.$time
                         
                         <div class="row">
 
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <img src="{{ asset('assets/images/default-image.jpg') }}" id="add_upload_preview"
                                         alt="Image" class="img-thumbnail" width="450px" height="380px">
@@ -164,34 +195,17 @@ $loter = $date.''.$time
                             </div>
  
 
-                            <div class="col-md-9">
-                                <div class="row fsize12">
-                                    <div class="col-md-2 text-end">
+                            <div class="col-md-8">
+                                <div class="row">
+                                    {{-- <div class="col-md-2 text-end">
                                         <label for="air_year">ปีงบประมาณ </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <select id="air_year" name="air_year" class="form-select form-select-lg"
-                                                style="width: 100%">
-                                                <option value="">ปีงบประมาณ</option>
-                                                
-                                                @foreach ($budget_year as $ye)
-                                                @if ($ye->leave_year_id == $date)
-                                                    <option value="{{ $ye->leave_year_id }}" selected>
-                                                        {{ $ye->leave_year_id }} </option>
-                                                @else
-                                                    <option value="{{ $ye->leave_year_id }}"> {{ $ye->leave_year_id }}
-                                                    </option>
-                                                @endif
-                                            @endforeach
-                                            </select>
-
-                                            {{-- <div class="input-group mb-3">
+                                    </div> --}}
+                                    <div class="col-md-6"> 
+                                              <div class="input-group">
                                                 <div class="input-group-prepend">
-                                                  <label class="input-group-text" for="air_year">Options</label>
+                                                  <label class="input-group-text" for="bran_id">ปีงบประมาณ</label>
                                                 </div>
-                                                <select class="custom-select" id="air_year" name="air_year">
-                                                    <option value="">ปีงบประมาณ</option> 
+                                                <select class="js-example-responsive" id="air_year" name="air_year" style="width: 75%">  
                                                     @foreach ($budget_year as $ye)
                                                         @if ($ye->leave_year_id == $date)
                                                             <option value="{{ $ye->leave_year_id }}" selected> {{ $ye->leave_year_id }} </option>
@@ -199,9 +213,7 @@ $loter = $date.''.$time
                                                             <option value="{{ $ye->leave_year_id }}"> {{ $ye->leave_year_id }} </option>
                                                         @endif
                                                     @endforeach
-                                                </select>
-                                              </div> --}}
-
+                                                </select> 
                                         </div>
                                     </div>
                                     {{-- <div class="col-md-2 text-end fsize12">
@@ -293,72 +305,94 @@ $loter = $date.''.$time
                                         </div>
                                     </div>
                                     
-
-
                                 </div>
 
-
                                 <div class="row mt-3 fsize12"> 
-                                    <div class="col-md-2 text-end">
+                                    {{-- <div class="col-md-2 text-end">
                                         <label for="air_location_id">สถานที่ตั้ง </label>
-                                    </div>
-                                    <div class="col-md-10">
-                                        <div class="form-group">
-                                            {{-- <input id="air_location_id" type="text" class="form-control form-control-sm" name="air_location_id"> --}}
-                                            <select id="air_location_id" name="air_location_id" class="form-select form-select-lg show_brand" style="width: 100%">
-                                            <option value=""></option>
-                                            @foreach ($building_data as $bra)
-                                                <option value="{{ $bra->building_id }}"> {{ $bra->building_id }} {{ $bra->building_name }} </option>
-                                            @endforeach
-                                        </select>
+                                    </div> --}}
+                                    <div class="col-md-12">
+                                        {{-- <div class="form-group"> 
+                                            <select id="air_location_id" name="air_location_id" class="form-select form-select-sm show_brand" style="width: 100%">
+                                                <option value=""></option>
+                                                @foreach ($building_data as $bra)
+                                                    <option value="{{ $bra->building_id }}"> {{ $bra->building_id }} {{ $bra->building_name }} </option>
+                                                @endforeach
+                                            </select>
+                                        </div> --}}
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <label class="input-group-text" for="air_location_id">สถานที่ตั้ง</label>
+                                            </div>
+                                            <select class="js-example-basic-multiple" id="air_location_id" name="air_location_id" multiple="multiple" style="width: 85%">  
+                                            {{-- <select class="form-select-lg" id="air_location_id" name="air_location_id" style="width: 85%"> --}}
+                                                {{-- <option value=""></option> --}}
+                                                @foreach ($building_data as $bra)
+                                                    <option value="{{ $bra->building_id }}"> {{ $bra->building_id }} {{ $bra->building_name }} </option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div> 
                                 </div>
 
                                 <div class="row mt-3 fsize12"> 
-                                    <div class="col-md-2 text-end">
+                                    {{-- <div class="col-md-2 text-end">
                                         <label for="detail">แผนก/ห้อง </label>
-                                    </div>
-                                    <div class="col-md-10">
-                                        <div class="form-group">
+                                    </div> --}}
+                                    <div class="col-md-12">
+                                        {{-- <div class="form-group">
                                             <input id="detail" type="text" class="form-control form-control-sm" name="detail">
                                             
+                                        </div> --}}
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">แผนก/ห้อง</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="detail" name="detail" aria-label="detail" aria-describedby="inputGroup-sizing-sm">
                                         </div>
                                     </div> 
                                 </div>
 
                                 <div class="row mt-3 fsize12">
                                                                         
-                                    <div class="col-md-2 text-end">
+                                    {{-- <div class="col-md-2 text-end">
                                         <label for="btu">ขนาด(BTU) </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
+                                    </div> --}}
+                                    <div class="col-md-6">
+                                        {{-- <div class="form-group">
                                             <input id="btu" type="text" class="form-control form-control-sm" name="btu">
                                             
+                                        </div> --}}
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">ขนาด(BTU)</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="btu" name="btu" aria-label="btu" aria-describedby="inputGroup-sizing-sm">
                                         </div>
-                                    </div>
-                                    <div class="col-md-2 text-end">
-                                        <label for="active">สถานะ </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <select id="active" name="active" class="form-select form-select-lg" style="width: 100%">
-                                                <option value="Y">พร้อมใช้งาน</option>
-                                                <option value="N">ไม่พร้อมใช้งาน</option> 
+                                    </div> 
+                                    <div class="col-md-6"> 
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <label class="input-group-text" for="active">สถานะ</label>
+                                            </div>
+                                            {{-- <select id="active" name="active" class="form-select-lg" style="width: 85%;height: 100%;"> --}}
+                                                {{-- <select class="js-example-basic-multiple-limit" id="active" name="active" style="width: 85%"> --}}
+                                                <select class="js-example-basic-multiple" id="active" name="active" multiple="multiple" style="width: 85%">  
+                                                    <option value="">--เลือก--</option>
+                                                    <option value="Y">พร้อมใช้งาน</option>
+                                                    <option value="N">ไม่พร้อมใช้งาน</option>  
                                             </select>
                                         </div>
                                     </div> 
                                 </div> 
 
                                <div class="row mt-3 fsize12">
-                                    <div class="col-md-2 text-end">
+                                    {{-- <div class="col-md-2 text-end">
                                         <label for="bran_id">ยี่ห้อ </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <select id="bran_id" name="bran_id"
-                                                class="form-select form-select-lg show_brand" style="width: 100%">
+                                    </div> --}}
+                                    <div class="col-md-6">
+                                        {{-- <div class="form-group">
+                                            <select id="bran_id" name="bran_id" class="form-select form-select-lg" style="width: 100%">
                                                 <option value=""></option>
                                                 @foreach ($product_brand as $bra)
                                                     <option value="{{ $bra->brand_id }}">
@@ -366,15 +400,35 @@ $loter = $date.''.$time
                                                     </option>
                                                 @endforeach
                                             </select>
+                                        </div> --}}
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">ชั้น</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="air_room_class" name="air_room_class" aria-label="air_room_class" aria-describedby="inputGroup-sizing-sm">
                                         </div>
                                     </div>
-                                    <div class="col-md-2 text-end">
+                                    {{-- <div class="col-md-2 text-end">
                                         <label for="air_room_class">ชั้น </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <input id="air_room_class" type="text" class="form-control form-control-sm" name="air_room_class">
-                                            
+                                    </div> --}}
+                                    <div class="col-md-6">
+                                        {{-- <div class="form-group">
+                                            <input id="air_room_class" type="text" class="form-control form-control-sm" name="air_room_class"> 
+                                        </div> --}}
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <label class="input-group-text" for="bran_id">ยี่ห้อ</label>
+                                            </div>
+                                            <select class="js-example-basic-multiple" id="bran_id" name="bran_id" multiple="multiple" style="width: 85%">
+                                            {{-- <select class="form-select-lg" id="bran_id" name="bran_id" style="width: 85%"> --}}
+                                                {{-- <select class="js-example-responsive" style="width: 85%"> --}}
+                                                {{-- <option value=""></option> --}}
+                                                @foreach ($product_brand as $bra)
+                                                    <option value="{{ $bra->brand_id }}">
+                                                        {{ $bra->brand_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
 
@@ -390,7 +444,7 @@ $loter = $date.''.$time
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-3">
             <div class="col"></div>
             <div class="col-md-4 text-end">
                 <div class="form-group">
@@ -415,6 +469,18 @@ $loter = $date.''.$time
 
 <script>
      $(document).ready(function () {
+            $('.js-example-basic-single').select2();
+            $('.js-example-basic-multiple').select2();
+            $("#js-example-responsive").select2({
+                width: 'resolve' 
+            });
+            $("#js-example-theme-multiple").select2({
+                theme: "classic"
+            });
+            $("#js-example-basic-multiple-limit").select2({
+                maximumSelectionLength: 2,
+                allowClear:true
+            });
           $('#example').DataTable();
           $('#example2').DataTable();
           $('#example3').DataTable();

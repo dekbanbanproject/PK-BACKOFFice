@@ -172,15 +172,12 @@ $loter = $date.''.$time
 
                             <div class="col-md-9">
                                 <div class="row">
-                                    <div class="col-md-2 text-end">
-                                        <label for="air_year">ปีงบประมาณ </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <select id="air_year" name="air_year" class="form-select form-select-lg"
-                                                style="width: 100%">
-                                                <option value="">ปีงบประมาณ</option>
-                                                
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text" for="air_year">ปีงบประมาณ</label>
+                                            </div>
+                                            <select class="js-example-basic-single" id="air_year" name="air_year" style="width: 75%" > 
                                                 @foreach ($budget_year as $ye)
                                                 @if ($ye->leave_year_id == $data_edit->air_year)
                                                     <option value="{{ $ye->leave_year_id }}" selected> {{ $ye->leave_year_id }}</option>
@@ -191,7 +188,7 @@ $loter = $date.''.$time
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-2 text-end">
+                                    {{-- <div class="col-md-2 text-end">
                                         <label for="air_recive_date">วันที่รับเข้า </label>
                                     </div>
                                     <div class="col-md-4">
@@ -199,12 +196,36 @@ $loter = $date.''.$time
                                             <input id="air_recive_date" type="date"
                                                 class="form-control" name="air_recive_date" value="{{$data_edit->air_recive_date}}">
                                         </div>
+                                    </div> --}}
+                                    <div class="col-md-6"> 
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroup-sizing-sm">รหัสแอร์</span>
+                                            </div>
+                                            <input type="date" style="font-size: 13px" type="text" class="form-control" id="air_recive_date" name="air_recive_date" aria-label="air_recive_date" aria-describedby="inputGroup-sizing-sm" value="{{$data_edit->air_recive_date}}">
+                                        </div>
                                     </div>
                                 </div>
  
 
                                 <div class="row mt-3">
-                                    <div class="col-md-2 text-end">
+                                    <div class="col-md-6"> 
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroup-sizing-sm">รหัสแอร์</span>
+                                            </div>
+                                            <input style="font-size: 13px" type="text" class="form-control" id="air_list_num" name="air_list_num" aria-label="air_list_num" aria-describedby="inputGroup-sizing-sm" value="{{$data_edit->air_list_num}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5"> 
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroup-sizing-sm">ราคา</span>
+                                            </div>
+                                            <input style="font-size: 13px" type="text" class="form-control" id="air_price" name="air_price" aria-label="air_price" aria-describedby="inputGroup-sizing-sm" value="{{$data_edit->air_price}}">
+                                        </div>
+                                    </div>
+                                    {{-- <div class="col-md-2 text-end">
                                         <label for="air_list_num">รหัสแอร์</label>
                                     </div>
                                     <div class="col-md-4">
@@ -212,8 +233,8 @@ $loter = $date.''.$time
                                             <input id="air_list_num" type="text" class="form-control"
                                                 name="air_list_num" value="{{$data_edit->air_list_num}}">
                                         </div>
-                                    </div>
-                                    <div class="col-md-2 text-end">
+                                    </div> --}}
+                                    {{-- <div class="col-md-2 text-end">
                                         <label for="air_price">ราคา </label>
                                     </div>
                                     <div class="col-md-3">
@@ -221,7 +242,7 @@ $loter = $date.''.$time
                                             <input id="air_price" type="text" class="form-control form-control-sm"
                                                 name="air_price" value="{{$data_edit->air_price}}">
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-md-1">
                                         <label for="air_price">บาท</label>
                                     </div>
@@ -230,39 +251,42 @@ $loter = $date.''.$time
 
                                
                                 <div class="row mt-3">
-                                    <div class="col-md-2 text-end">
-                                        <label for="air_list_name">ชื่อครุภัณฑ์ </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <input id="air_list_name" type="text" class="form-control form-control-sm"
-                                                name="air_list_name" value="{{$data_edit->air_list_name}}">
+                               
+                                    <div class="col-md-6"> 
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroup-sizing-sm">ชื่อครุภัณฑ์</span>
+                                            </div>
+                                            <input type="text" style="font-size: 14px" class="form-control" id="air_list_name" name="air_list_name" aria-label="air_list_name" aria-describedby="inputGroup-sizing-sm" value="{{$data_edit->air_list_name}}">
                                         </div>
                                     </div>
-                                    <div class="col-md-2 text-end">
-                                        <label for="serial_no">Serial no </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <input id="serial_no" type="text" class="form-control form-control-sm"
-                                                name="serial_no" value="{{$data_edit->serial_no}}">
+                             
+                                    <div class="col-md-6"> 
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroup-sizing-sm">Serial no</span>
+                                            </div>
+                                            <input type="text" style="font-size: 13px" class="form-control" id="serial_no" name="serial_no" aria-label="serial_no" aria-describedby="inputGroup-sizing-sm" value="{{$data_edit->serial_no}}">
                                         </div>
-                                    </div>
-                                    
-
-
+                                    </div> 
                                 </div>
 
 
                                 <div class="row mt-3"> 
-                                    <div class="col-md-2 text-end">
+                                    <div class="col-md-12">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                        <label class="input-group-text" for="bran_id">สถานที่ตั้ง</label>
+                                        </div>
+                                        <select class="js-example-basic-single" id="air_location_id" name="air_location_id" style="width: 85%" >
+
+                                    {{-- <div class="col-md-2 text-end">
                                         <label for="air_location_id">สถานที่ตั้ง </label>
                                     </div>
                                     <div class="col-md-10">
-                                        <div class="form-group">
-                                            {{-- <input id="air_location_id" type="text" class="form-control form-control-sm" name="air_location_id"> --}}
+                                        <div class="form-group"> 
                                             <select id="air_location_id" name="air_location_id" class="form-select form-select-lg show_brand" style="width: 100%">
-                                            <option value=""></option>
+                                            <option value=""></option> --}}
                                             @foreach ($building_data as $bra)
                                             @if ($data_edit->air_location_id == $bra->building_id)
                                             <option value="{{ $bra->building_id }}" selected>{{ $bra->building_id }} {{ $bra->building_name }} </option>
@@ -277,34 +301,39 @@ $loter = $date.''.$time
                                 </div>
 
                                 <div class="row mt-3"> 
-                                    <div class="col-md-2 text-end">
-                                        <label for="detail">แผนก/ห้อง </label>
-                                    </div>
-                                    <div class="col-md-10">
-                                        <div class="form-group">
-                                            <input id="detail" type="text" class="form-control form-control-sm" name="detail"  value="{{$data_edit->detail}}">
-                                            
+                                    
+                                    <div class="col-md-12">
+                                       
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroup-sizing-sm">แผนก/ห้อง</span>
+                                            </div>
+                                            <input type="text" style="font-size: 14px" class="form-control" id="detail" name="detail" aria-label="detail" aria-describedby="inputGroup-sizing-sm" value="{{$data_edit->detail}}">
                                         </div>
                                     </div> 
                                 </div>
 
-                                <div class="row mt-3">
-                                                                        
-                                    <div class="col-md-2 text-end">
-                                        <label for="btu">ขนาด(BTU) </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <input id="btu" type="text" class="form-control form-control-sm" name="btu"  value="{{$data_edit->btu}}">
-                                            
+                                <div class="row mt-3">                                    
+                                    <div class="col-md-6">                                      
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroup-sizing-sm">ขนาด(BTU)</span>
+                                            </div>
+                                            <input type="text" style="font-size: 13px" class="form-control" id="btu" name="btu" aria-label="btu" aria-describedby="inputGroup-sizing-sm" value="{{$data_edit->btu}}">
                                         </div>
                                     </div>
-                                    <div class="col-md-2 text-end">
+                                    <div class="col-md-6"> 
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                            <label class="input-group-text" for="active">สถานะ</label>
+                                            </div>
+                                            <select class="js-example-basic-single" id="active" name="active" style="width: 85%">
+                                    {{-- <div class="col-md-2 text-end">
                                         <label for="active">สถานะ </label>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <select id="active" name="active" class="form-select form-select-lg" style="width: 100%">
+                                            <select id="active" name="active" class="form-select form-select-lg" style="width: 100%"> --}}
                                                 @if ($data_edit->active == 'Y')
                                                 <option value="Y" selected>พร้อมใช้งาน</option>
                                                 <option value="N">ไม่พร้อมใช้งาน</option> 
@@ -318,14 +347,28 @@ $loter = $date.''.$time
                                 </div> 
 
                                <div class="row mt-3">
-                                    <div class="col-md-2 text-end">
-                                        <label for="bran_id">ยี่ห้อ </label>
+                                <div class="col-md-6"> 
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">ชั้น</span>
+                                        </div>
+                                        <input type="text" class="form-control" id="air_room_class" name="air_room_class" aria-label="air_room_class" aria-describedby="inputGroup-sizing-sm" value="{{$data_edit->air_room_class}}">
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <select id="bran_id" name="bran_id"
-                                                class="form-select form-select-lg show_brand" style="width: 100%">
-                                                <option value=""></option>
+                                </div>
+                                <div class="col-md-6"> 
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                        <label class="input-group-text" for="bran_id">ยี่ห้อ</label>
+                                        </div>
+                                        <select class="js-example-basic-single" id="bran_id" name="bran_id" style="width: 85%">
+                                    {{-- <div class="col-md-2 text-end">
+                                        <label for="bran_id">ยี่ห้อ </label>
+                                    </div> --}}
+                                    {{-- <div class="col-md-4"> --}}
+                                        {{-- <div class="form-group"> --}}
+                                            {{-- <select id="bran_id" name="bran_id" --}}
+                                                {{-- class="form-select form-select-lg show_brand" style="width: 100%"> --}}
+                                                {{-- <option value=""></option> --}}
                                                 @foreach ($product_brand as $bra)
                                                 @if ($data_edit->bran_id == $bra->brand_id)
                                                 <option value="{{ $bra->brand_id }}" selected> {{ $bra->brand_name }} </option>
@@ -337,7 +380,7 @@ $loter = $date.''.$time
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-2 text-end">
+                                    {{-- <div class="col-md-2 text-end">
                                         <label for="air_room_class">ชั้น </label>
                                     </div>
                                     <div class="col-md-4">
@@ -345,7 +388,7 @@ $loter = $date.''.$time
                                             <input id="air_room_class" type="text" class="form-control form-control-sm" name="air_room_class" value="{{$data_edit->air_room_class}}">
                                             
                                         </div>
-                                    </div>
+                                    </div> --}}
 
 
                                 </div>
@@ -359,7 +402,7 @@ $loter = $date.''.$time
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-3">
             <div class="col"></div>
             <div class="col-md-4 text-end">
                 <div class="form-group">
@@ -384,6 +427,14 @@ $loter = $date.''.$time
 
 <script>
      $(document).ready(function () {
+            $('.js-example-basic-single').select2();
+            $('.js-example-basic-multiple').select2();
+            $("#js-example-responsive").select2({
+                width: 'resolve' 
+            });
+            $("#js-example-theme-multiple").select2({
+                theme: "classic"
+            });
           $('#example').DataTable();
           $('#example2').DataTable();
           $('#example3').DataTable();
