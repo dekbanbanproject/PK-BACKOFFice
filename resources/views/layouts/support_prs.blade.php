@@ -117,6 +117,21 @@
         box-shadow: 0 0 10px rgb(250, 128, 124);
         /* box-shadow: 0 0 10px teal; */
     }
+    .fsize10{
+        font-size: 10px;
+    }
+    .fsize11{
+        font-size: 11px;
+    }
+    .fsize12{
+        font-size: 12px;
+    }
+    .fsize13{
+        font-size: 13px;
+    }
+    .fsize14{
+        font-size: 14px;
+    }
     /* .myTable thead tr{
     background-color: #b56fca;
     color: #ffffff;

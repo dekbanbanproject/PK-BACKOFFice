@@ -122,7 +122,7 @@ $loter = $date.''.$time
     <form class="custom-validation" action="{{ route('prs.air_update') }}" method="POST" id="update_Form" enctype="multipart/form-data">
         @csrf
     <div class="row"> 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <h4 class="card-title" style="color:rgb(10, 151, 85)">UPDATE AIR LIST</h4>
             <p class="card-title-desc">แก้ไขข้อมูลทะเบียนครุภัณฑ์แอร์</p>
         </div>
@@ -135,7 +135,7 @@ $loter = $date.''.$time
     </div>
     </div> 
    
-        <div class="row">
+        <div class="row fsize12">
             <div class="col-md-12">
                 <div class="card card_prs_4 p-3">
                    
@@ -197,7 +197,7 @@ $loter = $date.''.$time
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <input id="air_recive_date" type="date"
-                                                class="form-control form-control-sm" name="air_recive_date" value="{{$data_edit->air_recive_date}}">
+                                                class="form-control" name="air_recive_date" value="{{$data_edit->air_recive_date}}">
                                         </div>
                                     </div>
                                 </div>
@@ -209,7 +209,7 @@ $loter = $date.''.$time
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <input id="air_list_num" type="text" class="form-control form-control-sm"
+                                            <input id="air_list_num" type="text" class="form-control"
                                                 name="air_list_num" value="{{$data_edit->air_list_num}}">
                                         </div>
                                     </div>

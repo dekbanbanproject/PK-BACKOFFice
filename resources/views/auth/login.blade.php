@@ -57,8 +57,8 @@
    
 </head>
 <style>
-    .modal-dialog {
-            max-width: 60%;
+    .modal-dialog2 {
+            max-width: 100%;
         }
         .modal-dialog-slideout {
             min-height: 100%;
@@ -229,7 +229,7 @@
                         <i class="bi bi-chevron-down dropdown-indicator" style="color: transparent"></i></a> 
                     </li> --}}
                     {{-- <li><a class="nav-link scrollto" href="#login"><i class="fa-solid fa-fingerprint me-2"></i>Login</a></li> --}}
-                    <li> <a href="{{ url('check_dashboard') }}" data-bs-toggle="modal" target="_blank" data-bs-target="#exampleModal"><i class="fa-solid fa-fingerprint me-2"></i>Login</a> </li> 
+                    <li> <a href="" data-bs-toggle="modal" target="_blank" data-bs-target="#exampleModal"><i class="fa-solid fa-fingerprint me-2"></i>Login</a> </li> 
                     {{-- <li><a href="{{ url('authen_main') }}" target="_blank"><i class="fa-solid fa-person me-2" style="font-size: 15px"></i>Authen</a></li>  --}}
                 </ul> 
                 <i class="bi bi-list mobile-nav-toggle d-none"></i>
@@ -985,33 +985,32 @@
     </footer><!-- End Footer -->
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-slideout">
+        {{-- <div class="modal-dialog modal-dialog-slideout"> --}}
+            <div class="modal-dialog">
             <div class="modal-content"> 
                     <div class="modal-body">
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
-                            <br><br><br><br> 
-                           
-                               
-                                <div class="container mt-5"> 
+                            <br>
+                            
+                                <div class="container"> 
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-1"> </div>
+                                        <div class="col-md-11">
                                             <div class="d-flex justify-content-center">
                                                 <span>
                                                     <img src="{{ asset('images/logo_350.jpg') }}" width="200" height="200" alt="IMG"><br><br> 
-                                                </span>
-
-                                              
-                                                  
+                                                </span> 
                                             </div>
                                         </div> 
                                     </div>
-                                    <div class="row mt-3">
+                                    <div class="row mt-1">
                                         <div class="col"></div>
-                                        <div class="col-md-5">
+                                        <div class="col-md-1 text-end mt-2"><i class="fa-solid fa-user-large text-primary"></i></div>
+                                        <div class="col-md-6">
                                             <div class="mb-3">
                                                 <div class="wrap-input100 validate-input" data-validate = "กรุณาใส่ Username">
-                                                    <input type="text" class="form-control input100" name="username" id="username" placeholder="Username" required>
+                                                    <input type="text" class="form-control input100" name="username" id="username" placeholder="Username" required> 
                                                 </div>
                                             </div>
                                         </div> 
@@ -1019,7 +1018,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="col"></div>
-                                        <div class="col-md-5">
+                                        <div class="col-md-1 text-end mt-2"><i class="fa-solid fa-key text-danger"></i></div>
+                                        <div class="col-md-6">
                                             <div class="mb-3">
                                                 <div class="wrap-input100 validate-input" data-validate = "กรุณาใส่ Password">
                                                     <input type="password" class="form-control input100" name="password" id="password" placeholder="Password" required>
@@ -1030,9 +1030,11 @@
                                     </div>
                                     <div class="row">
                                         <div class="col"></div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-1 text-end"></div>
+                                        <div class="col-md-5">
                                             <div class="mb-3">
                                                 <button type="submit" class="login100-form-btn">
+                                                    <i class="fa-solid fa-fingerprint me-3"></i>
                                                     Login
                                                 </button>
                                               </div>
@@ -1055,6 +1057,7 @@
                                     </div>
 
                                 </div>   
+                                <br> <br>
                                 {{-- </div> --}}
                                         {{-- <span class="login100-form-title">
                                             <img src="{{ asset('images/logo_350.jpg') }}" width="120" height="120" alt="IMG"><br><br>

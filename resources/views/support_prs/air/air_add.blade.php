@@ -13,6 +13,7 @@
     .bga {
         background-color: #fbff7d;
     }
+   
 </style>
 <?php
 use App\Http\Controllers\StaticController;
@@ -122,7 +123,7 @@ $loter = $date.''.$time
     <form class="custom-validation" action="{{ route('prs.air_save') }}" method="POST" id="insert_Form" enctype="multipart/form-data">
         @csrf
     <div class="row"> 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <h4 class="card-title" style="color:rgb(10, 151, 85)">ADD AIR LIST</h4>
             <p class="card-title-desc">เพิ่มข้อมูลทะเบียนครุภัณฑ์แอร์</p>
         </div>
@@ -164,7 +165,7 @@ $loter = $date.''.$time
  
 
                             <div class="col-md-9">
-                                <div class="row">
+                                <div class="row fsize12">
                                     <div class="col-md-2 text-end">
                                         <label for="air_year">ปีงบประมาณ </label>
                                     </div>
@@ -184,37 +185,72 @@ $loter = $date.''.$time
                                                 @endif
                                             @endforeach
                                             </select>
+
+                                            {{-- <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                  <label class="input-group-text" for="air_year">Options</label>
+                                                </div>
+                                                <select class="custom-select" id="air_year" name="air_year">
+                                                    <option value="">ปีงบประมาณ</option> 
+                                                    @foreach ($budget_year as $ye)
+                                                        @if ($ye->leave_year_id == $date)
+                                                            <option value="{{ $ye->leave_year_id }}" selected> {{ $ye->leave_year_id }} </option>
+                                                        @else
+                                                            <option value="{{ $ye->leave_year_id }}"> {{ $ye->leave_year_id }} </option>
+                                                        @endif
+                                                    @endforeach
+                                                </select>
+                                              </div> --}}
+
                                         </div>
                                     </div>
-                                    <div class="col-md-2 text-end">
-                                        <label for="air_recive_date">วันที่รับเข้า </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
+                                    {{-- <div class="col-md-2 text-end fsize12">
+                                        <label for="air_recive_date" >วันที่รับเข้า </label>
+                                    </div> --}}
+                                    <div class="col-md-6 fsize13">
+                                        {{-- <div class="form-group">
                                             <input id="air_recive_date" type="date"
                                                 class="form-control form-control-sm" name="air_recive_date">
+                                        </div> --}}
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">วันที่รับเข้า</span>
+                                            </div>
+                                            <input type="date" class="form-control" id="air_recive_date" name="air_recive_date" aria-label="air_recive_date" aria-describedby="inputGroup-sizing-sm">
                                         </div>
                                     </div>
                                 </div>
  
 
-                                <div class="row mt-3">
-                                    <div class="col-md-2 text-end">
+                                <div class="row mt-3 fsize12">
+                                    {{-- <div class="col-md-2 text-end ">
                                         <label for="air_list_num">รหัสแอร์</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
+                                    </div> --}}
+                                    <div class="col-md-6">
+                                        {{-- <div class="form-group">
                                             <input id="air_list_num" type="text" class="form-control form-control-sm"
                                                 name="air_list_num">
+                                        </div> --}}
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">รหัสแอร์</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="air_list_num" name="air_list_num" aria-label="air_list_num" aria-describedby="inputGroup-sizing-sm">
                                         </div>
                                     </div>
-                                    <div class="col-md-2 text-end">
+                                    {{-- <div class="col-md-2 text-end">
                                         <label for="air_price">ราคา </label>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
+                                    </div> --}}
+                                    <div class="col-md-5">
+                                        {{-- <div class="form-group">
                                             <input id="air_price" type="text" class="form-control form-control-sm"
                                                 name="air_price">
+                                        </div> --}}
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">ราคา</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="air_price" name="air_price" aria-label="air_price" aria-describedby="inputGroup-sizing-sm">
                                         </div>
                                     </div>
                                     <div class="col-md-1">
@@ -224,23 +260,36 @@ $loter = $date.''.$time
                                 </div>
 
                                
-                                <div class="row mt-3">
-                                    <div class="col-md-2 text-end">
-                                        <label for="air_list_name">ชื่อครุภัณฑ์ </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <input id="air_list_name" type="text" class="form-control form-control-sm"
-                                                name="air_list_name">
+                                <div class="row mt-3 fsize12">
+                                    {{-- <div class="col-md-2 text-end">
+                                        <label for="air_list_name">ชื่อครุภัณฑ์</label>
+                                    </div> --}}
+                                    <div class="col-md-6">
+                                        {{-- <div class="form-group">
+                                            <input id="air_list_name" name="air_list_name" type="text" class="form-control form-control-sm" >
+                                        </div> --}}
+
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">ชื่อครุภัณฑ์</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="air_list_name" name="air_list_name" aria-label="air_list_name" aria-describedby="inputGroup-sizing-sm">
                                         </div>
+
                                     </div>
-                                    <div class="col-md-2 text-end">
+                                    {{-- <div class="col-md-2 text-end">
                                         <label for="serial_no">Serial no </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
+                                    </div> --}}
+                                    <div class="col-md-6">
+                                        {{-- <div class="form-group">
                                             <input id="serial_no" type="text" class="form-control form-control-sm"
                                                 name="serial_no">
+                                        </div> --}}
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">Serial no</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="serial_no" name="serial_no" aria-label="serial_no" aria-describedby="inputGroup-sizing-sm">
                                         </div>
                                     </div>
                                     
@@ -249,7 +298,7 @@ $loter = $date.''.$time
                                 </div>
 
 
-                                <div class="row mt-3"> 
+                                <div class="row mt-3 fsize12"> 
                                     <div class="col-md-2 text-end">
                                         <label for="air_location_id">สถานที่ตั้ง </label>
                                     </div>
@@ -266,7 +315,7 @@ $loter = $date.''.$time
                                     </div> 
                                 </div>
 
-                                <div class="row mt-3"> 
+                                <div class="row mt-3 fsize12"> 
                                     <div class="col-md-2 text-end">
                                         <label for="detail">แผนก/ห้อง </label>
                                     </div>
@@ -278,7 +327,7 @@ $loter = $date.''.$time
                                     </div> 
                                 </div>
 
-                                <div class="row mt-3">
+                                <div class="row mt-3 fsize12">
                                                                         
                                     <div class="col-md-2 text-end">
                                         <label for="btu">ขนาด(BTU) </label>
@@ -302,7 +351,7 @@ $loter = $date.''.$time
                                     </div> 
                                 </div> 
 
-                               <div class="row mt-3">
+                               <div class="row mt-3 fsize12">
                                     <div class="col-md-2 text-end">
                                         <label for="bran_id">ยี่ห้อ </label>
                                     </div>
