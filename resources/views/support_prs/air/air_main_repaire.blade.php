@@ -255,12 +255,12 @@
                                                     </a>  --}}
                                                     
                                                     {{-- <div class="dropdown-divider"></div> --}}
-                                                    <a class="dropdown-item text-info" href="{{ url('air_repaire/'.$item->air_repaire_id) }}" style="font-size:13px" target="_blank"> 
+                                                    {{-- <a class="dropdown-item text-info" href="{{ url('air_repaire/'.$item->air_repaire_id) }}" style="font-size:13px" target="_blank"> 
                                                         <i class="fa-solid fa-circle-plus me-2 text-info" style="font-size:13px"></i>
                                                         <span>บันทึกการซ่อม</span>
                                                     </a> 
                                                   
-                                                    <div class="dropdown-divider"></div>
+                                                    <div class="dropdown-divider"></div> --}}
                                                     <a class="dropdown-item text-warning" href="{{ url('air_repaire_edit/' . $item->air_repaire_id) }}" style="font-size:13px" target="blank">
                                                         <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
                                                         <span>แก้ไข</span>
