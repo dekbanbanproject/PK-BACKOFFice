@@ -92,14 +92,11 @@
         height: 13px;
     }
     .cardclaim{
-        border-radius: 3em 3em 3em 3em;
+        border-radius: 2em 2em 2em 2em;
         box-shadow: 0 0 10px rgb(252, 161, 119);
+        border:solid 1px #fd8086;
         /* box-shadow: 0 0 10px rgb(247, 198, 176); */
-    }
-
-    /* .checkbox{
-        border: 10px solid teal;
-    } */
+    } 
     .dcheckbox{         
         width: 20px;
         height: 20px;       
@@ -110,7 +107,51 @@
         box-shadow: 0 0 10px pink;
         /* box-shadow: 0 0 10px teal; */
     }
+    .card_pink{
+        border-radius: 3em 3em 3em 3em;
+        box-shadow: 0 0 10px pink;
+    }
+    .card_audit_2b{
+        border-radius: 0em 0em 3em 3em;
+        box-shadow: 0 0 10px rgb(250, 128, 124);
+    }
+    .card_audit_4c{
+        border-radius: 2em 2em 2em 2em;
+        box-shadow: 0 0 10px rgb(250, 128, 124);
+        border:solid 1px #80acfd;
+    }
+    .card_audit_4{
+        border-radius: 3em 3em 3em 3em;
+        box-shadow: 0 0 10px rgb(250, 128, 124);
+    }
+    .dcheckbox_{         
+        width: 20px;
+        height: 20px;       
+        /* border-radius: 2em 2em 2em 2em; */
+        border: 10px solid rgb(250, 128, 124);
+        /* color: teal; */
+        /* border-color: teal; */
+        box-shadow: 0 0 10px rgb(250, 128, 124);
+        /* box-shadow: 0 0 10px teal; */
+    }
 </style>
+
+<script>
+    function TypeAdmin() {
+        window.location.href = '{{ route('index') }}';
+    } 
+</script>
+<?php
+    if (Auth::check()) {
+        $type = Auth::user()->type;
+        $iduser = Auth::user()->id;
+    } else {
+        echo "<body onload=\"TypeAdmin()\"></body>";
+        exit();
+    }
+    $url = Request::url();
+    $pos = strrpos($url, '/') + 1; 
+?>
 
 <body data-topbar="dark">
     {{-- <body data-sidebar="white" data-keep-enlarged="true" class="vertical-collpsed"> --}}
@@ -417,8 +458,9 @@
                                 <span>Document</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('inst_sss_todtan') }}">กองทุนทดแทน-ปกส.</a></li>
-                                <li><a href="{{ url('inst_sss') }}">รายการค่าอวัยวะเทียมและอุปกรณ์บำบัด-ปกส.</a></li>
+                                <li><a href="{{ url('document') }}">เก็บเอกสาร</a></li>
+                                {{-- <li><a href="{{ url('inst_sss_todtan') }}">กองทุนทดแทน-ปกส.</a></li> --}}
+                                {{-- <li><a href="{{ url('inst_sss') }}">รายการค่าอวัยวะเทียมและอุปกรณ์บำบัด-ปกส.</a></li> --}}
                                 {{-- <li><a href="https://cs3.chi.or.th/ambtrcs/login.asp">เบิกค่ารถ Refer</a></li>  --}}
                             </ul>
                         </li>

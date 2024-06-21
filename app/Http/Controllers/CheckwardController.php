@@ -158,7 +158,7 @@ class CheckwardController extends Controller
         ]);
     }
 
-    public function check_wardnoclaim(Request $request,$id)
+    public function check_wardnoclaim_old(Request $request,$id)
     { 
         $data['users'] = User::get();
         
@@ -214,6 +214,68 @@ class CheckwardController extends Controller
         and pt.hn is null
         and w.ward = "'.$id.'" group by i.an
  
+        ');        
+
+        return view('ward.check_wardnoclaim', $data,[
+            'data_wardsss'   => $data_wardsss
+        ]);
+    }
+    public function check_wardnoclaim(Request $request,$id)
+    { 
+        $data['users'] = User::get();
+        
+        $data_wardsss = DB::connection('mysql2')->select(
+            'select a.hn,a.an,concat(p.pname,p.fname," ",p.lname) as fullname ,p.cid,pi.claim_code
+        ,i.pttype AS HOSpttype
+                ,cs.subinscl AS spsch
+       ,ip.hospmain
+              ,"" AS hosstartdate,a.pdx,a.regdate,a.dchdate,a.admdate,round(a.income) as Aincome ,round(a.inc08,2) as inc08,
+       (select concat(plain_text,  ""  ,note_datetime," ",note_staff) from ptnote where note_staff in ("rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee","jariya")
+       and hn=i.hn order by note_datetime desc limit 1) as nn,r.name as abname 
+         
+       from ipt i
+       left outer join an_stat a on a.an = i.an
+       left outer join patient p on p.hn = i.hn
+       left outer join doctor d on d.code = i.dch_doctor
+       left outer join ward w on w.ward = i.ward
+       left outer join roomno r on r.an = i.an
+       left outer join ptnote pt on pt.hn =(select hn from ptnote where note_staff in ("rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee","jariya")
+       and hn=i.hn order by note_datetime desc limit 1)
+       left outer join ipt_pttype ip on ip.an = i.an
+       left outer join pkbackoffice.check_sit_auto cs on cs.an = i.an
+       left outer join ipt_pttype pi on pi.an = i.an 
+       where a.dchdate is null
+       
+       and a.pttype in("o1","o2","o3","o4","o5","20","l1","l2","l3","l4","l5","l6","l7","21")
+       and pi.claim_code is null
+       and w.ward = "'.$id.'" group by i.an
+       union
+       select a.hn,a.an,concat(p.pname,p.fname," ",p.lname) as name,p.cid,pi.claim_code
+       ,i.pttype AS HOSpttype
+                ,cs.subinscl AS spsch
+       ,ip.hospmain
+              ,"" AS hosstartdate,a.pdx,a.regdate,a.dchdate,a.admdate,round(a.income),round(a.inc08,2),
+       (select concat(plain_text,  ""  ,note_datetime," ",note_staff) from hos.ptnote where note_staff in ("rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee","jariya")
+       and hn=i.hn order by note_datetime desc limit 1),r.name
+       
+       from ipt i
+       left outer join an_stat a on a.an = i.an
+       left outer join patient p on p.hn = i.hn
+       left outer join doctor d on d.code = i.dch_doctor
+       left outer join ward w on w.ward = i.ward
+       left outer join roomno r on r.an = i.an
+       left outer join ptnote pt on pt.hn =(select hn from ptnote where note_staff in ("rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee","jariya")
+       and hn=i.hn order by note_datetime desc limit 1)
+       left outer join ipt_pttype ip on ip.an = i.an
+       left outer join pkbackoffice.check_sit_auto cs on cs.an = i.an
+       left outer join ipt_pttype pi on pi.an = i.an 
+       
+       where a.dchdate is null
+       and a.pttype in("o1","o2","o3","o4","o5","20","l1","l2","l3","l4","l5","l6","l7","21")
+       and pi.claim_code is null
+       and pt.hn is null
+       and w.ward = "'.$id.'" group by i.an
+
         ');        
 
         return view('ward.check_wardnoclaim', $data,[

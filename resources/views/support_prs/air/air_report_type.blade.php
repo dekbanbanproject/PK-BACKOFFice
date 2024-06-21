@@ -134,8 +134,8 @@
         @csrf
         <div class="row"> 
             <div class="col-md-6">
-                <h4 class="card-title" style="color:rgb(10, 151, 85)">รายงานการบำรุงรักษาเครื่องปรับอากาศ แยกตามประเภทการซ่อมและบำรุงรักษาประจำปี</h4>
-                <p class="card-title-desc">รายงานถังดับเพลิง</p>
+                <h4 style="color:rgb(10, 151, 85)">รายงานการบำรุงรักษาเครื่องปรับอากาศ แยกตามประเภทการซ่อมและบำรุงรักษาประจำปี</h4>
+                {{-- <p class="card-title-desc">รายงานถังดับเพลิง</p> --}}
             </div>
             <div class="col-md-2 text-center">
                 <select class="form-control cardacc" id="air_repaire_type" name="air_repaire_type" style="width: 100%" required>
@@ -164,7 +164,7 @@
             </div>
         </div>  
     </form>
-<div class="row">
+<div class="row mt-4">
     <div class="col-xl-12">
         <div class="card card_prs_4">
             <div class="card-body">    

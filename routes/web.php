@@ -1556,6 +1556,7 @@ Route::middleware(['type'])->group(function(){
      Route::match(['get','post'],'inst_sss',[App\Http\Controllers\SssController::class, 'inst_sss'])->name('acc.inst_sss');//
      Route::match(['get','post'],'inst_sss_todtan',[App\Http\Controllers\SssController::class, 'inst_sss_todtan'])->name('acc.inst_sss_todtan');//
 
+
      Route::match(['get','post'],'opd_chai',[App\Http\Controllers\SssController::class, 'opd_chai'])->name('sss.opd_chai');//
      Route::match(['get','post'],'opd_chai_hn/{months}/{startdate}/{enddate}',[App\Http\Controllers\SssController::class, 'opd_chai_hn'])->name('sss.opd_chai_hn');//
      Route::match(['get','post'],'opd_chai_vn/{months}/{startdate}/{enddate}',[App\Http\Controllers\SssController::class, 'opd_chai_vn'])->name('sss.opd_chai_vn');//
@@ -3374,6 +3375,24 @@ Route::match(['get','post'],'air_repiare_update',[App\Http\Controllers\AirContro
 Route::match(['get','post'],'air_report_type',[App\Http\Controllers\AirController::class, 'air_report_type'])->name('prs.air_report_type');//
 Route::match(['get','post'],'air_report_typesub/{id}/{air_repaire_type}/{startdate}/{enddate}',[App\Http\Controllers\AirController::class, 'air_report_typesub'])->name('prs.air_report_typesub');//
 Route::match(['get','post'],'air_report_building',[App\Http\Controllers\AirController::class, 'air_report_building'])->name('prs.air_report_building');//
+Route::match(['get','post'],'air_report_building_sub/{id}',[App\Http\Controllers\AirController::class, 'air_report_building_sub'])->name('prs.air_report_building_sub');//
 Route::match(['get','post'],'air_report_building_excel',[App\Http\Controllers\AirController::class, 'air_report_building_excel'])->name('prs.air_report_building_excel');//
+Route::match(['get','post'],'air_report_problems',[App\Http\Controllers\AirController::class, 'air_report_problems'])->name('prs.air_report_problems');//
+Route::match(['get','post'],'air_report_problemsub/{id}',[App\Http\Controllers\AirController::class, 'air_report_problemsub'])->name('prs.air_report_problemsub');//
+Route::match(['get','post'],'air_report_problems_excel',[App\Http\Controllers\AirController::class, 'air_report_problems_excel'])->name('prs.air_report_problems_excel');//
+
+Route::match(['get','post'],'document',[App\Http\Controllers\DocumentController::class, 'document'])->name('d.document');//
+Route::match(['get','post'],'document_save',[App\Http\Controllers\DocumentController::class, 'document_save'])->name('d.document_save');//
+Route::match(['get','post'],'documentsub/{id}',[App\Http\Controllers\DocumentController::class, 'documentsub'])->name('d.documentsub');//
+Route::match(['get','post'],'document_edit/{id}',[App\Http\Controllers\DocumentController::class, 'document_edit'])->name('d.document_edit');//
+Route::match(['get','post'],'document_update',[App\Http\Controllers\DocumentController::class, 'document_update'])->name('d.document_update');//
+Route::match(['get','post'],'document_destroy/{id}',[App\Http\Controllers\DocumentController::class, 'document_destroy'])->name('d.document_destroy');//
+
+Route::match(['get','post'],'tree_document',[App\Http\Controllers\TreeDocumentController::class, 'tree_document'])->name('d.tree_document');//
+Route::match(['get','post'],'tree_document_save',[App\Http\Controllers\TreeDocumentController::class, 'tree_document_save'])->name('d.tree_document_save');//
+Route::match(['get','post'],'tree_documentsub/{id}',[App\Http\Controllers\TreeDocumentController::class, 'tree_documentsub'])->name('d.tree_documentsub');//
+Route::match(['get','post'],'tree_document_edit/{id}',[App\Http\Controllers\TreeDocumentController::class, 'tree_document_edit'])->name('d.tree_document_edit');//
+Route::match(['get','post'],'tree_document_update',[App\Http\Controllers\TreeDocumentController::class, 'tree_document_update'])->name('d.tree_document_update');//
+Route::match(['get','post'],'tree_document_destroy/{id}',[App\Http\Controllers\TreeDocumentController::class, 'tree_document_destroy'])->name('d.tree_document_destroy');//
 
 });

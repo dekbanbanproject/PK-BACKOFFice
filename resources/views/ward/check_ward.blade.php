@@ -56,18 +56,25 @@
       use Illuminate\Support\Facades\DB;   
       $count_meettingroom = StaticController::count_meettingroom();
   ?>
-    <div class="container-fluid">
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner">
-                    
+ 
+        <div class="tabs-animation">
+            <div class="row text-center">
+                <div id="overlay">
+                    <div class="cv-spinner">
+                        <span class="spinner"></span>
+                    </div>
+                </div> 
+            </div> 
+            <div id="preloader">
+                <div id="status">
+                    <div class="spinner"> 
+                    </div>
                 </div>
             </div>
-        </div>  
         
             <div class="row"> 
-                <div class="col-xl-12 col-md-3">
-                    <div class="main-card mb-3 card"> 
+                <div class="col-xl-12">
+                    <div class="card cardclaim"> 
                     <div class="row">
                         <div class="col-md-4">
                             <h4 class="card-title ms-3 mt-3">Detail Ward</h4>
@@ -132,12 +139,12 @@
             </div>
 
             <div class="row"> 
-                <div class="col-xl-12 col-md-3">
-                    <div class="main-card mb-3 card"> 
+                <div class="col-xl-12">
+                    <div class="card cardclaim"> 
                     <div class="row">
                         <div class="col-md-4">
                             <h4 class="card-title ms-3 mt-3">Detail Ward </h4>
-                            <p class="card-title-desc ms-3">รายละเอียดผู้ป่วยใน ข้าราชการ OFC LGO ปี 65 ยังไม่ขอเลขอนุมัติ (ขอด้วย)</p>
+                            <p class="card-title-desc ms-3">รายละเอียดผู้ป่วยใน ข้าราชการ OFC LGO ปี {{$ynow}} ยังไม่ขอเลขอนุมัติ (ขอด้วย)</p>
                         </div>
                         <div class="col"></div>
                         <div class="col-md-2 text-end"> 
@@ -205,8 +212,7 @@
                 </div>  
             </div>
 
-           
-       
+   
     </div>
   
 

@@ -112,8 +112,8 @@
     </style>
 
     <?php
-        $ynow = date('Y') + 543;
-        $yb = date('Y') + 542;
+    $ynow = date('Y') + 543;
+    $yb = date('Y') + 542;
     ?>
 
 <div class="tabs-animation">
@@ -226,10 +226,18 @@
                                             @else
                                                 <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger"> ไม่พร้อมใช้งาน</span>
                                             @endif
-                                        </td> 
+                                        </td>
+                                      
+                                        {{-- @if ( $item->air_imgname == Null )
+                                        <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="30px" width="30px" alt="Image" class="img-thumbnail"></td> 
+                                        @else
+                                        <td class="text-center" width="3%"><img src="{{asset('storage/air/'.$item->air_imgname)}}" height="30px" width="30px" alt="Image" class="img-thumbnail">  </td>                                
+                                        @endif --}}
+
                                         <td class="text-center" width="8%">{{ DateThai($item->repaire_date )}}</td>    
                                         <td class="text-center" width="7%">{{ $item->air_list_num }}</td>  
-                                        <td class="p-2">{{ $item->air_list_name }}</td>   
+                                        <td class="p-2">{{ $item->air_list_name }}</td>  
+                                        {{-- <td class="text-center" width="5%">{{ $item->btu }}</td>     --}}
                                         <td class="p-2" width="20%">{{ $item->air_location_name }}</td>  
                                         <td class="p-2" width="10%">{{ $item->ptname }}</td>  
                                         <td class="p-2" width="10%">{{ $item->tectname }}</td>  
@@ -240,7 +248,19 @@
                                                     class="dropdown-toggle btn btn-outline-secondary btn-sm">    
                                                     ทำรายการ
                                                 </button>
-                                                <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-hover-link dropdown-menu">  
+                                                <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-hover-link dropdown-menu"> 
+                                                    {{-- <a class="dropdown-item text-primary" href="{{ url('air_qrcode/'.$item->air_repaire_id) }}" style="font-size:13px" target="_blank"> 
+                                                        <i class="fa-solid fa-print me-2 text-primary" style="font-size:13px"></i>
+                                                        <span>Print QR</span>
+                                                    </a>  --}}
+                                                    
+                                                    {{-- <div class="dropdown-divider"></div> --}}
+                                                    {{-- <a class="dropdown-item text-info" href="{{ url('air_repaire/'.$item->air_repaire_id) }}" style="font-size:13px" target="_blank"> 
+                                                        <i class="fa-solid fa-circle-plus me-2 text-info" style="font-size:13px"></i>
+                                                        <span>บันทึกการซ่อม</span>
+                                                    </a> 
+                                                  
+                                                    <div class="dropdown-divider"></div> --}}
                                                     <a class="dropdown-item text-warning" href="{{ url('air_repaire_edit/' . $item->air_repaire_id) }}" style="font-size:13px" target="blank">
                                                         <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
                                                         <span>แก้ไข</span>
@@ -254,6 +274,7 @@
                                                     </a>
                                                 </div>
                                             </div>
+
                                         </td>
 
                                     </tr>

@@ -134,22 +134,25 @@
         @csrf
         <div class="row"> 
             <div class="col-md-6">
-                <h4 class="card-title" style="color:rgb(10, 151, 85)">รายงานการข้อมูลเครื่องปรับอากาศ โรงพยาบาลภูเขียวเฉลิมพระเกียรติ ปีงบประมาณ </h4>
+                <h4 style="color:rgb(10, 151, 85)">รายงานการข้อมูลเครื่องปรับอากาศ โรงพยาบาลภูเขียวเฉลิมพระเกียรติ ปีงบประมาณ </h4>
                 {{-- <p class="card-title-desc">รายงานถังดับเพลิง</p> --}}
             </div>
              
             <div class="col"></div>
             <div class="col-md-2 text-end"> 
-                <a href="{{url('air_report_building_excel')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                {{-- <a href="{{url('air_report_building_excel')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
                     <i class="fa-solid fa-file-excel me-2"></i>
                     Export To Excel
+                </a> --}}
+                <a href="{{url('air_report_building_excel')}}" class="ladda-button btn-pill btn btn-success card_prs_4">
+                    <span class="ladda-label"> <i class="fa-solid fa-file-excel text-white me-2"></i>Export To Excel</span>  
                 </a>
             
             </div>
         </div>  
     </form>
  
-<div class="row">
+<div class="row mt-3">
     <div class="col-xl-12">
         <div class="card card_prs_4">
             <div class="card-body">    
@@ -183,7 +186,11 @@
                                         <td class="text-center" style="font-size:13px;width: 5%;color: rgb(13, 134, 185)">{{$i}}</td>
                                         <td class="text-start" style="font-size:14px;color: rgb(2, 95, 182)">{{$item->building_name}}</td>
                                         <td class="text-center" style="font-size:13px;width: 7%;color: rgb(4, 117, 117)">{{$item->building_id}}</td>
-                                        <td class="text-center" style="font-size:13px;width: 7%;color: rgb(228, 15, 86)">{{$item->qtyall}}</td>
+                                        <td class="text-center" style="font-size:13px;width: 7%;color: rgb(228, 15, 86)">
+                                           <a href="{{url('air_report_building_sub/'.$item->building_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(202, 236, 181);width: 70%;">
+                                                <span class="ladda-label"> <i class="fa-solid fa-fan opacity-6 me-2" style="color: #c0076d"></i>{{$item->qtyall}}</span>  
+                                            </a> 
+                                        </td>
                                         <td class="text-center" style="font-size:13px;width: 7%;color: rgb(50, 3, 68)">{{$item->less_10000}}</td>
                                         <td class="text-center" style="font-size:13px;width: 7%;color: rgb(50, 3, 68)">{{$item->one_two}}</td>
                                         <td class="text-center" style="font-size:13px;width: 7%;color: rgb(50, 3, 68)">{{$item->two_tree}}</td>

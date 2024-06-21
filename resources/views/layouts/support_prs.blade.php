@@ -367,30 +367,31 @@ use App\Models\Products_request_sub;
                         @endif
 
                         @if ($per_air != 0) 
-                        <li><a href="javascript: void(0);" class="has-arrow">   
-                            <i class="fa-solid fa-fan" style="color: #B216F0"></i>
-                                <span>เครื่องปรับอากาศ</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true"> 
-                                <li><a href="{{ url('air_main') }}">ทะเบียนเครื่องปรับอากาศ</a></li>
-                                <li><a href="{{ url('air_main_repaire') }}">ทะเบียนแจ้งซ่อม</a></li>
-                                <li><a href="{{ url('air_report_type') }}">รายงานแยกตามประเภท</a></li> 
-                                <li><a href="{{ url('air_report_building') }}">รายงานแยกตามอาคาร</a></li> 
-                            </ul>
-                        </li>
+                            <li><a href="javascript: void(0);" class="has-arrow">   
+                                <i class="fa-solid fa-fan" style="color: #B216F0"></i>
+                                    <span>เครื่องปรับอากาศ</span>
+                                </a>
+                                <ul class="sub-menu" aria-expanded="true"> 
+                                    <li><a href="{{ url('air_main') }}">ทะเบียนเครื่องปรับอากาศ</a></li>
+                                    <li><a href="{{ url('air_main_repaire') }}">ทะเบียนแจ้งซ่อม</a></li>
+                                    <li><a href="{{ url('air_report_type') }}">รายงานแยกตามประเภท</a></li> 
+                                    <li><a href="{{ url('air_report_building') }}">รายงานแยกตามอาคาร</a></li> 
+                                    <li><a href="{{ url('air_report_problems') }}">รายงานแยกตามปัญหา</a></li> 
+                                </ul>
+                            </li>
                         @endif
                   
                         @if ($per_cctv != 0) 
-                        <li><a href="javascript: void(0);" class="has-arrow"> 
-                            <i class="fa-solid fa-video" style="color: #55595a"></i>
-                                <span>กล้อง CCTV </span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true"> 
-                                <li><a href="{{ url('cctv_list') }}">รายการกล้อง</a></li>
-                                <li><a href="{{ url('cctv_report') }}">report รายวัน</a></li>
-                               
-                            </ul>
-                        </li>  
+                            <li><a href="javascript: void(0);" class="has-arrow"> 
+                                <i class="fa-solid fa-video" style="color: #55595a"></i>
+                                    <span>กล้อง CCTV </span>
+                                </a>
+                                <ul class="sub-menu" aria-expanded="true"> 
+                                    <li><a href="{{ url('cctv_list') }}">รายการกล้อง</a></li>
+                                    <li><a href="{{ url('cctv_report') }}">report รายวัน</a></li>
+                                
+                                </ul>
+                            </li>  
                         @endif
                            
                        {{-- - <li>

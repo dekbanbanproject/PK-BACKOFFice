@@ -79,8 +79,7 @@ $pos = strrpos($url, '/') + 1;
             </div>
             <div class="card-body"> 
                 <div class="row">
-                    <div class="col-md-12">
-                         
+                    <div class="col-md-12"> 
                           <iframe src="{{ asset('storage/instrument/PTTinst_sss_todtan.pdf' ) }}" height="900px" width="100%"></iframe>
                     </div>
               </div>

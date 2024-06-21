@@ -255,10 +255,7 @@ class FireController extends Controller
             } else {
                 $file64 = "data:image/png;base64,".base64_encode(file_get_contents($request->file('fire_imgname')));
                 // $file65 = base64_encode(file_get_contents($request->file('fire_imgname')->pat‌​h($image_path)));
-            }
-            
-            
-  
+            } 
             $add->fire_img_base       = $file64;
             // $add->fire_img_base_name  = $file65;
         }

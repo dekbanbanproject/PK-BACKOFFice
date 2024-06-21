@@ -105,7 +105,7 @@
     }
     .card_audit_4c{
         border-radius: 2em 2em 2em 2em;
-        box-shadow: 0 0 10px rgb(250, 128, 124);
+        box-shadow: 0 0 15px rgb(250, 128, 124);
         border:solid 1px #80acfd;
     }
     .card_audit_4{
@@ -724,7 +724,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     <span>UP STM</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="true">
-                                    {{-- <li><a href="{{ url('upstm_all') }}">STM ALL</a></li> --}}
+                                    <li><a href="{{ url('tree_document') }}">Document</a></li>
                                     <li><a href="javascript: void(0);" class="has-arrow">REPORT STM ALL</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             {{-- <li><a href="{{ url('upstm_all') }}">STM ALL</a></li> --}}
