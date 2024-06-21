@@ -185,7 +185,7 @@ class Account203Controller extends Controller
         $dateend = $request->dateend;
         $date = date('Y-m-d');
         
-        $data_sitss = DB::connection('mysql')->select('SELECT vn,an,cid,vstdate,dchdate FROM acc_debtor WHERE account_code="1102050101.203" AND stamp = "N" GROUP BY vn');
+        $data_sitss = DB::connection('mysql')->select('SELECT vn,an,cid,vstdate,dchdate FROM acc_debtor WHERE account_code="1102050101.203" AND stamp ="N" AND debit_total > "0" GROUP BY vn');
        //  AND subinscl IS NULL
            //  LIMIT 30
         // WHERE vstdate = CURDATE()
@@ -274,7 +274,7 @@ class Account203Controller extends Controller
             $acc_debtor = DB::connection('mysql2')->select(
                 'SELECT * FROM
                         (
-                        SELECT ot.an,v.hn,v.vn,v.cid,v.vstdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,ro.icd10 as referin_no,h.name as hospmain
+                        SELECT ot.an,v.hn,v.vn,v.cid,v.vstdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,ro.icd10 as referin_no,h.name as hospmain_name,v.hospmain 
                         ,"07" as acc_code,"1102050101.203" as account_code,"UC นอก CUP ในจังหวัด" as account_name,v.pdx,v.dx0
                         ,v.income,v.uc_money ,v.discount_money,v.rcpt_money,v.paid_money  
                         ,ov.name as active_status 
@@ -357,7 +357,7 @@ class Account203Controller extends Controller
                 
                         UNION
                 
-                        SELECT ot.an,v.hn,v.vn,v.cid,v.vstdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,ro.icd10 as referin_no,h.name as hospmain
+                        SELECT ot.an,v.hn,v.vn,v.cid,v.vstdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,ro.icd10 as referin_no,h.name as hospmain_name,v.hospmain 
                         ,"07" as acc_code,"1102050101.203" as account_code,"UC นอก CUP ในจังหวัด" as account_name,v.pdx,v.dx0
                         ,v.income,v.uc_money ,v.discount_money,v.rcpt_money,v.paid_money  
                         ,ov.name as active_status 
@@ -452,6 +452,8 @@ class Account203Controller extends Controller
                             $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.203')->count();
 
                             if ($check > '0' ) { 
+                                Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.203')
+                                ->update(['hospcode'=> $value->hospcode,]);
                             } else {
                                 if ($value->debit_without >'0' || $value->debit_upper >'0' || $value->debit_lower >'0' || $value->debit_multiphase >'0' || $value->debit_drug50 >'0' || $value->debit_drug100 >'0' || $value->debit_drug150 >'0' || $value->ct_chest_with >'0' || $value->ct_brain_with >'0' || $value->debit_cta >'0') {
                                  
@@ -466,7 +468,8 @@ class Account203Controller extends Controller
                                             'acc_code'           => $value->acc_code,
                                             'account_code'       => $value->account_code,
                                             'account_name'       => $value->account_name, 
-                                            'hospmain'           => $value->hospcode,
+                                            'hospcode'           => $value->hospcode,
+                                            'hospmain'           => $value->hospmain,
                                             'income'             => $value->income,
                                             'uc_money'           => $value->uc_money,
                                             'discount_money'     => $value->discount_money,
@@ -501,7 +504,8 @@ class Account203Controller extends Controller
                                         'acc_code'           => $value->acc_code,
                                         'account_code'       => $value->account_code,
                                         'account_name'       => $value->account_name, 
-                                        'hospmain'           => $value->hospcode,
+                                        'hospcode'           => $value->hospcode,
+                                        'hospmain'           => $value->hospmain,
                                         'income'             => $value->income,
                                         'uc_money'           => $value->uc_money,
                                         'discount_money'     => $value->discount_money,
@@ -574,6 +578,7 @@ class Account203Controller extends Controller
                             'rcpt_money'         => $value->rcpt_money,
                             'debit'              => $value->debit, 
                             'debit_total'        => $value->debit_total, 
+                            'hospcode'           => $value->hospcode, 
                             'hospmain'           => $value->hospmain, 
                             'cc'                 => $value->cc, 
                             'sauntang'           => $value->sauntang, 
@@ -741,9 +746,9 @@ class Account203Controller extends Controller
                     U1.hospcode,U2.name as hname,month(U1.vstdate) as months,year(U1.vstdate) as years,COUNT(DISTINCT U1.vn) as Cvn,SUM(U1.income) as S_income,SUM(U1.uc_money) as S_uc_money
                     ,SUM(U1.debit) as S_debit,SUM(U1.debit_total) as S_debit_total,SUM(U1.sauntang) as S_sauntang
                 from acc_1102050101_203 U1    
-                LEFT OUTER JOIN hospcode U2 ON U2.hospcode = U1.hospcode         
+                LEFT OUTER JOIN hospcode U2 ON U2.hospcode = U1.hospmain         
                 WHERE vstdate between "'.$startdate.'" and "'.$enddate.'"
-                GROUP BY U1.hospcode 
+                GROUP BY U1.hospmain 
         ');
         $datashow = DB::select('
                     SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
@@ -759,9 +764,10 @@ class Account203Controller extends Controller
         $data = DB::select('
                 SELECT 
                 U1.ct_price,U1.uc_money,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.hospcode,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
+                ,U1.hospmain
                 from acc_1102050101_203 U1             
                 WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"
-                GROUP BY U1.vn 
+                
         ');
   
         return view('account_203.account_203_detail_date', $data, [ 

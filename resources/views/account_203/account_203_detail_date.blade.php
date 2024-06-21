@@ -346,7 +346,7 @@
                                                 <td class="text-end"  width="7%" style="color:#108A1A"> {{ $item->ct_price }}</td> 
                                                 <td class="text-end"  width="7%" style="color:#E9540F"> {{ number_format(($item->income)-($item->rcpt_money)-($item->debit_total)-($item->ct_price),2) }}</td> 
 
-                                                <td class="text-center" width="5%">{{ $item->hospcode }}</td>
+                                                <td class="text-center" width="5%">{{ $item->hospmain }}</td>
                                             </tr>
                                                 <?php 
                                                     $total111 = $total111 + $item->income;
