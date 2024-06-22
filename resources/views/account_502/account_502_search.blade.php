@@ -117,12 +117,12 @@
                                         <th class="text-center">ptname</th>  
                                         <th class="text-center">dchdate</th> 
     
-                                        <th class="text-center">drug</th> 
-                                        <th class="text-center">inst</th> 
-                                        <th class="text-center">toa</th> 
-                                        <th class="text-center">refer</th> 
-                                        {{-- <th class="text-center">ucep</th>  --}}
-    
+                                        {{-- <th class="text-center">drug</th>  --}}
+                                        {{-- <th class="text-center">inst</th>  --}}
+                                        {{-- <th class="text-center">toa</th>  --}}
+                                        {{-- <th class="text-center">refer</th>  --}}
+                                        <th class="text-center">income</th> 
+                                        <th class="text-center">rcpt_money</th> 
                                         <th class="text-center">ลูกหนี้</th>  
                                         <th class="text-center">ส่วนต่าง</th> 
                                         <th class="text-center">Stm </th> 
@@ -144,12 +144,12 @@
                                             <td class="p-2" width="8%">{{ $item->ptname }}</td>    
                                             <td class="text-center" width="6%">{{ $item->dchdate }}</td>
     
-                                            <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_drug,2)}}</td> 
-                                            <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_instument,2)}}</td> 
-                                            <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_toa,2)}}</td> 
-                                            <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_refer,2)}}</td> 
-                                            {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_ucep,2)}}</td>  --}}
-    
+                                            {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_drug,2)}}</td>  --}}
+                                            {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_instument,2)}}</td>  --}}
+                                            {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_toa,2)}}</td>  --}}
+                                            {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_refer,2)}}</td>  --}}
+                                            <td class="text-end" style="color:rgb(11, 81, 212)" width="6%">{{ number_format($item->income,2)}}</td> 
+                                            <td class="text-end" style="color:rgb(9, 158, 126)" width="6%">{{ number_format($item->rcpt_money,2)}}</td> 
                                             <td class="text-end" style="color:rgb(73, 147, 231)" width="6%">{{ number_format($item->debit_total,2)}}</td> 
                                             <td class="text-end" style="color:rgb(184, 12, 169)" width="6%">{{ number_format(($item->debit_total-$item->stm_money),2)}}</td> 
                                             <td class="text-end" style="color:rgb(4, 170, 134)" width="6%">{{ number_format($item->stm_money,2)}}</td> 
@@ -163,11 +163,13 @@
                                                 $total2 = $total2 + $item->debit_instument;
                                                 $total3 = $total3 + $item->debit_toa;
                                                 $total4 = $total4 + $item->debit_refer;
-                                                // $total5 = $total5 + $item->debit_ucep;
-    
-                                                $total6 = $total6 + $item->debit_total;
-                                                $total7 = $total7 + ($item->debit_total-$item->stm_money); 
-                                                $total8 = $total8 + $item->stm_money;
+
+                                                $total5 = $total5 + $item->income;
+                                                $total6 = $total6 + $item->rcpt_money;
+
+                                                $total7 = $total7 + $item->debit_total;
+                                                $total8 = $total8 + ($item->debit_total-$item->stm_money); 
+                                                $total9 = $total9 + $item->stm_money;
                                                 // $total9 = $total9 + $item->stm_total;
                                             ?>                                 
                                     @endforeach  
@@ -175,15 +177,15 @@
                                 </tbody>
                                             <tr style="background-color: #f3fca1">
                                                 <td colspan="5" class="text-end" style="background-color: #ff9d9d"></td>
-                                                <td class="text-end" style="background-color: #f58d73;color:white">{{ number_format($total1,2)}}</td> 
-                                                <td class="text-end" style="background-color: #f58d73;color:white">{{ number_format($total2,2)}}</td> 
-                                                <td class="text-end" style="background-color: #f58d73;color:white">{{ number_format($total3,2)}}</td> 
-                                                <td class="text-end" style="background-color: #f58d73;color:white">{{ number_format($total4,2)}}</td>                                             
-                                                {{-- <td class="text-end" style="background-color: #ace5fc">{{ number_format($total5,2)}}</td>  --}}
-                                                <td class="text-end" style="background-color: #097ac5;color:white">{{ number_format($total6,2)}}</td> 
-                                                <td class="text-end" style="background-color: #f5a382;color:white">{{ number_format($total7,2)}}</td> 
-                                                <td class="text-end" style="background-color: #099975;color:white">{{ number_format($total8,2)}}</td>  
-                                                {{-- <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total9,2)}}</td>   --}}
+                                                {{-- <td class="text-end" style="background-color: #f58d73;color:white">{{ number_format($total1,2)}}</td>  --}}
+                                                {{-- <td class="text-end" style="background-color: #f58d73;color:white">{{ number_format($total2,2)}}</td>  --}}
+                                                {{-- <td class="text-end" style="background-color: #f58d73;color:white">{{ number_format($total3,2)}}</td>  --}}
+                                                {{-- <td class="text-end" style="background-color: #f58d73;color:white">{{ number_format($total4,2)}}</td>                                              --}}
+                                                <td class="text-end" style="background-color: #0833A8;color:white">{{ number_format($total5,2)}}</td> 
+                                                <td class="text-end" style="background-color: #029286;color:white">{{ number_format($total6,2)}}</td> 
+                                                <td class="text-end" style="background-color: #1280DA;color:white">{{ number_format($total7,2)}}</td> 
+                                                <td class="text-end" style="background-color: #9310DF;color:white">{{ number_format($total8,2)}}</td>  
+                                                <td class="text-end" style="background-color: #047E5F">{{ number_format($total9,2)}}</td>  
                                                 {{-- <td class="text-end" style="background-color: #ff9d9d"></td>  --}}
                                             </tr>  
                             </table>
