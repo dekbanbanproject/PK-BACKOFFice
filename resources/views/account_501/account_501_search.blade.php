@@ -132,8 +132,8 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center">inst</th> 
                                     <th class="text-center">toa</th> 
                                     <th class="text-center">refer</th> 
-                                    {{-- <th class="text-center">ucep</th>  --}}
-
+                                    <th class="text-center">income</th> 
+                                    <th class="text-center">rcpt</th> 
                                     <th class="text-center">ลูกหนี้</th>  
                                     {{-- <th class="text-center">ส่วนต่าง</th>  --}}
                                     {{-- <th class="text-center">Stm 401</th>   --}}
@@ -158,9 +158,9 @@ $pos = strrpos($url, '/') + 1;
                                         <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_instument,2)}}</td> 
                                         <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_toa,2)}}</td> 
                                         <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_refer,2)}}</td> 
-                                        {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_ucep,2)}}</td>  --}}
-
-                                        <td class="text-end" style="color:rgb(15, 101, 201)" width="6%">{{ number_format($item->debit_total,2)}}</td> 
+                                        <td class="text-end" style="color:rgb(18, 89, 155)" width="6%">{{ number_format($item->income,2)}}</td> 
+                                        <td class="text-end" style="color:rgb(100, 18, 155)" width="6%">{{ number_format($item->rcpt_money,2)}}</td> 
+                                        <td class="text-end" style="color:rgb(201, 15, 86)" width="6%">{{ number_format($item->debit_total,2)}}</td> 
                                         {{-- <td class="text-end" style="color:rgb(184, 12, 169)" width="6%">{{ number_format(($item->debit_total-$item->stm_money),2)}}</td>  --}}
                                         {{-- <td class="text-end" style="color:rgb(6, 159, 170)" width="6%">{{ number_format($item->stm_money,2)}}</td>  --}}
                                         {{-- <td class="text-end" style="color:rgb(9, 196, 180)" width="6%">{{ number_format($item->stm_total,2)}}</td>   --}} 
@@ -171,9 +171,9 @@ $pos = strrpos($url, '/') + 1;
                                             $total2 = $total2 + $item->debit_instument;
                                             $total3 = $total3 + $item->debit_toa;
                                             $total4 = $total4 + $item->debit_refer;
-                                            // $total5 = $total5 + $item->debit_ucep;
-
-                                            $total6 = $total6 + $item->debit_total;
+                                            $total5 = $total5 + $item->income;
+                                            $total6 = $total6 + $item->rcpt_money;
+                                            $total7 = $total7 + $item->debit_total;
                                             // $total7 = $total7 + ($item->debit_total-$item->stm_money); 
                                             // $total8 = $total8 + $item->stm_money;
                                             // $total9 = $total9 + $item->stm_total;
@@ -187,9 +187,9 @@ $pos = strrpos($url, '/') + 1;
                                             <td class="text-end" style="background-color: #f58d73;color: #FFFFFF">{{ number_format($total2,2)}}</td> 
                                             <td class="text-end" style="background-color: #f58d73;color: #FFFFFF">{{ number_format($total3,2)}}</td> 
                                             <td class="text-end" style="background-color: #f58d73;color: #FFFFFF">{{ number_format($total4,2)}}</td>                                             
-                                            {{-- <td class="text-end" style="background-color: #ace5fc">{{ number_format($total5,2)}}</td>  --}}
-                                            <td class="text-end" style="background-color: #276ed8;color: #FFFFFF">{{ number_format($total6,2)}}</td> 
-                                            {{-- <td class="text-end" style="background-color: #8c3ee4;color: #FFFFFF">{{ number_format($total7,2)}}</td>  --}}
+                                            <td class="text-end" style="background-color: #084C7A;color: #FFFFFF">{{ number_format($total5,2)}}</td> 
+                                            <td class="text-end" style="background-color: #760880;color: #FFFFFF">{{ number_format($total6,2)}}</td> 
+                                            <td class="text-end" style="background-color: #C50D63;color: #FFFFFF">{{ number_format($total7,2)}}</td> 
                                             {{-- <td class="text-end" style="background-color: #059b75;color: #FFFFFF">{{ number_format($total8,2)}}</td>   --}}
                                             {{-- <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total9,2)}}</td>   --}}
                                             {{-- <td class="text-end" style="background-color: #ff9d9d"></td>  --}}
