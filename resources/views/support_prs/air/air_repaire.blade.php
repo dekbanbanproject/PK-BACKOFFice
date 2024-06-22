@@ -39,7 +39,7 @@
         </div>
         <div class="row text-center">
             <div class="col"></div>
-            <div class="col-md-3 text-center">
+            <div class="col-md-6 text-center">
                 <h2>ทะเบียนแจ้งซ่อม-เครื่องปรับอากาศ</h2>
             </div>
             <div class="col"></div>
@@ -98,8 +98,10 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col text-start"> <p>ที่ตั้ง : {{ $data_detail_->air_location_name }}</p>
-                                            </div>
+                                            <div class="col text-start"> <p>ที่ตั้ง : {{ $data_detail_->air_location_name }}</p> </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col text-start"> <p>หน่วยงาน : {{ $data_detail_->detail }}</p> </div>
                                         </div>                         
                                         <hr style="color:red">
                                         <div class="row">
@@ -449,9 +451,8 @@
                                                 {{-- <input type="text" class="form-control form-control-sm" id="air_tech_id" name="air_tech_id"> --}}
                                                 <select class="custom-select custom-select-sm" id="air_tech_id" name="air_tech_id"
                                                     style="width: 100%"> 
-                                                    @foreach ($users_tech as $item_u)
-                                                        <option value="{{ $item_u->id }}" class="text-center">{{ $item_u->fname }}
-                                                            {{ $item_u->lname }}</option>
+                                                    @foreach ($air_tech as $item_u)
+                                                        <option value="{{ $item_u->air_user_id }}" class="text-center">{{ $item_u->air_user_name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

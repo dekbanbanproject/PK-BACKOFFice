@@ -141,7 +141,7 @@
                                         <div class="avatar ms-2">
                                             <a href="{{ url('pre_audit') }}" target="_blank">
                                                 <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill"> 
-                                                        <img src="{{ asset('images/user.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                                        <img src="{{ asset('images/user.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>
@@ -173,7 +173,7 @@
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
                                                     {{-- <i class="fa-solid fa-3x fa-user-tie font-size-25"
                                                         style="color: rgb(234, 157, 172)"></i> --}}
-                                                        <img src="{{ asset('images/user.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                                        <img src="{{ asset('images/user.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>
@@ -204,7 +204,7 @@
                                             <a href="{{ url('otone') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                    <img src="{{ asset('images/otnew.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                                    <img src="{{ asset('images/otnew.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
                                                     {{-- <i class="fa-solid fa-3x fa-clock-rotate-left font-size-25"
                                                         style="color: rgb(171, 149, 223)"></i> --}}
                                                 </button>
@@ -237,7 +237,7 @@
                                             <a href="{{ url('time_dashboard') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                    <img src="{{ asset('images/time.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                                    <img src="{{ asset('images/time.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
                                                     {{-- <i class="fa-solid fa-3x fa-clock font-size-25 ms-2"
                                                         style="color: rgb(119, 218, 215)"></i> --}}
                                                 </button>
@@ -302,7 +302,7 @@
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
                                                     {{-- <i class="fa-solid fa-3x fa-clipboard font-size-25"
                                                         style="color: rgb(248, 182, 182)"></i> --}}
-                                                        <img src="{{ asset('images/plan2.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                                        <img src="{{ asset('images/plan2.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>
@@ -333,7 +333,7 @@
                                             <a href="{{ url('article/article_index') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                    <i class="fa-solid fa-4x fa-building-shield font-size-35 ms-2 me-2 mt-2"
+                                                    <i class="fa-solid fa-2x fa-building-shield font-size-22"
                                                         style="color: rgba(131, 150, 140, 0.692)" ></i>
                                                 </button>
                                             </a>
@@ -366,7 +366,7 @@
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
                                                     {{-- <i class="fa-solid fa-3x fa-paste font-size-25 ms-2"
                                                         style="color: rgb(252, 212, 138)"></i> --}}
-                                                        <img src="{{ asset('images/list1.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                                        <img src="{{ asset('images/list1.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>
@@ -431,7 +431,7 @@
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
                                                     {{-- <i class="fa-solid fa-3x fa-notes-medical font-size-25"
                                                         style="color: rgb(137, 134, 236)"></i> --}}
-                                                        <img src="{{ asset('images/medical.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                                        <img src="{{ asset('images/medical.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>
@@ -465,7 +465,7 @@
                                                     {{-- <i class="fa-solid fa-3x fa-warehouse font-size-25"
                                                         style="color: rgb(107, 189, 202)"></i> --}}
                                                         {{-- <img src="{{ asset('images/warehouse.png') }}" height="70px" width="70px" class="rounded-circle me-3">  --}}
-                                                        <img src="{{ asset('images/store.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                                        <img src="{{ asset('images/store.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>
@@ -498,7 +498,7 @@
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
                                                     {{-- <i class="fa-solid fa-3x fa-money-check-dollar font-size-25"
                                                         style="color: rgb(223, 136, 173)"></i> --}}
-                                                        <img src="{{ asset('images/finace.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                                        <img src="{{ asset('images/finace.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>
@@ -531,7 +531,7 @@
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
                                                     {{-- <i class="fa-solid fa-3x fa-file-invoice-dollar font-size-26"
                                                         style="color: pink"></i> --}}
-                                                        <img src="{{ asset('images/accountnew.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                                        <img src="{{ asset('images/accountnew.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>
@@ -564,7 +564,7 @@
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
                                                     {{-- <i class="fa-solid fa-p fa-3x text-danger font-size-25 ms-3"></i> --}}
-                                                    <img src="{{ asset('images/clipboard.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                                    <img src="{{ asset('images/clipboard.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
                                                     
                                                 </button>
                                             </a>
@@ -598,7 +598,7 @@
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
                                                     {{-- <i class="fa-solid fa-3x fa-hand-holding-droplet font-size-25"
                                                         style="color: rgb(90, 197, 215)"></i> --}}
-                                                        <img src="{{ asset('images/env.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                                        <img src="{{ asset('images/env.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
                                                 </button>
                                                 </span>
                                             </a>
@@ -632,7 +632,7 @@
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
                                                     {{-- <i class="fa-solid fa-3x fa-person-breastfeeding font-size-25"
                                                         style="color: rgb(209, 180, 255)"></i> --}}
-                                                        <img src="{{ asset('images/pediatrics.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                                        <img src="{{ asset('images/pediatrics.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>
@@ -666,7 +666,7 @@
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
                                                     {{-- <i class="fa-solid fa-3x fa-square-person-confined font-size-25 "
                                                         style="color: rgba(22, 145, 114, 0.74)"></i> --}}
-                                                        <img src="{{ asset('images/thai_medical.png') }}" height="80px" width="80px" class="rounded-circle me-3"> 
+                                                        <img src="{{ asset('images/thai_medical.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
                                                 </button>
                                                 </span>
                                             </a>
@@ -700,7 +700,7 @@
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
                                                     {{-- <i class="fa-solid fa-3x fa-sack-dollar font-size-25 ms-2"
                                                         style="color: rgb(245, 180, 150)"></i> --}}
-                                                        <img src="{{ asset('images/claim2.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                                        <img src="{{ asset('images/claim2.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>
@@ -733,7 +733,7 @@
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill"> 
                                                         {{-- <i class="fa-regular fa-heart fa-3x font-size-25" style="color: rgba(23, 189, 147, 0.74)"></i> --}}
-                                                        <img src="{{ asset('images/ct_scan_2.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                                        <img src="{{ asset('images/ct_scan_2.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>
@@ -766,7 +766,7 @@
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill"> 
                                                         {{-- <i class="fa-solid fa-chart-line fa-3x font-size-25" style="color: rgba(209, 180, 255, 0.74)"></i>  --}}
-                                                        <img src="{{ asset('images/report.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                                        <img src="{{ asset('images/report.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>
@@ -800,7 +800,7 @@
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill"> 
                                                         
-                                                        <img src="{{ asset('images/camerasot.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                                        <img src="{{ asset('images/camerasot.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>
@@ -832,7 +832,7 @@
                                             <a href="{{ url('tb_main') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
-                                                        <img src="{{ asset('images/protective.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                                        <img src="{{ asset('images/protective.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>
@@ -895,7 +895,7 @@
                                             <a href="{{ url('support_system_dashboard') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
-                                                        <img src="{{ asset('images/support.png') }}" height="70px" width="90px" class="rounded-circle me-3"> 
+                                                        <img src="{{ asset('images/support.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
                                         </div>
@@ -955,7 +955,7 @@
                                             <a href="{{ url('fdh_dashboard') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
-                                                        <img src="{{ asset('images/LOGO-FDH.png') }}" height="70px" width="110px" class="rounded-circle"> 
+                                                        <img src="{{ asset('images/LOGO-FDH.png') }}" height="40px" width="80px" class="rounded-circle"> 
                                                 </button>
                                             </a>
                                         </div>

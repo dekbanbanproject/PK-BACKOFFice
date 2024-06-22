@@ -127,7 +127,7 @@ class AirController extends Controller
             $data['air_repaire_ploblem']     = DB::table('air_repaire_ploblem')->get();
             $data['users']                   = DB::table('users')->get();
             $data['users_tech']              = DB::table('users')->where('dep_id','=','1')->get();
-            
+            $data['air_tech']                = DB::table('air_tech')->where('air_type','=','IN')->get();
 
             $data_detail_ = Air_list::where('air_list_id', '=', $id)->first();
             // $signat = $data_detail_->air_img_base;
@@ -167,6 +167,7 @@ class AirController extends Controller
         $data['product_buy']        = Product_buy::get();
         $data['users']              = User::get();
         $data['users_tech']              = DB::table('users')->where('dep_id','=','1')->get(); 
+        $data['air_tech']                = DB::table('air_tech')->where('air_type','=','IN')->get();
         $data['products_vendor']    = Products_vendor::get(); 
         $data['product_brand']      = DB::table('product_brand')->get();
         $data['medical_typecat']    = DB::table('medical_typecat')->get();

@@ -181,10 +181,9 @@ $loter = $date.''.$time
                                     <p>Btu : {{ $data_detail_->btu }}</p>
                                     <p>serial_no : {{ $data_detail_->serial_no }}</p>
                                     <p>ที่ตั้ง : {{ $data_detail_->air_location_name }}</p>
-                                    <p>หน่วยงาน : {{ $data_detail_->detail }}</p> 
                                 </div>
                             </div>
-                            
+ 
 
                             <div class="col-md-9"> 
 
@@ -195,10 +194,7 @@ $loter = $date.''.$time
                                                 <li class="nav-item" >
                                                     <a class="nav-link active" data-bs-toggle="tab" href="#detail1" role="tab" style="background-color: #e8fcfa">
                                                         <span class="d-block d-sm-none"><i class="fas fa-detail"></i></span>
-                                                        <span class="d-none d-sm-block" >
-                                                            
-                                                            <p>ส่วนที่ 2 : ช่างซ่อม(นอก รพ.) </p>
-                                                        </span>    
+                                                        <span class="d-none d-sm-block" ><p>ส่วนที่ 2 : ช่างซ่อม(นอก รพ.) </p></span>    
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
@@ -219,7 +215,6 @@ $loter = $date.''.$time
                                                     <p class="mb-0">
                                                         <div class="row ms-3 me-3"> 
                                                             <div class="col-md-6">  
-                                                                {{-- <input class="form-check-input dcheckbox" type="checkbox" id="air_2" name="air_2"/> --}}
                                                                 <p style="font-size:14px;color:rgb(9, 119, 209)">- รายการซ่อม(ตามปัญหา) </p>
                                                                 <div class="form-group">
                                                                     <div class="form-check form-check-inline"> 
@@ -593,15 +588,134 @@ $loter = $date.''.$time
                                             </div>
                                         </div>
                                     </div>
-                                       
+                                        {{-- <div class="col"></div> --}}
                                         <div class="col-md-2 text-end">
                                             <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-info">
                                                 <i class="pe-7s-diskette btn-icon-wrapper"></i>แก้ไขข้อมูล 
-                                            </button>  
+                                            </button> 
+                                            {{-- <a href="{{ url('air_main_repaire') }}" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger">
+                                                <i class="fa-solid fa-xmark me-2"></i>
+                                                Back
+                                            </a>   --}}
                                         </div>
                                     </div>
  
-                                
+                                {{-- <div class="row mt-3 fsize12"> 
+                                    <div class="col-md-6"> 
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">รหัสแอร์</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="air_list_num" name="air_list_num" aria-label="air_list_num" aria-describedby="inputGroup-sizing-sm">
+                                        </div>
+                                    </div> 
+                                    <div class="col-md-5"> 
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">ราคา</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="air_price" name="air_price" aria-label="air_price" aria-describedby="inputGroup-sizing-sm">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="air_price">บาท</label>
+                                    </div>
+
+                                </div> --}}
+                               
+                                {{-- <div class="row mt-3 fsize12"> 
+                                    <div class="col-md-6"> 
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">ชื่อครุภัณฑ์</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="air_list_name" name="air_list_name" aria-label="air_list_name" aria-describedby="inputGroup-sizing-sm">
+                                        </div> 
+                                    </div> 
+                                    <div class="col-md-6"> 
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">Serial no</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="serial_no" name="serial_no" aria-label="serial_no" aria-describedby="inputGroup-sizing-sm">
+                                        </div>
+                                    </div>
+                                    
+                                </div> --}}
+
+                                {{-- <div class="row mt-3 fsize12">  
+                                    <div class="col-md-12"> 
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <label class="input-group-text" for="air_location_id">สถานที่ตั้ง</label>
+                                            </div>
+                                            <select class="js-example-basic-multiple" id="air_location_id" name="air_location_id" multiple="multiple" style="width: 85%">   
+                                                @foreach ($building_data as $bra)
+                                                    <option value="{{ $bra->building_id }}"> {{ $bra->building_id }} {{ $bra->building_name }} </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div> 
+                                </div> --}}
+
+                                {{-- <div class="row mt-3 fsize12">  
+                                    <div class="col-md-12"> 
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">แผนก/ห้อง</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="detail" name="detail" aria-label="detail" aria-describedby="inputGroup-sizing-sm">
+                                        </div>
+                                    </div> 
+                                </div> --}}
+
+                                {{-- <div class="row mt-3 fsize12"> 
+                                    <div class="col-md-6"> 
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">ขนาด(BTU)</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="btu" name="btu" aria-label="btu" aria-describedby="inputGroup-sizing-sm">
+                                        </div>
+                                    </div> 
+                                    <div class="col-md-6"> 
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <label class="input-group-text" for="active">สถานะ</label>
+                                            </div> 
+                                                <select class="js-example-basic-multiple" id="active" name="active" multiple="multiple" style="width: 85%">  
+                                                    <option value="">--เลือก--</option>
+                                                    <option value="Y">พร้อมใช้งาน</option>
+                                                    <option value="N">ไม่พร้อมใช้งาน</option>  
+                                            </select>
+                                        </div>
+                                    </div> 
+                                </div>  --}}
+
+                               {{-- <div class="row mt-3 fsize12"> 
+                                    <div class="col-md-6"> 
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">ชั้น</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="air_room_class" name="air_room_class" aria-label="air_room_class" aria-describedby="inputGroup-sizing-sm">
+                                        </div>
+                                    </div> 
+                                    <div class="col-md-6"> 
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <label class="input-group-text" for="bran_id">ยี่ห้อ</label>
+                                            </div>
+                                            <select class="js-example-basic-multiple" id="bran_id" name="bran_id" multiple="multiple" style="width: 85%"> 
+                                                @foreach ($product_brand as $bra)
+                                                    <option value="{{ $bra->brand_id }}">
+                                                        {{ $bra->brand_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div> 
+                                </div> --}}
   
                             </div>
                         </div> 
