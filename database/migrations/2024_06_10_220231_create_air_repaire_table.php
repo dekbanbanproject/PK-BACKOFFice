@@ -34,6 +34,8 @@ return new class extends Migration
                 $table->char('air_problems_3', length: 200)->nullable();  //  กลิ่นเหม็น
                 $table->char('air_problems_4', length: 200)->nullable();  // เสียงดัง 
                 $table->char('air_problems_5', length: 200)->nullable();  // ม่ติด/ติด ๆ ดับ ๆ
+                $table->char('air_problems_orther', length: 200)->nullable();  // อื่นๆ
+                $table->char('air_problems_orthersub', length: 200)->nullable();  //  รายละเอียดอื่นๆ
  
                 //การบำรุงรักษาประจำปี ครั้ง 1
                 $table->char('air_problems_6', length: 200)->nullable();  // ถอดล้างพัดลมกรงกระรอก
@@ -55,8 +57,8 @@ return new class extends Migration
                 $table->char('air_problems_18', length: 200)->nullable();  // ล้างแผงคอยล์เย็น
                 $table->char('air_problems_19', length: 200)->nullable();  // ล้างแผงคอยล์ร้อน
                 $table->char('air_problems_20', length: 200)->nullable();  // ตรวจเช็คน้ำยา
-                $table->char('air_problems_orther', length: 200)->nullable();  // อื่นๆ
-                $table->char('air_problems_orthersub', length: 200)->nullable();  //  รายละเอียดอื่นๆ
+
+                
 
                 $table->enum('air_status_techout', ['N','R','Y'])->default('N');   // พร้อมใช้งาน /ไม่พร้อมใช้งาน
                 $table->char('air_techout_name', length: 200)->nullable();          // ช่างนอก

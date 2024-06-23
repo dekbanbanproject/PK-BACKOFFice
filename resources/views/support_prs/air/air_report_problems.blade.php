@@ -133,11 +133,11 @@
     <form action="{{ url('air_report_problems') }}" method="GET">
         @csrf
         <div class="row"> 
-            <div class="col-md-6">
-                <h4 style="color:rgb(10, 151, 85)">รายงานปัญหาที่มีการแจ้งซ่อมเครื่องปรับอาการ แยกตามปัญหาที่พบ(ไม่ใช่การล้างประจำปี) </h4> 
+            <div class="col-md-7">
+                <h5 style="color:rgb(10, 151, 85)">รายงานปัญหาที่มีการแจ้งซ่อมเครื่องปรับอากาศ แยกตามปัญหาที่พบ(ไม่ใช่การล้างประจำปี) </h5> 
             </div>
              
-            <div class="col"></div>
+            {{-- <div class="col"></div> --}}
             <div class="col-md-5 text-end"> 
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control card_prs_4" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
@@ -147,16 +147,16 @@
                         <button type="submit" class="ladda-button btn-pill btn btn-primary card_prs_4" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
                         </button> 
-                        <a href="{{url('air_report_problems_excel')}}" class="ladda-button btn-pill btn btn-success card_prs_4">
-                            <span class="ladda-label"> <i class="fa-solid fa-file-excel text-white me-2"></i>Export To Excel</span>  
-                        </a>
+                        {{-- <a href="{{url('air_report_problems_excel')}}" class="ladda-button btn-pill btn btn-success card_prs_4">
+                            <span class="ladda-label"> <i class="fa-solid fa-file-excel text-white me-2"></i>Excel</span>  
+                        </a> --}}
                 </div> 
             </div> 
         </div>  
     </form>
  
 <div class="row mt-3">
-    <div class="col-xl-5">
+    <div class="col-xl-12">
         <div class="card card_prs_4">
             <div class="card-body">     
                 <p class="mb-0">
@@ -200,40 +200,90 @@
                                                 foreach ($datacheck_6 as $key => $value6) {
                                                     $datacheck6 = $value6->count_id;
                                                 } 
+
+                                                $datacheck_7 = DB::select('SELECT air_list_num,repaire_date_start,repaire_date_end,COUNT(air_repaire_ploblem_id) as air_repaire_ploblem_id FROM air_repaire_ploblemsub WHERE air_repaire_ploblem_id ="'.$item->air_repaire_ploblem_id.'"');
+                                                foreach ($datacheck_7 as $key => $value7) {
+                                                    $datacheck7         = $value7->air_repaire_ploblem_id;
+                                                    $date_start         = $value7->repaire_date_start;
+                                                    $date_end           = $value7->repaire_date_end;
+                                                    $air_list_num       = $value7->air_list_num;
+                                                } 
                                         ?>                           
                                     <tr>                                                  
                                         <td class="text-center" style="font-size:13px;width: 5%;color: rgb(13, 134, 185)">{{$i}}</td>
                                         <td class="text-start" style="font-size:14px;color: rgb(2, 95, 182)">{{$item->air_repaire_ploblemname}}</td>
-                                        <td class="text-center" style="font-size:13px;width: 10%;color: rgb(4, 117, 117)">
-                                            @if ($item->air_repaire_ploblem_id == '1')
+                                       
+                                        @if ($item->air_repaire_ploblem_id == '1')
+                                            <td class="text-center" style="font-size:13px;width: 10%;color: rgb(4, 117, 117)">
                                                 <a href="{{url('air_report_problemsub/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(236, 232, 181);width: 70%;">
                                                     <span class="ladda-label"> <i class="fa-solid fa-glass-water-droplet me-2" style="color: #B216F0"></i>{{$datacheck1}}</span>  
                                                 </a> 
-                                            @elseif ($item->air_repaire_ploblem_id == '2')
+                                            </td>
+                                            <td class="text-center" style="font-size:13px;width: 20%;color: rgb(50, 3, 68)">
+                                                <a href="{{url('air_report_problem_detail/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(236, 232, 181);width: 50%;">
+                                                    <span class="ladda-label"> <i class="fa-solid fa-glass-water-droplet me-2" style="color: #B216F0"></i>{{$datacheck7}}</span>  
+                                                </a> 
+                                            </td>
+                                        @elseif ($item->air_repaire_ploblem_id == '2')
+                                            <td class="text-center" style="font-size:13px;width: 10%;color: rgb(4, 117, 117)">
                                                 <a href="{{url('air_report_problemsub/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(202, 236, 181);width: 70%;">
                                                     <span class="ladda-label"> <i class="fab fa-slack me-2" style="color: #07c095"></i>{{$datacheck2}}</span>  
                                                 </a> 
-                                            @elseif ($item->air_repaire_ploblem_id == '3')
+                                            </td>
+                                            <td class="text-center" style="font-size:13px;width: 20%;color: rgb(50, 3, 68)">
+                                                <a href="{{url('air_report_problem_detail/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(202, 236, 181);width: 50%;">
+                                                    <span class="ladda-label"> <i class="fab fa-slack me-2" style="color: #07c095"></i>{{$datacheck7}}</span>  
+                                                </a> 
+                                            </td>
+                                        @elseif ($item->air_repaire_ploblem_id == '3')
+                                            <td class="text-center" style="font-size:13px;width: 10%;color: rgb(4, 117, 117)">
                                                 <a href="{{url('air_report_problemsub/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(236, 181, 181);width: 70%;">
                                                     <span class="ladda-label"> <i class="fa-solid fa-soap me-2" style="color: #c0072f"></i>{{$datacheck3}}</span>  
                                                 </a> 
-                                            @elseif ($item->air_repaire_ploblem_id == '4')
+                                            </td>
+                                            <td class="text-center" style="font-size:13px;width: 20%;color: rgb(50, 3, 68)">
+                                                <a href="{{url('air_report_problem_detail/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(236, 181, 181);width: 50%;">
+                                                    <span class="ladda-label"> <i class="fa-solid fa-soap me-2" style="color: #c0072f"></i>{{$datacheck7}}</span>  
+                                                </a> 
+                                            </td>
+                                        @elseif ($item->air_repaire_ploblem_id == '4')
+                                            <td class="text-center" style="font-size:13px;width: 10%;color: rgb(4, 117, 117)">
                                                 <a href="{{url('air_report_problemsub/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(181, 203, 236);width: 70%;">
                                                     <span class="ladda-label"> <i class="fa-solid fa-volume-high me-2" style="color: #0760c0"></i>{{$datacheck4}}</span>  
                                                 </a> 
-                                            @elseif ($item->air_repaire_ploblem_id == '5')
+                                            </td>
+                                            <td class="text-center" style="font-size:13px;width: 20%;color: rgb(50, 3, 68)">
+                                                <a href="{{url('air_report_problem_detail/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(181, 203, 236);width: 50%;">
+                                                    <span class="ladda-label"> <i class="fa-solid fa-volume-high me-2" style="color: #0760c0"></i>{{$datacheck7}}</span>  
+                                                </a>
+                                            </td>
+                                        @elseif ($item->air_repaire_ploblem_id == '5')
+                                            <td class="text-center" style="font-size:13px;width: 10%;color: rgb(4, 117, 117)">
                                                 <a href="{{url('air_report_problemsub/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(209, 181, 236);width: 70%;">
                                                     <span class="ladda-label"> <i class="fa-solid fa-tenge-sign me-2" style="color: #8c07c0"></i>{{$datacheck5}}</span>  
-                                                </a> 
-                                            @else
+                                                </a>
+                                            </td> 
+                                            <td class="text-center" style="font-size:13px;width: 20%;color: rgb(50, 3, 68)">
+                                                <a href="{{url('air_report_problem_detail/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(209, 181, 236);width: 50%;">
+                                                    <span class="ladda-label"> <i class="fa-solid fa-tenge-sign me-2" style="color: #8c07c0"></i>{{$datacheck7}}</span>  
+                                                </a>
+                                            </td>
+                                        @else
+                                            <td class="text-center" style="font-size:13px;width: 10%;color: rgb(4, 117, 117)">
                                                 <a href="{{url('air_report_problemsub/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(185, 253, 250);width: 70%;">
                                                     <span class="ladda-label"> <i class="fa-solid fa-circle-exclamation me-2" style="color: #037381"></i>{{$datacheck6}}</span>  
                                                 </a> 
-                                            @endif 
+                                            </td>
+                                            <td class="text-center" style="font-size:13px;width: 20%;color: rgb(50, 3, 68)">
+                                                <a href="{{url('air_report_problem_detail/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(185, 253, 250);width: 50%;">
+                                                    <span class="ladda-label"> <i class="fa-solid fa-circle-exclamation me-2" style="color: #037381"></i>{{$datacheck7}}</span>  
+                                                </a> 
+                                            </td>
+                                        @endif 
 
-                                        </td>
+                                        
                                         {{-- <td class="text-center" style="font-size:13px;width: 10%;color: rgb(228, 15, 86)">0</td> --}}
-                                        <td class="text-center" style="font-size:13px;width: 20%;color: rgb(50, 3, 68)">0</td>
+                                        {{-- <td class="text-center" style="font-size:13px;width: 20%;color: rgb(50, 3, 68)">{{$datacheck7}}</td> --}}
                                          
                                     </tr>
                                 @endforeach

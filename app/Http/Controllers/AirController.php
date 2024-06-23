@@ -43,7 +43,7 @@ use App\Models\Air_repaire;
 use App\Models\Air_list;
 use App\Models\Product_buy;
 use App\Models\Fire_pramuan;
-use App\Models\Article_status;
+use App\Models\Air_repaire_ploblemsub;
 use App\Models\Fire_pramuan_sub;
 use App\Models\Cctv_report_months;
 use App\Models\Product_budget;
@@ -1178,7 +1178,6 @@ class AirController extends Controller
             'datashow'    =>     $datashow, 
         ]);
     }
-
     public function air_report_problems(Request $request)
     {
         $startdate   = $request->startdate;
@@ -1192,13 +1191,195 @@ class AirController extends Controller
         $newDate     = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
         $newyear     = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
       
-        $iduser = Auth::user()->id;
-        $datashow = DB::select('SELECT * FROM air_repaire_ploblem ORDER BY air_repaire_ploblem_id ASC');
+        $iduser       = Auth::user()->id;
+        $datashow     = DB::select('SELECT * FROM air_repaire_ploblem ORDER BY air_repaire_ploblem_id ASC');
+        
+        if ($startdate =='') { 
+        } else {
+                Air_repaire_ploblemsub::truncate();
+                $data_process_1 = DB::select('SELECT air_list_num, COUNT(*) as air_problems_1 FROM air_repaire WHERE air_problems_1 = "on" AND repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" GROUP BY air_list_num HAVING COUNT(*) > 1');
+                foreach ($data_process_1 as $key => $value) { 
+                    $check_1 = Air_repaire_ploblemsub::where('air_list_num',$value->air_list_num)->count();
+                    if ($check_1 > 0) {
+                        Air_repaire_ploblemsub::where('air_list_num',$value->air_list_num)->update(['air_problems_1'=> $value->air_problems_1]);
+                    } else {
+                        $add = new Air_repaire_ploblemsub();
+                        $add->air_repaire_ploblem_id  = '1';
+                        $add->air_list_num            = $value->air_list_num;
+                        $add->air_problems_1          = $value->air_problems_1;
+                        $add->repaire_date_start      = $startdate;
+                        $add->repaire_date_end        = $enddate;
+                        $add->save(); 
+                    } 
+                }
+                $data_process_2 = DB::select('SELECT air_list_num, COUNT(*) as air_problems_2 FROM air_repaire WHERE air_problems_2 = "on" AND repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" GROUP BY air_list_num HAVING COUNT(*) > 1');
+                foreach ($data_process_2 as $key => $value2) { 
+                    $check_2 = Air_repaire_ploblemsub::where('air_list_num',$value2->air_list_num)->count();
+                    if ( $check_2 > 0) {
+                        Air_repaire_ploblemsub::where('air_list_num',$value2->air_list_num)->update(['air_problems_2'=> $value2->air_problems_2]);
+                    } else {
+                        $add = new Air_repaire_ploblemsub();
+                        $add->air_repaire_ploblem_id  = '2';
+                        $add->air_list_num            = $value2->air_list_num;
+                        $add->air_problems_2          = $value2->air_problems_2;
+                        $add->repaire_date_start      = $startdate;
+                        $add->repaire_date_end        = $enddate;
+                        $add->save(); 
+                    } 
+                }
+                $data_process_3 = DB::select('SELECT air_list_num, COUNT(*) as air_problems_3 FROM air_repaire WHERE air_problems_3 = "on" AND repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" GROUP BY air_list_num HAVING COUNT(*) > 1');
+                foreach ($data_process_3 as $key => $value3) { 
+                    $check_3 = Air_repaire_ploblemsub::where('air_list_num',$value3->air_list_num)->count();
+                    if ( $check_3 > 0) {
+                        Air_repaire_ploblemsub::where('air_list_num',$value3->air_list_num)->update(['air_problems_3'=> $value3->air_problems_3]);
+                    } else {
+                        $add = new Air_repaire_ploblemsub();
+                        $add->air_repaire_ploblem_id  = '3';
+                        $add->air_list_num            = $value3->air_list_num;
+                        $add->air_problems_3          = $value3->air_problems_3;
+                        $add->repaire_date_start      = $startdate;
+                        $add->repaire_date_end        = $enddate;
+                        $add->save(); 
+                    } 
+                }
+                $data_process_4 = DB::select('SELECT air_list_num, COUNT(*) as air_problems_4 FROM air_repaire WHERE air_problems_4 = "on" AND repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" GROUP BY air_list_num HAVING COUNT(*) > 1');
+                foreach ($data_process_4 as $key => $value4) { 
+                    $check_4 = Air_repaire_ploblemsub::where('air_list_num',$value4->air_list_num)->count();
+                    if ( $check_4 > 0) {
+                        Air_repaire_ploblemsub::where('air_list_num',$value4->air_list_num)->update(['air_problems_4'=> $value4->air_problems_4]);
+                    } else {
+                        $add = new Air_repaire_ploblemsub();
+                        $add->air_repaire_ploblem_id  = '4';
+                        $add->air_list_num            = $value4->air_list_num;
+                        $add->air_problems_4          = $value4->air_problems_4;
+                        $add->repaire_date_start      = $startdate;
+                        $add->repaire_date_end        = $enddate;
+                        $add->save(); 
+                    } 
+                }
+                $data_process_5 = DB::select('SELECT air_list_num, COUNT(*) as air_problems_5 FROM air_repaire WHERE air_problems_5 = "on" AND repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" GROUP BY air_list_num HAVING COUNT(*) > 1');
+                foreach ($data_process_5 as $key => $value5) { 
+                    $check_5 = Air_repaire_ploblemsub::where('air_list_num',$value5->air_list_num)->count();
+                    if ( $check_5 > 0) {
+                        Air_repaire_ploblemsub::where('air_list_num',$value5->air_list_num)->update(['air_problems_5'=> $value5->air_problems_5]);
+                    } else {
+                        $add = new Air_repaire_ploblemsub();
+                        $add->air_repaire_ploblem_id  = '5';
+                        $add->air_list_num            = $value5->air_list_num;
+                        $add->air_problems_5          = $value5->air_problems_5;
+                        $add->repaire_date_start      = $startdate;
+                        $add->repaire_date_end        = $enddate;
+                        $add->save(); 
+                    } 
+                }
+                $data_process_6 = DB::select('SELECT air_list_num, COUNT(*) as air_problems_orther FROM air_repaire WHERE air_problems_orther = "on" AND repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" GROUP BY air_list_num HAVING COUNT(*) > 1');
+                foreach ($data_process_6 as $key => $value6) { 
+                    $check_6 = Air_repaire_ploblemsub::where('air_list_num',$value6->air_list_num)->count();
+                    if ( $check_6 > 0) {
+                        Air_repaire_ploblemsub::where('air_list_num',$value6->air_list_num)->update(['air_problems_orther'=> $value6->air_problems_orther]);
+                    } else {
+                        $add = new Air_repaire_ploblemsub();
+                        $add->air_repaire_ploblem_id  = '6';
+                        $add->air_list_num            = $value6->air_list_num;
+                        $add->air_problems_orther     = $value6->air_problems_orther;
+                        $add->repaire_date_start      = $startdate;
+                        $add->repaire_date_end        = $enddate;
+                        $add->save(); 
+                    } 
+                }
+        }
+         
       
         return view('support_prs.air.air_report_problems',[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
             'datashow'    =>     $datashow, 
+        ]);
+    }
+    public function air_report_problem_detail(Request $request,$id)
+    {
+        $startdate   = $request->startdate;
+        $enddate     = $request->enddate;      
+        $iduser = Auth::user()->id;
+        if ($id == '1') {
+            $datashow = DB::select(
+                'SELECT c.air_repaire_id,c.repaire_date,c.air_repaire_no,c.air_list_num,c.air_list_name,c.btu,c.air_location_id,c.air_location_name
+                ,c.air_problems_1 as air_problems_1,c.air_problems_2 as air_problems_2,c.air_problems_3 as air_problems_3,c.air_problems_4 as air_problems_4,c.air_problems_5 as air_problems_5,c.air_problems_orther 
+                ,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = c.air_tech_id) as tectname
+                FROM air_repaire_ploblemsub b 
+                LEFT JOIN air_repaire c ON c.air_list_num = b.air_list_num
+                LEFT JOIN users p ON p.id = c.air_staff_id
+                WHERE b.air_repaire_ploblem_id ="'.$id.'" AND (c.air_problems_1 = "on")
+                ORDER BY air_list_num ASC
+            ');
+        }else if ($id == '2') {
+            $datashow = DB::select(
+                'SELECT c.air_repaire_id,c.repaire_date,c.air_repaire_no,c.air_list_num,c.air_list_name,c.btu,c.air_location_id,c.air_location_name
+               ,c.air_problems_1 as air_problems_1,c.air_problems_2 as air_problems_2,c.air_problems_3 as air_problems_3,c.air_problems_4 as air_problems_4,c.air_problems_5 as air_problems_5,c.air_problems_orther 
+                ,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = c.air_tech_id) as tectname
+                FROM air_repaire_ploblemsub b 
+                LEFT JOIN air_repaire c ON c.air_list_num = b.air_list_num
+                LEFT JOIN users p ON p.id = c.air_staff_id
+                WHERE b.air_repaire_ploblem_id ="'.$id.'" AND (c.air_problems_2 = "on")
+                ORDER BY air_list_num ASC
+            ');
+        }else if ($id == '3') {
+            $datashow = DB::select(
+                'SELECT c.air_repaire_id,c.repaire_date,c.air_repaire_no,c.air_list_num,c.air_list_name,c.btu,c.air_location_id,c.air_location_name
+                ,c.air_problems_1 as air_problems_1,c.air_problems_2 as air_problems_2,c.air_problems_3 as air_problems_3,c.air_problems_4 as air_problems_4,c.air_problems_5 as air_problems_5,c.air_problems_orther
+                ,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = c.air_tech_id) as tectname
+                FROM air_repaire_ploblemsub b 
+                LEFT JOIN air_repaire c ON c.air_list_num = b.air_list_num
+                LEFT JOIN users p ON p.id = c.air_staff_id
+                WHERE b.air_repaire_ploblem_id ="'.$id.'" AND (c.air_problems_3 = "on")
+                ORDER BY air_list_num ASC
+            ');
+        }else if ($id == '4') {
+            $datashow = DB::select(
+                'SELECT c.air_repaire_id,c.repaire_date,c.air_repaire_no,c.air_list_num,c.air_list_name,c.btu,c.air_location_id,c.air_location_name
+                ,c.air_problems_1 as air_problems_1,c.air_problems_2 as air_problems_2,c.air_problems_3 as air_problems_3,c.air_problems_4 as air_problems_4,c.air_problems_5 as air_problems_5,c.air_problems_orther
+                ,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = c.air_tech_id) as tectname
+                FROM air_repaire_ploblemsub b 
+                LEFT JOIN air_repaire c ON c.air_list_num = b.air_list_num
+                LEFT JOIN users p ON p.id = c.air_staff_id
+                WHERE b.air_repaire_ploblem_id ="'.$id.'" AND (c.air_problems_4 = "on")
+                ORDER BY air_list_num ASC
+            ');
+        }else if ($id == '5') {
+            $datashow = DB::select(
+                'SELECT c.air_repaire_id,c.repaire_date,c.air_repaire_no,c.air_list_num,c.air_list_name,c.btu,c.air_location_id,c.air_location_name
+                ,c.air_problems_1 as air_problems_1,c.air_problems_2 as air_problems_2,c.air_problems_3 as air_problems_3,c.air_problems_4 as air_problems_4,c.air_problems_5 as air_problems_5,c.air_problems_orther
+                ,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = c.air_tech_id) as tectname
+                FROM air_repaire_ploblemsub b 
+                LEFT JOIN air_repaire c ON c.air_list_num = b.air_list_num
+                LEFT JOIN users p ON p.id = c.air_staff_id
+                WHERE b.air_repaire_ploblem_id ="'.$id.'" AND (c.air_problems_5 = "on")
+                ORDER BY air_list_num ASC
+            ');
+         
+        } else {
+            $datashow = DB::select(
+                'SELECT c.air_repaire_id,c.repaire_date,c.air_repaire_no,c.air_list_num,c.air_list_name,c.btu,c.air_location_id,c.air_location_name
+                ,c.air_problems_1 as air_problems_1,c.air_problems_2 as air_problems_2,c.air_problems_3 as air_problems_3,c.air_problems_4 as air_problems_4,c.air_problems_5 as air_problems_5,c.air_problems_orther
+                ,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = c.air_tech_id) as tectname
+                FROM air_repaire_ploblemsub b 
+                LEFT JOIN air_repaire c ON c.air_list_num = b.air_list_num
+                LEFT JOIN users p ON p.id = c.air_staff_id
+                WHERE b.air_repaire_ploblem_id ="'.$id.'" AND (c.air_problems_orther = "on")
+                ORDER BY air_list_num ASC
+            ');
+        }
+        
+        
+
+        $datashow_sub = DB::select('SELECT * FROM air_list WHERE air_location_id = "'.$id.'" ORDER BY air_list_id DESC'); 
+  
+        return view('support_prs.air.air_report_problem_detail',[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate,
+            'datashow'      => $datashow, 
+            'datashow_sub'  => $datashow_sub,
+            'id'            => $id,
         ]);
     }
       
