@@ -119,7 +119,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-danger border-danger card">
@@ -214,13 +214,13 @@
                             </div>
                       
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-9">
                         <div class="row">
                    
                             <div class="col-sm-12 col-md-6 col-lg-6">
                                 <div class="mb-3 card">
                                     <div class="card-header-tab card-header">
-                                        <div class="card-header-title font-size-lg text-capitalize fw-normal">ถังดับเพลิง (RED) Check ไปแล้วคิดเป็น( % ) ของทั้งหมดในเดือนนี้
+                                        <div class="card-header-title font-size-sm text-capitalize fw-normal">ถังดับเพลิง (RED) Check ไปแล้วคิดเป็น( % ) ของทั้งหมดในเดือนนี้
                                         </div>
                                        
                                     </div>
@@ -253,7 +253,7 @@
                             <div class="col-sm-12 col-md-6 col-lg-6">
                                 <div class="mb-3 card">
                                     <div class="card-header-tab card-header">
-                                        <div class="card-header-title font-size-lg text-capitalize fw-normal">ถังดับเพลิง (GREEN) Check ไปแล้วคิดเป็น( % ) ของทั้งหมดในเดือนนี้
+                                        <div class="card-header-title font-size-sm text-capitalize fw-normal">ถังดับเพลิง (GREEN) Check ไปแล้วคิดเป็น( % ) ของทั้งหมดในเดือนนี้
                                         </div>
                                         <div class="btn-actions-pane-right text-capitalize actions-icon-btn">
                                            
@@ -283,11 +283,13 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
         
                         </div>
 
                     </div>
+                    
                 </div>
 
                 <div class="row">

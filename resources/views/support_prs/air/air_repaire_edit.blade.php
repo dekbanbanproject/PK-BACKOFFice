@@ -208,7 +208,7 @@ $loter = $date.''.$time
                                                     </a>
                                                 </li> 
                                                 <li class="nav-item">
-                                                    <a class="nav-link" data-bs-toggle="tab" href="#detail3" role="tab" style="background-color: #e8fcef">
+                                                    <a class="nav-link" data-bs-toggle="tab" href="#detail3" role="tab" style="background-color: #D0FDE0">
                                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
                                                         <span class="d-none d-sm-block"> <p>ส่วนที่ 4 : ช่างซ่อม(รพ.) </p></span>    
                                                     </a>
@@ -219,7 +219,9 @@ $loter = $date.''.$time
                                                     <p class="mb-0">
                                                         <div class="row ms-3 me-3"> 
                                                             <div class="col-md-6">  
-                                                                {{-- <input class="form-check-input dcheckbox" type="checkbox" id="air_2" name="air_2"/> --}}
+                                                                <p style="font-size:17px;color:rgb(245, 21, 51)">
+                                                                    <input class="form-check-input dcheckbox me-2" type="checkbox" id="air_2" name="air_2"/> แก้ไขเฉพาะ ส่วนที่ 2
+                                                                </p>
                                                                 <p style="font-size:14px;color:rgb(9, 119, 209)">- รายการซ่อม(ตามปัญหา) </p>
                                                                 <div class="form-group">
                                                                     <div class="form-check form-check-inline"> 
@@ -456,6 +458,7 @@ $loter = $date.''.$time
                                                                 <div class="form-group"> 
                                                                     <input type="text" class="form-control form-control-sm" id="air_techout_name" name="air_techout_name" value="{{ $data_edit->air_techout_name }}">
                                                                 </div>
+                                                                
                                                                 <div class="form-group text-center mt-2"> <img src="data:image/png;base64,{{ $signature }}" alt="" height="50px" width="auto"> </div>
                                                                 <div class="form-group mb-3"> 
                                                                     <div id="signature-pad" class="mt-2 text-center">
@@ -533,7 +536,7 @@ $loter = $date.''.$time
                                                         </div> 
                                                     </p>
                                                 </div>
-                                                <div class="tab-pane" id="detail3" role="tabpanel" style="background-color: #e8fcef">
+                                                <div class="tab-pane" id="detail3" role="tabpanel" style="background-color: #D0FDE0">
                                                     <p class="mb-0">
                                                         <div class="row ms-3 me-3"> 
                                                             <div class="col-md-12">   

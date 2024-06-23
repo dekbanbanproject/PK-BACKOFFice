@@ -118,21 +118,17 @@ class AirController extends Controller
             $enddate   = $request->enddate;
             $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
             $newDate   = date('Y-m-d', strtotime($datenow . ' -3 months')); //ย้อนหลัง 3 เดือน
-
             $data_detail = Air_repaire::leftJoin('users', 'air_repaire.air_tech_id', '=', 'users.id') 
             ->leftJoin('air_list', 'air_list.air_list_id', '=', 'air_repaire.air_list_id') 
             ->where('air_list.air_list_id', '=', $id)
             ->get();
-
             $data['air_repaire_ploblem']     = DB::table('air_repaire_ploblem')->get();
             $data['users']                   = DB::table('users')->get();
             $data['users_tech']              = DB::table('users')->where('dep_id','=','1')->get();
             $data['air_tech']                = DB::table('air_tech')->where('air_type','=','IN')->get();
-
             $data_detail_ = Air_list::where('air_list_id', '=', $id)->first();
             // $signat = $data_detail_->air_img_base;
-            // $pic_fire = base64_encode(file_get_contents($signat));  
-      
+            // $pic_fire = base64_encode(file_get_contents($signat)); 
             $air_no = DB::connection('mysql6')->select(
                 'SELECT * from informrepair_index 
                 WHERE REPAIR_STATUS ="RECEIVE" AND TECH_RECEIVE_DATE BETWEEN "'.$newDate.'" AND "'.$datenow.'" ORDER BY REPAIR_ID ASC'); 
@@ -171,13 +167,11 @@ class AirController extends Controller
         $data['products_vendor']    = Products_vendor::get(); 
         $data['product_brand']      = DB::table('product_brand')->get();
         $data['medical_typecat']    = DB::table('medical_typecat')->get();
-        $data['building_data']      = DB::table('building_data')->get();  
-           
+        $data['building_data']      = DB::table('building_data')->get(); 
         $data_detail_ = Air_repaire::leftJoin('users', 'air_repaire.air_tech_id', '=', 'users.id') 
         ->leftJoin('air_list', 'air_list.air_list_id', '=', 'air_repaire.air_list_id') 
         ->where('air_repaire.air_repaire_id', '=', $id)
         ->first();
-
         $data_edit                  = Air_repaire::where('air_repaire_id', '=', $id)->first();
         // $signat                     = $data_edit->signature; 
         // $signature                  = base64_encode(file_get_contents($signat));
@@ -198,9 +192,7 @@ class AirController extends Controller
             $signature3            = base64_encode(file_get_contents($data_edit->signature3));
         }else {
             $signature3            = '';
-        }
-       
-       
+        }             
 
         $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE REPAIR_SYSTEM ="1" AND REPAIR_STATUS ="RECEIVE" ORDER BY REPAIR_ID ASC'); 
 
@@ -228,94 +220,142 @@ class AirController extends Controller
                 $repaire_id  = $air_no->REPAIR_ID;
                 $repaire_num = $air_no->ARTICLE_ID;
         // }
+        $data_2 = $request->air_2; 
+        if ($data_2 == 'on') {
+            $update = Air_repaire::find($id);
+            $update->repaire_date        = $date_now;
+            $update->air_repaire_no      = $repaire_id;
+            $update->air_repaire_num     = $repaire_num;
+            $update->air_list_id         = $request->air_list_id;
+            $update->air_list_num        = $request->air_list_num;
+            $update->air_list_name       = $request->air_list_name;
+            $update->btu                 = $request->btu;
+            $update->serial_no           = $request->serial_no;
+            $update->air_location_id     = $request->air_location_id;
+            $update->air_location_name   = $request->air_location_name;
 
-        if ($add_img =='') {
-            // $checkcount   = Air_repaire::where('air_repaire_id', '=', $id)->where('signature', '=', '')->count();
-            // if ($checkcount > 0) { 
-                return response()->json([
-                    'status'     => '50'
-                ]);              
-            // }            
-        } else if ($add_img2 =='') {
-            // $checkcount2   = Air_repaire::where('air_repaire_id', '=', $id)->where('signature2', '=', '')->count();
-            // if ($checkcount2 > 0) { 
-                return response()->json([
-                    'status'     => '60'
-                ]);  
-            // }    
-        } else if ($add_img3 =='') {
-            // $checkcount3   = Air_repaire::where('air_repaire_id', '=', $id)->where('signature3', '=', '')->count();
-            // if ($checkcount3 > 0) { 
-                return response()->json([
-                    'status'     => '70'
-                ]);      
-            // }  
-        } else {             
-                // dd($repaire_num);
-                // $pro_1 = $request->input('air_problems_1');
-                // dd($pro_1); 
-                $update = Air_repaire::find($id);
-                $update->repaire_date        = $date_now;
-                $update->air_repaire_no      = $repaire_id;
-                $update->air_repaire_num     = $repaire_num;
-                $update->air_list_id         = $request->air_list_id;
-                $update->air_list_num        = $request->air_list_num;
-                $update->air_list_name       = $request->air_list_name;
-                $update->btu                 = $request->btu;
-                $update->serial_no           = $request->serial_no;
-                $update->air_location_id     = $request->air_location_id;
-                $update->air_location_name   = $request->air_location_name;
+            $update->air_problems_1      = $request->input('air_problems_1'); 
+            $update->air_problems_2      = $request->air_problems_2;
+            $update->air_problems_3      = $request->air_problems_3;
+            $update->air_problems_4      = $request->air_problems_4;
+            $update->air_problems_5      = $request->air_problems_5;
+            $update->air_problems_6      = $request->air_problems_6;
+            $update->air_problems_7      = $request->air_problems_7;
+            $update->air_problems_8      = $request->air_problems_8;
+            $update->air_problems_9      = $request->air_problems_9;
+            $update->air_problems_10     = $request->air_problems_10;
+            $update->air_problems_11     = $request->air_problems_11;
+            $update->air_problems_12     = $request->air_problems_12;
+            $update->air_problems_13     = $request->air_problems_13;
+            $update->air_problems_14     = $request->air_problems_14;
+            $update->air_problems_15     = $request->air_problems_15;
+            $update->air_problems_16     = $request->air_problems_16;
+            $update->air_problems_17     = $request->air_problems_17;
+            $update->air_problems_18     = $request->air_problems_18;
+            $update->air_problems_19     = $request->air_problems_19;
+            $update->air_problems_20     = $request->air_problems_20;
+            $update->air_problems_orther     = $request->air_problems_orther;
+            $update->air_problems_orthersub  = $request->air_problems_orthersub;
+            $update->signature           = $add_img;
+            // $update->signature2          = $add_img2;
+            // $update->signature3          = $add_img3;
 
-                $update->air_problems_1      = $request->input('air_problems_1'); 
-                $update->air_problems_2      = $request->air_problems_2;
-                $update->air_problems_3      = $request->air_problems_3;
-                $update->air_problems_4      = $request->air_problems_4;
-                $update->air_problems_5      = $request->air_problems_5;
-                $update->air_problems_6      = $request->air_problems_6;
-                $update->air_problems_7      = $request->air_problems_7;
-                $update->air_problems_8      = $request->air_problems_8;
-                $update->air_problems_9      = $request->air_problems_9;
-                $update->air_problems_10     = $request->air_problems_10;
-                $update->air_problems_11     = $request->air_problems_11;
-                $update->air_problems_12     = $request->air_problems_12;
-                $update->air_problems_13     = $request->air_problems_13;
-                $update->air_problems_14     = $request->air_problems_14;
-                $update->air_problems_15     = $request->air_problems_15;
-                $update->air_problems_16     = $request->air_problems_16;
-                $update->air_problems_17     = $request->air_problems_17;
-                $update->air_problems_18     = $request->air_problems_18;
-                $update->air_problems_19     = $request->air_problems_19;
-                $update->air_problems_20     = $request->air_problems_20;
-                $update->air_problems_orther     = $request->air_problems_orther;
-                $update->air_problems_orthersub  = $request->air_problems_orthersub;
-                $update->signature           = $add_img;
-                $update->signature2          = $add_img2;
-                $update->signature3          = $add_img3;
+            $update->air_status_techout  = $request->air_status_techout; 
+            $update->air_techout_name    = $request->air_techout_name;  
+            // $update->air_status_staff    = $request->air_status_staff;   
+            // $update->air_staff_id        = $request->air_staff_id; 
+            // $update->air_status_tech     = $request->air_status_tech; 
+            // $update->air_tech_id         = $request->air_tech_id; 
 
-                $update->air_status_techout  = $request->air_status_techout; 
-                $update->air_techout_name    = $request->air_techout_name;  
-                $update->air_status_staff    = $request->air_status_staff;   
-                $update->air_staff_id        = $request->air_staff_id; 
-                $update->air_status_tech     = $request->air_status_tech; 
-                $update->air_tech_id         = $request->air_tech_id; 
+            $update->save();   
+        
+            if ($request->air_status_techout == 'N' || $request->air_status_staff == 'N' || $request->air_status_tech == 'N') {
+                Air_list::where('air_list_id', '=', $request->air_list_id)->update(['active' => 'N']); 
+            } else {
+                Air_list::where('air_list_id', '=', $request->air_list_id)->update(['active' => 'Y']); 
+            }
+        } else {
+            if ($add_img =='') {
+                // $checkcount   = Air_repaire::where('air_repaire_id', '=', $id)->where('signature', '=', '')->count();
+                // if ($checkcount > 0) { 
+                    return response()->json([
+                        'status'     => '50'
+                    ]);              
+                // }            
+            } else if ($add_img2 =='') {
+                // $checkcount2   = Air_repaire::where('air_repaire_id', '=', $id)->where('signature2', '=', '')->count();
+                // if ($checkcount2 > 0) { 
+                    return response()->json([
+                        'status'     => '60'
+                    ]);  
+                // }    
+            } else if ($add_img3 =='') {
+                // $checkcount3   = Air_repaire::where('air_repaire_id', '=', $id)->where('signature3', '=', '')->count();
+                // if ($checkcount3 > 0) { 
+                    return response()->json([
+                        'status'     => '70'
+                    ]);      
+                // }  
+            } else {       
+                  
+                    $update = Air_repaire::find($id);
+                    $update->repaire_date        = $date_now;
+                    $update->air_repaire_no      = $repaire_id;
+                    $update->air_repaire_num     = $repaire_num;
+                    $update->air_list_id         = $request->air_list_id;
+                    $update->air_list_num        = $request->air_list_num;
+                    $update->air_list_name       = $request->air_list_name;
+                    $update->btu                 = $request->btu;
+                    $update->serial_no           = $request->serial_no;
+                    $update->air_location_id     = $request->air_location_id;
+                    $update->air_location_name   = $request->air_location_name;
 
-                $update->save();   
-               
-                if ($request->air_status_techout == 'N' || $request->air_status_staff == 'N' || $request->air_status_tech == 'N') {
-                    Air_list::where('air_list_id', '=', $request->air_list_id)->update(['active' => 'N']); 
-                } else {
-                    Air_list::where('air_list_id', '=', $request->air_list_id)->update(['active' => 'Y']); 
+                    $update->air_problems_1      = $request->input('air_problems_1'); 
+                    $update->air_problems_2      = $request->air_problems_2;
+                    $update->air_problems_3      = $request->air_problems_3;
+                    $update->air_problems_4      = $request->air_problems_4;
+                    $update->air_problems_5      = $request->air_problems_5;
+                    $update->air_problems_6      = $request->air_problems_6;
+                    $update->air_problems_7      = $request->air_problems_7;
+                    $update->air_problems_8      = $request->air_problems_8;
+                    $update->air_problems_9      = $request->air_problems_9;
+                    $update->air_problems_10     = $request->air_problems_10;
+                    $update->air_problems_11     = $request->air_problems_11;
+                    $update->air_problems_12     = $request->air_problems_12;
+                    $update->air_problems_13     = $request->air_problems_13;
+                    $update->air_problems_14     = $request->air_problems_14;
+                    $update->air_problems_15     = $request->air_problems_15;
+                    $update->air_problems_16     = $request->air_problems_16;
+                    $update->air_problems_17     = $request->air_problems_17;
+                    $update->air_problems_18     = $request->air_problems_18;
+                    $update->air_problems_19     = $request->air_problems_19;
+                    $update->air_problems_20     = $request->air_problems_20;
+                    $update->air_problems_orther     = $request->air_problems_orther;
+                    $update->air_problems_orthersub  = $request->air_problems_orthersub;
+                    $update->signature           = $add_img;
+                    $update->signature2          = $add_img2;
+                    $update->signature3          = $add_img3;
+
+                    $update->air_status_techout  = $request->air_status_techout; 
+                    $update->air_techout_name    = $request->air_techout_name;  
+                    $update->air_status_staff    = $request->air_status_staff;   
+                    $update->air_staff_id        = $request->air_staff_id; 
+                    $update->air_status_tech     = $request->air_status_tech; 
+                    $update->air_tech_id         = $request->air_tech_id; 
+
+                    $update->save();   
+                
+                    if ($request->air_status_techout == 'N' || $request->air_status_staff == 'N' || $request->air_status_tech == 'N') {
+                        Air_list::where('air_list_id', '=', $request->air_list_id)->update(['active' => 'N']); 
+                    } else {
+                        Air_list::where('air_list_id', '=', $request->air_list_id)->update(['active' => 'Y']); 
+                    }
                 }
-                
-                
         }
-
+        
         return response()->json([
             'status'     => '200'
-        ]);
-
-       
-        
+        ]);      
     }
     public function air_main_repaire_destroy(Request $request,$id)
     {

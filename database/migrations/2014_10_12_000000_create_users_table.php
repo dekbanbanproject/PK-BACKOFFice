@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('password', length: 100);
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-            $table->enum('type', ['ADMIN', 'STAFF', 'CUSTOMER', 'MANAGE','USER','NOTUSER'])->default('USER');
+            $table->enum('type', ['ADMIN', 'STAFF', 'CUSTOMER','SUPPLIES','MANAGE','USER','NOTUSER'])->default('USER');
             $table->string('passapp', length: 100)->nullable();
             $table->string('line_token')->nullable();
             $table->string('group_p4p')->nullable();            
