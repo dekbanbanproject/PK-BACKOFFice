@@ -876,7 +876,7 @@
             </div> --}}
 
             @if ($per_prs != 0) 
-            <div class="col-xl-3 col-md-3">
+            <div class="col-xl-6 col-md-6">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
                     style="background-color: rgba(147, 204, 248, 0.871)">
                     <div class="grid-menu-col">
