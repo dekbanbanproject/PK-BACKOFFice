@@ -3398,4 +3398,9 @@ Route::match(['get','post'],'tree_document_edit/{id}',[App\Http\Controllers\Tree
 Route::match(['get','post'],'tree_document_update',[App\Http\Controllers\TreeDocumentController::class, 'tree_document_update'])->name('d.tree_document_update');//
 Route::match(['get','post'],'tree_document_destroy/{id}',[App\Http\Controllers\TreeDocumentController::class, 'tree_document_destroy'])->name('d.tree_document_destroy');//
 
+Route::match(['get','post'],'nurse_dashboard',[App\Http\Controllers\NurseController::class, 'nurse_dashboard'])->name('d.nurse_dashboard');//
+Route::match(['get','post'],'nurse_index',[App\Http\Controllers\NurseController::class, 'nurse_index'])->name('d.nurse_index');//
+Route::match(['get','post'],'nurse_index_process',[App\Http\Controllers\NurseController::class, 'nurse_index_process'])->name('d.nurse_index_process');//
+
+
 });
