@@ -68,9 +68,9 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h5 class="card-title" style="color:green">Debit data 1102050101.307</h5>
+                        <h5 class="card-title" style="color:green">Debit data 1102050101.308</h5>
                        
-                        <form action="{{ route('acc.account_307_search') }}" method="GET">
+                        <form action="{{ route('acc.account_308_search') }}" method="GET">
                             @csrf
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
@@ -115,12 +115,12 @@
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
                                     <th class="text-center">cid</th> 
-                                    <th class="text-center">vn</th>
+                                    <th class="text-center">an</th>
                                     <th class="text-center" >hn</th> 
                                     <th class="text-center">ptname</th> 
                                     {{-- <th class="text-center">Adjrw*8350</th> --}}
-                                    <th class="text-center">vstdate</th> 
-                                    {{-- <th class="text-center">dchdate</th>  --}}
+                                    {{-- <th class="text-center">vstdate</th>  --}}
+                                    <th class="text-center">dchdate</th>
                                     {{-- <th class="text-center">drug</th>  --}}
                                     {{-- <th class="text-center">inst</th>  --}}
                                     {{-- <th class="text-center">toa</th>  --}}
@@ -144,12 +144,12 @@
                                     <tr height="20" style="font-size: 14px;">
                                         <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td> 
                                         <td class="text-center" width="5%">{{ $item->cid }}</td>  
-                                        <td class="text-center" width="6%">{{ $item->vn }}</td> 
+                                        <td class="text-center" width="6%">{{ $item->an }}</td> 
                                         <td class="text-center" width="4%">{{ $item->hn }}</td>   
                                         <td class="p-2" width="8%">{{ $item->ptname }}</td>   
                                         {{-- <td class="text-center" width="5%">{{ $item->total_adjrw_income }}</td> --}}
-                                        <td class="text-center" width="6%">{{ $item->vstdate }}</td>
-                                        {{-- <td class="text-center" width="6%">{{ $item->dchdate }}</td> --}}
+                                        {{-- <td class="text-center" width="6%">{{ $item->vstdate }}</td> --}}
+                                        <td class="text-center" width="6%">{{ $item->dchdate }}</td>
                                         {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_drug,2)}}</td>  --}}
                                         {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_instument,2)}}</td>  --}}
                                         {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_toa,2)}}</td>  --}}

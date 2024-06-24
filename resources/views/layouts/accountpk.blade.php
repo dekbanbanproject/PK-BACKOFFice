@@ -452,14 +452,14 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_308_dash') }}">dashboard</a></li>
                                             <li><a href="{{ url('account_308_pull') }}">ดึงลูกหนี้</a></li>
-                                         
+                                            <li><a href="{{ url('account_308_search') }}">ค้นหาลูกหนี้</a> </li>
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">309-ค่าใช้จ่ายสูง/อุบัติเหตุ/ฉุกเฉิน OP</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_309_dash') }}">dashboard</a></li>
                                             <li><a href="{{ url('account_309_pull') }}">ดึงลูกหนี้</a></li>
-                                        
+                                            <li><a href="{{ url('account_309_search') }}">ค้นหาลูกหนี้</a> </li>
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">310-ค่าใช้จ่ายสูง IP</a>

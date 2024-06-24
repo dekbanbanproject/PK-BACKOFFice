@@ -525,6 +525,34 @@ class Account309Controller extends Controller
         ]);
     }
 
+    public function account_309_search(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $date = date('Y-m-d'); 
+        $new_day = date('Y-m-d', strtotime($date . ' -5 day')); //ย้อนหลัง 1 วัน
+        $data['users'] = User::get();
+        if ($startdate =='') {
+           $datashow = DB::select(' 
+               SELECT * from acc_1102050101_309 
+               WHERE vstdate BETWEEN "'.$new_day.'" AND  "'.$date.'"  
+           ');
+        } else {
+           $datashow = DB::select(' 
+               SELECT * from acc_1102050101_309
+               WHERE vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"  
+           ');
+        } 
+        return view('account_309.account_309_search', $data, [
+            'startdate'     => $startdate,
+            'enddate'       => $enddate,
+            'datashow'      => $datashow,
+            'startdate'     => $startdate,
+            'enddate'       => $enddate
+        ]);
+    }
+
 
 
 

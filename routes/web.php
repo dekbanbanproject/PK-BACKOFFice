@@ -2126,6 +2126,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_307_search',[App\Http\Controllers\Account307Controller::class, 'account_307_search'])->name('acc.account_307_search');//
 
     Route::match(['get','post'],'account_308_pull',[App\Http\Controllers\Account308Controller::class, 'account_308_pull'])->name('acc.account_308_pull');//
+    Route::match(['get','post'],'account_308_search',[App\Http\Controllers\Account308Controller::class, 'account_308_search'])->name('acc.account_308_search');//
     Route::match(['get','post'],'account_308_pulldata',[App\Http\Controllers\Account308Controller::class, 'account_308_pulldata'])->name('acc.account_308_pulldata');//
     Route::match(['get','post'],'account_308_dash',[App\Http\Controllers\Account308Controller::class, 'account_308_dash'])->name('acc.account_308_dash');//
     Route::match(['get','post'],'account_308/{months}/{year}',[App\Http\Controllers\Account308Controller::class, 'account_308'])->name('acc.account_308');//
@@ -2141,6 +2142,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_308_checksit',[App\Http\Controllers\Account308Controller::class, 'account_308_checksit'])->name('acc.account_308_checksit');//
 
     Route::match(['get','post'],'account_309_pull',[App\Http\Controllers\Account309Controller::class, 'account_309_pull'])->name('acc.account_309_pull');//
+    Route::match(['get','post'],'account_309_search',[App\Http\Controllers\Account309Controller::class, 'account_309_search'])->name('acc.account_309_search');//
     Route::match(['get','post'],'account_309_checksit',[App\Http\Controllers\Account309Controller::class, 'account_309_checksit'])->name('acc.account_309_checksit');//
     Route::match(['get','post'],'account_309_pulldata',[App\Http\Controllers\Account309Controller::class, 'account_309_pulldata'])->name('acc.account_309_pulldata');//
     Route::match(['get','post'],'account_309_dash',[App\Http\Controllers\Account309Controller::class, 'account_309_dash'])->name('acc.account_309_dash');//

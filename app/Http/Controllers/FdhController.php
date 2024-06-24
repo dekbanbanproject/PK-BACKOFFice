@@ -1684,9 +1684,11 @@ class FdhController extends Controller
             $datashow_ = DB::connection('mysql2')->select(
                 'SELECT v.vstdate,o.vsttime
                     ,Time_format(o.vsttime ,"%H:%i") vsttime2
-                    ,v.cid,"10978" as hcode
-                    ,rd.total_amount as total_amout
-                    ,rd.finance_number as invoice_number
+                    ,pt.cid,"10978" as hcode
+                    ,rd.total_amount as total_amout_1
+                    ,rd.finance_number as invoice_number_1
+					,IFNULL(rd.total_amount,v.income) as total_amout
+                    ,IFNULL(rd.finance_number,v.vn) as invoice_number
                     ,v.vn,concat(pt.pname,pt.fname," ",pt.lname) as ptname,v.hn,v.pttype
                     FROM vn_stat v 
                     LEFT OUTER JOIN ovst o ON v.vn = o.vn 
@@ -1704,10 +1706,20 @@ class FdhController extends Controller
                 $check_opd = Fdh_mini_dataset::where('vn', $value->vn)->count();
                 if ($check_opd > 0) {
                     Fdh_mini_dataset::where('vn', $value->vn)->update([ 
-                        'cid'                 => $value->cid, 
-                        'pttype'              => $value->pttype,
+                        // 'cid'                 => $value->cid, 
+                        // 'pttype'              => $value->pttype,
+                        // 'total_amout'         => $value->total_amout,
+                        // 'invoice_number'      => $value->invoice_number, 
+                        'service_date_time'   => $value->vstdate . ' ' . $value->vsttime,
+                        'cid'                 => $value->cid,
+                        'hcode'               => $value->hcode,
                         'total_amout'         => $value->total_amout,
                         'invoice_number'      => $value->invoice_number, 
+                        'pttype'              => $value->pttype,
+                        'ptname'              => $value->ptname,
+                        'hn'                  => $value->hn,
+                        'vstdate'             => $value->vstdate,
+                        'vsttime'             => $value->vsttime,
                     ]);
                 } else {
                     Fdh_mini_dataset::insert([
@@ -2170,22 +2182,23 @@ class FdhController extends Controller
             $datashow_ = DB::connection('mysql10')->select(
                 'SELECT v.vstdate,o.vsttime
                     ,Time_format(o.vsttime ,"%H:%i") vsttime2
-                    ,v.cid,"10978" as hcode
-                    ,IFNULL(rd.total_amount,v.income) as total_amout
+                    ,pt.cid,"10978" as hcode
+                    ,rd.total_amount as total_amout_1
+                    ,rd.finance_number as invoice_number_1
+					,IFNULL(rd.total_amount,v.income) as total_amout
                     ,IFNULL(rd.finance_number,v.vn) as invoice_number
                     ,v.vn,concat(pt.pname,pt.fname," ",pt.lname) as ptname,v.hn,v.pttype
                     ,IFNULL(vp.claim_code,vp.auth_code) as authen_code 
-                    FROM ovst o
-                    LEFT OUTER JOIN vn_stat v ON v.vn = o.vn 
+                    FROM vn_stat v 
+                    LEFT OUTER JOIN ovst o ON v.vn = o.vn 
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn
-                    LEFT OUTER JOIN pttype ptt ON v.pttype = ptt.pttype 
+                    LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype   
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
                     LEFT OUTER JOIN visit_pttype vp on vp.vn = o.vn
-                WHERE o.vstdate = "' . $date . '"  
-                AND ptt.hipdata_code ="UCS" AND v.income > 0 AND pt.cid IS NOT NULL AND pt.nationality ="99" AND pt.birthday <> "'.$date.'"
-                AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","X7","10","06","C4") 
-                AND (o.an IS NULL OR o.an ="")
-                GROUP BY v.vn LIMIT 50
+                WHERE o.vstdate = "' . $date . '" 
+                AND ptt.hipdata_code ="UCS" AND v.income > 0 AND pt.nationality = "99"
+                AND (o.an IS NULL OR o.an ="") AND pt.birthday <> "'.$date.'"
+                GROUP BY o.vn LIMIT 50
             ');
        
             foreach ($datashow_ as $key => $value) {
@@ -2196,7 +2209,11 @@ class FdhController extends Controller
                         'pttype'              => $value->pttype,
                         'total_amout'         => $value->total_amout,
                         'invoice_number'      => $value->invoice_number, 
-                        'claimcode'           => $value->authen_code, 
+                        'claimcode'           => $value->authen_code,  
+                        'ptname'              => $value->ptname,
+                        'hn'                  => $value->hn,
+                        'vstdate'             => $value->vstdate,
+                        'hcode'               => $value->hcode,
                     ]);
                 } else {
                     Fdh_mini_dataset::insert([

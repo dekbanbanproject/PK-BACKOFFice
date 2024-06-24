@@ -724,7 +724,7 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
-                                            <a href="" target="_blank">
+                                            <a href="{{ url('ct_rep') }}" target="_blank">
                                                 <h5 class="text-start mb-2">DIALYSIS CT</h5>
                                             </a>
                                         </div>
@@ -757,7 +757,7 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
-                                            <a href="" target="_blank">
+                                            <a href="{{ url('report_db') }}" target="_blank">
                                                 <h5 class="text-start mb-2">REPORT ALL</h5>
                                             </a>
                                         </div>
@@ -791,7 +791,7 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
-                                            <a href="" target="_blank">
+                                            <a href="{{ url('audiovisual_admin') }}" target="_blank">
                                                 <h5 class="text-start mb-2">งานโสต</h5>
                                             </a>
                                         </div>
@@ -824,7 +824,7 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
-                                            <a href="" target="_blank">
+                                            <a href="{{ url('tb_main') }}" target="_blank">
                                                 <h5 class="text-start mb-2">CLINIC TB</h5>
                                             </a>
                                         </div>
@@ -947,7 +947,7 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
-                                            <a href="" target="_blank">
+                                            <a href="{{ url('fdh_dashboard') }}" target="_blank">
                                                 <h5 class="text-start mb-2">FDH</h5>
                                             </a>
                                         </div>
