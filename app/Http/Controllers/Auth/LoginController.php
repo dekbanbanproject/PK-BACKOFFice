@@ -43,9 +43,9 @@ class LoginController extends Controller
             } elseif(auth()->user()->type == 'RPST') {
                 return redirect()->route('rpst.home_rpst');  
             } elseif(auth()->user()->type == 'SUPPLIES') {
-                return redirect()->route('sup.home_rpst');         
+                return redirect()->route('manage.home_supplies');         
            } else {
-                return redirect()->route('home');
+                return redirect()->route('/');
            }
         }else{
             return redirect()->route('login')->with('error','username and password Incorrect');

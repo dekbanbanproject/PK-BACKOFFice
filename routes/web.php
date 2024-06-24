@@ -514,6 +514,7 @@ Route::get('staff/home', [App\Http\Controllers\HomeController::class, 'staffHome
 Route::get('user/home', [App\Http\Controllers\UserController::class, 'user_index'])->name('user.home')->middleware('type');
 Route::get('manage/home', [App\Http\Controllers\HomeController::class, 'manageHome'])->name('manage.home')->middleware('type');
 Route::get('manage/home', [App\Http\Controllers\HomeController::class, 'manageHome'])->name('manage.home')->middleware('type');
+Route::get('home_supplies', [App\Http\Controllers\HomeController::class, 'home_supplies'])->name('manage.home_supplies')->middleware('type');
 
 Route::middleware(['type'])->group(function(){
 
@@ -3404,5 +3405,10 @@ Route::match(['get','post'],'nurse_index',[App\Http\Controllers\NurseController:
 Route::match(['get','post'],'nurse_index_process',[App\Http\Controllers\NurseController::class, 'nurse_index_process'])->name('d.nurse_index_process');//
 Route::match(['get','post'],'nurse_index_editable',[App\Http\Controllers\NurseController::class, 'nurse_index_editable'])->name('d.nurse_index_editable');//
 
+
+// ************************************* Supplies ***********************************************************
+
+Route::match(['get','post'],'main_repaire_sup',[App\Http\Controllers\SupController::class, 'main_repaire_sup'])->name('d.main_repaire_sup');//
+Route::match(['get','post'],'sup_add_air',[App\Http\Controllers\SupController::class, 'sup_add_air'])->name('d.sup_add_air');//
 
 });

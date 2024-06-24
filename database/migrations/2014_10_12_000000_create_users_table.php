@@ -105,6 +105,8 @@ return new class extends Migration
             $table->string('per_air', length: 100)->nullable();
             $table->string('per_fdh', length: 100)->nullable(); 
             $table->string('lineid', length: 100)->nullable(); 
+            $table->string('air_supplies_id', length: 10)->nullable(); 
+            
             $table->rememberToken();
             // $table->timestamps('created_at')->useCurrent();
             // $table->timestamps('updated_at')->nullable();
