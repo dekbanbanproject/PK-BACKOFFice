@@ -131,6 +131,26 @@ class SupController extends Controller
            
         ]);
     }
+    public function capture(Request $request)
+    {
+        $img = $request->image;
+        $folderPath = "uploads/";
+        
+        $image_parts = explode(";base64,", $img);
+        $image_type_aux = explode("image/", $image_parts[0]);
+        $image_type = $image_type_aux[1];
+        
+        $image_base64 = base64_decode($image_parts[1]);
+        $fileName = uniqid() . '.png';
+        
+        $file = $folderPath . $fileName;
+        Storage::put($file, $image_base64);
+        
+        // dd('Image uploaded successfully: '.$fileName);
+        return response()->json([
+            'status'     => '200'
+        ]);
+    }
     // public function nurse_index (Request $request)
     // {
     //     $startdate     = $request->startdate;

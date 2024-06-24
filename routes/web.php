@@ -3410,5 +3410,6 @@ Route::match(['get','post'],'nurse_index_editable',[App\Http\Controllers\NurseCo
 
 Route::match(['get','post'],'main_repaire_sup',[App\Http\Controllers\SupController::class, 'main_repaire_sup'])->name('d.main_repaire_sup');//
 Route::match(['get','post'],'sup_add_air',[App\Http\Controllers\SupController::class, 'sup_add_air'])->name('d.sup_add_air');//
+Route::match(['get','post'],'capture',[App\Http\Controllers\SupController::class, 'capture'])->name('webcam.capture');//
 
 });
