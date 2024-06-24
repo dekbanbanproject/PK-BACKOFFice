@@ -155,12 +155,12 @@ class NurseController extends Controller
        
 
 
-        $data['datashow'] = DB::connection('mysql')->select('SELECT * FROM nurse');
+        $datashow = DB::connection('mysql')->select('SELECT * FROM nurse');
 
-        return view('nurse.nurse_index',$data,[
+        return view('nurse.nurse_index',[
             'startdate'        => $startdate,
             'enddate'          => $enddate,
-            // 'data_doctor'      => $data_doctor,
+            'datashow'         => $datashow,
            
         ]);
     }
@@ -210,126 +210,39 @@ class NurseController extends Controller
         ]);
         
     }
-    // public function documentsub (Request $request,$id)
-    // {
-    //     $startdate = $request->startdate;
-    //     $enddate = $request->enddate;
-    //     $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
-    //     $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
-    //     $date = date('Y-m-d');
-    //     $y = date('Y') + 543;
-    //     $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-    //     $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
-    //     $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-
-    //     $data['datashow'] = DB::connection('mysql')->select('SELECT * FROM document WHERE active = "Y" AND user_id <> "581"');
-    //     $dataedit = Document::where('document_id','=',$id)->first();
-    //     $data_file =  $dataedit->img_name;
-    //     // storage/air/'.$item->air_imgname
-    //     return view('document.documentsub',$data,[
-    //         'startdate'     => $startdate,
-    //         'enddate'       => $enddate,
-    //         'data_file'     => $data_file,
-           
-    //     ]);
-    // }
-
-    // public function document_save(Request $request)
-    // {
-    //     $date_now = date('Y-m-d'); 
-    //     $iduser = Auth::user()->id;
-    //     $add = new Document(); 
-    //     $add->document_name     = $request->document_name;
-    //     $add->hip_code          = $request->hip_code; 
-
-    //     $maxid = Document::max('document_id');
-    //     $nameid = $maxid + 1;
-
-    //     if ($request->hasfile('img')) {
-    //         $image_64 = $request->file('img');   
-    //         $extention = $image_64->getClientOriginalExtension(); 
-    //         $filename = 'document_' .$nameid. '.' . $extention;
-    //         $request->img->storeAs('document', $filename, 'public');    
- 
-    //         $add->img        = $filename;
-    //         $add->img_name   = $filename; 
-    //         $add->img_file   = $extention; 
-    //         $add->user_id    = $iduser;
-
-    //         if ($extention =='.jpg') {
-    //             $file64 = "data:image/jpg;base64,".base64_encode(file_get_contents($request->file('img'))); 
-    //         } else {
-    //             $file64 = "data:image/png;base64,".base64_encode(file_get_contents($request->file('img'))); 
-    //         } 
-    //         $add->img_base       = $file64; 
-    //     }
-         
-    //     $add->save();
-    //     return response()->json([
-    //         'status'     => '200'
-    //     ]);
      
-
-       
-        
-    // }
-
-    // public function document_update(Request $request)
-    // {
-    //     $date_now = date('Y-m-d'); 
-    //     $id       = $request->document_id;
-    //     $iduser   = Auth::user()->id;
-    //     $update = Document::find($id); 
-    //     $update->document_name     = $request->document_name;
-    //     $update->hip_code          = $request->hip_code;  
-    //     $nameid                    = $id;
- 
-    //     if ($request->hasfile('img')) {
-
-    //         $description = 'storage/document/'.$update->img;
-    //         if (File::exists($description)) {
-    //             File::delete($description);
-    //         }
-
-    //         $image_64 = $request->file('img');   
-    //         $extention = $image_64->getClientOriginalExtension(); 
-    //         $filename = 'document_' .$nameid. '.' . $extention;
-    //         $request->img->storeAs('document', $filename, 'public');    
- 
-    //         $update->img        = $filename;
-    //         $update->img_name   = $filename; 
-    //         $update->img_file   = $extention; 
-    //         $update->user_id    = $iduser;
-
-    //         if ($extention =='.jpg') {
-    //             $file64 = "data:image/jpg;base64,".base64_encode(file_get_contents($request->file('img'))); 
-    //         } else {
-    //             $file64 = "data:image/png;base64,".base64_encode(file_get_contents($request->file('img'))); 
-    //         } 
-    //         $update->img_base       = $file64; 
-    //     }
-         
-    //     $update->save();
-    //     return response()->json([
-    //         'status'     => '200'
-    //     ]);
-     
-
-       
-        
-    // }
-
-    // public function document_destroy(Request $request,$id)
-    // {
-    //     $del = Document::find($id);
-    //     $description = 'storage/document/'.$del->img;
-    //     if (File::exists($description)) {
-    //         File::delete($description);
-    //     }
-    //     $del->delete();
-    //     return response()->json(['status' => '200','success' => 'Delete Success']);
-    // }
-
+    public function nurse_index_editable(Request $request)
+    {
+        if ($request->ajax())
+         {
+            if ($request->action == 'Edit'){
+                $c_an_ = Nurse::where('ward',$request->ward)->first();
+                $an    = $c_an_->count_an;
+                $a    = $c_an_->soot_a;
+                $b    = $c_an_->soot_b;
+                $c    = $c_an_->soot_c;
+                
+                $data  = array(
+                    'np_a'          =>$request->np_a,
+                    'soot_a_total'  =>($an * 1.6 * 100 / $a) * $request->np_a,
+                    'np_b'          =>$request->np_b,
+                    'soot_b_total'  =>($an * 1.6 * 100 / $b) * $request->np_b,
+                    'np_c'          =>$request->np_c,
+                    'soot_c_total'  =>($an * 1.6 * 100 / $c) * $request->np_c,
+                );
+                DB::connection('mysql')->table('nurse')
+                ->where('ward',$request->ward)
+                ->update($data);
+            }
+            // if($request->action == 'delete')
+    		// {
+    		// 	DB::table('sample_datas')
+    		// 		->where('id', $request->id)
+    		// 		->delete();
+    		// }
+            return request()->json($request);
+        }
+    }
    
 
  }

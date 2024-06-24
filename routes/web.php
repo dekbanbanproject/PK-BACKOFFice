@@ -3402,6 +3402,7 @@ Route::match(['get','post'],'tree_document_destroy/{id}',[App\Http\Controllers\T
 Route::match(['get','post'],'nurse_dashboard',[App\Http\Controllers\NurseController::class, 'nurse_dashboard'])->name('d.nurse_dashboard');//
 Route::match(['get','post'],'nurse_index',[App\Http\Controllers\NurseController::class, 'nurse_index'])->name('d.nurse_index');//
 Route::match(['get','post'],'nurse_index_process',[App\Http\Controllers\NurseController::class, 'nurse_index_process'])->name('d.nurse_index_process');//
+Route::match(['get','post'],'nurse_index_editable',[App\Http\Controllers\NurseController::class, 'nurse_index_editable'])->name('d.nurse_index_editable');//
 
 
 });

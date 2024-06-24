@@ -146,51 +146,43 @@
             <div class="col-xl-12">
                 <div class="card card_audit_4c">
                     <div class="card-body">
-                        <div class="table-responsive"> 
-                            <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
+                        <div class="table-responsive">  
+                                <table id="Tabledit" class="table table-striped table-hover table-sm" style="border-collapse: collapse;border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
-                                        <th width="5%" class="text-center">ลำดับ</th>
-                                        <th class="text-center" width="10%" >วันที่</th>
-                                        <th class="text-center" width="15%">ward</th>
-                                        <th class="text-center" width="10%">AN</th> 
-                                        <th class="text-center" width="10%">Np</th>
-                                        <th class="text-center" width="10%">7.30</th>
+                                        <th class="text-center">วันที่</th>
+                                        <th class="text-center">ward</th>
+                                        <th class="text-center" width="15%">ward name</th>
+                                        <th class="text-center">AN</th> 
+                                        <th class="text-center">Np</th>
+                                        <th class="text-center">7.30</th>
                                         <th class="text-center" width="10%">Total 7.30</th> 
-                                        <th class="text-center" width="10%">Np</th>
-                                        <th class="text-center" width="10%">15.30</th>
+                                        <th class="text-center">Np</th>
+                                        <th class="text-center">15.30</th>
                                         <th class="text-center" width="10%">Total 15.30</th> 
-                                        <th class="text-center" width="10%">Np</th>
-                                        <th class="text-center" width="10%">23.30</th> 
+                                        <th class="text-center">Np</th>
+                                        <th class="text-center">23.30</th> 
                                         <th class="text-center" width="10%">Total 23.30</th> 
+                                        <th class="text-center">Edit</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php $i = 1; ?>
-                                    @foreach ($datashow as $item)
-                                        <?php
-                                      
-                                        ?>
+                                    @foreach ($datashow as $item) 
                                         <tr style="font-size:13px">
-                                            <td class="text-center" width="4%">{{ $i++ }}</td>
-                                            <td class="text-center" width="7%">{{ Datethai($item->datesave )}}</td>
-                                            <td class="p-2" width="10%"> {{ $item->ward_name }}</td>
-                                            <td class="text-center" width="7%">{{ $item->count_an }} </td>
-                                            <td class="text-center" width="7%">
-                                                <input type="text" class="form-control form-control-sm" id="" name="">
-                                            </td>
-                                            <td class="text-center" width="7%">{{ $item->soot_a }} </td>
-                                            <td class="text-center" width="7%">Total 7.30</td>
-                                            <td class="text-center" width="7%"> 
-                                                <input type="text" class="form-control form-control-sm" id="" name="">
-                                            </td>
-                                            <td class="text-center" width="7%">{{ $item->soot_b }} </td> 
-                                            <td class="text-center" width="7%">Total 15.30</td>
-                                            <td class="text-center" width="7%"> 
-                                                <input type="text" class="form-control form-control-sm" id="" name="">
-                                            </td>
-                                            <td class="text-center" width="7%">{{ $item->soot_c}} </td>
-                                            <td class="text-center" width="7%">Total 23.30</td>
+                                            <td class="text-center" width="10%">{{ Datethai($item->datesave )}}</td>
+                                            <td class="text-center" width="5%">{{ $item->ward }} </td>
+                                            <td class="p-2"> {{ $item->ward_name }}</td>
+                                            <td class="text-center" width="5%">{{ $item->count_an }} </td>
+                                            <td class="text-center" width="7%">{{$item->np_a}} </td>
+                                            <td class="text-center" width="5%">{{ $item->soot_a }} </td>
+                                            <td class="text-center" width="10%"> {{$item->soot_a_total }}</td>
+                                            <td class="text-center" width="7%"> {{$item->np_b}} </td>
+                                            <td class="text-center" width="5%">{{ $item->soot_b }} </td> 
+                                            <td class="text-center" width="10%">{{ $item->soot_b_total }}</td>
+                                            <td class="text-center" width="7%"> {{$item->np_c}} </td>
+                                            <td class="text-center" width="5%">{{ $item->soot_c}} </td>
+                                            <td class="text-center" width="10%">{{ $item->soot_c_total }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -201,177 +193,48 @@
             </div>
         </div>
     </div>
-     
-    <div class="modal fade" id="add_color" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="myExtraLargeModalLabel">เพิ่มสีที่ต้องการ</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label for="">สีที่ต้องการ</label>
-                            <div class="form-group">
-                                <input type="color" class="form-control form-control-color" id="color_ot"
-                                    name="color_ot" style="width: 100%">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <input id="user_id" name="user_id" type="hidden" class="form-control" value="{{ $iduser }}">
-
-                <div class="modal-footer">
-                    <div class="col-md-12 text-end">
-                        <div class="form-group">
-                            <button type="button" id="saveBtn" class="btn btn-primary btn-sm">
-                                <i class="fa-solid fa-floppy-disk me-2"></i>
-                                บันทึกข้อมูล
-                            </button>
-                            <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal"><i
-                                    class="fa-solid fa-xmark me-2"></i>Close</button>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!--  Modal content for the settingform example -->
-    <div class="modal fade" id="settingform" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="myExtraLargeModalLabel">ตั้งค่าฟอร์ม4</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label for="">วันที่</label>
-                            <div class="form-group">
-                                <input type="date" class="form-control form-control-color" id="color_ot"
-                                    name="color_ot" style="width: 100%">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <input id="user_id" name="user_id" type="hidden" class="form-control" value="{{ $iduser }}">
-
-                <div class="modal-footer">
-                    <div class="col-md-12 text-end">
-                        <div class="form-group">
-                            <button type="button" id="saveBtn" class="btn btn-primary btn-sm">
-                                <i class="fa-solid fa-floppy-disk me-2"></i>
-                                บันทึกข้อมูล
-                            </button>
-                            <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal"><i
-                                    class="fa-solid fa-xmark me-2"></i>Close</button>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!--  Modal content Updte -->
-    <div class="modal fade" id="updteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="invenModalLabel">แก้ไขลงเวลาโอที</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-
-                    <div class="row">
-                        <div class="col-md-2 mt-3">
-                            <label for="editot_one_detail">เหตุผล </label>
-                        </div>
-                        <div class="col-md-10 mt-3">
-                            <div class="form-outline">
-                                <input id="editot_one_detail" type="text" class="form-control input-rounded">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 mt-3">
-                            <label for="editot_one_date">วันที่ </label>
-                        </div>
-                        <div class="col-md-10 mt-3">
-                            <div class="form-outline">
-                                <input id="editot_one_date" type="date" class="form-control input-rounded">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-2 mt-3">
-                            <label for="editot_one_starttime">ตั้งแต่เวลา </label>
-                        </div>
-                        <div class="col-md-4 mt-3">
-                            <div class="form-group">
-                                <input id="editot_one_starttime" type="time" class="form-control input-rounded">
-                            </div>
-                        </div>
-                        <div class="col-md-2 mt-3">
-                            <label for="ot_one_endtime">ถึงเวลา </label>
-                        </div>
-                        <div class="col-md-4 mt-3">
-                            <div class="form-group">
-                                <input id="editot_one_endtime" type="time" class="form-control input-rounded">
-                            </div>
-                        </div>
-                    </div>
-
-                    <input id="editot_one_id" type="hidden" class="form-control form-control-sm">
-                    <input type="hidden" id="edituser_id" name="user_id" value=" {{ Auth::user()->id }}">
-                </div>
-
-                <div class="modal-footer">
-                    <div class="col-md-12 text-end">
-                        <div class="form-group">
-                            <button type="button" id="updateBtn" class="btn btn-primary btn-sm">
-                                <i class="fa-solid fa-floppy-disk me-2"></i>
-                                แก้ไขข้อมูล
-                            </button>
-                            <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal"><i
-                                    class="fa-solid fa-xmark me-2"></i>Close</button>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+      
 
     </div>
 @endsection
-@section('footer')
-
-
+@section('footer') 
     <script>
         $(document).ready(function() {
             $('#example').DataTable();
             $('#example2').DataTable();
             $('#example3').DataTable();
 
-            // $('select').select2();
-            // $('#ECLAIM_STATUS').select2({
-            //     dropdownParent: $('#detailclaim')
-            // });
+            $('#Tabledit').Tabledit({
+                url:'{{route("d.nurse_index_editable")}}',
+                dataType:"json",
+                // editButton: true,
+                removeButton: false,
+                columns:{
+                    identifier:[1,'ward'],
+                    // editable:[[1,'group2'],[2,'fbillcode'],[3,'nbillcode'],[4,'dname'],[5,'pay_rate'],[6,'price'],[7,'price2'],[8,'price3']]
+                    editable: [[4, 'np_a'], [7, 'np_b'], [10, 'np_c']]
+                },
+                // restoreButton:false,
+                deleteButton: false,
+                saveButton: false,
+                autoFocus: false,
+                buttons: {
+                    edit: {
+                        class: 'btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-warning',
+                        html: '<i class="fa-regular fa-pen-to-square"></i>',
+                        action: 'Edit'
+                    }
+                },
+                // onSuccess:function(data,textStatus,jqXHR)
+                // {
+                //     if (data.action == 'delete') 
+                //     {
+                //         $('#'+data.icode).remove();
+                //     }
+                // }
 
-            // $('#users_group_id').select2({
-            //     placeholder: "--เลือก-- ",
-            //     allowClear: true
-            // });
-
+            });
+ 
             $('#datepicker').datepicker({
                 format: 'yyyy-mm-dd'
             });
@@ -448,147 +311,8 @@
                          }
              })
          });
-
-
-            $(document).on('click', '.add_color', function() {
-                var user_id = $(this).val();
-                // alert(ot_one_id);
-                $('#add_color').modal('show');
-                $.ajax({
-                    type: "GET",
-                    url: "{{ url('otone_add_color') }}" + '/' + user_id,
-                    success: function(data) {
-                        $('#user_id').val(data.users_color.id)
-
-                    },
-                });
-
-                $('.Pulldata__').click(function() {
-
-                    // var color_ot = $('#color_ot').val();
-                    var data_insert = $('#data_insert').val();
-                    // alert(color_ot);
-                    $.ajax({
-                        url: "{{ route('d.nurse_dashboard') }}",
-                        type: "POST",
-                        dataType: 'json',
-                        data: {
-                            data_insert
-                            // user_id
-                        },
-                        success: function(data) {
-                            if (data.status == 200) {
-                                // alert('gggggg');
-                                Swal.fire({
-                                    title: 'ประมวลผลสำเร็จ',
-                                    text: "You Process data success",
-                                    icon: 'success',
-                                    showCancelButton: false,
-                                    confirmButtonColor: '#06D177',
-                                    confirmButtonText: 'เรียบร้อย'
-                                }).then((result) => {
-                                    if (result
-                                        .isConfirmed) {
-                                        console.log(
-                                            data);
-
-                                        window.location
-                                            .reload();
-                                    }
-                                })
-                            } else {
-
-                            }
-
-                        },
-                    });
-                });
-            });
-
-            $(document).on('click', '.edit_data', function() {
-                var ot_one_id = $(this).val();
-                // alert(ot_one_id);
-                $('#updteModal').modal('show');
-                $.ajax({
-                    type: "GET",
-                    url: "{{ url('otone_edit') }}" + '/' + ot_one_id,
-                    success: function(data) {
-                        $('#editot_one_starttime').val(data.ot.ot_one_starttime)
-                        $('#editot_one_endtime').val(data.ot.ot_one_endtime)
-                        $('#editot_one_date').val(data.ot.ot_one_date)
-                        $('#editot_one_detail').val(data.ot.ot_one_detail)
-                        // $('#edituser_id').val(data.ot.ot_one_nameid)
-                        $('#editot_one_id').val(data.ot.ot_one_id)
-                    },
-                });
-            });
-
-            $('#updateBtn').click(function() {
-                var ot_one_starttime = $('#editot_one_starttime').val();
-                var ot_one_endtime = $('#editot_one_endtime').val();
-                var ot_one_date = $('#editot_one_date').val();
-                var ot_one_detail = $('#editot_one_detail').val();
-                var user_id = $('#edituser_id').val();
-                var ot_one_id = $('#editot_one_id').val();
-                // alert(ot_one_id);
-                $.ajax({
-                    url: "{{ route('ot.otone_update') }}",
-                    type: "POST",
-                    dataType: 'json',
-                    data: {
-                        ot_one_id,
-                        ot_one_detail,
-                        ot_one_date,
-                        ot_one_starttime,
-                        ot_one_endtime,
-                        user_id
-                    },
-                    success: function(data) {
-                        if (data.status == 200) {
-                            Swal.fire({
-                                title: 'แก้ไขข้อมูลสำเร็จ',
-                                text: "You edit data success",
-                                icon: 'success',
-                                showCancelButton: false,
-                                confirmButtonColor: '#06D177',
-                                confirmButtonText: 'เรียบร้อย'
-                            }).then((result) => {
-                                if (result
-                                    .isConfirmed) {
-                                    console.log(
-                                        data);
-
-                                    window.location
-                                        .reload();
-                                }
-                            })
-                        } else {
-
-                        }
-
-                    },
-                });
-            });
-
-            // settingform
-            $(document).on('click', '.settingform', function() {
-                var datepicker = $(this).val();
-                // alert(datepicker);
-                $('#settingform').modal('show');
-                // $.ajax({
-                //     type: "GET",
-                //     url: "{{ url('otone_edit') }}" + '/' + ot_one_id,
-                //     success: function(data) {
-                //         $('#editot_one_starttime').val(data.ot.ot_one_starttime)
-                //         $('#editot_one_endtime').val(data.ot.ot_one_endtime)
-                //         $('#editot_one_date').val(data.ot.ot_one_date)
-                //         $('#editot_one_detail').val(data.ot.ot_one_detail)
-                //         // $('#edituser_id').val(data.ot.ot_one_nameid)
-                //         $('#editot_one_id').val(data.ot.ot_one_id)
-                //     },
-                // });
-            });
-
+ 
+ 
         });
     </script>
 
