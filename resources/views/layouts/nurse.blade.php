@@ -224,7 +224,7 @@
                                 <span>Nurse</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                   <li><a href="{{ url('nurse_dashboard') }}">Dashboard</a></li>
+                                   {{-- <li><a href="{{ url('nurse_dashboard') }}">Dashboard</a></li> --}}
                                 <li><a href="{{ url('nurse_index') }}">ข้อมูล</a></li>
                              
                                 {{-- <li><a href="{{ url('time_index_day') }}">เวลาเข้า-ออก (รายวัน)</a></li> --}}
