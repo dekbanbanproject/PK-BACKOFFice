@@ -101,6 +101,7 @@ $loter = $date.''.$time
                                         <tr style="font-size: 13px">                                        
                                             <th class="text-center" style="background: #fdf7e4">รหัสกล้อง</th>
                                             <th class="text-center" width="15%" style="background: #fdf7e4">สถานที่ติดตั้ง</th> 
+                                            <th class="text-center" style="background: #e4fdfc">สถานะการตรวจเช็ค</th> 
                                             <th class="text-center" style="background: #e4fdfc">จอกล้อง</th> 
                                             <th class="text-center" style="background: #e4fdfc">มุมกล้อง</th>
                                             <th class="text-center" style="background: #e4fdfc">สิ่งกีดขวาง</th>
@@ -115,14 +116,35 @@ $loter = $date.''.$time
                                             $total7 = 0; $total8 = 0; $total9 = 0; $total10 = 0; $total11 = 0; $total12 = 0;
                                         ?>
                                         @foreach ($datashow as $item) 
+                                        <?php
+                                                $dashboard_ = DB::select(
+                                                    'SELECT * FROM cctv_check WHERE article_num = "'.$item->cctv_list_num.'"  
+                                                ');  
+                                                // foreach ($dashboard_ as $key => $value) {
+                                                //    $cctv_camera_screen       = $value->cctv_camera_screen;
+                                                //    $cctv_camera_corner       = $value->cctv_camera_corner;
+                                                //    $cctv_camera_drawback     = $value->cctv_camera_drawback;
+                                                //    $cctv_camera_save         = $value->cctv_camera_save;
+                                                //    $cctv_camera_power_backup = $value->cctv_camera_power_backup;
+                                                // }
+                                                // $dataedit = DB::table('cctv_check')->where('article_num', '=', $item->cctv_list_num)->first();
+                                                //     $cctv_camera_screen       = $dataedit->cctv_camera_screen;
+                                                //     $cctv_camera_corner       = $dataedit->cctv_camera_corner;
+                                                //     $cctv_camera_drawback     = $dataedit->cctv_camera_drawback;
+                                                //     $cctv_camera_save         = $dataedit->cctv_camera_save;
+                                                //     $cctv_camera_power_backup = $dataedit->cctv_camera_power_backup;
+                                        ?>
                                             <tr style="font-size:13px"> 
-                                                <td class="text-center" width="10%" >{{ $item->article_num }} </td>
-                                                <td class="p-2"> {{ $item->cctv_location }}</td>    
-                                                <td class="text-center" width="7%"></td> 
-                                                <td class="text-center" width="7%"> </td> 
-                                                <td class="text-center" width="7%"> </td>
-                                                <td class="text-center" width="7%"> </td>   
-                                                <td class="text-center" width="7%"> </td>  
+                                                <td class="text-center" width="7%" >{{ $item->cctv_list_num }} </td>
+                                                <td class="p-2"> {{ $item->cctv_location }}</td>  
+                                                <td class="text-center" width="7%">{{$item->cctv_check}}</td>  
+                                                <td class="text-center" width="7%">{{$item->cctv_camera_screen}}</td> 
+                                                <td class="text-center" width="7%">{{$item->cctv_camera_corner}}</td> 
+                                                <td class="text-center" width="7%">{{$item->cctv_camera_drawback}}</td>
+                                                <td class="text-center" width="7%">{{$item->cctv_camera_save}}</td>   
+                                                <td class="text-center" width="7%">{{$item->cctv_camera_power_backup}}</td>  
+                                          
+                                               
                                             </tr> 
                                         @endforeach
                                     </tbody>
@@ -160,14 +182,14 @@ $loter = $date.''.$time
           });
            
           $('#Tabledit').Tabledit({
-                // url:'{{route("d.nurse_index_editable")}}',
+                url:'{{route("tec.cctv_list_editcheck")}}',
                 dataType:"json",
                 // editButton: true,
                 removeButton: false,
                 columns:{
-                    identifier:[0,'ward'],
-                    // editable:[[1,'group2'],[2,'fbillcode'],[3,'nbillcode'],[4,'dname'],[5,'pay_rate'],[6,'price'],[7,'price2'],[8,'price3']]
-                    editable: [[4, 'np_a'], [8, 'np_b'], [12, 'np_c']]
+                    identifier:[0,'cctv_list_num'],
+                    // editable:[[1,'group2'],[2,'fbillcode'],[3,'nbillcode'],[4,'dname'],[5,'pay_rate'],[6,'price'],[7,'price2'],[8,'price3'], [9, 'gender', '{"1":"Male", "2":"Female"}']]
+                    editable: [[3, 'cctv_camera_screen', '{"0":"ปกติ", "1":"ชำรุด"}'], [4, 'cctv_camera_corner', '{"0":"ปกติ", "1":"ชำรุด"}'], [5, 'cctv_camera_drawback', '{"0":"ปกติ", "1":"ชำรุด"}'], [6, 'cctv_camera_save', '{"0":"ปกติ", "1":"ชำรุด"}'], [7, 'cctv_camera_power_backup', '{"0":"ปกติ", "1":"ชำรุด"}']]
                 },
                 // restoreButton:false,
                 deleteButton: false,

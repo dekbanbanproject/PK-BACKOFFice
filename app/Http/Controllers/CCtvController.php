@@ -42,7 +42,7 @@ use App\Models\acc_stm_ofcexcel;
 use App\Models\Acc_stm_lgo;
 use App\Models\Acc_stm_lgoexcel;
 use App\Models\Check_sit_auto;
-use App\Models\Acc_stm_ucs_excel;
+use App\Models\Cctv_check;
 use App\Models\Article_status;
 use App\Models\Land;
 use App\Models\Cctv_report_months;
@@ -660,13 +660,74 @@ class CCtvController extends Controller
         $newDate     = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
         $newyear     = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
         $iduser = Auth::user()->id;
-        $datashow = DB::select('SELECT * from article_data WHERE cctv="Y" order by article_id ASC'); 
+        // $datashow = DB::select(
+        //     'SELECT c.*,cc.* from cctv_list c
+        //     LEFT JOIN cctv_check cc ON cc.article_num = c.cctv_list_num
+        //     WHERE c.cctv_status = "0" AND MONTH(cc.cctv_check_date) = "'.$months.'"
+        //     order by cctv_list_id ASC
+        // '); 
+        $datashow = DB::select(
+            'SELECT * from cctv_list 
+            WHERE cctv_status = "0" 
+            order by cctv_list_id ASC
+        '); 
          
         return view('support_prs.cctv.cctv_list_check',[
             'startdate'   =>     $startdate,
             'enddate'     =>     $enddate,
             'datashow'    =>     $datashow,
         ]);
+    }
+
+    public function cctv_list_editcheck(Request $request)
+    {
+        if ($request->ajax()) {
+            if ($request->action == 'Edit') {
+                $c_an_ = Cctv_check::where('article_num', $request->cctv_list_num)->first();
+                $an1    = $c_an_->count_an1;
+                $an2    = $c_an_->count_an2;
+                $an3    = $c_an_->count_an3;
+                $a     = $c_an_->soot_a;
+                $b     = $c_an_->soot_b;
+                $c     = $c_an_->soot_c;
+                // $nursing_ = Nurse_ksk::where('ward',$request->ward)->first();
+                $date = date('Y-m-d');
+                $m = date('H');
+                $mm = date('H:m:s');
+                $datefull = date('Y-m-d H:m:s');
+
+                if ($m < '8') {
+                } else if ($m > '8' && $m < '16') {
+                } else {
+                    if ($request->ward == '01') {
+                        # code...
+                    } else {
+                        # code...
+                    }
+                }
+
+                // $data  = array(
+                //     'np_a'          => $request->np_a,
+                //     'soot_a_total'  => ($an1 * 1.6 * 100 / $a) * $request->np_a,
+                //     'np_b'          => $request->np_b,
+
+                //     'soot_b_total'  => ($an2 * 1.6 * 100 / $b) * $request->np_b,
+                //     'np_c'          => $request->np_c,
+
+                //     'soot_c_total'  => ($an3 * 1.6 * 100 / $c) * $request->np_c,
+                // );
+                // DB::connection('mysql')->table('nurse')
+                //     ->where('ward', $request->ward)
+                //     ->update($data);
+            }
+            // if($request->action == 'delete')
+            // {
+            // 	DB::table('sample_datas')
+            // 		->where('id', $request->id)
+            // 		->delete();
+            // }
+            return request()->json($request);
+        }
     }
      
  
