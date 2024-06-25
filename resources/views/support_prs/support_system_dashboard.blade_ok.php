@@ -565,48 +565,48 @@
                                         <td class="text-start" style="width: 10%;background-color: rgb(2255, 251, 228)">
                                             {{$itemreport->MONTH_NAME}} พ.ศ.{{$itemreport->yearsthai}}
                                         </td>
-                                        <td class="text-center" style="background-color: rgb(255, 255, 255)">
+                                        <td class="text-center" style="background-color: rgb(255, 237, 117)">
                                             <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">{{$redten}}</a>
                                         </td>
-                                        <td class="text-center" style="background-color: rgb(255, 255, 255)">
+                                        <td class="text-center" style="background-color: rgb(255, 237, 117)">
                                             <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">{{$redfifteen}}</a>
                                         </td>
-                                        <td class="text-center" style="background-color: rgb(255, 255, 255)">
+                                        <td class="text-center" style="background-color: rgb(255, 237, 117)">
                                             <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">{{$redtwenty}}</a>
                                         </td>
-                                        <td colspan="2" class="text-center" style="background-color: rgb(255, 255, 255)">
+                                        <td colspan="2" class="text-center" style="background-color: rgb(255, 237, 117)">
                                             <a href="javascript:void(0)" class="badge rounded-pill bg-success me-2 ms-2">{{$greenten}}</a>
                                         </td>
-                                        <td class="text-center" style="background-color: rgb(255, 255, 255)">
+                                        <td class="text-center" style="background-color: rgb(255, 237, 117)">
                                            
                                             <a href="javascript:void(0)" class="badge rounded-pill bg-info me-2 ms-2">{{$total_all}}</a>
                                         </td>
-                                        <td class="text-center" style="background-color: rgb(255, 255, 255)">
+                                        <td class="text-center" style="background-color: rgb(117, 216, 255)">
                                             <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">{{$Check_redten}}</a>
                                         </td>
-                                        <td class="text-center" style="background-color: rgb(255, 255, 255)">
+                                        <td class="text-center" style="background-color: rgb(117, 216, 255)">
                                             <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">{{$Check_redfifteen}}</a>
                                         </td>
-                                        <td class="text-center" style="background-color: rgb(255, 255, 255)">
+                                        <td class="text-center" style="background-color: rgb(117, 216, 255)">
                                             <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">{{$Check_redtwenty}}</a>
                                         </td>
-                                        <td colspan="2" class="text-center" style="background-color: rgb(255, 255, 255)">
+                                        <td colspan="2" class="text-center" style="background-color: rgb(117, 216, 255)">
                                             <a href="javascript:void(0)" class="badge rounded-pill bg-success me-2 ms-2">{{$Check_greenten}}</a>
                                         </td>
-                                        <td class="text-center" style="background-color: rgb(219, 243, 252)">
+                                        <td class="text-center" style="background-color: rgb(117, 216, 255)">
                                             <a href="{{url('support_system_check/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill bg-primary me-2 ms-2">{{$Checktotal_all}}</a>
                                         </td> 
 
                                         <td class="text-center" style="background-color: rgb(253, 202, 198)">
                                             <a href="{{url('support_system_nocheck/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(253, 80, 68)">{{$total_all- $Checktotal_all}}</a>
                                         </td>
-                                        <td class="text-center" style="background-color: rgb(255, 255, 255)">
+                                        <td class="text-center" style="background-color: rgb(252, 216, 214)">
                                             <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">{{$camroot}}</a>
                                         </td>
-                                        <td class="text-center" style="background-color: rgb(255, 255, 255)">
+                                        <td class="text-center" style="background-color: rgb(252, 216, 214)">
                                             <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">{{ number_format($trut, 2) }}</a>
                                         </td>
-                                        <td class="text-center" style="background-color: rgb(255, 255, 255)">
+                                        <td class="text-center" style="background-color: rgb(252, 216, 214)">
                                             <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">{{ number_format($chamrootcount, 2) }}</a>
                                         </td>
                                     </tr> 

@@ -133,7 +133,7 @@
     <form action="{{ url('air_report_building') }}" method="GET">
         @csrf
         <div class="row"> 
-            <div class="col-md-6">
+            <div class="col-md-7">
                 <h4 style="color:rgb(10, 151, 85)">รายงานการข้อมูลเครื่องปรับอากาศ โรงพยาบาลภูเขียวเฉลิมพระเกียรติ ปีงบประมาณ </h4>
                 {{-- <p class="card-title-desc">รายงานถังดับเพลิง</p> --}}
             </div>
@@ -160,22 +160,22 @@
 
                 <p class="mb-0">
                     <div class="table-responsive">
-                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">                        
+                        <table id="example" class="table table-striped table-bordered dt-responsive" style="border-collapse: collapse; border-spacing: 0; width: 100%;">                        
                             <thead>                             
                                     <tr style="font-size:13px"> 
                                         <th rowspan="2" width="3%" class="text-center" style="background-color: rgb(255, 251, 228);width: 5%">ลำดับ</th>  
-                                        <th rowspan="2" class="text-center" style="background-color: rgb(199, 253, 237)">อาคาร</th>  
-                                        <th rowspan="2" class="text-center" style="background-color: rgb(199, 253, 237);width: 7%">เลขอาคาร</th>  
-                                        <th rowspan="2" class="text-center" style="background-color: rgb(199, 253, 237);width: 7%">จำนวน</th>  
-                                        <th colspan="6" class="text-center" style="background-color: rgb(239, 228, 255);width: 40%">ขนาด(btu)</th>   
+                                        <th rowspan="2" class="text-center" style="background-color: rgb(253, 245, 199)">อาคาร</th>  
+                                        <th rowspan="2" class="text-center" style="background-color: rgb(253, 245, 199);width: 7%">อาคาร</th>  
+                                        <th rowspan="2" class="text-center" style="background-color: rgb(253, 245, 199);width: 7%">จำนวน</th>  
+                                        <th colspan="6" class="text-center" style="background-color: rgb(239, 228, 255);width: 40%">ขนาด( BTU )</th>   
                                     </tr> 
                                     <tr style="font-size:13px">  
-                                        <th class="text-center" >ต่ำกว่า 10000</th> 
-                                        <th class="text-center" >10001-20000</th>   
-                                        <th class="text-center" >20001-30000</th> 
-                                        <th class="text-center" >30001-40000</th>
-                                        <th class="text-center" >40001-50000</th>
-                                        <th class="text-center" >50000 ขึ้นไป</th>
+                                        <th class="text-center">< 10000</th> 
+                                        <th class="text-center">10001-20000</th>   
+                                        <th class="text-center">20001-30000</th> 
+                                        <th class="text-center">30001-40000</th>
+                                        <th class="text-center">40001-50000</th>
+                                        <th class="text-center">50000 ขึ้นไป</th>
                                     </tr> 
                             </thead>
                             <tbody>
@@ -185,18 +185,21 @@
                                     <tr>                                                  
                                         <td class="text-center" style="font-size:13px;width: 5%;color: rgb(13, 134, 185)">{{$i}}</td>
                                         <td class="text-start" style="font-size:14px;color: rgb(2, 95, 182)">{{$item->building_name}}</td>
-                                        <td class="text-center" style="font-size:13px;width: 7%;color: rgb(4, 117, 117)">{{$item->building_id}}</td>
-                                        <td class="text-center" style="font-size:13px;width: 7%;color: rgb(228, 15, 86)">
-                                           <a href="{{url('air_report_building_sub/'.$item->building_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(202, 236, 181);width: 70%;">
-                                                <span class="ladda-label"> <i class="fa-solid fa-fan opacity-6 me-2" style="color: #c0076d"></i>{{$item->qtyall}}</span>  
+                                        <td class="text-center" style="font-size:13px;width: 5%;color: rgb(4, 117, 117)">{{$item->building_id}}</td>
+                                        <td class="text-center" style="font-size:13px;width: 5%;color: rgb(228, 15, 86)">
+                                           <a href="{{url('air_report_building_sub/'.$item->building_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(202, 236, 181);width: 80%;" target="_blank">
+                                                <span class="ladda-label">
+                                                     {{-- <i class="fa-solid fa-fan opacity-6 me-2" style="color: #c0076d"></i> --}}
+                                                    {{$item->qtyall}}
+                                                </span>  
                                             </a> 
                                         </td>
-                                        <td class="text-center" style="font-size:13px;width: 7%;color: rgb(50, 3, 68)">{{$item->less_10000}}</td>
-                                        <td class="text-center" style="font-size:13px;width: 7%;color: rgb(50, 3, 68)">{{$item->one_two}}</td>
-                                        <td class="text-center" style="font-size:13px;width: 7%;color: rgb(50, 3, 68)">{{$item->two_tree}}</td>
-                                        <td class="text-center" style="font-size:13px;width: 7%;color: rgb(50, 3, 68)">{{$item->tree_four}}</td>
-                                        <td class="text-center" style="font-size:13px;width: 7%;color: rgb(50, 3, 68)">{{$item->four_five}}</td>
-                                        <td class="text-center" style="font-size:13px;width: 7%;color: rgb(50, 3, 68)">{{$item->more_five}}</td>
+                                        <td class="text-center" style="font-size:13px;width: 5%;color: rgb(50, 3, 68)">{{$item->less_10000}}</td>
+                                        <td class="text-center" style="font-size:13px;width: 5%;color: rgb(50, 3, 68)">{{$item->one_two}}</td>
+                                        <td class="text-center" style="font-size:13px;width: 5%;color: rgb(50, 3, 68)">{{$item->two_tree}}</td>
+                                        <td class="text-center" style="font-size:13px;width: 5%;color: rgb(50, 3, 68)">{{$item->tree_four}}</td>
+                                        <td class="text-center" style="font-size:13px;width: 5%;color: rgb(50, 3, 68)">{{$item->four_five}}</td>
+                                        <td class="text-center" style="font-size:13px;width: 5%;color: rgb(50, 3, 68)">{{$item->more_five}}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

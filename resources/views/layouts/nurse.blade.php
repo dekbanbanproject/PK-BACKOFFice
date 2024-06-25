@@ -220,7 +220,7 @@
                     
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-file-pen text-danger"></i>
+                                <i class="fa-solid fa-user-nurse text-danger"></i> 
                                 <span>Nurse</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">

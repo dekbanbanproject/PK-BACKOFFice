@@ -105,7 +105,7 @@
         
         <div class="row">
             <div class="col-xl-12">
-                <div class="card cardacc">
+                <div class="card card_prs_4">
                     <div class="card-body">    
                         <div class="row mb-3">
                            
@@ -136,8 +136,8 @@
 
                         <p class="mb-0">
                             <div class="table-responsive">
-                                {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
-                                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                {{-- <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                                     <thead>
                                         <tr> 
                                             <th width="5%" class="text-center">ลำดับ</th>  

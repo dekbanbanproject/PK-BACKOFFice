@@ -122,7 +122,7 @@
             <div class="col"></div>
           
             <div class="col-md-4 text-end">
-                <a href="{{url('cctv_add')}}" class="ladda-button me-2 btn-pill btn btn-primary cardacc"> 
+                <a href="{{url('cctv_add')}}" class="ladda-button me-2 btn-pill btn btn-primary cardacc" target="_blank"> 
                     <i class="fa-solid fa-circle-plus text-white me-2"></i>
                    เพิ่มรายการ
                 </a>  
@@ -132,7 +132,7 @@
         
         <div class="row">
             <div class="col-xl-12">
-                <div class="card cardacc">
+                <div class="card card_prs_4">
                     <div class="card-body">    
                         <div class="row mb-3">
                            

@@ -646,6 +646,28 @@ class CCtvController extends Controller
         ]);
 
     }
+
+    public function cctv_list_check(Request $request)
+    { 
+        $startdate   = $request->startdate;
+        $enddate     = $request->enddate;
+        $date        = date('Y-m-d');
+        $y           = date('Y') + 543;
+        $months = date('m');
+        $year = date('Y'); 
+        $newdays     = date('Y-m-d', strtotime($date . ' -1 days')); //ย้อนหลัง 1 วัน
+        $newweek     = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate     = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear     = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $iduser = Auth::user()->id;
+        $datashow = DB::select('SELECT * from article_data WHERE cctv="Y" order by article_id ASC'); 
+         
+        return view('support_prs.cctv.cctv_list_check',[
+            'startdate'   =>     $startdate,
+            'enddate'     =>     $enddate,
+            'datashow'    =>     $datashow,
+        ]);
+    }
      
  
 

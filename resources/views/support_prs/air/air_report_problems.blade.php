@@ -226,56 +226,56 @@
                                             </td>
                                         @elseif ($item->air_repaire_ploblem_id == '2')
                                             <td class="text-center" style="font-size:13px;width: 10%;color: rgb(4, 117, 117)">
-                                                <a href="{{url('air_report_problemsub/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(202, 236, 181);width: 70%;">
+                                                <a href="{{url('air_report_problemsub/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(202, 236, 181);width: 70%;" target="_blank">
                                                     <span class="ladda-label"> <i class="fab fa-slack me-2" style="color: #07c095"></i>{{$datacheck2}}</span>  
                                                 </a> 
                                             </td>
                                             <td class="text-center" style="font-size:13px;width: 20%;color: rgb(50, 3, 68)">
-                                                <a href="{{url('air_report_problem_detail/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(202, 236, 181);width: 50%;">
+                                                <a href="{{url('air_report_problem_detail/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(202, 236, 181);width: 50%;" target="_blank">
                                                     <span class="ladda-label"> <i class="fab fa-slack me-2" style="color: #07c095"></i>{{$datacheck7}}</span>  
                                                 </a> 
                                             </td>
                                         @elseif ($item->air_repaire_ploblem_id == '3')
                                             <td class="text-center" style="font-size:13px;width: 10%;color: rgb(4, 117, 117)">
-                                                <a href="{{url('air_report_problemsub/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(236, 181, 181);width: 70%;">
+                                                <a href="{{url('air_report_problemsub/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(236, 181, 181);width: 70%;" target="_blank">
                                                     <span class="ladda-label"> <i class="fa-solid fa-soap me-2" style="color: #c0072f"></i>{{$datacheck3}}</span>  
                                                 </a> 
                                             </td>
                                             <td class="text-center" style="font-size:13px;width: 20%;color: rgb(50, 3, 68)">
-                                                <a href="{{url('air_report_problem_detail/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(236, 181, 181);width: 50%;">
+                                                <a href="{{url('air_report_problem_detail/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(236, 181, 181);width: 50%;" target="_blank">
                                                     <span class="ladda-label"> <i class="fa-solid fa-soap me-2" style="color: #c0072f"></i>{{$datacheck7}}</span>  
                                                 </a> 
                                             </td>
                                         @elseif ($item->air_repaire_ploblem_id == '4')
                                             <td class="text-center" style="font-size:13px;width: 10%;color: rgb(4, 117, 117)">
-                                                <a href="{{url('air_report_problemsub/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(181, 203, 236);width: 70%;">
+                                                <a href="{{url('air_report_problemsub/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(181, 203, 236);width: 70%;" target="_blank">
                                                     <span class="ladda-label"> <i class="fa-solid fa-volume-high me-2" style="color: #0760c0"></i>{{$datacheck4}}</span>  
                                                 </a> 
                                             </td>
                                             <td class="text-center" style="font-size:13px;width: 20%;color: rgb(50, 3, 68)">
-                                                <a href="{{url('air_report_problem_detail/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(181, 203, 236);width: 50%;">
+                                                <a href="{{url('air_report_problem_detail/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(181, 203, 236);width: 50%;" target="_blank">
                                                     <span class="ladda-label"> <i class="fa-solid fa-volume-high me-2" style="color: #0760c0"></i>{{$datacheck7}}</span>  
                                                 </a>
                                             </td>
                                         @elseif ($item->air_repaire_ploblem_id == '5')
                                             <td class="text-center" style="font-size:13px;width: 10%;color: rgb(4, 117, 117)">
-                                                <a href="{{url('air_report_problemsub/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(209, 181, 236);width: 70%;">
+                                                <a href="{{url('air_report_problemsub/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(209, 181, 236);width: 70%;" target="_blank">
                                                     <span class="ladda-label"> <i class="fa-solid fa-tenge-sign me-2" style="color: #8c07c0"></i>{{$datacheck5}}</span>  
                                                 </a>
                                             </td> 
                                             <td class="text-center" style="font-size:13px;width: 20%;color: rgb(50, 3, 68)">
-                                                <a href="{{url('air_report_problem_detail/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(209, 181, 236);width: 50%;">
+                                                <a href="{{url('air_report_problem_detail/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(209, 181, 236);width: 50%;" target="_blank">
                                                     <span class="ladda-label"> <i class="fa-solid fa-tenge-sign me-2" style="color: #8c07c0"></i>{{$datacheck7}}</span>  
                                                 </a>
                                             </td>
                                         @else
                                             <td class="text-center" style="font-size:13px;width: 10%;color: rgb(4, 117, 117)">
-                                                <a href="{{url('air_report_problemsub/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(185, 253, 250);width: 70%;">
+                                                <a href="{{url('air_report_problemsub/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(185, 253, 250);width: 70%;" target="_blank">
                                                     <span class="ladda-label"> <i class="fa-solid fa-circle-exclamation me-2" style="color: #037381"></i>{{$datacheck6}}</span>  
                                                 </a> 
                                             </td>
                                             <td class="text-center" style="font-size:13px;width: 20%;color: rgb(50, 3, 68)">
-                                                <a href="{{url('air_report_problem_detail/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(185, 253, 250);width: 50%;">
+                                                <a href="{{url('air_report_problem_detail/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(185, 253, 250);width: 50%;" target="_blank">
                                                     <span class="ladda-label"> <i class="fa-solid fa-circle-exclamation me-2" style="color: #037381"></i>{{$datacheck7}}</span>  
                                                 </a> 
                                             </td>

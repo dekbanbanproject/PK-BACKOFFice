@@ -388,6 +388,7 @@ use App\Models\Products_request_sub;
                                 </a>
                                 <ul class="sub-menu" aria-expanded="true"> 
                                     <li><a href="{{ url('cctv_list') }}">รายการกล้อง</a></li>
+                                    <li><a href="{{ url('cctv_list_check') }}">บันทึกกล้องวงจรปิด</a></li>
                                     <li><a href="{{ url('cctv_report') }}">report รายวัน</a></li>
                                 
                                 </ul>

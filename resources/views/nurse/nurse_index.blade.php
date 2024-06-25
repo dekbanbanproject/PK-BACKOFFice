@@ -152,7 +152,7 @@
                         <div class="table-responsive">  
                                 <table id="Tabledit" class="table table-bordered border-primary table-hover table-sm" style="border-collapse: collapse;border-spacing: 0; width: 100%;">
                                 <thead>
-                                    <tr>                                        
+                                    <tr style="font-size: 13px">                                        
                                         <th class="text-center" rowspan="2" style="background: #fdf7e4">ward</th>
                                         <th class="text-center" width="15%" rowspan="2" style="background: #fdf7e4">ward name</th> 
                                         <th class="text-center" style="background: #e4fdfc">ยอดผู้ป่วย</th> 
@@ -167,7 +167,7 @@
                                         <th class="text-center" style="background: #fadbda" colspan="2">จำนวนพยาบาลเวรดึก</th> 
                                         <th class="text-center" style="background: #fadbda" rowspan="2">Nursing<br> product</th>  
                                     </tr>
-                                    <tr> 
+                                    <tr style="font-size: 13px"> 
                                         <th class="text-center" style="background: #fde4f8">8.00</th>
                                         <th class="text-center" style="background: #fde4f8">ควรจะเป็น</th>
                                         <th class="text-center" style="background: #fde4f8">ขึ้นจริง</th> 
@@ -182,29 +182,61 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $i = 1; ?>
+                                    <?php $i = 1;
+                                        $total1 = 0; $total2 = 0; $total3 = 0; $total4 = 0; $total5 = 0; $total6 = 0;
+                                        $total7 = 0; $total8 = 0; $total9 = 0; $total10 = 0; $total11 = 0; $total12 = 0;
+                                    ?>
                                     @foreach ($datashow as $item) 
                                         <tr style="font-size:13px"> 
                                             <td class="text-center" width="5%" >{{ $item->ward }} </td>
                                             <td class="p-2"> {{ $item->ward_name }}</td>
 
                                             <td class="text-center" width="7%">{{ $item->count_an1 }} </td> 
-                                            <td class="text-center" width="5%">{{$item->soot_a}} </td> 
-                                            <td class="text-center" width="5%">{{ $item->np_a }} </td>
+                                            <td class="text-center" width="7%">{{$item->soot_a}} </td> 
+                                            <td class="text-center" width="7%">{{ $item->np_a }} </td>
                                             <td class="text-center" width="7%"> {{number_format($item->soot_a_total, 2) }}</td>
 
                                             <td class="text-center" width="7%">{{ $item->count_an2 }} </td>  
-                                            <td class="text-center" width="5%">{{ $item->soot_b }} </td>  
-                                                <td class="text-center" width="5%"> {{$item->np_b}} </td>                                          
+                                            <td class="text-center" width="7%">{{ $item->soot_b }} </td>  
+                                                <td class="text-center" width="7%"> {{$item->np_b}} </td>                                          
                                             <td class="text-center" width="7%">{{number_format($item->soot_b_total, 2) }}</td>
 
                                             <td class="text-center" width="7%">{{ $item->count_an3 }} </td>  
-                                            <td class="text-center" width="5%">{{ $item->soot_c}} </td>  
-                                            <td class="text-center" width="5%"> {{$item->np_c}} </td>                                          
+                                            <td class="text-center" width="7%">{{ $item->soot_c}} </td>  
+                                            <td class="text-center" width="7%"> {{$item->np_c}} </td>                                          
                                             <td class="text-center" width="7%">{{number_format($item->soot_c_total, 2) }}</td>
                                         </tr>
+                                        <?php 
+                                        $total1 = $total1 + $item->count_an1;
+                                        $total2 = $total2 + $item->soot_a;
+                                        $total3 = $total3 + $item->np_a;
+                                        $total4 = $total4 + $item->soot_a_total;
+                                        $total5 = $total5 + $item->count_an2;
+                                        $total6 = $total6 + $item->soot_b;
+                                        $total7 = $total7 + $item->np_b;
+                                        $total8 = $total8 + $item->soot_b_total;
+                                        $total9 = $total9 + $item->count_an3;
+                                        $total10 = $total10 + $item->soot_c;
+                                        $total11 = $total11 + $item->np_c;
+                                        $total12 = $total12 + $item->soot_c_total;
+                                    ?>
                                     @endforeach
                                 </tbody>
+                                <tr style="background-color: #f3fca1">
+                                    <td colspan="2" class="text-end" style="background-color: #f7e0e0"></td>
+                                    <td class="text-center" style="background-color: #fadbda"><label for="">{{$total1 }}</label></td>
+                                    <td class="text-center" style="background-color: #fadbda"><label for="">{{ $total2}}</label></td>
+                                    <td class="text-center" style="background-color: #fadbda"><label for="">{{ $total3}}</label> </td>
+                                    <td class="text-center" style="background-color: #ace2fc"><label for="">{{ number_format($total4, 2) }}</label></td>
+                                    <td class="text-center" style="background-color: #fadbda"><label for="">{{ $total5 }}</label></td>
+                                    <td class="text-center" style="background-color: #fadbda"><label for="">{{ $total6 }}</label></td>
+                                    <td class="text-center" style="background-color: #fadbda"><label for="">{{$total7 }}</label></td>
+                                    <td class="text-center" style="background-color: #65ccfc"><label for="">{{ number_format($total8, 2) }}</label></td>
+                                    <td class="text-center" style="background-color: #fadbda"><label for="">{{ $total9 }}</label></td>
+                                    <td class="text-center" style="background-color: #fadbda"><label for="">{{ $total10}}</label></td>
+                                    <td class="text-center" style="background-color: #fadbda"><label for="">{{ $total11 }}</label></td>
+                                    <td class="text-center" style="background-color: #f8b6b4"><label for="">{{ number_format($total12, 2) }}</label></td> 
+                                </tr>  
                             </table>
                         </div>
                     </div>
