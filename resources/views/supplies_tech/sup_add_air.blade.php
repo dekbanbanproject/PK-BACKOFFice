@@ -46,11 +46,19 @@
     </div>
 
     <script type="text/javascript">
+     
+
+    Webcam.set("constraints", {
+        optional: [{ minWidth: 600 }]
+    });
         Webcam.set({
             width: 490,
             height: 350,
             image_format: 'jpeg',
-            jpeg_quality: 90
+            jpeg_quality: 90,
+            force_flash: false,
+        flip_horiz: true,
+        fps: 45
         });
 
         Webcam.attach('#my_camera');
