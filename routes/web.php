@@ -1971,7 +1971,9 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_203_pulldata',[App\Http\Controllers\Account203Controller::class, 'account_203_pulldata'])->name('acc.account_203_pulldata');//    
     Route::match(['get','post'],'account_203/{months}/{year}',[App\Http\Controllers\Account203Controller::class, 'account_203'])->name('acc.account_203');//
     Route::match(['get','post'],'account_203_detail/{months}/{year}',[App\Http\Controllers\Account203Controller::class, 'account_203_detail'])->name('acc.account_203_detail');//
+    Route::match(['get','post'],'account_203_detail_hos/{hoscode}/{months}/{year}',[App\Http\Controllers\Account203Controller::class, 'account_203_detail_hos'])->name('acc.account_203_detail_hos');//
     Route::match(['get','post'],'account_203_detail_date/{startdate}/{enddate}',[App\Http\Controllers\Account203Controller::class, 'account_203_detail_date'])->name('acc.account_203_detail_date');//
+    Route::match(['get','post'],'account_203_detail_datehos/{hoscode}/{startdate}/{enddate}',[App\Http\Controllers\Account203Controller::class, 'account_203_detail_datehos'])->name('acc.account_203_detail_datehos');//
     Route::match(['get','post'],'account_203_stm/{months}/{year}',[App\Http\Controllers\Account203Controller::class, 'account_203_stm'])->name('acc.account_203_stm');//
     Route::match(['get','post'],'account_203_stm_date/{startdate}/{enddate}',[App\Http\Controllers\Account203Controller::class, 'account_203_stm_date'])->name('acc.account_203_stm_date');//
     Route::match(['get','post'],'account_203_stmnull/{months}/{year}',[App\Http\Controllers\Account203Controller::class, 'account_203_stmnull'])->name('acc.account_203_stmnull');//
@@ -3402,6 +3404,7 @@ Route::match(['get','post'],'tree_document_destroy/{id}',[App\Http\Controllers\T
 
 Route::match(['get','post'],'nurse_dashboard',[App\Http\Controllers\NurseController::class, 'nurse_dashboard'])->name('d.nurse_dashboard');//
 Route::match(['get','post'],'nurse_index',[App\Http\Controllers\NurseController::class, 'nurse_index'])->name('d.nurse_index');//
+Route::match(['get','post'],'nurse_index_excel',[App\Http\Controllers\NurseController::class, 'nurse_index_excel'])->name('d.nurse_index_excel');//
 Route::match(['get','post'],'nurse_index_process',[App\Http\Controllers\NurseController::class, 'nurse_index_process'])->name('d.nurse_index_process');//
 Route::match(['get','post'],'nurse_index_editable',[App\Http\Controllers\NurseController::class, 'nurse_index_editable'])->name('d.nurse_index_editable');//
 

@@ -47,7 +47,34 @@
             display: none;
         }
     </style>
+ <script>
+    function TypeAdmin() {
+        window.location.href = '{{ route('index') }}';
+    }
+</script>
+<?php
+    if (Auth::check()) {
+        $type = Auth::user()->type;
+        $iduser = Auth::user()->id;
+    } else {
+        echo "<body onload=\"TypeAdmin()\"></body>";
+        exit();
+    }
+    $url = Request::url();
+    $pos = strrpos($url, '/') + 1;
 
+    $strDate = date('Y-m-d');
+    $strYear = date("Y",strtotime($strDate))+543;
+    $strMonth= date("n",strtotime($strDate));
+    // // $strDay= date("j",strtotime($strDate));
+
+    $strMonthCut = Array("","มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤษจิกายน","ธันวาคม");
+    $strMonthThai=$strMonthCut[$strMonth];
+    // // return $strDay.' '.$strMonthThai.'  พ.ศ. '.$strYear;
+    $monthyear = $strMonthThai.'  พ.ศ. '.$strYear;
+    // return $monthyear;
+    // return $strMonthThai.'  พ.ศ. '.$strYear;
+?>
     <div class="tabs-animation">
 
         <div class="row text-center">
@@ -64,46 +91,35 @@
             </div>
         </div>
         <div class="container-fluid">
-            <form action="{{ url('account_203_detail_date') }}" method="GET">
-                @csrf 
+           
                     <!-- start page title -->
                     <div class="row"> 
                             <div class="col-md-6">
                                 <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail 1102050101.203</h4>
-                                <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.203 วันที่ {{ DateThai($startdate) }} - {{ DateThai($enddate) }}</p>
+                                <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.203 เดือน {{$monthyear}}</p>
                             </div>
                             <div class="col"></div>
-                            {{-- <div class="col-md-3 text-end mt-2">วันที่ {{ $startdate }} ถึง {{ $enddate }}</div> --}}
-                            {{-- <div class="col-md-4 text-end"> 
-                                <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                    <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date"
-                                        data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                                        data-date-language="th-th" value="{{ $startdate }}" required/>
-                                    <input type="text" class="form-control cardacc" name="enddate" placeholder="End Date" id="datepicker2"
-                                        data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                                        data-date-language="th-th" value="{{ $enddate }}" required/>   
-                             
-                            </div> --}}
-                           
-                       
-                    </div>
-            </form>
+                            <div class="col-md-1">
+                            <a href="{{url('account_203_detail/'.$months.'/'.$year)}}" class="ladda-button me-2 btn-pill btn btn-warning cardacc"> 
+                                <i class="fa-solid fa-arrow-left me-2"></i> 
+                               ย้อนกลับ
+                            </a> </div>
+                    </div> 
         </div> <!-- container-fluid -->
 
-        <div class="row"> 
+        {{-- <div class="row"> 
             <div class="col-xl-7 col-md-7">
                 <div class="card card_audit_4c" style="background-color: rgb(246, 235, 247)">   
                     <div class="table-responsive p-3">                                
                         <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
-                                <tr>
-                                    {{-- <th class="text-center">ลำดับ</th>  --}}
+                                <tr> 
                                     <th class="text-center">เดือน</th> 
                                     <th class="text-center">ลูกหนี้ที่ต้องตั้ง</th> 
                                     <th class="text-center">ตั้งลูกหนี้</th> 
                                     <th class="text-center">ลูกหนี้ตามข้อตกลง</th> 
-                                    <th class="text-center">ลูกหนี้CT</th> 
+                                    <th class="text-center">ลูกหนี้-CT</th> 
                                     <th class="text-center">Statement</th>
                                     <th class="text-center">ยกยอดไปเดือนนี้</th> 
                                 </tr>
@@ -129,7 +145,7 @@
                                                 from acc_debtor
                                                 WHERE account_code="1102050101.203"
                                                 AND stamp = "N" AND debit_total > 0
-                                                AND vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                                                AND month(vstdate) = "'.$months.'" AND year(vstdate) ="'.$year.'"
                                         ');
                                         foreach ($datas as $key => $value) {
                                             $count_N = $value->Can;
@@ -139,7 +155,7 @@
                                         $datasum_ = DB::select('
                                             SELECT sum(income)-sum(rcpt_money) as debit_total,count(DISTINCT vn) as Cvit
                                             from acc_1102050101_203
-                                            where vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                                            where month(vstdate) = "'.$months.'" AND year(vstdate) ="'.$year.'"
                                         
                                         ');   
                                         foreach ($datasum_ as $key => $value2) {
@@ -154,7 +170,7 @@
                                         $datasum_ = DB::select('
                                             SELECT sum(debit_total) as debit_total,sum(ct_price) as debit_ct_price,count(DISTINCT vn) as Cvit
                                             from acc_1102050101_203
-                                            where vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"  
+                                            where month(vstdate) = "'.$months.'" AND year(vstdate) ="'.$year.'"
                                             
                                         ');   
                                         foreach ($datasum_ as $key => $value5) {
@@ -167,7 +183,7 @@
                                         $sumapprove_ = DB::select('
                                                 SELECT sum(recieve_true) as recieve_true,count(vn) as Countvisit
                                                     from acc_1102050101_203
-                                                    where vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                                                    where month(vstdate) = "'.$months.'" AND year(vstdate) ="'.$year.'"
                                                     AND recieve_true IS NOT NULL
                                         ');                                           
                                         foreach ($sumapprove_ as $key => $value3) {
@@ -178,7 +194,7 @@
                                         $yokpai_ = DB::select('
                                                 SELECT sum(debit_total) as debit_total,count(vn) as Countvi
                                                     from acc_1102050101_203
-                                                    where vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                                                    where month(vstdate) = "'.$months.'" AND year(vstdate) ="'.$year.'"
                                                     AND recieve_true IS NULL
                                         ');                                           
                                         foreach ($yokpai_ as $key => $valpai) {
@@ -187,8 +203,7 @@
                                         } 
                                     ?>
                             
-                                        <tr>
-                                            {{-- <td class="text-font" style="text-align: center;" width="4%">{{ $number }} </td>   --}}
+                                        <tr> 
                                             <td class="p-2">{{$item->MONTH_NAME}} {{$ynew}}</td>                                         
                                             <td class="text-end" style="color:rgb(73, 147, 231)" width="10%"> {{ number_format($sum_N, 2) }}</td>  
                                             <td class="text-end" width="10%" style="color:rgb(186, 75, 250)"> {{ number_format($sum_Y, 2) }}</td> 
@@ -230,7 +245,7 @@
                                     <th class="text-center">ลำดับ</th> 
                                     <th class="text-center">โรงพยาบาล</th>  
                                     <th class="text-center">ลูกหนี้กรณีส่งต่อ</th> 
-                                    <th class="text-center">ลูกหนี้CT</th>  
+                                    <th class="text-center">ลูกหนี้-CT</th>  
                                 </tr>
                             </thead>
                             <tbody>
@@ -250,7 +265,8 @@
                                             $datas = DB::select(
                                                 'SELECT count(DISTINCT vn) as Can,SUM(debit_total) as sumdebit
                                                     FROM acc_1102050101_203
-                                                    WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND hospcode = "'.$item_h->hospcode.'" 
+                                                    WHERE month(vstdate) = "'.$months.'" AND year(vstdate) ="'.$year.'"
+                                                    AND hospmain = "'.$item_h->hospmain.'" 
                                             ');
                                             foreach ($datas as $key => $value) {
                                                 $count_N     = $value->Can;
@@ -260,7 +276,8 @@
                                             $datas = DB::select(
                                                 'SELECT count(DISTINCT vn) as Canct,SUM(ct_price) as sumctdebit
                                                     FROM acc_1102050101_203
-                                                    WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND hospcode = "'.$item_h->hospcode.'" 
+                                                    WHERE month(vstdate) = "'.$months.'" AND year(vstdate) ="'.$year.'"
+                                                    AND hospmain = "'.$item_h->hospmain.'" 
                                             ');
                                             foreach ($datas as $key => $value) {
                                                 $count_ct     = $value->Canct;
@@ -269,10 +286,11 @@
                                     ?>                                
                                         <tr>
                                             <td class="text-font" style="text-align: center;" width="4%">{{ $number++ }} </td>  
-                                            <td class="p-2"> 
-                                                <a href="{{url('account_203_detail_datehos/'.$item_h->hospmain.'/'.$startdate.'/'.$enddate)}}"> {{$item_h->hname}} 
+                                            <td class="p-2">
+                                                <a href="{{url('account_203_detail_hos/'.$item_h->hospmain.'/'.$months.'/'.$year)}}"> {{$item_h->hname}} 
                                                     <label style="font-size:15px;color:rgb(238, 36, 86)"><= Click !!</label>
                                                 </a>
+                                               
                                             </td>       
                                             <td class="text-end" width="20%" style="color:rgb(238, 36, 86)">{{ number_format($sum_toklong, 2) }}</td> 
                                             <td class="text-end" width="15%" style="color:rgb(237, 100, 255)">{{ number_format($sum_ct, 2) }}</td>  
@@ -295,7 +313,8 @@
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>  --}}
+    
         <div class="row">
             <div class="col-xl-12">
                     <div class="card card_audit_4c">                   
@@ -308,7 +327,7 @@
                                         <tr>
                                             <th class="text-center">ลำดับ</th> 
                                             <th class="text-center">vstdate</th> 
-                                            <th class="text-center">vn</th> 
+                                            {{-- <th class="text-center">vn</th>  --}}
                                             <th class="text-center">hn</th>
                                             <th class="text-center">cid</th>
                                             <th class="text-center">ptname</th>                                       
@@ -319,7 +338,7 @@
                                             <th class="text-center">ชำระเงินเอง</th> 
                                             <th class="text-center">ตั้งลูกหนี้</th>
                                             <th class="text-center">ลูกหนี้ตามข้อตกลง</th>  
-                                            <th class="text-center">ลูกหนี้CT</th> 
+                                            <th class="text-center">ลูกหนี้-CT</th> 
                                             <th class="text-center">ส่วนต่าง</th> 
                                             <th class="text-center">Hcode</th> 
                                         </tr>
@@ -338,13 +357,14 @@
                                             <tr>
                                                 <td class="text-font" style="text-align: center;" width="4%">{{ $number }} </td> 
                                                 <td class="text-center" width="7%">{{ $item->vstdate }}</td>
-                                                <td class="text-center" width="8%">{{ $item->vn }}</td> 
+                                                {{-- <td class="text-center" width="8%">{{ $item->vn }}</td>  --}}
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>
                                                 <td class="text-center" width="7%">{{ $item->cid }}</td>
                                                 <td class="p-2">{{ $item->ptname }}</td>                                            
                                                 <td class="text-center" width="5%">{{ $item->pttype }}</td>   
                                                 <td class="text-end" style="color:rgb(243, 157, 27)" width="7%"> {{ $item->pdx }}</td> 
-                                                <td class="text-end" style="color:rgb(243, 157, 27)" width="7%"> {{ $item->dx0 }}</td>                                         
+                                                <td class="text-end" style="color:rgb(243, 157, 27)" width="7%"> {{ $item->dx0 }}</td> 
+                                                {{-- <td class="text-end" style="color:rgb(243, 157, 27)" width="7%"> {{ $item->nhso_ownright_pid }}</td>                                          --}}
                                                 <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->income, 2) }}</td>  
                                                 <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->rcpt_money, 2) }}</td> 
                                                 <td class="text-end" style="color:rgb(207, 28, 37)" width="7%"> {{ number_format($item->income - $item->rcpt_money, 2) }}</td> 

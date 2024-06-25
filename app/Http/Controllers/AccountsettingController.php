@@ -93,16 +93,16 @@ class AccountsettingController extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate;
          
-        $datashow = DB::connection('mysql')->select('
-            SELECT 
-             a.acc_setpang_id,a.pang,a.pangname,a.active,b.acc_setpang_type_id,b.acc_setpang_id as acc_setpang_id2,b.pang as pang2
+        $datashow = DB::connection('mysql')->select(
+            'SELECT a.acc_setpang_id,a.pang,a.pangname,a.active,b.acc_setpang_type_id,b.acc_setpang_id as acc_setpang_id2,b.pang as pang2
              ,b.pttype as pttype2,b.hipdata_code,b.icode as icode2,b.icode,b.hospmain
             from acc_setpang a
             LEFT JOIN acc_setpang_type b ON b.acc_setpang_id = a.acc_setpang_id
             GROUP BY a.pang
             ORDER BY b.pang DESC
-            '); 
+        '); 
         $data_sit = DB::connection('mysql')->select('SELECT * from pttype');
+
          return view('account_set.acc_settingpang',[
             'datashow'      =>     $datashow,
             'data_sit'      =>     $data_sit,

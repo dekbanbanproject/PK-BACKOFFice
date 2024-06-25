@@ -325,6 +325,18 @@
                                                 $sum_toklong = $value5->debit_total+$value5->debit_ct_price;
                                                 $count_toklong = $value5->Cvit;
                                             }
+                                             // ตั้งลูกหนี้ OPD ตามข้อตกลง
+                                            //  $datasum_ = DB::select('
+                                            //     SELECT sum(debit_total) as debit_total,sum(ct_price) as debit_ct_price,count(DISTINCT vn) as Cvit
+                                            //     from acc_1102050101_203
+                                            //     where month(vstdate) = "'.$item->months.'"
+                                            //     AND year(vstdate) = "'.$item->year.'"; 
+                                                
+                                            // ');   
+                                            // foreach ($datasum_ as $key => $value5) {
+                                            //     $sum_toklong = $value5->debit_total+$value5->debit_ct_price;
+                                            //     $count_toklong = $value5->Cvit;
+                                            // }
                                             
                                             // STM
                                             $sumapprove_ = DB::select('

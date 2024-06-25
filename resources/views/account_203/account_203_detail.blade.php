@@ -249,7 +249,7 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th> 
-                                    <th class="text-center">HCODE</th>  
+                                    <th class="text-center">โรงพยาบาล</th>  
                                     <th class="text-center">ลูกหนี้กรณีส่งต่อ</th> 
                                     <th class="text-center">ลูกหนี้-CT</th>  
                                 </tr>
@@ -292,7 +292,12 @@
                                     ?>                                
                                         <tr>
                                             <td class="text-font" style="text-align: center;" width="4%">{{ $number++ }} </td>  
-                                            <td class="p-2">{{$item_h->hname}}</td>       
+                                            <td class="p-2">
+                                                <a href="{{url('account_203_detail_hos/'.$item_h->hospmain.'/'.$months.'/'.$year)}}"> {{$item_h->hname}} 
+                                                    <label style="font-size:15px;color:rgb(238, 36, 86)"><= Click !!</label>
+                                                </a>
+                                               
+                                            </td>       
                                             <td class="text-end" width="20%" style="color:rgb(238, 36, 86)">{{ number_format($sum_toklong, 2) }}</td> 
                                             <td class="text-end" width="15%" style="color:rgb(237, 100, 255)">{{ number_format($sum_ct, 2) }}</td>  
                                         </tr>
@@ -333,7 +338,8 @@
                                             <th class="text-center">cid</th>
                                             <th class="text-center">ptname</th>                                       
                                             <th class="text-center">pttype</th>  
-                                            <th class="text-center">เลขที่ใบเสร็จ</th> 
+                                            <th class="text-center">pdx</th> 
+                                            <th class="text-center">dx0</th> 
                                             <th class="text-center">income</th>
                                             <th class="text-center">ชำระเงินเอง</th> 
                                             <th class="text-center">ตั้งลูกหนี้</th>
@@ -362,7 +368,9 @@
                                                 <td class="text-center" width="7%">{{ $item->cid }}</td>
                                                 <td class="p-2">{{ $item->ptname }}</td>                                            
                                                 <td class="text-center" width="5%">{{ $item->pttype }}</td>   
-                                                <td class="text-end" style="color:rgb(243, 157, 27)" width="7%"> {{ $item->nhso_ownright_pid }}</td>                                         
+                                                <td class="text-end" style="color:rgb(243, 157, 27)" width="7%"> {{ $item->pdx }}</td> 
+                                                <td class="text-end" style="color:rgb(243, 157, 27)" width="7%"> {{ $item->dx0 }}</td> 
+                                                {{-- <td class="text-end" style="color:rgb(243, 157, 27)" width="7%"> {{ $item->nhso_ownright_pid }}</td>                                          --}}
                                                 <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->income, 2) }}</td>  
                                                 <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->rcpt_money, 2) }}</td> 
                                                 <td class="text-end" style="color:rgb(207, 28, 37)" width="7%"> {{ number_format($item->income - $item->rcpt_money, 2) }}</td> 
@@ -384,7 +392,7 @@
 
                                 </tbody>
                                 <tr style="background-color: #f3fca1">
-                                    <td colspan="7" class="text-end" style="background-color: #fca1a1"></td>
+                                    <td colspan="8" class="text-end" style="background-color: #fca1a1"></td>
                                     <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total111, 2) }}</label></td>
                                     <td class="text-center" style="background-color: #9f4efc" ><label for="" style="color: #FFFFFF">{{ number_format($total222, 2) }}</label></td>
                                     <td class="text-center" style="background-color: #c5224b"><label for="" style="color: #FFFFFF">{{ number_format($total666, 2) }}</label> </td>

@@ -704,7 +704,8 @@ class Account203Controller extends Controller
         $datenow = date('Y-m-d');      
         $data['users'] = User::get(); 
         $data = DB::select('
-                SELECT U1.ct_price,U1.uc_money,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.hospmain,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
+                SELECT *
+                
                 from acc_1102050101_203 U1             
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
         ');
@@ -728,11 +729,32 @@ class Account203Controller extends Controller
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
                 GROUP BY U1.hospmain 
         ');
-  
+        // U1.ct_price,U1.uc_money,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.hospmain,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
         return view('account_203.account_203_detail', $data, [ 
             'data'            => $data,
             'datashow'        => $datashow,
             'data_hospcode'   => $data_hospcode,
+            'months'          => $months,
+            'year'            => $year
+        ]);
+    }
+    public function account_203_detail_hos(Request $request,$hoscode,$months,$year)
+    {
+        $datenow = date('Y-m-d');      
+        $data['users'] = User::get(); 
+        $data = DB::select('
+                SELECT *
+                
+                from acc_1102050101_203 U1             
+                WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" AND hospmain ="'.$hoscode.'"
+        ');
+        
+         
+        // U1.ct_price,U1.uc_money,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.hospmain,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
+        return view('account_203.account_203_detail_hos', $data, [ 
+            'data'            => $data,
+            // 'datashow'        => $datashow,
+            // 'data_hospcode'   => $data_hospcode,
             'months'          => $months,
             'year'            => $year
         ]);
@@ -742,7 +764,7 @@ class Account203Controller extends Controller
         $datenow = date('Y-m-d');      
         $data['users'] = User::get();
         $data_hospcode = DB::select('
-                SELECT 
+                SELECT U1.hospmain,
                     U1.hospcode,U2.name as hname,month(U1.vstdate) as months,year(U1.vstdate) as years,COUNT(DISTINCT U1.vn) as Cvn,SUM(U1.income) as S_income,SUM(U1.uc_money) as S_uc_money
                     ,SUM(U1.debit) as S_debit,SUM(U1.debit_total) as S_debit_total,SUM(U1.sauntang) as S_sauntang
                 from acc_1102050101_203 U1    
@@ -762,13 +784,12 @@ class Account203Controller extends Controller
                     order by a.vstdate desc;
         '); 
         $data = DB::select('
-                SELECT 
-                U1.ct_price,U1.uc_money,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.hospcode,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
-                ,U1.hospmain
+                SELECT *                
                 from acc_1102050101_203 U1             
-                WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"
-                
+                WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" 
         ');
+        // U1.ct_price,U1.uc_money,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.hospcode,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
+        //         ,U1.hospmain
   
         return view('account_203.account_203_detail_date', $data, [ 
             'data'            => $data,
@@ -776,6 +797,25 @@ class Account203Controller extends Controller
             'enddate'         => $enddate,
             'datashow'        => $datashow,
             'data_hospcode'   => $data_hospcode,
+        ]);
+    }
+    public function account_203_detail_datehos(Request $request,$hoscode,$startdate,$enddate)
+    {
+        $datenow = date('Y-m-d');      
+        $data['users'] = User::get();
+        
+        $data = DB::select('
+                SELECT *                
+                from acc_1102050101_203 U1             
+                WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" AND hospmain ="'.$hoscode.'"
+        ');
+      
+        return view('account_203.account_203_detail_datehos', $data, [ 
+            'data'            => $data,
+            'startdate'       => $startdate,
+            'enddate'         => $enddate,
+            // 'datashow'        => $datashow,
+            // 'data_hospcode'   => $data_hospcode,
         ]);
     }
     public function account_203_form(Request $request)
