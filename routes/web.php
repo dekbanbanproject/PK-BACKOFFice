@@ -2390,6 +2390,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_801_stm_date/{startdate}/{enddate}',[App\Http\Controllers\Account801Controller::class, 'account_801_stm_date'])->name('acc.account_801_stm_date');//
     Route::match(['get','post'],'account_801_stmnull_date/{startdate}/{enddate}',[App\Http\Controllers\Account801Controller::class, 'account_801_stmnull_date'])->name('acc.account_801_stmnull_date');// 
     Route::match(['get','post'],'account_801_destroy',[App\Http\Controllers\Account801Controller::class, 'account_801_destroy'])->name('acc.account_801_destroy');//
+    Route::match(['get','post'],'account_801_yokpai/{months}/{year}',[App\Http\Controllers\Account801Controller::class, 'account_801_yokpai'])->name('acc.account_801_yokpai');//
     // Route::match(['get','post'],'account_801_dash',[App\Http\Controllers\AccountPKController::class, 'account_801_dash'])->name('acc.account_801_dash');//
     // Route::match(['get','post'],'account_801_pull',[App\Http\Controllers\AccountPKController::class, 'account_801_pull'])->name('acc.account_801_pull');//
     // Route::match(['get','post'],'account_801_pulldata',[App\Http\Controllers\AccountPKController::class, 'account_801_pulldata'])->name('acc.account_801_pulldata');//

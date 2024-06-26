@@ -185,8 +185,8 @@ class Account504Controller extends Controller
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
         // Acc_opitemrece::truncate();
-        $acc_debtor = DB::connection('mysql2')->select('             
-                SELECT i.vn,i.an,a.hn,pt.cid
+        $acc_debtor = DB::connection('mysql2')->select(
+            'SELECT i.vn,i.an,a.hn,pt.cid
                 ,concat(pt.pname,pt.fname," ",pt.lname) as ptname,pt.nationality,ipt.hospmain
                 ,pt.hcode,op.income as income_group ,v.vstdate ,a.dchdate,ptt.pttype_eclaim_id ,ipt.pttype,ptt.name as namelist
                 ,"22" as acc_code ,"1102050101.504" as account_code ,"ลูกหนี้ค่ารักษา-คนต่างด้าวและแรงงานต่างด้าว IPนอกCUP" as account_name
@@ -211,14 +211,14 @@ class Account504Controller extends Controller
                 
                 WHERE i.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                 AND ipt.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.504" AND opdipd ="IPD")
-                AND v.hospmain IN(SELECT hospmain FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.504") 
+                AND v.hospmain IN(SELECT hospmain FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.504" AND hospmain <> "") 
                 AND pt.nationality <> "99" 
                 GROUP BY i.an 
         '); 
         // AND ipt.pttype IN("O1","O2","O3","O4","O5")  
         foreach ($acc_debtor as $key => $value) {
             if ($value->debit >0) {
-                $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.504')->whereBetween('dchdate', [$startdate, $enddate])->count();
+                $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.504')->count();
                 if ($check == 0) {
                     Acc_debtor::insert([
                         'hn'                 => $value->hn,

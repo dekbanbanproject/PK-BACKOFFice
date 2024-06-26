@@ -35,8 +35,8 @@ use App\Models\Acc_1102050102_802;
 use App\Models\Acc_1102050102_803;
 use App\Models\Acc_1102050102_804;
 use App\Models\Acc_1102050101_4022;
-use App\Models\Acc_1102050102_602;
-use App\Models\Acc_1102050102_603;
+use App\Models\Acc_stm_lgonew;
+use App\Models\Acc_stm_lgoexcelnew;
 use App\Models\Acc_1102050102_8011;
 use App\Models\Acc_stm_prb;
 use App\Models\Acc_stm_ti_totalhead;
@@ -1938,12 +1938,12 @@ class AccountPKController extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate;
         $datashow = DB::connection('mysql')->select('
-            SELECT rep_a,vstdate_i,SUM(claim_true_af) as Sumprice,STMdoc,month(vstdate_i) as months
-            FROM acc_stm_lgoexcel 
-            WHERE claim_true_af <> ""
-            GROUP BY rep_a
+            SELECT rep_no,vstdate,SUM(pay) as Sumprice,STMdoc,month(vstdate) as months
+            FROM acc_stm_lgoexcelnew 
+            WHERE rep_no <> ""
+            GROUP BY rep_no
             ');
-        $countc = DB::table('acc_stm_lgoexcel')->count();
+        $countc = DB::table('acc_stm_lgoexcelnew')->count();
         // dd($countc );
         return view('account_pk.upstm_lgoexcel',[
             'startdate'     =>     $startdate,
@@ -1952,7 +1952,9 @@ class AccountPKController extends Controller
             'countc'        =>     $countc
         ]);
     }
-    public function upstm_lgoexcel_save(Request $request)
+
+    //  ************************* Rep **************************
+    public function upstm_lgoexcel_save_old(Request $request)
     { 
             $this->validate($request, [
                 'file' => 'required|file|mimes:xls,xlsx'
@@ -2091,6 +2093,308 @@ class AccountPKController extends Controller
                 'status'    => '200',
             ]);
     }
+
+    public function upstm_lgoexcel_save(Request $request)
+    { 
+            $this->validate($request, [
+                'file' => 'required|file|mimes:xls,xlsx'
+            ]);
+            $the_file = $request->file('file');
+            $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
+
+            try{
+                $spreadsheet = IOFactory::load($the_file->getRealPath()); 
+                $sheet        = $spreadsheet->setActiveSheetIndex(0);
+                $row_limit    = $sheet->getHighestDataRow();
+                // $column_limit = $sheet->getHighestDataColumn();
+                $row_range    = range( '11', $row_limit ); 
+                $startcount = '11'; 
+
+                $data = array();
+                foreach ($row_range as $row ) {
+
+                    $vst = $sheet->getCell( 'I' . $row )->getValue();
+                    // $starttime = substr($vst, 0, 5);
+                    $day           = substr($vst,0,2);
+                    $mo            = substr($vst,3,2);
+                    $year          = substr($vst,6,4);
+                    $vstdate       = $year.'-'.$mo.'-'.$day;
+
+                    $tran          = $sheet->getCell( 'B' . $row )->getValue(); 
+                    $day2          = substr($tran,0,2);
+                    $mo2           = substr($tran,3,2);
+                    $year2         = substr($tran,6,4);
+                    $transfer_date = $year2.'-'.$mo2.'-'.$day2;
+  
+                    $j = $sheet->getCell( 'J' . $row )->getValue();
+                    $del_j = str_replace(",","",$j);
+
+                        $data[] = [
+                            'transfer_date'         =>$sheet->getCell( 'B' . $row )->getValue(),
+                            'hn'                    =>$sheet->getCell( 'C' . $row )->getValue(),
+                            'an'                    =>$sheet->getCell( 'D' . $row )->getValue(),
+                            'fun'                   =>$sheet->getCell( 'E' . $row )->getValue(),
+                            'type'                  =>$sheet->getCell( 'F' . $row )->getValue(),
+                            'cid'                   =>$sheet->getCell( 'G' . $row )->getValue(),
+                            'ptname'                =>$sheet->getCell( 'H' . $row )->getValue(),
+                            'vstdate'               =>$vstdate,
+                            'pay'                   =>$del_j,
+                            'rep_no'                =>$sheet->getCell( 'K' . $row )->getValue(), 
+                            'STMDoc'                =>$file_
+                        ]; 
+                    $startcount++;
+                    
+                }
+                $for_insert = array_chunk($data, length:1000);
+                foreach ($for_insert as $key => $data_) {                     
+                        Acc_stm_lgoexcelnew::insert($data_);                       
+                }
+             
+            } catch (Exception $e) {
+                $error_code = $e->errorInfo[1];
+                return back()->withErrors('There was a problem uploading the data!');
+            }
+               return response()->json([
+                'status'    => '200',
+            ]);
+    }
+    public function upstm_lgoexcel_senddata(Request $request)
+    {
+        $data_ = DB::connection('mysql')->select('SELECT * FROM acc_stm_lgoexcelnew WHERE rep_no <> ""');
+ 
+        foreach ($data_ as $key => $value) {
+            // ผู้ป่วยใน
+            if ($value->an != '') {
+                $check_ipd = acc_stm_lgonew::where('an',$value->an)->count();
+                if ($check_ipd > 0) { 
+                    acc_stm_lgonew::where('an',$value->an)->update([ 
+                        'transfer_date'  => $value->transfer_date, 
+                        'hn'             => $value->hn, 
+                        'fun'            => $value->fun,
+                        'type'           => $value->type,
+                        'cid'            => $value->cid,
+                        'ptname'         => $value->ptname,
+                        'vstdate'        => $value->vstdate,
+                        'pay'            => $value->pay,
+                        'rep_no'         => $value->rep_no,
+                        'STMDoc'         => $value->STMDoc
+                    ]);
+                } else {
+                    acc_stm_lgonew::insert([ 
+                        'transfer_date'  => $value->transfer_date, 
+                        'hn'             => $value->hn,
+                        'an'             => $value->an,
+                        'fun'            => $value->fun,
+                        'type'           => $value->type,
+                        'cid'            => $value->cid,
+                        'ptname'         => $value->ptname,
+                        'vstdate'        => $value->vstdate,
+                        'pay'            => $value->pay,
+                        'rep_no'         => $value->rep_no,
+                        'STMDoc'         => $value->STMDoc
+                    ]);
+                }
+                $check802 = Acc_1102050102_802::where('an',$value->an)->where('STMdoc',NULL)->count();               
+                if ($check802 > 0) {
+                    Acc_1102050102_802::where('an',$value->an) 
+                        ->update([
+                            'status'          => 'Y', 
+                            'stm_money'       => $value->pay,
+                            'stm_rcpno'       => $value->rep_no,
+                            'STMdoc'          => $value->STMDoc,
+                    ]);
+                } else {                
+                    Acc_1102050102_802::where('an',$value->an) 
+                    ->update([
+                        'status'          => 'Y', 
+                        'stm_money'       => $value->pay,
+                        'stm_rcpno'       => $value->rep_no,
+                        'STMdoc'          => $value->STMDoc,
+                    ]);
+                }   
+
+            // ผู้ป่วยนอก
+            } else {
+                $check_opd = acc_stm_lgonew::where('hn',$value->hn)->where('vstdate',$value->vstdate)->count();
+                if ($check_opd > 0) { 
+                    acc_stm_lgonew::where('hn',$value->hn)->where('vstdate',$value->vstdate)->update([ 
+                        'transfer_date'  => $value->transfer_date,  
+                        'an'             => $value->an, 
+                        'fun'            => $value->fun,
+                        'type'           => $value->type,
+                        'cid'            => $value->cid,
+                        'ptname'         => $value->ptname, 
+                        'pay'            => $value->pay,
+                        'rep_no'         => $value->rep_no,
+                        'STMDoc'         => $value->STMDoc
+                    ]);
+                    $check801 = Acc_1102050102_801::where('hn',$value->hn)->where('vstdate',$value->vstdate)->where('STMdoc',NULL)->count();               
+                    if ($check801 > 0) {
+                        Acc_1102050102_801::where('hn',$value->hn)->where('vstdate',$value->vstdate)
+                            ->update([
+                                'status'          => 'Y', 
+                                'stm_money'       => $value->pay,
+                                'stm_rcpno'       => $value->rep_no,
+                                'STMdoc'          => $value->STMDoc,
+                            ]); 
+                    } else {
+                        Acc_1102050102_801::where('hn',$value->hn)->where('vstdate',$value->vstdate)
+                        ->update([
+                            'status'          => 'Y', 
+                            'stm_money'       => $value->pay,
+                            'stm_rcpno'       => $value->rep_no,
+                            'STMdoc'          => $value->STMDoc,
+                        ]);
+                    
+                    } 
+                } else {
+                    acc_stm_lgonew::insert([ 
+                        'transfer_date'  => $value->transfer_date, 
+                        'hn'             => $value->hn,
+                        'an'             => $value->an,
+                        'fun'            => $value->fun,
+                        'type'           => $value->type,
+                        'cid'            => $value->cid,
+                        'ptname'         => $value->ptname,
+                        'vstdate'        => $value->vstdate,
+                        'pay'            => $value->pay,
+                        'rep_no'         => $value->rep_no,
+                        'STMDoc'         => $value->STMDoc
+                    ]);
+                    $check801 = Acc_1102050102_801::where('hn',$value->hn)->where('vstdate',$value->vstdate)->where('STMdoc',NULL)->count();               
+                    if ($check801 > 0) {
+                        Acc_1102050102_801::where('hn',$value->hn)->where('vstdate',$value->vstdate)
+                            ->update([
+                                'status'          => 'Y', 
+                                'stm_money'       => $value->pay,
+                                'stm_rcpno'       => $value->rep_no,
+                                'STMdoc'          => $value->STMDoc,
+                            ]); 
+                    } else {
+                        Acc_1102050102_801::where('hn',$value->hn)->where('vstdate',$value->vstdate)
+                        ->update([
+                            'status'          => 'Y', 
+                            'stm_money'       => $value->pay,
+                            'stm_rcpno'       => $value->rep_no,
+                            'STMdoc'          => $value->STMDoc,
+                        ]);
+                    
+                    } 
+                }
+            }
+            
+                // $check = acc_stm_lgonew::where('tranid_c',$value->tranid_c)->count();
+                // if ($check  == 0) { 
+                //     Acc_stm_lgo::insert([
+                //             'rep_a'         => $value->rep_a,
+                //             'no_b'          => $value->no_b,
+                //             'tranid_c'      => $value->tranid_c,
+                //             'hn_d'          => $value->hn_d,
+                //             'an_e'          => $value->an_e,
+                //             'cid_f'         => $value->cid_f,
+                //             'fullname_g'    => $value->fullname_g,
+                //             'type_h'        => $value->type_h,
+                //             'vstdate_i'     => $value->vstdate_i,
+                //             'dchdate_j'     => $value->dchdate_j,
+                //             'price1_k'      => $value->price1_k,
+                //             'pp_spsch_l'    => $value->pp_spsch_l,
+                //             'errorcode_m'   => $value->errorcode_m,
+                //             'kongtoon_n'    => $value->kongtoon_n,
+                //             'typeservice_o' => $value->typeservice_o,
+                //             'refer_p'       => $value->refer_p,
+                //             'pttype_have_q' => $value->pttype_have_q,
+                //             'pttype_true_r' => $value->pttype_true_r,
+                //             'mian_pttype_s' => $value->mian_pttype_s,
+                //             'secon_pttype_t' =>$value->secon_pttype_t,
+                //             'href_u'        => $value->href_u,
+                //             'HCODE_v'       => $value->HCODE_v,
+                //             'prov1_w'       => $value->prov1_w,
+                //             'code_dep_x'    => $value->code_dep_x,
+                //             'name_dep_y'    => $value->name_dep_y,
+                //             'proj_z'        => $value->proj_z,
+                //             'pa_aa'          => $value->pa_aa,
+                //             'drg_ab'         => $value->drg_ab,
+                //             'rw_ac'          => $value->rw_ac,
+                //             'income_ad'      => $value->income_ad,
+                //             'pp_gep_ae'      => $value->pp_gep_ae,
+                //             'claim_true_af'  => $value->claim_true_af,
+                //             'claim_false_ag' => $value->claim_false_ag,
+                //             'cash_money_ah'  => $value->cash_money_ah,
+                //             'pay_ai'         => $value->pay_ai,
+                //             'ps_aj'          => $value->ps_aj,
+                //             'ps_percent_ak'  => $value->ps_percent_ak,
+                //             'ccuf_al'        => $value->ccuf_al,
+                //             'AdjRW_am'       => $value->AdjRW_am,
+                //             'plb_an'         => $value->plb_an,
+                //             'IPLG_ao'        => $value->IPLG_ao,
+                //             'OPLG_ap'        => $value->OPLG_ap,
+                //             'PALG_aq'        => $value->PALG_aq,
+                //             'INSTLG_ar'      => $value->INSTLG_ar,
+                //             'OTLG_as'        => $value->OTLG_as,
+                //             'PP_at'          => $value->PP_at,
+                //             'DRUG_au'        => $value->DRUG_au,
+                //             'IPLG2'          => $value->IPLG2,
+                //             'OPLG2'          => $value->OPLG2,
+                //             'PALG2'          => $value->PALG2,
+                //             'INSTLG2'        => $value->INSTLG2,
+                //             'OTLG2'          => $value->OTLG2,
+                //             'ORS'            => $value->ORS,
+                //             'VA'             => $value->VA,
+                //             'STMdoc'         => $value->STMdoc
+                //     ]);
+                // }
+            
+                // $check801 = Acc_1102050102_801::where('cid',$value->cid_f)->where('vstdate',$value->vstdate_i)->where('STMdoc',NULL)->count();               
+                // if ($check801 > 0) {
+                //     Acc_1102050102_801::where('cid',$value->cid_f)->where('vstdate',$value->vstdate_i)
+                //         ->update([
+                //             'status'          => 'Y',
+                //             'stm_rep'         => $value->income_ad,
+                //             'stm_money'       => $value->claim_true_af,
+                //             'stm_rcpno'       => $value->rep_a.'-'.$value->no_b,
+                //             'STMdoc'          => $value->STMdoc,
+                //         ]); 
+                // } else {
+                //     Acc_1102050102_801::where('cid',$value->cid_f)->where('vstdate',$value->vstdate_i)
+                //     ->update([
+                //         'status'          => 'Y',
+                //         'stm_rep'         => $value->income_ad,
+                //         'stm_money'       => $value->claim_true_af,
+                //         'stm_rcpno'       => $value->rep_a.'-'.$value->no_b,
+                //         'STMdoc'          => $value->STMdoc,
+                //     ]);
+                  
+                // }  
+
+                // $check802 = Acc_1102050102_802::where('an',$value->an_e)->where('STMdoc',NULL)->count();               
+                // if ($check802 > 0) {
+                //     Acc_1102050102_802::where('an',$value->an_e) 
+                //         ->update([
+                //             'status'          => 'Y',
+                //             'stm_rep'         => $value->income_ad,
+                //             'stm_money'       => $value->claim_true_af,
+                //             'stm_rcpno'       => $value->rep_a.'-'.$value->no_b,
+                //             'STMdoc'          => $value->STMdoc,
+                //     ]);
+                // } else {                
+                //     Acc_1102050102_802::where('an',$value->an_e) 
+                //     ->update([
+                //         'status'          => 'Y',
+                //         'stm_rep'         => $value->income_ad,
+                //         'stm_money'       => $value->claim_true_af,
+                //         'stm_rcpno'       => $value->rep_a.'-'.$value->no_b,
+                //         'STMdoc'          => $value->STMdoc,
+                //     ]);
+                // }          
+ 
+        }
+        Acc_stm_lgoexcelnew::truncate();
+        // return response()->json([
+        //     'status'    => '200',
+        // ]);
+        return redirect()->back();
+    }
+
     // public function upstm_lgoexcel_save(Request $request)
     // {
     //         Excel::import(new ImportAcc_stm_lgoexcel_import, $request->file('file')->store('files'));
@@ -2099,129 +2403,129 @@ class AccountPKController extends Controller
     //             'status'    => '200',
     //         ]);
     // }
-    public function upstm_lgoexcel_senddata(Request $request)
-    {
-        $data_ = DB::connection('mysql')->select('
-            SELECT * FROM acc_stm_lgoexcel
-            WHERE claim_true_af <> ""
+    // public function upstm_lgoexcel_senddata_old(Request $request)
+    // {
+    //     $data_ = DB::connection('mysql')->select('
+    //         SELECT * FROM acc_stm_lgoexcel
+    //         WHERE claim_true_af <> ""
            
-        ');
-        // group by tranid_c
-        // GROUP BY cid,vstdate
-        foreach ($data_ as $key => $value) {
-            $check = Acc_stm_lgo::where('tranid_c',$value->tranid_c)->count();
-            if ($check  == 0) { 
-                Acc_stm_lgo::insert([
-                        'rep_a'         => $value->rep_a,
-                        'no_b'          => $value->no_b,
-                        'tranid_c'      => $value->tranid_c,
-                        'hn_d'          => $value->hn_d,
-                        'an_e'          => $value->an_e,
-                        'cid_f'         => $value->cid_f,
-                        'fullname_g'    => $value->fullname_g,
-                        'type_h'        => $value->type_h,
-                        'vstdate_i'     => $value->vstdate_i,
-                        'dchdate_j'     => $value->dchdate_j,
-                        'price1_k'      => $value->price1_k,
-                        'pp_spsch_l'    => $value->pp_spsch_l,
-                        'errorcode_m'   => $value->errorcode_m,
-                        'kongtoon_n'    => $value->kongtoon_n,
-                        'typeservice_o' => $value->typeservice_o,
-                        'refer_p'       => $value->refer_p,
-                        'pttype_have_q' => $value->pttype_have_q,
-                        'pttype_true_r' => $value->pttype_true_r,
-                        'mian_pttype_s' => $value->mian_pttype_s,
-                        'secon_pttype_t' =>$value->secon_pttype_t,
-                        'href_u'        => $value->href_u,
-                        'HCODE_v'       => $value->HCODE_v,
-                        'prov1_w'       => $value->prov1_w,
-                        'code_dep_x'    => $value->code_dep_x,
-                        'name_dep_y'    => $value->name_dep_y,
-                        'proj_z'        => $value->proj_z,
-                        'pa_aa'          => $value->pa_aa,
-                        'drg_ab'         => $value->drg_ab,
-                        'rw_ac'          => $value->rw_ac,
-                        'income_ad'      => $value->income_ad,
-                        'pp_gep_ae'      => $value->pp_gep_ae,
-                        'claim_true_af'  => $value->claim_true_af,
-                        'claim_false_ag' => $value->claim_false_ag,
-                        'cash_money_ah'  => $value->cash_money_ah,
-                        'pay_ai'         => $value->pay_ai,
-                        'ps_aj'          => $value->ps_aj,
-                        'ps_percent_ak'  => $value->ps_percent_ak,
-                        'ccuf_al'        => $value->ccuf_al,
-                        'AdjRW_am'       => $value->AdjRW_am,
-                        'plb_an'         => $value->plb_an,
-                        'IPLG_ao'        => $value->IPLG_ao,
-                        'OPLG_ap'        => $value->OPLG_ap,
-                        'PALG_aq'        => $value->PALG_aq,
-                        'INSTLG_ar'      => $value->INSTLG_ar,
-                        'OTLG_as'        => $value->OTLG_as,
-                        'PP_at'          => $value->PP_at,
-                        'DRUG_au'        => $value->DRUG_au,
-                        'IPLG2'          => $value->IPLG2,
-                        'OPLG2'          => $value->OPLG2,
-                        'PALG2'          => $value->PALG2,
-                        'INSTLG2'        => $value->INSTLG2,
-                        'OTLG2'          => $value->OTLG2,
-                        'ORS'            => $value->ORS,
-                        'VA'             => $value->VA,
-                        'STMdoc'         => $value->STMdoc
-                ]);
-            }
+    //     ');
+    //     // group by tranid_c
+    //     // GROUP BY cid,vstdate
+    //     foreach ($data_ as $key => $value) {
+    //         $check = Acc_stm_lgo::where('tranid_c',$value->tranid_c)->count();
+    //         if ($check  == 0) { 
+    //             Acc_stm_lgo::insert([
+    //                     'rep_a'         => $value->rep_a,
+    //                     'no_b'          => $value->no_b,
+    //                     'tranid_c'      => $value->tranid_c,
+    //                     'hn_d'          => $value->hn_d,
+    //                     'an_e'          => $value->an_e,
+    //                     'cid_f'         => $value->cid_f,
+    //                     'fullname_g'    => $value->fullname_g,
+    //                     'type_h'        => $value->type_h,
+    //                     'vstdate_i'     => $value->vstdate_i,
+    //                     'dchdate_j'     => $value->dchdate_j,
+    //                     'price1_k'      => $value->price1_k,
+    //                     'pp_spsch_l'    => $value->pp_spsch_l,
+    //                     'errorcode_m'   => $value->errorcode_m,
+    //                     'kongtoon_n'    => $value->kongtoon_n,
+    //                     'typeservice_o' => $value->typeservice_o,
+    //                     'refer_p'       => $value->refer_p,
+    //                     'pttype_have_q' => $value->pttype_have_q,
+    //                     'pttype_true_r' => $value->pttype_true_r,
+    //                     'mian_pttype_s' => $value->mian_pttype_s,
+    //                     'secon_pttype_t' =>$value->secon_pttype_t,
+    //                     'href_u'        => $value->href_u,
+    //                     'HCODE_v'       => $value->HCODE_v,
+    //                     'prov1_w'       => $value->prov1_w,
+    //                     'code_dep_x'    => $value->code_dep_x,
+    //                     'name_dep_y'    => $value->name_dep_y,
+    //                     'proj_z'        => $value->proj_z,
+    //                     'pa_aa'          => $value->pa_aa,
+    //                     'drg_ab'         => $value->drg_ab,
+    //                     'rw_ac'          => $value->rw_ac,
+    //                     'income_ad'      => $value->income_ad,
+    //                     'pp_gep_ae'      => $value->pp_gep_ae,
+    //                     'claim_true_af'  => $value->claim_true_af,
+    //                     'claim_false_ag' => $value->claim_false_ag,
+    //                     'cash_money_ah'  => $value->cash_money_ah,
+    //                     'pay_ai'         => $value->pay_ai,
+    //                     'ps_aj'          => $value->ps_aj,
+    //                     'ps_percent_ak'  => $value->ps_percent_ak,
+    //                     'ccuf_al'        => $value->ccuf_al,
+    //                     'AdjRW_am'       => $value->AdjRW_am,
+    //                     'plb_an'         => $value->plb_an,
+    //                     'IPLG_ao'        => $value->IPLG_ao,
+    //                     'OPLG_ap'        => $value->OPLG_ap,
+    //                     'PALG_aq'        => $value->PALG_aq,
+    //                     'INSTLG_ar'      => $value->INSTLG_ar,
+    //                     'OTLG_as'        => $value->OTLG_as,
+    //                     'PP_at'          => $value->PP_at,
+    //                     'DRUG_au'        => $value->DRUG_au,
+    //                     'IPLG2'          => $value->IPLG2,
+    //                     'OPLG2'          => $value->OPLG2,
+    //                     'PALG2'          => $value->PALG2,
+    //                     'INSTLG2'        => $value->INSTLG2,
+    //                     'OTLG2'          => $value->OTLG2,
+    //                     'ORS'            => $value->ORS,
+    //                     'VA'             => $value->VA,
+    //                     'STMdoc'         => $value->STMdoc
+    //             ]);
+    //         }
             
-                $check801 = Acc_1102050102_801::where('cid',$value->cid_f)->where('vstdate',$value->vstdate_i)->where('STMdoc',NULL)->count();
+    //             $check801 = Acc_1102050102_801::where('cid',$value->cid_f)->where('vstdate',$value->vstdate_i)->where('STMdoc',NULL)->count();
                
-                if ($check801 > 0) {
-                    Acc_1102050102_801::where('cid',$value->cid_f)->where('vstdate',$value->vstdate_i)
-                        ->update([
-                            'status'          => 'Y',
-                            'stm_rep'         => $value->income_ad,
-                            'stm_money'       => $value->claim_true_af,
-                            'stm_rcpno'       => $value->rep_a.'-'.$value->no_b,
-                            'STMdoc'          => $value->STMdoc,
-                        ]); 
-                } else {
-                    Acc_1102050102_801::where('cid',$value->cid_f)->where('vstdate',$value->vstdate_i)
-                    ->update([
-                        'status'          => 'Y',
-                        'stm_rep'         => $value->income_ad,
-                        'stm_money'       => $value->claim_true_af,
-                        'stm_rcpno'       => $value->rep_a.'-'.$value->no_b,
-                        'STMdoc'          => $value->STMdoc,
-                    ]);
+    //             if ($check801 > 0) {
+    //                 Acc_1102050102_801::where('cid',$value->cid_f)->where('vstdate',$value->vstdate_i)
+    //                     ->update([
+    //                         'status'          => 'Y',
+    //                         'stm_rep'         => $value->income_ad,
+    //                         'stm_money'       => $value->claim_true_af,
+    //                         'stm_rcpno'       => $value->rep_a.'-'.$value->no_b,
+    //                         'STMdoc'          => $value->STMdoc,
+    //                     ]); 
+    //             } else {
+    //                 Acc_1102050102_801::where('cid',$value->cid_f)->where('vstdate',$value->vstdate_i)
+    //                 ->update([
+    //                     'status'          => 'Y',
+    //                     'stm_rep'         => $value->income_ad,
+    //                     'stm_money'       => $value->claim_true_af,
+    //                     'stm_rcpno'       => $value->rep_a.'-'.$value->no_b,
+    //                     'STMdoc'          => $value->STMdoc,
+    //                 ]);
                   
-                }   
-                $check802 = Acc_1102050102_802::where('an',$value->an_e)->where('STMdoc',NULL)->count();
+    //             }   
+    //             $check802 = Acc_1102050102_802::where('an',$value->an_e)->where('STMdoc',NULL)->count();
                
-                if ($check802 > 0) {
-                    Acc_1102050102_802::where('an',$value->an_e) 
-                        ->update([
-                            'status'          => 'Y',
-                            'stm_rep'         => $value->income_ad,
-                            'stm_money'       => $value->claim_true_af,
-                            'stm_rcpno'       => $value->rep_a.'-'.$value->no_b,
-                            'STMdoc'          => $value->STMdoc,
-                    ]);
-                } else {                
-                    Acc_1102050102_802::where('an',$value->an_e) 
-                    ->update([
-                        'status'          => 'Y',
-                        'stm_rep'         => $value->income_ad,
-                        'stm_money'       => $value->claim_true_af,
-                        'stm_rcpno'       => $value->rep_a.'-'.$value->no_b,
-                        'STMdoc'          => $value->STMdoc,
-                    ]);
-                }          
+    //             if ($check802 > 0) {
+    //                 Acc_1102050102_802::where('an',$value->an_e) 
+    //                     ->update([
+    //                         'status'          => 'Y',
+    //                         'stm_rep'         => $value->income_ad,
+    //                         'stm_money'       => $value->claim_true_af,
+    //                         'stm_rcpno'       => $value->rep_a.'-'.$value->no_b,
+    //                         'STMdoc'          => $value->STMdoc,
+    //                 ]);
+    //             } else {                
+    //                 Acc_1102050102_802::where('an',$value->an_e) 
+    //                 ->update([
+    //                     'status'          => 'Y',
+    //                     'stm_rep'         => $value->income_ad,
+    //                     'stm_money'       => $value->claim_true_af,
+    //                     'stm_rcpno'       => $value->rep_a.'-'.$value->no_b,
+    //                     'STMdoc'          => $value->STMdoc,
+    //                 ]);
+    //             }          
  
 
-        }
-        Acc_stm_lgoexcel::truncate();
-        // return response()->json([
-        //     'status'    => '200',
-        // ]);
-        return redirect()->back();
-    }
+    //     }
+    //     Acc_stm_lgoexcel::truncate();
+    //     // return response()->json([
+    //     //     'status'    => '200',
+    //     // ]);
+    //     return redirect()->back();
+    // }
 
     // *********************************************************
 

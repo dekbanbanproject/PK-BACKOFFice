@@ -203,7 +203,7 @@ class Account602Controller extends Controller
                
                 ,CASE 
                     WHEN v.income-v.discount_money-v.rcpt_money < 30000 THEN v.income-v.discount_money-v.rcpt_money 
-                    WHEN  vp.pttype_number ="1" AND vp.pttype IN ("31","36","37","38","39")  THEN vp.max_debt_amount                     
+                    WHEN  vp.pttype_number ="1" AND vp.pttype IN ("31","36","37","38","39")  THEN v.income-v.discount_money-v.rcpt_money                     
                 ELSE v.income-v.discount_money-v.rcpt_money  
                 END as debit
 

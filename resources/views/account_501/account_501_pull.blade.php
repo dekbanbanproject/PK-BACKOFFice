@@ -153,7 +153,7 @@
                                           
                                             <th width="5%" class="text-center">ลำดับ</th> 
                                             <th width="5%" class="text-center"><input type="checkbox" name="stamp" class="dcheckbox_" id="stamp"> </th> 
-                                            {{-- <th class="text-center" width="5%">vn</th>  --}}
+                                            <th class="text-center" width="5%">vn</th> 
                                             {{-- <th class="text-center">an</th> --}}
                                             <th class="text-center" >hn</th>
                                             <th class="text-center" >cid</th>
@@ -179,7 +179,7 @@
                                                 @endif --}}
                                                 <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox_ sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
 
-                                                {{-- <td class="text-center" width="5%">{{ $item->vn }}</td>  --}}
+                                                <td class="text-center" width="5%">{{ $item->vn }}</td> 
                                                 {{-- <td class="text-center" width="5%">{{ $item->an }}</td>  --}}
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  
                                                 <td class="text-center" width="10%">{{ $item->cid }}</td>  
