@@ -67,7 +67,7 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Detail STM</h4>
+                <h4 class="mb-sm-0" style="color:green">Detail 1102050102.801 STM</h4>
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
@@ -84,7 +84,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <div class="card cardacc">
+                <div class="card card_audit_4c">
                    
                     <div class="card-body">
                             {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
@@ -107,7 +107,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $number = 0; ?>
+                                <?php $number = 0;
+                                 $total1 = 0;
+                                $total2 = 0;
+                                $total3 = 0;
+                                $total4 = 0; ?>
                                 @foreach ($datashow as $item)
                                     <?php $number++; ?>
                                     <tr>
@@ -117,22 +121,31 @@
                                         <td class="text-center" width="5%">{{ $item->hn }}</td>
                                         <td class="text-center" width="10%">{{ $item->cid }}</td>
                                         <td class="p-2">{{ $item->ptname }}</td>
-                                        <td class="text-center" width="7%">{{ $item->vstdate }}</td>
-                                        {{-- <td class="text-center" width="7%">{{ $item->dchdate }}</td> --}}
-                                        <td class="text-center" width="5%">{{ $item->pttype }}</td>
-                                        
-                                        <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td> 
-                                        @if ($item->claim_true_af < $item->debit_total)
-                                            <td class="text-end" style="color:rgb(243, 74, 45)" width="7%"> {{ number_format($item->claim_true_af, 2) }}</td>
+                                        <td class="text-center" width="7%"> {{$item->vstdate }}</td> 
+                                        <td class="text-center" width="7%"> {{$item->pttype }}</td> 
+                                        <td class="text-center" width="7%" style="color:rgb(3, 72, 150)"> {{number_format($item->debit_total, 2) }}</td> 
+                                       
+                                        @if ($item->stm_money < $item->debit_total)
+                                            <td class="text-end" style="color:rgb(243, 74, 45)" width="7%"> {{ number_format($item->stm_money, 2) }}</td>
                                         @else
-                                            <td class="text-end" style="color:rgb(32, 216, 124)" width="7%"> {{ number_format($item->claim_true_af, 2) }}</td>
+                                            <td class="text-end" style="color:rgb(3, 151, 114)" width="7%"> {{ number_format($item->stm_money, 2) }}</td>
                                         @endif
-                                        <td class="text-center" width="12%">{{ $item->STMdoc }}</td>
+                                        <td class="text-center" width="12%">{{ $item->STMDoc }}</td>
                                     </tr>
- 
+                                    <?php
+                                        $total1 = $total1 + $item->debit_total; 
+                                        $total2 = $total2 + $item->stm_money;
+                                        
+                                    ?>
                                 @endforeach
 
                             </tbody>
+                            <tr style="background-color: #f3fca1">
+                                <td colspan="8" class="text-end" style="background-color: #fca1a1"></td>
+                                <td class="text-center" style="background-color: #0a62b4"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td> 
+                                <td class="text-center" style="background-color: #059274"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td> 
+                                <td class="text-end" style="background-color: #fca1a1"></td>
+                            </tr>  
                         </table>
                     </div>
                 </div>

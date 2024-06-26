@@ -427,14 +427,24 @@ class Account801Controller extends Controller
         $datenow = date('Y-m-d');        
         $data['users'] = User::get();
 
+        // $datashow = DB::select('
+        //     SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.claim_true_af,U2.STMdoc 
+        //         from acc_1102050102_801 U1
+        //         LEFT JOIN acc_stm_lgo U2 ON U2.cid_f = U1.cid AND U2.vstdate_i = U1.vstdate 
+        //         WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
+        //         AND U2.claim_true_af is not null 
+        //         group by U1.vn
+        // ');
         $datashow = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.claim_true_af,U2.STMdoc 
+            SELECT U1.*
                 from acc_1102050102_801 U1
-                LEFT JOIN acc_stm_lgo U2 ON U2.cid_f = U1.cid AND U2.vstdate_i = U1.vstdate 
+               
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
-                AND U2.claim_true_af is not null 
+                AND stm_money >= "0.00"
                 group by U1.vn
         ');
+        // LEFT JOIN acc_stm_lgonew U2 ON U2.cid = U1.cid AND U2.vstdate = U1.vstdate 
+        // acc_stm_lgonew
         // SELECT count(DISTINCT a.vn) as Apvit ,sum(au.claim_true_af) as claim_true_af
         //                                                     FROM acc_1102050102_801 a
         //                                                     LEFT JOIN acc_stm_lgo au ON au.cid_f = a.cid AND au.vstdate_i = a.vstdate 
@@ -442,6 +452,26 @@ class Account801Controller extends Controller
         //                                                     AND month(a.vstdate) = "'.$item->months.'"
         //                                                     AND au.claim_true_af IS NOT NULL
         return view('account_801.account_801_stm', $data, [ 
+            'datashow'      =>     $datashow,
+            'months'        =>     $months,
+            'year'          =>     $year
+        ]);
+    }
+    public function account_801_yokpai(Request $request,$months,$year)
+    {
+        $datenow = date('Y-m-d');        
+        $data['users'] = User::get();
+ 
+        $datashow = DB::select('
+            SELECT U1.*
+                from acc_1102050102_801 U1
+               
+                WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
+                AND (stm_money = "" OR stm_money IS NULL)
+                group by U1.vn
+        ');
+       
+        return view('account_801.account_801_yokpai', $data, [ 
             'datashow'      =>     $datashow,
             'months'        =>     $months,
             'year'          =>     $year

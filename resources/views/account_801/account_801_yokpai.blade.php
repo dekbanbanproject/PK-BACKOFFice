@@ -47,26 +47,8 @@
             display: none;
         }
     </style>
- <script>
-    function TypeAdmin() {
-        window.location.href = '{{ route('index') }}';
-    }
-</script>
-<?php
-if (Auth::check()) {
-    $type = Auth::user()->type;
-    $iduser = Auth::user()->id;
-} else {
-    echo "<body onload=\"TypeAdmin()\"></body>";
-    exit();
-}
-$url = Request::url();
-$pos = strrpos($url, '/') + 1;
-$ynow = date('Y')+543;
-$yb =  date('Y')+542;
-?>
-<div class="tabs-animation">
 
+<div class="tabs-animation">
     <div class="row text-center">
         <div id="overlay">
             <div class="cv-spinner">
@@ -81,29 +63,29 @@ $yb =  date('Y')+542;
         </div>
     </div>
     <div class="container-fluid">
-        <!-- start page title -->
-        <div class="row">
-            <div class="col-12">
-                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0" style="color:green">Detail 1102050102.801</h4>
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0" style="color:green">Detail 1102050102.801 STM</h4>
 
-                    <div class="page-title-right">
-                        <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Detail</a></li>
-                            <li class="breadcrumb-item active">1102050102.801</li>
-                        </ol>
-                    </div>
-
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Detail STM</a></li>
+                        <li class="breadcrumb-item active">1102050102.801</li>
+                    </ol>
                 </div>
+
             </div>
         </div>
+    </div>
         <!-- end page title -->
     </div> <!-- container-fluid -->
 
         <div class="row">
             <div class="col-md-12">
                 <div class="card card_audit_4c">
-               
+                   
                     <div class="card-body">
                             {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
@@ -112,48 +94,56 @@ $yb =  date('Y')+542;
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
-                                    <th class="text-center" width="5%">vn</th>
-                                    {{-- <th class="text-center">an</th> --}}
+                                    <th class="text-center" width="5%">vn</th> 
+                                    {{-- <th class="text-center" >an</th> --}}
                                     <th class="text-center" >hn</th>
                                     <th class="text-center" >cid</th>
                                     <th class="text-center">ptname</th>
                                     <th class="text-center">vstdate</th> 
                                     <th class="text-center">pttype</th> 
-                                    <th class="text-center">ลูกหนี้</th> 
+                                    <th class="text-center">ลูกหนี้</th>
+                                    {{-- <th class="text-center">ยอดชดเชย</th> --}}
+                                    {{-- <th class="text-center">STMdoc</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $number = 0; 
+                                <?php $number = 0;
                                  $total1 = 0;
                                 $total2 = 0;
                                 $total3 = 0;
-                                $total4 = 0;
-                                ?>
-                                @foreach ($data as $item)
+                                $total4 = 0; ?>
+                                @foreach ($datashow as $item)
                                     <?php $number++; ?>
                                     <tr>
-                                        <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td>  
-                                        <td class="text-center" width="8%">{{ $item->vn }}</td> 
-                                        {{-- <td class="text-center" width="8%">{{ $item->an }}</td>  --}}
-                                        <td class="text-center" width="5%">{{ $item->hn }}</td>   
-                                        <td class="text-center" width="10%">{{ $item->cid }}</td>  
-                                        <td class="p-2" >{{ $item->ptname }}</td>  
-                                        <td class="text-center" width="8%">{{ $item->vstdate }}</td>   
-                                        <td class="text-center" width="5%">{{ $item->pttype }}</td>  
-                                        <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>  
+                                        <td class="text-font" style="text-align: center;" width="4%">{{ $number++ }} </td> 
+                                        <td class="text-center" width="8%">{{ $item->vn }}</td>
+                                        {{-- <td class="text-center" width="8%">{{ $item->an }}</td> --}}
+                                        <td class="text-center" width="5%">{{ $item->hn }}</td>
+                                        <td class="text-center" width="10%">{{ $item->cid }}</td>
+                                        <td class="p-2">{{ $item->ptname }}</td>
+                                        <td class="text-center" width="7%"> {{$item->vstdate }}</td> 
+                                        <td class="text-center" width="7%"> {{$item->pttype }}</td> 
+                                        <td class="text-end" width="7%" style="color:rgb(8, 96, 196)"> {{number_format($item->debit_total, 2) }}</td> 
+                                        {{-- @if ($item->stm_money < $item->debit_total)
+                                            <td class="text-end" style="color:rgb(243, 74, 45)" width="7%"> {{ number_format($item->stm_money, 2) }}</td>
+                                        @else
+                                            <td class="text-end" style="color:rgb(3, 151, 114)" width="7%"> {{ number_format($item->stm_money, 2) }}</td>
+                                        @endif --}}
+                                        {{-- <td class="text-center" width="12%">{{ $item->STMDoc }}</td> --}}
                                     </tr>
                                     <?php
-                                        // $total1 = $total1 + $item->income;
-                                        // $total2 = $total2 + $item->rcpt_money;
                                         $total1 = $total1 + $item->debit_total; 
-                                ?>
- 
+                                        $total2 = $total2 + $item->stm_money;
+                                        
+                                    ?>
                                 @endforeach
 
                             </tbody>
                             <tr style="background-color: #f3fca1">
                                 <td colspan="7" class="text-end" style="background-color: #fca1a1"></td>
-                                <td class="text-center" style="background-color: #0a62b4"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td> 
+                                <td class="text-end" style="background-color: #0a62b4"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td> 
+                                {{-- <td class="text-center" style="background-color: #059274"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>  --}}
+                                {{-- <td class="text-end" style="background-color: #fca1a1"></td> --}}
                             </tr>  
                         </table>
                     </div>
