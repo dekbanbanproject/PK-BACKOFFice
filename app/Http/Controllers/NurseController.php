@@ -625,7 +625,10 @@ class NurseController extends Controller
  
             }
             
-            return request()->json($request);
+            // return request()->json($request);
+            return response()->json([
+                'status'     => '200'
+            ]);
         }
     }
 }

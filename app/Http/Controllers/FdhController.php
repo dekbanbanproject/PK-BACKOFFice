@@ -1940,6 +1940,7 @@ class FdhController extends Controller
         $id = $request->ids;
         $iduser = Auth::user()->id;
         $data_vn_1 = Fdh_mini_dataset::whereIn('fdh_mini_dataset_id', explode(",", $id))->get();
+        // $data_vn_1 = D_fdh::whereIn('d_fdh_id',explode(",",$id))->get();
         $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE user_id = "' . $iduser . '"');
         foreach ($data_token_ as $key => $val_to) {
             $token_   = $val_to->api_neweclaim_token;
@@ -1979,6 +1980,7 @@ class FdhController extends Controller
                     @$uidrep           = $data['transaction_uid'];
                     @$id_booking       = $data['id_booking'];
                     @$uuid_booking     = $data['uuid_booking']; 
+                    // dd($message); 
                     if (@$message == 'success') {
                             Fdh_mini_dataset::where('transaction_uid', $uidrep)
                             ->update([
@@ -2297,7 +2299,7 @@ class FdhController extends Controller
         $date = date('Y-m-d');
         $iduser = "754"; 
         $data_vn_1 = DB::connection('mysql')->select('SELECT * from fdh_mini_dataset WHERE active ="N" AND cid <> "" AND (transaction_uid ="" OR transaction_uid IS NULL) AND invoice_number <>"" LIMIT 10');            
-        $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE active_mini = "Y" AND user_id = "'.$iduser.'"');
+        $data_token_ = DB::connection('mysql')->select('SELECT * FROM api_neweclaim WHERE active_mini = "Y" ORDER BY updated_at desc limit 1');
         foreach ($data_token_ as $key => $val_to) {
             $token_   = $val_to->api_neweclaim_token;
         }
@@ -2369,7 +2371,7 @@ class FdhController extends Controller
         $date = date('Y-m-d');
         $iduser = "754"; 
         $data_vn_1 = DB::connection('mysql')->select('SELECT * FROM fdh_mini_dataset WHERE invoice_number IS NOT NULL AND cid <>"" AND hcode <> "" AND id_booking IS NULL LIMIT 50');
-        $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE active_mini = "Y" AND user_id = "'.$iduser.'"');
+        $data_token_ = DB::connection('mysql')->select('SELECT * FROM api_neweclaim WHERE active_mini = "Y" ORDER BY updated_at desc limit 1');
         foreach ($data_token_ as $key => $val_to) {
             $token_   = $val_to->api_neweclaim_token;
         }

@@ -271,19 +271,32 @@
                 autoFocus: false,
                 buttons: {
                     edit: {
+                        class:'btn btn-sm btn-default',
                         // class: 'btn-icon btn-shadow btn-dashed btn btn-outline-warning',
                         html: '<i class="fa-regular fa-pen-to-square text-danger"></i>',
                         action: 'Edit'
                     }
                 },
-                onSuccess:function(data,textStatus,jqXHR)
+                // onSuccess:function(data,textStatus,jqXHR)
+                onSuccess:function(data)
                 {
-                   
-                    if (data.action == 'Edit') 
-                    {
-                        // $('#'+data.icode).remove();
-                        window.location.reload();
-                    }
+                   if (data.status == 200) {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Your Edit Success",
+                            showConfirmButton: false,
+                            timer: 1500
+                            });
+                            window.location.reload();
+                   } else {
+                    
+                   }
+                    // if (data.action == 'Edit') 
+                    // {
+                    //     // $('#'+data.icode).remove();
+                    //     window.location.reload();
+                    // }
                 }
 
             });
@@ -338,7 +351,7 @@
                                          Swal.fire({
                                              position: "top-end",
                                              title: 'ประมวลผลสำเร็จ',
-                                    text: "You Process data success",
+                                            text: "You Process data success",
                                              icon: 'success',
                                              showCancelButton: false,
                                              confirmButtonColor: '#06D177',

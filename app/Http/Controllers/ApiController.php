@@ -662,9 +662,9 @@ class ApiController extends Controller
                 $data_sits = DB::connection('mysql10')->select(
                     'SELECT v.vstdate,o.vsttime
                         ,Time_format(o.vsttime ,"%H:%i") vsttime2
-                        ,v.cid,"10978" as hcode
-                        ,rd.total_amount as total_amout
-                        ,rd.finance_number as invoice_number
+                        ,pt.cid,"10978" as hcode
+                        ,IFNULL(rd.total_amount,v.income) as total_amout
+                        ,IFNULL(rd.finance_number,v.vn) as invoice_number
                         ,v.vn,concat(pt.pname,pt.fname," ",pt.lname) as ptname,v.hn,v.pttype
                         FROM vn_stat v 
                         LEFT OUTER JOIN ovst o ON v.vn = o.vn 
@@ -686,6 +686,10 @@ class ApiController extends Controller
                             'pttype'              => $value->pttype,
                             'total_amout'         => $value->total_amout,
                             'invoice_number'      => $value->invoice_number,
+                            'ptname'              => $value->ptname,
+                            'hn'                  => $value->hn,
+                            'vstdate'             => $value->vstdate,
+                            'cid'                 => $value->cid,
                         ]);              
                     } else {
                         Fdh_mini_dataset::insert([
@@ -812,7 +816,7 @@ class ApiController extends Controller
             $datashow_ = DB::connection('mysql2')->select(
                 'SELECT v.vstdate,o.vsttime
                     ,Time_format(o.vsttime ,"%H:%i") vsttime2
-                    ,v.cid,"10978" as hcode
+                    ,pt.cid,"10978" as hcode
                     ,IFNULL(rd.total_amount,v.income) as total_amout
                     ,IFNULL(rd.finance_number,v.vn) as invoice_number
                     ,v.vn,concat(pt.pname,pt.fname," ",pt.lname) as ptname,v.hn,v.pttype
@@ -836,10 +840,13 @@ class ApiController extends Controller
                 $check_opd = Fdh_mini_dataset::where('vn', $value->vn)->count();
                 if ($check_opd > 0) {
                     Fdh_mini_dataset::where('vn', $value->vn)->update([   
-                        'cid'                 => $value->cid, 
-                        'pttype'              => $value->pttype, 
+                        'pttype'              => $value->pttype,
                         'total_amout'         => $value->total_amout,
-                        'invoice_number'      => $value->invoice_number, 
+                        'invoice_number'      => $value->invoice_number,
+                        'ptname'              => $value->ptname,
+                        'hn'                  => $value->hn,
+                        'vstdate'             => $value->vstdate,
+                        'cid'                 => $value->cid,
                     ]);
                 } else {
                     Fdh_mini_dataset::insert([
@@ -866,8 +873,8 @@ class ApiController extends Controller
     { 
            $date_now = date('Y-m-d');
         //    $data_vn_1 = Fdh_mini_dataset::where('vstdate','=',$date_now)->where('invoice_number','<>','')->get();
-           $data_vn_1 = DB::connection('mysql')->select('SELECT * FROM fdh_mini_dataset WHERE invoice_number IS NOT NULL AND vstdate = "'.$date_now.'"');
-           $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE active_mini = "Y"');
+           $data_vn_1 = DB::connection('mysql')->select('SELECT * FROM fdh_mini_dataset WHERE invoice_number IS NOT NULL AND transaction_uid IS NULL AND vstdate = "'.$date_now.'"');
+           $data_token_ = DB::connection('mysql')->select('SELECT * FROM api_neweclaim WHERE active_mini = "Y" ORDER BY updated_at desc limit 1');
            foreach ($data_token_ as $key => $val_to) {
                $token_   = $val_to->api_neweclaim_token;
            }
@@ -932,7 +939,7 @@ class ApiController extends Controller
     {
             $date = date('Y-m-d');
             $data_vn_1 = Fdh_mini_dataset::where('vstdate','=',$date)->where('transaction_uid','<>','')->get();
-            $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE active_mini = "Y"');
+            $data_token_ = DB::connection('mysql')->select('SELECT * FROM api_neweclaim WHERE active_mini = "Y" ORDER BY updated_at desc limit 1');
             foreach ($data_token_ as $key => $val_to) {
                 $token_   = $val_to->api_neweclaim_token;
             }
@@ -1217,7 +1224,7 @@ class ApiController extends Controller
             $date = date('Y-m-d');
             $iduser = "754"; 
             $data_vn_1 = DB::connection('mysql')->select('SELECT * from fdh_mini_dataset WHERE active ="N" AND cid <> "" AND (transaction_uid ="" OR transaction_uid IS NULL) AND invoice_number <>"" LIMIT 20');            
-            $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE active_mini = "Y" AND user_id = "'.$iduser.'"');
+            $data_token_ = DB::connection('mysql')->select('SELECT * FROM api_neweclaim WHERE active_mini = "Y" ORDER BY updated_at desc limit 1');
             foreach ($data_token_ as $key => $val_to) {
                 $token_   = $val_to->api_neweclaim_token;
             }
@@ -1289,7 +1296,7 @@ class ApiController extends Controller
             $date = date('Y-m-d');
             $iduser = "754"; 
             $data_vn_1 = DB::connection('mysql')->select('SELECT * FROM fdh_mini_dataset WHERE invoice_number IS NOT NULL AND cid <>"" AND hcode <> "" AND id_booking IS NULL LIMIT 50');
-            $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE active_mini = "Y" AND user_id = "'.$iduser.'"');
+            $data_token_ = DB::connection('mysql')->select('SELECT * FROM api_neweclaim WHERE active_mini = "Y" ORDER BY updated_at desc limit 1');
             foreach ($data_token_ as $key => $val_to) {
                 $token_   = $val_to->api_neweclaim_token;
             }
