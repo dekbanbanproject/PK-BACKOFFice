@@ -255,8 +255,15 @@
             $('#example2').DataTable();
             $('#example3').DataTable();
 
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
             $('#Tabledit').Tabledit({
                 url:'{{route("d.nurse_index_editable")}}',
+                
                 dataType:"json",
                 // editButton: true,
                 removeButton: false,

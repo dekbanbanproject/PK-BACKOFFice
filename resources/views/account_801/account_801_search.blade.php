@@ -156,10 +156,10 @@
                                         {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_ucep,2)}}</td>  --}}
 
                                         <td class="text-end" style="color:rgb(73, 147, 231)" width="6%">{{ number_format($item->debit_total,2)}}</td> 
-                                        <td class="text-end" style="color:rgb(184, 12, 169)" width="6%">{{ number_format(($item->debit_total-$item->claim_true_af),2)}}</td> 
-                                        <td class="text-end" style="color:rgb(216, 95, 14)" width="6%">{{ number_format($item->claim_true_af,2)}}</td> 
+                                        <td class="text-end" style="color:rgb(184, 12, 169)" width="6%">{{ number_format(($item->debit_total-$item->stm_money),2)}}</td> 
+                                        <td class="text-end" style="color:rgb(3, 128, 107)" width="6%">{{ number_format($item->stm_money,2)}}</td> 
                                         {{-- <td class="text-end" style="color:rgb(9, 196, 180)" width="6%">{{ number_format($item->stm_total,2)}}</td>   --}}
-                                        <td class="p-2" width="9%">{{ $item->STMdoc }}</td>  
+                                        <td class="p-2" width="9%">{{ $item->STMDoc }}</td>  
                                     
                                     </tr>
                                         <?php
@@ -170,8 +170,8 @@
                                             // $total5 = $total5 + $item->debit_ucep;
 
                                             $total6 = $total6 + $item->debit_total;
-                                            $total7 = $total7 + ($item->debit_total-$item->claim_true_af); 
-                                            $total8 = $total8 + $item->claim_true_af;
+                                            $total7 = $total7 + ($item->debit_total-$item->stm_money); 
+                                            $total8 = $total8 + $item->stm_money;
                                             // $total9 = $total9 + $item->stm_total;
                                         ?>                                 
                                 @endforeach  
@@ -179,14 +179,14 @@
                             </tbody>
                                         <tr style="background-color: #f3fca1">
                                             <td colspan="6" class="text-end" style="background-color: #ff9d9d"></td>
-                                            <td class="text-end" style="background-color: #f58d73">{{ number_format($total1,2)}}</td> 
-                                            <td class="text-end" style="background-color: #f58d73">{{ number_format($total2,2)}}</td> 
-                                            <td class="text-end" style="background-color: #f58d73">{{ number_format($total3,2)}}</td> 
-                                            <td class="text-end" style="background-color: #f58d73">{{ number_format($total4,2)}}</td>                                             
+                                            <td class="text-end" style="background-color: #f58d73;color:white">{{ number_format($total1,2)}}</td> 
+                                            <td class="text-end" style="background-color: #f58d73;color:white">{{ number_format($total2,2)}}</td> 
+                                            <td class="text-end" style="background-color: #f58d73;color:white">{{ number_format($total3,2)}}</td> 
+                                            <td class="text-end" style="background-color: #f58d73;color:white">{{ number_format($total4,2)}}</td>                                             
                                             {{-- <td class="text-end" style="background-color: #ace5fc">{{ number_format($total5,2)}}</td>  --}}
-                                            <td class="text-end" style="background-color: #e09be9">{{ number_format($total6,2)}}</td> 
-                                            <td class="text-end" style="background-color: #f5a382">{{ number_format($total7,2)}}</td> 
-                                            <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total8,2)}}</td>  
+                                            <td class="text-end" style="background-color: #e09be9;color:white">{{ number_format($total6,2)}}</td> 
+                                            <td class="text-end" style="background-color: #f5a382;color:white">{{ number_format($total7,2)}}</td> 
+                                            <td class="text-end" style="background-color: #047c5e;color:white">{{ number_format($total8,2)}}</td>  
                                             {{-- <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total9,2)}}</td>   --}}
                                             <td class="text-end" style="background-color: #ff9d9d"></td> 
                                         </tr>  

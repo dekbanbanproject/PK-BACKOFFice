@@ -3143,6 +3143,8 @@ Route::match(['get','post'],'techservice',[App\Http\Controllers\CCtvController::
 Route::match(['get','post'],'cctv',[App\Http\Controllers\CCtvController::class, 'cctv'])->name('tec.cctv');//
 Route::match(['get','post'],'cctv_list',[App\Http\Controllers\CCtvController::class, 'cctv_list'])->name('tec.cctv_list');//
 Route::match(['get','post'],'cctv_list_check',[App\Http\Controllers\CCtvController::class, 'cctv_list_check'])->name('tec.cctv_list_check');//
+Route::match(['get','post'],'cctv_list_check_add',[App\Http\Controllers\CCtvController::class, 'cctv_list_check_add'])->name('tec.cctv_list_check_add');//
+Route::match(['get','post'],'cctv_list_check_save',[App\Http\Controllers\CCtvController::class, 'cctv_list_check_save'])->name('tec.cctv_list_check_save');//
 Route::match(['get','post'],'cctv_list_editcheck',[App\Http\Controllers\CCtvController::class, 'cctv_list_editcheck'])->name('tec.cctv_list_editcheck');//
 Route::match(['get','post'],'cctvqrcode/{id}',[App\Http\Controllers\CCtvController::class, 'cctvqrcode'])->name('tec.cctvqrcode');//
 Route::match(['get','post'],'cctv_add',[App\Http\Controllers\CCtvController::class, 'cctv_add'])->name('tec.cctv_add');//

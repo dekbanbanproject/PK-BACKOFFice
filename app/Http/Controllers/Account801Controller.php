@@ -378,12 +378,18 @@ class Account801Controller extends Controller
         $data['users'] = User::get();
         if ($startdate =='') {
            $datashow = DB::select(' 
-           SELECT U1.*,U2.claim_true_af,U2.STMdoc 
-           from acc_1102050102_801 U1
-           LEFT JOIN acc_stm_lgo U2 ON U2.cid_f = U1.cid AND U2.vstdate_i = U1.vstdate 
+           SELECT U1.*
+           from acc_1102050102_801 U1 
                WHERE vstdate BETWEEN "'.$new_day.'" AND  "'.$date.'" 
                group by U1.vn 
            ');
+        //    $datashow = DB::select(' 
+        //    SELECT U1.*,U2.claim_true_af,U2.STMdoc 
+        //    from acc_1102050102_801 U1
+        //    LEFT JOIN acc_stm_lgo U2 ON U2.cid_f = U1.cid AND U2.vstdate_i = U1.vstdate 
+        //        WHERE vstdate BETWEEN "'.$new_day.'" AND  "'.$date.'" 
+        //        group by U1.vn 
+        //    ');
         } else {
            $datashow = DB::select(' 
            SELECT U1.*,U2.claim_true_af,U2.STMdoc 

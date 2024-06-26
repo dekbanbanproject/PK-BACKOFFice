@@ -83,10 +83,15 @@ $loter = $date.''.$time
     <div class="row"> 
         <div class="col-md-3">
             <h4 class="card-title" style="color:rgb(10, 151, 85)">CHECK CCTV</h4>
-            <p class="card-title-desc" style="font-size: 15px;">บันทึกข้อมูลกล้องวงจรปิด</p>
+            <p class="card-title-desc" style="font-size: 15px;">รายการบันทึกข้อมูลกล้องวงจรปิด เดือนนี้</p>
         </div>
         <div class="col"></div>
-         
+         <div class="col-md-2 text-end">
+            <a href="{{url('cctv_list_check_add')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-primary cardacc"> 
+                <i class="fa-solid fa-circle-plus text-white me-2"></i>
+                บันทึกข้อมูล
+            </a> 
+         </div>
     </div> 
    
         <div class="row">
@@ -96,17 +101,18 @@ $loter = $date.''.$time
                     <div class="card-body">
                         <div class="card-body">
                             <div class="table-responsive">  
-                                    <table id="Tabledit" class="table table-bordered border-primary table-hover table-sm" style="border-collapse: collapse;border-spacing: 0; width: 100%;">
+                                    <table id="example" class="table table-sm" style="border-collapse: collapse;border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr style="font-size: 13px">                                        
-                                            <th class="text-center" style="background: #fdf7e4">รหัสกล้อง</th>
-                                            <th class="text-center" width="15%" style="background: #fdf7e4">สถานที่ติดตั้ง</th> 
-                                            <th class="text-center" style="background: #e4fdfc">สถานะการตรวจเช็ค</th> 
-                                            <th class="text-center" style="background: #e4fdfc">จอกล้อง</th> 
-                                            <th class="text-center" style="background: #e4fdfc">มุมกล้อง</th>
-                                            <th class="text-center" style="background: #e4fdfc">สิ่งกีดขวาง</th>
-                                            <th class="text-center" style="background: #dadffa">การบันทึก</th> 
-                                            <th class="text-center" style="background: #dadffa">การสำรองไฟ</th> 
+                                            <th class="text-center">รหัสกล้อง</th>
+                                            <th class="text-center" width="15%">สถานที่ติดตั้ง</th> 
+                                            <th class="text-center">วันที่เช็คล่าสุด</th> 
+                                            <th class="text-center">สถานะการตรวจเช็ค</th> 
+                                            <th class="text-center">จอกล้อง</th> 
+                                            <th class="text-center">มุมกล้อง</th>
+                                            <th class="text-center">สิ่งกีดขวาง</th>
+                                            <th class="text-center">การบันทึก</th> 
+                                            <th class="text-center">การสำรองไฟ</th> 
                                         </tr>
                                        
                                     </thead>
@@ -116,35 +122,26 @@ $loter = $date.''.$time
                                             $total7 = 0; $total8 = 0; $total9 = 0; $total10 = 0; $total11 = 0; $total12 = 0;
                                         ?>
                                         @foreach ($datashow as $item) 
-                                        <?php
-                                                $dashboard_ = DB::select(
-                                                    'SELECT * FROM cctv_check WHERE article_num = "'.$item->cctv_list_num.'"  
-                                                ');  
-                                                // foreach ($dashboard_ as $key => $value) {
-                                                //    $cctv_camera_screen       = $value->cctv_camera_screen;
-                                                //    $cctv_camera_corner       = $value->cctv_camera_corner;
-                                                //    $cctv_camera_drawback     = $value->cctv_camera_drawback;
-                                                //    $cctv_camera_save         = $value->cctv_camera_save;
-                                                //    $cctv_camera_power_backup = $value->cctv_camera_power_backup;
-                                                // }
-                                                // $dataedit = DB::table('cctv_check')->where('article_num', '=', $item->cctv_list_num)->first();
-                                                //     $cctv_camera_screen       = $dataedit->cctv_camera_screen;
-                                                //     $cctv_camera_corner       = $dataedit->cctv_camera_corner;
-                                                //     $cctv_camera_drawback     = $dataedit->cctv_camera_drawback;
-                                                //     $cctv_camera_save         = $dataedit->cctv_camera_save;
-                                                //     $cctv_camera_power_backup = $dataedit->cctv_camera_power_backup;
-                                        ?>
+                                        
                                             <tr style="font-size:13px"> 
-                                                <td class="text-center" width="7%" >{{ $item->cctv_list_num }} </td>
+                                                <td class="text-center" width="7%" >{{ $item->article_num }} </td>
                                                 <td class="p-2"> {{ $item->cctv_location }}</td>  
-                                                <td class="text-center" width="7%">{{$item->cctv_check}}</td>  
+                                                <td class="text-center" width="10%">{{DateThai($item->cctv_check_date)}}</td> 
+                                                <td class="text-center" width="10%"> 
+                                                    @if ($item->cctv_status == '0')
+                                                        {{-- <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">ปกติ</span> --}}
+                                                        {{-- <span class="badge badge-pill badge-success">ปกติ</span>  --}}
+                                                        <span class="badge bg-success">ปกติ</span> 
+                                                    @else
+                                                        <span class="badge bg-danger">ชำรุด</span>
+                                                        {{-- <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">ชำรุด</span> --}}
+                                                    @endif 
+                                                </td>  
                                                 <td class="text-center" width="7%">{{$item->cctv_camera_screen}}</td> 
                                                 <td class="text-center" width="7%">{{$item->cctv_camera_corner}}</td> 
                                                 <td class="text-center" width="7%">{{$item->cctv_camera_drawback}}</td>
                                                 <td class="text-center" width="7%">{{$item->cctv_camera_save}}</td>   
-                                                <td class="text-center" width="7%">{{$item->cctv_camera_power_backup}}</td>  
-                                          
-                                               
+                                                <td class="text-center" width="7%">{{$item->cctv_camera_power_backup}}</td>   
                                             </tr> 
                                         @endforeach
                                     </tbody>
@@ -180,12 +177,20 @@ $loter = $date.''.$time
               placeholder:"--เลือก--",
               allowClear:true
           });
+          $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
            
           $('#Tabledit').Tabledit({
                 url:'{{route("tec.cctv_list_editcheck")}}',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 dataType:"json",
                 // editButton: true,
                 removeButton: false,
+                processData: false,
+                contentType: false,
                 columns:{
                     identifier:[0,'cctv_list_num'],
                     // editable:[[1,'group2'],[2,'fbillcode'],[3,'nbillcode'],[4,'dname'],[5,'pay_rate'],[6,'price'],[7,'price2'],[8,'price3'], [9, 'gender', '{"1":"Male", "2":"Female"}']]

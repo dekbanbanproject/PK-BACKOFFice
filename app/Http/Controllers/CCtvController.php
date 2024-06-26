@@ -41,7 +41,7 @@ use App\Models\Acc_stm_ofc;
 use App\Models\acc_stm_ofcexcel;
 use App\Models\Acc_stm_lgo;
 use App\Models\Acc_stm_lgoexcel;
-use App\Models\Check_sit_auto;
+use App\Models\Cctv_list;
 use App\Models\Cctv_check;
 use App\Models\Article_status;
 use App\Models\Land;
@@ -660,19 +660,45 @@ class CCtvController extends Controller
         $newDate     = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
         $newyear     = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
         $iduser = Auth::user()->id;
+ 
         // $datashow = DB::select(
-        //     'SELECT c.*,cc.* from cctv_list c
-        //     LEFT JOIN cctv_check cc ON cc.article_num = c.cctv_list_num
-        //     WHERE c.cctv_status = "0" AND MONTH(cc.cctv_check_date) = "'.$months.'"
+        //     'SELECT * from cctv_list 
+        //     WHERE cctv_status = "0" AND month(cctv_check_date) = "'.$months.'"
         //     order by cctv_list_id ASC
         // '); 
+        $datashow = Cctv_check::leftJoin('cctv_list', 'cctv_check.article_num', '=', 'cctv_list.cctv_list_num')
+        ->whereMonth('cctv_check.cctv_check_date', '=', $months)
+        ->groupBy('cctv_list.cctv_list_num')->orderBy('cctv_list_id','ASC')
+        ->get(); 
+      
+        return view('support_prs.cctv.cctv_list_check',[
+            'startdate'   =>     $startdate,
+            'enddate'     =>     $enddate,
+            'datashow'    =>     $datashow,
+        ]);
+    }
+    public function cctv_list_check_add(Request $request)
+    { 
+        $startdate   = $request->startdate;
+        $enddate     = $request->enddate;
+        $date        = date('Y-m-d');
+        $y           = date('Y') + 543;
+        $months = date('m');
+        $year = date('Y'); 
+        $newdays     = date('Y-m-d', strtotime($date . ' -1 days')); //ย้อนหลัง 1 วัน
+        $newweek     = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate     = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear     = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $iduser = Auth::user()->id;
+ 
         $datashow = DB::select(
             'SELECT * from cctv_list 
-            WHERE cctv_status = "0" 
-            order by cctv_list_id ASC
+            WHERE cctv_check = "N"
+            ORDER BY cctv_list_id ASC
         '); 
-         
-        return view('support_prs.cctv.cctv_list_check',[
+        //  WHERE cctv_status = "0" 
+        //   AND cctv_check = "N"
+        return view('support_prs.cctv.cctv_list_check_add',[
             'startdate'   =>     $startdate,
             'enddate'     =>     $enddate,
             'datashow'    =>     $datashow,
@@ -683,51 +709,105 @@ class CCtvController extends Controller
     {
         if ($request->ajax()) {
             if ($request->action == 'Edit') {
-                $c_an_ = Cctv_check::where('article_num', $request->cctv_list_num)->first();
-                $an1    = $c_an_->count_an1;
-                $an2    = $c_an_->count_an2;
-                $an3    = $c_an_->count_an3;
-                $a     = $c_an_->soot_a;
-                $b     = $c_an_->soot_b;
-                $c     = $c_an_->soot_c;
+                $c_an_ = Cctv_list::where('cctv_list_num', $request->cctv_list_num)->first();
+                // $an1    = $c_an_->count_an1;
+                // $an2    = $c_an_->count_an2;
+                // $an3    = $c_an_->count_an3;
+                
                 // $nursing_ = Nurse_ksk::where('ward',$request->ward)->first();
                 $date = date('Y-m-d');
                 $m = date('H');
                 $mm = date('H:m:s');
                 $datefull = date('Y-m-d H:m:s');
-
-                if ($m < '8') {
-                } else if ($m > '8' && $m < '16') {
-                } else {
-                    if ($request->ward == '01') {
-                        # code...
-                    } else {
-                        # code...
-                    }
-                }
-
-                // $data  = array(
-                //     'np_a'          => $request->np_a,
-                //     'soot_a_total'  => ($an1 * 1.6 * 100 / $a) * $request->np_a,
-                //     'np_b'          => $request->np_b,
-
-                //     'soot_b_total'  => ($an2 * 1.6 * 100 / $b) * $request->np_b,
-                //     'np_c'          => $request->np_c,
-
-                //     'soot_c_total'  => ($an3 * 1.6 * 100 / $c) * $request->np_c,
-                // );
-                // DB::connection('mysql')->table('nurse')
-                //     ->where('ward', $request->ward)
-                //     ->update($data);
+ 
+                $data  = array(
+                    // 'cctv_check_date'            => $date,
+                    'cctv_camera_screen'         => $request->cctv_camera_screen,
+                    'cctv_camera_corner'         => $request->cctv_camera_corner,
+                    'cctv_camera_drawback'       => $request->cctv_camera_drawback,
+                    'cctv_camera_save'           => $request->cctv_camera_save,
+                    'cctv_camera_power_backup'   => $request->cctv_camera_power_backup,
+                );
+                DB::connection('mysql')->table('cctv_list')
+                    ->where('cctv_list_num', $request->cctv_list_num)
+                    ->update($data);
             }
-            // if($request->action == 'delete')
-            // {
-            // 	DB::table('sample_datas')
-            // 		->where('id', $request->id)
-            // 		->delete();
-            // }
-            return request()->json($request);
+            return response()->json([
+                'status'     => '200'
+            ]);
+            // return request()->json($request);
         }
+    }
+    public function cctv_list_check_save(Request $request)
+    {
+     
+            $cctv_insert = Cctv_list::where('cctv_check', '=','N')->get();
+            $date        = date('Y-m-d'); 
+            $m           = date('m');   
+            $iduser      = Auth::user()->id;
+            foreach ($cctv_insert as $key => $value) {
+                $check = Cctv_check::where('article_num', $value->cctv_list_num)->whereMonth('cctv_check_date', '=', $m)->count(); 
+                $cctv_detail = Cctv_list::where('cctv_list_num',$value->cctv_list_num)->first();
+
+                if ($check > 0) {
+                    Cctv_check::where('article_num', $value->cctv_list_num)->whereMonth('cctv_check_date', '=', $m)->update([ 
+                        // 'cctv_check_date'           => $value->cctv_check_date,
+                        'cctv_camera_screen'        => $value->cctv_camera_screen,
+                        'cctv_camera_corner'        => $value->cctv_camera_corner,
+                        'cctv_camera_drawback'      => $value->cctv_camera_drawback,
+                        'cctv_camera_save'          => $value->cctv_camera_save,
+                        'cctv_camera_power_backup'  => $value->cctv_camera_power_backup,
+                        'cctv_type'                 => $cctv_detail->cctv_type,
+                        'cctv_location'             => $cctv_detail->cctv_location,
+                        'cctv_user_id'              => $iduser,
+                        'cctv_check_date'           => $date
+                    ]);
+                    Cctv_list::where('cctv_list_num', $value->cctv_list_num)->update([ 
+                        'cctv_check_date'           => $date, 
+                    ]);
+                } else {
+                    Cctv_check::insert([
+                        'article_num'               => $value->cctv_list_num,
+                        // 'cctv_check_date'           => $value->cctv_check_date,
+                        'cctv_camera_screen'        => $value->cctv_camera_screen,
+                        'cctv_camera_corner'        => $value->cctv_camera_corner,
+                        'cctv_camera_drawback'      => $value->cctv_camera_drawback,
+                        'cctv_camera_save'          => $value->cctv_camera_save,
+                        'cctv_camera_power_backup'  => $value->cctv_camera_power_backup,
+                        'cctv_type'                 => $cctv_detail->cctv_type,
+                        'cctv_location'             => $cctv_detail->cctv_location,
+                        'cctv_user_id'              => $iduser,
+                        'cctv_check_date'           => $date
+                    ]);
+                    Cctv_list::where('cctv_list_num', $value->cctv_list_num)->update([ 
+                        'cctv_check_date'           => $date, 
+                    ]);
+                }
+                if ($value->cctv_camera_screen == '1' || $value->cctv_camera_corner == '1' || $value->cctv_camera_drawback == '1' || $value->cctv_camera_save == '1' || $value->cctv_camera_power_backup == '1') {
+                    Cctv_list::where('cctv_list_num',$value->cctv_list_num)->update(['cctv_status' => '1']);
+                } else {
+                    Cctv_list::where('cctv_list_num',$value->cctv_list_num)->update(['cctv_status' => '0']);
+                }
+                 
+            }
+                
+            
+
+            // $data  = array(
+            //     'cctv_camera_screen'         => $request->cctv_camera_screen,
+            //     'cctv_camera_corner'         => $request->cctv_camera_corner,
+            //     'cctv_camera_drawback'       => $request->cctv_camera_drawback,
+            //     'cctv_camera_save'           => $request->cctv_camera_save,
+            //     'cctv_camera_power_backup'   => $request->cctv_camera_power_backup,
+            // );
+            // DB::connection('mysql')->table('cctv_list')
+            //     ->where('cctv_list_num', $request->cctv_list_num)
+            //     ->update($data);
+        
+        return response()->json([
+            'status'     => '200'
+        ]);
+            
     }
      
  

@@ -538,17 +538,15 @@ use App\Models\Products_request_sub;
     {{-- <script type="text/javascript" src="{{ asset('acccph/js/circle-progress.js') }}"></script> --}}
     <!-- App js -->
     <script src="{{ asset('pkclaim/js/app.js') }}"></script>
-    <script src="{{ asset('assets/jquery-tabledit/jquery.tabledit.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap-timepicker.js') }}"></script>
     {{-- <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet"> --}}
-{{-- 
+
     <script type="text/javascript" src="{{ asset('acccph/js/charts/apex-charts.js') }}"></script>
     <script type="text/javascript" src="{{ asset('acccph/js/circle-progress.js') }}"></script>
     <script type="text/javascript" src="{{ asset('acccph/js/demo.js') }}"></script>
     <script type="text/javascript" src="{{ asset('acccph/js/scrollbar.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('acccph/js/toastr.js') }}"></script> --}}
+    <script type="text/javascript" src="{{ asset('acccph/js/toastr.js') }}"></script>
     {{-- <script type="text/javascript" src="{{ asset('acccph/js/treeview.js') }}"></script> --}}
-    {{-- <script type="text/javascript" src="{{ asset('acccph/js/form-components/toggle-switch.js') }}"></script> --}}
+    <script type="text/javascript" src="{{ asset('acccph/js/form-components/toggle-switch.js') }}"></script>
     {{-- <script type="text/javascript" src="{{ asset('acccph/js/tables.js') }}"></script> --}}
     {{-- <script type="text/javascript" src="{{ asset('acccph/js/carousel-slider.js') }}"></script> --}}
     {{-- <script type="text/javascript" src="{{ asset('disacc/js/charts/chartjs.js') }}"></script> --}}
