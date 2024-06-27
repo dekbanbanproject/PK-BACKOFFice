@@ -114,49 +114,12 @@ $count_article = StaticController::count_article();
                 <h4 class="card-title" style="color:rgb(10, 151, 85)">UPDATE CCTV</h4>
                 <p class="card-title-desc">แก้ไขข้อมูลครุภัณฑ์กล้องวงจรปิด</p>
             </div>
-            <div class="col"></div>
-            <div class="col-md-1">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="article_claim"
-                        id="article_claim" value="CLAIM">
-                    <label class="form-check-label" for="article_claim">
-                        เคลม
-                    </label>
-                </div>
-            </div>
-            <div class="col-md-1">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="article_claim"
-                        id="article_claim" value="NOCLAIM" checked>
-                    <label class="form-check-label" for="article_claim">
-                        ไม่เคลม
-                    </label>
-                </div>
-            </div>
-            <div class="col-md-1">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="article_used"
-                        id="article_used" value="YES" >
-                    <label class="form-check-label" for="article_used">
-                        ใช้บ่อย
-                    </label>
-                </div>
-            </div>
-            <div class="col-md-1">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="article_used"
-                        id="article_used" value="NO" checked>
-                    <label class="form-check-label" for="article_used">
-                        ไม่ใช้บ่อย
-                    </label>
-                </div>
-            </div>
-           
+             
         </div> 
 
         <div class="row">
             <div class="col-md-12">
-                <div class="card cardacc">
+                <div class="card card_prs_4">
                    
                     <div class="card-body">
 

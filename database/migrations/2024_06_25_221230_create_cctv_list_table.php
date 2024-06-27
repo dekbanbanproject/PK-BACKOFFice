@@ -24,6 +24,9 @@ return new class extends Migration
                 $table->string('cctv_type', length: 200)->nullable(); //
                 $table->string('cctv_monitor', length: 200)->nullable(); //                 
                 $table->enum('cctv_status', ['1','0'])->default('0');    
+                $table->binary('cctv_img')->nullable();
+                $table->string('cctv_img_name')->nullable();
+                $table->longText('cctv_img_base')->nullable();
                 $table->timestamps();
             });
         }

@@ -128,7 +128,7 @@ class CCtvController extends Controller
             'acc_debtor'    =>     $acc_debtor,
         ]);
     }
-    public function cctv_list(Request $request)
+    public function cctv_list_old(Request $request)
     {
         $datenow = date('Y-m-d');
         $months = date('m');
@@ -146,6 +146,22 @@ class CCtvController extends Controller
         } else {
             $datashow = DB::select('SELECT * from article_data WHERE cctv="Y" AND article_id ="'.$id.'" order by article_id ASC'); 
         }
+        return view('support_prs.cctv.cctv_list',[
+            'startdate'   =>     $startdate,
+            'enddate'     =>     $enddate,
+            'datashow'    =>     $datashow,
+        ]);
+    }
+    public function cctv_list(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $months = date('m');
+        $year = date('Y'); 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+    
+        $datashow = DB::select('SELECT * from cctv_list ORDER BY cctv_list_id ASC'); 
+      
         return view('support_prs.cctv.cctv_list',[
             'startdate'   =>     $startdate,
             'enddate'     =>     $enddate,
@@ -187,6 +203,33 @@ class CCtvController extends Controller
         return view('support_prs.cctv.cctv_add', $data);
     }
     public function cctv_save(Request $request)
+    {
+        $add = new Cctv_list();
+        $add->cctv_list_num               = $request->input('cctv_list_num');
+        $add->cctv_list_name              = $request->input('cctv_list_name');
+        $add->cctv_list_year              = $request->input('cctv_list_year');
+        $add->cctv_recive_date            = $request->input('cctv_recive_date');
+        $add->cctv_location               = $request->input('cctv_location');
+        $add->cctv_location_detail        = $request->input('cctv_location_detail');
+        $add->cctv_type                   = $request->input('cctv_type');
+        $add->cctv_monitor                = $request->input('cctv_monitor');
+        $add->cctv_status                 = $request->input('cctv_status'); 
+        $add->cctv_status                 = '0';
+         
+        if ($request->hasfile('cctv_img')) {
+            $file = $request->file('cctv_img');
+            $extention = $file->getClientOriginalExtension();
+            $filename = time(). '.' . $extention; 
+            $request->cctv_img->storeAs('cctv', $filename, 'public'); 
+            $add->cctv_img = $filename;
+            $add->cctv_img_name = $filename;
+        }
+        $add->save();
+        return response()->json([
+            'status'     => '200'
+        ]);
+    }
+    public function cctv_save_old(Request $request)
     {
         $add = new Article();
         $add->article_year         = $request->input('article_year');
@@ -251,17 +294,7 @@ class CCtvController extends Controller
             $add->article_deb_subsub_id = '';
             $add->article_deb_subsub_name = '';
         }
-
-        // $staid = $request->input('article_status_id');
-        // if ($staid != '') {
-        //     $stasave = DB::table('article_status')->where('article_status_id', '=', $staid)->first();
-        //     $add->article_status_id = $stasave->article_status_id;
-        //     $add->article_status_name = $stasave->article_status_name;
-        // } else {
-        //     $add->article_status_id = '';
-        //     $add->article_status_name = '';
-        // }
-
+  
         $uniid = $request->input('article_unit_id');
         if ($uniid != '') {
             $unisave = DB::table('product_unit')->where('unit_id', '=', $uniid)->first();
@@ -337,7 +370,7 @@ class CCtvController extends Controller
         $data['products_vendor'] = Products_vendor::get();
         // $data['product_brand'] = Product_brand::get();
         $data['product_brand']      = DB::table('product_brand')->get();
-        $dataedit = Article::where('article_id', '=', $id)->first();
+        $dataedit = Cctv_list::where('cctv_list_id', '=', $id)->first();
         $data['medical_typecat'] = DB::table('medical_typecat')->get();
         return view('support_prs.cctv.cctv_edit', $data, [
             'dataedits' => $dataedit

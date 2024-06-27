@@ -87,105 +87,17 @@ $loter = $date.''.$time
             <p class="card-title-desc">เพิ่มข้อมูลครุภัณฑ์กล้องวงจรปิด</p>
         </div>
         <div class="col"></div>
-        <div class="col-md-1">
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="article_claim"
-                    id="article_claim" value="CLAIM">
-                <label class="form-check-label" for="article_claim">
-                    เคลม
-                </label>
-            </div>
-        </div>
-        <div class="col-md-1">
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="article_claim"
-                    id="article_claim" value="NOCLAIM" checked>
-                <label class="form-check-label" for="article_claim">
-                    ไม่เคลม
-                </label>
-            </div>
-        </div>
-        <div class="col-md-1">
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="article_used"
-                    id="article_used" value="YES" >
-                <label class="form-check-label" for="article_used">
-                    ใช้บ่อย
-                </label>
-            </div>
-        </div>
-        <div class="col-md-1">
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="article_used"
-                    id="article_used" value="NO" checked>
-                <label class="form-check-label" for="article_used">
-                    ไม่ใช้บ่อย
-                </label>
-            </div>
-        </div>
-       
+         
     </div> 
    
         <div class="row">
             <div class="col-md-12">
-                <div class="card cardacc">
-                    {{-- <div class="card-header">
-                        <div class="d-flex">
-                            <div class="">
-                                <label for="">เพิ่มข้อมูลครุภัณฑ์กล้องวงจรปิด </label>
-                            </div>
-                            <div class="ms-auto">
-                                <form class="custom-validation" action="{{ route('tec.cctv_save') }}" method="POST" id="insert_Form" enctype="multipart/form-data">
-                                    @csrf
-
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="article_claim"
-                                                    id="article_claim" value="CLAIM">
-                                                <label class="form-check-label" for="article_claim">
-                                                    เคลม
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="article_claim"
-                                                    id="article_claim" value="NOCLAIM" checked>
-                                                <label class="form-check-label" for="article_claim">
-                                                    ไม่เคลม
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="article_used"
-                                                    id="article_used" value="YES" >
-                                                <label class="form-check-label" for="article_used">
-                                                    ใช้บ่อย
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="article_used"
-                                                    id="article_used" value="NO" checked>
-                                                <label class="form-check-label" for="article_used">
-                                                    ไม่ใช้บ่อย
-                                                </label>
-                                            </div>
-                                        </div>
-                                       
-                                    </div>
-                            </div>
-                        </div>
-                    </div> --}}
+                <div class="card card_prs_4">
+                    
                     <div class="card-body">
 
                         <input type="hidden" name="store_id" id="store_id" value=" {{ Auth::user()->store_id }}">
-                        <input type="hidden" name="article_typeid" id="PRODUCT_TYPEID" value="2">
-                        <input type="hidden" name="article_groupid" id="PRODUCT_GROUPID" value="3">
-
+                        
                         <div class="row">
 
                             <div class="col-md-4">
@@ -193,9 +105,9 @@ $loter = $date.''.$time
                                     <img src="{{ asset('assets/images/default-image.jpg') }}" id="add_upload_preview"
                                         alt="Image" class="img-thumbnail" width="450px" height="350px">
                                     <br>
-                                    <div class="input-group mb-3">
-                                        <label class="input-group-text" for="article_img">Upload</label>
-                                        <input type="file" class="form-control" id="article_img" name="article_img"
+                                    <div class="input-group mt-3">
+                                        {{-- <label class="input-group-text" for="cctv_img">Upload</label> --}}
+                                        <input type="file" class="form-control" id="cctv_img" name="cctv_img"
                                             onchange="addarticle(this)">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     </div>
@@ -204,98 +116,74 @@ $loter = $date.''.$time
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-2 text-end">
-                                        <label for="article_year">ปีงบประมาณ </label>
+                                        <label for="cctv_list_year">ปีงบประมาณ </label>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <select id="article_year" name="article_year" class="form-select form-select-lg"
-                                                style="width: 100%">
-                                                <option value="">ปีงบประมาณ</option>
-                                                
-                                                @foreach ($budget_year as $ye)
-                                                @if ($ye->leave_year_id == $date)
-                                                    <option value="{{ $ye->leave_year_id }}" selected>
-                                                        {{ $ye->leave_year_id }} </option>
-                                                @else
-                                                    <option value="{{ $ye->leave_year_id }}"> {{ $ye->leave_year_id }}
-                                                    </option>
-                                                @endif
-                                            @endforeach
+                                            <select id="cctv_list_year" name="cctv_list_year" class="form-select form-select-lg" style="width: 100%">
+                                                <option value="">ปีงบประมาณ</option> 
+                                                    @foreach ($budget_year as $ye)
+                                                        @if ($ye->leave_year_id == $date)
+                                                            <option value="{{ $ye->leave_year_id }}" selected> {{ $ye->leave_year_id }} </option>
+                                                        @else
+                                                            <option value="{{ $ye->leave_year_id }}"> {{ $ye->leave_year_id }} </option>
+                                                        @endif
+                                                    @endforeach
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-2 text-end">
-                                        <label for="article_recieve_date">วันที่รับเข้า </label>
+                                        <label for="cctv_recive_date">วันที่รับเข้า</label>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <input id="article_recieve_date" type="date"
-                                                class="form-control form-control-sm" name="article_recieve_date">
+                                            <input id="cctv_recive_date" type="date" class="form-control form-control-sm" name="cctv_recive_date">
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row mt-3">
                                     <div class="col-md-2 text-end">
-                                        <label for="article_num">เลขครุภัณฑ์ </label>
+                                        <label for="cctv_list_num">รหัสกล้อง</label>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <input id="article_num" type="text" class="form-control form-control-sm"
-                                                name="article_num">
+                                            <input id="cctv_list_num" type="text" class="form-control form-control-sm" name="cctv_list_num">
                                         </div>
                                     </div>
                                     <div class="col-md-2 text-end">
-                                        <label for="article_name">ชื่อครุภัณฑ์ </label>
+                                        <label for="cctv_list_name">ชื่อกล้อง</label>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <input id="article_name" type="text" class="form-control form-control-sm"
-                                                name="article_name">
+                                            <input id="cctv_list_name" type="text" class="form-control form-control-sm" name="cctv_list_name">
                                         </div>
                                     </div>
                                 </div>
+ 
+ 
+
 
                                 <div class="row mt-3">
                                     <div class="col-md-2 text-end">
-                                        <label for="medical_typecat_id">ประเภทเครื่องมือ </label>
+                                        <label for="cctv_type">ประเภท </label>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <select id="medical_typecat_id" name="medical_typecat_id"
+                                            <select id="cctv_type" name="cctv_type"
                                                 class="form-select form-select-lg" style="width: 100%">
-                                                <option value=""></option>
-                                                @foreach ($medical_typecat as $typecat)
-                                                    <option value="{{ $typecat->medical_typecat_id }}">
-                                                        {{ $typecat->medical_typecatname }}
-                                                    </option>
-                                                @endforeach
+                                                <option value="OUT">-- OUT --</option>
+                                                <option value="IN">-- IN --</option>
                                             </select>
                                         </div>
                                     </div>
-                                    {{-- <div class="col-md-2 text-end">
-                                        <label for="article_attribute">คุณลักษณะ :</label>
-                                    </div>
-                                    <div class="col-md-4 ">
-                                        <div class="form-group">
-                                            <input id="article_attribute" type="text"
-                                                class="form-control form-control-sm" name="article_attribute">
-                                        </div>
-                                    </div> --}}
+
                                     <div class="col-md-2 text-end">
-                                        <label for="vendor_id">ตัวแทนจำหน่าย </label>
+                                        <label for="article_deb_subsub_id">Monitor </label>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <select id="vendor_id" name="vendor_id" class="form-select form-select-lg"
-                                                style="width: 100%">
-                                                <option value=""></option>
-                                                @foreach ($products_vendor as $vendor)
-                                                    <option value="{{ $vendor->vendor_id }}">
-                                                        {{ $vendor->vendor_name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
+                                            <input id="cctv_monitor" type="text" class="form-control form-control-sm" name="cctv_monitor">
                                         </div>
                                     </div>
 
@@ -303,177 +191,28 @@ $loter = $date.''.$time
 
                                 <div class="row mt-3">
                                     <div class="col-md-2 text-end">
-                                        <label for="article_price">ราคา </label>
+                                        <label for="article_decline_id">สถานที่ติดตั้ง </label>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-10">
                                         <div class="form-group">
-                                            <input id="article_price" type="text" class="form-control form-control-sm"
-                                                name="article_price">
+                                             <textarea class="form-control" name="cctv_location" id="cctv_location" rows="3"></textarea>
                                         </div>
-                                    </div>
-                                    <div class="col-md-1">
-                                        <label for="article_price">บาท</label>
-                                    </div>
-                                    <div class="col-md-2 text-end">
-                                        <label for="article_buy_id">การจัดซื้อ </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <select id="article_buy_id" name="article_buy_id"
-                                                class="form-select form-select-lg" style="width: 100%">
-                                                <option value=""></option>
-                                                @foreach ($product_buy as $buy)
-                                                    <option value="{{ $buy->buy_id }}">{{ $buy->buy_name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="row mt-3">
-                                    <div class="col-md-2 text-end">
-                                        <label for="article_categoryid">หมวดครุภัณฑ์ </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <select id="article_categoryid" name="article_categoryid"
-                                                class="form-select form-select-lg" style="width: 100%">
-                                                <option value=""></option>
-                                                @foreach ($product_category as $procat)
-                                                    <option value="{{ $procat->category_id }}">
-                                                        {{ $procat->category_name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-2 text-end">
-                                        <label for="article_deb_subsub_id">ประจำหน่วยงาน </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <select id="article_deb_subsub_id" name="article_deb_subsub_id"
-                                                class="form-select form-select-lg" style="width: 100%">
-                                                <option value=""></option>
-                                                @foreach ($department_sub_sub as $deb_subsub)
-                                                    <option value="{{ $deb_subsub->DEPARTMENT_SUB_SUB_ID }}">
-                                                        {{ $deb_subsub->DEPARTMENT_SUB_SUB_NAME }} </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-
+                                    </div> 
                                 </div>
 
                                 <div class="row mt-3">
                                     <div class="col-md-2 text-end">
-                                        <label for="article_decline_id">ประเภทค่าเสื่อม </label>
+                                        <label for="article_decline_id">รายละเอียด </label>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-10">
                                         <div class="form-group">
-                                            <select id="article_decline_id" name="article_decline_id"
-                                                class="form-select form-select-lg" style="width: 100%">
-                                                <option value=""></option>
-                                                @foreach ($product_decline as $prodecli)
-                                                    <option value="{{ $prodecli->decline_id }}">
-                                                        {{ $prodecli->decline_name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
+                                            <textarea class="form-control" name="cctv_location_detail" id="cctv_location_detail" rows="3"></textarea>
                                         </div>
                                     </div>
-
-                                    <div class="col-md-2 text-end">
-                                        <label for="cctv_status">สถานะ </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <select id="cctv_status" name="cctv_status" class="form-select form-select-lg" style="width: 100%">
-                                                <option value="0">ปกติ</option>
-                                                <option value="1">ชำรุด</option>
-                                                {{-- @foreach ($article_status as $te)
-                                                    <option value="{{ $te->article_status_id }}">
-                                                        {{ $te->article_status_name }} </option>
-                                                @endforeach --}}
-                                            </select>
-                                        </div>
-                                    </div>
+ 
                                 </div>
 
-                                <div class="row mt-3">
-                                    <div class="col-md-2 text-end">
-                                        <label for="article_unit_id">หน่วยนับ </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <select id="article_unit_id" name="article_unit_id"
-                                                class="form-select form-select-lg show_unit" style="width: 100%">
-                                                <option value=""></option>
-                                                @foreach ($product_unit as $uni)
-                                                    <option value="{{ $uni->unit_id }}">
-                                                        {{ $uni->unit_name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 text-end">
-                                        <label for="" style="color: rgb(255, 145, 0)">* ถ้าไม่มีให้เพิ่ม </label>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-outline bga">
-                                            <input type="text" id="UNIT_INSERT" name="UNIT_INSERT"
-                                                class="form-control form-control-sm shadow" />
-                                            {{-- <label class="form-label" for="UNIT_INSERT">เพิ่มหน่วยนับ</label> --}}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-1">
-                                        <div class="form-group">
-                                            <button type="button" class="btn btn-primary btn-sm" onclick="addunit();">
-                                                เพิ่ม
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row mt-3">
-                                    <div class="col-md-2 text-end">
-                                        <label for="article_brand_id">ยี่ห้อ </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <select id="article_brand_id" name="article_brand_id"
-                                                class="form-select form-select-lg show_brand" style="width: 100%">
-                                                <option value=""></option>
-                                                @foreach ($product_brand as $bra)
-                                                    <option value="{{ $bra->brand_id }}">
-                                                        {{ $bra->brand_name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 text-end">
-                                        <label for="" style="color: rgb(255, 145, 0)">* ถ้าไม่มีให้เพิ่ม</label>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-outline bga">
-                                            <input type="text" id="BRAND_INSERT" name="BRAND_INSERT"
-                                                class="form-control form-control-sm shadow" />
-                                            {{-- <label class="form-label" for="BRAND_INSERT">เพิ่มยี่ห้อ</label> --}}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-1">
-                                        <div class="form-group">
-                                            <button type="button" class="btn btn-primary btn-sm" onclick="addbrand();">
-                                                เพิ่ม
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
 
@@ -526,11 +265,11 @@ $loter = $date.''.$time
           $('#example5').DataTable();  
           $('#table_id').DataTable();
          
-          $('#building_userid').select2({
+          $('#cctv_type').select2({
               placeholder:"--เลือก--",
               allowClear:true
           });
-          $('#article_year').select2({
+          $('#cctv_list_year').select2({
               placeholder:"--เลือก--",
               allowClear:true
           });
@@ -653,7 +392,7 @@ $loter = $date.''.$time
                       if (data.status == 0 ) {
                         
                       } else {          
-                        Swal.fire({
+                        Swal.fire({ position: "top-end",
                           title: 'บันทึกข้อมูลสำเร็จ',
                           text: "You Insert data success",
                           icon: 'success',

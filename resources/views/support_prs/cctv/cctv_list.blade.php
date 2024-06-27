@@ -6,7 +6,7 @@
         function TypeAdmin() {
             window.location.href = '{{ route('index') }}';
         }
-        function cctv_destroy(article_id) {
+        function cctv_destroy(cctv_list_id) {
             Swal.fire({
                 title: 'ต้องการลบใช่ไหม?',
                 text: "ข้อมูลนี้จะถูกลบไปเลย !!",
@@ -19,7 +19,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "{{ url('cctv_destroy') }}" + '/' + article_id,
+                        url: "{{ url('cctv_destroy') }}" + '/' + cctv_list_id,
                         type: 'DELETE',
                         data: {
                             _token: $("input[name=_token]").val()
@@ -35,7 +35,7 @@
                                 confirmButtonText: 'เรียบร้อย'
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    $("#sid" + article_id).remove();
+                                    $("#sid" + cctv_list_id).remove();
                                     // window.location.reload();
                                     window.location = "{{ url('cctv_list') }}";
                                 }
@@ -157,14 +157,14 @@
                                             <th class="text-center" >ตำแหน่งกล้องวงจรปิด</th>
                                             <th class="text-center" >รัศมีครอบคลุม</th> 
                                             <th class="text-center">ช่องในจอ</th>  
-                                            <th class="text-center">หน่วยงาน</th>  
+                                            {{-- <th class="text-center">หน่วยงาน</th>   --}}
                                             <th class="text-center">จัดการ</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php $i = 1; ?>
                                         @foreach ($datashow as $item) 
-                                            <tr id="tr_{{$item->article_id}}">                                                  
+                                            <tr id="tr_{{$item->cctv_list_id}}">                                                  
                                                 <td class="text-center" width="3%">{{ $i++ }}</td>  
                                                 <td class="text-center" width="3%">
                                                     @if ($item->cctv_status == '0')
@@ -174,23 +174,23 @@
                                                     @endif
                                                 </td>
                                               
-                                                @if ( $item->article_img == Null )
+                                                @if ( $item->cctv_img == Null )
                                                 <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="40px" width="40px" alt="Image" class="img-thumbnail"></td> 
                                                 @else
-                                                <td class="text-center" width="3%"><img src="{{asset('storage/article/'.$item->article_img)}}" height="40px" width="40px" alt="Image" class="img-thumbnail">  </td>                                
+                                                <td class="text-center" width="3%"><img src="{{asset('storage/cctv/'.$item->cctv_img)}}" height="40px" width="40px" alt="Image" class="img-thumbnail">  </td>                                
                                                 @endif
 
                                                 <td class="text-center" width="5%"> 
                                                   
-                                                    {!!QrCode::size(50)->generate(" $item->article_num ")!!}  
+                                                    {!!QrCode::size(50)->generate(" $item->cctv_list_num ")!!}  
 
                                                 </td> 
  
-                                                <td class="text-center" width="5%">{{ $item->cctv_code }}</td>  
+                                                <td class="text-center" width="5%">{{ $item->cctv_list_num }}</td>  
                                                 <td class="p-2">{{ $item->cctv_location }}</td>  
                                                 <td class="p-2">{{ $item->cctv_location_detail }}</td>   
                                                 <td class="text-center" width="5%">{{ $item->cctv_monitor }}</td>   
-                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="20%">{{ $item->article_deb_subsub_name }}</td>  
+                                                {{-- <td class="text-center" style="color:rgb(73, 147, 231)" width="20%">{{ $item->article_deb_subsub_name }}</td>   --}}
                                                 <td class="text-center" width="5%">
 
                                                     <div class="dropdown d-inline-block">
@@ -199,20 +199,19 @@
                                                             class="dropdown-toggle btn btn-outline-secondary btn-sm">
                                                             ทำรายการ
                                                         </button>
-                                                        <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-hover-link dropdown-menu">
-                                                            {{-- <a class="dropdown-item text-primary" href="javascript:window.print();" style="font-size:13px">  --}}
-                                                            <a class="dropdown-item text-primary" href="{{ url('cctvqrcode/'.$item->article_id) }}" style="font-size:13px"> 
+                                                        <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-hover-link dropdown-menu"> 
+                                                            <a class="dropdown-item text-primary" href="{{ url('cctvqrcode/'.$item->cctv_list_id) }}" style="font-size:13px"> 
                                                                 <i class="fa-solid fa-print me-2 text-primary" style="font-size:13px"></i>
                                                                 <span>Print QR</span>
                                                             </a> 
                                                             <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item text-warning" href="{{ url('cctv_edit/' . $item->article_id) }}" style="font-size:13px" target="blank">
+                                                            <a class="dropdown-item text-warning" href="{{ url('cctv_edit/' . $item->cctv_list_id) }}" style="font-size:13px" target="blank">
                                                                 <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
                                                                 <span>แก้ไข</span>
                                                             </a>
                                                             <div class="dropdown-divider"></div>
                                                             
-                                                            <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="cctv_destroy({{ $item->article_id }})"
+                                                            <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="cctv_destroy({{ $item->cctv_list_id }})"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="ลบ">
                                                                 <i class="fa-solid fa-trash-can me-2 mb-1"></i>
                                                                 <label for="" style="color: rgb(255, 2, 2);font-size:13px">ลบ</label>
