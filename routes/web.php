@@ -32,6 +32,9 @@ use App\Models\Fire;
 //       'id'           => $id
 //   ]);
 // });
+
+Route::match(['get','post'],'notice',[App\Http\Controllers\NoticeController::class, 'notice'])->name('font.notice');//  ประกาศ
+
 Route::match(['get','post'],'fire_pramuan',[App\Http\Controllers\FireController::class, 'fire_pramuan'])->name('prs.fire_pramuan');//
 Route::match(['get','post'],'fire_pramuan_save',[App\Http\Controllers\FireController::class, 'fire_pramuan_save'])->name('prs.fire_pramuan_save');//
 Route::match(['get','post'],'fire_detail/{id}',[App\Http\Controllers\FireController::class, 'fire_detail'])->name('prs.fire_detail');//

@@ -3,6 +3,20 @@
 
 @section('content')
 
+{{-- <section id="hero-fullscreen" class="hero-fullscreen d-flex align-items-center">
+    <div class="container d-flex flex-column align-items-center position-relative" data-aos="zoom-out">
+        <h2>Welcome to <span>Phukieo Chalermprakiat Hospital</span></h2>
+        <p>เป็นโรงพยาบาลตัวอย่าง ด้านคุณภาพความปลอดภัยและประทับใจ.</p>
+        <div class="d-flex">
+            <a href="#about" class="btn-get-started scrollto">Get Started</a>
+          
+            <a href="https://www.youtube.com/watch?v=7VTjCocVzFM"
+                class="btn btn-outline-info glightbox btn-watch-video d-flex align-items-center">
+                <i class="bi bi-play-circle"></i><span>Watch Video</span>
+            </a>
+        </div>
+    </div>
+</section> --}}
 
  <!-- ======= Featured Services Section ======= -->
  <section id="featured-services" class="featured-services">
@@ -29,7 +43,7 @@
             <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out" data-aos-delay="400">
                 <div class="service-item position-relative">
                     <div class="icon"><i class="bi bi-calendar4-week icon"></i></div>
-                    <h4><a href="" class="stretched-link">ประกาศจัดซื้อจัดจ้าง</a></h4>
+                    <h4><a href="{{url('notice')}}" class="stretched-link">ประกาศจัดซื้อจัดจ้าง</a></h4>
                     <p>Procurement Announcement</p>
                 </div>
             </div><!-- End Service Item -->

@@ -51,7 +51,7 @@
    <link rel="stylesheet"
    href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
 <!-- Plugins css -->
-<link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/libs/dropzone/min/dropzone.min.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('css/loginheader.css') }}" rel="stylesheet" />
 <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
 </head>
@@ -232,32 +232,65 @@
                                 <i class="ri-settings-2-line"></i>
                             </button>
                         </div> --}}
-
+                        <div class="header-btn-lg"> 
+                            <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
+                                <i class="ri-fullscreen-line" style="color: rgb(9, 75, 129);font-size:30px;" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Fullscreen"></i>
+                            </button>
+                        </div>
+                        <div class="header-btn-lg"> 
+                            <a href="{{url("user/home")}}" id="TooltipDemo" class="btn-open-options btn hamburger hamburger--elastic open-right-drawer text-danger" target="_blank">
+                                {{-- <i class="fa-solid fa-user-group fa-w-16 fa-spin fa-2x"></i> --}}
+                                {{-- <i class="fa-solid fa-user-check fa-w-16 fa-spin fa-2x text-danger"></i> --}}
+                                <i class="fa-solid fa-universal-access fa-w-16 fa-spin fa-2x text-info" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="ผู้ใช้งานทั่วไป"></i>
+                            </a>  
+                        </div>
+                        {{-- <a href="{{url("user/home")}}" target="_blank">
+                            <i class="fa-solid fa-user-group text-info ms-4 me-2" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="ผู้ใช้งานทั่วไป"></i>
+                          </a> --}}
+                        <div class="header-btn-lg"> 
+                            <a href="{{url("setting/setting_index")}}" id="TooltipDemo" class="btn-open-options btn hamburger hamburger--elastic open-right-drawer text-danger" target="_blank">
+                                <i class="fa fa-cog fa-w-16 fa-spin fa-2x" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Setting"></i>
+                            </a>  
+                        </div>
+                        <div class="header-btn-lg">
+                            <div class="dropdown">
+                                <button type="button" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown" class="p-0 me-2 btn btn-link">
+                                    <span class="icon-wrapper icon-wrapper-alt rounded-circle">
+                                        <span class="icon-wrapper-bg bg-danger"></span>
+                                        {{-- <i class="icon text-danger icon-anim-pulse ion-android-notifications"></i> --}}
+                                        <i class="fa-regular fa-bell text-danger"></i>
+                                        {{-- <span class="badge badge-dot badge-dot-sm bg-danger">Notifications</span> --}}
+                                    </span>  
+                                </button>
+                            </div> 
+                        </div>
+                        {{-- <button type="button" class="btn btn-primary position-relative">
+                            Profile
+                            <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                              <span class="visually-hidden">New alerts</span>
+                            </span>
+                          </button> --}}
                         <div class="header-btn-lg pe-0">
                             <div class="widget-content p-0">
                                 <div class="widget-content-wrapper">
                                     <div class="widget-content-left">
-                                        <div class="btn-group">
-                                            <a data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                                                {{-- <img width="42" class="rounded-circle" src="images/avatars/1.jpg" alt=""> --}}
+                                        <div class="btn-group"> 
+                                            <a data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn"> 
                                                 @if (Auth::user()->img == null)
                                                     <img src="{{ asset('assets/images/default-image.jpg') }}" width="42" class="rounded-circle" alt="">
                                                 @else
                                                     <img src="{{ asset('storage/person/' . Auth::user()->img) }}"width="42" class="rounded-circle" alt="">
-                                                @endif
-
+                                                @endif 
                                                 <i class="fa fa-angle-down ms-2 opacity-8"></i>
                                             </a>
-                                            <div tabindex="-1" role="menu" aria-hidden="true"
-                                                class="rm-pointers dropdown-menu-lg dropdown-menu dropdown-menu-right">
+                                            <div tabindex="-1" role="menu" aria-hidden="true" class="rm-pointers dropdown-menu-lg dropdown-menu dropdown-menu-right">
                                                 <div class="dropdown-menu-header">
-                                                    <div class="dropdown-menu-header-inner bg-info">
-                                                        <div class="menu-header-image opacity-2" style="background-image: url('images/dropdown-header/city3.jpg');"></div>
+                                                    <div class="dropdown-menu-header-inner bg-primary">
+                                                        {{-- <div class="menu-header-image opacity-2" style="background-image: url('images/dropdown-header/city3.jpg');"></div> --}}
                                                         <div class="menu-header-content text-start">
                                                             <div class="widget-content p-0">
                                                                 <div class="widget-content-wrapper">
-                                                                    <div class="widget-content-left me-3">
-                                                                        {{-- <img width="42" class="rounded-circle" src="images/avatars/1.jpg"  alt=""> --}}
+                                                                    <div class="widget-content-left me-3"> 
                                                                             @if (Auth::user()->img == null)
                                                                                 <img src="{{ asset('assets/images/default-image.jpg') }}" width="42" class="rounded-circle" alt="">
                                                                             @else
@@ -285,8 +318,7 @@
                                                 </div>
                                                 <div class="scroll-area-xs" style="height: 100px;">
                                                     <div class="scrollbar-container ps">
-                                                        <ul class="nav flex-column">
-                                                            <li class="nav-item-header nav-item">My Account</li>
+                                                        <ul class="nav flex-column"> 
                                                             <li class="nav-item">
                                                                 <a href="javascript:void(0);" class="nav-link">
                                                                     Messages
@@ -299,12 +331,7 @@
                                                                     <div class="ms-auto badge rounded-pill bg-info">8</div>
                                                                 </a>
                                                             </li>
-                                                            {{-- <li class="nav-item"> 
-                                                                <button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="modal" data-bs-target="#Keypassword">
-                                                                    <i class="fa-solid fa-key me-2" style="color: rgb(207, 34, 115)">Change Password</i>
-                                                                </button>
-                                                            </li> --}}
-                                               
+                                                          
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -326,25 +353,15 @@
                                                             </button>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                {{-- <ul class="nav flex-column">
-                                                    <li class="nav-item-divider nav-item"></li>
-                                                    <li class="nav-item-btn text-center nav-item">
-                                                        <button class="btn-wide btn btn-primary btn-sm"> Open Messages</button>
-                                                    </li>
-                                                </ul> --}}
+                                                </div> 
                                             </div>
                                         </div>
                                     </div>
                                     <div class="widget-content-left  ms-3 header-user-info">
-                                        <div class="widget-heading"> Alina Mclourd</div>
-                                        <div class="widget-subheading"> VP People Manager</div>
+                                        <div class="widget-heading"> {{ Auth::user()->fname }} {{ Auth::user()->lname }}</div>
+                                        <div class="widget-subheading"> {{ Auth::user()->position_name }}</div>
                                     </div>
-                                    <div class="widget-content-right header-user-info ms-3">
-                                        <button type="button" class="btn-shadow p-1 btn btn-primary btn-sm show-toastr-example">
-                                            <i class="fa text-white fa-calendar pe-1 ps-1"></i>
-                                        </button>
-                                    </div>
+                                     
                                 </div>
                             </div>
                         </div>
@@ -488,7 +505,7 @@
 
     <!-- JAVASCRIPT -->
     <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>
-
+    {{-- <script type="text/javascript" src="{{ asset('vendors/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script> --}}
     <script src="{{ asset('pkclaim/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/metismenu/metisMenu.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/simplebar/simplebar.min.js') }}"></script>

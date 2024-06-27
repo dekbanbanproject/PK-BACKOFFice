@@ -244,8 +244,7 @@
             <h2>Welcome to <span>Phukieo Chalermprakiat Hospital</span></h2>
             <p>เป็นโรงพยาบาลตัวอย่าง ด้านคุณภาพความปลอดภัยและประทับใจ.</p>
             <div class="d-flex">
-                <a href="#about" class="btn-get-started scrollto">Get Started</a>
-                {{-- <a href="" --}}
+                <a href="#about" class="btn-get-started scrollto">Get Started</a> 
                 <a href="https://www.youtube.com/watch?v=7VTjCocVzFM"
                     class="btn btn-outline-info glightbox btn-watch-video d-flex align-items-center">
                     <i class="bi bi-play-circle"></i><span>Watch Video</span>
