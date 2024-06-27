@@ -53,6 +53,7 @@
 <!-- Plugins css -->
 <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
 <link href="{{ asset('css/loginheader.css') }}" rel="stylesheet" />
+<link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
 </head>
  <style>
     body{
@@ -149,7 +150,8 @@
 
 
                 <div class="d-flex">
-                    <div class="dropdown d-none d-lg-inline-block ms-1">
+                    
+                    {{-- <div class="dropdown d-none d-lg-inline-block ms-1">
                         <a href="{{url("admin/home")}}">
                             <i class="fa-solid fa-gauge-high text-success ms-4" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Dashboard"></i>
                           </a>
@@ -171,44 +173,242 @@
                             <button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="modal" data-bs-target="#Keypassword">
                                 <i class="fa-solid fa-key" style="color: rgb(207, 34, 115)"></i>
                             </button>
+                        </div> 
+                    </div> --}}
+
+                    {{-- <div class="dropdown d-inline-block user-dropdown">
+                            <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @if (Auth::user()->img == null)
+                                    <img src="{{ asset('assets/images/default-image.jpg') }}" height="32px"
+                                        width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                @else
+                                    <img src="{{ asset('storage/person/' . Auth::user()->img) }}" height="32px"
+                                        width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                @endif
+                                <span class="d-none d-xl-inline-block ms-1 " style="color: rgb(9, 75, 129)">
+                                    {{ Auth::user()->fname }} {{ Auth::user()->lname }}
+                                </span>
+                                <i class="mdi mdi-chevron-down d-none d-xl-inline-block"
+                                    style="color: rgb(9, 75, 129)"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end"> 
+                                <a class="dropdown-item " style="color: rgb(9, 75, 129)"
+                                    href="{{ url('admin_profile_edit/' . Auth::user()->id) }}"><i
+                                        class="ri-user-line align-middle me-1"></i> Profile</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="{{ route('logout') }}"
+                                    class="text-reset notification-item"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
+                                        class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
+                        </div>
+                    --}}
+                        {{-- <div class="dropdown d-inline-block user-dropdown">
+                            <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg"
+                                    alt="Header Avatar">
+                                <span class="d-none d-xl-inline-block ms-1">Julia</span>
+                                <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <!-- item-->
+                                <a class="dropdown-item" href="#"><i class="ri-user-line align-middle me-1"></i> Profile</a>
+                                <a class="dropdown-item" href="#"><i class="ri-wallet-2-line align-middle me-1"></i> My Wallet</a>
+                                <a class="dropdown-item d-block" href="#"><span class="badge bg-success float-end mt-1">11</span><i class="ri-settings-2-line align-middle me-1"></i> Settings</a>
+                                <a class="dropdown-item" href="#"><i class="ri-lock-unlock-line align-middle me-1"></i> Lock screen</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#"><i class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
+                            </div>
                         </div>
 
-                    </div>
+                        <div class="dropdown d-inline-block">
+                            <button type="button" class="btn header-item noti-icon right-bar-toggle waves-effect">
+                                <i class="ri-settings-2-line"></i>
+                            </button>
+                        </div> --}}
 
-                    <div class="dropdown d-inline-block user-dropdown">
-                        <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            @if (Auth::user()->img == null)
-                                <img src="{{ asset('assets/images/default-image.jpg') }}" height="32px"
-                                    width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
-                            @else
-                                <img src="{{ asset('storage/person/' . Auth::user()->img) }}" height="32px"
-                                    width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
-                            @endif
-                            <span class="d-none d-xl-inline-block ms-1 " style="color: rgb(9, 75, 129)">
-                                {{ Auth::user()->fname }} {{ Auth::user()->lname }}
-                            </span>
-                            <i class="mdi mdi-chevron-down d-none d-xl-inline-block"
-                                style="color: rgb(9, 75, 129)"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <!-- item-->
-                            <a class="dropdown-item " style="color: rgb(9, 75, 129)"
-                                href="{{ url('admin_profile_edit/' . Auth::user()->id) }}"><i
-                                    class="ri-user-line align-middle me-1"></i> Profile</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-danger" href="{{ route('logout') }}"
-                                class="text-reset notification-item"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
-                                    class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
+                        <div class="header-btn-lg pe-0">
+                            <div class="widget-content p-0">
+                                <div class="widget-content-wrapper">
+                                    <div class="widget-content-left">
+                                        <div class="btn-group">
+                                            <a data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
+                                                {{-- <img width="42" class="rounded-circle" src="images/avatars/1.jpg" alt=""> --}}
+                                                @if (Auth::user()->img == null)
+                                                    <img src="{{ asset('assets/images/default-image.jpg') }}" width="42" class="rounded-circle" alt="">
+                                                @else
+                                                    <img src="{{ asset('storage/person/' . Auth::user()->img) }}"width="42" class="rounded-circle" alt="">
+                                                @endif
+
+                                                <i class="fa fa-angle-down ms-2 opacity-8"></i>
+                                            </a>
+                                            <div tabindex="-1" role="menu" aria-hidden="true"
+                                                class="rm-pointers dropdown-menu-lg dropdown-menu dropdown-menu-right">
+                                                <div class="dropdown-menu-header">
+                                                    <div class="dropdown-menu-header-inner bg-info">
+                                                        <div class="menu-header-image opacity-2" style="background-image: url('images/dropdown-header/city3.jpg');"></div>
+                                                        <div class="menu-header-content text-start">
+                                                            <div class="widget-content p-0">
+                                                                <div class="widget-content-wrapper">
+                                                                    <div class="widget-content-left me-3">
+                                                                        {{-- <img width="42" class="rounded-circle" src="images/avatars/1.jpg"  alt=""> --}}
+                                                                            @if (Auth::user()->img == null)
+                                                                                <img src="{{ asset('assets/images/default-image.jpg') }}" width="42" class="rounded-circle" alt="">
+                                                                            @else
+                                                                                <img src="{{ asset('storage/person/' . Auth::user()->img) }}"width="42" class="rounded-circle" alt="">
+                                                                            @endif
+                                                                    </div>
+                                                                    <div class="widget-content-left">
+                                                                        <div class="widget-heading"> {{ Auth::user()->fname }} {{ Auth::user()->lname }}</div>
+                                                                        <div class="widget-subheading opacity-8">{{ Auth::user()->position_name }}</div>
+                                                                    </div>
+                                                                    <div class="widget-content-right me-2"> 
+                                                                        <a class="btn-pill btn-shadow btn-shine btn btn-focus" href="{{ route('logout') }}"
+                                                                            class="text-reset notification-item"
+                                                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
+                                                                                class="ri-shut-down-line align-middle me-2 text-white"></i> Logout
+                                                                        </a>
+                                                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                                                            @csrf
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="scroll-area-xs" style="height: 100px;">
+                                                    <div class="scrollbar-container ps">
+                                                        <ul class="nav flex-column">
+                                                            <li class="nav-item-header nav-item">My Account</li>
+                                                            <li class="nav-item">
+                                                                <a href="javascript:void(0);" class="nav-link">
+                                                                    Messages
+                                                                    <div class="ms-auto badge rounded-pill bg-primary">2</div>
+                                                                </a>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <a href="javascript:void(0);" class="nav-link" data-bs-toggle="modal" data-bs-target="#Keypassword">
+                                                                    Change Password<i class="fa-solid fa-key ms-4" style="color: rgb(207, 34, 115)"></i>
+                                                                    <div class="ms-auto badge rounded-pill bg-info">8</div>
+                                                                </a>
+                                                            </li>
+                                                            {{-- <li class="nav-item"> 
+                                                                <button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="modal" data-bs-target="#Keypassword">
+                                                                    <i class="fa-solid fa-key me-2" style="color: rgb(207, 34, 115)">Change Password</i>
+                                                                </button>
+                                                            </li> --}}
+                                               
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <ul class="nav flex-column">
+                                                    <li class="nav-item-divider mb-0 nav-item"></li>
+                                                </ul>
+                                                <div class="grid-menu grid-menu-2col">
+                                                    <div class="g-0 row">
+                                                        <div class="col-sm-6">
+                                                            <button class="btn-icon-vertical btn-transition btn-transition-alt pt-2 pb-2 btn btn-outline-warning">
+                                                                <i class="pe-7s-chat icon-gradient bg-amy-crisp btn-icon-wrapper mb-2"></i>
+                                                                Message Inbox
+                                                            </button>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <button class="btn-icon-vertical btn-transition btn-transition-alt pt-2 pb-2 btn btn-outline-danger">
+                                                                <i class="pe-7s-ticket icon-gradient bg-love-kiss btn-icon-wrapper mb-2"></i>
+                                                                <b>Support Tickets</b>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {{-- <ul class="nav flex-column">
+                                                    <li class="nav-item-divider nav-item"></li>
+                                                    <li class="nav-item-btn text-center nav-item">
+                                                        <button class="btn-wide btn btn-primary btn-sm"> Open Messages</button>
+                                                    </li>
+                                                </ul> --}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="widget-content-left  ms-3 header-user-info">
+                                        <div class="widget-heading"> Alina Mclourd</div>
+                                        <div class="widget-subheading"> VP People Manager</div>
+                                    </div>
+                                    <div class="widget-content-right header-user-info ms-3">
+                                        <button type="button" class="btn-shadow p-1 btn btn-primary btn-sm show-toastr-example">
+                                            <i class="fa text-white fa-calendar pe-1 ps-1"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                        <div class="header-btn-lg">
+                            <button type="button" class="hamburger hamburger--elastic open-right-drawer">
+                                <span class="hamburger-box">
+                                    <span class="hamburger-inner"></span>
+                                </span>
+                            </button>
+                        </div>
 
-                    <div class="dropdown d-inline-block user-dropdown">
-                    </div>
+                        {{-- <div class="dropdown">
+                            <button type="button" aria-haspopup="true" data-bs-toggle="dropdown" data-bs-placement="bottom"
+                                title="Tooltip on bottom" aria-expanded="false" class="p-0 btn btn-link dd-chart-btn">
+                                <span class="icon-wrapper icon-wrapper-alt rounded-circle">
+                                    <span class="icon-wrapper-bg bg-success"></span>
+                                    <i class="icon text-success ion-ios-analytics"></i>
+                                </span>
+                            </button>
+                            <div tabindex="-1" role="menu" aria-hidden="true"
+                                class="dropdown-menu-xl rm-pointers dropdown-menu dropdown-menu-right">
+                                <div class="dropdown-menu-header">
+                                    <div class="dropdown-menu-header-inner bg-premium-dark">
+                                        <div class="menu-header-image" style="background-image: url('images/dropdown-header/abstract4.jpg');"></div>
+                                        <div class="menu-header-content text-white">
+                                            <h5 class="menu-header-title">Users Online</h5>
+                                            <h6 class="menu-header-subtitle">Recent Account Activity Overview</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="widget-chart">
+                                    <div class="widget-chart-content">
+                                        <div class="icon-wrapper rounded-circle">
+                                            <div class="icon-wrapper-bg opacity-9 bg-focus"></div>
+                                            <i class="lnr-users text-white"></i>
+                                        </div>
+                                        <div class="widget-numbers">
+                                            <span>344k</span>
+                                        </div>
+                                        <div class="widget-subheading pt-2">
+                                            Profile views since last login
+                                        </div>
+                                        <div class="widget-description text-danger">
+                                            <span class="pe-1">
+                                                <span>176%</span>
+                                            </span>
+                                            <i class="fa fa-arrow-left"></i>
+                                        </div>
+                                    </div>
+                                    <div class="widget-chart-wrapper">
+                                        <div id="dashboard-sparkline-carousel-3-pop"></div>
+                                    </div>
+                                </div>
+                                <ul class="nav flex-column">
+                                    <li class="nav-item-divider mt-0 nav-item"></li>
+                                    <li class="nav-item-btn text-center nav-item">
+                                        <button class="btn-shine btn-wide btn-pill btn btn-warning btn-sm">
+                                            <i class="fa fa-cog fa-spin me-2"></i>
+                                            View Details
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div> --}}
 
                 </div>
             </div>
@@ -347,7 +547,7 @@
 
     <!-- App js -->
     <script src="{{ asset('pkclaim/js/app.js') }}"></script>
-    <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
+ 
     @yield('footer')
 
     <script type="text/javascript">

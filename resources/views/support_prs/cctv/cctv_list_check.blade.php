@@ -14,13 +14,13 @@
         background-color: #fbff7d;
     }
 </style>
-<?php
-use App\Http\Controllers\StaticController;
-use Illuminate\Support\Facades\DB;
-$count_land = StaticController::count_land();
-$count_building = StaticController::count_building();
-$count_article = StaticController::count_article();
-?>
+    <?php
+        use App\Http\Controllers\StaticController;
+        use Illuminate\Support\Facades\DB;
+        $count_land = StaticController::count_land();
+        $count_building = StaticController::count_building();
+        $count_article = StaticController::count_article();
+    ?>
 
 
 @section('content')
