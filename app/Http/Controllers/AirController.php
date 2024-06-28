@@ -1382,6 +1382,92 @@ class AirController extends Controller
             'id'            => $id,
         ]);
     }
+    public function air_report_problemsub(Request $request,$id)
+    {
+        $startdate   = $request->startdate;
+        $enddate     = $request->enddate;      
+        $iduser = Auth::user()->id;
+        if ($id == '1') {
+            $datashow = DB::select(
+                'SELECT c.air_repaire_id,c.repaire_date,c.air_repaire_no,c.air_list_num,c.air_list_name,c.btu,c.air_location_id,c.air_location_name
+                ,c.air_problems_1 as air_problems_1,c.air_problems_2 as air_problems_2,c.air_problems_3 as air_problems_3,c.air_problems_4 as air_problems_4,c.air_problems_5 as air_problems_5,c.air_problems_orther 
+                ,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = c.air_tech_id) as tectname
+                FROM air_repaire_ploblemsub b 
+                LEFT JOIN air_repaire c ON c.air_list_num = b.air_list_num
+                LEFT JOIN users p ON p.id = c.air_staff_id
+                WHERE b.air_repaire_ploblem_id ="'.$id.'" AND (c.air_problems_1 = "on")
+                ORDER BY air_list_num ASC
+            ');
+        }else if ($id == '2') {
+            $datashow = DB::select(
+                'SELECT c.air_repaire_id,c.repaire_date,c.air_repaire_no,c.air_list_num,c.air_list_name,c.btu,c.air_location_id,c.air_location_name
+               ,c.air_problems_1 as air_problems_1,c.air_problems_2 as air_problems_2,c.air_problems_3 as air_problems_3,c.air_problems_4 as air_problems_4,c.air_problems_5 as air_problems_5,c.air_problems_orther 
+                ,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = c.air_tech_id) as tectname
+                FROM air_repaire_ploblemsub b 
+                LEFT JOIN air_repaire c ON c.air_list_num = b.air_list_num
+                LEFT JOIN users p ON p.id = c.air_staff_id
+                WHERE b.air_repaire_ploblem_id ="'.$id.'" AND (c.air_problems_2 = "on")
+                ORDER BY air_list_num ASC
+            ');
+        }else if ($id == '3') {
+            $datashow = DB::select(
+                'SELECT c.air_repaire_id,c.repaire_date,c.air_repaire_no,c.air_list_num,c.air_list_name,c.btu,c.air_location_id,c.air_location_name
+                ,c.air_problems_1 as air_problems_1,c.air_problems_2 as air_problems_2,c.air_problems_3 as air_problems_3,c.air_problems_4 as air_problems_4,c.air_problems_5 as air_problems_5,c.air_problems_orther
+                ,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = c.air_tech_id) as tectname
+                FROM air_repaire_ploblemsub b 
+                LEFT JOIN air_repaire c ON c.air_list_num = b.air_list_num
+                LEFT JOIN users p ON p.id = c.air_staff_id
+                WHERE b.air_repaire_ploblem_id ="'.$id.'" AND (c.air_problems_3 = "on")
+                ORDER BY air_list_num ASC
+            ');
+        }else if ($id == '4') {
+            $datashow = DB::select(
+                'SELECT c.air_repaire_id,c.repaire_date,c.air_repaire_no,c.air_list_num,c.air_list_name,c.btu,c.air_location_id,c.air_location_name
+                ,c.air_problems_1 as air_problems_1,c.air_problems_2 as air_problems_2,c.air_problems_3 as air_problems_3,c.air_problems_4 as air_problems_4,c.air_problems_5 as air_problems_5,c.air_problems_orther
+                ,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = c.air_tech_id) as tectname
+                FROM air_repaire_ploblemsub b 
+                LEFT JOIN air_repaire c ON c.air_list_num = b.air_list_num
+                LEFT JOIN users p ON p.id = c.air_staff_id
+                WHERE b.air_repaire_ploblem_id ="'.$id.'" AND (c.air_problems_4 = "on")
+                ORDER BY air_list_num ASC
+            ');
+        }else if ($id == '5') {
+            $datashow = DB::select(
+                'SELECT c.air_repaire_id,c.repaire_date,c.air_repaire_no,c.air_list_num,c.air_list_name,c.btu,c.air_location_id,c.air_location_name
+                ,c.air_problems_1 as air_problems_1,c.air_problems_2 as air_problems_2,c.air_problems_3 as air_problems_3,c.air_problems_4 as air_problems_4,c.air_problems_5 as air_problems_5,c.air_problems_orther
+                ,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = c.air_tech_id) as tectname
+                FROM air_repaire_ploblemsub b 
+                LEFT JOIN air_repaire c ON c.air_list_num = b.air_list_num
+                LEFT JOIN users p ON p.id = c.air_staff_id
+                WHERE b.air_repaire_ploblem_id ="'.$id.'" AND (c.air_problems_5 = "on")
+                ORDER BY air_list_num ASC
+            ');
+         
+        } else {
+            $datashow = DB::select(
+                'SELECT c.air_repaire_id,c.repaire_date,c.air_repaire_no,c.air_list_num,c.air_list_name,c.btu,c.air_location_id,c.air_location_name
+                ,c.air_problems_1 as air_problems_1,c.air_problems_2 as air_problems_2,c.air_problems_3 as air_problems_3,c.air_problems_4 as air_problems_4,c.air_problems_5 as air_problems_5,c.air_problems_orther
+                ,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = c.air_tech_id) as tectname
+                FROM air_repaire_ploblemsub b 
+                LEFT JOIN air_repaire c ON c.air_list_num = b.air_list_num
+                LEFT JOIN users p ON p.id = c.air_staff_id
+                WHERE b.air_repaire_ploblem_id ="'.$id.'" AND (c.air_problems_orther = "on")
+                ORDER BY air_list_num ASC
+            ');
+        }
+        
+        
+
+        $datashow_sub = DB::select('SELECT * FROM air_list WHERE air_location_id = "'.$id.'" ORDER BY air_list_id DESC'); 
+  
+        return view('support_prs.air.air_report_problemsub',[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate,
+            'datashow'      => $datashow, 
+            'datashow_sub'  => $datashow_sub,
+            'id'            => $id,
+        ]);
+    }
       
 
  }

@@ -168,21 +168,23 @@
                                                 <td class="text-center" width="3%">{{ $i++ }}</td>  
                                                 <td class="text-center" width="3%">
                                                     @if ($item->cctv_status == '0')
-                                                        <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">ปกติ</span> 
+                                                        {{-- <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">ปกติ</span>  --}}
+                                                        <span class="badge bg-success">ปกติ</span> 
                                                     @else
-                                                        <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">ชำรุด</span>
+                                                        {{-- <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">ชำรุด</span> --}}
+                                                        <span class="badge bg-danger">ชำรุด</span>
                                                     @endif
                                                 </td>
                                               
                                                 @if ( $item->cctv_img == Null )
-                                                <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="40px" width="40px" alt="Image" class="img-thumbnail"></td> 
+                                                <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="20px" width="20px" alt="Image" class="img-thumbnail"></td> 
                                                 @else
-                                                <td class="text-center" width="3%"><img src="{{asset('storage/cctv/'.$item->cctv_img)}}" height="40px" width="40px" alt="Image" class="img-thumbnail">  </td>                                
+                                                <td class="text-center" width="3%"><img src="{{asset('storage/cctv/'.$item->cctv_img)}}" height="20px" width="20px" alt="Image" class="img-thumbnail">  </td>                                
                                                 @endif
 
                                                 <td class="text-center" width="5%"> 
                                                   
-                                                    {!!QrCode::size(50)->generate(" $item->cctv_list_num ")!!}  
+                                                    {!!QrCode::size(20)->generate(" $item->cctv_list_num ")!!}  
 
                                                 </td> 
  

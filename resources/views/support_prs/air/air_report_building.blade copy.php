@@ -187,16 +187,20 @@
                                         <td class="text-start" style="font-size:13px;color: rgb(2, 95, 182)">{{$item->building_name}}</td>
                                         <td class="text-center" style="font-size:13px;color: rgb(4, 117, 117)">{{$item->building_id}}</td>
                                         <td class="text-center" style="font-size:13px;color: rgb(228, 15, 86)">
-                                           <a href="{{url('air_report_building_sub/'.$item->building_id)}}" target="_blank"> 
+                                           <a href="{{url('air_report_building_sub/'.$item->building_id)}}" target="_blank">
+                                                {{-- <span class="ladda-label">
+                                                     <i class="fa-solid fa-fan opacity-6 me-2" style="color: #c0076d"></i>
+                                                    {{$item->qtyall}}
+                                                </span>   --}}
                                                 <span class="badge bg-success"> {{$item->qtyall}}</span> 
                                             </a> 
                                         </td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->less_10000}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->one_two}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->two_tree}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->tree_four}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->four_five}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->more_five}}</td>
+                                        <td class="text-center" style="font-size:13px;width: 5%;color: rgb(50, 3, 68)">{{$item->less_10000}}</td>
+                                        <td class="text-center" style="font-size:13px;width: 5%;color: rgb(50, 3, 68)">{{$item->one_two}}</td>
+                                        <td class="text-center" style="font-size:13px;width: 5%;color: rgb(50, 3, 68)">{{$item->two_tree}}</td>
+                                        <td class="text-center" style="font-size:13px;width: 5%;color: rgb(50, 3, 68)">{{$item->tree_four}}</td>
+                                        <td class="text-center" style="font-size:13px;width: 5%;color: rgb(50, 3, 68)">{{$item->four_five}}</td>
+                                        <td class="text-center" style="font-size:13px;width: 5%;color: rgb(50, 3, 68)">{{$item->more_five}}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

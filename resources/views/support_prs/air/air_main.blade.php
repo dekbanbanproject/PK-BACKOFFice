@@ -199,22 +199,24 @@
                                         <td class="text-center" width="3%">{{ $i++ }}</td>  
                                         <td class="text-center" width="3%">
                                             @if ($item->active == 'Y')
-                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">พร้อมใช้งาน</span> 
+                                                {{-- <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">พร้อมใช้งาน</span>  --}}
+                                                <span class="badge bg-success">พร้อมใช้งาน</span> 
                                             @else
-                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">ไม่พร้อมใช้งาน</span>
+                                                {{-- <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">ไม่พร้อมใช้งาน</span> --}}
+                                                <span class="badge bg-danger">ไม่พร้อมใช้งาน</span>
                                             @endif
                                         </td>
                                       
                                         @if ( $item->air_imgname == Null )
-                                        <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="40px" width="50px" alt="Image" class="img-thumbnail"></td> 
+                                        <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="20px" width="20px" alt="Image" class="img-thumbnail"></td> 
                                         @else
-                                        <td class="text-center" width="3%"><img src="{{asset('storage/air/'.$item->air_imgname)}}" height="40px" width="50px" alt="Image" class="img-thumbnail">  </td>                                
+                                        <td class="text-center" width="3%"><img src="{{asset('storage/air/'.$item->air_imgname)}}" height="20px" width="20px" alt="Image" class="img-thumbnail">  </td>                                
                                         @endif
 
                                         <td class="text-center" width="5%"> 
                                           
                                             {{-- {!!QrCode::size(30)->generate(" $item->air_list_id ")!!}   --}}
-                                            {!! QrCode::size(30)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_repaire/' . $item->air_list_id) !!}
+                                            {!! QrCode::size(20)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_repaire/' . $item->air_list_id) !!}
 
                                         </td> 
 

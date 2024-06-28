@@ -112,8 +112,8 @@
     </style>
 
     <?php
-    $ynow = date('Y') + 543;
-    $yb = date('Y') + 542;
+        $ynow = date('Y') + 543;
+        $yb = date('Y') + 542;
     ?>
 
 <div class="tabs-animation">
@@ -130,73 +130,80 @@
             </div>
         </div>
     </div>
-    <form action="{{ url('air_report_building') }}" method="GET">
-        @csrf
+  
+   
         <div class="row"> 
-            <div class="col-md-7">
-                <h4 style="color:rgb(10, 151, 85)">รายงานการข้อมูลเครื่องปรับอากาศ โรงพยาบาลภูเขียวเฉลิมพระเกียรติ ปีงบประมาณ </h4>
-                {{-- <p class="card-title-desc">รายงานถังดับเพลิง</p> --}}
+            <div class="col-md-3">
+                <h4 class="card-title" style="color:rgb(10, 151, 85)">ปัญหาเดิม 2 ครั้งขึ้นไป
+                    @if ($id == '1')
+                        ( น้ำหยด ) 
+                    @elseif ($id == '2')
+                        ( ไม่เย็นมีแต่ลม )
+                    @elseif ($id == '3')
+                        ( มีกลิ่นเหม็น )
+                    @elseif ($id == '4')
+                        ( เสียงดัง )
+                    @elseif ($id == '5')
+                        ( ไม่ติด/ติดๆดับๆ )
+                    @else
+                        ( อื่นๆ )
+                    @endif
+
+                </h4> 
             </div>
-             
             <div class="col"></div>
-            <div class="col-md-2 text-end"> 
-                {{-- <a href="{{url('air_report_building_excel')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
-                    <i class="fa-solid fa-file-excel me-2"></i>
-                    Export To Excel
-                </a> --}}
-                <a href="{{url('air_report_building_excel')}}" class="ladda-button btn-pill btn btn-success card_prs_4">
-                    <span class="ladda-label"> <i class="fa-solid fa-file-excel text-white me-2"></i>Export To Excel</span>  
-                </a>
+        
             
-            </div>
-        </div>  
-    </form>
- 
-<div class="row mt-3">
+        </div>
+    
+         
+
+<div class="row mt-2">
     <div class="col-xl-12">
         <div class="card card_prs_4">
             <div class="card-body">    
-                
+                <div class="row mb-3">
+                   
+                    <div class="col"></div>
+                    <div class="col-md-5 text-end">
+                       
+                    </div>
+                </div>
 
                 <p class="mb-0">
                     <div class="table-responsive">
-                        <table id="example" class="table table-striped table-bordered dt-responsive" style="border-collapse: collapse; border-spacing: 0; width: 100%;">                        
-                            <thead>                             
-                                    <tr style="font-size:13px"> 
-                                        <th rowspan="2" width="3%" class="text-center" style="background-color: rgb(255, 251, 228);width: 5%">ลำดับ</th>  
-                                        <th rowspan="2" class="text-center" style="background-color: rgb(253, 245, 199)">อาคาร</th>  
-                                        <th rowspan="2" class="text-center" style="background-color: rgb(253, 245, 199);width: 7%">อาคาร</th>  
-                                        <th rowspan="2" class="text-center" style="background-color: rgb(253, 245, 199);width: 7%">จำนวน</th>  
-                                        <th colspan="6" class="text-center" style="background-color: rgb(239, 228, 255);width: 40%">ขนาด( BTU )</th>   
-                                    </tr> 
-                                    <tr style="font-size:11px">  
-                                        <th class="text-center">< 10000</th> 
-                                        <th class="text-center">10001-20000</th>   
-                                        <th class="text-center">20001-30000</th> 
-                                        <th class="text-center">30001-40000</th>
-                                        <th class="text-center">40001-50000</th>
-                                        <th class="text-center">50000 ขึ้นไป</th>
-                                    </tr> 
+                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        {{-- <table id="example" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;"> --}}
+                            <thead>
+                                <tr style="font-size:13px">
+                                  
+                                    <th width="3%" class="text-center">ลำดับ</th>  
+                                    <th class="text-center" width="5%">วันที่ซ่อม</th>  
+                                    <th class="text-center" width="5%">ใบแจ้งซ่อม</th> 
+                                    <th class="text-center" width="5%">รหัส</th>  
+                                    <th class="text-center" >รายการ</th>  
+                                    <th class="text-center" width="5%">btu</th> 
+                                    <th class="text-center" >สถานที่ตั้ง</th>  
+                                    <th class="text-center" >เจ้าหน้าที่</th>  
+                                    <th class="text-center" >ช่าง รพ.</th>   
+                                </tr>
                             </thead>
                             <tbody>
-                                <?php $i = 0; ?>
+                                <?php $i = 1; ?>
                                 @foreach ($datashow as $item) 
-                                <?php $i++ ?>                               
-                                    <tr>                                                  
-                                        <td class="text-center" style="font-size:13px;width: 5%;color: rgb(13, 134, 185)">{{$i}}</td>
-                                        <td class="text-start" style="font-size:13px;color: rgb(2, 95, 182)">{{$item->building_name}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(4, 117, 117)">{{$item->building_id}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(228, 15, 86)">
-                                           <a href="{{url('air_report_building_sub/'.$item->building_id)}}" target="_blank"> 
-                                                <span class="badge bg-success"> {{$item->qtyall}}</span> 
-                                            </a> 
-                                        </td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->less_10000}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->one_two}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->two_tree}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->tree_four}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->four_five}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->more_five}}</td>
+                                    <tr id="tr_{{$item->air_repaire_id}}">                                                  
+                                        <td class="text-center" width="3%">{{ $i++ }}</td>  
+                                        
+                                        <td class="text-center" width="8%">{{ DateThai($item->repaire_date )}}</td>  
+                                        <td class="text-center" width="7%">{{ $item->air_repaire_no }}</td>   
+                                        <td class="text-center" width="7%">{{ $item->air_list_num }}</td>  
+                                        <td class="p-2">{{ $item->air_list_name }}</td>  
+                                        <td class="text-center" width="7%">{{ $item->btu }}</td>  
+                                        <td class="p-2" width="20%">{{ $item->air_location_name }}</td>  
+                                        <td class="p-2" width="10%">{{ $item->ptname }}</td>  
+                                        <td class="p-2" width="10%">{{ $item->tectname }}</td>  
+                                         
+
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -216,20 +223,12 @@
 @section('footer')
     <script>
         $(document).ready(function() {
-           
-            // $('select').select2();
-     
-        
+            $('#example').DataTable();
             $('#example2').DataTable();
-            var table = $('#example').DataTable({
-                scrollY: '60vh',
-                scrollCollapse: true,
-                scrollX: true,
-                "autoWidth": false,
-                "pageLength": 10,
-                "lengthMenu": [10,25,30,31,50,100,150,200,300],
+            $('#p4p_work_month').select2({
+                placeholder: "--เลือก--",
+                allowClear: true
             });
-        
             $('#datepicker').datepicker({
                 format: 'yyyy-mm-dd'
             });
