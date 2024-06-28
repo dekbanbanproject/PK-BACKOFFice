@@ -376,7 +376,7 @@ class CCtvController extends Controller
             'dataedits' => $dataedit
         ]);
     }
-    public function cctv_update(Request $request)
+    public function cctv_update_old(Request $request)
     {
         $idarticle = $request->article_id;
         $update = Article::find($idarticle);
@@ -504,14 +504,79 @@ class CCtvController extends Controller
             'status'     => '200'
         ]);
     }
+    public function cctv_update(Request $request)
+    { 
+        $id  = $request->cctv_list_id;
+        $num = $request->input('cctv_list_num');
+        
+        $update = Cctv_list::find($id);
+        $update->cctv_list_num               = $num;
+        $update->cctv_list_name              = $request->input('cctv_list_name');
+        $update->cctv_list_year              = $request->input('cctv_list_year');
+        $update->cctv_recive_date            = $request->input('cctv_recive_date');
+        $update->cctv_location               = $request->input('cctv_location');
+        $update->cctv_location_detail        = $request->input('cctv_location_detail');
+        $update->cctv_type                   = $request->input('cctv_type');
+        $update->cctv_monitor                = $request->input('cctv_monitor');
+        $update->cctv_status                 = $request->input('cctv_status'); 
+        $update->cctv_status                 = '0';
+         
+        // if ($request->hasfile('cctv_img')) {
+        //     $description = 'storage/cctv/' . $update->cctv_img;
+        //     if (File::exists($description)) {
+        //         File::delete($description);
+        //     }
+        //     $file = $request->file('cctv_img');
+        //     $extention = $file->getClientOriginalExtension();
+        //     $filename = time(). '.' . $extention; 
+        //     $request->cctv_img->storeAs('cctv', $filename, 'public'); 
+        //     $update->cctv_img = $filename;
+        //     $update->cctv_img_name = $filename;
+        // }
+        // $update->save();
+        if ($request->hasfile('cctv_img')) {
+
+            $description = 'storage/cctv/' . $update->cctv_img;
+            if (File::exists($description)) {
+                File::delete($description);
+            }
+            
+            $image_64 = $request->file('cctv_img');  
+            $extention = $image_64->getClientOriginalExtension(); 
+            $filename = $num. '.' . $extention;
+            $request->cctv_img->storeAs('cctv', $filename, 'public');  
+            $update->cctv_img            = $filename;
+            $update->cctv_img_name        = $filename; 
+            if ($extention =='.jpg') {
+                $file64 = "data:image/jpg;base64,".base64_encode(file_get_contents($request->file('cctv_img'))); 
+            } else {
+                $file64 = "data:image/png;base64,".base64_encode(file_get_contents($request->file('cctv_img'))); 
+            } 
+            $update->cctv_img_base       = $file64;
+        }
+        $update->save();
+       
+        return response()->json([
+            'status'     => '200'
+        ]);
+          
+         
+    }
     public function cctv_destroy(Request $request,$id)
     {
-        $del = Article::find($id);  
-        $description = 'storage/article/'.$del->img;
+        // $del = Article::find($id);  
+        // $description = 'storage/article/'.$del->img;
+        // if (File::exists($description)) {
+        //     File::delete($description);
+        // }
+        // $del->delete(); 
+
+        $del = Cctv_list::find($id);  
+        $description = 'storage/cctv/'.$del->img;
         if (File::exists($description)) {
             File::delete($description);
         }
-        $del->delete(); 
+        $del->delete();
             return response()->json(['status' => '200']);
     }
  

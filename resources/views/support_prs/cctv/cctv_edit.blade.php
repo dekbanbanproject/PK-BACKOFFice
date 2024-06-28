@@ -63,7 +63,7 @@ $count_article = StaticController::count_article();
         }
 
         function editarticle(input) {
-            var fileInput = document.getElementById('article_img');
+            var fileInput = document.getElementById('cctv_img');
             var url = input.value;
             var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
             if (input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
@@ -138,7 +138,7 @@ $count_article = StaticController::count_article();
                                     @endif
                                     <br>
                                     <div class="input-group mt-3"> 
-                                        <input type="file" class="form-control" id="article_img" name="article_img" onchange="editarticle(this)">
+                                        <input type="file" class="form-control" id="cctv_img" name="cctv_img" onchange="editarticle(this)">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     </div>
 
@@ -208,8 +208,7 @@ $count_article = StaticController::count_article();
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <select id="cctv_type" name="cctv_type"
-                                                class="form-select form-select-lg" style="width: 100%">
+                                            <select id="cctv_type" name="cctv_type" class="form-select form-select-lg" style="width: 100%">
                                                 @if ($dataedits->cctv_type == 'OUT')
                                                     <option value="OUT" selected>-- OUT --</option>
                                                     <option value="IN">-- IN --</option>
