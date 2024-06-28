@@ -1392,10 +1392,9 @@ class AirController extends Controller
                 'SELECT c.air_repaire_id,c.repaire_date,c.air_repaire_no,c.air_list_num,c.air_list_name,c.btu,c.air_location_id,c.air_location_name
                 ,c.air_problems_1 as air_problems_1,c.air_problems_2 as air_problems_2,c.air_problems_3 as air_problems_3,c.air_problems_4 as air_problems_4,c.air_problems_5 as air_problems_5,c.air_problems_orther 
                 ,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = c.air_tech_id) as tectname
-                FROM air_repaire_ploblemsub b 
-                LEFT JOIN air_repaire c ON c.air_list_num = b.air_list_num
+                FROM air_repaire c  
                 LEFT JOIN users p ON p.id = c.air_staff_id
-                WHERE b.air_repaire_ploblem_id ="'.$id.'" AND (c.air_problems_1 = "on")
+                WHERE c.air_problems_1 = "on"
                 ORDER BY air_list_num ASC
             ');
         }else if ($id == '2') {
@@ -1403,10 +1402,9 @@ class AirController extends Controller
                 'SELECT c.air_repaire_id,c.repaire_date,c.air_repaire_no,c.air_list_num,c.air_list_name,c.btu,c.air_location_id,c.air_location_name
                ,c.air_problems_1 as air_problems_1,c.air_problems_2 as air_problems_2,c.air_problems_3 as air_problems_3,c.air_problems_4 as air_problems_4,c.air_problems_5 as air_problems_5,c.air_problems_orther 
                 ,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = c.air_tech_id) as tectname
-                FROM air_repaire_ploblemsub b 
-                LEFT JOIN air_repaire c ON c.air_list_num = b.air_list_num
+                FROM air_repaire c  
                 LEFT JOIN users p ON p.id = c.air_staff_id
-                WHERE b.air_repaire_ploblem_id ="'.$id.'" AND (c.air_problems_2 = "on")
+                WHERE c.air_problems_2 = "on"
                 ORDER BY air_list_num ASC
             ');
         }else if ($id == '3') {
@@ -1414,10 +1412,9 @@ class AirController extends Controller
                 'SELECT c.air_repaire_id,c.repaire_date,c.air_repaire_no,c.air_list_num,c.air_list_name,c.btu,c.air_location_id,c.air_location_name
                 ,c.air_problems_1 as air_problems_1,c.air_problems_2 as air_problems_2,c.air_problems_3 as air_problems_3,c.air_problems_4 as air_problems_4,c.air_problems_5 as air_problems_5,c.air_problems_orther
                 ,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = c.air_tech_id) as tectname
-                FROM air_repaire_ploblemsub b 
-                LEFT JOIN air_repaire c ON c.air_list_num = b.air_list_num
+                FROM air_repaire c  
                 LEFT JOIN users p ON p.id = c.air_staff_id
-                WHERE b.air_repaire_ploblem_id ="'.$id.'" AND (c.air_problems_3 = "on")
+                WHERE c.air_problems_3 = "on"
                 ORDER BY air_list_num ASC
             ');
         }else if ($id == '4') {
@@ -1425,10 +1422,9 @@ class AirController extends Controller
                 'SELECT c.air_repaire_id,c.repaire_date,c.air_repaire_no,c.air_list_num,c.air_list_name,c.btu,c.air_location_id,c.air_location_name
                 ,c.air_problems_1 as air_problems_1,c.air_problems_2 as air_problems_2,c.air_problems_3 as air_problems_3,c.air_problems_4 as air_problems_4,c.air_problems_5 as air_problems_5,c.air_problems_orther
                 ,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = c.air_tech_id) as tectname
-                FROM air_repaire_ploblemsub b 
-                LEFT JOIN air_repaire c ON c.air_list_num = b.air_list_num
+                FROM air_repaire c  
                 LEFT JOIN users p ON p.id = c.air_staff_id
-                WHERE b.air_repaire_ploblem_id ="'.$id.'" AND (c.air_problems_4 = "on")
+                WHERE c.air_problems_4 = "on"
                 ORDER BY air_list_num ASC
             ');
         }else if ($id == '5') {
@@ -1436,10 +1432,9 @@ class AirController extends Controller
                 'SELECT c.air_repaire_id,c.repaire_date,c.air_repaire_no,c.air_list_num,c.air_list_name,c.btu,c.air_location_id,c.air_location_name
                 ,c.air_problems_1 as air_problems_1,c.air_problems_2 as air_problems_2,c.air_problems_3 as air_problems_3,c.air_problems_4 as air_problems_4,c.air_problems_5 as air_problems_5,c.air_problems_orther
                 ,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = c.air_tech_id) as tectname
-                FROM air_repaire_ploblemsub b 
-                LEFT JOIN air_repaire c ON c.air_list_num = b.air_list_num
+                FROM air_repaire c  
                 LEFT JOIN users p ON p.id = c.air_staff_id
-                WHERE b.air_repaire_ploblem_id ="'.$id.'" AND (c.air_problems_5 = "on")
+                WHERE c.air_problems_5 = "on"
                 ORDER BY air_list_num ASC
             ');
          
@@ -1448,10 +1443,9 @@ class AirController extends Controller
                 'SELECT c.air_repaire_id,c.repaire_date,c.air_repaire_no,c.air_list_num,c.air_list_name,c.btu,c.air_location_id,c.air_location_name
                 ,c.air_problems_1 as air_problems_1,c.air_problems_2 as air_problems_2,c.air_problems_3 as air_problems_3,c.air_problems_4 as air_problems_4,c.air_problems_5 as air_problems_5,c.air_problems_orther
                 ,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = c.air_tech_id) as tectname
-                FROM air_repaire_ploblemsub b 
-                LEFT JOIN air_repaire c ON c.air_list_num = b.air_list_num
+                FROM air_repaire c  
                 LEFT JOIN users p ON p.id = c.air_staff_id
-                WHERE b.air_repaire_ploblem_id ="'.$id.'" AND (c.air_problems_orther = "on")
+                WHERE c.air_problems_6 = "on"
                 ORDER BY air_list_num ASC
             ');
         }
