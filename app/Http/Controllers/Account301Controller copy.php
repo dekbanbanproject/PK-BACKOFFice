@@ -129,6 +129,7 @@ class Account301Controller extends Controller
             'trimart'          => $trimart,
         ]);
     }
+
     public function account_301_dashsub(Request $request,$startdate,$enddate)
     {
         $datenow = date('Y-m-d');
@@ -162,6 +163,7 @@ class Account301Controller extends Controller
             'leave_month_year'   =>  $leave_month_year,
         ]);
     }
+
     public function account_301_dashsubdetail(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d'); 
@@ -182,6 +184,63 @@ class Account301Controller extends Controller
             'months'        =>     $months
         ]);
     }
+
+    // public function account_301_dash(Request $request)
+    // {
+    //     $datenow = date('Y-m-d');
+    //     $startdate = $request->startdate;
+    //     $enddate = $request->enddate;
+    //     $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+    //     $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+    //     $date = date('Y-m-d');
+    //     $yearnew = date('Y');
+    //     $yearold = date('Y')-1;
+    //     $start = (''.$yearold.'-10-01');
+    //     $end = (''.$yearnew.'-09-30'); 
+    //     // dd($end );
+    //     if ($startdate == '') {
+    //         $datashow = DB::select('
+    //                 SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME,l.MONTH_ID
+    //                 ,count(distinct a.hn) as hn
+    //                 ,count(distinct a.vn) as vn
+    //                 ,count(distinct a.an) as an
+    //                 ,sum(a.income) as income
+    //                 ,sum(a.paid_money) as paid_money
+    //                 ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+    //                 ,sum(a.debit) as debit
+    //                 FROM acc_debtor a
+    //                 left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+    //                 WHERE a.vstdate between "'.$start.'" and "'.$end.'"
+    //                 and account_code="1102050101.301"
+    //                 group by month(a.vstdate) order by month(a.vstdate) desc limit 6;
+    //         ');
+    //         // and stamp = "N"
+    //     } else {
+    //         $datashow = DB::select('
+    //                 SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME,l.MONTH_ID
+    //                 ,count(distinct a.hn) as hn
+    //                 ,count(distinct a.vn) as vn
+    //                 ,count(distinct a.an) as an
+    //                 ,sum(a.income) as income
+    //                 ,sum(a.paid_money) as paid_money
+    //                 ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+    //                 ,sum(a.debit) as debit
+    //                 FROM acc_debtor a
+    //                 left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+    //                 WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
+    //                 and account_code="1102050101.301"
+    //                 group by month(a.vstdate) order by month(a.vstdate) desc;
+    //         ');
+    //     }
+
+    //     return view('account_301.account_301_dash',[
+    //         'startdate'          =>  $startdate,
+    //         'enddate'            =>  $enddate,
+    //         'datashow'           =>  $datashow,
+    //         'leave_month_year'   =>  $leave_month_year,
+    //     ]);
+    // }
+
     public function account_301_pull(Request $request)
     {
         $datenow = date('Y-m-d');
@@ -601,6 +660,7 @@ class Account301Controller extends Controller
             'enddate'       =>     $enddate
         ]);
     }
+
     public function account_301_detail_date(Request $request)
     { 
         $data['users'] = User::get();

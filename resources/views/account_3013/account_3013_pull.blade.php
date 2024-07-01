@@ -137,7 +137,7 @@
                                             <th class="text-center">ลูกหนี้</th> 
                                             {{-- <th class="text-center">ลูกหนี้ CT</th>                                             --}}
                                             {{-- <th class="text-center">ลูกหนี้ตามข้อตกลง</th>   --}}
-                                            <th class="text-center">สถานะ</th>
+                                            <th class="text-center">CT</th>
                                             {{-- <th class="text-center">ส่วนต่าง</th>   --}}
                                         </tr>
                                     </thead>

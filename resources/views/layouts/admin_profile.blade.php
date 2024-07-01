@@ -253,16 +253,9 @@
                                 <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
                                 <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">
                                 <img src="{{ asset('images/officer5.png') }}" class="" alt="logo-sm-light" height="30">
-                                {{-- <h4 style="color:rgb(41, 41, 41)" class="mt-4 loadingIcon">PK-OFFICER</h4> --}}
-                                {{-- <div class = "loadingIcon"></div> --}}
-                                {{-- <i class="fa-solid fa-p fa-w-16 fa-spin fa-2x text-info"></i> --}}
+                                
                             </span>
-                            {{-- <div class="header-btn-lg"> 
-                                <a href="{{url("user/home")}}" id="TooltipDemo" class="btn-open-options btn hamburger hamburger--elastic open-right-drawer text-danger" target="_blank">
-                                  
-                                    <i class="fa-solid fa-universal-access fa-w-16 fa-spin fa-2x text-info" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="ผู้ใช้งานทั่วไป"></i>
-                                </a>  
-                            </div> --}}
+                            
                         </a>
                     </div>
 
@@ -292,18 +285,7 @@
                                 <i class="ri-fullscreen-line" style="color: rgb(9, 75, 129);font-size:30px;" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Fullscreen"></i>
                             </button>
                         </div>
-                        <div class="header-btn-lg"> 
-                            <a href="{{url("user/home")}}" id="TooltipDemo" class="btn-open-options btn hamburger hamburger--elastic open-right-drawer text-danger" target="_blank">
-                              
-                                <i class="fa-solid fa-universal-access fa-w-16 fa-spin fa-2x text-info" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="ผู้ใช้งานทั่วไป"></i>
-                            </a>  
-                        </div>
-                      
-                        <div class="header-btn-lg"> 
-                            <a href="{{url("setting/setting_index")}}" id="TooltipDemo" class="btn-open-options btn hamburger hamburger--elastic open-right-drawer text-danger" target="_blank">
-                                <i class="fa fa-cog fa-w-16 fa-spin fa-2x" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Setting"></i>
-                            </a>  
-                        </div>
+                        
                         <div class="header-btn-lg">
                             <div class="dropdown">
                                 <button type="button" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown" class="p-0 me-2 btn btn-link">

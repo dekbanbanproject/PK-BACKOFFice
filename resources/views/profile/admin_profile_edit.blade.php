@@ -1,4 +1,4 @@
-@extends('layouts.admindashboard')
+@extends('layouts.admin_profile')
 
 @section('title', 'PK-OFFICER || Profile')
 
@@ -55,14 +55,14 @@
     $pos = strrpos($url, '/') + 1;
     ?>
 <br>
-    <div class="container mt-3">
+    <div class="container mt-5">
         <div class="row ">
             <div class="col-md-12">
-                <div class="card">
+                <div class="card card_prs_2b">
                     <div class="card-header ">
                         {{-- <div class="d-flex">
                             <div class=""> --}}
-                        <label for="">แก้ไขข้อมูลบุคลากร</label>
+                        <label for="">แก้ไข Profile</label>
                         {{-- </div> --}}
                         {{-- <div class="ms-auto">
 

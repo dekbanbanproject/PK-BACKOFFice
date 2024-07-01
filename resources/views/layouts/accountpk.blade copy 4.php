@@ -20,10 +20,6 @@
         integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
     {{-- <link href="{{ asset('pkclaim/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
     <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
     <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
@@ -69,61 +65,6 @@
     <link rel="stylesheet" href="{{ asset('css/dacccss.css') }}">
  
 </head>
-<style>
-        .noto-sans-thai-looped-thin {
-            font-family: "Noto Sans Thai Looped", sans-serif;
-            font-weight: 100;
-            font-style: normal;
-            }
-
-        .noto-sans-thai-looped-extralight {
-        font-family: "Noto Sans Thai Looped", sans-serif;
-        font-weight: 200;
-        font-style: normal;
-        }
-
-        .noto-sans-thai-looped-light {
-        font-family: "Noto Sans Thai Looped", sans-serif;
-        font-weight: 300;
-        font-style: normal;
-        }
-
-        .noto-sans-thai-looped-regular {
-        font-family: "Noto Sans Thai Looped", sans-serif;
-        font-weight: 400;
-        font-style: normal;
-        }
-
-        .noto-sans-thai-looped-medium {
-        font-family: "Noto Sans Thai Looped", sans-serif;
-        font-weight: 500;
-        font-style: normal;
-        }
-
-        .noto-sans-thai-looped-semibold {
-        font-family: "Noto Sans Thai Looped", sans-serif;
-        font-weight: 600;
-        font-style: normal;
-        }
-
-        .noto-sans-thai-looped-bold {
-        font-family: "Noto Sans Thai Looped", sans-serif;
-        font-weight: 700;
-        font-style: normal;
-        }
-
-        .noto-sans-thai-looped-extrabold {
-        font-family: "Noto Sans Thai Looped", sans-serif;
-        font-weight: 800;
-        font-style: normal;
-        }
-
-        .noto-sans-thai-looped-black {
-        font-family: "Noto Sans Thai Looped", sans-serif;
-        font-weight: 900;
-        font-style: normal;
-        }
-</style>
 <style>
     body {
         /* background: */
@@ -181,41 +122,29 @@
         box-shadow: 0 0 10px rgb(250, 128, 124);
         /* box-shadow: 0 0 10px teal; */
     }
-    @keyframes colorShift {
-        0% {
-            background-color: #22dcdf
-        }
-        50% {
-            background-color: #2ed82e
-        }
-        100% {
-            background-color: #e95a5a
-        }
+    /* .myTable thead tr{
+    background-color: #b56fca;
+    color: #ffffff;
+    text-align: center;
     }
-    .loadingIcon {
-        width: 40px;
-        height: 40px;
-        border: 2px solid rgb(255, 255, 255);
-        /* border-bottom: 4px solid transparent; */
-        border-radius: 100%;
-        animation: 6s infinite linear spin;
+    .myTable th .myTable td{
+        padding: 12px 15px;
     }
-    .loadingIcon2 {
-        width: 40px;
-        height: 40px;
-        border: 2px solid rgb(255, 255, 255);
-        /* border-bottom: 4px solid transparent; */
-        border-radius: 100%;
-        animation: 3s infinite linear spin;
+    .myTable tbody tr{
+        border-bottom: 1px solid #b329f3;
     }
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
-        100% {
-            transform: rotate(360deg);
-        }
+    .myTable tbody td{
+        font-size:15px;
     }
+    .myTable tbody tr:nth-of-type(even){
+        background-color: #f4e1f7;
+    }
+    .myTable tbody tr:last-of-type{
+        border-bottom: 3px solid #ccbcd1;
+    }
+    .myTable tbody tr .active-row{
+        color: #ccbcd1;
+    } */
 </style>
 <?php
 if (Auth::check()) {
@@ -251,198 +180,90 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
             {{-- <div class="navbar-header shadow-lg" style="background-color: rgb(252, 252, 252)"> --}}
                 <div class="navbar-header shadow" style="background-color: pink">
 
-                    <div class="d-flex">
-                        <!-- LOGO -->
-                        <div class="navbar-brand-box">
-                            <a href="{{url('account_pk_dash')}}" class="logo logo-dark">
-                                <span class="logo-sm">
-                                    <img src="assets/images/p.png" alt="logo-sm" height="22">
-                                </span>
-                                <span class="logo-lg">
-                                    <img src="assets/images/logo-dark.png" alt="logo-dark" height="20">
-                                </span>
-                            </a>
-    
-                            <a href="{{url('account_pk_dash')}}" class="logo logo-light">
-                                <span class="logo-sm me-2">
-                                    <img src="{{ asset('images/pk_smal.png') }}" alt="logo-sm-light" height="40">
-                                </span>
-                                <span class="logo-lg">
-                                    <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
-                                    <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">
-                                    <img src="{{ asset('images/officer5.png') }}" class="" alt="logo-sm-light" height="30">
-                                    {{-- <h4 style="color:rgb(41, 41, 41)" class="mt-4 loadingIcon">PK-OFFICER</h4> --}}
-                                    {{-- <div class = "loadingIcon"></div> --}}
-                                    {{-- <i class="fa-solid fa-p fa-w-16 fa-spin fa-2x text-info"></i> --}}
-                                </span>
-                                {{-- <div class="header-btn-lg"> 
-                                    <a href="{{url("user/home")}}" id="TooltipDemo" class="btn-open-options btn hamburger hamburger--elastic open-right-drawer text-danger" target="_blank">
-                                      
-                                        <i class="fa-solid fa-universal-access fa-w-16 fa-spin fa-2x text-info" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="ผู้ใช้งานทั่วไป"></i>
-                                    </a>  
-                                </div> --}}
-                            </a>
+                <div class="d-flex">
+                    <!-- LOGO -->
+                    <div class="navbar-brand-box" style="background-color: rgb(255, 255, 255)">
+                        <a href="" class="logo logo-dark">
+                            <span class="logo-sm">
+                                <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm" height="37">
+                            </span>
+                            <span class="logo-lg">
+                                {{-- <img src="{{ asset('assets/images/logo-dark.png') }}" alt="logo-dark" height="20"> --}}
+                                <h4 style="color:pink" class="mt-4">PK-OFFICER</h4>
+                            </span>
+                        </a>
+
+                        <a href="" class="logo logo-light">
+                            <span class="logo-sm mt-3">
+                                <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light"
+                                    height="40">
+                            </span>
+                            <span class="logo-lg">
+                                <h4 style="color:pink" class="mt-4">PK-OFFICER</h4>
+                            </span>
+                        </a>
+                    </div>
+
+                    <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect"
+                        id="vertical-menu-btn">
+                        <i class="ri-menu-2-line align-middle" style="color: rgb(255, 255, 255)"></i>
+                    </button>
+                    <a href="{{url('account_pk_dash')}}">
+                        <h4 style="color:rgb(255, 255, 255)" class="mt-4">ACCOUNT</h4>
+                    </a>
+                   
+                    <?php
+                    $org = DB::connection('mysql')->select('   
+                                                    select * from orginfo 
+                                                    where orginfo_id = 1                                                                                                                      ');
+                    ?>
+                    {{-- <form class="app-search d-none d-lg-block">
+                        <div class="position-relative">
+                            @foreach ($org as $item)
+                            <h4 style="color:rgb(255, 255, 255)" class="mt-2">{{$item->orginfo_name}}</h4>
+                            @endforeach
+                            
                         </div>
-    
-                        <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
-                            <i class="ri-menu-2-line align-middle" style="color: black"></i>
+                    </form>                                          --}}
+                </div>
+
+                <div class="d-flex">
+                    <div class="dropdown d-none d-lg-inline-block ms-1">
+                        <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
+                            <i class="ri-fullscreen-line" style="color: rgb(54, 53, 53)"></i>
                         </button>
-                        <?php
-                            $org = DB::connection('mysql')->select(                                                            '
-                                    select * from orginfo
-                                    where orginfo_id = 1                                                                                                                      ',
-                            );
-                        ?>
-                        <form class="app-search d-none d-lg-block">
-                            <div class="position-relative"> 
-                                <h3 style="color:rgb(48, 46, 46)" class="mt-2 noto-sans-thai-looped-light">ACCOUNT</h3> 
-                            </div>
-                        </form>
                     </div>
-     
-                    <div class="d-flex">                    
-                      
-                            <div class="header-btn-lg"> 
-                                <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
-                                    <i class="ri-fullscreen-line" style="color: rgb(9, 75, 129);font-size:30px;" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Fullscreen"></i>
-                                </button>
-                            </div>
-                         
-                           
-                            <div class="header-btn-lg">
-                                <div class="dropdown">
-                                    <button type="button" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown" class="p-0 me-2 btn btn-link">
-                                        <span class="icon-wrapper icon-wrapper-alt rounded-circle">
-                                            <span class="icon-wrapper-bg bg-danger"></span>
-                                         
-                                            <i class="fa-regular fa-bell text-danger"></i>
-                                        </span>  
-                                    </button>
-                                </div> 
-                            </div>
-                          
-                            <div class="header-btn-lg pe-0">
-                                <div class="widget-content p-0">
-                                    <div class="widget-content-wrapper">
-                                        <div class="widget-content-left">
-                                            <div class="btn-group"> 
-                                                <a data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn"> 
-                                                    @if (Auth::user()->img == null)
-                                                        <img src="{{ asset('assets/images/default-image.jpg') }}" width="42" class="rounded-circle loadingIcon" alt="">
-                                                    @else
-                                                        <img src="{{ asset('storage/person/' . Auth::user()->img) }}"width="42" class="rounded-circle loadingIcon" alt="">
-                                                    @endif 
-                                                    <i class="fa fa-angle-down ms-2 opacity-8"></i>
-                                                </a>
-                                                <div tabindex="-1" role="menu" aria-hidden="true" class="rm-pointers dropdown-menu-lg dropdown-menu dropdown-menu-right">
-                                                    <div class="dropdown-menu-header">
-                                                        <div class="dropdown-menu-header-inner bg-primary">
-                                                          
-                                                            <div class="menu-header-content text-start">
-                                                                <div class="widget-content p-0">
-                                                                    <div class="widget-content-wrapper">
-                                                                        <div class="widget-content-left me-3"> 
-                                                                                @if (Auth::user()->img == null)
-                                                                                    <img src="{{ asset('assets/images/default-image.jpg') }}" width="42" class="rounded-circle" alt="">
-                                                                                @else
-                                                                                    <img src="{{ asset('storage/person/' . Auth::user()->img) }}"width="42" class="rounded-circle" alt="">
-                                                                                @endif
-                                                                        </div>
-                                                                        <div class="widget-content-left">
-                                                                            <div class="widget-heading"> {{ Auth::user()->fname }} {{ Auth::user()->lname }}</div>
-                                                                            <div class="widget-subheading opacity-8">{{ Auth::user()->position_name }}</div>
-                                                                        </div>
-                                                                        <div class="widget-content-right me-2"> 
-                                                                            {{-- <a class="btn-pill btn-shadow btn-shine btn btn-focus" href="{{ route('logout') }}"
-                                                                                class="text-reset notification-item"
-                                                                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
-                                                                                    class="ri-shut-down-line align-middle me-2 text-white"></i> Logout
-                                                                            </a>
-                                                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                                                                @csrf
-                                                                            </form> --}}
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="scroll-area-xs" style="height: 100px;">
-                                                        <div class="scrollbar-container ps">
-                                                            <ul class="nav flex-column"> 
-                                                                <li class="nav-item">
-                                                                    <a href="javascript:void(0);" class="nav-link">
-                                                                        Messages
-                                                                        <div class="ms-auto badge rounded-pill bg-primary">2</div>
-                                                                    </a>
-                                                                </li>
-                                                                <li class="nav-item">
-                                                                    <a href="javascript:void(0);" class="nav-link" data-bs-toggle="modal" data-bs-target="#Keypassword">
-                                                                        Change Password<i class="fa-solid fa-key ms-4" style="color: rgb(207, 34, 115)"></i>
-                                                                        <div class="ms-auto badge rounded-pill bg-info">1</div>
-                                                                    </a>
-                                                                </li>
-                                                              
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <ul class="nav flex-column">
-                                                        <li class="nav-item-divider mb-0 nav-item"></li>
-                                                    </ul>
-                                                    <div class="grid-menu grid-menu-2col">
-                                                        <div class="g-0 row">
-                                                            <div class="col-sm-6">
-                                                                {{-- <button class="btn-icon-vertical btn-transition btn-transition-alt pt-2 pb-2 btn btn-outline-warning">
-                                                                    <i class="pe-7s-chat icon-gradient bg-amy-crisp btn-icon-wrapper mb-2"></i>
-                                                                    Message Inbox
-                                                                </button> --}}
-                                                                <a class="btn-icon-vertical btn-transition btn-transition-alt btn btn-outline-warning"  href="{{ url('admin_profile_edit/' . Auth::user()->id) }}"> 
-                                                                    <button class="btn-icon-vertical btn-transition btn-transition-alt pb-2 btn btn-outline-warning">
-                                                                        <i class="ri-user-line btn-icon-wrapper mb-2"></i>
-                                                                        Profile
-                                                                    </button>
-                                                                </a>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                                                    @csrf
-                                                                </form>
-                                                                <a class="btn-icon-vertical btn-transition btn-transition-alt btn btn-outline-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> 
-                                                                    <button class="btn-icon-vertical btn-transition btn-transition-alt pb-2 btn btn-outline-danger">
-                                                                        <i class="ri-shut-down-line align-middle btn-icon-wrapper mb-2"></i>
-                                                                        Logout
-                                                                    </button>
-                                                                </a>
-                                                                
-                                                                {{-- <button class="btn-icon-vertical btn-transition btn-transition-alt pt-3 pb-2 btn btn-outline-danger">
-                                                                    <i class="ri-shut-down-line align-middle btn-icon-wrapper mb-2"></i>
-                                                                    <b>Logout </b>
-                                                                </button> --}}
-                                                            </div>
-                                                            
-    
-                                                        </div>
-                                                    </div> 
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="widget-content-left  ms-3 header-user-info">
-                                            <div class="widget-heading"> {{ Auth::user()->fname }} {{ Auth::user()->lname }}</div>
-                                            <div class="widget-subheading"> {{ Auth::user()->position_name }}</div>
-                                        </div>
-                                         
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="header-btn-lg">
-                                <button type="button" class="hamburger hamburger--elastic open-right-drawer">
-                                    <span class="hamburger-box">
-                                        <span class="hamburger-inner"></span>
-                                    </span>
-                                </button>
-                            </div>
-    
+                    <div class="dropdown d-inline-block user-dropdown">
+                        <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @if (Auth::user()->img == null)
+                                <img src="{{ asset('assets/images/default-image.jpg') }}" height="32px"
+                                    width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                            @else
+                                <img src="{{ asset('storage/person/' . Auth::user()->img) }}" height="32px"
+                                    width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                            @endif
+                            <span class="d-none d-xl-inline-block ms-1" style="font-size: 12px;color:black">
+                                {{ Auth::user()->fname }} {{ Auth::user()->lname }}
+                            </span>
+                            <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <!-- item-->
+                            <a class="dropdown-item" href="{{ url('profile_edit/' . Auth::user()->id) }}"
+                                style="font-size: 12px"><i class="ri-user-line align-middle me-1"></i> Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="{{ route('logout') }}" {{-- class="text-reset notification-item" --}}
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
+                                    class="ri-shut-down-line align-middle me-1 text-danger"></i>
+                                Logout
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
                     </div>
+                </div>
             </div>
         </header>
         {{-- <style>
@@ -1042,40 +863,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
         </div>
         <!-- Left Sidebar End -->
 
-        <!--  Modal content for the Keypassword example -->
-        <div class="modal fade" id="Keypassword" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog ">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="myExtraLargeModalLabel">เปลี่ยนรหัสผ่าน </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-4 text-end"><label for="">รหัสผ่าน New</label></div>
-                            <div class="col-md-7">
-                                <div class="form-group text-center">
-                                    <input type="password" class="form-control form-control-sm" id="password" name="password">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="col-md-12 text-end">
-                            <div class="form-group">
-                                <button type="button" id="SaveChang" class="btn btn-outline-info btn-sm" >
-                                    <i class="fa-solid fa-floppy-disk me-1 text-info"></i>
-                                    เปลี่ยน
-                                </button>
-                                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal"><i
-                                        class="fa-solid fa-xmark text-danger me-2"></i>ปิด</button>
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <!-- ============================================================== -->
         <!-- Start right Content here -->
@@ -1225,44 +1013,12 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            $('#SaveChang').click(function() {
-                var password = $('#password').val();  
-                $.ajax({
-                    url: "{{ route('user.password_update') }}",
-                    type: "POST",
-                    dataType: 'json',
-                    data: { 
-                        password                       
-                    },
-                    success: function(data) {
-                        if (data.status == 200) {
-                            Swal.fire({
-                                title: 'เปลี่ยนรหัสผ่านสำเร็จ',
-                                text: "You Chang password success",
-                                icon: 'success',
-                                showCancelButton: false,
-                                confirmButtonColor: '#06D177',
-                                confirmButtonText: 'เรียบร้อย'
-                            }).then((result) => {
-                                if (result
-                                    .isConfirmed) {
-                                    console.log(
-                                        data);
-                                    window.location.reload();
-                                     
-                                }
-                            })
-                        } else {
-                             
-                        }
-
-                    },
-                });
-            });
 
         });
 
-        
+        $(document).ready(function() {
+
+        });
     </script>
 
 </body>

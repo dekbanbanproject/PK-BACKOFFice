@@ -327,18 +327,19 @@ public function profile_update(Request $request)
     $usernameup = $request->input('username');
     $count_check = User::where('username','=',$usernameup)->count(); 
          
-            $update = User::find($idper);
-            $update->fname = $fname;
-            $update->lname = $lname;     
-            $update->pname = $pname; 
-            $update->cid = $request->cid;   
-            $update->username = $usernameup; 
+            $update            = User::find($idper);
+            $update->fname     = $fname;
+            $update->lname     = $lname;     
+            $update->pname     = $pname; 
+            $update->cid       = $request->cid;   
+            $update->username  = $usernameup; 
             // $update->money = $request->money;
             $update->line_token = $request->line_token;
 
-            // $pass = $request->password;
-        
-            $update->password = Hash::make($request->password);
+            $pass               = $request->password;
+            $update->password   = Hash::make($pass);
+            $update->passapp    = $pass;
+            // $update->password = Hash::make($request->password);
             // $update->member_id =  'MEM'. $date .'-'.$idfile;
 
             // $depid = $request->dep_id; 
