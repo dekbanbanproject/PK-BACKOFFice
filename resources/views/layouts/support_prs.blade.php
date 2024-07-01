@@ -210,7 +210,7 @@
     }
     .card_prs_4{
         border-radius: 2em 2em 2em 2em;
-        box-shadow: 0 0 15px rgb(124, 225, 250);
+        box-shadow: 0 0 25px rgb(124, 225, 250);
         /* border-color: #0583cc */
         border:solid 1px #0583cc;
     }
@@ -249,8 +249,8 @@
     .fsize14{
         font-size: 14px;
     }
-    /* .myTable thead tr{
-    background-color: #b56fca;
+    .myTable thead tr{
+    background-color: #5AE6E1;
     color: #ffffff;
     text-align: center;
     }
@@ -258,20 +258,20 @@
         padding: 12px 15px;
     }
     .myTable tbody tr{
-        border-bottom: 1px solid #b329f3;
+        border-bottom: 1px solid #C1E2FD;
     }
     .myTable tbody td{
         font-size:15px;
     }
     .myTable tbody tr:nth-of-type(even){
-        background-color: #f4e1f7;
+        background-color: #E1F7F6;
     }
     .myTable tbody tr:last-of-type{
-        border-bottom: 3px solid #ccbcd1;
+        border-bottom: 3px solid #BCD0D1;
     }
     .myTable tbody tr .active-row{
         color: #ccbcd1;
-    } */
+    }
 </style>
 <?php
 if (Auth::check()) {

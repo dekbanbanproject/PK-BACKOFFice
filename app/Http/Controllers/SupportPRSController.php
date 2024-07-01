@@ -48,7 +48,7 @@ use App\Models\Fire;
 use App\Models\Cctv_report_months;
 use App\Models\Product_budget;
 use App\Models\Product_method;
-use App\Models\Product_buy;
+use App\Models\Fire_countcheck;
 use PDF;
 use setasign\Fpdi\Fpdi;
 use App\Models\Budget_year;
@@ -176,6 +176,23 @@ class SupportPRSController extends Controller
                 LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(f.check_date)
                 GROUP BY MONTH(f.check_date) 
             '); 
+
+             $chart_location = DB::connection('mysql')->select(
+                'SELECT a.air_location_name,COUNT(a.air_location_id) as air_count 
+                ,(SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_1 = "on")+
+                (SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_2 = "on")+
+                (SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_3 = "on")+
+                (SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_4 = "on")+
+                (SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_5 = "on")+ 
+                (SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_orther = "on") as c_air_1  
+                ,(SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_1 = "on") as air_problems_1
+                ,(SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_2 = "on") as air_problems_2
+                ,(SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_3 = "on") as air_problems_3
+                ,(SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_4 = "on") as air_problems_4
+                ,(SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_5 = "on") as air_problems_5
+                 ,(SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_orther = "on") as air_problems_orther
+                FROM air_list a 
+                GROUP BY a.air_location_id'); 
             
         return view('support_prs.support_system_dashboard',$data,[
             'startdate'               =>  $startdate,
@@ -189,6 +206,7 @@ class SupportPRSController extends Controller
             'count_color_green_qty'   =>  $count_color_green_qty,
             'count_red_allactive'     =>  $count_red_allactive,
             'count_green_allactive'   =>  $count_green_allactive,
+            'chart_location'          =>  $chart_location,
         ]);
     }
     public function support_system_excel(Request $request)
@@ -302,13 +320,23 @@ class SupportPRSController extends Controller
     {
         $datenow = date('Y-m-d'); 
         $datareport = DB::connection('mysql')->select('SELECT * FROM fire_check WHERE month(check_date) = "'.$months.'" AND year(check_date) = "'.$years.'" ORDER BY fire_check_id ASC'); 
-         foreach ($datareport as $key => $value) {
+        Fire_countcheck::truncate();
+        foreach ($datareport as $key => $value) {
             // $data_array[] = $value->fire_num;
             $count_c = Fire::where('fire_num','=',$value->fire_num)->count();
             if ($count_c > 0) {
                 Fire::where('fire_num','=',$value->fire_num)
                 ->update(['fire_for_nocheck' => 'Y']); 
+
+                Fire_countcheck::insert([
+                    'fire_num'    => $value->fire_num,
+                    'fire_name'   => $value->fire_name,
+                    'check_date'  => $value->check_date
+                ]);
+                
             } else {
+                Fire::where('fire_num','!=',$value->fire_num)
+                ->update(['fire_for_nocheck' => 'N']); 
                 // Fire::where('fire_num','<>',$value->fire_num)
                 // Fire::where('fire_num','!=',$value->fire_num)->update(['fire_for_nocheck' => '']); 
             } 
@@ -319,11 +347,19 @@ class SupportPRSController extends Controller
         // $datafire = DB::select('SELECT * FROM fire WHERE fire_backup="N" AND fire_for_nocheck = "Y" AND fire_edit ="Narmal" AND active="Y"'); 
         // $datafire = DB::select('SELECT * FROM fire WHERE fire_for_nocheck = "N" AND active="Y"'); 
         $datafire = DB::select(
-            'SELECT * FROM fire f
-                LEFT JOIN fire_check fc ON fc.fire_id = f.fire_id
-                LEFT JOIN users u ON u.id = fc.user_id
-                WHERE f.fire_for_nocheck = "N" AND f.fire_edit ="Narmal" AND month(fc.check_date) = "'.$months.'" AND year(fc.check_date) = "'.$years.'"
+            'SELECT f.fire_num,f.fire_name,f.fire_size ,f.fire_color,f.fire_location  
+                FROM fire f                
+                LEFT JOIN fire_countcheck fcc ON fcc.fire_num = f.fire_num              
+                WHERE f.fire_edit ="Narmal" AND fcc.fire_num IS NULL
+                GROUP BY f.fire_num
         '); 
+
+        // $datafire = DB::select(
+        //     'SELECT * FROM fire f
+        //         LEFT JOIN fire_check fc ON fc.fire_id = f.fire_id
+        //         LEFT JOIN users u ON u.id = fc.user_id
+        //         WHERE f.fire_for_nocheck = "Y" AND f.fire_edit ="Narmal" AND month(fc.check_date) = "'.$months.'" AND year(fc.check_date) = "'.$years.'"
+        // '); 
         //   AND fire_edit ="Narmal"
         //  foreach ($data_t as $key => $valuess) {
         //     dd($valuess);
@@ -346,12 +382,22 @@ class SupportPRSController extends Controller
     {
         $datenow = date('Y-m-d'); 
         $datareport = DB::connection('mysql')->select('SELECT * FROM fire_check WHERE month(check_date) = "'.$months.'" AND year(check_date) = "'.$years.'" ORDER BY fire_check_id ASC'); 
-         foreach ($datareport as $key => $value) { 
+        Fire_countcheck::truncate();
+        foreach ($datareport as $key => $value) { 
             $count_c = Fire::where('fire_num','=',$value->fire_num)->count();
             if ($count_c > 0) {
                 Fire::where('fire_num','=',$value->fire_num)
                 ->update(['fire_for_nocheck' => 'Y']); 
+                
+                Fire_countcheck::insert([
+                    'fire_num'    => $value->fire_num,
+                    'fire_name'   => $value->fire_name,
+                    'check_date'  => $value->check_date
+                ]);
+
             } else {
+                Fire::where('fire_num','<>',$value->fire_num)
+                ->update(['fire_for_nocheck' => 'N']); 
                 // Fire::where('fire_num','<>',$value->fire_num)
                 // Fire::where('fire_num','!=',$value->fire_num)->update(['fire_for_nocheck' => '']); 
             } 
@@ -368,8 +414,11 @@ class SupportPRSController extends Controller
             'SELECT * FROM fire f
                 LEFT JOIN fire_check fc ON fc.fire_id = f.fire_id
                 LEFT JOIN users u ON u.id = fc.user_id
-                WHERE f.fire_for_nocheck = "Y" AND f.fire_edit ="Narmal" AND month(fc.check_date) = "'.$months.'" AND year(fc.check_date) = "'.$years.'"
+                LEFT JOIN fire_countcheck fcc ON fcc.fire_num = f.fire_num 
+                WHERE f.fire_edit ="Narmal" AND fcc.fire_num IS NOT NULL
+                GROUP BY f.fire_num 
         '); 
+        // WHERE f.fire_for_nocheck = "Y" AND f.fire_edit ="Narmal" AND month(fc.check_date) = "'.$months.'" AND year(fc.check_date) = "'.$years.'"
         // f.fire_backup="N" AND 
         // leftJoin('users', 'fire_check.user_id', '=', 'users.id') 
         return view('support_prs.support_system_check',[

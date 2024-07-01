@@ -118,6 +118,163 @@
                         </div>
                     </div>
                 </div>
+          
+                        {{-- <div class="grid-menu grid-menu-2col"> --}}
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12">
+                                
+                                <div class="card card_prs_4" style="background-color: rgb(229, 253, 245)">   
+                                    <div class="table-responsive p-3">                                
+                                        <table id="example2" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">                        
+                                            <thead>
+                                                <tr>  
+                                                    <th class="text-center">ลำดับ</th> 
+                                                    <th class="text-center">อาคาร</th> 
+                                                    <th class="text-center">จำนวน แอร์</th> 
+                                                    <th class="text-center">จำนวนครั้งที่แจ้ง</th>   
+                                                    <th class="text-center">น้ำหยด</th> 
+                                                    <th class="text-center">ไม่เย็นมีแต่ลม</th> 
+                                                    <th class="text-center">มีกลิ่นเหม็น</th> 
+                                                    <th class="text-center">เสียงดัง</th> 
+                                                    <th class="text-center">ไม่ติด/ติดๆดับๆ</th> 
+                                                    <th class="text-center">อื่นๆ</th> 
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php $number = 0; $total1 = 0; $total2 = 0; $total3 = 0;?>
+                                                @foreach ($chart_location as $item)
+                                                <?php $number++;?>
+                                                <tr>
+                                                    <td class="text-font" style="text-align: center;" width="4%">{{ $number }} </td> 
+                                                    <td>{{$item->air_location_name}}</td>
+                                                    <td>{{$item->air_count}}</td>
+                                                    <td>{{$item->c_air_1}}</td> 
+                                                    <td>{{$item->air_problems_1}}</td> 
+                                                    <td>{{$item->air_problems_2}}</td> 
+                                                    <td>{{$item->air_problems_3}}</td> 
+                                                    <td>{{$item->air_problems_4}}</td> 
+                                                    <td>{{$item->air_problems_5}}</td> 
+                                                    <td>{{$item->air_problems_orther}}</td> 
+                                                </tr>
+                                                   
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                                {{-- <div class="col-md-3 col-lg-3 col-xl-3">
+                                    <div class="card mb-3 widget-chart widget-chart2 text-start card-btm-border card-shadow-success border-success">
+                                        <div class="widget-chat-wrapper-outer">
+                                            <div class="widget-chart-content pt-3 ps-3 pb-1">
+                                                <div class="widget-chart-flex">
+                                                    <div class="widget-numbers">
+                                                        <div class="widget-chart-flex">
+                                                            <div class="fsize-4">
+                                                                <small class="opacity-5">$</small>
+                                                                <span>874</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <h6 class="widget-subheading mb-0 opacity-5">sales last month</h6>
+                                            </div>
+                                            <div class="g-0 widget-chart-wrapper mt-3 mb-3 ps-2 he-auto row">
+                                                <div class="col-md-9">
+                                                    <div id="dashboard-sparklines-1"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> --}}
+
+                                    {{-- <div class="col-md-2">
+                                        <div class="widget-chart widget-chart-hover">
+                                            <div class="icon-wrapper rounded-circle">
+                                                <div class="icon-wrapper-bg bg-danger"></div>
+                                                <i class="lnr-apartment text-primary"></i>
+                                            </div>
+                                            <div class="widget-numbers">45.8k</div>
+                                            <div class="widget-subheading">อาคาร </div>
+                                            <div class="widget-description text-success">
+                                                <i class="fa fa-angle-up"></i>
+                                                <span class="ps-1">175.5%</span>
+                                            </div>
+                                        </div>
+                                    </div>  --}}
+
+                                    {{-- <div class="col-md-2">
+                                        <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-danger border-danger card">
+                                            <div class="widget-chat-wrapper-outer">
+                                                <div class="widget-chart-content">
+                                                    <div class="widget-title opacity-5 text-uppercase">ถังดับเพลิง (RED)</div>
+                                                    <div class="widget-numbers mt-2 fsize-4 mb-0 w-100">
+                                                        <div class="widget-chart-flex align-items-center">
+                                                            <div>
+                                                                <span class="opacity-10 text-danger pe-2">
+                                                                    <i class="fa fa-angle-left"></i>
+                                                                </span>
+                                                            1 
+                                                            </div>
+                                                            <div class="widget-title ms-auto font-size-lg fw-normal text-muted mt-3">
+                                                                <small class="opacity-5 ps-1">พร้อมใช้งาน </small>
+                                                            
+                                                               02
+                                                                <small class="opacity-5 ps-1">ถัง</small> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> --}}
+                                                           
+                                {{-- <div class="col-sm-6">
+                                    <div class="widget-chart widget-chart-hover">
+                                        <div class="icon-wrapper rounded-circle">
+                                            <div class="icon-wrapper-bg bg-info"></div>
+                                            <i class="lnr-graduation-hat text-info"></i>
+                                        </div>
+                                        <div class="widget-numbers">63.2k</div>
+                                        <div class="widget-subheading">Bugs Fixed</div>
+                                        <div class="widget-description text-info">
+                                            <i class="fa fa-arrow-right"></i>
+                                            <span class="ps-1">175.5%</span>
+                                        </div>
+                                    </div>
+                                </div> --}}
+                                {{-- <div class="col-sm-6">
+                                    <div class="widget-chart widget-chart-hover">
+                                        <div class="icon-wrapper rounded-circle">
+                                            <div class="icon-wrapper-bg bg-danger"></div>
+                                            <i class="lnr-laptop-phone text-danger"></i>
+                                        </div>
+                                        <div class="widget-numbers">5.82k</div>
+                                        <div class="widget-subheading">Reports Submitted</div>
+                                        <div class="widget-description text-primary">
+                                            <span class="pe-1">54.1%</span>
+                                            <i class="fa fa-angle-up"></i>
+                                        </div>
+                                    </div>
+                                </div> --}}
+                                {{-- <div class="col-sm-6">
+                                    <div class="widget-chart widget-chart-hover br-br">
+                                        <div class="icon-wrapper rounded-circle">
+                                            <div class="icon-wrapper-bg bg-success"></div>
+                                            <i class="lnr-screen"></i>
+                                        </div>
+                                        <div class="widget-numbers">17.2k</div>
+                                        <div class="widget-subheading">Profiles</div>
+                                        <div class="widget-description text-warning">
+                                            <span class="pe-1">175.5%</span>
+                                            <i class="fa fa-arrow-left"></i>
+                                        </div>
+                                    </div>
+                                </div> --}}
+                            </div>
+                        {{-- </div> --}}
+                   
+
                 <div class="row">
                     <div class="col-md-3">
                             <div class="row">
@@ -629,9 +786,9 @@
 @section('footer')
  
     <script>
+        
      $(document).ready(function() {
-            $('#example').DataTable();
-            $('#example2').DataTable();
+             
             $('#datepicker').datepicker({
                 format: 'yyyy-mm-dd'
             });
