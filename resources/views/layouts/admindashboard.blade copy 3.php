@@ -119,20 +119,12 @@
                         </a>
 
                         <a href="{{url('admin/home')}}" class="logo logo-light">
-                            <span class="logo-sm me-2">
-                                <img src="{{ asset('images/pk_smal.png') }}" alt="logo-sm-light" height="40">
+                            <span class="logo-sm">
+                                <img src="{{ asset('images/p.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                {{-- <h4 style="color:rgb(41, 41, 41)" class="mt-4">PK-OFFICER</h4> --}}
-                                fa-p
-                                <i class="fa-solid fa-universal-access fa-w-16 fa-spin fa-2x text-info" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="ผู้ใช้งานทั่วไป"></i>
+                                <h4 style="color:rgb(41, 41, 41)" class="mt-4">PK-OFFICER</h4>
                             </span>
-                            {{-- <div class="header-btn-lg"> 
-                                <a href="{{url("user/home")}}" id="TooltipDemo" class="btn-open-options btn hamburger hamburger--elastic open-right-drawer text-danger" target="_blank">
-                                  
-                                    <i class="fa-solid fa-universal-access fa-w-16 fa-spin fa-2x text-info" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="ผู้ใช้งานทั่วไป"></i>
-                                </a>  
-                            </div> --}}
                         </a>
                     </div>
 
@@ -159,7 +151,87 @@
 
                 <div class="d-flex">
                     
-                  
+                    {{-- <div class="dropdown d-none d-lg-inline-block ms-1">
+                        <a href="{{url("admin/home")}}">
+                            <i class="fa-solid fa-gauge-high text-success ms-4" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Dashboard"></i>
+                          </a>
+                          <a href="{{url("backups")}}">
+                            <i class="fas fa-database text-secondary ms-4" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Backup Database"></i>
+                          </a>
+                        <a href="{{url("setting/setting_index")}}" target="_blank">
+                            <i class="fa-solid fa-gear text-danger ms-4" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="ตั้งค่า"></i>
+                          </a>
+                          <a href="{{url("user/home")}}" target="_blank">
+                            <i class="fa-solid fa-user-group text-info ms-4 me-2" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="ผู้ใช้งานทั่วไป"></i>
+                          </a>
+
+                        <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
+                            <i class="ri-fullscreen-line" style="color: rgb(9, 75, 129)"></i>
+                        </button>
+
+                        <div class="dropdown d-none d-lg-inline-block ms-1">
+                            <button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="modal" data-bs-target="#Keypassword">
+                                <i class="fa-solid fa-key" style="color: rgb(207, 34, 115)"></i>
+                            </button>
+                        </div> 
+                    </div> --}}
+
+                    {{-- <div class="dropdown d-inline-block user-dropdown">
+                            <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @if (Auth::user()->img == null)
+                                    <img src="{{ asset('assets/images/default-image.jpg') }}" height="32px"
+                                        width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                @else
+                                    <img src="{{ asset('storage/person/' . Auth::user()->img) }}" height="32px"
+                                        width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                @endif
+                                <span class="d-none d-xl-inline-block ms-1 " style="color: rgb(9, 75, 129)">
+                                    {{ Auth::user()->fname }} {{ Auth::user()->lname }}
+                                </span>
+                                <i class="mdi mdi-chevron-down d-none d-xl-inline-block"
+                                    style="color: rgb(9, 75, 129)"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end"> 
+                                <a class="dropdown-item " style="color: rgb(9, 75, 129)"
+                                    href="{{ url('admin_profile_edit/' . Auth::user()->id) }}"><i
+                                        class="ri-user-line align-middle me-1"></i> Profile</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="{{ route('logout') }}"
+                                    class="text-reset notification-item"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
+                                        class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
+                        </div>
+                    --}}
+                        {{-- <div class="dropdown d-inline-block user-dropdown">
+                            <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg"
+                                    alt="Header Avatar">
+                                <span class="d-none d-xl-inline-block ms-1">Julia</span>
+                                <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <!-- item-->
+                                <a class="dropdown-item" href="#"><i class="ri-user-line align-middle me-1"></i> Profile</a>
+                                <a class="dropdown-item" href="#"><i class="ri-wallet-2-line align-middle me-1"></i> My Wallet</a>
+                                <a class="dropdown-item d-block" href="#"><span class="badge bg-success float-end mt-1">11</span><i class="ri-settings-2-line align-middle me-1"></i> Settings</a>
+                                <a class="dropdown-item" href="#"><i class="ri-lock-unlock-line align-middle me-1"></i> Lock screen</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#"><i class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
+                            </div>
+                        </div>
+
+                        <div class="dropdown d-inline-block">
+                            <button type="button" class="btn header-item noti-icon right-bar-toggle waves-effect">
+                                <i class="ri-settings-2-line"></i>
+                            </button>
+                        </div> --}}
                         <div class="header-btn-lg"> 
                             <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
                                 <i class="ri-fullscreen-line" style="color: rgb(9, 75, 129);font-size:30px;" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Fullscreen"></i>
@@ -167,11 +239,14 @@
                         </div>
                         <div class="header-btn-lg"> 
                             <a href="{{url("user/home")}}" id="TooltipDemo" class="btn-open-options btn hamburger hamburger--elastic open-right-drawer text-danger" target="_blank">
-                              
+                                {{-- <i class="fa-solid fa-user-group fa-w-16 fa-spin fa-2x"></i> --}}
+                                {{-- <i class="fa-solid fa-user-check fa-w-16 fa-spin fa-2x text-danger"></i> --}}
                                 <i class="fa-solid fa-universal-access fa-w-16 fa-spin fa-2x text-info" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="ผู้ใช้งานทั่วไป"></i>
                             </a>  
                         </div>
-                      
+                        {{-- <a href="{{url("user/home")}}" target="_blank">
+                            <i class="fa-solid fa-user-group text-info ms-4 me-2" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="ผู้ใช้งานทั่วไป"></i>
+                          </a> --}}
                         <div class="header-btn-lg"> 
                             <a href="{{url("setting/setting_index")}}" id="TooltipDemo" class="btn-open-options btn hamburger hamburger--elastic open-right-drawer text-danger" target="_blank">
                                 <i class="fa fa-cog fa-w-16 fa-spin fa-2x" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Setting"></i>
@@ -182,13 +257,19 @@
                                 <button type="button" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown" class="p-0 me-2 btn btn-link">
                                     <span class="icon-wrapper icon-wrapper-alt rounded-circle">
                                         <span class="icon-wrapper-bg bg-danger"></span>
-                                     
+                                        {{-- <i class="icon text-danger icon-anim-pulse ion-android-notifications"></i> --}}
                                         <i class="fa-regular fa-bell text-danger"></i>
+                                        {{-- <span class="badge badge-dot badge-dot-sm bg-danger">Notifications</span> --}}
                                     </span>  
                                 </button>
                             </div> 
                         </div>
-                      
+                        {{-- <button type="button" class="btn btn-primary position-relative">
+                            Profile
+                            <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                              <span class="visually-hidden">New alerts</span>
+                            </span>
+                          </button> --}}
                         <div class="header-btn-lg pe-0">
                             <div class="widget-content p-0">
                                 <div class="widget-content-wrapper">
@@ -205,7 +286,7 @@
                                             <div tabindex="-1" role="menu" aria-hidden="true" class="rm-pointers dropdown-menu-lg dropdown-menu dropdown-menu-right">
                                                 <div class="dropdown-menu-header">
                                                     <div class="dropdown-menu-header-inner bg-primary">
-                                                      
+                                                        {{-- <div class="menu-header-image opacity-2" style="background-image: url('images/dropdown-header/city3.jpg');"></div> --}}
                                                         <div class="menu-header-content text-start">
                                                             <div class="widget-content p-0">
                                                                 <div class="widget-content-wrapper">
@@ -291,6 +372,60 @@
                                 </span>
                             </button>
                         </div>
+
+                        {{-- <div class="dropdown">
+                            <button type="button" aria-haspopup="true" data-bs-toggle="dropdown" data-bs-placement="bottom"
+                                title="Tooltip on bottom" aria-expanded="false" class="p-0 btn btn-link dd-chart-btn">
+                                <span class="icon-wrapper icon-wrapper-alt rounded-circle">
+                                    <span class="icon-wrapper-bg bg-success"></span>
+                                    <i class="icon text-success ion-ios-analytics"></i>
+                                </span>
+                            </button>
+                            <div tabindex="-1" role="menu" aria-hidden="true"
+                                class="dropdown-menu-xl rm-pointers dropdown-menu dropdown-menu-right">
+                                <div class="dropdown-menu-header">
+                                    <div class="dropdown-menu-header-inner bg-premium-dark">
+                                        <div class="menu-header-image" style="background-image: url('images/dropdown-header/abstract4.jpg');"></div>
+                                        <div class="menu-header-content text-white">
+                                            <h5 class="menu-header-title">Users Online</h5>
+                                            <h6 class="menu-header-subtitle">Recent Account Activity Overview</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="widget-chart">
+                                    <div class="widget-chart-content">
+                                        <div class="icon-wrapper rounded-circle">
+                                            <div class="icon-wrapper-bg opacity-9 bg-focus"></div>
+                                            <i class="lnr-users text-white"></i>
+                                        </div>
+                                        <div class="widget-numbers">
+                                            <span>344k</span>
+                                        </div>
+                                        <div class="widget-subheading pt-2">
+                                            Profile views since last login
+                                        </div>
+                                        <div class="widget-description text-danger">
+                                            <span class="pe-1">
+                                                <span>176%</span>
+                                            </span>
+                                            <i class="fa fa-arrow-left"></i>
+                                        </div>
+                                    </div>
+                                    <div class="widget-chart-wrapper">
+                                        <div id="dashboard-sparkline-carousel-3-pop"></div>
+                                    </div>
+                                </div>
+                                <ul class="nav flex-column">
+                                    <li class="nav-item-divider mt-0 nav-item"></li>
+                                    <li class="nav-item-btn text-center nav-item">
+                                        <button class="btn-shine btn-wide btn-pill btn btn-warning btn-sm">
+                                            <i class="fa fa-cog fa-spin me-2"></i>
+                                            View Details
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div> --}}
 
                 </div>
             </div>
