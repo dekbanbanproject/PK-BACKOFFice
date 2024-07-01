@@ -65,6 +65,7 @@
 		/* background-size: cover; */
         background-size: 100% 100%;
         }
+        animation: 10s infinite alternate colorShift;
  </style>
 
 
@@ -91,6 +92,44 @@
         }
         0%{
             background-position: 0 50%;
+        }
+    }
+
+
+
+    @keyframes colorShift {
+        0% {
+            background-color: #22dcdf
+        }
+        50% {
+            background-color: #2ed82e
+        }
+        100% {
+            background-color: #e95a5a
+        }
+    }
+    .loadingIcon {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgb(255, 255, 255);
+        border-bottom: 4px solid transparent;
+        border-radius: 100%;
+        animation: 5s infinite linear spin;
+    }
+    .loadingIcon2 {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgb(255, 255, 255);
+        border-bottom: 4px solid transparent;
+        border-radius: 100%;
+        animation: 3s infinite linear spin;
+    }
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
         }
     }
 
@@ -123,9 +162,12 @@
                                 <img src="{{ asset('images/pk_smal.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                {{-- <h4 style="color:rgb(41, 41, 41)" class="mt-4">PK-OFFICER</h4> --}}
-                                fa-p
-                                <i class="fa-solid fa-universal-access fa-w-16 fa-spin fa-2x text-info" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="ผู้ใช้งานทั่วไป"></i>
+                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
+                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">
+                                <img src="{{ asset('images/k.png') }}" class="" alt="logo-sm-light" height="30">
+                                {{-- <h4 style="color:rgb(41, 41, 41)" class="mt-4 loadingIcon">PK-OFFICER</h4> --}}
+                                {{-- <div class = "loadingIcon"></div> --}}
+                                {{-- <i class="fa-solid fa-p fa-w-16 fa-spin fa-2x text-info"></i> --}}
                             </span>
                             {{-- <div class="header-btn-lg"> 
                                 <a href="{{url("user/home")}}" id="TooltipDemo" class="btn-open-options btn hamburger hamburger--elastic open-right-drawer text-danger" target="_blank">
