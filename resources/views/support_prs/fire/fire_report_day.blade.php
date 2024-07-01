@@ -106,9 +106,10 @@
                     <div class="card-body">    
                         
                         <p class="mb-0">
-                            <div class="table-responsive">
-                                <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                {{-- <table class="table table-striped mb-0 table table-borderless table-hover table-bordered" style="width: 100%;"> --}}
+                            {{-- <div class="table-responsive"> --}}
+                                {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                                    <table id="example" class="table table-striped table-bordered nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                    {{-- <table class="table table-striped mb-0 table table-borderless table-hover table-bordered" style="width: 100%;"> --}}
                                 {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                                 {{-- <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                                     <thead>
@@ -134,41 +135,41 @@
                                                 <td class="text-center" width="8%" style="font-size: 12px">{{ $item->fire_num }}</td>  
                                                 <td class="text-center" width="7%"> 
                                                     @if ($item->fire_check_injection == '0')
-                                                         <label style="color: #06af8b;font-size: 12px">ปกติ</label>
+                                                         <p style="color: #06af8b;font-size: 12px">ปกติ</p>
                                                     @else
-                                                        <label style="color: #fc2424;font-size: 12px">ชำรุด</label>
+                                                        <p style="color: #fc2424;font-size: 12px">ชำรุด</p>
                                                     @endif
                                                 </td>  
                                                 <td class="text-center" width="7%"> 
                                                     @if ($item->fire_check_joystick == '0')
-                                                        <label style="color: #06af8b;font-size: 12px">ปกติ</label>
+                                                        <p style="color: #06af8b;font-size: 12px">ปกติ</p>
                                                     @else
-                                                        <label style="color: #fc2424;font-size: 12px">ชำรุด</label>
+                                                        <p style="color: #fc2424;font-size: 12px">ชำรุด</p>
                                                     @endif
                                                 </td>   
                                                 <td class="text-center" width="7%"> 
                                                     @if ($item->fire_check_body == '0')
-                                                        <label style="color: #06af8b;font-size: 12px">ปกติ</label>
+                                                        <p style="color: #06af8b;font-size: 12px">ปกติ</p>
                                                     @else
-                                                        <label style="color: #fc2424;font-size: 12px">ชำรุด</label>
+                                                        <p style="color: #fc2424;font-size: 12px">ชำรุด</p>
                                                     @endif
                                                 </td>   
                                                 <td class="text-center" width="9%"> 
                                                     @if ($item->fire_check_gauge == '0')
-                                                        <label style="color: #06af8b;font-size: 12px">ปกติ</label>
+                                                        <p style="color: #06af8b;font-size: 12px">ปกติ</p>
                                                     @else
-                                                        <label style="color: #fc2424;font-size: 12px">ชำรุด</label>
+                                                        <p style="color: #fc2424;font-size: 12px">ชำรุด</p>
                                                     @endif
                                                 </td> 
                                                 <td class="text-center" width="7%"> 
                                                     @if ($item->fire_check_drawback == '0')
-                                                        <label style="color: #06af8b;font-size: 12px">ปกติ</label>
+                                                        <p style="color: #06af8b;font-size: 12px">ปกติ</p>
                                                     @else
-                                                        <label style="color: #fc2424;font-size: 12px">ชำรุด</label>
+                                                        <p style="color: #fc2424;font-size: 12px">ชำรุด</p>
                                                     @endif
                                                 </td> 
                                                 <td class="text-start" style="color:rgb(73, 147, 231)">
-                                                    <label style="color: #fc2424;font-size: 12px">
+                                                    <p style="color: #fc2424;font-size: 12px">
                                                         @if ($item->fire_check_injection == '1')
                                                         สายฉีด,                                                                                                 
                                                         @endif
@@ -184,14 +185,14 @@
                                                         @if ($item->fire_check_drawback == '1')
                                                         สิ่งกีดขวาง,
                                                         @endif
-                                                    </label>  
+                                                    </p>  
                                                 </td>   
                                                 <td class="text-center" width="12%">{{ $item->ptname }}</td>                                              
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
-                            </div>
+                            {{-- </div> --}}
                         </p>
                     </div>
                 </div>

@@ -392,7 +392,7 @@ use App\Models\Products_request_sub;
                         <form class="app-search d-none d-lg-block">
                             <div class="position-relative">
                                 @foreach ($org as $item)
-                                <h3 style="color:rgb(48, 46, 46)" class="mt-2 noto-sans-thai-looped-light">Support-System</h3>
+                                <h3 style="color:rgb(255, 255, 255)" class="mt-2 noto-sans-thai-looped-light">Support-System</h3>
                                 @endforeach
     
                             </div>

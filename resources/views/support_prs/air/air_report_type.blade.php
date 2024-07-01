@@ -171,7 +171,7 @@
                 <div class="row mb-3">
                     <div class="col"></div> 
                     @if ($repaire_type =='1')
-                        <div class="col-md-5 text-end">  
+                        <div class="col-md-8 text-end">  
                             <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(236, 232, 181)"><i class="fa-solid fa-glass-water-droplet me-2" style="color: #B216F0"></i> น้ำหยด</button>                   
                             <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(202, 236, 181)"><i class="fab fa-slack me-2" style="color: #07c095"></i> ไม่เย็นมีแต่ลม</button>
                             <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(181, 203, 236)"><i class="fa-solid fa-volume-high me-2" style="color: #0760c0"></i> เสียงดัง</button>
@@ -179,7 +179,7 @@
                             <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 181, 236)"><i class="fa-solid fa-tenge-sign me-2" style="color: #8c07c0"></i> ไม่ติด/ติดๆ/ดับๆ</button> 
                         </div> 
                     @else
-                        <div class="col-md-6 text-end">
+                        <div class="col-md-8 text-end">
                             <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(236, 232, 181)"><i class="fa-solid fa-fan me-2" style="color: #B216F0"></i> ถอดล้างพัดลมกรงกระรอก</button>                   
                             <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(202, 236, 181)"><i class="fa-solid fa-hard-drive me-2" style="color: #07c095"></i> ล้างถาดหลังแอร์</button>
                             <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(181, 203, 236)"><i class="fa-solid fa-solar-panel me-2" style="color: #0760c0"></i> ล้างแผงคอยล์เย็น</button>

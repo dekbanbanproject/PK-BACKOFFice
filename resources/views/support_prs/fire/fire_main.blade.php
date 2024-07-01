@@ -194,9 +194,11 @@
                                         <td class="text-center" width="3%">{{ $i++ }}</td>  
                                         <td class="text-center" width="3%">
                                             @if ($item->active == 'Y')
-                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">ปกติ</span> 
+                                                {{-- <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">ปกติ</span> --}}
+                                                <span class="badge bg-success">ปกติ</span>  
                                             @else
-                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">ชำรุด</span>
+                                                {{-- <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">ชำรุด</span> --}}
+                                                <span class="badge bg-danger">ชำรุด</span>
                                             @endif
                                         </td>
                                       
@@ -215,7 +217,7 @@
                                         <td class="text-center" width="7%">{{ $item->fire_num }}</td>  
                                         <td class="p-2">{{ $item->fire_name }}</td>  
                                         <td class="text-center" width="5%">{{ $item->fire_size }}</td>    
-                                        <td class="p-2" style="color:rgb(73, 147, 231)" width="20%">{{ $item->fire_location }}</td>  
+                                        <td class="p-2" width="20%">{{ $item->fire_location }}</td>  
                                         <td class="text-center" width="7%">{{ DateThai($item->fire_date_pdd) }}</td> 
                                         <td class="text-center" width="7%">{{ DateThai($item->fire_date_exp) }}</td> 
                                         <td class="text-center" width="5%">

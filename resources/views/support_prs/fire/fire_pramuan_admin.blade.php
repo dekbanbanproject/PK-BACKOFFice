@@ -85,7 +85,7 @@
             </div>
             <div class="col"></div>
             <div class="col-md-4 text-end">
-                <form action="{{ url('fire_report_day') }}" method="GET">
+                <form action="{{ url('fire_pramuan_admin') }}" method="GET">
                     @csrf
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
