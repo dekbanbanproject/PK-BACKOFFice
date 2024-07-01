@@ -197,4 +197,32 @@ class VaccineController extends Controller
         ]);
     }
  
+    public function vaccine_big(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+ 
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newday = date('Y-m-d', strtotime($date . ' -1 day')); //ย้อนหลัง 1 สัปดาห์
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 2 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y');
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+        if ($startdate != '') {  
+               
+                $datashow = DB::connection('mysql')->select('SELECT * FROM d_hpv_report WHERE vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"');
+        } else { 
+                $datashow = DB::connection('mysql')->select('SELECT * FROM d_hpv_report WHERE vstdate BETWEEN "'.$newDate.'" and "'.$date.'" '); 
+        } 
+       
+        return view('audit.vaccine_big',[
+            'startdate'        => $startdate,
+            'enddate'          => $enddate, 
+            'datashow'         => $datashow, 
+        ]);
+    } 
 }

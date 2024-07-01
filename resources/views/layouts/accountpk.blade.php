@@ -295,7 +295,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                         ?>
                         <form class="app-search d-none d-lg-block">
                             <div class="position-relative"> 
-                                <h3 style="color:rgb(48, 46, 46)" class="mt-2 noto-sans-thai-looped-light">ACCOUNT</h3> 
+                                <h3 style="color:rgb(255, 255, 255)" class="mt-2 noto-sans-thai-looped-light">ACCOUNT</h3> 
                             </div>
                         </form>
                     </div>

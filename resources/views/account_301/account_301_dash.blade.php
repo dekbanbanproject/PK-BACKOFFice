@@ -137,7 +137,7 @@
                                     <?php
                                         $numbernew++; 
                                         $ys = date('Y') + 543;
-                                        $ysnew = $y + 543;
+                                        $ysnew = $ys + 543;
                                     ?>
                                 @endforeach
                             </tbody>

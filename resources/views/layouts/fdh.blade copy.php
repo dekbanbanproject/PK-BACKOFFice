@@ -245,191 +245,90 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
             {{-- <div class="navbar-header shadow-lg" style="background-color: rgb(252, 252, 252)"> --}}
                 <div class="navbar-header shadow" style="background-color: rgba(21, 177, 164, 0.871)">
 
-                    <div class="d-flex">
-                        <!-- LOGO -->
-                        <div class="navbar-brand-box">
-                            <a href="{{url('fdh_dashboard')}}" class="logo logo-dark">
-                                <span class="logo-sm">
-                                    <img src="assets/images/p.png" alt="logo-sm" height="22">
-                                </span>
-                                <span class="logo-lg">
-                                    <img src="assets/images/logo-dark.png" alt="logo-dark" height="20">
-                                </span>
-                            </a>
-    
-                            <a href="{{url('fdh_dashboard')}}" class="logo logo-light">
-                                <span class="logo-sm me-2">
-                                    <img src="{{ asset('images/pk_smal.png') }}" alt="logo-sm-light" height="40">
-                                </span>
-                                <span class="logo-lg">
-                                    <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
-                                    <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">
-                                    <img src="{{ asset('images/officer5.png') }}" class="" alt="logo-sm-light" height="30">
-                                    {{-- <h4 style="color:rgb(41, 41, 41)" class="mt-4 loadingIcon">PK-OFFICER</h4> --}}
-                                    {{-- <div class = "loadingIcon"></div> --}}
-                                    {{-- <i class="fa-solid fa-p fa-w-16 fa-spin fa-2x text-info"></i> --}}
-                                </span>
-                                {{-- <div class="header-btn-lg"> 
-                                    <a href="{{url("user/home")}}" id="TooltipDemo" class="btn-open-options btn hamburger hamburger--elastic open-right-drawer text-danger" target="_blank">
-                                      
-                                        <i class="fa-solid fa-universal-access fa-w-16 fa-spin fa-2x text-info" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="ผู้ใช้งานทั่วไป"></i>
-                                    </a>  
-                                </div> --}}
-                            </a>
+                <div class="d-flex">
+                    <!-- LOGO -->
+                    <div class="navbar-brand-box" style="background-color: rgb(255, 255, 255)">
+                        <a href="" class="logo logo-dark">
+                            <span class="logo-sm">
+                                <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm" height="37">
+                            </span>
+                            <span class="logo-lg">
+                                {{-- <img src="{{ asset('assets/images/logo-dark.png') }}" alt="logo-dark" height="20"> --}}
+                                <h4 style="color:pink" class="mt-4">PK-OFFICER</h4>
+                            </span>
+                        </a>
+
+                        <a href="" class="logo logo-light">
+                            <span class="logo-sm mt-3">
+                                <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light"
+                                    height="40">
+                            </span>
+                            <span class="logo-lg">
+                                <h4 style="color:rgba(21, 177, 164, 0.871)" class="mt-4">PK-OFFICER</h4>
+                            </span>
+                        </a>
+                    </div>
+
+                    <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect"
+                        id="vertical-menu-btn">
+                        <i class="ri-menu-2-line align-middle" style="color: rgb(255, 255, 255)"></i>
+                    </button>
+                    <a href="{{url('fdh_main')}}">
+                        <h4 style="color:rgb(255, 255, 255)" class="mt-4">FDH</h4>
+                    </a>
+                   
+                    <?php
+                    $org = DB::connection('mysql')->select('   
+                                                    select * from orginfo 
+                                                    where orginfo_id = 1                                                                                                                      ');
+                    ?>
+                    {{-- <form class="app-search d-none d-lg-block">
+                        <div class="position-relative">
+                            @foreach ($org as $item)
+                            <h4 style="color:rgb(255, 255, 255)" class="mt-2">{{$item->orginfo_name}}</h4>
+                            @endforeach
+                            
                         </div>
-    
-                        <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
-                            <i class="ri-menu-2-line align-middle" style="color: black"></i>
+                    </form>                                          --}}
+                </div>
+
+                <div class="d-flex">
+                    <div class="dropdown d-none d-lg-inline-block ms-1">
+                        <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
+                            <i class="ri-fullscreen-line" style="color: rgb(54, 53, 53)"></i>
                         </button>
-                        <?php
-                            $org = DB::connection('mysql')->select(                                                            '
-                                    select * from orginfo
-                                    where orginfo_id = 1                                                                                                                      ',
-                            );
-                        ?>
-                        <form class="app-search d-none d-lg-block">
-                            <div class="position-relative"> 
-                                <h3 style="color:rgb(255, 255, 255)" class="mt-2 noto-sans-thai-looped-light">FDH</h3> 
-                            </div>
-                        </form>
                     </div>
-     
-                    <div class="d-flex">                    
-                      
-                            <div class="header-btn-lg"> 
-                                <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
-                                    <i class="ri-fullscreen-line" style="color: rgb(9, 75, 129);font-size:30px;" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Fullscreen"></i>
-                                </button>
-                            </div>
-                         
-                           
-                            <div class="header-btn-lg">
-                                <div class="dropdown">
-                                    <button type="button" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown" class="p-0 me-2 btn btn-link">
-                                        <span class="icon-wrapper icon-wrapper-alt rounded-circle">
-                                            <span class="icon-wrapper-bg bg-danger"></span>
-                                         
-                                            <i class="fa-regular fa-bell text-danger"></i>
-                                        </span>  
-                                    </button>
-                                </div> 
-                            </div>
-                          
-                            <div class="header-btn-lg pe-0">
-                                <div class="widget-content p-0">
-                                    <div class="widget-content-wrapper">
-                                        <div class="widget-content-left">
-                                            <div class="btn-group"> 
-                                                <a data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn"> 
-                                                    @if (Auth::user()->img == null)
-                                                        <img src="{{ asset('assets/images/default-image.jpg') }}" width="42" class="rounded-circle loadingIcon" alt="">
-                                                    @else
-                                                        <img src="{{ asset('storage/person/' . Auth::user()->img) }}"width="42" class="rounded-circle loadingIcon" alt="">
-                                                    @endif 
-                                                    <i class="fa fa-angle-down ms-2 opacity-8"></i>
-                                                </a>
-                                                <div tabindex="-1" role="menu" aria-hidden="true" class="rm-pointers dropdown-menu-lg dropdown-menu dropdown-menu-right">
-                                                    <div class="dropdown-menu-header">
-                                                        <div class="dropdown-menu-header-inner bg-primary">
-                                                          
-                                                            <div class="menu-header-content text-start">
-                                                                <div class="widget-content p-0">
-                                                                    <div class="widget-content-wrapper">
-                                                                        <div class="widget-content-left me-3"> 
-                                                                                @if (Auth::user()->img == null)
-                                                                                    <img src="{{ asset('assets/images/default-image.jpg') }}" width="42" class="rounded-circle" alt="">
-                                                                                @else
-                                                                                    <img src="{{ asset('storage/person/' . Auth::user()->img) }}"width="42" class="rounded-circle" alt="">
-                                                                                @endif
-                                                                        </div>
-                                                                        <div class="widget-content-left">
-                                                                            <div class="widget-heading"> {{ Auth::user()->fname }} {{ Auth::user()->lname }}</div>
-                                                                            <div class="widget-subheading opacity-8">{{ Auth::user()->position_name }}</div>
-                                                                        </div>
-                                                                        <div class="widget-content-right me-2"> 
-                                                                            
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="scroll-area-xs" style="height: 100px;">
-                                                        <div class="scrollbar-container ps">
-                                                            <ul class="nav flex-column"> 
-                                                                <li class="nav-item">
-                                                                    <a href="javascript:void(0);" class="nav-link">
-                                                                        Messages
-                                                                        <div class="ms-auto badge rounded-pill bg-primary">2</div>
-                                                                    </a>
-                                                                </li>
-                                                                <li class="nav-item">
-                                                                    <a href="javascript:void(0);" class="nav-link" data-bs-toggle="modal" data-bs-target="#Keypassword">
-                                                                        Change Password<i class="fa-solid fa-key ms-4" style="color: rgb(207, 34, 115)"></i>
-                                                                        <div class="ms-auto badge rounded-pill bg-info">1</div>
-                                                                    </a>
-                                                                </li>
-                                                              
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <ul class="nav flex-column">
-                                                        <li class="nav-item-divider mb-0 nav-item"></li>
-                                                    </ul>
-                                                    <div class="grid-menu grid-menu-2col">
-                                                        <div class="g-0 row">
-                                                            <div class="col-sm-6">
-                                                                {{-- <button class="btn-icon-vertical btn-transition btn-transition-alt pt-2 pb-2 btn btn-outline-warning">
-                                                                    <i class="pe-7s-chat icon-gradient bg-amy-crisp btn-icon-wrapper mb-2"></i>
-                                                                    Message Inbox
-                                                                </button> --}}
-                                                                <a class="btn-icon-vertical btn-transition btn-transition-alt btn btn-outline-warning"  href="{{ url('admin_profile_edit/' . Auth::user()->id) }}"> 
-                                                                    <button class="btn-icon-vertical btn-transition btn-transition-alt pb-2 btn btn-outline-warning">
-                                                                        <i class="ri-user-line btn-icon-wrapper mb-2"></i>
-                                                                        Profile
-                                                                    </button>
-                                                                </a>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                                                    @csrf
-                                                                </form>
-                                                                <a class="btn-icon-vertical btn-transition btn-transition-alt btn btn-outline-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> 
-                                                                    <button class="btn-icon-vertical btn-transition btn-transition-alt pb-2 btn btn-outline-danger">
-                                                                        <i class="ri-shut-down-line align-middle btn-icon-wrapper mb-2"></i>
-                                                                        Logout
-                                                                    </button>
-                                                                </a>
-                                                                
-                                                                {{-- <button class="btn-icon-vertical btn-transition btn-transition-alt pt-3 pb-2 btn btn-outline-danger">
-                                                                    <i class="ri-shut-down-line align-middle btn-icon-wrapper mb-2"></i>
-                                                                    <b>Logout </b>
-                                                                </button> --}}
-                                                            </div>
-                                                            
-    
-                                                        </div>
-                                                    </div> 
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="widget-content-left  ms-3 header-user-info">
-                                            <div class="widget-heading"> {{ Auth::user()->fname }} {{ Auth::user()->lname }}</div>
-                                            <div class="widget-subheading"> {{ Auth::user()->position_name }}</div>
-                                        </div>
-                                         
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="header-btn-lg">
-                                <button type="button" class="hamburger hamburger--elastic open-right-drawer">
-                                    <span class="hamburger-box">
-                                        <span class="hamburger-inner"></span>
-                                    </span>
-                                </button>
-                            </div>
-    
+                    <div class="dropdown d-inline-block user-dropdown">
+                        <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @if (Auth::user()->img == null)
+                                <img src="{{ asset('assets/images/default-image.jpg') }}" height="32px"
+                                    width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                            @else
+                                <img src="{{ asset('storage/person/' . Auth::user()->img) }}" height="32px"
+                                    width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                            @endif
+                            <span class="d-none d-xl-inline-block ms-1" style="font-size: 12px;color:black">
+                                {{ Auth::user()->fname }} {{ Auth::user()->lname }}
+                            </span>
+                            <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <!-- item-->
+                            <a class="dropdown-item" href="{{ url('profile_edit/' . Auth::user()->id) }}"
+                                style="font-size: 12px"><i class="ri-user-line align-middle me-1"></i> Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="{{ route('logout') }}" {{-- class="text-reset notification-item" --}}
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
+                                    class="ri-shut-down-line align-middle me-1 text-danger"></i>
+                                Logout
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
                     </div>
+                </div>
             </div>
         </header>
         {{-- <style>
