@@ -154,10 +154,14 @@
                                                             </button>
                                                         </td>
                                                         <td class="text-font" style="text-align: center;"> 
-                                                            <a href="{{url('air_count_qty/'.$item->air_location_id)}}">{{$item->c_air_1}}</a> 
+                                                            <a href="{{url('air_count_qty/'.$item->air_location_id)}}">{{$item->c_air_1}}</a>
+
                                                         </td> 
                                                         <td class="text-font" style="text-align: center;"> 
-                                                            <a href="{{url('air_count_ploblem_1/'.$item->air_location_id)}}">{{$item->air_problems_1}}</a> 
+                                                            {{-- <a href="{{url('air_count_ploblem_1/'.$item->air_location_id)}}">{{$item->air_problems_1}}</a>  --}}
+                                                            <button type="button" class="badge rounded-pill bg-primary problems_1Modal" value="{{ $item->air_location_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="น้ำหยด">
+                                                                {{$item->air_problems_1}}
+                                                             </button>
                                                         </td> 
                                                         <td class="text-font" style="text-align: center;"> 
                                                             <a href="{{url('air_count_ploblem_2/'.$item->air_location_id)}}">{{$item->air_problems_2}}</a> 
@@ -799,9 +803,9 @@
         </div> 
     </div>
 
-    <!-- addhospmainModal Modal --> 
+    <!-- aircountModal Modal --> 
     <div class="modal fade" id="aircountModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content ">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editModalLabel">จำนวนเครื่องที่แจ้งซ่อม</h5>
@@ -810,35 +814,41 @@
                 </div>
                 <div class="modal-body"> 
                         <div class="row">
-                            <div class="col-md-4">
-                                <label for="pang" class="form-label">รหัสผังบัญชี</label>
-                                <div class="input-group input-group-sm"> 
-                                    <input type="text" class="form-control" id="addpanghospmain" name="addpanghospmain" readonly>  
-                                </div>
-                            </div>  
-                            <div class="col-md-8">
-                                <label for="pangname" class="form-label">ชื่อผังบัญชี</label>
-                                <div class="input-group input-group-sm"> 
-                                    <input type="text" class="form-control" id="addhospmainpangname" name="addhospmainpangname" readonly>  
-                                </div>
-                            </div> 
-                        </div> 
-                        <div class="row mt-3">
                             <div class="col-md-12">
-                                <label for="pttype" class="form-label">Hospmain</label>
-                                <div class="input-group input-group-sm">  
-                                    <input type="text" class="form-control" id="addhospmainpang" name="addhospmainpang">  
-                                </div>
-                            </div>                          
-                        </div>                 
-                    <input type="hidden" name="user_id" id="adduser_id"> 
-                    <input type="hidden" name="addair_location_id" id="addair_location_id"> 
+                                <div style='overflow:scroll; height:500px;'>
+
+                                    <div id="detail"></div>
+                                       
+                                  </div>
+                            </div> 
+                        </div>  
                 </div>
-                {{-- <div class="modal-footer">
-                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Updatehospmain">
-                        <i class="pe-7s-diskette btn-icon-wrapper"></i>Save changes
+               
+            </div>
+        </div>
+    </div>
+
+     <!-- น้ำหยด Modal --> 
+     <div class="modal fade" id="problems_1Modal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">จำนวนเครื่องที่แจ้งซ่อมรายการน้ำหยด</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     </button>
-                </div> --}}
+                </div>
+                <div class="modal-body"> 
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div style='overflow:scroll; height:500px;'>
+
+                                    <div id="detail_ploblem_1"></div>
+                                       
+                                  </div>
+                            </div> 
+                        </div>  
+                </div>
+               
             </div>
         </div>
     </div>
@@ -1130,18 +1140,36 @@
 
         $(document).on('click', '.aircountModal', function() {
             var air_location_id = $(this).val(); 
-            $('#aircountModal').modal('show');
+            $('#aircountModal').modal('show');           
             $.ajax({
                 type: "GET",
-                url: "{{ url('air_count_sub') }}" + '/' + air_location_id,
-                success: function(data) {
-                    console.log(data.data_sub.air_location_id); 
-                    $('#addpanghospmain').val(data.data_sub.pang)
-                    $('#addhospmainpangname').val(data.data_sub.pangname) 
-                    $('#addair_location_id').val(data.data_sub.air_location_id)
+                url:"{{ url('support_detail') }}",
+                data: { air_location_id: air_location_id },
+                success: function(result) { 
+                    $('#detail').html(result);
                 },
             });
         });
+
+        $(document).on('click', '.problems_1Modal', function() {
+            var air_location_id = $(this).val(); 
+            $('#problems_1Modal').modal('show');           
+            $.ajax({
+                type: "GET",
+                url:"{{ url('detail_ploblem_1') }}",
+                data: { air_location_id: air_location_id },
+                success: function(result) { 
+                    $('#detail_ploblem_1').html(result);
+                },
+            });
+        });
+
+        
+
     </script>
 
 @endsection
+{{-- console.log(data.data_sub.air_location_id); 
+$('#addpanghospmain').val(data.data_sub.pang)
+$('#addhospmainpangname').val(data.data_sub.pangname) 
+$('#addair_location_id').val(data.data_sub.air_location_id) --}}

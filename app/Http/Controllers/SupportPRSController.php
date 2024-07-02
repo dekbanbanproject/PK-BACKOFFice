@@ -521,15 +521,111 @@ class SupportPRSController extends Controller
         ]);
 
     }
-    public function air_count_sub(Request $request,$id)
+    // public function air_count_sub(Request $request,$id)
+    // {
+    //     $data_sub = Air_repaire::find($id);
+    //     return response()->json([
+    //         'status'       => '200', 
+    //         'data_sub'     =>  $data_sub,
+    //     ]);
+    // }
+    public function support_detail(Request $request)
     {
-        $data_sub = Air_repaire::find($id);
-        return response()->json([
-            'status'       => '200', 
-            'data_sub'     =>  $data_sub,
-        ]);
+        $id =  $request->air_location_id;
+        $data_sub = Air_repaire::where('air_location_id',$id)->get();
+       
+        $output=' 
+            <div class="row">  
+             <div class="col-md-12">         
+                 <table class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th width="5%">ลำดับ</th>
+                            <th width="10%">วันที่</th>
+                            <th width="10%">เลขที่แจ้งซ่อม</th>
+                            <th width="10%">รหัสแอร์</th>
+                            <th>รายการ</th>
+                            <th width="10%">btu</th>
+                            <th width="15%">serial_no</th>
+                            <th>สถานที่ตั้ง</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                     ';
+                     $i = 1;
+                     foreach ($data_sub as $key => $value) {
+                        $output.=' 
+                        <tr>
+                            <td>'.$i++.'</td>
+                            <td>'.DateThai($value->repaire_date).'</td>
+                            <td>'.$value->air_repaire_no.'</td>
+                            <td>'.$value->air_list_num.'</td>
+                            <td>'.$value->air_list_name.'</td>
+                            <td>'.$value->btu.'</td>
+                            <td>'.$value->serial_no.'</td>
+                            <td>'.$value->air_location_name.'</td>
+                        </tr>';
+                     }
+                       
+                    $output.='
+                    </tbody> 
+                </table> 
+            </div>
+        </div>
+        ';
+
+        echo $output;
+        
     }
-     
+    
+    public function detail_ploblem_1(Request $request)
+    {
+        $id =  $request->air_location_id;
+        $data_sub = Air_repaire::where('air_location_id',$id)->where('air_problems_1','=','on')->get();
+       
+        $output=' 
+            <div class="row">  
+             <div class="col-md-12">         
+                 <table class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th width="5%">ลำดับ</th>
+                            <th width="10%">วันที่</th>
+                            <th width="10%">เลขที่แจ้งซ่อม</th>
+                            <th width="10%">รหัสแอร์</th>
+                            <th>รายการ</th>
+                            <th width="10%">btu</th>
+                            <th width="15%">serial_no</th>
+                               <th>สถานที่ตั้ง</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                     ';
+                     $i = 1;
+                     foreach ($data_sub as $key => $value) {
+                        $output.=' 
+                        <tr>
+                            <td>'.$i++.'</td>
+                            <td>'.DateThai($value->repaire_date).'</td>
+                            <td>'.$value->air_repaire_no.'</td>
+                            <td>'.$value->air_list_num.'</td>
+                            <td>'.$value->air_list_name.'</td>
+                            <td>'.$value->btu.'</td>
+                            <td>'.$value->serial_no.'</td>
+                              <td>'.$value->air_location_name.'</td>
+                        </tr>';
+                     }
+                       
+                    $output.='
+                    </tbody> 
+                </table> 
+            </div>
+        </div>
+        ';
+
+        echo $output;
+        
+    }
  
 
  }

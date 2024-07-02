@@ -3140,6 +3140,9 @@ Route::match(['get','post'],'support_system_nocheck/{monts}/{years}',[App\Http\C
 Route::match(['get','post'],'support_system',[App\Http\Controllers\SupportPRSController::class, 'support_system'])->name('prs.support_system');//
 Route::match(['get','post'],'support_dashboard_chart',[App\Http\Controllers\SupportPRSController::class, 'support_dashboard_chart'])->name('prs.support_dashboard_chart');//
 
+Route::match(['get','post'],'support_detail',[App\Http\Controllers\SupportPRSController::class, 'support_detail'])->name('prs.support_detail');//
+Route::match(['get','post'],'detail_ploblem_1',[App\Http\Controllers\SupportPRSController::class, 'detail_ploblem_1'])->name('prs.detail_ploblem_1');//
+
 Route::match(['get','post'],'techservice',[App\Http\Controllers\CCtvController::class, 'techservice'])->name('tec.techservice');//
 
 // ************** CCTV-Service ****************************
