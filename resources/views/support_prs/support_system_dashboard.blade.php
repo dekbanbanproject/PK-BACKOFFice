@@ -127,11 +127,11 @@
                                     <div class="table-responsive p-3">                                
                                         <table id="example2" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">                        
                                             <thead>
-                                                <tr>  
+                                                <tr >  
                                                     <th class="text-center">ลำดับ</th> 
                                                     <th class="text-center">อาคาร</th> 
                                                     <th class="text-center">จำนวน แอร์</th> 
-                                                    <th class="text-center">จำนวนครั้งที่แจ้ง</th>   
+                                                    <th class="text-center">จำนวนครั้งที่ซ่อม</th>   
                                                     <th class="text-center">น้ำหยด</th> 
                                                     <th class="text-center">ไม่เย็นมีแต่ลม</th> 
                                                     <th class="text-center">มีกลิ่นเหม็น</th> 
@@ -144,18 +144,37 @@
                                                 <?php $number = 0; $total1 = 0; $total2 = 0; $total3 = 0;?>
                                                 @foreach ($chart_location as $item)
                                                 <?php $number++;?>
-                                                <tr>
-                                                    <td class="text-font" style="text-align: center;" width="4%">{{ $number }} </td> 
-                                                    <td>{{$item->air_location_name}}</td>
-                                                    <td>{{$item->air_count}}</td>
-                                                    <td>{{$item->c_air_1}}</td> 
-                                                    <td>{{$item->air_problems_1}}</td> 
-                                                    <td>{{$item->air_problems_2}}</td> 
-                                                    <td>{{$item->air_problems_3}}</td> 
-                                                    <td>{{$item->air_problems_4}}</td> 
-                                                    <td>{{$item->air_problems_5}}</td> 
-                                                    <td>{{$item->air_problems_orther}}</td> 
-                                                </tr>
+                                                    <tr style="font-size: 13px;">
+                                                        <td class="text-font" style="text-align: center;" width="4%">{{ $number }} </td> 
+                                                        <td class="text-font" style="text-align: left;">{{$item->air_location_name}}</td>
+                                                        <td class="text-font" style="text-align: center;">
+                                                            {{-- <a href="{{url('air_count_sub/'.$item->air_location_id)}}">{{$item->air_count}}</a>  --}}
+                                                            <button type="button" class="badge rounded-pill bg-warning aircountModal" value="{{ $item->air_location_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนแอร์ที่มีปัญหา">
+                                                               {{$item->air_count}}
+                                                            </button>
+                                                        </td>
+                                                        <td class="text-font" style="text-align: center;"> 
+                                                            <a href="{{url('air_count_qty/'.$item->air_location_id)}}">{{$item->c_air_1}}</a> 
+                                                        </td> 
+                                                        <td class="text-font" style="text-align: center;"> 
+                                                            <a href="{{url('air_count_ploblem_1/'.$item->air_location_id)}}">{{$item->air_problems_1}}</a> 
+                                                        </td> 
+                                                        <td class="text-font" style="text-align: center;"> 
+                                                            <a href="{{url('air_count_ploblem_2/'.$item->air_location_id)}}">{{$item->air_problems_2}}</a> 
+                                                        </td> 
+                                                        <td class="text-font" style="text-align: center;"> 
+                                                            <a href="{{url('air_count_ploblem_3/'.$item->air_location_id)}}">{{$item->air_problems_3}}</a> 
+                                                        </td> 
+                                                        <td class="text-font" style="text-align: center;"> 
+                                                            <a href="{{url('air_count_ploblem_4/'.$item->air_location_id)}}">{{$item->air_problems_4}}</a> 
+                                                        </td> 
+                                                        <td class="text-font" style="text-align: center;"> 
+                                                            <a href="{{url('air_count_ploblem_5/'.$item->air_location_id)}}">{{$item->air_problems_5}}</a> 
+                                                        </td> 
+                                                        <td class="text-font" style="text-align: center;"> 
+                                                            <a href="{{url('air_count_ploblem_orther/'.$item->air_location_id)}}">{{$item->air_problems_orther}}</a> 
+                                                        </td> 
+                                                    </tr>
                                                    
                                                 @endforeach
                                             </tbody>
@@ -776,10 +795,52 @@
                     </div>
                 </div>
 
+            </div> 
+        </div> 
+    </div>
+
+    <!-- addhospmainModal Modal --> 
+    <div class="modal fade" id="aircountModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">จำนวนเครื่องที่แจ้งซ่อม</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body"> 
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="pang" class="form-label">รหัสผังบัญชี</label>
+                                <div class="input-group input-group-sm"> 
+                                    <input type="text" class="form-control" id="addpanghospmain" name="addpanghospmain" readonly>  
+                                </div>
+                            </div>  
+                            <div class="col-md-8">
+                                <label for="pangname" class="form-label">ชื่อผังบัญชี</label>
+                                <div class="input-group input-group-sm"> 
+                                    <input type="text" class="form-control" id="addhospmainpangname" name="addhospmainpangname" readonly>  
+                                </div>
+                            </div> 
+                        </div> 
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label for="pttype" class="form-label">Hospmain</label>
+                                <div class="input-group input-group-sm">  
+                                    <input type="text" class="form-control" id="addhospmainpang" name="addhospmainpang">  
+                                </div>
+                            </div>                          
+                        </div>                 
+                    <input type="hidden" name="user_id" id="adduser_id"> 
+                    <input type="hidden" name="addair_location_id" id="addair_location_id"> 
+                </div>
+                {{-- <div class="modal-footer">
+                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Updatehospmain">
+                        <i class="pe-7s-diskette btn-icon-wrapper"></i>Save changes
+                    </button>
+                </div> --}}
             </div>
-
         </div>
-
     </div>
 
 @endsection
@@ -1065,6 +1126,21 @@
                 })
             });
 
+        });
+
+        $(document).on('click', '.aircountModal', function() {
+            var air_location_id = $(this).val(); 
+            $('#aircountModal').modal('show');
+            $.ajax({
+                type: "GET",
+                url: "{{ url('air_count_sub') }}" + '/' + air_location_id,
+                success: function(data) {
+                    console.log(data.data_sub.air_location_id); 
+                    $('#addpanghospmain').val(data.data_sub.pang)
+                    $('#addhospmainpangname').val(data.data_sub.pangname) 
+                    $('#addair_location_id').val(data.data_sub.air_location_id)
+                },
+            });
         });
     </script>
 

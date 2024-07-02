@@ -42,8 +42,8 @@ use App\Models\acc_stm_ofcexcel;
 use App\Models\Acc_stm_lgo;
 use App\Models\Acc_stm_lgoexcel;
 use App\Models\Check_sit_auto;
-use App\Models\Acc_stm_ucs_excel;
-use App\Models\Fire_check;
+use App\Models\Air_repaire;
+use App\Models\Air_list;
 use App\Models\Fire;
 use App\Models\Cctv_report_months;
 use App\Models\Product_budget;
@@ -177,8 +177,8 @@ class SupportPRSController extends Controller
                 GROUP BY MONTH(f.check_date) 
             '); 
 
-             $chart_location = DB::connection('mysql')->select(
-                'SELECT a.air_location_name,COUNT(a.air_location_id) as air_count 
+            $chart_location = DB::connection('mysql')->select(
+                'SELECT a.air_location_id,a.air_location_name,COUNT(a.air_location_id) as air_count 
                 ,(SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_1 = "on")+
                 (SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_2 = "on")+
                 (SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_3 = "on")+
@@ -192,7 +192,12 @@ class SupportPRSController extends Controller
                 ,(SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_5 = "on") as air_problems_5
                  ,(SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_orther = "on") as air_problems_orther
                 FROM air_list a 
-                GROUP BY a.air_location_id'); 
+                LEFT JOIN air_repaire al ON al.air_list_id = a.air_list_id
+                LEFT JOIN users p ON p.id = al.air_staff_id 
+                WHERE al.repaire_date BETWEEN "'.$start.'" AND "'.$end.'" 
+                GROUP BY a.air_location_id
+                ORDER BY a.air_list_id DESC
+            '); 
             
         return view('support_prs.support_system_dashboard',$data,[
             'startdate'               =>  $startdate,
@@ -505,8 +510,7 @@ class SupportPRSController extends Controller
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate, 
         ]);
-    }    
- 
+    }  
     public function cctvqrcode(Request $request, $id)
     {
 
@@ -516,6 +520,14 @@ class SupportPRSController extends Controller
             'cctvprint'  =>  $cctvprint
         ]);
 
+    }
+    public function air_count_sub(Request $request,$id)
+    {
+        $data_sub = Air_repaire::find($id);
+        return response()->json([
+            'status'       => '200', 
+            'data_sub'     =>  $data_sub,
+        ]);
     }
      
  

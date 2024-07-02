@@ -3397,6 +3397,15 @@ Route::match(['get','post'],'air_report_problemsub/{id}',[App\Http\Controllers\A
 Route::match(['get','post'],'air_report_problem_detail/{id}',[App\Http\Controllers\AirController::class, 'air_report_problem_detail'])->name('prs.air_report_problem_detail');//
 Route::match(['get','post'],'air_report_problems_excel',[App\Http\Controllers\AirController::class, 'air_report_problems_excel'])->name('prs.air_report_problems_excel');//
 
+Route::match(['get','post'],'air_count_sub/{id}',[App\Http\Controllers\AirController::class, 'air_count_sub'])->name('prs.air_count_sub');//
+Route::match(['get','post'],'air_count_qty/{id}',[App\Http\Controllers\AirController::class, 'air_count_qty'])->name('prs.air_count_qty');//
+Route::match(['get','post'],'air_count_ploblem_1/{id}',[App\Http\Controllers\AirController::class, 'air_count_ploblem_1'])->name('prs.air_count_ploblem_1');//
+Route::match(['get','post'],'air_count_ploblem_2/{id}',[App\Http\Controllers\AirController::class, 'air_count_ploblem_2'])->name('prs.air_count_ploblem_2');//
+Route::match(['get','post'],'air_count_ploblem_3/{id}',[App\Http\Controllers\AirController::class, 'air_count_ploblem_3'])->name('prs.air_count_ploblem_3');//
+Route::match(['get','post'],'air_count_ploblem_4/{id}',[App\Http\Controllers\AirController::class, 'air_count_ploblem_4'])->name('prs.air_count_ploblem_4');//
+Route::match(['get','post'],'air_count_ploblem_5/{id}',[App\Http\Controllers\AirController::class, 'air_count_ploblem_5'])->name('prs.air_count_ploblem_5');//
+Route::match(['get','post'],'air_count_ploblem_orther/{id}',[App\Http\Controllers\AirController::class, 'air_count_ploblem_orther'])->name('prs.air_count_ploblem_orther');//
+
 Route::match(['get','post'],'document',[App\Http\Controllers\DocumentController::class, 'document'])->name('d.document');//
 Route::match(['get','post'],'document_save',[App\Http\Controllers\DocumentController::class, 'document_save'])->name('d.document_save');//
 Route::match(['get','post'],'documentsub/{id}',[App\Http\Controllers\DocumentController::class, 'documentsub'])->name('d.documentsub');//

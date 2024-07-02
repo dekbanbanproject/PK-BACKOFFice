@@ -172,9 +172,9 @@ $yb = date('Y') + 542;
                                         <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_refer,2)}}</td> 
                                         {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_ucep,2)}}</td>  --}}
 
-                                        <td class="text-end" style="color:rgb(73, 147, 231)" width="6%">{{ number_format($item->debit_total,2)}}</td> 
+                                        <td class="text-end" style="color:rgb(73, 147, 231)" width="6%">{{ number_format($item->debit_total,3)}}</td> 
                                         <td class="text-end" style="color:rgb(184, 12, 169)" width="6%">{{ number_format(($item->debit_total-$item->stm_money),2)}}</td> 
-                                        <td class="text-end" style="color:rgb(216, 95, 14)" width="6%">{{ number_format($item->stm_money,2)}}</td> 
+                                        <td class="text-end" style="color:rgb(216, 95, 14)" width="6%">{{ number_format($item->stm_money,3)}}</td> 
                                         {{-- <td class="text-end" style="color:rgb(9, 196, 180)" width="6%">{{ number_format($item->stm_total,2)}}</td>   --}}
                                         <td class="p-2" width="9%">{{ $item->STMdoc }}</td>  
                                     
@@ -196,14 +196,14 @@ $yb = date('Y') + 542;
                             </tbody>
                                         <tr style="background-color: #f3fca1">
                                             <td colspan="6" class="text-end" style="background-color: #ff9d9d"></td>
-                                            <td class="text-end" style="background-color: #f58d73">{{ number_format($total1,2)}}</td> 
-                                            <td class="text-end" style="background-color: #f58d73">{{ number_format($total2,2)}}</td> 
-                                            <td class="text-end" style="background-color: #f58d73">{{ number_format($total3,2)}}</td> 
-                                            <td class="text-end" style="background-color: #f58d73">{{ number_format($total4,2)}}</td>                                             
+                                            <td class="text-end" style="background-color: #f58d73">{{ number_format($total1,3)}}</td> 
+                                            <td class="text-end" style="background-color: #f58d73">{{ number_format($total2,3)}}</td> 
+                                            <td class="text-end" style="background-color: #f58d73">{{ number_format($total3,3)}}</td> 
+                                            <td class="text-end" style="background-color: #f58d73">{{ number_format($total4,3)}}</td>                                             
                                             {{-- <td class="text-end" style="background-color: #ace5fc">{{ number_format($total5,2)}}</td>  --}}
-                                            <td class="text-end" style="background-color: #e09be9">{{ number_format($total6,2)}}</td> 
-                                            <td class="text-end" style="background-color: #f5a382">{{ number_format($total7,2)}}</td> 
-                                            <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total8,2)}}</td>  
+                                            <td class="text-end" style="background-color: #e09be9">{{ number_format($total6,3)}}</td> 
+                                            <td class="text-end" style="background-color: #f5a382">{{ number_format($total7,3)}}</td> 
+                                            <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total8,3)}}</td>  
                                             {{-- <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total9,2)}}</td>   --}}
                                             <td class="text-end" style="background-color: #ff9d9d"></td> 
                                         </tr>  
