@@ -1,6 +1,22 @@
 @extends('layouts.accountpk')
 @section('title', 'PK-OFFICER || ACCOUNT')
 @section('content')
+    <script>
+        function TypeAdmin() {
+            window.location.href = '{{ route('index') }}';
+        }
+    </script>
+    <?php
+        if (Auth::check()) {
+            $type = Auth::user()->type;
+            $iduser = Auth::user()->id;
+        } else {
+            echo "<body onload=\"TypeAdmin()\"></body>";
+            exit();
+        }
+        $url = Request::url();
+        $pos = strrpos($url, '/') + 1;
+    ?>
     <style>
         #button {
             display: block;
@@ -49,7 +65,6 @@
     </style>
 
     <div class="tabs-animation">
-
         <div class="row text-center">
             <div id="overlay">
                 <div class="cv-spinner">
@@ -72,23 +87,23 @@
                        
                         <form action="{{ route('acc.account_307_search') }}" method="GET">
                             @csrf
-                                <div class="page-title-right">
-                                    <ol class="breadcrumb m-0">
-                                        <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                            <input type="text" class="form-control inputacc" name="startdate" id="datepicker" placeholder="Start Date"
-                                                data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                                                data-date-language="th-th" value="{{ $startdate }}" required/>
-                                            <input type="text" class="form-control inputacc" name="enddate" placeholder="End Date" id="datepicker2"
-                                                data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                                                data-date-language="th-th" value="{{ $enddate }}" required/>
-                                               
-                                            <button type="submit" class="ladda-button btn-pill btn btn-primary cardacc" data-style="expand-left">
-                                                <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
-                                                <span class="ladda-spinner"></span>
-                                            </button> 
-                                        </div> 
-                                    </ol>
-                                </div>
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                        <input type="text" class="form-control inputacc" name="startdate" id="datepicker" placeholder="Start Date"
+                                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                            data-date-language="th-th" value="{{ $startdate }}" required/>
+                                        <input type="text" class="form-control inputacc" name="enddate" placeholder="End Date" id="datepicker2"
+                                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                            data-date-language="th-th" value="{{ $enddate }}" required/>
+                                            
+                                        <button type="submit" class="ladda-button btn-pill btn btn-primary cardacc" data-style="expand-left">
+                                            <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
+                                            <span class="ladda-spinner"></span>
+                                        </button> 
+                                    </div> 
+                                </ol>
+                            </div>
     
                     </div>
                 </div>
@@ -117,10 +132,11 @@
                                     <th class="text-center">cid</th> 
                                     <th class="text-center">vn</th>
                                     <th class="text-center" >hn</th> 
+                                    <th class="text-center">an</th>
                                     <th class="text-center">ptname</th> 
                                     {{-- <th class="text-center">Adjrw*8350</th> --}}
                                     <th class="text-center">vstdate</th> 
-                                    {{-- <th class="text-center">dchdate</th>  --}}
+                                    <th class="text-center">dchdate</th> 
                                     {{-- <th class="text-center">drug</th>  --}}
                                     {{-- <th class="text-center">inst</th>  --}}
                                     {{-- <th class="text-center">toa</th>  --}}
@@ -145,11 +161,12 @@
                                         <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td> 
                                         <td class="text-center" width="5%">{{ $item->cid }}</td>  
                                         <td class="text-center" width="6%">{{ $item->vn }}</td> 
-                                        <td class="text-center" width="4%">{{ $item->hn }}</td>   
+                                        <td class="text-center" width="4%">{{ $item->hn }}</td> 
+                                        <td class="text-center" width="6%">{{ $item->an }}</td>   
                                         <td class="p-2" width="8%">{{ $item->ptname }}</td>   
                                         {{-- <td class="text-center" width="5%">{{ $item->total_adjrw_income }}</td> --}}
                                         <td class="text-center" width="6%">{{ $item->vstdate }}</td>
-                                        {{-- <td class="text-center" width="6%">{{ $item->dchdate }}</td> --}}
+                                        <td class="text-center" width="6%">{{ $item->dchdate }}</td>
                                         {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_drug,2)}}</td>  --}}
                                         {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_instument,2)}}</td>  --}}
                                         {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_toa,2)}}</td>  --}}
@@ -181,7 +198,7 @@
                                
                             </tbody>
                                         <tr style="background-color: #f3fca1">
-                                            <td colspan="6" class="text-end" style="background-color: #ff9d9d"></td>
+                                            <td colspan="8" class="text-end" style="background-color: #ff9d9d"></td>
                                             {{-- <td class="text-end" style="background-color: #f58d73">{{ number_format($total1,2)}}</td>  --}}
                                             {{-- <td class="text-end" style="background-color: #f58d73">{{ number_format($total2,2)}}</td>  --}}
                                             {{-- <td class="text-end" style="background-color: #f58d73">{{ number_format($total3,2)}}</td>  --}}

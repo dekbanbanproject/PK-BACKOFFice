@@ -348,283 +348,287 @@ class NurseController extends Controller
     {
         if ($request->ajax()) {
             if ($request->action == 'Edit') {
-                $c_an_ = Nurse::where('ward', $request->ward)->first();
-                $an1    = $c_an_->count_an1;
-                $an2    = $c_an_->count_an2;
-                $an3    = $c_an_->count_an3;
-                $a     = $c_an_->soot_a;
-                $b     = $c_an_->soot_b;
-                $c     = $c_an_->soot_c;
-               
-                $date = date('Y-m-d');
-                $m = date('H');
 
+                $date     = date('Y-m-d');
+                $c_an_    = Nurse::where('ward', $request->ward)->where('datesave', $date)->first();
+                $an1      = $c_an_->count_an1;
+                $an2      = $c_an_->count_an2;
+                $an3      = $c_an_->count_an3;
+                $a        = $c_an_->soot_a;
+                $b        = $c_an_->soot_b;
+                $c        = $c_an_->soot_c;
+                $datesave = $c_an_->datesave; 
+                $m = date('H'); 
+                 
                 if ($m < '8') {
-                    if ($request->ward == '01') {
-                        $data  = array(  
-                            'np_a'          => $request->np_a,        
-                            'soot_a_total'  => ($an1 * 1.14 * 100 )/($request->np_a * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '03') {
-                        $data  = array(  
-                            'np_a'          => $request->np_a,        
-                            'soot_a_total'  => ($an2 * 1.6 * 100 )/($request->np_a * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '04') {
-                        $data  = array(  
-                            'np_a'          => $request->np_a,        
-                            'soot_a_total'  => ($an2 * 16 * 100 )/($request->np_a * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '05') {
-                        $data  = array(  
-                            'np_a'          => $request->np_a,        
-                            'soot_a_total'  => ($an2 * 1.33 * 100 )/($request->np_a * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '06') {
-                        $data  = array(  
-                            'np_a'          => $request->np_a,        
-                            'soot_a_total'  => ($an2 * 1.33 * 100 )/($request->np_a * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '07') {
-                        $data  = array(  
-                            'np_a'          => $request->np_a,        
-                            'soot_a_total'  => ($an2 * 1.33 * 100 )/($request->np_a * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '08') {
-                        $data  = array(  
-                            'np_a'          => $request->np_a,        
-                            'soot_a_total'  => ($an2 * 4 * 100 )/($request->np_a * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '10') {
-                        $data  = array(  
-                            'np_a'          => $request->np_a,        
-                            'soot_a_total'  => ($an2 * 1.6 * 100 )/($request->np_a * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '11') {
-                        $data  = array(  
-                            'np_a'          => $request->np_a,        
-                            'soot_a_total'  => ($an2 * 1.33 * 100 )/($request->np_a * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '13') {
-                        $data  = array(  
-                            'np_a'          => $request->np_a,        
-                            'soot_a_total'  => ($an2 * 1.33 * 100 )/($request->np_a * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '14') {
-                        $data  = array(  
-                            'np_a'          => $request->np_a,        
-                            'soot_a_total'  => ($an2 * 4 * 100 )/($request->np_a * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '15') {
-                        $data  = array(  
-                            'np_a'          => $request->np_a,        
-                            'soot_a_total'  => ($an2 * 1.33 * 100 )/($request->np_a * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '32') {
-                        $data  = array(  
-                            'np_a'          => $request->np_a,        
-                            'soot_a_total'  => ($an2 * 1.33 * 100 )/($request->np_a * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '35') {
-                        $data  = array(  
-                            'np_a'          => $request->np_a,        
-                            'soot_a_total'  => ($an2 * 1.33 * 100 )/($request->np_a * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    } else { 
+                    if ($datesave == $date) {  
+                        if ($request->ward == '01') {
+                            $data  = array(  
+                                'np_a'          => $request->np_a,        
+                                'soot_a_total'  => ($an1 * 1.14 * 100 )/($request->np_a * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '03') {
+                            $data  = array(  
+                                'np_a'          => $request->np_a,        
+                                'soot_a_total'  => ($an2 * 1.6 * 100 )/($request->np_a * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '04') {
+                            $data  = array(  
+                                'np_a'          => $request->np_a,        
+                                'soot_a_total'  => ($an2 * 16 * 100 )/($request->np_a * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '05') {
+                            $data  = array(  
+                                'np_a'          => $request->np_a,        
+                                'soot_a_total'  => ($an2 * 1.33 * 100 )/($request->np_a * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '06') {
+                            $data  = array(  
+                                'np_a'          => $request->np_a,        
+                                'soot_a_total'  => ($an2 * 1.33 * 100 )/($request->np_a * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '07') {
+                            $data  = array(  
+                                'np_a'          => $request->np_a,        
+                                'soot_a_total'  => ($an2 * 1.33 * 100 )/($request->np_a * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '08') {
+                            $data  = array(  
+                                'np_a'          => $request->np_a,        
+                                'soot_a_total'  => ($an2 * 4 * 100 )/($request->np_a * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '10') {
+                            $data  = array(  
+                                'np_a'          => $request->np_a,        
+                                'soot_a_total'  => ($an2 * 1.6 * 100 )/($request->np_a * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '11') {
+                            $data  = array(  
+                                'np_a'          => $request->np_a,        
+                                'soot_a_total'  => ($an2 * 1.33 * 100 )/($request->np_a * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '13') {
+                            $data  = array(  
+                                'np_a'          => $request->np_a,        
+                                'soot_a_total'  => ($an2 * 1.33 * 100 )/($request->np_a * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '14') {
+                            $data  = array(  
+                                'np_a'          => $request->np_a,        
+                                'soot_a_total'  => ($an2 * 4 * 100 )/($request->np_a * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '15') {
+                            $data  = array(  
+                                'np_a'          => $request->np_a,        
+                                'soot_a_total'  => ($an2 * 1.33 * 100 )/($request->np_a * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '32') {
+                            $data  = array(  
+                                'np_a'          => $request->np_a,        
+                                'soot_a_total'  => ($an2 * 1.33 * 100 )/($request->np_a * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '35') {
+                            $data  = array(  
+                                'np_a'          => $request->np_a,        
+                                'soot_a_total'  => ($an2 * 1.33 * 100 )/($request->np_a * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        } else { 
+                        }
                     }
                 } else if ($m > '8' && $m < '16') {
-                    if ($request->ward == '01') {
-                        $data  = array(  
-                            'np_b'          => $request->np_b,        
-                            'soot_b_total'  => ($an2 * 1.03 * 100 )/($request->np_b * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '03') {
-                        $data  = array(  
-                            'np_b'          => $request->np_b,        
-                            'soot_b_total'  => ($an2 * 1.44 * 100 )/($request->np_b * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '04') {
-                        $data  = array(  
-                            'np_b'          => $request->np_b,        
-                            'soot_b_total'  => ($an2 * 16 * 100 )/($request->np_b * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '05') {
-                        $data  = array(  
-                            'np_b'          => $request->np_b,        
-                            'soot_b_total'  => ($an2 * 1.2 * 100 )/($request->np_b * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '06') {
-                        $data  = array(  
-                            'np_b'          => $request->np_b,        
-                            'soot_b_total'  => ($an2 * 1.2 * 100 )/($request->np_b * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '07') {
-                        $data  = array(  
-                            'np_b'          => $request->np_b,        
-                            'soot_b_total'  => ($an2 * 1.2 * 100 )/($request->np_b * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '08') {
-                        $data  = array(  
-                            'np_b'          => $request->np_b,        
-                            'soot_b_total'  => ($an2 * 4 * 100 )/($request->np_b * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '10') {
-                        $data  = array(  
-                            'np_b'          => $request->np_b,        
-                            'soot_b_total'  => ($an2 * 1.44 * 100 )/($request->np_b * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '11') {
-                        $data  = array(  
-                            'np_b'          => $request->np_b,        
-                            'soot_b_total'  => ($an2 * 1.2 * 100 )/($request->np_b * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '13') {
-                        $data  = array(  
-                            'np_b'          => $request->np_b,        
-                            'soot_b_total'  => ($an2 * 1.2 * 100 )/($request->np_b * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '14') {
-                        $data  = array(  
-                            'np_b'          => $request->np_b,        
-                            'soot_b_total'  => ($an2 * 4 * 100 )/($request->np_b * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '15') {
-                        $data  = array(  
-                            'np_b'          => $request->np_b,        
-                            'soot_b_total'  => ($an2 * 1.2 * 100 )/($request->np_b * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '32') {
-                        $data  = array(  
-                            'np_b'          => $request->np_b,        
-                            'soot_b_total'  => ($an2 * 1.2 * 100 )/($request->np_b * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '35') {
-                        $data  = array(  
-                            'np_b'          => $request->np_b,        
-                            'soot_b_total'  => ($an2 * 1.2 * 100 )/($request->np_b * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    } else { 
+                    if ($datesave == $date) {  
+                        if ($request->ward == '01') {
+                            $data  = array(  
+                                'np_b'          => $request->np_b,        
+                                'soot_b_total'  => ($an2 * 1.03 * 100 )/($request->np_b * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '03') {
+                            $data  = array(  
+                                'np_b'          => $request->np_b,        
+                                'soot_b_total'  => ($an2 * 1.44 * 100 )/(4 * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '04') {
+                            $data  = array(  
+                                'np_b'          => $request->np_b,        
+                                'soot_b_total'  => ($an2 * 16 * 100 )/($request->np_b * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '05') {
+                            $data  = array(  
+                                'np_b'          => $request->np_b,        
+                                'soot_b_total'  => ($an2 * 1.2 * 100 )/($request->np_b * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '06') {
+                            $data  = array(  
+                                'np_b'          => $request->np_b,        
+                                'soot_b_total'  => ($an2 * 1.2 * 100 )/($request->np_b * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '07') {
+                            $data  = array(  
+                                'np_b'          => $request->np_b,        
+                                'soot_b_total'  => ($an2 * 1.2 * 100 )/($request->np_b * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '08') {
+                            $data  = array(  
+                                'np_b'          => $request->np_b,        
+                                'soot_b_total'  => ($an2 * 4 * 100 )/($request->np_b * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '10') {
+                            $data  = array(  
+                                'np_b'          => $request->np_b,        
+                                'soot_b_total'  => ($an2 * 1.44 * 100 )/($request->np_b * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '11') {
+                            $data  = array(  
+                                'np_b'          => $request->np_b,        
+                                'soot_b_total'  => ($an2 * 1.2 * 100 )/($request->np_b * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '13') {
+                            $data  = array(  
+                                'np_b'          => $request->np_b,        
+                                'soot_b_total'  => ($an2 * 1.2 * 100 )/($request->np_b * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '14') {
+                            $data  = array(  
+                                'np_b'          => $request->np_b,        
+                                'soot_b_total'  => ($an2 * 4 * 100 )/($request->np_b * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '15') {
+                            $data  = array(  
+                                'np_b'          => $request->np_b,        
+                                'soot_b_total'  => ($an2 * 1.2 * 100 )/($request->np_b * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '32') {
+                            $data  = array(  
+                                'np_b'          => $request->np_b,        
+                                'soot_b_total'  => ($an2 * 1.2 * 100 )/($request->np_b * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '35') {
+                            $data  = array(  
+                                'np_b'          => $request->np_b,        
+                                'soot_b_total'  => ($an2 * 1.2 * 100 )/($request->np_b * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        } else { 
+                        }
                     }
                 } else {
-                    if ($request->ward == '01') {
-                        $data  = array(  
-                            'np_c'          => $request->np_c,        
-                            'soot_c_total'  => ($an3 * 0.69 * 100 )/($request->np_c * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '03') {
-                        $data  = array(  
-                            'np_c'          => $request->np_c,        
-                            'soot_c_total'  => ($an3 * 0.96 * 100 )/($request->np_c * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '04') {
-                        $data  = array(  
-                            'np_c'          => $request->np_c,        
-                            'soot_c_total'  => ($an3 * 16 * 100 )/($request->np_c * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '05') {
-                        $data  = array(  
-                            'np_c'          => $request->np_c,        
-                            'soot_c_total'  => ($an3 * 0.8 * 100 )/($request->np_c * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '06') {
-                        $data  = array(  
-                            'np_c'          => $request->np_c,        
-                            'soot_c_total'  => ($an3 * 0.8 * 100 )/($request->np_c * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '07') {
-                        $data  = array(  
-                            'np_c'          => $request->np_c,        
-                            'soot_c_total'  => ($an3 * 0.8 * 100 )/($request->np_c * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '08') {
-                        $data  = array(  
-                            'np_c'          => $request->np_c,        
-                            'soot_c_total'  => ($an3 * 4 * 100 )/($request->np_c * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '10') {
-                        $data  = array(  
-                            'np_c'          => $request->np_c,        
-                            'soot_c_total'  => ($an3 * 0.96 * 100 )/($request->np_c * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '11') {
-                        $data  = array(  
-                            'np_c'          => $request->np_c,        
-                            'soot_c_total'  => ($an3 * 0.8 * 100 )/($request->np_c * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '13') {
-                        $data  = array(  
-                            'np_c'          => $request->np_c,        
-                            'soot_c_total'  => ($an3 * 0.8 * 100 )/($request->np_c * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '14') {
-                        $data  = array(  
-                            'np_c'          => $request->np_c,        
-                            'soot_c_total'  => ($an3 * 4 * 100 )/($request->np_c * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '15') {
-                        $data  = array(  
-                            'np_c'          => $request->np_c,        
-                            'soot_c_total'  => ($an3 * 0.8 * 100 )/($request->np_c * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '32') {
-                        $data  = array(  
-                            'np_c'          => $request->np_c,        
-                            'soot_c_total'  => ($an3 * 0.8 * 100 )/($request->np_c * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    }else if ($request->ward == '35') {
-                        $data  = array(  
-                            'np_c'          => $request->np_c,        
-                            'soot_c_total'  => ($an3 * 0.8 * 100 )/($request->np_c * 7),
-                        );
-                        DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
-                    } else {
-                        # code...
+                    if ($datesave == $date) {  
+                        if ($request->ward == '01') {
+                            $data  = array(  
+                                'np_c'          => $request->np_c,        
+                                'soot_c_total'  => ($an3 * 0.69 * 100 )/($request->np_c * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '03') {
+                            $data  = array(  
+                                'np_c'          => $request->np_c,        
+                                'soot_c_total'  => ($an3 * 0.96 * 100 )/($request->np_c * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '04') {
+                            $data  = array(  
+                                'np_c'          => $request->np_c,        
+                                'soot_c_total'  => ($an3 * 16 * 100 )/($request->np_c * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '05') {
+                            $data  = array(  
+                                'np_c'          => $request->np_c,        
+                                'soot_c_total'  => ($an3 * 0.8 * 100 )/($request->np_c * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '06') {
+                            $data  = array(  
+                                'np_c'          => $request->np_c,        
+                                'soot_c_total'  => ($an3 * 0.8 * 100 )/($request->np_c * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '07') {
+                            $data  = array(  
+                                'np_c'          => $request->np_c,        
+                                'soot_c_total'  => ($an3 * 0.8 * 100 )/($request->np_c * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '08') {
+                            $data  = array(  
+                                'np_c'          => $request->np_c,        
+                                'soot_c_total'  => ($an3 * 4 * 100 )/($request->np_c * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '10') {
+                            $data  = array(  
+                                'np_c'          => $request->np_c,        
+                                'soot_c_total'  => ($an3 * 0.96 * 100 )/($request->np_c * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '11') {
+                            $data  = array(  
+                                'np_c'          => $request->np_c,        
+                                'soot_c_total'  => ($an3 * 0.8 * 100 )/($request->np_c * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '13') {
+                            $data  = array(  
+                                'np_c'          => $request->np_c,        
+                                'soot_c_total'  => ($an3 * 0.8 * 100 )/($request->np_c * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '14') {
+                            $data  = array(  
+                                'np_c'          => $request->np_c,        
+                                'soot_c_total'  => ($an3 * 4 * 100 )/($request->np_c * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '15') {
+                            $data  = array(  
+                                'np_c'          => $request->np_c,        
+                                'soot_c_total'  => ($an3 * 0.8 * 100 )/($request->np_c * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '32') {
+                            $data  = array(  
+                                'np_c'          => $request->np_c,        
+                                'soot_c_total'  => ($an3 * 0.8 * 100 )/($request->np_c * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '35') {
+                            $data  = array(  
+                                'np_c'          => $request->np_c,        
+                                'soot_c_total'  => ($an3 * 0.8 * 100 )/($request->np_c * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        } else { 
+                        }
                     }
-                }
- 
-            }
-            
+                } 
+            } 
             // return request()->json($request);
             return response()->json([
                 'status'     => '200'
