@@ -89,6 +89,42 @@
         background-repeat: no-repeat;
     }
 
+     
+ 
+    .inputplan{
+        border-radius: 2em 2em 2em 2em;
+        border: none;
+        box-shadow: 0 0 15px rgb(221, 133, 192);
+        border:solid 1px #7b28e7;
+    }
+    .inputmedsalt{
+        border-radius: 2em 2em 2em 2em;
+        border: none;
+        box-shadow: 0 0 15px rgb(221, 133, 192);
+        border:solid 1px #7b28e7;
+    }
+    
+    .cardfinan{
+        border-radius: 2em 2em 2em 2em;
+        /* border: none; */
+        box-shadow: 0 0 15px rgb(221, 133, 192);
+        /* box-shadow: 0 0 10px rgb(247, 198, 176); */
+        border:solid 1px #7b28e7;
+    } 
+    .dcheckbox{         
+        width: 30px;
+        height: 30px;       
+        border-radius: 2em 2em 2em 2em;
+        /* border: 10px solid rgba(151, 76, 126);  */
+        box-shadow: 0 0 10px rgb(221, 133, 192);
+        border:solid 1px #7b28e7;
+    }
+    .myTable tbody tr{
+        font-size:13px;
+        height: 13px;
+    }
+    
+
     /* .myTable thead tr{
     background-color: #b56fca;
     color: #ffffff;

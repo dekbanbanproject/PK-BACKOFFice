@@ -1960,7 +1960,7 @@ class AccountController extends Controller
             $months_old  = ('10');
             $startdate = (''.$year_old.'-10-01');
             $enddate = (''.$yearnew.'-09-30');
-            $datashow = DB::connection('mysql2')->select(
+            $datashow = DB::connection('mysql10')->select(
                 'SELECT YEAR(v.vstdate) as year,MONTH(v.vstdate) as months,l.MONTH_NAME,COUNT(DISTINCT v.vn) AS count_vn,SUM(v.income) AS sum_income
                     ,SUM(v.paid_money) AS sum_paid_money,SUM(v.rcpt_money) AS sum_rcpt_money
                     ,SUM(v.paid_money)-SUM(v.rcpt_money) as sum_Total
@@ -1976,31 +1976,6 @@ class AccountController extends Controller
                     GROUP BY date_format(v.vstdate, "%M") 
                     ORDER BY v.vstdate desc 
             ');
-            // foreach ($datashow as $key => $value) {
-            //     $check_ = F_finance_opd::where('year',$value->year)->where('months',$value->months)->count(); 
-            //     if ($check_ > 0) {
-            //         F_finance_opd::where('year',$value->year)->where('months',$value->months)->update([ 
-            //             'count_vn'          => $value->count_vn,
-            //             'sum_income'        => $value->sum_income,
-            //             'sum_paid_money'    => $value->sum_paid_money,
-            //             'sum_rcpt_money'    => $value->sum_rcpt_money,
-            //             'sum_Total'         => $value->sum_Total,
-            //             'user_id'           => $iduser
-            //         ]);
-            //     } else {
-            //         F_finance_opd::insert([
-            //             'year'              => $value->year,
-            //             'months'            => $value->months,
-            //             'months_name'       => $value->MONTH_NAME,
-            //             'count_vn'          => $value->count_vn,
-            //             'sum_income'        => $value->sum_income,
-            //             'sum_paid_money'    => $value->sum_paid_money,
-            //             'sum_rcpt_money'    => $value->sum_rcpt_money,
-            //             'sum_Total'         => $value->sum_Total,
-            //             'user_id'           => $iduser
-            //         ]);
-            //     }    
-            // }
            
             $data['f_finance_opd']  = DB::connection('mysql')->select('SELECT * from f_finance_opd WHERE year = date_format("' . $startdate . '", "%Y")');  
             $data['main_dep'] = DB::connection('mysql2')->select(
@@ -2031,15 +2006,20 @@ class AccountController extends Controller
             $startdate    =  date_format($bg->date_begin, "%Y");
             $enddate      = $bg->date_end;
             $datashow = DB::connection('mysql2')->select(
-                'SELECT YEAR(v.vstdate) as year,MONTH(v.vstdate) as months,l.MONTH_NAME,COUNT(DISTINCT v.vn) AS count_vn,SUM(v.income) AS sum_income
-                    ,SUM(v.paid_money) AS sum_paid_money,SUM(v.rcpt_money) AS sum_rcpt_money,SUM(v.paid_money)-SUM(v.rcpt_money) as sum_Total
+                'SELECT YEAR(v.vstdate) as year
+                    ,MONTH(v.vstdate) as months,l.MONTH_NAME
+                    ,COUNT(DISTINCT v.vn) AS count_vn
+                    ,SUM(v.income) AS sum_income
+                    ,SUM(v.paid_money) AS sum_paid_money
+                    ,SUM(v.rcpt_money) AS sum_rcpt_money
+                    ,SUM(v.income)-SUM(v.rcpt_money) as sum_Total
                     FROM vn_stat v
                     LEFT OUTER JOIN ovst o on o.vn = v.vn
                     LEFT JOIN patient p on p.hn=v.hn 
                     LEFT JOIN leave_month l on l.MONTH_ID = MONTH(v.vstdate)
                     left outer join rcpt_print r on v.vn = r.vn
                     WHERE v.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '" 
-                    AND (v.paid_money <> v.rcpt_money)
+                    AND (v.paid_money <> v.rcpt_money) AND o.an IS NULL
                     AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","P1")
                     AND v.rcpt_money <> 30 
                     GROUP BY date_format(v.vstdate, "%M")
@@ -2073,11 +2053,11 @@ class AccountController extends Controller
                 
             // }
             $data['f_finance_opd']  = DB::connection('mysql')->select('SELECT * from f_finance_opd WHERE year = date_format("' . $startdate . '", "%Y")'); 
-            $data['main_dep'] = DB::connection('mysql2')->select(
+            $data['main_dep'] = DB::connection('mysql10')->select(
                     'SELECT YEAR(v.vstdate) as year,MONTH(v.vstdate) as months,l.MONTH_NAME,o.main_dep,k.department  
                     ,COUNT(DISTINCT v.vn) AS count_vn,SUM(v.income) AS sum_income
                     ,SUM(v.paid_money) AS sum_paid_money,SUM(v.rcpt_money) AS sum_rcpt_money
-                    ,SUM(v.paid_money)-SUM(v.rcpt_money) as sum_Total
+                    ,SUM(v.income)-SUM(v.rcpt_money) as sum_Total
                     FROM vn_stat v
                     LEFT OUTER JOIN ovst o on o.vn = v.vn
                     LEFT JOIN patient p on p.hn=v.hn 
@@ -2127,7 +2107,7 @@ class AccountController extends Controller
         //     ');
         // } else {
             $datashow = DB::connection('mysql10')->select(' 
-                SELECT v.vn, v.income,v.cid, v.hn, v.vstdate,o.vsttime,o.main_dep,k.department, v.pdx, v.pttype,concat(p.pname,p.fname," ",p.lname) ptname,o.staff
+                SELECT v.vn, v.income,p.cid, v.hn, v.vstdate,o.vsttime,o.main_dep,k.department, v.pdx, v.pttype,concat(p.pname,p.fname," ",p.lname) ptname,o.staff
                 ,r.bill_date_time,r.finance_number,r.rcpno,r.bill_amount,r.user,r.book_number,r.total_amount,v.paid_money,v.rcpt_money,v.remain_money
                 FROM vn_stat v
                 left outer join ovst o on o.vn = v.vn
@@ -2138,9 +2118,8 @@ class AccountController extends Controller
                 WHERE YEAR(v.vstdate) = "' . $year . '" AND MONTH(v.vstdate) = "' . $months . '"  
                 AND (v.paid_money <> v.rcpt_money)
                 AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","P1")
-                AND v.rcpt_money <> 30 
-                GROUP BY v.vn
-           
+                AND v.rcpt_money <> 30 AND p.cid <> ""
+                GROUP BY v.vn           
             ');
         // }
         // AND v.rcpt_money <> 30 

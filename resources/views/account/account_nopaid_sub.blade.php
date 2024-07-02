@@ -112,7 +112,7 @@ $pos = strrpos($url, '/') + 1;
                             <thead>
                                 <tr>
                                     {{-- <th class="text-center">ลำดับ</th>  --}}
-                                    <th class="text-center" >vn</th>
+                                    {{-- <th class="text-center" >vn</th> --}}
                                     <th class="text-center" >hn</th>
                                     <th class="text-center" >cid</th>
                                     <th class="text-center">ptname</th> 
@@ -129,21 +129,16 @@ $pos = strrpos($url, '/') + 1;
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $number = 0; ?>
+                                <?php $number = 0;
+                                 $total1 = 0;
+                                    $total2 = 0;
+                                    $total3 = 0;
+                                    $total4 = 0; $total5 = 0;
+                                     ?>
                                 @foreach ($datashow as $item)
                                     <?php $number++; ?>
-                                    {{-- @if (($item->income-$item->rcpt_money) <= "0.00") --}}                                   
-                                        {{-- @if (($item->income - $item->rcpt_money) < 1 )  --}}
-                                        {{-- @if( (($item->income - $item->rcpt_money) == $item->remain_money) < 1  )                                                  --}}
-                                        {{-- @if (($item->income - $item->rcpt_money) == $item->remain_money)  --}}
-                                        {{-- @else                                                     --}}
-                                       
-
-                                        {{-- @if ($item->income-$item->rcpt_money <= 0) 
-                                        @else --}}
-                                            <tr height="20" style="font-size: 13px;">
-                                                {{-- <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td>   --}}
-                                                <td class="text-center" width="6%">{{ $item->vn }}</td> 
+                                   
+                                            <tr height="20" style="font-size: 13px;"> 
                                                 <td class="text-center" width="4%">{{ $item->hn }}</td>   
                                                 <td class="text-center" width="6%">{{ $item->cid }}</td>  
                                                 <td class="p-2">{{ $item->ptname }}</td>  
@@ -153,15 +148,16 @@ $pos = strrpos($url, '/') + 1;
                                                 <td class="text-end" style="color:rgb(73, 147, 231)" width="5%">{{ number_format($item->income,2)}}</td> 
                                                 <td class="text-end" style="color:rgb(83, 55, 243)" width="5%">{{ number_format($item->paid_money,2)}}</td> 
                                                 <td class="text-end" style="color:rgb(125, 202, 23)" width="5%">{{ number_format($item->rcpt_money,2)}}</td> 
-                                                <td class="text-end" style="color:rgb(235, 146, 30)" width="5%">{{ number_format($item->remain_money,2)}}</td>  
-
-                                                {{-- @if ((($item->income - $item->rcpt_money) == $item->remain_money) <= 0.00) --}}
+                                                <td class="text-end" style="color:rgb(235, 146, 30)" width="5%">{{ number_format($item->remain_money,2)}}</td>   
                                                 @if (($item->income - $item->rcpt_money) == $item->remain_money) 
                                                     <td class="text-end" style="background-color: aquamarine" width="5%">0.00</td> 
                                                 @else
-                                                    <td class="text-end" style="color:rgb(243, 61, 55);font-size: 14px;" width="5%">{{ number_format($item->paid_money-$item->rcpt_money,2)}}</td> 
-                                                @endif
-
+                                                    @if ($item->paid_money-$item->rcpt_money < '0')
+                                                        <td class="text-end" style="background-color: aquamarine" width="5%">0.00</td> 
+                                                    @else
+                                                        <td class="text-end" style="color:rgb(243, 61, 55);font-size: 14px;" width="5%">{{ number_format($item->paid_money-$item->rcpt_money,2)}}</td> 
+                                                    @endif 
+                                                @endif 
                                                 @if ($item->book_number == '')
                                                 <td class="text-center" width="7%"></td>
                                                 @else
@@ -169,13 +165,27 @@ $pos = strrpos($url, '/') + 1;
                                                 @endif
                                                 <td class="text-center" width="7%">{{ $item->total_amount }}</td> 
                                             </tr> 
-                                        {{-- @endif  --}}
-                                        
-                                    {{-- @endif --}}
-                                 
+                                      
+                                            <?php
+                                                $total1 = $total1 + $item->income;
+                                                $total2 = $total2 + $item->paid_money;
+                                                $total3 = $total3 + $item->rcpt_money;
+                                                $total4 = $total4 + $item->remain_money;
+                                                $total5 = $total5 + ($item->paid_money-$item->rcpt_money);
+                                                // $total4 = ($total1 - $total3 );
+                                        ?>
                                 @endforeach
 
                             </tbody>
+                            <tr style="background-color: #f3fca1">
+                                <td colspan="6" class="text-end" style="background-color: #fca1a1"></td>
+                                <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
+                                <td class="text-center" style="background-color: rgb(83, 55, 243)" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
+                                <td class="text-center" style="background-color: rgb(125, 202, 23)"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td>
+                                <td class="text-center" style="background-color: rgb(235, 146, 30)"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td>
+                                <td class="text-center" style="background-color: #FC7373"><label for="" style="color: #FFFFFF">{{ number_format($total5, 2) }}</label></td>
+                                <td colspan="2" class="text-end" style="background-color: #fca1a1"></td>
+                            </tr>  
                         </table>
                 </div>
                 </div>

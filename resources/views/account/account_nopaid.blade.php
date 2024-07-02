@@ -161,7 +161,7 @@
                                                     <td class="text-center" width="10%">{{ number_format($item->sum_paid_money, 2) }}</td>   
                                                     <td class="text-center" width="10%" style="color:rgb(7, 167, 113)">{{ number_format($item->sum_rcpt_money, 2) }}</td> 
                                                     <td class="text-center" width="10%" style="color:rgb(202, 55, 29)">
-                                                        <a href="{{url('account_nopaid_sub/'.$item->months.'/'.$item->year)}}" target="_blank">{{ number_format($item->sum_Total, 2) }} </a> 
+                                                        <a href="{{url('account_nopaid_sub/'.$item->months.'/'.$item->year)}}" target="_blank">{{ number_format($item->sum_paid_money, 2) }} </a> 
                                                         {{-- <div id="headingTwo" class="b-radius-0">   
                                                             <button type="button" data-bs-toggle="collapse" data-bs-target="#myCollapse" aria-expanded="false" aria-controls="collapseTwo" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-secondary" style="background-color: rgb(176, 205, 243);border-radius: 3em 3em 3em 3em"> 
                                                                 {{ number_format($item->sum_Total, 2) }}

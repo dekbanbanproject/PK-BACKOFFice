@@ -113,7 +113,7 @@ $pos = strrpos($url, '/') + 1;
 
     <div class="row">
         <div class="col-xl-12">
-                <div class="card cardacc">
+                <div class="card card_audit_4c">
                     {{-- <div class="card-header">
                     รายละเอียด 1102050101.302
                         <div class="btn-actions-pane-right">
@@ -136,7 +136,7 @@ $pos = strrpos($url, '/') + 1;
                                         <th class="text-center">ptname</th>
 
                                         <th class="text-center">vstdate</th>
-                                        {{-- <th class="text-center">dchdate</th> --}}
+                                        <th class="text-center">dchdate</th>
                                         <th class="text-center">pttype</th>
                                         
                                         <th class="text-center">ลูกหนี้</th>
@@ -144,30 +144,39 @@ $pos = strrpos($url, '/') + 1;
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $number = 0; ?>
+                                    <?php $number = 0; $total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0;$total7 = 0;$total8 = 0;$total9 = 0;?>
                                     @foreach ($data as $item)
                                         <?php $number++; ?>
                                     
                                             <tr height="20" style="font-size: 14px;">
                                                 <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td> 
-                                                <td class="text-center" width="10%">{{ $item->an }}</td>  
-                                                        <td class="text-center" width="10%">{{ $item->vn }}</td> 
-                                                        <td class="text-center" width="10%">{{ $item->hn }}</td>   
+                                                <td class="text-center" width="8%">{{ $item->an }}</td>  
+                                                        <td class="text-center" width="8%">{{ $item->vn }}</td> 
+                                                        <td class="text-center" width="6%">{{ $item->hn }}</td>   
                                                         <td class="text-center" width="10%">{{ $item->cid }}</td>  
                                                         <td class="p-2" >{{ $item->ptname }}</td>  
                                                         <td class="text-center" width="10%">{{ $item->vstdate }}</td>    
+                                                        <td class="text-center" width="10%">{{ $item->dchdate }}</td>  
                                                         <td class="text-center" width="10%">{{ $item->pttype }}</td> 
-                                                        <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>
+                                                        <td class="text-end" style="color:rgb(6, 92, 190)" width="7%">{{ number_format($item->debit_total,2)}}</td>
                                                         {{-- <td class="text-end" width="10%" style="color:rgb(216, 95, 14)"> 
                                                             {{ number_format($item->pricereq_all,2)}}   --}}
                                                     </td>
                                             </tr>
-                                            
+                                            <?php
+                                                $total1 = $total1 + $item->debit_total; 
+                                                // $total2 = $total2 + $item->rcpt_money; 
+                                                // $total3 = $total3 + $item->debit_total; 
+                                            ?>    
                                         
     
                                     @endforeach
 
                                 </tbody>
+                                <tr style="background-color: #f3fca1">
+                                    <td colspan="9" class="text-end" style="background-color: #ff9d9d"></td>
+                                    <td class="text-end" style="background-color: #0759b8;color:white">{{ number_format($total1,2)}}</td>  
+                                </tr> 
                             </table>
                         </div>
                     </div>
