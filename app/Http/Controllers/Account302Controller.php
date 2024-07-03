@@ -121,6 +121,78 @@ class Account302Controller extends Controller
                 'data_trimart'     =>  $data_trimart,
             ]);
     }
+    public function account_302_dash_new(Request $request)
+    {
+        $budget_year        = $request->budget_year;
+        $acc_trimart_id = $request->acc_trimart_id;
+        $dabudget_year      = DB::table('budget_year')->where('active','=',true)->get();
+        $leave_month_year   = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+         
+        if ($budget_year == '') {
+            $yearnew     = date('Y');
+            $year_old    = date('Y')-1; 
+            $startdate   = (''.$year_old.'-10-01');
+            $enddate     = (''.$yearnew.'-09-30'); 
+            // dd($startdate);
+            $datashow = DB::select('
+                    SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn ,count(distinct a.an) as an
+                    ,sum(a.income) as income ,sum(a.paid_money) as paid_money
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money)-sum(a.fokliad) as debit402,sum(a.fokliad) as sumfokliad
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
+                    WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
+                    and account_code="1102050101.304"
+                    group by month(a.dchdate)                     
+                    order by a.dchdate desc;
+            ');  
+        } else {
+          
+            $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
+            $startdate    = $bg->date_begin;
+            $enddate      = $bg->date_end; 
+            // dd($startdate);
+            $datashow = DB::select('
+                    SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn
+                    ,count(distinct a.an) as an ,sum(a.income) as income ,sum(a.paid_money) as paid_money
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
+                    WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
+                    and account_code="1102050101.304" 
+                    group by month(a.dchdate)                    
+                    order by a.dchdate desc;
+            ');
+        }
+        // dd($startdate);
+        return view('account_302.account_302_dash',[
+            'startdate'         =>  $startdate,
+            'enddate'           =>  $enddate, 
+            'leave_month_year'  =>  $leave_month_year, 
+            'datashow'          =>  $datashow,
+            'dabudget_year'     =>  $dabudget_year,
+            'budget_year'       =>  $budget_year,
+            'y'                 =>  $y,
+            // 'trimart'          => $trimart,
+        ]);
+
+        // return view('account_304.account_304_dash',[
+        //     'startdate'        => $startdate,
+        //     'enddate'          => $enddate,
+        //     'leave_month_year' => $leave_month_year,
+        //     'data_trimart'     => $data_trimart,
+        //     'newyear'          => $newyear,
+        //     'date'             => $date,
+        //     'trimart'          => $trimart,
+        // ]);
+    }
     public function account_302_dashsub(Request $request,$startdate,$enddate)
     {
         $datenow = date('Y-m-d');

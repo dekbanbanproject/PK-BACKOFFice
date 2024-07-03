@@ -131,9 +131,9 @@
                 <div class="col-md-2 text-end mt-2">วันที่</div>
                 <div class="col-md-5 text-end">
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                        <input type="text" class="form-control inputacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                        <input type="text" class="form-control inputacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $startdate }}" required/>
-                        <input type="text" class="form-control inputacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                        <input type="text" class="form-control inputacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $enddate }}"/>   
                     {{-- <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary cardacc"> 
                         <i class="fa-solid fa-magnifying-glass text-primary me-2"></i>
@@ -151,9 +151,12 @@
                 </div>
             </div>
         </form>  
+
+        
+
         <div class="row">
             <div class="col-md-12">
-                <div class="card cardacc">
+                <div class="card card_audit_4c">
                     {{-- <div class="card-header">
                     ลงใบเสร็จรับเงินรายตัว ประกันสังคม
                     <div class="btn-actions-pane-right"> --}}

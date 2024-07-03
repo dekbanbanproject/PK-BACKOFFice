@@ -104,8 +104,8 @@
         box-shadow: 0 0 10px rgb(250, 128, 124);
     }
     .card_audit_4{
-        border-radius: 3em 3em 3em 3em;
-        box-shadow: 0 0 10px rgb(250, 128, 124);
+        border-radius: 2em 2em 2em 2em;
+        box-shadow: 0 0 15px rgb(250, 128, 124);
     }
     .auditcheckbox{         
         width: 20px;
@@ -681,15 +681,17 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
     {{-- <script type="text/javascript" src="{{ asset('acccph/js/circle-progress.js') }}"></script> --}}
     <!-- App js -->
     <script src="{{ asset('pkclaim/js/app.js') }}"></script>
-    {{-- <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet"> --}}
+    {{-- <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet"> --}} 
+    <script src="{{ asset('js/bootstrap-timepicker.js') }}"></script>
 
-    <script type="text/javascript" src="{{ asset('acccph/js/charts/apex-charts.js') }}"></script>
+    {{-- <script type="text/javascript" src="{{ asset('acccph/js/charts/apex-charts.js') }}"></script>
     <script type="text/javascript" src="{{ asset('acccph/js/circle-progress.js') }}"></script>
     <script type="text/javascript" src="{{ asset('acccph/js/demo.js') }}"></script>
     <script type="text/javascript" src="{{ asset('acccph/js/scrollbar.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('acccph/js/toastr.js') }}"></script>
-    {{-- <script type="text/javascript" src="{{ asset('acccph/js/treeview.js') }}"></script> --}}
-    <script type="text/javascript" src="{{ asset('acccph/js/form-components/toggle-switch.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('acccph/js/toastr.js') }}"></script> 
+    <script type="text/javascript" src="{{ asset('acccph/js/form-components/toggle-switch.js') }}"></script> --}}
+
+        {{-- <script type="text/javascript" src="{{ asset('acccph/js/treeview.js') }}"></script> --}}
     {{-- <script type="text/javascript" src="{{ asset('acccph/js/tables.js') }}"></script> --}}
     {{-- <script type="text/javascript" src="{{ asset('acccph/js/carousel-slider.js') }}"></script> --}}
     {{-- <script type="text/javascript" src="{{ asset('disacc/js/charts/chartjs.js') }}"></script> --}}

@@ -5,6 +5,50 @@
         function TypeAdmin() {
             window.location.href = '{{ route('index') }}';
         }
+        function approve_destroy(d_fdh_id) {
+            Swal.fire({
+                position: "top-end",
+                title: 'ต้องการลบใช่ไหม?',
+                text: "ข้อมูลนี้จะถูกลบไปเลย !!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ใช่, ลบเดี๋ยวนี้ !',
+                cancelButtonText: 'ไม่, ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ url('approve_destroy') }}" + '/' + d_fdh_id,
+                        type: 'POST',
+                        data: {
+                            _token: $("input[name=_token]").val()
+                        },
+                        success: function(response) {
+                            if (response.status == 200 ) {
+                                Swal.fire({
+                                    position: "top-end",
+                                    title: 'ลบข้อมูล!',
+                                    text: "You Delet data success",
+                                    icon: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#06D177',
+                                    // cancelButtonColor: '#d33',
+                                    confirmButtonText: 'เรียบร้อย'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        $("#sid" + d_fdh_id).remove();
+                                        window.location.reload();
+                                        // window.location = "{{ url('air_main') }}";
+                                    }
+                                })
+                            } else {  
+                            }
+                        }
+                    })
+                }
+            })
+        }
     </script>
     <?php
     if (Auth::check()) {
@@ -175,19 +219,31 @@
                                             <?php $jj = 1; ?>
                                             @foreach ($fdh_ofc as $item)
                                                 <?php
+                                                // $no_app = DB::connection('mysql')->select(
+                                                //     'SELECT year(vstdate) as years ,month(vstdate) as months,year(vstdate) as days 
+                                                //         ,count(DISTINCT vn) as countvn,sum(debit) as sum_total_no  
+                                                //         FROM d_fdh WHERE month(vstdate) = "' .$item->months .'" AND year(vstdate) = "' .$item->years .'" 
+                                                //         AND projectcode ="OFC" AND an IS NULL AND (an IS NULL OR an ="") AND debit > 0
+                                                //         AND (authen IS NULL OR authen ="")   
+                                                //         GROUP BY month(vstdate)
+                                                //     '
+                                                // );
+                                                // foreach ($no_app as $key => $value) {
+                                                //     $sum_total_no_ = $value->sum_total_no;
+                                                //     $countvn_      = $value->countvn;
+                                                // }
+
                                                 $no_app = DB::connection('mysql')->select(
-                                                    'SELECT year(vstdate) as years ,month(vstdate) as months,year(vstdate) as days 
-                                                        ,count(DISTINCT vn) as countvn,sum(debit) as sum_total_no  
-                                                        FROM d_fdh WHERE month(vstdate) = "' .$item->months .'" AND year(vstdate) = "' .$item->years .'" 
-                                                        AND projectcode ="OFC" AND an IS NULL AND (an IS NULL OR an ="") AND debit > 0
-                                                        AND (authen IS NULL OR authen ="")   
-                                                        GROUP BY month(vstdate)
-                                                    '
-                                                );
-                                                foreach ($no_app as $key => $value) {
-                                                    $sum_total_no_ = $value->sum_total_no;
-                                                    $countvn_      = $value->countvn;
-                                                }
+                                                        'SELECT count(DISTINCT vn) as countvn_no,sum(debit) as sum_total_no  
+                                                            FROM d_fdh WHERE month(vstdate) = "'.$item->months.'" AND year(vstdate) = "'.$item->years.'" 
+                                                            AND projectcode ="OFC" AND (an IS NULL OR an ="") AND debit > 0  
+                                                            AND (authen IS NULL OR authen ="") AND hn <>"" 
+                                                    ');  
+                                                    foreach ($no_app as $key => $value) {
+                                                        $sum_total_no_ = $value->sum_total_no;
+                                                        $countvn_      = $value->countvn_no;
+                                                    }
+
                                                 ?>
                                                 <tr>
                                                     <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
@@ -221,17 +277,33 @@
                                                         {{ $item->countvn }} Visit
 
                                                     </td>
-                                                    <td class="text-center" width="20%" style="color:rgb(22, 168, 132)">
-                                                        {{ number_format($item->sum_total, 2) }}</td>
-                                                    <td class="text-center" width="15%"
+                                                    <td class="text-center" width="20%" style="color:rgb(22, 168, 132)"> {{ number_format($item->sum_total, 2) }}</td>
+                                                    @foreach ($no_app as $item_sub)
+                                                                @if ($item_sub->sum_total_no > 0)
+                                                                    <td class="text-center" width="20%" style="color:rgb(252, 73, 42)">
+                                                                        <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" href="{{ url('audit_approve_detail/' . $item->months . '/' . $item->years) }}" >
+                                                                            {{ number_format($item_sub->sum_total_no, 2) }}
+                                                                        </a> 
+                                                                    </td> 
+                                                                    <td class="text-center" width="15%" style="color:rgb(168, 22, 83)">{{ $item_sub->countvn_no}}</td> 
+                                                                @else
+                                                                    <td class="text-center" width="20%">
+                                                                        <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-success">
+                                                                            ซู๊ดดดดยอดอิหลี
+                                                                        </a> 
+                                                                    </td> 
+                                                                    <td class="text-center" width="15%" style="color:rgb(168, 22, 83)">{{ $item_sub->countvn_no}}</td> 
+                                                                @endif
+                                                                
+                                                        @endforeach
+                                                    {{-- <td class="text-center" width="15%"
                                                         style="color:rgb(252, 73, 42)">
                                                         <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger"
                                                             href="{{ url('audit_approve_detail/' . $item->months . '/' . $item->years) }}">
                                                             {{ number_format($sum_total_no_, 2) }}
-                                                        </a>
-
+                                                        </a> 
                                                     </td>
-                                                    <td class="text-center" width="15%" style="color:rgb(168, 22, 83)">{{ $countvn_}}</td> 
+                                                    <td class="text-center" width="15%" style="color:rgb(168, 22, 83)">{{ $countvn_}}</td>  --}}
                                                 </tr>
                                             @endforeach
 
@@ -273,9 +345,16 @@
                                     ?>
                                     @foreach ($fdh_ofc_momth as $item_m)
                                         <?php ?>
-                                        <tr>
+                                        <tr id="sid{{$item_m->d_fdh_id}}">
                                             <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
-                                            <td class="text-center" width="5%">{{ $item_m->hn }} </td>
+                                            <td class="text-center" width="5%">
+                                                <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" href="javascript:void(0)" onclick="approve_destroy({{ $item_m->d_fdh_id }})"
+                                                    data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="ลบ">
+                                                    <i class="fa-solid fa-trash-can me-2"></i>
+                                                    <label for="" style="color: rgb(255, 2, 2);font-size:13px"> {{ $item_m->hn }} </label>
+                                                </a>
+                                               
+                                            </td>
                                             <td class="text-center" width="5%">{{ $item_m->vn }} </td>
                                             <td class="text-center" width="10%">{{ $item_m->cid }} </td>
                                             <td class="text-center" width="7%">{{ $item_m->pttype }} </td>

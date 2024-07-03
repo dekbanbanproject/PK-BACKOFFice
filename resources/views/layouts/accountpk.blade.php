@@ -559,13 +559,12 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                             <li><a href="{{ url('account_301_dash') }}">dashboard</a></li>
                                             <li><a href="{{ url('account_301_pull') }}">ดึงลูกหนี้</a> </li>
                                             <li><a href="{{ url('account_301_detail_date') }}">ค้นหาลูกหนี้</a> </li>
-                                            <li><a href="javascript: void(0);" class="has-arrow">3011-OP-อุปกรณ์เบิกเอกสาร</a>
-                                                <ul class="sub-menu" aria-expanded="true"> 
-                                                    {{-- <li><a href="{{ url('account_3011_dash') }}">dashboard</a></li> --}}
+                                            {{-- <li><a href="javascript: void(0);" class="has-arrow">3011-OP-อุปกรณ์เบิกเอกสาร</a>
+                                                <ul class="sub-menu" aria-expanded="true">  
                                                     <li><a href="{{ url('account_3011_pull') }}">ดึงลูกหนี้</a> </li>
                                                     <li><a href="{{ url('account_3011_detail_date') }}">ค้นหาลูกหนี้</a> </li>
                                                 </ul>
-                                            </li>
+                                            </li> --}}
                                             <li><a href="javascript: void(0);" class="has-arrow">3013-OP/IP-CT</a>
                                                 <ul class="sub-menu" aria-expanded="true"> 
                                                     {{-- <li><a href="{{ url('account_3013_dash') }}">dashboard</a></li> --}}

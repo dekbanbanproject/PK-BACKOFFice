@@ -3335,6 +3335,7 @@ Route::match(['get','post'],'pre_audit',[App\Http\Controllers\PreauditController
 Route::match(['get','post'],'pre_audit_process_a',[App\Http\Controllers\PreauditController::class, 'pre_audit_process_a'])->name('audit.pre_audit_process_a');
 Route::match(['get','post'],'audit_approve_code',[App\Http\Controllers\PreauditController::class, 'audit_approve_code'])->name('audit.audit_approve_code');
 Route::match(['get','post'],'audit_approve_detail/{month}/{year}',[App\Http\Controllers\PreauditController::class, 'audit_approve_detail'])->name('audit.audit_approve_detail');
+Route::match(['get','post'],'approve_destroy/{id}',[App\Http\Controllers\PreauditController::class, 'approve_destroy'])->name('audit.approve_destroy');
 Route::match(['get','post'],'pre_audit_chart',[App\Http\Controllers\PreauditController::class, 'pre_audit_chart'])->name('audit.pre_audit_chart');
 Route::match(['get','post'],'audit_pdx',[App\Http\Controllers\PreauditController::class, 'audit_pdx'])->name('audit.audit_pdx');
 Route::match(['get','post'],'audit_pdx_detail/{month}/{year}',[App\Http\Controllers\PreauditController::class, 'audit_pdx_detail'])->name('audit.audit_pdx_detail');
@@ -3429,7 +3430,6 @@ Route::match(['get','post'],'nurse_index_excel',[App\Http\Controllers\NurseContr
 Route::match(['get','post'],'nurse_index_process',[App\Http\Controllers\NurseController::class, 'nurse_index_process'])->name('d.nurse_index_process');//
 Route::match(['get','post'],'nurse_index_editable',[App\Http\Controllers\NurseController::class, 'nurse_index_editable'])->name('d.nurse_index_editable');//
 
-
 // ************************************* Supplies ***********************************************************
 
 Route::match(['get','post'],'main_repaire_sup',[App\Http\Controllers\SupController::class, 'main_repaire_sup'])->name('d.main_repaire_sup');//
@@ -3438,5 +3438,10 @@ Route::match(['get','post'],'capture',[App\Http\Controllers\SupController::class
 
 // ************************************* VACCINE ***********************************************************
 Route::match(['get','post'],'vaccine_big',[App\Http\Controllers\VaccineController::class, 'vaccine_big'])->name('vac.vaccine_big');//
+Route::match(['get','post'],'vaccine_big_process',[App\Http\Controllers\VaccineController::class, 'vaccine_big_process'])->name('vac.vaccine_big_process');//
+Route::match(['get','post'],'vaccine_big_import',[App\Http\Controllers\VaccineController::class, 'vaccine_big_import'])->name('vac.vaccine_big_import');//
+Route::match(['get','post'],'vaccine_big_send',[App\Http\Controllers\VaccineController::class, 'vaccine_big_send'])->name('vac.vaccine_big_send');//
+
+
 
 });

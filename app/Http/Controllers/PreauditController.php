@@ -289,6 +289,13 @@ class PreauditController extends Controller
             'year'          => $year, 
         ]);
     } 
+
+    public function approve_destroy(Request $request,$id)
+    {
+        $del = D_fdh::find($id);   
+        $del->delete();  
+        return response()->json(['status' => '200']);
+    }
     
     public function pre_audit_process_a(Request $request)
     {

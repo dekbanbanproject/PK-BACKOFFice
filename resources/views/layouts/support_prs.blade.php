@@ -195,10 +195,7 @@
         background-image: url('/pkbackoffice/public/images/bgheader.jpg');
         background-repeat: no-repeat;
     }
-    .myTable tbody tr{
-        font-size:13px;
-        height: 13px;
-    }
+
     .fonts13{
         font-size: 13px";
     }
@@ -248,16 +245,18 @@
     }
     .fsize14{
         font-size: 14px;
-    }
+    } 
     .myTable thead tr{
     background-color: #5AE6E1;
-    color: #ffffff;
+    color: #064b85;
     text-align: center;
     }
     .myTable th .myTable td{
         padding: 12px 15px;
     }
     .myTable tbody tr{
+        font-size:13px;
+        height: 13px;
         border-bottom: 1px solid #C1E2FD;
     }
     .myTable tbody td{
