@@ -244,7 +244,7 @@ class VaccineController extends Controller
                 $datashow = DB::connection('mysql')->select(
                     'SELECT a.*,b.authen,b.STMDoc
                     FROM vaccine_big a
-                    LEFT JOIN vaccine_big_excel_rep b ON b.cid = a.cid
+                    LEFT JOIN vaccine_big_excel b ON b.cid = a.cid
                     WHERE a.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
                     GROUP BY a.vn
                 '); 
@@ -253,7 +253,7 @@ class VaccineController extends Controller
                 $datashow = DB::connection('mysql')->select(
                     'SELECT a.*,b.authen,b.STMDoc
                     FROM vaccine_big a
-                    LEFT JOIN vaccine_big_excel_rep b ON b.cid = a.cid
+                    LEFT JOIN vaccine_big_excel b ON b.cid = a.cid
                     WHERE a.vstdate BETWEEN "'.$start.'" and "'.$end.'" 
                     GROUP BY a.vn
                 '); 
@@ -414,19 +414,19 @@ class VaccineController extends Controller
                     // $check_update = Vaccine_big::where('cid',$value->cid)->where('vstdate',$value->vstdate_start)->count();
                       
                 }
-                $check_update = Vaccine_big::where('cid',$value->cid)->count();
-                if ($check_update > 0) {
-                    Vaccine_big::where('cid',$value->cid)->update([
-                        'authen'  => $value->authen,
-                        'STMDoc'  => $value->STMDoc
-                    ]);
-                }
+                // $check_update = Vaccine_big::where('cid',$value->cid)->count();
+                // if ($check_update > 0) {
+                //     Vaccine_big::where('cid',$value->cid)->update([
+                //         'authen'  => $value->authen,
+                //         'STMDoc'  => $value->STMDoc
+                //     ]);
+                // }
             }
             // } catch (Exception $e) {
             //     $error_code = $e->errorInfo[1];
             //     return back()->withErrors('There was a problem uploading the data!');
             // }
-            // Vaccine_big_excel_rep::truncate();
+            Vaccine_big_excel_rep::truncate();
         return redirect()->back();
     }
 }
