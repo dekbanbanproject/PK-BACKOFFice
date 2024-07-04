@@ -203,8 +203,7 @@
                                         <th class="text-center" >ขนาด(btu)</th>  
                                         <th class="text-center" >อาคารที่ตั้ง</th>  
                                         <th class="text-center" >หน่วยงาน</th>  
-                                        <th class="text-center" >ซ่อมตามปัญหา</th>  
-                                        {{-- <th class="text-center"><button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(236, 232, 181)"><i class="fa-solid fa-glass-water-droplet" style="color: #B216F0"></i></button></th>  --}}
+                                        <th class="text-center"><button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(236, 232, 181)"><i class="fa-solid fa-glass-water-droplet" style="color: #B216F0"></i></button></th> 
                                         <th class="text-center"><button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(202, 236, 181)"><i class="fab fa-slack" style="color: #07c095"></i> </button></th>
                                         <th class="text-center"> <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(181, 203, 236)"><i class="fa-solid fa-volume-high" style="color: #0760c0"></i> </button></th>
                                         <th class="text-center"><button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(236, 181, 181)"><i class="fa-solid fa-soap" style="color: #c0072f"></i></button></th>
@@ -221,8 +220,7 @@
                                         <th class="text-center" >ขนาด(btu)</th>  
                                         <th class="text-center" >อาคารที่ตั้ง</th>  
                                         <th class="text-center" >หน่วยงาน</th>  
-                                        <th class="text-center" >ซ่อมตามปัญหา</th> 
-                                        {{-- <th class="text-center"><button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(236, 232, 181)"><i class="fa-solid fa-fan" style="color: #B216F0"></i></button></th>  --}}
+                                        <th class="text-center"><button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(236, 232, 181)"><i class="fa-solid fa-fan" style="color: #B216F0"></i></button></th> 
                                         <th class="text-center"><button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(202, 236, 181)"><i class="fa-solid fa-hard-drive" style="color: #07c095"></i> </button></th>
                                         <th class="text-center"> <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(181, 203, 236)"><i class="fa-solid fa-solar-panel" style="color: #0760c0"></i> </button></th>
                                         <th class="text-center"><button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(236, 181, 181)"><i class="fa-solid fa-solar-panel" style="color: #c0072f"></i></button></th>
@@ -252,39 +250,20 @@
                                         <td class="p-2" width="5%">{{ $item->btu }}</td>  
                                         <td class="p-2" width="10%">{{ $item->air_location_name }}</td>  
                                         <td class="p-2" width="10%">{{ $item->debsubsub }}</td>  
-                                        <td class="text-center" width="10%"> 
-                                         
+                                        <td class="text-center" width="3%"> 
+                                            {{-- @if ($item->problems_1 == 'on')
+                                            <img src="{{ asset('images/true_sm_50.png') }}" height="5px" width="5px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                            @else 
+                                            @endif --}}
                                             @if ($repaire_type =='1')
                                                 <?php 
                                                     $datas_count_1= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_1 ="on"');
                                                     foreach ($datas_count_1 as $key => $value) { $count_p1 = $value->c_air_list_num; }
-                                                    $datas_count_2= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_2 ="on"');
-                                                    foreach ($datas_count_2 as $key => $value2) {$count_p2 = $value2->c_air_list_num; }
-                                                    $datas_count_3= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_3 ="on"');
-                                                    foreach ($datas_count_3 as $key => $value3) {$count_p3 = $value3->c_air_list_num; }
-                                                    $datas_count_4= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_4 ="on"');
-                                                    foreach ($datas_count_4 as $key => $value4) {$count_p4 = $value4->c_air_list_num; }
-                                                    $datas_count_5= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_5 ="on"');
-                                                    foreach ($datas_count_5 as $key => $value5) {$count_p5 = $value5->c_air_list_num; }
                                                 ?> 
-                                                 @if ($count_p1 <= '1' || $count_p2 <= '1' || $count_p3 <= '1' || $count_p4 <= '1' || $count_p5 <= '1')
-                                                    {{-- <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p1}}</label> --}}
-                                                    <p class="mt-2" style="font-size: 13px;color:rgb(6, 149, 168)">
-                                                        @if ($count_p1 > '0')น้ำหยด,@endif
-                                                        @if ($count_p2 > '0')ไม่เย็นมีแต่ลม,@endif
-                                                        @if ($count_p3 > '0')เสียงดัง,@endif
-                                                        @if ($count_p4 > '0')กลิ่นเหม็น,@endif
-                                                        @if ($count_p5 > '0')ไม่ติด/ติดๆ/ดับๆ,@endif
-                                                    </p>
+                                                 @if ($count_p1 < 1)
+                                                    <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p1}}</label>
                                                 @else
                                                     <label for="" style="font-size: 14px;color:red">{{$count_p1}}</label>
-                                                    {{-- <p class="mt-2" style="font-size: 13px;color:red">
-                                                        @if ($count_p1 > '0')น้ำหยด,@endif
-                                                        @if ($count_p2 > '0')ไม่เย็นมีแต่ลม,@endif
-                                                        @if ($count_p3 > '0')เสียงดัง,@endif
-                                                        @if ($count_p4 > '0')กลิ่นเหม็น,@endif
-                                                        @if ($count_p5 > '0')ไม่ติด/ติดๆ/ดับๆ,@endif
-                                                    </p> --}}
                                                 @endif
                                             @elseif ($repaire_type =='2')
                                                 <?php 
@@ -319,13 +298,13 @@
 
                                             @endif
                                         </td> 
-
-
-
                                         <td class="text-center" width="5%"> 
-                                           
+                                            {{-- @if ($item->problems_2 == 'on')
+                                            <img src="{{ asset('images/true_sm_50.png') }}" height="5px" width="5px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                            @else 
+                                            @endif --}}
                                             @if ($repaire_type =='1')
-                                                {{-- <?php 
+                                                <?php 
                                                     $datas_count_2= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_2 ="on"');
                                                     foreach ($datas_count_2 as $key => $value2) {$count_p2 = $value2->c_air_list_num; }
                                                 ?>
@@ -333,7 +312,7 @@
                                                     <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p2}}</label>
                                                 @else
                                                     <label for="" style="font-size: 14px;color:red">{{$count_p2}}</label>
-                                                @endif --}}
+                                                @endif
                                             @elseif ($repaire_type =='2')
                                                 <?php 
                                                     $datas_count_7= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_7 ="on"');
@@ -368,9 +347,12 @@
                                             @endif
                                         </td>
                                         <td class="text-center" width="5%"> 
-                                           
+                                            {{-- @if ($item->problems_3 == 'on')
+                                            <img src="{{ asset('images/true_sm_50.png') }}" height="5px" width="5px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                            @else 
+                                            @endif --}}
                                             @if ($repaire_type =='1')
-                                                {{-- <?php 
+                                                <?php 
                                                     $datas_count_3= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_3 ="on"');
                                                     foreach ($datas_count_3 as $key => $value3) {$count_p3 = $value3->c_air_list_num; }
                                                 ?>
@@ -378,7 +360,7 @@
                                                     <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p3}}</label>
                                                 @else
                                                     <label for="" style="font-size: 14px;color:red">{{$count_p3}}</label>
-                                                @endif --}}
+                                                @endif
                                             @elseif ($repaire_type =='2')
                                                 <?php 
                                                     $datas_count_8= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_8 ="on"');
@@ -413,9 +395,12 @@
                                             @endif
                                         </td>
                                         <td class="text-center" width="5%"> 
-                                            
+                                            {{-- @if ($item->problems_4 == 'on')
+                                            <img src="{{ asset('images/true_sm_50.png') }}" height="5px" width="5px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                            @else 
+                                            @endif --}}
                                             @if ($repaire_type =='1')
-                                                {{-- <?php 
+                                                <?php 
                                                     $datas_count_4= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_4 ="on"');
                                                     foreach ($datas_count_4 as $key => $value4) {$count_p4 = $value4->c_air_list_num; }
                                                 ?>
@@ -423,7 +408,7 @@
                                                     <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p4}}</label>
                                                 @else
                                                     <label for="" style="font-size: 14px;color:red">{{$count_p4}}</label>
-                                                @endif --}}
+                                                @endif
                                             @elseif ($repaire_type =='2')
                                                 <?php 
                                                     $datas_count_9= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_9 ="on"');
@@ -457,9 +442,12 @@
                                             @endif
                                         </td>
                                         <td class="text-center" width="5%"> 
-                                           
+                                            {{-- @if ($item->problems_5 == 'on')
+                                            <img src="{{ asset('images/true_sm_50.png') }}" height="5px" width="5px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                                            @else 
+                                            @endif --}}
                                             @if ($repaire_type =='1')
-                                                {{-- <?php 
+                                                <?php 
                                                     $datas_count_5= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_5 ="on"');
                                                     foreach ($datas_count_5 as $key => $value5) {$count_p5 = $value5->c_air_list_num; }
                                                 ?>
@@ -467,7 +455,7 @@
                                                     <label for="" style="font-size: 14px;color:rgb(6, 149, 168)">{{$count_p5}}</label>
                                                 @else
                                                     <label for="" style="font-size: 14px;color:red">{{$count_p5}}</label>
-                                                @endif --}}
+                                                @endif
                                             @elseif ($repaire_type =='2')
                                                 <?php 
                                                     $datas_count_10= DB::select('SELECT COUNT(air_repaire_id) c_air_list_num FROM air_repaire WHERE air_list_num = "'.$item->air_list_num.'" AND air_problems_10 ="on"');

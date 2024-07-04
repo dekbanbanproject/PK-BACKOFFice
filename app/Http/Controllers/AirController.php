@@ -304,7 +304,7 @@ class AirController extends Controller
         $idsup           = Auth::user()->air_supplies_id;
         $tech_out_       = User::where('id', '=',$request->air_techout_name)->first();
         $tech_sup_out    = $tech_out_->air_supplies_id;
-        
+
         if ($data_2 == 'on') {
             $update = Air_repaire::find($id);
             $update->repaire_date        = $date_now;
@@ -587,6 +587,7 @@ class AirController extends Controller
                     ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as staff_name
                     ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
                     ,a.air_techout_name,a.air_list_num
+                    ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
                    
                     FROM air_repaire a
                     LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
@@ -613,6 +614,7 @@ class AirController extends Controller
                     ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as staff_name
                     ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
                     ,a.air_techout_name,a.air_list_num
+                    ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
                     FROM air_repaire a
                     LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
                     LEFT JOIN users p ON p.id = a.air_staff_id 
@@ -627,6 +629,7 @@ class AirController extends Controller
                    ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as staff_name
                     ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
                     ,a.air_techout_name,a.air_list_num
+                    ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
                     FROM air_repaire a
                     LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
                     LEFT JOIN users p ON p.id = a.air_staff_id 
@@ -641,6 +644,7 @@ class AirController extends Controller
                     ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as staff_name
                     ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
                     ,a.air_techout_name,a.air_list_num
+                    ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
                         FROM air_repaire a
                         LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
                         LEFT JOIN users p ON p.id = a.air_staff_id 
@@ -655,6 +659,7 @@ class AirController extends Controller
                    ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as staff_name
                     ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
                     ,a.air_techout_name,a.air_list_num
+                    ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
                     FROM air_repaire a
                     LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
                     LEFT JOIN users p ON p.id = a.air_staff_id 
