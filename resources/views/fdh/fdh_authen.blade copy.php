@@ -168,7 +168,7 @@ $pos = strrpos($url, '/') + 1;
                                                 <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
                                             </td> 
                                             @else
-                                                <td class="text-center" width="5%"><input type="checkbox" class="fdhcheckbox sub_chk" data-id="{{$item->vn}}"> </td> 
+                                                <td class="text-center" width="5%"><input type="checkbox" class="fdhcheckbox sub_chk" data-id="{{$item->check_sit_auto_id}}"> </td> 
                                             @endif 
                                             <td class="text-center" width="10%">{{ $item->vstdate }}</td> 
                                             <td class="text-center" width="10%">{{ $item->cid }}</td>

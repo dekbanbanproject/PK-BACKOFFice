@@ -16,7 +16,7 @@ return new class extends Migration
             Schema::create('air_repaire', function (Blueprint $table) {
                 $table->bigIncrements('air_repaire_id');
                 $table->date('repaire_date')->nullable();  //
-
+                $table->time('repaire_time')->nullable();  //
                 $table->char('air_repaire_no', length: 150)->nullable();  //  เลขที่แจ้ง
                 $table->char('air_repaire_num', length: 250)->nullable();  //  เลขครุภัณฑ์
 
@@ -72,7 +72,7 @@ return new class extends Migration
                 $table->char('air_tech_id', length: 200)->nullable();          //  เจ้าหน้าที่หน้างานรับทราบ
                 $table->longText('signature3')->nullable();                //  ลายเซนเจ้าหน้าที่
                 
-                 
+                $table->char('air_supplies_id', length: 10)->nullable(); 
                 $table->timestamps();
             });
         }

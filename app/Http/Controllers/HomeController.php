@@ -109,10 +109,10 @@ public function manageHome(Request $request)
 {
     return view('manageHome');
 }
-public function home_supplies(Request $request)
-{
-    return view('supplies_tech.main_index');
-}
+// public function home_supplies(Request $request)
+// {
+//     return view('supplies_tech.main_index');
+// }
 
 public function memberHome(Request $request)
 {

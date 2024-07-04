@@ -7,7 +7,7 @@
         $ynow = date('Y') + 543;
         $mo = date('m');
         $d = date('d');
-
+        $datenow = date('Y-m-d');
         if ($mo == 1) {
             $mo_ = 'มกราคม';
         } elseif ($mo == 2) {
@@ -98,7 +98,7 @@
                 <div class="row">
                     <div class="col-xl-5 col-md-5">                        
 
-                        <div class="card cardreport p-3"> 
+                        {{-- <div class="card cardreport p-3"> 
                             <div class="card-header">
                                 <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">บริการ</h4>  
                                 <div class="btn-actions-pane-right">
@@ -126,7 +126,7 @@
                                         <td>
                                             <h6>
                                                 {{$type->checkauthen_type_name}}
-                                                {{-- <a href="">{{$type->checkauthen_type_name}}</a>  --}}
+                                                <a href="">{{$type->checkauthen_type_name}}</a> 
                                             </h6>
                                         </td>
                                         
@@ -136,7 +136,7 @@
                                 </tbody>
                             </table>                      
                                 
-                        </div>
+                        </div> --}}
                        
                         <div class="card cardreport p-3"> 
                             <div class="card-header">
@@ -151,18 +151,19 @@
                                 <tbody>                      
                                     @foreach ($data_pttypegroup as $typegroup) 
                                     <?php
-                                   
-                                            $datas2 = DB::select('
-                                                SELECT count(c.claimcode) as claimcode 
-                                                    from check_sit_auto c
-                                                    left join pttype p ON c.pttype = p.pttype
+                                        $date_now = date('Y-m-d');
+                                            $datas2 = DB::connection('mysql10')->select(
+                                                'SELECT count(vp.claim_code) as claim_code 
+                                                    FROM ovst c
+                                                    LEFT JOIN visit_pttype vp ON vp.vn = c.vn
+                                                    LEFT JOIN pttype p ON c.pttype = p.pttype
                                                     LEFT JOIN nhso_inscl_code n ON n.inscl_code = p.hipdata_code
-                                                    WHERE p.hipdata_code="'.$typegroup->hipdata_code.'" 
-                                                    AND claimcode <> ""
-                                                    AND vstdate = CURDATE()
+                                                    WHERE p.hipdata_code = "'.$typegroup->hipdata_code.'" 
+                                                    AND vp.claim_code <> ""
+                                                    AND c.vstdate = "'.$date_now.'"
                                             ');
                                             foreach ($datas2 as $key => $val2) {
-                                                $count_type2 = $val2->claimcode;
+                                                $count_type2 = $val2->claim_code;
                                             }
                                     ?>
                                         <tr height="10px;">

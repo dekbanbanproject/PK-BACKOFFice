@@ -401,11 +401,11 @@ class PrbController extends Controller
                 select month(v.dchdate) as months,
                 count(distinct v.hn) as hn,count(distinct v.an) as an
                 ,sum(vp.nhso_ownright_pid >"0") as nhso_ownright_pid
-                ,count(distinct v.an)-sum(vp.claim_code ="1") as claim_code
+                ,count(distinct v.an)-sum(vp.nhso_docno <> "") as claim_code
                 ,sum(v.income) as income
                 ,sum(vp.nhso_ownright_pid) nhso_ownright_pidtotal
                 ,sum(vp.nhso_ownright_name) as nhso_ownright_name
-                ,100*sum(vp.claim_code ="1")/count(distinct v.an) as afterclaim_code
+                ,100*sum(vp.nhso_docno <> "")/count(distinct v.an) as afterclaim_code
                 from an_stat v
                 left outer join pttype p on p.pttype = v.pttype 
                 left outer join ipt_pttype vp on vp.an = v.an
@@ -955,10 +955,10 @@ class PrbController extends Controller
     }
     public function prb_repipd_subnoreq(Request $request,$months,$startdate,$enddate)
     {
-        $data['data_repipdsubnoreq'] =  DB::connection('mysql3')->select('
+        $data['data_repipdsubnoreq'] =  DB::connection('mysql2')->select('
             select v.hn,v.an,p.cid,v.dchdate,v.pdx,concat(p.pname,p.fname,"  ",p.lname) as fullname,
             v.pttype,v.income,group_concat(distinct " ",r.rcpno,"/",r.total_amount) as amount,
-            if(vp.claim_code ="1","เบิก"," ") as claim_code,vp.nhso_docno,vp.nhso_ownright_pid,vp.nhso_ownright_name
+            if(vp.nhso_docno = "","เบิก"," ") as claim_code,vp.nhso_docno,vp.nhso_ownright_pid,vp.nhso_ownright_name
             from an_stat v
             left outer join ipt i on i.an = v.an
             left outer join patient p on p.hn = v.hn 
@@ -968,7 +968,7 @@ class PrbController extends Controller
             and v.pttype in("36","37","38","39","31","32")
             and month(v.dchdate) = "'.$months.'"
             and vp.pttype_number ="1"
-            and (vp.claim_code is null or vp.claim_code<>"1")
+            and (vp.nhso_docno is null or vp.nhso_docno = "")
             group by v.an
  
         '); 
@@ -988,11 +988,11 @@ class PrbController extends Controller
         $data['data_repipdpay'] =  DB::connection('mysql3')->select('
                 select month(v.dchdate) as months,count(distinct v.hn) as hn,count(distinct v.an) as an
                 ,sum(vp.nhso_ownright_pid >"0") as nhso_ownright_pidover
-                ,count(distinct v.an)-sum(vp.claim_code ="1") as claim_code
+                ,count(distinct v.an)-sum(vp.nhso_docno <> "") as claim_code
                 ,sum(v.income) as income
                 ,sum(vp.nhso_ownright_pid) as nhso_ownright_pid
                 ,sum(vp.nhso_ownright_name) as nhso_ownright_name
-                ,100*sum(vp.claim_code ="1")/count(distinct v.an) as claim_codeafter
+                ,100*sum(vp.nhso_docno <> "")/count(distinct v.an) as claim_codeafter
                 from an_stat v
                 left outer join pttype p on p.pttype = v.pttype 
                 left outer join ipt_pttype vp on vp.an = v.an

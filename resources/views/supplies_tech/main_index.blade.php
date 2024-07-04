@@ -89,74 +89,112 @@
                 </div>
             </div>
         </div>
-        
+        <form action="{{ url('home_supplies') }}" method="GET">
+            @csrf
         <div class="row"> 
             <div class="col-md-4"> 
-                <h5 class="card-title" style="color:green">Process data Supplies</h5> 
+                <h4 style="color:green">รายการซ่อมตามใบแจ้งซ่อม</h4> 
             </div>
             <div class="col"></div> 
-            <div class="col-md-2 text-end">
-                <a href="{{url('sup_add_air')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-primary cardacc"> 
-                    <i class="fa-solid fa-circle-plus text-white me-2"></i>
-                   เพิ่มรายการ
-                </a>  
+            <div class="col-md-4 text-end"> 
+                <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                    <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                        data-date-language="th-th" value="{{ $startdate }}" required/>
+                    <input type="text" class="form-control cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                        data-date-language="th-th" value="{{ $enddate }}"/>  
+                        <button type="submit" class="ladda-button btn-pill btn btn-primary cardacc" data-style="expand-left">
+                            <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
+                        </button> 
+                    
+                </div> 
             </div>
         </div>
-         
+    </form>
         <div class="row mt-3">
             <div class="col-xl-12">
                 <div class="card card_audit_4c">
-                    <div class="card-body">
-                        <div class="table-responsive">  
-                                <table id="Tabledit" class="table table-striped table-hover table-sm" style="border-collapse: collapse;border-spacing: 0; width: 100%;">
+                    <div class="card-body">    
+                        <div class="row mb-3">
+                           
+                            <div class="col"></div>
+                            <div class="col-md-5 text-end">
+                               
+                            </div>
+                        </div>
+        
+                        <p class="mb-0">
+                            <div class="table-responsive">
+                                <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> 
                                     <thead>
                                         <tr style="font-size:13px">
                                           
                                             <th width="3%" class="text-center">ลำดับ</th>  
                                             <th class="text-center" width="3%">สถานะ</th>  
-                                            <th class="text-center" width="10%">วันที่ซ่อม</th>  
+                                            <th class="text-center" width="5%">วันที่ซ่อม</th>  
+                                            <th class="text-center" width="5%">เวลา</th>
+                                            <th class="text-center" width="5%">เลขที่แจ้งซ่อม</th>   
                                             <th class="text-center" width="5%">รหัส</th>  
                                             <th class="text-center" >รายการ</th>  
                                             <th class="text-center" >สถานที่ตั้ง</th>  
+                                            <th class="text-center" >ช่างนอก</th> 
                                             <th class="text-center" >เจ้าหน้าที่</th>  
                                             <th class="text-center" >ช่าง รพ.</th>  
-                                            
                                         </tr>
                                     </thead>
-                                    {{-- <tbody>
+                                    <tbody>
                                         <?php $i = 1; ?>
                                         @foreach ($datashow as $item) 
-                                            <tr id="tr_{{$item->air_repaire_id}}">                                                  
+                                            <tr id="tr_{{$item->air_repaire_id}}" style="font-size:13px">                                                  
                                                 <td class="text-center" width="3%">{{ $i++ }}</td>  
                                                 <td class="text-center" width="3%" style="font-size: 12px">
-                                                    @if ($item->active == 'Y')
-                                                        <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-success">
-                                                            พร้อมใช้งาน
-                                                            </span> 
+                                                    @if ($item->active == 'Y') 
+                                                            <span class="badge bg-success">พร้อมใช้งาน</span> 
                                                     @else
-                                                        <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger"> ไม่พร้อมใช้งาน</span>
+                                                    <span class="badge bg-danger">ไม่พร้อมใช้งาน</span> 
                                                     @endif
                                                 </td> 
-                                                <td class="text-center" width="8%">{{ DateThai($item->repaire_date )}}</td>    
+                                                <td class="text-center" width="8%">{{ DateThai($item->repaire_date )}}</td>  
+                                                <td class="text-center" width="5%">{{ $item->repaire_time }}</td> 
+                                                <td class="text-center" width="7%">{{ $item->air_repaire_no }}</td>   
                                                 <td class="text-center" width="7%">{{ $item->air_list_num }}</td>  
                                                 <td class="p-2">{{ $item->air_list_name }}</td>   
-                                                <td class="p-2" width="20%">{{ $item->air_location_name }}</td>  
+                                                <td class="p-2" width="20%">{{ $item->air_location_name }}</td> 
+                                                <td class="p-2" width="10%">{{ $item->air_techout_name }}</td>   
                                                 <td class="p-2" width="10%">{{ $item->ptname }}</td>  
                                                 <td class="p-2" width="10%">{{ $item->tectname }}</td>  
                                                 
+        
                                             </tr>
                                         @endforeach
-                                    </tbody> --}}
-                            </table>
-                        </div>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-      
 
+    </div> 
     </div>
+
+
+    <div class="row">
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-3">
+            
+        </div>
+        <div class="col-md-3">
+            
+        </div>
+        <div class="col-md-3">
+            
+        </div>
+    </div>
+
+
 @endsection
 @section('footer') 
     <script>

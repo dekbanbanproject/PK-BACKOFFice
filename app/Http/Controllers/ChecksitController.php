@@ -60,7 +60,9 @@ use App\Models\Check_authen_hos217;
 use App\Models\Visit_pttype_authen_report;
 use App\Models\Check_authen_hos;
 use App\Models\Check_authen_excel;
-use App\Models\check_authen_new;
+use App\Models\Visit_pttype;
+use App\Models\Visit_pttype_205;
+use App\Models\Visit_pttype_217;
 use Auth;
 use ZipArchive;
 use Storage;
@@ -429,6 +431,26 @@ class ChecksitController extends Controller
  
                 } else {
                 }
+
+                // Visit_pttype_205::where('vn', $vn)
+                //     ->update([
+                //         'claim_code'     => $value->claimcode, 
+                //         'auth_code'      => $value->claimcode, 
+                // ]);
+                // Visit_pttype_217::where('vn', $vn)
+                //     ->update([
+                //         'claim_code'     => $value->claimcode, 
+                //         'auth_code'      => $value->claimcode, 
+                // ]);
+                // Visit_pttype::where('vn','=', $vn)
+                //     ->update([
+                //         'claim_code'     => $value->claimcode, 
+                //         'auth_code'      => $value->claimcode, 
+                // ]);
+            
+
+
+
             }
             } catch (Exception $e) {
                 $error_code = $e->errorInfo[1];
@@ -1363,35 +1385,66 @@ class ChecksitController extends Controller
             FROM db_authen
             WHERE year = "'.$y.'" and authen_opd <> 0 
         ');
-        $data_year3 = DB::connection('mysql')->select('
-                SELECT
-                MONTH(c.vstdate) as month
-                ,YEAR(c.vstdate) as year
-                ,DAY(c.vstdate) as day
-                ,COUNT(DISTINCT c.vn) as VN
-                ,COUNT(c.claimcode) as Authen
-                ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
-                from check_sit_auto c
-                LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-                WHERE month(c.vstdate) = "'.$m.'" AND YEAR(c.vstdate) = "'.$y.'"
-                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
-                AND c.main_dep NOT IN("011","036","107","078","020") AND c.pdx NOT IN("Z000")
-                GROUP BY day
-                ORDER BY c.vstdate DESC
+        // $data_year3 = DB::connection('mysql')->select('
+        //         SELECT
+        //         MONTH(c.vstdate) as month
+        //         ,YEAR(c.vstdate) as year
+        //         ,DAY(c.vstdate) as day
+        //         ,COUNT(DISTINCT c.vn) as VN
+        //         ,COUNT(c.claimcode) as Authen
+        //         ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
+        //         from check_sit_auto c
+        //         LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+        //         WHERE month(c.vstdate) = "'.$m.'" AND YEAR(c.vstdate) = "'.$y.'"
+        //         AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+        //         AND c.main_dep NOT IN("011","036","107","078","020") AND c.pdx NOT IN("Z000")
+        //         GROUP BY day
+        //         ORDER BY c.vstdate DESC
+        // ');
+        $data_year3 = DB::connection('mysql10')->select(
+            'SELECT MONTH(c.vstdate) as month
+            ,YEAR(c.vstdate) as year
+            ,DAY(c.vstdate) as day
+            ,COUNT(DISTINCT c.vn) as VN
+            ,COUNT(vp.claim_code) as Authen
+            ,COUNT(c.vn)-COUNT(vp.claim_code) as Noauthen
+            from ovst c
+            LEFT JOIN visit_pttype vp ON vp.vn = c.vn
+            LEFT JOIN vn_stat v ON v.vn = c.vn
+            LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+            WHERE month(c.vstdate) = "'.$m.'" AND YEAR(c.vstdate) = "'.$y.'"
+            AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+            AND c.main_dep NOT IN("011","036","107","078","020") 
+            AND v.pdx NOT IN("Z000")
+            GROUP BY day
+            ORDER BY c.vstdate DESC
         ');
 
         // dd($date_now);
-        $data_staff_new = DB::connection('mysql')->select(
+
+        $data_staff_new = DB::connection('mysql10')->select(
             'SELECT MONTH(c.vstdate) as month,YEAR(c.vstdate) as year,DAY(c.vstdate) as day
-				,c.staff,c.staff_name,COUNT(DISTINCT c.vn) as countvn,COUNT(c.claimcode) as Authen,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
-                FROM check_sit_auto c
-                LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-                WHERE c.vstdate = "'.$date_now.'"
-                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4")
-                AND c.main_dep NOT IN("011","036","107","078","020")
-                GROUP BY c.staff
-			    ORDER BY Noauthen DESC
+            ,c.staff,od.`name` as staff_name,COUNT(DISTINCT c.vn) as countvn,COUNT(vp.claim_code) as Authen,COUNT(c.vn)-COUNT(vp.claim_code) as Noauthen
+            FROM ovst c
+            LEFT JOIN visit_pttype vp ON vp.vn = c.vn
+            LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+            LEFT JOIN opduser od on od.loginname = c.staff
+            WHERE c.vstdate = "'.$date_now.'"
+            AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+            AND c.main_dep NOT IN("011","036","107","078","020") 
+            GROUP BY c.staff 
         ');
+        // $data_staff_new = DB::connection('mysql')->select(
+        //     'SELECT MONTH(c.vstdate) as month,YEAR(c.vstdate) as year,DAY(c.vstdate) as day
+		// 		,c.staff,c.staff_name,COUNT(DISTINCT c.vn) as countvn,COUNT(c.claimcode) as Authen,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
+        //         FROM check_sit_auto c
+        //         LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+        //         WHERE c.vstdate = "'.$date_now.'"
+        //         AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4")
+        //         AND c.main_dep NOT IN("011","036","107","078","020")
+        //         GROUP BY c.staff
+		// 	    ORDER BY Noauthen DESC
+        // ');
         $data_dep = DB::connection('mysql')->select('
                 SELECT
                  MONTH(c.vstdate) as month
@@ -1429,10 +1482,7 @@ class ChecksitController extends Controller
                 ORDER BY Noauthen DESC LIMIT 5
         ');
         // AND c.main_dep NOT IN("011","036","107")
-        $data_type = DB::connection('mysql')->select('
-            SELECT *
-            FROM checkauthen_type 
-        ');
+        $data_type = DB::connection('mysql')->select('SELECT * FROM checkauthen_type');
         $data_pttypegroup = DB::connection('mysql')->select('
             SELECT p.pttype,p.name as typename,p.hipdata_code,n.inscl_name
             FROM pttype p
@@ -1498,14 +1548,39 @@ class ChecksitController extends Controller
         $y = date('Y');
         $m = date('m');
 
-        $data_sit = DB::connection('mysql')->select('
-            SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,k.department,c.pdx
-            from check_sit_auto c
+        // $data_sit = DB::connection('mysql')->select('
+        //     SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,k.department,c.pdx
+        //     from check_sit_auto c
+        //     LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+        //     WHERE DAY(vstdate) = "'.$day.'" AND MONTH(vstdate) = "'.$month.'" AND YEAR(vstdate) = "'.$year.'" AND c.claimcode is null
+        //     AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+        //     AND c.pdx NOT IN("Z000")
+        // ');
+        $data_sit = DB::connection('mysql10')->select(
+            'SELECT c.vn,c.hn,p.cid,c.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname,c.pttype,"" as subinscl,v.income as debit,vp.claim_code,"" as claimtype,v.hospmain
+            ,p.hometel,c.hospsub,c.main_dep,"" as hmain,"" as hsub,"" as subinscl_name,c.staff,k.department,v.pdx
+            from ovst c
+            LEFT JOIN visit_pttype vp ON vp.vn = c.vn
+            LEFT JOIN vn_stat v ON v.vn = c.vn
+            LEFT JOIN patient p ON p.hn = v.hn
             LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-            WHERE DAY(vstdate) = "'.$day.'" AND MONTH(vstdate) = "'.$month.'" AND YEAR(vstdate) = "'.$year.'" AND c.claimcode is null
+            WHERE DAY(c.vstdate) = "'.$day.'" AND MONTH(c.vstdate) = "'.$month.'" AND YEAR(c.vstdate) = "'.$year.'" AND vp.claim_code is null
             AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
-            AND c.pdx NOT IN("Z000")
+            AND c.main_dep NOT IN("011","036","107","078","020") 
+            AND v.pdx NOT IN("Z000")
+            GROUP BY c.vn 
         ');
+        // from ovst c
+        //     LEFT JOIN visit_pttype vp ON vp.vn = c.vn
+        //     LEFT JOIN vn_stat v ON v.vn = c.vn
+        //     LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+        //     WHERE month(c.vstdate) = "'.$m.'" AND YEAR(c.vstdate) = "'.$y.'"
+        //     AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+        //     AND c.main_dep NOT IN("011","036","107","078","020") 
+        //     AND v.pdx NOT IN("Z000")
+        //     GROUP BY day
+        //     ORDER BY c.vstdate DESC
+
         // AND c.main_dep NOT IN("011","036","107")
         return view('dashboard.check_dashboard_noauthen',[
             'data_sit'       => $data_sit,

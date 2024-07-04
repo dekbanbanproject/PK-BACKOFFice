@@ -9,7 +9,7 @@ class Vn_stat extends Model
 {
     use HasFactory;
 
-    protected $connection = 'mysql3';
+    protected $connection = 'mysql10';
     protected $table = 'vn_stat';
     protected $primaryKey = 'vn';
     public $timestamps = false;     

@@ -456,7 +456,18 @@ $loter = $date.''.$time
                                                                 </div>
                                                                 <p class="mt-3" style="font-size:14px;color:rgb(9, 119, 209)">ชื่อ-นามสกุล </p>
                                                                 <div class="form-group"> 
-                                                                    <input type="text" class="form-control form-control-sm" id="air_techout_name" name="air_techout_name" value="{{ $data_edit->air_techout_name }}">
+                                                                    {{-- <input type="text" class="form-control form-control-sm" id="air_techout_name" name="air_techout_name" value="{{ $data_edit->air_techout_name }}"> --}}
+                                                                    <select class="custom-select custom-select-sm" id="air_techout_name" name="air_techout_name" style="width: 100%">
+                                                                        @foreach ($users_techs as $item_uu)
+                                                                            @if ($data_edit->air_techout_name == $item_uu->id)
+                                                                                <option value="{{ $item_uu->id }}" class="text-center" selected>{{ $item_uu->fname }} {{ $item_uu->lname }}</option>
+                                                                            @else
+                                                                                <option value="{{ $item_uu->id }}" class="text-center">{{ $item_uu->fname }} {{ $item_uu->lname }}</option>
+                                                                            @endif
+                                                                        @endforeach
+
+                                                                        
+                                                                    </select>
                                                                 </div>
                                                                 
                                                                 <div class="form-group text-center mt-2"> <img src="data:image/png;base64,{{ $signature }}" alt="" height="50px" width="auto"> </div>

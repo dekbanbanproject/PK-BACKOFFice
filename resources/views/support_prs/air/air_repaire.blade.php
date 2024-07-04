@@ -2,6 +2,25 @@
 @section('title', 'PK-OFFICER || Air-Service')
 
 @section('content')
+
+<script>
+    function TypeAdmin() {
+        window.location.href = '{{ route('index') }}';
+    }
+     
+</script>
+<?php
+        if (Auth::check()) {
+            $type = Auth::user()->type;
+            $iduser = Auth::user()->id;
+        } else {
+            echo "<body onload=\"TypeAdmin()\"></body>";
+            exit();
+        }
+        $url = Request::url();
+        $pos = strrpos($url, '/') + 1;
+?>
+
     <style>
         body {
             font-family: 'Kanit', sans-serif;
@@ -333,7 +352,8 @@
                                                 <p>ชื่อ-นามสกุล :</p>
                                             </div>
                                             <div class="col-8">
-                                                <input type="text" class="form-control form-control-sm" id="air_techout_name" name="air_techout_name">
+                                                <input type="hidden" class="form-control form-control-sm" id="air_techout_name" name="air_techout_name" value="{{$users_tech_out_id}}">
+                                                <input type="text" class="form-control form-control-sm" id="" name="" value="{{$users_tech_out}}">
                                             </div>
                                         </div>
                                         <div class="row">
@@ -823,8 +843,8 @@
                                     .isConfirmed) {
                                     console.log(
                                         data);
-                                    window.location.reload();
-                                    // window.location = "{{ url('air_main_repaire') }}";
+                                    // window.location.reload();
+                                    window.location = "{{ url('home_supplies') }}";
                                     $('#spinner')
                                 .hide(); //Request is complete so hide spinner
                                     setTimeout(function() {

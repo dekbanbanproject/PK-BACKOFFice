@@ -38,7 +38,7 @@ use App\Models\Acc_stm_prb;
 use App\Models\Acc_stm_ti_totalhead;
 use App\Models\Acc_stm_ti_excel;
 use App\Models\Acc_stm_ofc;
-use App\Models\acc_stm_ofcexcel;
+use App\Models\Article_status;
 use App\Models\Air_repaire;
 use App\Models\Air_list;
 use App\Models\Product_buy;
@@ -89,6 +89,44 @@ date_default_timezone_set("Asia/Bangkok");
 
 class AirController extends Controller
  { 
+    public function home_supplies(Request $request)
+    {
+        $datenow   = date('Y-m-d');
+        $months    = date('m');
+        $year      = date('Y'); 
+        $startdate = $request->startdate;
+        $enddate   = $request->enddate;
+        $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
+        $idsup    = Auth::user()->air_supplies_id;
+        if ($startdate =='') {
+            $datashow = DB::select(
+                'SELECT a.* ,al.air_imgname,al.active,al.detail,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tectname
+                ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
+                FROM air_repaire a
+                LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
+                 LEFT JOIN users p ON p.id = a.air_staff_id 
+                 WHERE a.repaire_date BETWEEN "'.$newDate.'" AND "'.$datenow.'" AND a.air_supplies_id = "'.$idsup.'"
+                ORDER BY air_repaire_id DESC
+            '); 
+        } else {
+            $datashow = DB::select(
+                'SELECT a.* ,al.air_imgname,al.active,al.detail,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tectname
+                 ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
+                FROM air_repaire a
+                LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
+                LEFT JOIN users p ON p.id = a.air_staff_id 
+                WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND a.air_supplies_id = "'.$idsup.'"
+                ORDER BY air_repaire_id DESC
+            '); 
+        }
+        return view('supplies_tech.main_index',[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate, 
+            'datashow'      => $datashow,
+        ]);
+    }
     
     public function air_main(Request $request)
     {
@@ -106,40 +144,80 @@ class AirController extends Controller
         ]);
     }
     public function air_repaire(Request $request, $id)
-    { 
-        // $data_count = Fire::where('fire_num','=', $id)->count(); 
-        // if ($data_count < 1) {
- 
-        // } else {
-            $datenow   = date('Y-m-d');
-            $months    = date('m');
-            $year      = date('Y'); 
-            $startdate = $request->startdate;
-            $enddate   = $request->enddate;
-            $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-            $newDate   = date('Y-m-d', strtotime($datenow . ' -3 months')); //ย้อนหลัง 3 เดือน
-            $data_detail = Air_repaire::leftJoin('users', 'air_repaire.air_tech_id', '=', 'users.id') 
-            ->leftJoin('air_list', 'air_list.air_list_id', '=', 'air_repaire.air_list_id') 
-            ->where('air_list.air_list_id', '=', $id)
-            ->get();
-            $data['air_repaire_ploblem']     = DB::table('air_repaire_ploblem')->get();
-            $data['users']                   = DB::table('users')->get();
-            $data['users_tech']              = DB::table('users')->where('dep_id','=','1')->get();
-            $data['air_tech']                = DB::table('air_tech')->where('air_type','=','IN')->get();
-            $data_detail_ = Air_list::where('air_list_id', '=', $id)->first();
-            // $signat = $data_detail_->air_img_base;
-            // $pic_fire = base64_encode(file_get_contents($signat)); 
-            $air_no = DB::connection('mysql6')->select(
-                'SELECT * from informrepair_index 
-                WHERE REPAIR_STATUS ="RECEIVE" AND TECH_RECEIVE_DATE BETWEEN "'.$newDate.'" AND "'.$datenow.'" ORDER BY REPAIR_ID ASC'); 
-            // REPAIR_SYSTEM ="1" AND 
-            return view('support_prs.air.air_repaire',$data, [
-                // 'dataprint'    => $dataprint,
-                'data_detail'   => $data_detail,
-                'data_detail_'  => $data_detail_,
-                'air_no'        => $air_no,
-                'id'            => $id
-            ]); 
+    {  
+        if (Auth::check()) {
+            $type      = Auth::user()->type;
+            $iduser    = Auth::user()->id;
+            $iddep     = Auth::user()->dep_subsubtrueid;
+            $idsup     = Auth::user()->air_supplies_id; 
+
+              if ($idsup == '1' || $idsup == '2' || $idsup == 'on') {
+                    $datenow   = date('Y-m-d');
+                    $months    = date('m');
+                    $year      = date('Y'); 
+                    $startdate = $request->startdate;
+                    $enddate   = $request->enddate;
+                    $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+                    $newDate   = date('Y-m-d', strtotime($datenow . ' -3 months')); //ย้อนหลัง 3 เดือน
+                    // $iduser    = Auth::user()->id;
+                
+                    $data_detail = Air_repaire::leftJoin('users', 'air_repaire.air_tech_id', '=', 'users.id') 
+                    ->leftJoin('air_list', 'air_list.air_list_id', '=', 'air_repaire.air_list_id') 
+                    ->where('air_list.air_list_id', '=', $id)
+                    ->get();
+
+                    $users_tech_out_                 = DB::table('users')->where('id','=',$iduser)->first();
+                    $data['users_tech_out']          = $users_tech_out_->fname.'  '.$users_tech_out_->lname; 
+                    $data['users_tech_out_id']       = $users_tech_out_->id;   
+                    $data['air_repaire_ploblem']     = DB::table('air_repaire_ploblem')->get();
+                    $data['users']                   = DB::table('users')->get();
+                    $data['users_tech']              = DB::table('users')->where('dep_id','=','1')->get();
+                    $data['air_tech']                = DB::table('air_tech')->where('air_type','=','IN')->get();
+                    $data_detail_ = Air_list::where('air_list_id', '=', $id)->first();
+                    // $signat = $data_detail_->air_img_base;
+                    // $pic_fire = base64_encode(file_get_contents($signat)); 
+                    $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE REPAIR_STATUS ="RECEIVE" AND TECH_RECEIVE_DATE BETWEEN "'.$newDate.'" AND "'.$datenow.'" ORDER BY REPAIR_ID ASC'); 
+                return view('support_prs.air.air_repaire',$data, [ 
+                    'data_detail'   => $data_detail,
+                    'data_detail_'  => $data_detail_,
+                    'air_no'        => $air_no,
+                    'id'            => $id
+                ]); 
+            } else {
+                return view('support_prs.air.air_repaire_null'); 
+            }
+
+            
+        
+            // return view('support_prs.air.air_repaire',$data, [ 
+            //     'data_detail'   => $data_detail,
+            //     'data_detail_'  => $data_detail_,
+            //     'air_no'        => $air_no,
+            //     'id'            => $id
+            // ]); 
+
+        } else {
+            // echo "<body onload=\"TypeAdmin()\"></body>";
+            // exit();
+                      return view('support_prs.air.air_repaire_null'); 
+        }
+            // if ($idsup == '1' || $idsup == '2') {
+                // return view('support_prs.air.air_repaire',$data, [ 
+                //     'data_detail'   => $data_detail,
+                //     'data_detail_'  => $data_detail_,
+                //     'air_no'        => $air_no,
+                //     'id'            => $id
+                // ]); 
+            // } else {
+            //     return view('support_prs.air.air_repaire_null',$data, [ 
+            //         'data_detail'   => $data_detail,
+            //         'data_detail_'  => $data_detail_,
+            //         'air_no'        => $air_no,
+            //         'id'            => $id
+            //     ]); 
+            // }
+            
+            
     }
     public function air_repaire_edit(Request $request,$id)
     {  
@@ -162,8 +240,10 @@ class AirController extends Controller
         $data['product_budget']     = Product_budget::get(); 
         $data['product_buy']        = Product_buy::get();
         $data['users']              = User::get();
-        $data['users_tech']              = DB::table('users')->where('dep_id','=','1')->get(); 
-        $data['air_tech']                = DB::table('air_tech')->where('air_type','=','IN')->get();
+        $data['users_tech']         = DB::table('users')->where('dep_id','=','1')->get(); 
+        $data['air_tech']           = DB::table('air_tech')->where('air_type','=','IN')->get();
+        $data['users_techs']         = DB::table('users')->whereIn('air_supplies_id',[1, 2])->get(); 
+
         $data['products_vendor']    = Products_vendor::get(); 
         $data['product_brand']      = DB::table('product_brand')->get();
         $data['medical_typecat']    = DB::table('medical_typecat')->get();
@@ -213,14 +293,18 @@ class AirController extends Controller
         $add_img3    = $request->input('signature3');
         $id          = $request->input('air_repaire_id');
 
-        $data_edit   = Air_repaire::where('air_repaire_id', '=', $id)->first();
-        $idarticle   = $request->air_repaire_no; 
-        $air_no = DB::connection('mysql6')->table('informrepair_index')->where('ID', '=', $idarticle)->first();
+        $data_edit       = Air_repaire::where('air_repaire_id', '=', $id)->first();
+        $idarticle       = $request->air_repaire_no; 
+        $air_no          = DB::connection('mysql6')->table('informrepair_index')->where('ID', '=', $idarticle)->first();
         // foreach ($air_no as $key => $value) {
-                $repaire_id  = $air_no->REPAIR_ID;
-                $repaire_num = $air_no->ARTICLE_ID;
+            $repaire_id  = $air_no->REPAIR_ID;
+            $repaire_num = $air_no->ARTICLE_ID;
         // }
-        $data_2 = $request->air_2; 
+        $data_2          = $request->air_2; 
+        $idsup           = Auth::user()->air_supplies_id;
+        $tech_out_       = User::where('id', '=',$request->air_techout_name)->first();
+        $tech_sup_out    = $tech_out_->air_supplies_id;
+        
         if ($data_2 == 'on') {
             $update = Air_repaire::find($id);
             $update->repaire_date        = $date_now;
@@ -265,7 +349,7 @@ class AirController extends Controller
             // $update->air_status_staff    = $request->air_status_staff;   
             // $update->air_staff_id        = $request->air_staff_id; 
             // $update->air_status_tech     = $request->air_status_tech; 
-            // $update->air_tech_id         = $request->air_tech_id; 
+            $update->air_supplies_id      = $tech_sup_out; 
 
             $update->save();   
         
@@ -342,7 +426,7 @@ class AirController extends Controller
                     $update->air_staff_id        = $request->air_staff_id; 
                     $update->air_status_tech     = $request->air_status_tech; 
                     $update->air_tech_id         = $request->air_tech_id; 
-
+                    $update->air_supplies_id     = $tech_sup_out; 
                     $update->save();   
                 
                     if ($request->air_status_techout == 'N' || $request->air_status_staff == 'N' || $request->air_status_tech == 'N') {
@@ -370,7 +454,12 @@ class AirController extends Controller
         $add_img  = $request->input('signature');
         $add_img2 = $request->input('signature2');
         $add_img3 = $request->input('signature3');
-          
+
+        $idsup    = Auth::user()->air_supplies_id;
+        $m = date('H');
+        $mm = date('H:m:s');
+        $datefull = date('Y-m-d H:m:s');
+
         if ($add_img =='') {
             return response()->json([
                 'status'     => '50'
@@ -382,6 +471,7 @@ class AirController extends Controller
         } else { 
                 $add = new Air_repaire();
                 $add->repaire_date        = $date_now;
+                $add->repaire_time        = $mm;
                 $add->air_num             = $request->air_num;
                 $add->air_repaire_no      = $request->air_repaire_no;
                 $add->air_list_id         = $request->air_list_id;
@@ -425,7 +515,8 @@ class AirController extends Controller
                 $add->air_staff_id        = $request->air_staff_id; 
                 $add->air_status_tech     = $request->air_status_tech; 
                 $add->air_tech_id         = $request->air_tech_id; 
-                
+                $add->air_supplies_id     = $idsup;
+               
                 $add->save();
                 return response()->json([
                     'status'     => '200'
@@ -448,6 +539,7 @@ class AirController extends Controller
         if ($startdate =='') {
             $datashow = DB::select(
                 'SELECT a.* ,al.air_imgname,al.active,al.detail,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tectname
+                ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
                 FROM air_repaire a
                 LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
                  LEFT JOIN users p ON p.id = a.air_staff_id 
@@ -457,6 +549,7 @@ class AirController extends Controller
         } else {
             $datashow = DB::select(
                 'SELECT a.* ,al.air_imgname,al.active,al.detail,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tectname
+                ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
                 FROM air_repaire a
                 LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
                 LEFT JOIN users p ON p.id = a.air_staff_id 

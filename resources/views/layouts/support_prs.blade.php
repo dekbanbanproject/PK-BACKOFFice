@@ -247,7 +247,7 @@
         font-size: 14px;
     } 
     .myTable thead tr{
-    background-color: #5AE6E1;
+    background-color: #8be2df;
     color: #064b85;
     text-align: center;
     }
@@ -260,7 +260,7 @@
         border-bottom: 1px solid #C1E2FD;
     }
     .myTable tbody td{
-        font-size:15px;
+        font-size:13px;
     }
     .myTable tbody tr:nth-of-type(even){
         background-color: #E1F7F6;

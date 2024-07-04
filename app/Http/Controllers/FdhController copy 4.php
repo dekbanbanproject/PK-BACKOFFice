@@ -100,7 +100,7 @@ use App\Models\Fdh_ipd;
 use App\Models\Fdh_aer;
 use App\Models\Fdh_irf;
 use App\Models\Fdh_lvd;
-use App\Models\Vn_stat;
+use App\Models\D_dru_out;
 use App\Models\Fdh_mini_dataset;
 use App\Models\Api_neweclaim;
 use App\Imports\ImportAcc_stm_ti;
@@ -2569,75 +2569,241 @@ class FdhController extends Controller
         // if ($startdate =='') {
                 $iduser      = Auth::user()->id;
                 $id          = $request->ids;
-                // $data_vn_1 = Check_sit_auto::whereIn('check_sit_auto_id', explode(",", $id))->get();
-                $data_vn_1 = Vn_stat::select('patient.cid', 'vn_stat.vn','vn_stat.vstdate','vn_stat.pttype')
-                ->leftjoin('patient','patient.hn','=','vn_stat.hn')
-                ->whereIn('vn_stat.vn', explode(",", $id))->get();
-                
-                foreach ($data_vn_1 as $key => $value) {
-                        $cid         = $value->cid;
-                        $vn          = $value->vn;
-                        $vstdate     = $value->vstdate;
-                        $pttype     = $value->pttype;  
+                $data_vn_1 = Check_sit_auto::whereIn('check_sit_auto_id', explode(",", $id))->get();
+                // $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE active_mini = "Y" AND user_id="'.$iduser.'"');
+                // foreach ($data_token_ as $key => $val_to) {
+                //     $token_       = $val_to->api_neweclaim_token;
+                //     $basic_auth   = $val_to->basic_auth;
+                // }
+                // $token = $token_;                  
+        //         foreach ($data_vn_1 as $key => $value) {
+        //                 $cid         = $value->cid;
+        //                 $vn          = $value->vn;
+        //                 $vstdate     = $value->vstdate; 
+ 
 
-                        $ch = curl_init(); 
-                        $headers = array();
-                        $headers[] = "Accept: application/json";
-                        $headers[] = "Authorization: Bearer 3045bba2-3cac-4a74-ad7d-ac6f7b187479";    
-                        // curl_setopt($ch, CURLOPT_URL, "https://authenucws.nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cid&serviceDate=$vstdate&serviceCode=PG0060001");
-                        // curl_setopt($ch, CURLOPT_URL, "https://nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cid&serviceDate=$vstdate&serviceCode=PG0060001");
-                        curl_setopt($ch, CURLOPT_URL, "https://authenucws.nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cid&serviceDate=$vstdate&serviceCode=PG0060001");
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-                        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); 
-                        $response = curl_exec($ch); 
-                        $contents = $response; 
-                        $result = json_decode($contents, true);  
-                        if ($result != null ) {  
-                                isset( $result['statusAuthen'] ) ? $statusAuthen = $result['statusAuthen'] : $statusAuthen = ""; 
-                                if ($statusAuthen =='false') { 
-                                    $his = $result['serviceHistories']; 
-                                    // dd($his); 
-                                    foreach ($his as $key => $value_s) {
-                                        $cd	           = $value_s["claimCode"];
-                                        $sv_code	   = $value_s["service"]["code"];
-                                        $sv_name	   = $value_s["service"]["name"];
+        //                 $ch = curl_init(); 
+        //                 $headers = array();
+        //                 $headers[] = "Accept: application/json";
+        //                 $headers[] = "Authorization: Bearer 3045bba2-3cac-4a74-ad7d-ac6f7b187479";
+        //                 // https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=2024-05-29&claimDateTo=2024-05-29&pid=3361000824057&page=0&size=10&sort=transId,desc   
+        //                 // $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$vstdate&claimDateTo=$vstdate&pid=$cid&page=0&size=10&sort=transId,desc"; 
+        //                 curl_setopt($ch, CURLOPT_URL, "https://authenucws.nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cid&serviceDate=$vstdate&serviceCode=PG0060001"); 
+        //                 // curl_setopt($ch, CURLOPT_URL, $url);
+        //                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        //                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+        //                 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); 
+        //                 $response = curl_exec($ch); 
+        //                 $contents = $response; 
+        //                 // dd($response);
+        //                 $result = json_decode($contents, true);  
+        //                 // dd($result);
+        //                 if ($result != null ) {  
+        //                         isset( $result['statusAuthen'] ) ? $statusAuthen = $result['statusAuthen'] : $statusAuthen = ""; 
+        //                         if ($statusAuthen =='false') { 
+        //                             $his = $result['serviceHistories']; 
+        //                             // dd($his); 
+        //                             foreach ($his as $key => $value_s) {
+        //                                 $cd	           = $value_s["claimCode"];
+        //                                 $sv_code	   = $value_s["service"]["code"];
+        //                                 $sv_name	   = $value_s["service"]["name"];
                                             
-                                        Visit_pttype::where('vn','=', $vn)
-                                            ->update([
-                                                'claim_code'     => $cd, 
-                                                'auth_code'      => $cd, 
-                                        ]);
+        //                                 Visit_pttype::where('vn','=', $vn)
+        //                                     ->update([
+        //                                         'claim_code'     => $cd, 
+        //                                         'auth_code'      => $cd, 
+        //                                 ]);
                                         
-                                        Check_sit_auto::where('vn','=', $vn)
-                                            ->update([
-                                                'claimcode'     => $cd,
-                                                'claimtype'     => $sv_code,
-                                                'servicename'   => $sv_name, 
-                                        ]);
-                                        Fdh_mini_dataset::where('vn','=', $vn)
-                                            ->update([
-                                                'claimcode'     => $cd,
-                                                'claimtype'     => $sv_code,
-                                                'servicename'   => $sv_name, 
-                                        ]);
+        //                                 Check_sit_auto::where('vn','=', $vn)
+        //                                     ->update([
+        //                                         'claimcode'     => $cd,
+        //                                         'claimtype'     => $sv_code,
+        //                                         'servicename'   => $sv_name, 
+        //                                 ]);
+        //                                 Fdh_mini_dataset::where('vn','=', $vn)
+        //                                     ->update([
+        //                                         'claimcode'     => $cd,
+        //                                         'claimtype'     => $sv_code,
+        //                                         'servicename'   => $sv_name, 
+        //                                 ]);
 
-                                        // Visit_pttype_205::where('vn', $vn)
-                                        //     ->update([
-                                        //         'claim_code'     => $cd, 
-                                        //         'auth_code'      => $cd, 
-                                        // ]);
-                                        // Visit_pttype_217::where('vn', $vn)
-                                        //     ->update([
-                                        //         'claim_code'     => $cd, 
-                                        //         'auth_code'      => $cd, 
-                                        // ]);
+        //                                 Visit_pttype_205::where('vn', $vn)
+        //                                     ->update([
+        //                                         'claim_code'     => $cd, 
+        //                                         'auth_code'      => $cd, 
+        //                                 ]);
+        //                                 Visit_pttype_217::where('vn', $vn)
+        //                                     ->update([
+        //                                         'claim_code'     => $cd, 
+        //                                         'auth_code'      => $cd, 
+        //                                 ]);
                                         
-                                    }  
-                                } 
-                        } 
-                }  
-             
+        //                             }  
+        //                         } 
+        //                 } 
+
+        //         }  
+        // } else { 
+
+            // $date_now = date('2024-05-10'); 
+            // $data_ = DB::connection('mysql10')->select(
+            //     'SELECT 
+            //     v.vn,v.cid,v.hn,v.vstdate,vp.claim_code 
+            //     FROM ovst o 
+            //     LEFT JOIN vn_stat v ON v.vn = v.vn
+            //     LEFT JOIN visit_pttype vp ON vp.vn = v.vn
+            //     WHERE v.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            //     AND (vp.claim_code IS NULL OR vp.claim_code ="") 
+            //     AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","X7","10","06","C4") 
+            //     AND v.income > 0
+            //     GROUP BY o.vn 
+            // '); 
+            // $data_ = DB::connection('mysql2')->select(
+            //     'SELECT vn,cid,hn,vstdate FROM check_sit_auto WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY v
+            // n'); 
+            // $data_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6") GROUP BY vn'); 
+           
+            foreach ($data_vn_1 as $key => $value) {
+                    $cid         = $value->cid;
+                    $vn          = $value->vn;
+                    $vstdate     = $value->vstdate;
+                    $pttype     = $value->pttype;  
+
+                    $ch = curl_init(); 
+                    $headers = array();
+                    $headers[] = "Accept: application/json";
+                    $headers[] = "Authorization: Bearer 3045bba2-3cac-4a74-ad7d-ac6f7b187479";    
+                    // curl_setopt($ch, CURLOPT_URL, "https://authenucws.nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cid&serviceDate=$vstdate&serviceCode=PG0060001");
+                    // curl_setopt($ch, CURLOPT_URL, "https://nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cid&serviceDate=$vstdate&serviceCode=PG0060001");
+                    curl_setopt($ch, CURLOPT_URL, "https://authenucws.nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cid&serviceDate=$vstdate&serviceCode=PG0060001");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); 
+                    $response = curl_exec($ch); 
+                    $contents = $response; 
+                    $result = json_decode($contents, true);  
+                    if ($result != null ) {  
+                            isset( $result['statusAuthen'] ) ? $statusAuthen = $result['statusAuthen'] : $statusAuthen = ""; 
+                            if ($statusAuthen =='false') { 
+                                $his = $result['serviceHistories']; 
+                                // dd($his); 
+                                foreach ($his as $key => $value_s) {
+                                    $cd	           = $value_s["claimCode"];
+                                    $sv_code	   = $value_s["service"]["code"];
+                                    $sv_name	   = $value_s["service"]["name"];
+                                        
+                                    Visit_pttype::where('vn','=', $vn)
+                                        ->update([
+                                            'claim_code'     => $cd, 
+                                            'auth_code'      => $cd, 
+                                    ]);
+                                    
+                                    Check_sit_auto::where('vn','=', $vn)
+                                        ->update([
+                                            'claimcode'     => $cd,
+                                            'claimtype'     => $sv_code,
+                                            'servicename'   => $sv_name, 
+                                    ]);
+                                    Fdh_mini_dataset::where('vn','=', $vn)
+                                        ->update([
+                                            'claimcode'     => $cd,
+                                            'claimtype'     => $sv_code,
+                                            'servicename'   => $sv_name, 
+                                    ]);
+
+                                    Visit_pttype_205::where('vn', $vn)
+                                        ->update([
+                                            'claim_code'     => $cd, 
+                                            'auth_code'      => $cd, 
+                                    ]);
+                                    Visit_pttype_217::where('vn', $vn)
+                                        ->update([
+                                            'claim_code'     => $cd, 
+                                            'auth_code'      => $cd, 
+                                    ]);
+                                    
+                                }  
+                            } 
+                    } 
+            }  
+            
+            // $datati_ = DB::connection('mysql10')->select(
+            //     'SELECT 
+            //     v.vn,v.cid,v.hn,v.vstdate,vp.claim_code 
+            //     FROM ovst o 
+            //     LEFT JOIN vn_stat v ON v.vn = v.vn
+            //     LEFT JOIN visit_pttype vp ON vp.vn = v.vn
+            //     WHERE v.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            //     AND (vp.claim_code IS NULL OR vp.claim_code ="") 
+            //     AND v.pttype IN("M1","M2","M3","M4","M5","M6") 
+            //     GROUP BY o.vn 
+            // '); 
+            // $datati_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM check_sit_auto WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND (claimcode IS NULL OR claimcode ="") AND pttype IN("M1","M2","M3","M4","M5","M6") GROUP BY vn'); 
+            // $datati_ = DB::connection('mysql')->select('SELECT vn,cid,hn,vstdate FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND (claimcode IS NULL OR claimcode ="") AND pttype IN("M1","M2","M3","M4","M5","M6") GROUP BY vn'); 
+            
+                
+            // $chti = curl_init(); 
+            // foreach ($datati_ as $key => $valueti) {
+            //         $cidti         = $valueti->cid;
+            //         $vnti          = $valueti->vn;
+            //         $vstdateti     = $valueti->vstdate; 
+            //         $headers = array();
+            //         $headers[] = "Accept: application/json";
+            //         $headers[] = "Authorization: Bearer 3045bba2-3cac-4a74-ad7d-ac6f7b187479";    
+            //         curl_setopt($chti, CURLOPT_URL, "https://authenucws.nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cidti&serviceDate=$vstdateti&serviceCode=PG0130001");
+            //         curl_setopt($chti, CURLOPT_RETURNTRANSFER, 1);
+            //         curl_setopt($chti, CURLOPT_CUSTOMREQUEST, "GET");
+            //         curl_setopt($chti, CURLOPT_HTTPHEADER, $headers);  
+            //         $responseti = curl_exec($chti);
+            //         // // curl_close($chti);
+            //         // dd($ccde);
+            //         $contents_ti = $responseti; 
+            //         $result_ti = json_decode($contents_ti, true); 
+            //         if ($result_ti != null ) {  
+            //                     isset( $result_ti['statusAuthen'] ) ? $statusAuthen_ti = $result_ti['statusAuthen'] : $statusAuthen_ti = "";
+                                    
+            //                     if ($statusAuthen_ti =='false') { 
+            //                         $his_ti = $result_ti['serviceHistories']; 
+            //                         // dd($his); 
+            //                         foreach ($his_ti as $key => $value_ss) {
+            //                             $cd_ti	        = $value_ss["claimCode"];
+            //                             $sv_code_ti	    = $value_ss["service"]["code"];
+            //                             $sv_name_ti	    = $value_ss["service"]["name"];
+            //                             Visit_pttype::where('vn','=', $vnti)
+            //                                 ->update([
+            //                                     'claim_code'     => $cd_ti, 
+            //                                     'auth_code'      => $cd_ti, 
+            //                             ]);                                    
+            //                             Check_sit_auto::where('vn','=', $vnti)
+            //                                 ->update([
+            //                                     'claimcode'     => $cd_ti,
+            //                                     'claimtype'     => $sv_code_ti,
+            //                                     'servicename'   => $sv_name_ti, 
+            //                             ]);
+            //                             Fdh_mini_dataset::where('vn','=', $vnti)
+            //                             ->update([
+            //                                 'claimcode'     => $cd_ti,
+            //                                 'claimtype'     => $sv_code_ti,
+            //                                 'servicename'   => $sv_name_ti, 
+            //                             ]);
+            //                             Visit_pttype_205::where('vn', $vn)
+            //                                 ->update([
+            //                                     'claim_code'     => $cd, 
+            //                                     'auth_code'      => $cd_ti,
+            //                             ]);
+            //                             Visit_pttype_217::where('vn', $vn)
+            //                                 ->update([
+            //                                     'claim_code'     => $cd, 
+            //                                     'auth_code'      => $cd_ti,
+            //                             ]);
+            //                         }  
+            //                     }
+            //                 // }
+            //         }
+                    
+            // } 
+ 
+        // }
 
             // return response()->json('true');
             return response()->json([

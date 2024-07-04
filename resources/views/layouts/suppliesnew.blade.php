@@ -142,23 +142,11 @@
                         id="vertical-menu-btn">
                         <i class="ri-menu-2-line align-middle" style="color: rgb(255, 255, 255)"></i>
                     </button>
-                    <a href="{{url('otone')}}">
+                    <a href="{{url('home_supplies')}}">
                         <h4 style="color:rgb(255, 255, 255)" class="mt-4">Manage Supplies</h4>
                     </a>
                    
-                    <?php
-                    $org = DB::connection('mysql')->select('   
-                                                    select * from orginfo 
-                                                    where orginfo_id = 1                                                                                                                      ');
-                    ?>
-                    {{-- <form class="app-search d-none d-lg-block">
-                        <div class="position-relative">
-                            @foreach ($org as $item)
-                            <h4 style="color:rgb(255, 255, 255)" class="mt-2">{{$item->orginfo_name}}</h4>
-                            @endforeach
-                            
-                        </div>
-                    </form>                                          --}}
+                   
                 </div>
 
                 <div class="d-flex">
@@ -184,12 +172,16 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
-                            <a class="dropdown-item" href="{{ url('profile_edit/' . Auth::user()->id) }}"
-                                style="font-size: 12px"><i class="ri-user-line align-middle me-1"></i> Profile</a>
+                            {{-- <a class="dropdown-item" href="{{ url('profile_edit/' . Auth::user()->id) }}"
+                                style="font-size: 12px"><i class="ri-user-line align-middle me-1"></i> Profile</a> --}}
+                                <a href="javascript:void(0);" class="dropdown-item text-primary" data-bs-toggle="modal" data-bs-target="#Keypassword" style="font-size: 12px">
+                                   <i class="fa-solid fa-key me-2 text-primary"></i>
+                                   Change Password
+                                </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger" href="{{ route('logout') }}" {{-- class="text-reset notification-item" --}}
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
-                                    class="ri-shut-down-line align-middle me-1 text-danger"></i>
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <i class="ri-shut-down-line align-middle me-1 text-danger"></i>
                                 Logout
                             </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -247,7 +239,40 @@
         </div>
         <!-- Left Sidebar End -->
 
+ <!--  Modal content for the Keypassword example -->
+ <div class="modal fade" id="Keypassword" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myExtraLargeModalLabel">เปลี่ยนรหัสผ่าน </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4 text-end"><label for="">รหัสผ่าน New</label></div>
+                    <div class="col-md-7">
+                        <div class="form-group text-center">
+                            <input type="password" class="form-control form-control-sm" id="password" name="password">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-12 text-end">
+                    <div class="form-group">
+                        <button type="button" id="SaveChang" class="btn btn-outline-info btn-sm" >
+                            <i class="fa-solid fa-floppy-disk me-1 text-info"></i>
+                            เปลี่ยน
+                        </button>
+                        <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal"><i
+                                class="fa-solid fa-xmark text-danger me-2"></i>ปิด</button>
 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
         <!-- ============================================================== -->
         <!-- Start right Content here -->
@@ -371,12 +396,44 @@
                 }
             });
 
+            $('#SaveChang').click(function() {
+                var password = $('#password').val();  
+                $.ajax({
+                    url: "{{ route('user.password_update') }}",
+                    type: "POST",
+                    dataType: 'json',
+                    data: { 
+                        password                       
+                    },
+                    success: function(data) {
+                        if (data.status == 200) {
+                            Swal.fire({
+                                title: 'เปลี่ยนรหัสผ่านสำเร็จ',
+                                text: "You Chang password success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result
+                                    .isConfirmed) {
+                                    console.log(
+                                        data);
+                                    window.location.reload();
+                                     
+                                }
+                            })
+                        } else {
+                             
+                        }
+
+                    },
+                });
+            });
+
         });
 
-        $(document).ready(function() {
-            
-        });
-
+       
        
     </script>
 

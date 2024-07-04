@@ -517,7 +517,7 @@ Route::get('staff/home', [App\Http\Controllers\HomeController::class, 'staffHome
 Route::get('user/home', [App\Http\Controllers\UserController::class, 'user_index'])->name('user.home')->middleware('type');
 Route::get('manage/home', [App\Http\Controllers\HomeController::class, 'manageHome'])->name('manage.home')->middleware('type');
 Route::get('manage/home', [App\Http\Controllers\HomeController::class, 'manageHome'])->name('manage.home')->middleware('type');
-Route::get('home_supplies', [App\Http\Controllers\HomeController::class, 'home_supplies'])->name('manage.home_supplies')->middleware('type');
+Route::get('home_supplies', [App\Http\Controllers\AirController::class, 'home_supplies'])->name('manage.home_supplies')->middleware('type');
 
 Route::middleware(['type'])->group(function(){
 
@@ -3442,6 +3442,9 @@ Route::match(['get','post'],'vaccine_big_process',[App\Http\Controllers\VaccineC
 Route::match(['get','post'],'vaccine_big_import',[App\Http\Controllers\VaccineController::class, 'vaccine_big_import'])->name('vac.vaccine_big_import');//
 Route::match(['get','post'],'vaccine_big_send',[App\Http\Controllers\VaccineController::class, 'vaccine_big_send'])->name('vac.vaccine_big_send');//
 
+
+// ************************************* OR ***********************************************************
+Route::match(['get','post'],'or_mis',[App\Http\Controllers\OrController::class, 'or_mis'])->name('or.or_mis');//
 
 
 });

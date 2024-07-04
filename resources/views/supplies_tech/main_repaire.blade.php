@@ -205,12 +205,9 @@
                                     <th width="3%" class="text-center">ลำดับ</th>  
                                     <th class="text-center" width="3%">สถานะ</th>  
                                     <th class="text-center" width="5%">วันที่ซ่อม</th>  
-                                    <th class="text-center" width="5%">เวลา</th>
-                                    <th class="text-center" width="5%">เลขที่แจ้งซ่อม</th> 
                                     <th class="text-center" width="5%">รหัส</th>  
                                     <th class="text-center" >รายการ</th>  
-                                    <th class="text-center" >สถานที่ตั้ง</th> 
-                                    <th class="text-center" >ช่างนอก</th>  
+                                    <th class="text-center" >สถานที่ตั้ง</th>  
                                     <th class="text-center" >เจ้าหน้าที่</th>  
                                     <th class="text-center" >ช่าง รพ.</th>  
                                     <th class="text-center">จัดการ</th> 
@@ -232,13 +229,10 @@
                                                 {{-- <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger"> ไม่พร้อมใช้งาน</span> --}}
                                             @endif
                                         </td> 
-                                        <td class="text-center" width="8%">{{ DateThai($item->repaire_date )}}</td>   
-                                        <td class="text-center" width="5%">{{ $item->repaire_time }}</td> 
-                                        <td class="text-center" width="7%">{{ $item->air_repaire_no }}</td>   
+                                        <td class="text-center" width="8%">{{ DateThai($item->repaire_date )}}</td>    
                                         <td class="text-center" width="7%">{{ $item->air_list_num }}</td>  
                                         <td class="p-2">{{ $item->air_list_name }}</td>   
                                         <td class="p-2" width="20%">{{ $item->air_location_name }}</td>  
-                                        <td class="p-2" width="10%">{{ $item->air_techout_name }}</td> 
                                         <td class="p-2" width="10%">{{ $item->ptname }}</td>  
                                         <td class="p-2" width="10%">{{ $item->tectname }}</td>  
                                         <td class="text-center" width="5%" style="font-size: 12px"> 
