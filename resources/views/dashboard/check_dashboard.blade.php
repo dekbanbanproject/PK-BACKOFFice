@@ -204,7 +204,8 @@
                                         ?>
                                             <tr >
                                                 <td class="text-center" style="width: 5%">{{ $j++ }}</td>
-                                                <td class="text-center">{{ $item->day }}</td> 
+                                                {{-- <td class="text-center">{{ $item->day }}</td>  --}}
+                                                <td class="text-center">{{ Datethai($item->vstdate) }}</td> 
                                                 <td class="text-center">{{ $item->VN }}</td>
                                                 <td class="text-center text-success">
                                                     <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-success" href="{{ url('check_dashboard_authen/' . $item->day.'/'. $item->month.'/'. $item->year) }}"  target="_blank">

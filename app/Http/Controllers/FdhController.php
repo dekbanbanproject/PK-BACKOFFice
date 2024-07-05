@@ -2480,10 +2480,11 @@ class FdhController extends Controller
                 LEFT JOIN opduser op on op.loginname = o.staff
                 WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","X7","10","06","C4") 
-                AND p.cid IS NOT NULL AND p.nationality ="99" AND p.birthday <> "'.$startdate.'" AND (vs.claim_code IS NULL OR vs.claim_code ="")
+                AND p.cid IS NOT NULL AND p.nationality ="99" AND p.birthday <> "'.$startdate.'" 
                 AND v.income > 0
                 GROUP BY o.vn 
             ');
+            // AND (vs.claim_code IS NULL OR vs.claim_code ="")
             foreach ($data_vn_1 as $key => $value_1) {                
                 $check = Check_sit_auto::where('vn', $value_1->vn)->count();
                     if ($check > 0) {   

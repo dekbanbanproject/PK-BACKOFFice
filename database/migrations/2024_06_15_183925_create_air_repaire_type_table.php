@@ -15,6 +15,7 @@ return new class extends Migration
         {
             Schema::create('air_repaire_type', function (Blueprint $table) {
                 $table->bigIncrements('air_repaire_type_id');  
+                $table->char('air_repaire_type_code', length: 150)->nullable();  //  
                 $table->char('air_repaire_typename', length: 150)->nullable();  //     
                 $table->enum('active', ['N','Y'])->default('Y');   //  พร้อมใช้งาน /ไม่พร้อมใช้งาน 
                 $table->timestamps();

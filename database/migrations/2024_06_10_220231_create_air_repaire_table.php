@@ -28,6 +28,7 @@ return new class extends Migration
                 $table->char('air_location_id', length: 200)->nullable(); //   
                 $table->char('air_location_name', length: 200)->nullable();  // 
                 
+                $table->char('air_problems', length: 200)->nullable();  // ปัญหา
                 // รายการซ่อม(ตามปัญหา)
                 $table->char('air_problems_1', length: 200)->nullable();  //  น้ำหยด
                 $table->char('air_problems_2', length: 200)->nullable();  // ไม่เย็น มีแต่ลม  

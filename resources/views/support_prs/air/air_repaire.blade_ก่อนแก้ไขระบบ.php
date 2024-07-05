@@ -150,15 +150,8 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            @foreach ($air_repaire_ploblem as $item_p)
-                                                <div class="col-6 text-start">
-                                                    <div class="input-group">
-                                                        <input type="checkbox" class="discheckbox" id="air_problems" name="air_problems[]" value="{{$item_p->air_repaire_ploblem_id}}">
-                                                        &nbsp;&nbsp;<p>{{$item_p->air_repaire_ploblemname}}</p>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                            {{-- <div class="col-6 text-start">
+                                            {{-- air_repaire_ploblem --}}
+                                            <div class="col-6 text-start">
                                                 <div class="input-group">
                                                     <input type="checkbox" class="discheckbox" id="air_problems_1" name="air_problems_1">
                                                     &nbsp;&nbsp;<p>น้ำหยด</p>
@@ -169,16 +162,10 @@
                                                     <input type="checkbox" class="discheckbox" id="air_problems_3" name="air_problems_3">
                                                     &nbsp;&nbsp;<p> มีกลิ่นเหม็น</p>
                                                 </div>
-                                            </div> --}}
-                                        </div>
-                                        <div class="row">
-                                            <div class="col"> 
-                                                <div class="input-group">  
-                                                    <textarea class="form-control form-control-sm" id="air_problems_orthersub" name="air_problems_orthersub" rows="3"></textarea>
-                                                </div>
                                             </div>
-                                        </div> 
-                                        {{-- <div class="row">
+                                        </div>
+
+                                        <div class="row">
                                             <div class="col-6 text-start">
                                                 <div class="input-group">
                                                     <input type="checkbox" class="discheckbox" id="air_problems_4" name="air_problems_4">
@@ -200,31 +187,37 @@
                                                 </div>
                                             </div>
                                             <div class="col"> 
-                                                <div class="input-group">  
+                                                <div class="input-group"> 
+                                                    {{-- <input type="text" class="form-control form-control-sm" id="air_problems_orther" name="air_problems_orther"> --}}
                                                     <textarea class="form-control form-control-sm" id="air_problems_orthersub" name="air_problems_orthersub" rows="3"></textarea>
                                                 </div>
                                             </div>
-                                        </div> --}}
+                                        </div>
 
-                        <!-- ******************************** การบำรุงรักษา ประจำปี ครั้ง 1*****************************************  -->
+
                                         <hr style="color:rgb(7, 114, 141)">
                                         <div class="row">
                                             <div class="col text-start">
-                                                <p style="color:rgb(9, 119, 209)">- การบำรุงรักษา ประจำปี </p>
+                                                <p style="color:rgb(9, 119, 209)">- การบำรุงรักษา ประจำปี ครั้ง 1 </p>
                                             </div>
                                         </div>
                                         <div class="row">
-                                            @foreach ($air_maintenance_list as $item_ma)
-                                                <div class="col-6">
-                                                    <div class="input-group">
-                                                        <input type="checkbox" class="discheckbox" id="maintenance_list_id" name="maintenance_list_id[]" value="{{$item_ma->maintenance_list_id}}">
-                                                        &nbsp;&nbsp;<p>{{$item_ma->maintenance_list_name}} ครั้งที่ {{$item_ma->maintenance_list_num}}</p>
-                                                    </div>
+                                            <div class="col-6">
+                                                <div class="input-group">
+                                                    <input type="checkbox" class="discheckbox" id="air_problems_10"
+                                                        name="air_problems_10">
+                                                    &nbsp;&nbsp;<p>ตรวจเช็คน้ำยา</p>
                                                 </div>
-                                            @endforeach 
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="input-group">
+                                                    <input type="checkbox" class="discheckbox" id="air_problems_7" name="air_problems_7">
+                                                    &nbsp;&nbsp;<p>ล้างถาดหลังแอร์</p>
+                                                </div>
+                                            </div>
                                         </div>
 
-                                        {{-- <div class="row">
+                                        <div class="row">
                                             <div class="col-6 text-start">
                                                 <div class="input-group">
                                                     <input type="checkbox" class="discheckbox" id="air_problems_8" name="air_problems_8">
@@ -245,10 +238,9 @@
                                                     &nbsp;&nbsp;<p>ถอดล้างพัดลมกรงกระรอก</p>
                                                 </div>
                                             </div>
-                                        </div> --}}
+                                        </div>
 
-                        <!-- ******************************** การบำรุงรักษา ประจำปี ครั้ง 2*****************************************  -->
-                                        {{-- <hr style="color:rgb(7, 114, 141)">
+                                        <hr style="color:rgb(7, 114, 141)">
                                         <div class="row">
                                             <div class="col text-start">
                                                 <p style="color:rgb(9, 119, 209)">- การบำรุงรักษา ประจำปี ครั้ง 2 </p>
@@ -294,10 +286,9 @@
                                                     &nbsp;&nbsp;<p>ถอดล้างพัดลมกรงกระรอก</p>
                                                 </div>
                                             </div>
-                                        </div> --}}
+                                        </div>
 
-                        <!-- ******************************** การบำรุงรักษา ประจำปี ครั้ง 2*****************************************  -->
-                                        {{-- <hr style="color:rgb(7, 114, 141)">
+                                        <hr style="color:rgb(7, 114, 141)">
                                         <div class="row">
                                             <div class="col text-start">
                                                 <p style="color:rgb(9, 119, 209)">- การบำรุงรักษา ประจำปี ครั้ง 3 </p>
@@ -344,12 +335,7 @@
                                                     &nbsp;&nbsp;<p>ถอดล้างพัดลมกรงกระรอก</p>
                                                 </div>
                                             </div>
-                                        </div> --}}
-
-
-
-
-
+                                        </div>
 
                                         <hr style="color:rgb(7, 114, 141)">
                                         <div class="row">

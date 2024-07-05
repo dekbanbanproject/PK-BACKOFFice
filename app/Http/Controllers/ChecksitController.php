@@ -1404,7 +1404,7 @@ class ChecksitController extends Controller
         $data_year3 = DB::connection('mysql10')->select(
             'SELECT MONTH(c.vstdate) as month
             ,YEAR(c.vstdate) as year
-            ,DAY(c.vstdate) as day
+            ,DAY(c.vstdate) as day,c.vstdate
             ,COUNT(DISTINCT c.vn) as VN
             ,COUNT(vp.claim_code) as Authen
             ,COUNT(c.vn)-COUNT(vp.claim_code) as Noauthen

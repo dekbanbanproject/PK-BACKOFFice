@@ -158,7 +158,7 @@ class AirController extends Controller
                     $startdate = $request->startdate;
                     $enddate   = $request->enddate;
                     $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-                    $newDate   = date('Y-m-d', strtotime($datenow . ' -4 months')); //ย้อนหลัง 3 เดือน
+                    $newDate   = date('Y-m-d', strtotime($datenow . ' -3 months')); //ย้อนหลัง 3 เดือน
                     // $iduser    = Auth::user()->id;
                 
                     $data_detail = Air_repaire::leftJoin('users', 'air_repaire.air_tech_id', '=', 'users.id') 
@@ -470,50 +470,53 @@ class AirController extends Controller
                 'status'     => '60'
             ]);
         } else { 
-                $add                          = new Air_repaire();
-                $add->repaire_date            = $date_now;
-                $add->repaire_time            = $mm;
-                $add->air_num                 = $request->air_num;
-                $add->air_repaire_no          = $request->air_repaire_no;
-                $add->air_list_id             = $request->air_list_id;
-                $add->air_list_num            = $request->air_list_num;
-                $add->air_list_name           = $request->air_list_name;
-                $add->btu                     = $request->btu;
-                $add->serial_no               = $request->serial_no;
-                $add->air_location_id         = $request->air_location_id;
-                $add->air_location_name       = $request->air_location_name;
-                // $add->air_problems_1          = $request->air_problems_1;
-                // $add->air_problems_2          = $request->air_problems_2;
-                // $add->air_problems_3          = $request->air_problems_3;
-                // $add->air_problems_4          = $request->air_problems_4;
-                // $add->air_problems_5          = $request->air_problems_5;
-                // $add->air_problems_6          = $request->air_problems_6;
-                // $add->air_problems_7          = $request->air_problems_7;
-                // $add->air_problems_8          = $request->air_problems_8;
-                // $add->air_problems_9          = $request->air_problems_9;
-                // $add->air_problems_10         = $request->air_problems_10;
-                // $add->air_problems_11         = $request->air_problems_11;
-                // $add->air_problems_12         = $request->air_problems_12;
-                // $add->air_problems_13         = $request->air_problems_13;
-                // $add->air_problems_14         = $request->air_problems_14;
-                // $add->air_problems_15         = $request->air_problems_15;
-                // $add->air_problems_16         = $request->air_problems_16;
-                // $add->air_problems_17         = $request->air_problems_17;
-                // $add->air_problems_18         = $request->air_problems_18;
-                // $add->air_problems_19         = $request->air_problems_19;
-                // $add->air_problems_20         = $request->air_problems_20;
-                // $add->air_problems_orther     = $request->air_problems_orther;
+                $add = new Air_repaire();
+                $add->repaire_date        = $date_now;
+                $add->repaire_time        = $mm;
+                $add->air_num             = $request->air_num;
+                $add->air_repaire_no      = $request->air_repaire_no;
+                $add->air_list_id         = $request->air_list_id;
+                $add->air_list_num        = $request->air_list_num;
+                $add->air_list_name       = $request->air_list_name;
+                $add->btu                 = $request->btu;
+                $add->serial_no           = $request->serial_no;
+                $add->air_location_id     = $request->air_location_id;
+                $add->air_location_name   = $request->air_location_name;
+
+                $add->air_problems_1      = $request->air_problems_1;
+                $add->air_problems_2      = $request->air_problems_2;
+                $add->air_problems_3      = $request->air_problems_3;
+                $add->air_problems_4      = $request->air_problems_4;
+                $add->air_problems_5      = $request->air_problems_5;
+                $add->air_problems_6      = $request->air_problems_6;
+                $add->air_problems_7      = $request->air_problems_7;
+                $add->air_problems_8      = $request->air_problems_8;
+                $add->air_problems_9      = $request->air_problems_9;
+                $add->air_problems_10     = $request->air_problems_10;
+                $add->air_problems_11     = $request->air_problems_11;
+                $add->air_problems_12     = $request->air_problems_12;
+                $add->air_problems_13     = $request->air_problems_13;
+                $add->air_problems_14     = $request->air_problems_14;
+                $add->air_problems_15     = $request->air_problems_15;
+                $add->air_problems_16     = $request->air_problems_16;
+                $add->air_problems_17     = $request->air_problems_17;
+                $add->air_problems_18     = $request->air_problems_18;
+                $add->air_problems_19     = $request->air_problems_19;
+                $add->air_problems_20     = $request->air_problems_20;
+                $add->air_problems_orther     = $request->air_problems_orther;
                 $add->air_problems_orthersub  = $request->air_problems_orthersub;
-                $add->signature               = $add_img;
-                $add->signature2              = $add_img2;
-                $add->signature3              = $add_img3;
-                $add->air_status_techout      = $request->air_status_techout; 
-                $add->air_techout_name        = $request->air_techout_name;  
-                $add->air_status_staff        = $request->air_status_staff;   
-                $add->air_staff_id            = $request->air_staff_id; 
-                $add->air_status_tech         = $request->air_status_tech; 
-                $add->air_tech_id             = $request->air_tech_id; 
-                $add->air_supplies_id         = $idsup;               
+
+                $add->signature           = $add_img;
+                $add->signature2          = $add_img2;
+                $add->signature3          = $add_img3;
+
+                $add->air_status_techout  = $request->air_status_techout; 
+                $add->air_techout_name    = $request->air_techout_name;  
+                $add->air_status_staff    = $request->air_status_staff;   
+                $add->air_staff_id        = $request->air_staff_id; 
+                $add->air_status_tech     = $request->air_status_tech; 
+                $add->air_tech_id         = $request->air_tech_id; 
+                $add->air_supplies_id     = $idsup;               
                 $add->save();
 
                 $air_repaire_id = Air_repaire::max('air_repaire_id');
@@ -524,10 +527,9 @@ class AirController extends Controller
                     $count = 0;                   
                     for ($count = 0; $count < $number; $count++) {
                         $id_problems = DB::table('air_repaire_ploblem')->where('air_repaire_ploblem_id','=', $air_problems[$count])->first();        
-                        $add2                          = new Air_repaire_sub();
-                        $add2->air_repaire_id          = $air_repaire_id;
-                        $add2->repaire_sub_name        = $id_problems->air_repaire_ploblemname;
-                        $add2->air_repaire_type_code   = $id_problems->air_repaire_type_code;
+                        $add2                     = new Air_repaire_sub();
+                        $add2->air_repaire_id     = $air_repaire_id;
+                        $add2->repaire_sub_name   = $id_problems->air_repaire_ploblemname;
                         $add2->save();        
                     }
                 }
@@ -541,7 +543,6 @@ class AirController extends Controller
                         $add3->air_repaire_id         = $air_repaire_id;
                         $add3->air_maintenance_name   = $id_main->maintenance_list_name;
                         $add3->air_repaire_type_id    = $id_main->maintenance_list_num;
-                        $add3->air_repaire_type_code  = $id_main->air_repaire_type_code;
                         $add3->save();        
                     }
                 }
@@ -614,51 +615,35 @@ class AirController extends Controller
 
         if ($repaire_type == '') {
             $datashow  = DB::select(
-                'SELECT a.repaire_date,a.repaire_time,a.air_repaire_id,a.air_repaire_no,concat(a.air_list_num," ",a.air_list_name) as air_list,a.btu as btu
-                ,a.air_location_name,(SELECT detail FROM air_list WHERE air_list_id = a.air_list_id) as debsubsub 
-                ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
-                ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
-                FROM air_repaire a 
-                LEFT JOIN users p ON p.id = a.air_staff_id  
-                WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                ORDER BY a.air_repaire_id DESC 
+                'SELECT a.air_repaire_id,a.repaire_date as repaire_date,concat(a.air_list_num," ",a.air_list_name) as air_list,a.btu as btu,a.air_location_name as air_location_name,al.detail as debsubsub
+                    ,a.air_problems_1 as problems_1 ,a.air_problems_2 as problems_2 ,a.air_problems_3 as problems_3 ,a.air_problems_4 as problems_4 ,a.air_problems_5 as problems_5
+                    ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as staff_name
+                    ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
+                    ,a.air_techout_name,a.air_list_num
+                    ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
+                   
+                    FROM air_repaire a
+                    LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
+                    LEFT JOIN users p ON p.id = a.air_staff_id 
+                    WHERE (a.air_problems_1 = "on" OR a.air_problems_2 = "on" OR a.air_problems_3 = "on" OR a.air_problems_4 = "on" OR a.air_problems_5 = "on")
+                    AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" GROUP BY al.air_list_id
+                ORDER BY air_repaire_id DESC
             '); 
-        }else if ($repaire_type == '99') {
-                $datashow  = DB::select(
-                    'SELECT a.repaire_date,a.repaire_time,a.air_repaire_id,a.air_repaire_no,concat(a.air_list_num," ",a.air_list_name) as air_list,a.btu as btu
-                    ,a.air_location_name,(SELECT detail FROM air_list WHERE air_list_id = a.air_list_id) as debsubsub 
-                    ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
-                    ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
-                    FROM air_repaire a 
-                    LEFT JOIN users p ON p.id = a.air_staff_id  
-             
-                    WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND m.air_repaire_type_id = "'.$repaire_type.'"
-                    GROUP BY m.air_repaire_type_id
-                    ORDER BY a.air_repaire_id DESC 
-                '); 
              
         } else {
-            // $datashow  = DB::select(
-            //     'SELECT a.repaire_date,a.repaire_time,a.air_repaire_id,a.air_repaire_no,concat(a.air_list_num," ",a.air_list_name) as air_list,a.btu as btu
-            //     ,a.air_location_name,(SELECT detail FROM air_list WHERE air_list_id = a.air_list_id) as debsubsub 
-            //     ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
-            //     ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
-            //     FROM air_repaire a 
-            //     LEFT JOIN users p ON p.id = a.air_staff_id  
-            //     WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-            //     ORDER BY a.air_repaire_id DESC
-            // '); 
             $datashow  = DB::select(
-                'SELECT a.repaire_date,a.repaire_time,a.air_repaire_id,a.air_repaire_no,concat(a.air_list_num," ",a.air_list_name) as air_list,a.btu as btu
-                ,a.air_location_name,(SELECT detail FROM air_list WHERE air_list_id = a.air_list_id) as debsubsub 
-                ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
-                ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name,m.air_repaire_type_code
-                FROM air_repaire a 
-                LEFT JOIN users p ON p.id = a.air_staff_id  
-                LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
-                WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND m.air_repaire_type_code = "'.$repaire_type.'"
-                GROUP BY m.air_repaire_type_id
-                ORDER BY a.air_repaire_id DESC 
+                'SELECT a.air_repaire_id,a.repaire_date as repaire_date,concat(a.air_list_num," ",a.air_list_name) as air_list,a.btu as btu,a.air_location_name as air_location_name,al.detail as debsubsub
+                    ,a.air_problems_1 as problems_1 ,a.air_problems_2 as problems_2 ,a.air_problems_3 as problems_3 ,a.air_problems_4 as problems_4 ,a.air_problems_5 as problems_5
+                   ,al.air_imgname,al.active,concat(p.fname," ",p.lname) as staff_name
+                    ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
+                    ,a.air_techout_name,a.air_list_num
+                    ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
+                    FROM air_repaire a
+                    LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
+                    LEFT JOIN users p ON p.id = a.air_staff_id 
+                    WHERE (a.air_problems_1 = "on" OR a.air_problems_2 = "on" OR a.air_problems_3 = "on" OR a.air_problems_4 = "on" OR a.air_problems_5 = "on")
+                    AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" GROUP BY al.air_list_id
+                ORDER BY air_repaire_id DESC
             '); 
         }
          
