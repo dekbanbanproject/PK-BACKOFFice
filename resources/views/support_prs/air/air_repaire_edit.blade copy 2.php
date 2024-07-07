@@ -224,14 +224,31 @@ $loter = $date.''.$time
                                                                 </p>
                                                                 <p style="font-size:14px;color:rgb(9, 119, 209)">- รายการซ่อม(ตามปัญหา) </p>
                                                                 <div class="row">
-                                                                    @foreach ($data_detail_sub_plo as $item_pp)
-                                                                        <div class="col-6 text-start">
-                                                                            <div class="input-group">
-                                                                                <input type="checkbox" class="form-check-input dcheckbox" id="air_problems" name="air_problems[]" value="{{$item_pp->repaire_sub_id}}" checked>
-                                                                                &nbsp;&nbsp;<p class="mt-2 ms-2">{{$item_pp->repaire_sub_name}}</p>
-                                                                            </div>
-                                                                        </div>
-                                                                    @endforeach
+                                                                    <?php $count = 1; ?>
+                                                                    {{-- @foreach ($data_detail_sub_plo as $item_pp) --}}
+                                                                       
+                                                                        @foreach ($air_repaire_ploblem as $item_p) 
+                                                                             <?php $dsub = DB::connection('mysql')->select('SELECT * from air_repaire_sub WHERE air_repaire_type_code ="04" AND air_repaire_id ="'.$id.'"'); ?>
+                                                                                        @if ($item_pp->air_repaire_ploblem_id == $item_p->air_repaire_ploblem_id)
+                                                                                        <div class="col-6 text-start">
+                                                                                            <div class="input-group">
+                                                                                            <input type="checkbox" class="form-check-input dcheckbox" id="air_problems" name="air_problems[]" value="{{$item_pp->air_repaire_ploblem_id}}" checked>
+                                                                                            &nbsp;&nbsp;<p class="mt-2 ms-2">{{$item_pp->repaire_sub_name}}</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                        @else
+                                                                                        <div class="col-6 text-start">
+                                                                                            <div class="input-group">
+                                                                                            <input type="checkbox" class="form-check-input dcheckbox" id="air_problems" name="air_problems[]" value="{{$item_pp->air_repaire_ploblem_id}}">
+                                                                                            &nbsp;&nbsp;<p class="mt-2 ms-2">{{$item_pp->repaire_sub_name}}</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                        @endif 
+                                                                                    
+                                                                            
+                                                                        @endforeach
+                                                                           
+                                                                    {{-- @endforeach --}}
                                                                     {{-- @foreach ($air_repaire_ploblem as $item_p) 
                                                                         @if ($data_detail_sub->air_repaire_ploblem_id == $item_p->air_repaire_ploblem_id)
                                                                             <div class="col-6 text-start">
@@ -254,19 +271,10 @@ $loter = $date.''.$time
                                                                 <div class="row">
                                                                     <div class="col"> 
                                                                         <div class="input-group">  
-                                                                            <textarea class="form-control form-control-sm" id="air_problems_orthersub" name="air_problems_orthersub" rows="3">{{$data_detail_->air_problems_orthersub}}</textarea>
+                                                                            <textarea class="form-control form-control-sm" id="air_problems_orthersub" name="air_problems_orthersub" rows="6">{{$data_detail_->air_problems_orthersub}}</textarea>
                                                                         </div>
                                                                     </div>
                                                                 </div> 
-                                                                <div class="row">
-                                                                    <p class="mt-3" style="font-size:14px;color:rgb(9, 119, 209)">- การบำรุงรักษา ประจำปี </p> 
-                                                                    @foreach ($data_detail_sub_mai as $item_ma)
-                                                                        <div class="input-group"> 
-                                                                            <input type="checkbox" class="form-check-input dcheckbox" id="maintenance_list_id" name="maintenance_list_id[]" value="{{$item_ma->repaire_sub_id}}">
-                                                                            &nbsp;&nbsp;<p class="mt-2 ms-2">{{$item_ma->repaire_sub_name}}ครั้งที่ {{$item_ma->repaire_no}}</p> 
-                                                                        </div>
-                                                                    @endforeach  
-                                                                </div>  
                                                                 {{-- <div class="form-group">
                                                                     <div class="form-check form-check-inline"> 
                                                                         @if ($data_edit->air_problems_1 == 'on')
@@ -552,7 +560,40 @@ $loter = $date.''.$time
                                                                 </div>
 
                                                             </div>  
-                                                        </div>  
+                                                        </div> 
+                                                        <div class="row ms-3 me-3">
+                                                            <p class="mt-3" style="font-size:14px;color:rgb(9, 119, 209)">- การบำรุงรักษา ประจำปี </p> 
+                                                            @foreach ($data_detail_sub_mai as $item_ma)
+                                                                <div class="input-group"> 
+                                                                    <input type="checkbox" class="form-check-input dcheckbox" id="maintenance_list_id" name="maintenance_list_id[]" value="{{$item_ma->air_repaire_ploblem_id}}" checked>
+                                                                    &nbsp;&nbsp;<p class="mt-2 ms-2">{{$item_ma->repaire_sub_name}}ครั้งที่ {{$item_ma->repaire_no}}</p> 
+                                                                </div>
+                                                            @endforeach
+                                                            {{-- @if ($data_detail_->air_repaire_ploblem_id == $item_p->air_repaire_ploblem_id) --}}
+                                                            {{-- @foreach ($air_maintenance_list as $item_ma) 
+                                                                        <div class="col-6 text-start">
+                                                                            <div class="input-group">
+                                                                                @if ($data_detail_sub->air_repaire_ploblem_id == $item_ma->maintenance_list_id)
+                                                                                <input type="checkbox" class="form-check-input dcheckbox" id="maintenance_list_id" name="maintenance_list_id[]" value="{{$item_ma->maintenance_list_id}}" checked>
+                                                                                &nbsp;&nbsp;<p class="mt-2 ms-2">{{$item_ma->maintenance_list_name}}ครั้งที่ {{$item_ma->maintenance_list_num}}</p>
+                                                                                @else
+                                                                                <input type="checkbox" class="form-check-input dcheckbox" id="maintenance_list_id" name="maintenance_list_id[]" value="{{$item_ma->maintenance_list_id}}">
+                                                                                &nbsp;&nbsp;<p class="mt-2 ms-2">{{$item_ma->maintenance_list_name}}ครั้งที่ {{$item_ma->maintenance_list_num}}</p>
+                                                                                @endif  
+                                                                            </div>
+                                                                        </div> 
+                                                            @endforeach  --}}
+
+                                                            {{-- @foreach ($air_maintenance_list as $item_ma)
+                                                                <div class="col-6">
+                                                                    <div class="input-group">
+                                                                        <input type="checkbox" class="discheckbox" id="maintenance_list_id" name="maintenance_list_id[]" value="{{$item_ma->maintenance_list_id}}">
+                                                                        &nbsp;&nbsp;<p>{{$item_ma->maintenance_list_name}} ครั้งที่ {{$item_ma->maintenance_list_num}}</p>
+                                                                    </div>
+                                                                </div>
+                                                            @endforeach  --}}
+                                                        </div> 
+                                                    </p>
                                                 </div> 
                                                 <div class="tab-pane" id="detail2" role="tabpanel" style="background-color: #fcf8e8">
                                                     <p class="mb-0">

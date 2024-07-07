@@ -15,8 +15,11 @@ return new class extends Migration
         {
             Schema::create('air_repaire_sub', function (Blueprint $table) {
                 $table->bigIncrements('repaire_sub_id'); 
-                $table->string('air_repaire_id', length: 10)->nullable();  // 
-                $table->string('repaire_sub_name', length: 250)->nullable();  //   
+                $table->string('air_repaire_id', length: 10)->nullable();          // 
+                $table->string('air_list_num', length: 250)->nullable();           // รหัสแอร์
+                $table->string('air_repaire_ploblem_id', length: 250)->nullable();  //
+                $table->string('repaire_sub_name', length: 250)->nullable();       //                 
+                $table->string('repaire_no', length: 250)->nullable();             // ครั้งที่  
                 $table->string('air_repaire_type_code', length: 150)->nullable();  //   
                 $table->timestamps();
             });

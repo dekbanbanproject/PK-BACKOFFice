@@ -251,14 +251,23 @@ class AirController extends Controller
         $data['building_data']      = DB::table('building_data')->get(); 
         $data_detail_ = Air_repaire::leftJoin('users', 'air_repaire.air_tech_id', '=', 'users.id') 
         ->leftJoin('air_list', 'air_list.air_list_id', '=', 'air_repaire.air_list_id') 
+        ->leftJoin('air_repaire_sub', 'air_repaire_sub.air_repaire_id', '=', 'air_repaire.air_repaire_id') 
         ->where('air_repaire.air_repaire_id', '=', $id)
         ->first();
-        $data_edit                  = Air_repaire::where('air_repaire_id', '=', $id)->first();
+        $data_edit                       = Air_repaire::where('air_repaire_id', '=', $id)->first();
+        // $data['air_repaire_ploblem']     = DB::table('air_repaire_ploblem')->get();
+        $data['air_maintenance_list']    = DB::table('air_maintenance_list')->get();
+        // $data['data_detail_sub_plo']     = Air_repaire_sub::where('air_repaire_id', '=', $id)->where('air_repaire_type_code','=','04')->get();
+        $data['data_detail_sub_mai']     = Air_repaire_sub::where('air_repaire_id', '=', $id)->whereIn('air_repaire_type_code',['01','02','03'])->get();
         // $signat                     = $data_edit->signature; 
         // $signature                  = base64_encode(file_get_contents($signat));
         // $signat2                    = $data_edit->signature2; 
         // $signature2                 = base64_encode(file_get_contents($signat2));
         // $signat3                    = $data_edit->signature3; 
+        $data['data_detail_sub_plo'] = DB::connection('mysql')->select('SELECT * from air_repaire_sub WHERE air_repaire_type_code ="04" AND air_repaire_id ="'.$id.'"');
+        $data['air_repaire_ploblem'] = DB::connection('mysql')->select('SELECT * from air_repaire_ploblem');  
+        // dd($air_data_detail_sub_plo);
+        // dd($data['air_repaire_ploblem']);
         if ($data_edit->signature != '') {
             $signature            = base64_encode(file_get_contents($data_edit->signature));
         }else {
@@ -523,10 +532,15 @@ class AirController extends Controller
                     $number = count($air_problems);
                     $count = 0;                   
                     for ($count = 0; $count < $number; $count++) {
-                        $id_problems = DB::table('air_repaire_ploblem')->where('air_repaire_ploblem_id','=', $air_problems[$count])->first();        
+                        $id_problems = DB::table('air_repaire_ploblem')->where('air_repaire_ploblem_id','=', $air_problems[$count])->first();   
+                        $count_num_  = DB::table('air_repaire_sub')->where('air_list_num','=', $request->air_list_num)->where('repaire_sub_name','=', $id_problems->air_repaire_ploblemname)->count();   
+                        $count_num   = $count_num_+1;
                         $add2                          = new Air_repaire_sub();
                         $add2->air_repaire_id          = $air_repaire_id;
+                        $add2->air_list_num            = $request->air_list_num;
+                        $add2->air_repaire_ploblem_id  = $id_problems->air_repaire_ploblem_id;
                         $add2->repaire_sub_name        = $id_problems->air_repaire_ploblemname;
+                        $add2->repaire_no              = $count_num;
                         $add2->air_repaire_type_code   = $id_problems->air_repaire_type_code;
                         $add2->save();        
                     }
@@ -537,10 +551,13 @@ class AirController extends Controller
                     $count3 = 0;                   
                     for ($count3 = 0; $count3 < $number3; $count3++) {
                         $id_main = DB::table('air_maintenance_list')->where('maintenance_list_id','=', $maintenance_list_id[$count3])->first();        
-                        $add3                         = new Air_maintenance();
+                        // $add3                         = new Air_maintenance();
+                        $add3                         = new Air_repaire_sub();
                         $add3->air_repaire_id         = $air_repaire_id;
-                        $add3->air_maintenance_name   = $id_main->maintenance_list_name;
-                        $add3->air_repaire_type_id    = $id_main->maintenance_list_num;
+                        $add3->air_list_num           = $request->air_list_num;
+                        $add3->air_repaire_ploblem_id = $id_main->maintenance_list_id;
+                        $add3->repaire_sub_name       = $id_main->maintenance_list_name;
+                        $add3->repaire_no             = $id_main->maintenance_list_num;
                         $add3->air_repaire_type_code  = $id_main->air_repaire_type_code;
                         $add3->save();        
                     }

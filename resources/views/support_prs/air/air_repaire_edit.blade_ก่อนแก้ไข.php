@@ -223,51 +223,7 @@ $loter = $date.''.$time
                                                                     <input class="form-check-input dcheckbox me-2" type="checkbox" id="air_2" name="air_2"/> แก้ไขเฉพาะ ส่วนที่ 2
                                                                 </p>
                                                                 <p style="font-size:14px;color:rgb(9, 119, 209)">- รายการซ่อม(ตามปัญหา) </p>
-                                                                <div class="row">
-                                                                    @foreach ($data_detail_sub_plo as $item_pp)
-                                                                        <div class="col-6 text-start">
-                                                                            <div class="input-group">
-                                                                                <input type="checkbox" class="form-check-input dcheckbox" id="air_problems" name="air_problems[]" value="{{$item_pp->repaire_sub_id}}" checked>
-                                                                                &nbsp;&nbsp;<p class="mt-2 ms-2">{{$item_pp->repaire_sub_name}}</p>
-                                                                            </div>
-                                                                        </div>
-                                                                    @endforeach
-                                                                    {{-- @foreach ($air_repaire_ploblem as $item_p) 
-                                                                        @if ($data_detail_sub->air_repaire_ploblem_id == $item_p->air_repaire_ploblem_id)
-                                                                            <div class="col-6 text-start">
-                                                                                <div class="input-group">
-                                                                                    <input type="checkbox" class="form-check-input dcheckbox" id="air_problems" name="air_problems[]" value="{{$item_p->air_repaire_ploblem_id}}" checked>
-                                                                                    &nbsp;&nbsp;<p class="mt-2 ms-2">{{$item_p->air_repaire_ploblemname}}</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        @else
-                                                                            <div class="col-6 text-start">
-                                                                                <div class="input-group">
-                                                                                    <input type="checkbox" class="form-check-input dcheckbox" id="air_problems" name="air_problems[]" value="{{$item_p->air_repaire_ploblem_id}}">
-                                                                                    &nbsp;&nbsp;<p class="mt-2 ms-2">{{$item_p->air_repaire_ploblemname}}</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        @endif                                                                       
-                                                                    @endforeach --}}
-
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col"> 
-                                                                        <div class="input-group">  
-                                                                            <textarea class="form-control form-control-sm" id="air_problems_orthersub" name="air_problems_orthersub" rows="3">{{$data_detail_->air_problems_orthersub}}</textarea>
-                                                                        </div>
-                                                                    </div>
-                                                                </div> 
-                                                                <div class="row">
-                                                                    <p class="mt-3" style="font-size:14px;color:rgb(9, 119, 209)">- การบำรุงรักษา ประจำปี </p> 
-                                                                    @foreach ($data_detail_sub_mai as $item_ma)
-                                                                        <div class="input-group"> 
-                                                                            <input type="checkbox" class="form-check-input dcheckbox" id="maintenance_list_id" name="maintenance_list_id[]" value="{{$item_ma->repaire_sub_id}}">
-                                                                            &nbsp;&nbsp;<p class="mt-2 ms-2">{{$item_ma->repaire_sub_name}}ครั้งที่ {{$item_ma->repaire_no}}</p> 
-                                                                        </div>
-                                                                    @endforeach  
-                                                                </div>  
-                                                                {{-- <div class="form-group">
+                                                                <div class="form-group">
                                                                     <div class="form-check form-check-inline"> 
                                                                         @if ($data_edit->air_problems_1 == 'on')
                                                                         <input class="form-check-input dcheckbox" type="checkbox" id="air_problems_1" name="air_problems_1" checked/>
@@ -293,6 +249,7 @@ $loter = $date.''.$time
                                                                         <p class="mt-2 ms-3" style="font-size:13px;color:rgb(41, 42, 43)" >มีกลิ่นเหม็น</p>  
                                                                     </div>   
                                                                 </div>
+
                                                                 <div class="form-group">
                                                                     <div class="form-check form-check-inline"> 
                                                                         @if ($data_edit->air_problems_4 == 'on')
@@ -324,29 +281,10 @@ $loter = $date.''.$time
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <textarea class="form-control form-control-sm" id="air_problems_orthersub" name="air_problems_orthersub" rows="2">{{$data_edit->air_problems_orthersub}}</textarea>
-                                                                </div> --}}
-                                                                {{-- <div class="row">
-                                                                    <p class="mt-3" style="font-size:14px;color:rgb(9, 119, 209)">- การบำรุงรักษา ประจำปี </p> 
-                                                                    @foreach ($air_maintenance_list as $item_ma)
-                                                                     
-                                                                        @if ($data_detail_->air_repaire_ploblem_id == $item_ma->maintenance_list_id)
-                                                                                <div class="col-6 text-start">
-                                                                                    <div class="input-group">
-                                                                                        <input type="checkbox" class="form-check-input dcheckbox" id="air_problems" name="air_problems[]" value="{{$item_ma->maintenance_list_id}}" checked>
-                                                                                        &nbsp;&nbsp;<p class="mt-2 ms-2">{{$item_ma->maintenance_list_name}}</p>
-                                                                                    </div>
-                                                                                </div>
-                                                                            @else
-                                                                                <div class="col-6 text-start">
-                                                                                    <div class="input-group">
-                                                                                        <input type="checkbox" class="form-check-input dcheckbox" id="air_problems" name="air_problems[]" value="{{$item_ma->maintenance_list_id}}">
-                                                                                        &nbsp;&nbsp;<p class="mt-2 ms-2">{{$item_ma->maintenance_list_name}}</p>
-                                                                                    </div>
-                                                                                </div>
-                                                                            @endif   
-                                                                    @endforeach 
-                                                                </div> --}}
-                                                                {{-- <div class="form-group">
+                                                                </div>
+
+                                                                <p class="mt-3" style="font-size:14px;color:rgb(9, 119, 209)">- การบำรุงรักษา ประจำปี ครั้ง 1 </p>                                                             
+                                                                <div class="form-group">
                                                                     <div class="form-check form-check-inline"> 
                                                                         @if ($data_edit->air_problems_6 == 'on')
                                                                         <input class="form-check-input dcheckbox" type="checkbox" id="air_problems_6" name="air_problems_6" checked/>
@@ -391,9 +329,9 @@ $loter = $date.''.$time
                                                                         @endif
                                                                         <p class="mt-2 ms-3" style="font-size:13px;color:rgb(43, 44, 46)" >ตรวจเช็คน้ำยา</p>  
                                                                     </div>  
-                                                                </div> --}}
+                                                                </div>
 
-                                                                {{-- <p class="mt-3" style="font-size:14px;color:rgb(9, 119, 209)">- การบำรุงรักษา ประจำปี ครั้ง 2 </p>                                                             
+                                                                <p class="mt-3" style="font-size:14px;color:rgb(9, 119, 209)">- การบำรุงรักษา ประจำปี ครั้ง 2 </p>                                                             
                                                                 <div class="form-group">
                                                                     <div class="form-check form-check-inline"> 
                                                                         @if ($data_edit->air_problems_11 == 'on')
@@ -439,7 +377,7 @@ $loter = $date.''.$time
                                                                         @endif
                                                                         <p class="mt-2 ms-3" style="font-size:13px;color:rgb(43, 44, 46)" >ตรวจเช็คน้ำยา</p>  
                                                                     </div>  
-                                                                </div> --}}
+                                                                </div>
  
                                                             </div> 
                                                             <div class="col-md-6"> 
@@ -456,7 +394,7 @@ $loter = $date.''.$time
                                                                     </select>
                                                                 </div>
                                                                   
-                                                                {{-- <p class="mt-3" style="font-size:14px;color:rgb(9, 119, 209)">- การบำรุงรักษา ประจำปี ครั้ง 3 </p>                                                             
+                                                                <p class="mt-3" style="font-size:14px;color:rgb(9, 119, 209)">- การบำรุงรักษา ประจำปี ครั้ง 3 </p>                                                             
                                                                 <div class="form-group">
                                                                     <div class="form-check form-check-inline"> 
                                                                         @if ($data_edit->air_problems_16 == 'on')
@@ -502,7 +440,7 @@ $loter = $date.''.$time
                                                                         @endif
                                                                         <p class="mt-2 ms-3" style="font-size:13px;color:rgb(43, 44, 46)" >ตรวจเช็คน้ำยา</p>  
                                                                     </div>  
-                                                                </div> --}}
+                                                                </div>
 
                                                                 <p style="font-size:14px;color:rgb(9, 119, 209)">สถานะซ่อม </p>
                                                                 <div class="form-group"> 
@@ -553,6 +491,7 @@ $loter = $date.''.$time
 
                                                             </div>  
                                                         </div>  
+                                                    </p>
                                                 </div> 
                                                 <div class="tab-pane" id="detail2" role="tabpanel" style="background-color: #fcf8e8">
                                                     <p class="mb-0">
