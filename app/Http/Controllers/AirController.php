@@ -834,7 +834,7 @@ class AirController extends Controller
                 ,a.air_location_name,(SELECT detail FROM air_list WHERE air_list_id = a.air_list_id) as debsubsub 
                 ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
                 ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
-                ,m.air_repaire_type_code 
+                ,m.air_repaire_type_code,(select GROUP_CONCAT(distinct b.repaire_sub_name," " "|" " ")) as repaire_sub_name
                 FROM air_repaire a 
                 LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
                 LEFT JOIN users p ON p.id = a.air_staff_id  
@@ -855,9 +855,10 @@ class AirController extends Controller
                     'btu'                => $value->btu,
                     'air_location_name'  => $value->air_location_name,
                     'debsubsub'          => $value->debsubsub, 
-                    'staff_name'      => $value->staff_name,
-                    'tect_name'      => $value->tect_name,
-                    'air_techout_name'      => $value->air_techout_name,
+                    'repaire_sub_name'   => $value->repaire_sub_name, 
+                    'staff_name'         => $value->staff_name,
+                    'tect_name'          => $value->tect_name,
+                    'air_techout_name'   => $value->air_techout_name,
                 ]);
             }
         } else { 
@@ -866,7 +867,7 @@ class AirController extends Controller
                 ,a.air_location_name,(SELECT detail FROM air_list WHERE air_list_id = a.air_list_id) as debsubsub 
                 ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
                 ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
-                ,m.air_repaire_type_code 
+                ,m.air_repaire_type_code,(select GROUP_CONCAT(distinct b.repaire_sub_name," " "|" " ")) as repaire_sub_name 
                 FROM air_repaire a 
                 LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
                 LEFT JOIN users p ON p.id = a.air_staff_id  
@@ -888,9 +889,10 @@ class AirController extends Controller
                     'btu'                => $value->btu,
                     'air_location_name'  => $value->air_location_name,
                     'debsubsub'          => $value->debsubsub, 
-                    'staff_name'      => $value->staff_name,
-                    'tect_name'      => $value->tect_name,
-                    'air_techout_name'      => $value->air_techout_name,
+                    'repaire_sub_name'   => $value->repaire_sub_name, 
+                    'staff_name'         => $value->staff_name,
+                    'tect_name'          => $value->tect_name,
+                    'air_techout_name'   => $value->air_techout_name,
                 ]);
             }
         }
@@ -916,55 +918,15 @@ class AirController extends Controller
         $enddate        = $request->datepicker2;
         $repaire_type   = $request->air_repaire_type;
        
-        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-        $newDate = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
-        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี 
-
-        // if ($startdate == '') {
-        //     return back();
-        //     // return response()->json([
-        //     //     'status'     => '100'
-        //     // ]);
-        // } else {
-            if ($repaire_type == '') {
+      
                 $datashow  = DB::select(
-                    'SELECT a.repaire_date,a.repaire_time,a.air_repaire_id,a.air_repaire_no,concat(a.air_list_num," ",a.air_list_name) as air_list_name,a.btu as btu
-                    ,a.air_location_name,(SELECT detail FROM air_list WHERE air_list_id = a.air_list_id) as debsubsub 
-                    ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
-                    ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
-                    ,m.air_repaire_type_code 
-                    FROM air_repaire a 
-                    LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
-                    LEFT JOIN users p ON p.id = a.air_staff_id  
-                    LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
-                    WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
-                    GROUP BY a.air_repaire_id 
-                    ORDER BY a.air_repaire_id DESC 
-                ');   
-            } else { 
-                $datashow  = DB::select(
-                    'SELECT a.repaire_date,a.repaire_time,a.air_repaire_id,a.air_repaire_no,concat(a.air_list_num," ",a.air_list_name) as air_list_name,a.btu as btu
-                    ,a.air_location_name,(SELECT detail FROM air_list WHERE air_list_id = a.air_list_id) as debsubsub 
-                    ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
-                    ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
-                    ,m.air_repaire_type_code 
-                    FROM air_repaire a 
-                    LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
-                    LEFT JOIN users p ON p.id = a.air_staff_id  
-                    LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
-                    WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                    AND b.air_repaire_type_code = "'.$repaire_type.'"
-                    GROUP BY a.air_repaire_id 
-                    ORDER BY a.air_repaire_id DESC  
+                    'SELECT a.*,(select GROUP_CONCAT(distinct b.repaire_sub_name," " "|" " ")) as repaire_sub_name
+                    FROM air_repaire_excel a 
+                    LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                    WHERE a.repaire_date BETWEEN "2024-07-01" AND "2024-07-08"
+                    GROUP BY a.air_repaire_id
                 '); 
-            }   
-            // return response()->json([
-            //     'status'     => '200'
-            // ]);
- 
-         
-        // $data['air_repaire_type']      = DB::table('air_repaire_type')->get(); 
-        
+          
 
         return view('support_prs.air.air_report_type_excel',[
             'startdate'     =>$startdate,

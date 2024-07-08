@@ -231,12 +231,19 @@
                                         <td class="p-2" width="10%">{{ $item->air_location_name }}</td>  
                                         <td class="p-2" width="10%">{{ $item->debsubsub }}</td>  
                                         <td class="p-2" width="10%"> 
-                                            <?php $datas_sub_= DB::select('SELECT * FROM air_repaire_sub WHERE air_repaire_id = "'.$item->air_repaire_id.'"');?>
-                                            @foreach ($datas_sub_ as $v_1)
-                                            <p class="mt-2" style="font-size: 13px;color:rgb(6, 149, 168)">
-                                                - {{$v_1->repaire_sub_name}}
-                                            </p>
-                                            @endforeach 
+                                            @if ($repaire_type == '')
+                                                <p class="mt-2" style="font-size: 13px;color:rgb(6, 149, 168)">
+                                                    - {{$item->repaire_sub_name}}
+                                                </p>
+                                            @else
+                                                <?php $datas_sub_= DB::select('SELECT * FROM air_repaire_sub WHERE air_repaire_id = "'.$item->air_repaire_id.'" AND air_repaire_type_code = "'.$repaire_type.'"');?>
+                                                @foreach ($datas_sub_ as $v_1)
+                                                    <p class="mt-2" style="font-size: 13px;color:rgb(6, 149, 168)">
+                                                        - {{$v_1->repaire_sub_name}}
+                                                    </p>
+                                                @endforeach 
+                                            @endif
+                                            
                                         </td>  
                                         <td class="p-2" width="7%">{{ $item->staff_name }}</td> 
                                         <td class="p-2" width="7%">{{ $item->tect_name }}</td> 
