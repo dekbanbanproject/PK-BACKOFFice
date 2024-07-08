@@ -1415,7 +1415,7 @@ class ChecksitController extends Controller
             WHERE month(c.vstdate) = "'.$m.'" AND YEAR(c.vstdate) = "'.$y.'"
             AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
             AND c.main_dep NOT IN("011","036","107","078","020") 
-            AND v.pdx NOT IN("Z000")
+            AND v.pdx NOT IN("Z000","Z108") 
             GROUP BY day
             ORDER BY c.vstdate DESC
         ');
@@ -1427,11 +1427,13 @@ class ChecksitController extends Controller
             ,c.staff,od.`name` as staff_name,COUNT(DISTINCT c.vn) as countvn,COUNT(vp.claim_code) as Authen,COUNT(c.vn)-COUNT(vp.claim_code) as Noauthen
             FROM ovst c
             LEFT JOIN visit_pttype vp ON vp.vn = c.vn
+            LEFT JOIN vn_stat v ON v.vn = c.vn
             LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
             LEFT JOIN opduser od on od.loginname = c.staff
             WHERE c.vstdate = "'.$date_now.'"
             AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
             AND c.main_dep NOT IN("011","036","107","078","020") 
+            AND v.pdx NOT IN("Z000","Z108") 
             GROUP BY c.staff 
         ');
         // $data_staff_new = DB::connection('mysql')->select(
@@ -1458,7 +1460,7 @@ class ChecksitController extends Controller
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
                 WHERE c.vstdate = "'.$date.'"
                 AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
-                AND c.pdx NOT IN("Z000")
+                AND c.pdx NOT IN("Z000","Z108")
                 GROUP BY c.main_dep
 			    ORDER BY Noauthen DESC
         ');
@@ -1477,7 +1479,7 @@ class ChecksitController extends Controller
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
                 WHERE c.vstdate = "'.$date.'"
                 AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
-                AND c.main_dep NOT IN("011","036","107","078","020") AND c.pdx NOT IN("Z000")
+                AND c.main_dep NOT IN("011","036","107","078","020") AND c.pdx NOT IN("Z000","Z108")
                 GROUP BY c.staff
                 ORDER BY Noauthen DESC LIMIT 5
         ');
@@ -1504,7 +1506,7 @@ class ChecksitController extends Controller
             WHERE year(c.vstdate) = "'.$y.'" 
             AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
             AND c.main_dep NOT IN("011","036","107","078","020")
-            AND c.pdx NOT IN("Z000")
+            AND c.pdx NOT IN("Z000","Z108")
             GROUP BY month
         ');
         // AND c.main_dep NOT IN("011","036","107")

@@ -59,8 +59,8 @@
 </style>
 <?php
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-?>
 
+?>
 <body>
     {{-- <?php break; ?> --}}
     <body onload="window.print()">
@@ -81,19 +81,15 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
                                     <div class="body"><br>
                                         {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_detail/' . $item->air_list_num) !!}
                                         <hr style="color:rgb(193, 20, 236)">
-                                        <p style="font-size: 17px;color:rgb(193, 20, 236)"> {{ $item->air_list_num }} <br>
-                                            แสกนดูผลตรวจสอบ</p>
+                                        <p style="font-size: 15px;color:rgb(193, 20, 236)"> {{ $item->air_list_num }}<br>
+                                        แสกนเพื่อตรวจสอบ</p>
                                     </div>
                                 </div>
                             </div>
                            
                             
                         @endforeach
-                        {{-- @if($count <$dataprint_main->lastPage())
-                            <div style="page-break-after:always;"></div>
-                        @endif --}}
-                {{-- @endfor --}}
-                {{-- {{ $dataprint_main->links() }} --}}
+                        
             </div>
             
         </div>  

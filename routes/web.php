@@ -41,7 +41,7 @@ Route::match(['get','post'],'fire_detail/{id}',[App\Http\Controllers\FireControl
 
 Route::match(['get','post'],'air_repaire/{id}',[App\Http\Controllers\AirController::class, 'air_repaire'])->name('prs.air_repaire');//
 Route::match(['get','post'],'air_repiare_save',[App\Http\Controllers\AirController::class, 'air_repiare_save'])->name('prs.air_repiare_save');//
-
+Route::match(['get','post'],'air_detail/{id}',[App\Http\Controllers\AirController::class, 'air_detail'])->name('prs.air_detail');//
 // ***************   Report  **********************************
 Route::match(['get','post'],'ins_dashboard',[App\Http\Controllers\InstrumentController::class, 'ins_dashboard'])->name('ins.ins_dashboard');//
 Route::match(['get','post'],'ins_a',[App\Http\Controllers\InstrumentController::class, 'ins_a'])->name('ins.ins_a');//
@@ -3387,6 +3387,7 @@ Route::match(['get','post'],'air_qrcode/{id}',[App\Http\Controllers\AirControlle
 
 Route::match(['get','post'],'air_qrcode_repaire',[App\Http\Controllers\AirController::class, 'air_qrcode_repaire'])->name('prs.air_qrcode_repaire');//
 Route::match(['get','post'],'air_main_repaire',[App\Http\Controllers\AirController::class, 'air_main_repaire'])->name('prs.air_main_repaire');//
+
 Route::match(['get','post'],'air_main_repaire_destroy/{id}',[App\Http\Controllers\AirController::class, 'air_main_repaire_destroy'])->name('prs.air_main_repaire_destroy');//
 Route::match(['get','post'],'air_repaire_edit/{id}',[App\Http\Controllers\AirController::class, 'air_repaire_edit'])->name('prs.air_repaire_edit');//
 Route::match(['get','post'],'air_repiare_update',[App\Http\Controllers\AirController::class, 'air_repiare_update'])->name('prs.air_repiare_update');//

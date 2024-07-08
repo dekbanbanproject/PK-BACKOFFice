@@ -102,16 +102,13 @@
  
             <div class="container-fluid">
                 <div class="row">
+                    <div class="col"></div>
                     <div class="col-md-6">
                         <script>
                             document.write(new Date().getFullYear())
-                        </script>© โรงพยาบาลภูเขียวเฉลิมพระเกียรติ <i class="mdi mdi-heart text-danger"></i> PK-OFFICERR
+                        </script> © โรงพยาบาลภูเขียวเฉลิมพระเกียรติ <i class="mdi mdi-heart text-danger"></i> PK-OFFICERR
                     </div>
-                    {{-- <div class="col-md-6">
-                        <div class="text-sm-end d-none d-sm-block">
-                            Created with <i class="mdi mdi-heart text-danger"></i> by PK-OFFICER
-                        </div>
-                    </div> --}}
+                    <div class="col"></div>
                 </div>
             </div>
  
@@ -141,39 +138,31 @@
     <script src="{{ asset('pkclaim/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
 
-      <!-- Buttons examples -->
-      <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
-      <script src="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}"></script>
-      <script src="{{ asset('pkclaim/libs/jszip/jszip.min.js') }}"></script>
-      <script src="{{ asset('pkclaim/libs/pdfmake/build/pdfmake.min.js') }}"></script>
-      <script src="{{ asset('pkclaim/libs/pdfmake/build/vfs_fonts.js') }}"></script>
-      <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
-      <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
-      <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
-  
-      <script src="{{ asset('pkclaim/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
+    <!-- Buttons examples -->
+    <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/pdfmake/build/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/pdfmake/build/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>
 
     <!-- Responsive examples -->
     <script src="{{ asset('pkclaim/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
 
-     <!-- Datatable init js -->
-     {{-- <script src="{{ asset('pkclaim/js/pages/datatables.init.js') }}"></script> --}}
-     <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script> 
-     <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/prettify.js') }}"></script>
- 
- 
-     <script src="{{ asset('pkclaim/js/pages/form-wizard.init.js') }}"></script>
-    {{-- <script src="{{ asset('pkclaim/js/pages/dashboard.init.js') }}"></script> --}}
-    {{-- <script src="{{ asset('js/select2.min.js') }}"></script> --}}
+    <!-- Datatable init js -->
+    {{-- <script src="{{ asset('pkclaim/js/pages/datatables.init.js') }}"></script> --}}
+    <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script> 
+    <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/prettify.js') }}"></script> 
+    <script src="{{ asset('pkclaim/js/pages/form-wizard.init.js') }}"></script> 
     <script src="{{asset('asset/js/plugins/select2/js/select2.full.min.js')}}"></script>
     <script type="text/javascript" src="{{ asset('fullcalendar/lib/moment.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('fullcalendar/lang/th.js') }}"></script>
-
-    {{-- <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script> --}}
-    {{-- <script src="{{ asset('js/dataTables.bootstrap5.min.js') }}"></script> --}}
+    <script type="text/javascript" src="{{ asset('fullcalendar/lang/th.js') }}"></script> 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- App js -->

@@ -89,11 +89,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
                            
                             
                         @endforeach
-                        {{-- @if($count <$dataprint_main->lastPage())
-                            <div style="page-break-after:always;"></div>
-                        @endif --}}
-                {{-- @endfor --}}
-                {{-- {{ $dataprint_main->links() }} --}}
+                      
             </div>
             
         </div>  

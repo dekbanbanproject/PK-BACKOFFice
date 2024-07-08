@@ -645,8 +645,24 @@ class AirController extends Controller
         }
         
     }
-        
+    
+    public function air_detail(Request $request, $id)
+    {  
+        $data_detail_                    = Air_list::where('air_list_num', '=', $id)->first();
+        $data['data_detail_sub_mai']     = Air_repaire_sub::leftjoin('air_repaire','air_repaire.air_repaire_id','=','air_repaire_sub.air_repaire_id')
+                                            ->where('air_repaire_sub.air_list_num', '=', $id)->whereIn('air_repaire_sub.air_repaire_type_code',['01','02','03'])
+                                            ->get();
+        // $data['data_detail_sub_plo']     = DB::connection('mysql')->select('SELECT * from air_repaire_sub WHERE air_repaire_type_code ="04" AND air_list_num ="'.$id.'"');
+        $data['data_detail_sub_plo']     = Air_repaire_sub::leftjoin('air_repaire','air_repaire.air_repaire_id','=','air_repaire_sub.air_repaire_id')
+                                            ->where('air_repaire_sub.air_list_num', '=', $id)->whereIn('air_repaire_sub.air_repaire_type_code',['04'])
+                                            ->get();
+            return view('support_prs.air.air_detail',$data,[  
+                'data_detail_'  => $data_detail_,
+            ]); 
  
+            
+            
+    } 
     
     public function air_main_repaire_destroy(Request $request,$id)
     {
@@ -921,12 +937,12 @@ class AirController extends Controller
       
                 $datashow  = DB::select(
                     'SELECT a.*,(select GROUP_CONCAT(distinct b.repaire_sub_name," " "|" " ")) as repaire_sub_name
-                    FROM air_repaire_excel a 
+                    FROM air_repaire a 
                     LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
-                    WHERE a.repaire_date BETWEEN "2024-07-01" AND "2024-07-08"
+                   
                     GROUP BY a.air_repaire_id
                 '); 
-          
+        //    WHERE a.repaire_date BETWEEN "2024-07-01" AND "2024-07-08"
 
         return view('support_prs.air.air_report_type_excel',[
             'startdate'     =>$startdate,
