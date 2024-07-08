@@ -136,7 +136,7 @@
                                                 <select class="custom-select custom-select-sm" id="air_repaire_no" name="air_repaire_no"
                                                     style="width: 100%"> 
                                                     @foreach ($air_no as $item_no)
-                                                        <option value="{{ $item_no->REPAIR_ID }}" class="text-center">{{ $item_no->REPAIR_ID }} {{ $item_no->REPAIR_NAME }}</option>
+                                                        <option value="{{ $item_no->REPAIR_ID }}" class="text-center">{{ $item_no->REPAIR_ID }} {{ $item_no->REPAIR_NAME }} / วันที่แจ้ง{{ $item_no->DATE_TIME_REQUEST }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

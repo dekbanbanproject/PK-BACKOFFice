@@ -195,7 +195,6 @@ $count_article = StaticController::count_article();
                                                         role="tab" style="background-color: #e8fcfa">
                                                         <span class="d-block d-sm-none"><i class="fas fa-detail"></i></span>
                                                         <span class="d-none d-sm-block">
-
                                                             <p>ส่วนที่ 2 : ช่างซ่อม(นอก รพ.) </p>
                                                         </span>
                                                     </a>
@@ -237,13 +236,9 @@ $count_article = StaticController::count_article();
                                                                 @foreach ($detail_subplo as $item_pp)
                                                                     <div class="col-6 text-start">
                                                                         <div class="input-group">
-                                                                            <input type="checkbox"
-                                                                                class="form-check-input dcheckbox"
-                                                                                id="" name=""
-                                                                                value="{{ $item_pp->air_repaire_ploblem_id }}"
-                                                                                checked>
-                                                                            &nbsp;&nbsp;<p class="mt-2 ms-2">
-                                                                                {{ $item_pp->repaire_sub_name }}</p>
+                                                                            {{-- <input type="checkbox" class="form-check-input dcheckbox" value="{{ $item_pp->air_repaire_ploblem_id }}" checked> --}} 
+                                                                                <img src="{{ asset('images/true.png') }}" width="20px" height="20px"> 
+                                                                            &nbsp;&nbsp;<p class="ms-2"> {{ $item_pp->repaire_sub_name }}</p>
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
@@ -251,12 +246,8 @@ $count_article = StaticController::count_article();
                                                                 @foreach ($air_repaire_ploblem as $itep)
                                                                     <div class="col-6 text-start">
                                                                         <div class="input-group">
-                                                                            <input type="checkbox"
-                                                                                class="form-check-input dcheckbox"
-                                                                                id="air_problems" name="air_problems[]"
-                                                                                value="{{ $itep->air_repaire_ploblem_id }}">
-                                                                            &nbsp;&nbsp;<p class="mt-2 ms-2">
-                                                                                {{ $itep->air_repaire_ploblemname }}</p>
+                                                                            <input type="checkbox" class="form-check-input dcheckbox" id="air_problems" name="air_problems[]" value="{{ $itep->air_repaire_ploblem_id }}">
+                                                                            &nbsp;&nbsp;<p class="mt-2 ms-2"> {{ $itep->air_repaire_ploblemname }}</p>
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
@@ -275,15 +266,10 @@ $count_article = StaticController::count_article();
                                                                     การบำรุงรักษา ประจำปี </p>
                                                                 @foreach ($data_detail_sub_mai as $item_ma)
                                                                     <div class="col-6 text-start">
-                                                                        <div class="input-group">
-                                                                            <input type="checkbox"
-                                                                                class="form-check-input dcheckbox"
-                                                                                id="" name=""
-                                                                                value="{{ $item_ma->repaire_sub_id }}"
-                                                                                checked>
-                                                                            &nbsp;&nbsp;<p class="mt-2 ms-2">
-                                                                                {{ $item_ma->repaire_sub_name }}ครั้งที่
-                                                                                {{ $item_ma->repaire_no }}</p>
+                                                                        <div class="input-group"> 
+                                                                            {{-- <input type="checkbox" class="form-check-input dcheckbox" value="{{ $item_ma->repaire_sub_id }}" checked> --}}
+                                                                            <img src="{{ asset('images/true.png') }}" width="20px" height="20px"> 
+                                                                            &nbsp;&nbsp;<p class="ms-2"> {{ $item_ma->repaire_sub_name }}ครั้งที่ {{ $item_ma->repaire_no }}</p>
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
@@ -315,15 +301,9 @@ $count_article = StaticController::count_article();
                                                                     style="width: 100%">
                                                                     @foreach ($air_no as $item_no)
                                                                         @if ($data_edit->air_repaire_no == $item_no->REPAIR_ID)
-                                                                            <option value="{{ $item_no->ID }}"
-                                                                                class="text-center" selected>
-                                                                                {{ $item_no->REPAIR_ID }}
-                                                                                {{ $item_no->REPAIR_NAME }}</option>
+                                                                            <option value="{{ $item_no->ID }}" class="text-center" selected> {{ $item_no->REPAIR_ID }} {{ $item_no->REPAIR_NAME }} / วันที่แจ้ง{{ $item_no->DATE_TIME_REQUEST }}</option>
                                                                         @else
-                                                                            <option value="{{ $item_no->ID }}"
-                                                                                class="text-center">
-                                                                                {{ $item_no->REPAIR_ID }}
-                                                                                {{ $item_no->REPAIR_NAME }}</option>
+                                                                            <option value="{{ $item_no->ID }}" class="text-center"> {{ $item_no->REPAIR_ID }} {{ $item_no->REPAIR_NAME }} / วันที่แจ้ง{{ $item_no->DATE_TIME_REQUEST }}</option>
                                                                         @endif
                                                                     @endforeach
                                                                 </select>

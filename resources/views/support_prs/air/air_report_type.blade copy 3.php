@@ -134,7 +134,7 @@
         @csrf
         <div class="row"> 
             <div class="col-md-6">
-                <h5 style="color:rgb(10, 151, 85)">รายงานการบำรุงรักษาเครื่องปรับอากาศ แยกตามประเภทการซ่อมและบำรุงรักษาประจำปี</h5>
+                <h4 style="color:rgb(10, 151, 85)">รายงานการบำรุงรักษาเครื่องปรับอากาศ แยกตามประเภทการซ่อมและบำรุงรักษาประจำปี</h4>
                 {{-- <p class="card-title-desc">รายงานถังดับเพลิง</p> --}}
             </div>
             <div class="col-md-2 text-center">
@@ -159,13 +159,7 @@
                         <button type="submit" class="ladda-button btn-pill btn btn-primary cardacc" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
                         </button> 
-                        {{-- <button type="button" class="ladda-button btn-pill btn btn-success card_prs_4 exportExcel" data-url="{{url('air_report_type_excel')}}">
-                            <i class="fa-solid fa-file-excel text-white me-2"></i>
-                            Export
-                        </button> --}}
-                        <a href="{{url('air_report_type_excel')}}" class="ladda-button btn-pill btn btn-success card_prs_4">
-                            <span class="ladda-label"> <i class="fa-solid fa-file-excel text-white me-2"></i>Export</span>  
-                        </a>
+                  
                 </div> 
             </div>
         </div>  
@@ -198,9 +192,30 @@
 
                 <p class="mb-0">
                     <div class="table-responsive">
-                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> 
+                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        {{-- <table id="example" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;"> --}}
                             <thead>
-                              
+                                @if ($repaire_type =='1')
+                                    <tr style="font-size:13px"> 
+                                        {{-- <th width="3%" class="text-center">ลำดับ</th>    --}}
+                                        <th class="text-center" width="5%">วันที่ซ่อม</th>   
+                                        <th class="text-center" width="5%">เวลา</th>  
+                                        <th class="text-center" width="5%">เลขที่แจ้งซ่อม</th> 
+                                        <th class="text-center" >รายการ</th>  
+                                        <th class="text-center" >ขนาด(btu)</th>  
+                                        <th class="text-center" >อาคารที่ตั้ง</th>  
+                                        <th class="text-center" >หน่วยงาน</th>  
+                                        <th class="text-center" >ซ่อมตามปัญหา</th>  
+                                        {{-- <th class="text-center"><button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(236, 232, 181)"><i class="fa-solid fa-glass-water-droplet" style="color: #B216F0"></i></button></th>  --}}
+                                        {{-- <th class="text-center"><button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(202, 236, 181)"><i class="fab fa-slack" style="color: #07c095"></i> </button></th> --}}
+                                        {{-- <th class="text-center"> <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(181, 203, 236)"><i class="fa-solid fa-volume-high" style="color: #0760c0"></i> </button></th> --}}
+                                        {{-- <th class="text-center"><button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(236, 181, 181)"><i class="fa-solid fa-soap" style="color: #c0072f"></i></button></th> --}}
+                                        {{-- <th class="text-center"><button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 181, 236)"><i class="fa-solid fa-tenge-sign" style="color: #8c07c0"></i></button> </th> --}}
+                                        <th class="text-center">เจ้าหน้าที่</th>
+                                        <th class="text-center">ช่างซ่อม(รพ)</th>
+                                        <th class="text-center">ช่างแอร์</th>
+                                    </tr>
+                                @else
                                     <tr style="font-size:13px">  
                                         <th class="text-center" width="5%">วันที่ซ่อม</th>   
                                         <th class="text-center" width="5%">เวลา</th>  
@@ -209,12 +224,18 @@
                                         <th class="text-center" >ขนาด(btu)</th>  
                                         <th class="text-center" >อาคารที่ตั้ง</th>  
                                         <th class="text-center" >หน่วยงาน</th>  
-                                        <th class="text-center" >ซ่อม/บำรุงรักษา</th>   
+                                        <th class="text-center" >ซ่อมตามปัญหา</th> 
+                                        <th class="text-center" >การบำรุงรักษา</th> 
+                                        {{-- <th class="text-center"><button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(236, 232, 181)"><i class="fa-solid fa-fan" style="color: #B216F0"></i></button></th>  --}}
+                                        {{-- <th class="text-center"><button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(202, 236, 181)"><i class="fa-solid fa-hard-drive" style="color: #07c095"></i> </button></th> --}}
+                                        {{-- <th class="text-center"> <button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(181, 203, 236)"><i class="fa-solid fa-solar-panel" style="color: #0760c0"></i> </button></th> --}}
+                                        {{-- <th class="text-center"><button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(236, 181, 181)"><i class="fa-solid fa-solar-panel" style="color: #c0072f"></i></button></th> --}}
+                                        {{-- <th class="text-center"><button class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 181, 236)"><i class="fa-solid fa-flask-vial" style="color: #8c07c0"></i></button> </th> --}}
                                         <th class="text-center">เจ้าหน้าที่</th>
                                         <th class="text-center">ช่างซ่อม(รพ)</th>
                                         <th class="text-center">ช่างแอร์</th>
-                                    </tr>
-                                
+                                    </tr> 
+                                @endif
                                
                             </thead>
                             <tbody>
@@ -226,7 +247,10 @@
                                         <td class="text-center" width="7%">{{ DateThai($item->repaire_date )}}</td>  
                                         <td class="text-center" width="5%">{{ $item->repaire_time }}</td>   
                                         <td class="text-center" width="5%">{{ $item->air_repaire_no }}</td> 
-                                        <td class="p-2">{{ $item->air_list_name }} </td>  
+                                        <td class="p-2">
+                                            {{ $item->air_list }}
+                                           {{-- <a href="{{url('air_report_typesub/'.$item->air_repaire_id.'/'.$repaire_type.'/'.$startdate.'/'.$enddate)}}">{{ $item->air_list }}</a>  --}}
+                                        </td>  
                                         <td class="p-2" width="5%">{{ $item->btu }}</td>  
                                         <td class="p-2" width="10%">{{ $item->air_location_name }}</td>  
                                         <td class="p-2" width="10%">{{ $item->debsubsub }}</td>  
@@ -238,6 +262,14 @@
                                             </p>
                                             @endforeach 
                                         </td>  
+                                        {{-- <td class="p-2" width="10%"> 
+                                            <?php $datas_submain_= DB::select('SELECT * FROM air_maintenance WHERE air_repaire_id = "'.$item->air_repaire_id.'"');?>
+                                            @foreach ($datas_submain_ as $v_2)
+                                            <p class="mt-2" style="font-size: 13px;color:rgb(6, 149, 168)">
+                                                - {{$v_2->air_maintenance_name}}ครั้งที่ {{$v_2->air_repaire_type_id}}
+                                            </p>
+                                            @endforeach 
+                                        </td>   --}}
                                         <td class="p-2" width="7%">{{ $item->staff_name }}</td> 
                                         <td class="p-2" width="7%">{{ $item->tect_name }}</td> 
                                         <td class="p-2" width="7%">{{ $item->air_techout_name }}</td> 
@@ -286,79 +318,6 @@
             });
             $('#datepicker4').datepicker({
                 format: 'yyyy-mm-dd'
-            });
-
-            $('.exportExcel').on('click', function(e) {
-                var air_repaire_type = $('#air_repaire_type').val(); 
-                var datepicker       = $('#datepicker').val(); 
-                var datepicker2      = $('#datepicker2').val(); 
-                
-                    Swal.fire({
-                        position: "top-end",
-                        title: 'Are you sure?',
-                        text: "คุณต้องการส่งออก EXCEL ใช่ไหม!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, Export it.!'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                  
-                                    $("#overlay").fadeIn(300);　
-                                    $("#spinner").show(); //Load button clicked show spinner 
-
-                                    $.ajax({
-                                        url:$(this).data('url'),
-                                        type: 'POST',
-                                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                                        data: {air_repaire_type,datepicker,datepicker2},
-                                        success:function(data){ 
-                                                if (data.status == 200) {
-                                                    
-                                                    Swal.fire({
-                                                        position: "top-end",
-                                                        title: 'ส่งออก Excel สำเร็จ',
-                                                        text: "You Export Excel success",
-                                                        icon: 'success',
-                                                        showCancelButton: false,
-                                                        confirmButtonColor: '#06D177',
-                                                        confirmButtonText: 'เรียบร้อย'
-                                                    }).then((result) => {
-                                                        if (result
-                                                            .isConfirmed) {
-                                                            console.log(
-                                                                data);
-                                                                window.location = "{{ url('air_report_type_excel') }}";
-                                                            // window.location.reload();
-                                                            $('#spinner').hide();//Request is complete so hide spinner
-                                                            setTimeout(function(){
-                                                                $("#overlay").fadeOut(300);
-                                                            },500);
-                                                        }
-                                                    })
-                                                } else {
-                                                    Swal.fire({
-                                                        position: "top-end",
-                                                        icon: "warning",
-                                                        title: "กรุณาเลือกวันที่และประเภท",
-                                                        showConfirmButton: false,
-                                                        timer: 1500
-                                                    });
-                                                    $('#spinner').hide();//Request is complete so hide spinner
-                                                    setTimeout(function(){
-                                                            $("#overlay").fadeOut(300);
-                                                        },500);
-                                                 
-                                                }
-                                                 
-                                        }
-                                    });
-                                   
-                             
-                            }
-                        }) 
-                   
             });
 
         });
