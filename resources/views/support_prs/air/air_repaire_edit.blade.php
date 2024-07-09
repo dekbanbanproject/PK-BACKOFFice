@@ -566,20 +566,14 @@ $count_article = StaticController::count_article();
                             </div>
                         </div>
 
-                        <input type="hidden" name="air_repaire_id" id="air_repaire_id"
-                            value="{{ $data_edit->air_repaire_id }}">
-                        <input type="hidden" name="air_list_id" id="air_list_id"
-                            value="{{ $data_detail_->air_list_id }}">
-                        <input type="hidden" name="air_list_num" id="air_list_num"
-                            value="{{ $data_detail_->air_list_num }}">
-                        <input type="hidden" name="air_list_name" id="air_list_name"
-                            value="{{ $data_detail_->air_list_name }}">
-                        <input type="hidden" name="btu" id="btu" value="{{ $data_detail_->btu }}">
-                        <input type="hidden" name="serial_no" id="serial_no" value="{{ $data_detail_->serial_no }}">
-                        <input type="hidden" name="air_location_id" id="air_location_id"
-                            value="{{ $data_detail_->air_location_id }}">
-                        <input type="hidden" name="air_location_name" id="air_location_name"
-                            value="{{ $data_detail_->air_location_name }}">
+                        <input type="hidden" name="air_repaire_id" id="air_repaire_id" value="{{ $data_edit->air_repaire_id }}">
+                        <input type="hidden" name="air_list_id" id="air_list_id" value="{{ $data_edit->air_list_id }}">
+                        <input type="hidden" name="air_list_num" id="air_list_num" value="{{ $data_edit->air_list_num }}">
+                        <input type="hidden" name="air_list_name" id="air_list_name" value="{{ $data_edit->air_list_name }}">
+                        <input type="hidden" name="btu" id="btu" value="{{ $data_edit->btu }}">
+                        <input type="hidden" name="serial_no" id="serial_no" value="{{ $data_edit->serial_no }}">
+                        <input type="hidden" name="air_location_id" id="air_location_id" value="{{ $data_edit->air_location_id }}">
+                        <input type="hidden" name="air_location_name" id="air_location_name" value="{{ $data_edit->air_location_name }}">
 
 
                     </div>

@@ -118,7 +118,7 @@
                             <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
                         </button> 
                      
-                        <a href="{{url('air_report_type_excel')}}" class="ladda-button btn-pill btn btn-success cardacc">
+                        <a href="{{url('home_supplies_excel')}}" class="ladda-button btn-pill btn btn-success cardacc">
                             <span class="ladda-label"> <i class="fa-solid fa-file-excel text-white me-2"></i>Export</span>  
                         </a>
                 </div> 
@@ -189,21 +189,34 @@
                                                 <td class="p-2" width="10%"> 
                                                     @if ($repaire_type == '')
                                                         <p class="mt-2" style="font-size: 13px;color:rgb(6, 149, 168)">
-                                                            - {{$item->repaire_sub_name}}
+                                                            - {{$item->repaire_sub_name}}  
                                                         </p>
                                                     @else
                                                         <?php $datas_sub_= DB::select('SELECT * FROM air_repaire_sub WHERE air_repaire_id = "'.$item->air_repaire_id.'" AND air_repaire_type_code = "'.$repaire_type.'"');?>
                                                         @foreach ($datas_sub_ as $v_1)
-                                                            <p class="mt-2" style="font-size: 13px;color:rgb(6, 149, 168)">
-                                                                - {{$v_1->repaire_sub_name}}
-                                                            </p>
+                                                            {{-- <p class="mt-2" style="font-size: 13px;color:rgb(6, 149, 168)">
+                                                                - {{$v_1->repaire_sub_name}} ครั้งที่ {{$v_1->repaire_no}}
+                                                            </p> --}}
+                                                            @if ($v_1->air_repaire_type_code == '04')
+                                                                <p class="mt-2" style="font-size: 13px;color:rgb(6, 149, 168)">
+                                                                    - {{$v_1->repaire_sub_name}} 
+                                                                </p>
+                                                                @else
+                                                                <p class="mt-2" style="font-size: 13px;color:rgb(6, 149, 168)">
+                                                                    - {{$v_1->repaire_sub_name}} ครั้งที่ {{$v_1->repaire_no}}
+                                                                </p>
+                                                                @endif
                                                         @endforeach 
                                                     @endif
                                                     
                                                 </td>  
-                                                <td class="p-2" width="10%">{{ $item->air_techout_name }}</td>   
+                                                {{-- <td class="p-2" width="10%">{{ $item->air_techout_name }}</td>   
                                                 <td class="p-2" width="10%">{{ $item->ptname }}</td>  
-                                                <td class="p-2" width="10%">{{ $item->tectname }}</td>  
+                                                <td class="p-2" width="10%">{{ $item->tectname }}</td>   --}}
+
+                                                <td class="p-2" width="7%">{{ $item->staff_name }}</td> 
+                                        <td class="p-2" width="7%">{{ $item->tect_name }}</td> 
+                                        <td class="p-2" width="7%">{{ $item->air_techout_name }}</td> 
                                                 
         
                                             </tr>
@@ -241,40 +254,40 @@
 @section('footer') 
     <script>
         $(document).ready(function() {
-            $('#example').DataTable();
-            $('#example2').DataTable();
-            $('#example3').DataTable();
+            // $('#example').DataTable();
+            // $('#example2').DataTable();
+            // $('#example3').DataTable();
 
-            $('#Tabledit').Tabledit({
-                url:'{{route("d.nurse_index_editable")}}',
-                dataType:"json",
-                // editButton: true,
-                removeButton: false,
-                columns:{
-                    identifier:[1,'ward'],
-                    // editable:[[1,'group2'],[2,'fbillcode'],[3,'nbillcode'],[4,'dname'],[5,'pay_rate'],[6,'price'],[7,'price2'],[8,'price3']]
-                    editable: [[4, 'np_a'], [7, 'np_b'], [10, 'np_c']]
-                },
-                // restoreButton:false,
-                deleteButton: false,
-                saveButton: false,
-                autoFocus: false,
-                buttons: {
-                    edit: {
-                        class: 'btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-warning',
-                        html: '<i class="fa-regular fa-pen-to-square"></i>',
-                        action: 'Edit'
-                    }
-                },
-                // onSuccess:function(data,textStatus,jqXHR)
-                // {
-                //     if (data.action == 'delete') 
-                //     {
-                //         $('#'+data.icode).remove();
-                //     }
-                // }
+            // $('#Tabledit').Tabledit({
+            //     url:'{{route("d.nurse_index_editable")}}',
+            //     dataType:"json",
+            //     // editButton: true,
+            //     removeButton: false,
+            //     columns:{
+            //         identifier:[1,'ward'],
+            //         // editable:[[1,'group2'],[2,'fbillcode'],[3,'nbillcode'],[4,'dname'],[5,'pay_rate'],[6,'price'],[7,'price2'],[8,'price3']]
+            //         editable: [[4, 'np_a'], [7, 'np_b'], [10, 'np_c']]
+            //     },
+            //     // restoreButton:false,
+            //     deleteButton: false,
+            //     saveButton: false,
+            //     autoFocus: false,
+            //     buttons: {
+            //         edit: {
+            //             class: 'btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-warning',
+            //             html: '<i class="fa-regular fa-pen-to-square"></i>',
+            //             action: 'Edit'
+            //         }
+            //     },
+            //     // onSuccess:function(data,textStatus,jqXHR)
+            //     // {
+            //     //     if (data.action == 'delete') 
+            //     //     {
+            //     //         $('#'+data.icode).remove();
+            //     //     }
+            //     // }
 
-            });
+            // });
  
             $('#datepicker').datepicker({
                 format: 'yyyy-mm-dd'

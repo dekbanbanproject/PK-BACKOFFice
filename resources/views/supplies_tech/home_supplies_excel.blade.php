@@ -2,7 +2,7 @@
    
    <?php
    header("Content-Type: application/vnd.ms-excel");
-   header('Content-Disposition: attachment; filename="รายงานการบำรุงรักษาเครื่องปรับอากาศแยกตามประเภทการซ่อมและบำรุงรักษาประจำปี.xls"');//ชื่อไฟล์
+   header('Content-Disposition: attachment; filename="รายงานการบำรุงรักษาเครื่องปรับอากาศแยกตามประเภทการซ่อมและบำรุงรักษาประจำปี(Supplies).xls"');//ชื่อไฟล์
    
    function DateThais($strDate)
    {
@@ -54,7 +54,7 @@
    ?>
 <center>
     <br><br>
-   <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"><b>รายงานการบำรุงรักษาเครื่องปรับอากาศ แยกตามประเภทการซ่อมและบำรุงรักษาประจำปี โรงพยาบาลภูเขียวเฉลิมพระเกียรติ</b></label><br>
+   <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"><b>รายงานการบำรุงรักษาเครื่องปรับอากาศ แยกตามประเภทการซ่อมและบำรุงรักษาประจำปี(Supplies)</b></label><br>
  
 </center>
    <br><br>
@@ -87,7 +87,7 @@
                     <td class="text-center" style="width: 5%;border-color: black">{{ $item->repaire_time }}</td>   
                     <td class="text-center" style="width: 5%;border-color: black">{{ $item->air_repaire_no }}</td> 
                     {{-- <td class="text-center" style="width: 5%;border-color: black">{{ $item->air_list_num }}</td>  --}}
-                    <td class="p-2" style="border-color: black">{{ $item->air_list_name }} - {{ $item->btu }} btu</td>  
+                    <td class="p-2" style="border-color: black">{{ $item->air_list_name }}- {{ $item->btu }} btu </td>  
                     {{-- <td class="p-2" style="width: 5%;border-color: black">{{ $item->btu }}</td>   --}}
                     <td class="p-2" style="width: 10%;border-color: black">{{ $item->air_location_name }}</td>  
                     <td class="p-2" style="width: 10%;border-color: black">{{ $item->debsubsub }}</td>  
@@ -95,7 +95,8 @@
                          
                
                         <p class="mt-2" style="font-size: 13px;color:rgb(6, 149, 168)">
-                             {{$item->repaire_sub_name}}  
+                             {{$item->repaire_sub_name}} 
+                             {{-- ครั้งที่ {{$item->repaire_no}} --}}
                         </p>
                        
                     </td>  

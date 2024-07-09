@@ -206,7 +206,7 @@
                                         <th class="text-center" width="5%">เวลา</th>  
                                         <th class="text-center" width="5%">เลขที่แจ้งซ่อม</th> 
                                         <th class="text-center" >รายการ</th>  
-                                        <th class="text-center" >ขนาด(btu)</th>  
+                                        {{-- <th class="text-center" >ขนาด(btu)</th>   --}}
                                         <th class="text-center" >อาคารที่ตั้ง</th>  
                                         <th class="text-center" >หน่วยงาน</th>  
                                         <th class="text-center" >ซ่อม/บำรุงรักษา</th>   
@@ -226,21 +226,28 @@
                                         <td class="text-center" width="7%">{{ DateThai($item->repaire_date )}}</td>  
                                         <td class="text-center" width="5%">{{ $item->repaire_time }}</td>   
                                         <td class="text-center" width="5%">{{ $item->air_repaire_no }}</td> 
-                                        <td class="p-2">{{ $item->air_list_name }} </td>  
-                                        <td class="p-2" width="5%">{{ $item->btu }}</td>  
+                                        <td class="p-2">{{ $item->air_list_name }} - {{ $item->btu }} btu </td>  
+                                        {{-- <td class="p-2" width="5%">{{ $item->btu }}</td>   --}}
                                         <td class="p-2" width="10%">{{ $item->air_location_name }}</td>  
                                         <td class="p-2" width="10%">{{ $item->debsubsub }}</td>  
                                         <td class="p-2" width="10%"> 
                                             @if ($repaire_type == '')
                                                 <p class="mt-2" style="font-size: 13px;color:rgb(6, 149, 168)">
-                                                    - {{$item->repaire_sub_name}}
+                                                    - {{$item->repaire_sub_name}}  
                                                 </p>
                                             @else
                                                 <?php $datas_sub_= DB::select('SELECT * FROM air_repaire_sub WHERE air_repaire_id = "'.$item->air_repaire_id.'" AND air_repaire_type_code = "'.$repaire_type.'"');?>
                                                 @foreach ($datas_sub_ as $v_1)
+                                                    @if ($v_1->air_repaire_type_code == '04')
                                                     <p class="mt-2" style="font-size: 13px;color:rgb(6, 149, 168)">
-                                                        - {{$v_1->repaire_sub_name}}
+                                                        - {{$v_1->repaire_sub_name}} 
                                                     </p>
+                                                    @else
+                                                    <p class="mt-2" style="font-size: 13px;color:rgb(6, 149, 168)">
+                                                        - {{$v_1->repaire_sub_name}} ครั้งที่ {{$v_1->repaire_no}}
+                                                    </p>
+                                                    @endif
+                                                   
                                                 @endforeach 
                                             @endif
                                             

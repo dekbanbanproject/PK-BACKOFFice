@@ -79,13 +79,14 @@
                                         <th>cid</th>
                                         <th>tel</th>
                                         <th>vstdate</th>
+                                        <th>vsttime</th>
                                         <th>fullname</th>
                                         <th>pttype Hos</th>
                                         <th>hmain Hos</th>
                                         <th>hsub Hos</th>
                                         <th>pttype สปสช</th>
-                                        <th>hmainสปสช</th>
-                                        <th>hsubสปสช</th>
+                                        {{-- <th>hmainสปสช</th> --}}
+                                        {{-- <th>hsubสปสช</th> --}}
                                         <th>claimtype</th>
                                         <th>staff</th>
                                         <th>main_dep</th>
@@ -102,13 +103,14 @@
                                             <td>{{ $item->cid }}</td>
                                             <td>{{ $item->hometel }}</td>
                                             <td>{{ $item->vstdate }}</td>
+                                            <td>{{ $item->vsttime }}</td>
                                             <td>{{ $item->fullname }}</td>
                                             <td style="background-color: rgb(255, 255, 255)">{{ $item->pttype }}</td>
                                             <td >{{ $item->hospmain }}</td>
                                             <td>{{ $item->hospsub }}</td>
                                             <td style="background-color: rgb(255, 255, 255)">{{ $item->subinscl }}</td>
-                                            <td>{{ $item->hmain }}</td>
-                                            <td>{{ $item->hsub }}</td>
+                                            {{-- <td>{{ $item->hmain }}</td> --}}
+                                            {{-- <td>{{ $item->hsub }}</td> --}}
                                             <td style="background-color: rgb(253, 150, 185)">{{ $item->claimtype }}</td>
                                             <td>{{ $item->staff }}</td>
                                             <td>{{ $item->department }}</td>

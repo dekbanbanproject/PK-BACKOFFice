@@ -518,6 +518,7 @@ Route::get('user/home', [App\Http\Controllers\UserController::class, 'user_index
 Route::get('manage/home', [App\Http\Controllers\HomeController::class, 'manageHome'])->name('manage.home')->middleware('type');
 Route::get('manage/home', [App\Http\Controllers\HomeController::class, 'manageHome'])->name('manage.home')->middleware('type');
 Route::get('home_supplies', [App\Http\Controllers\AirController::class, 'home_supplies'])->name('manage.home_supplies')->middleware('type');
+Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'home_supplies_excel'])->name('manage.home_supplies_excel')->middleware('type');
 
 Route::middleware(['type'])->group(function(){
 

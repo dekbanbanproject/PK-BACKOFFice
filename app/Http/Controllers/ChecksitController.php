@@ -1540,7 +1540,7 @@ class ChecksitController extends Controller
         //     AND c.pdx NOT IN("Z000")
         // ');
         $data_sit = DB::connection('mysql10')->select(
-            'SELECT c.vn,c.hn,p.cid,c.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname,c.pttype,"" as subinscl,v.income as debit,vp.claim_code,"" as claimtype,v.hospmain
+            'SELECT c.vn,c.hn,p.cid,c.vstdate,c.vsttime,concat(p.pname,p.fname," ",p.lname) as fullname,c.pttype,"" as subinscl,v.income as debit,vp.claim_code,"" as claimtype,v.hospmain
             ,p.hometel,c.hospsub,c.main_dep,"" as hmain,"" as hsub,"" as subinscl_name,c.staff,k.department,v.pdx
             from ovst c
             LEFT JOIN visit_pttype vp ON vp.vn = c.vn
@@ -1574,7 +1574,7 @@ class ChecksitController extends Controller
         //     AND c.pdx NOT IN("Z000")
         // ');
         $data_sit = DB::connection('mysql10')->select(
-            'SELECT c.vn,c.hn,p.cid,c.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname,c.pttype,"" as subinscl,v.income as debit,vp.claim_code,"" as claimtype,v.hospmain
+            'SELECT c.vn,c.hn,p.cid,c.vstdate,c.vsttime,concat(p.pname,p.fname," ",p.lname) as fullname,c.pttype,"" as subinscl,v.income as debit,vp.claim_code,"" as claimtype,v.hospmain
             ,p.hometel,c.hospsub,c.main_dep,"" as hmain,"" as hsub,"" as subinscl_name,c.staff,k.department,v.pdx
             from ovst c
             LEFT JOIN visit_pttype vp ON vp.vn = c.vn
@@ -1619,7 +1619,7 @@ class ChecksitController extends Controller
             
         // ');
         $data_sit = DB::connection('mysql10')->select(
-            'SELECT c.vn,c.hn,p.cid,c.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname,c.pttype,"" as subinscl,v.income as debit,vp.claim_code,"" as claimtype,v.hospmain
+            'SELECT c.vn,c.hn,p.cid,c.vstdate,c.vsttime,concat(p.pname,p.fname," ",p.lname) as fullname,c.pttype,"" as subinscl,v.income as debit,vp.claim_code,"" as claimtype,v.hospmain
             ,p.hometel,c.hospsub,c.main_dep,"" as hmain,"" as hsub,"" as subinscl_name,c.staff,k.department,v.pdx
             from ovst c
             LEFT JOIN visit_pttype vp ON vp.vn = c.vn
@@ -1652,7 +1652,7 @@ class ChecksitController extends Controller
         //     WHERE DAY(vstdate) = "'.$day.'" AND MONTH(vstdate) = "'.$month.'" AND YEAR(vstdate) = "'.$year.'" AND c.staff = "'.$staff.'"  AND c.claimcode is null
         // ');
         $data_sit = DB::connection('mysql10')->select(
-            'SELECT c.vn,c.hn,p.cid,c.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname,c.pttype,"" as subinscl,v.income as debit,vp.claim_code,"" as claimtype,v.hospmain
+            'SELECT c.vn,c.hn,p.cid,c.vstdate,c.vsttime,concat(p.pname,p.fname," ",p.lname) as fullname,c.pttype,"" as subinscl,v.income as debit,vp.claim_code,"" as claimtype,v.hospmain
             ,p.hometel,c.hospsub,c.main_dep,"" as hmain,"" as hsub,"" as subinscl_name,c.staff,k.department,v.pdx
             from ovst c
             LEFT JOIN visit_pttype vp ON vp.vn = c.vn

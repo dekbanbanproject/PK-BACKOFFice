@@ -36,7 +36,7 @@ use App\Models\Products_request;
 use App\Models\Products_request_sub;
 use App\Models\Acc_stm_prb;
 use App\Models\Acc_stm_ti_totalhead;
-use App\Models\Acc_stm_ti_excel;
+use App\Models\Air_repaire_supexcel;
 use App\Models\Air_repaire_excel;
 use App\Models\Article_status;
 use App\Models\Air_repaire;
@@ -122,41 +122,126 @@ class AirController extends Controller
         //         ORDER BY air_repaire_id DESC
         //     '); 
         // }
+        Air_repaire_supexcel::truncate();
         if ($repaire_type == '') {
             $datashow  = DB::select(
                 'SELECT a.repaire_date,a.repaire_time,a.air_repaire_id,a.air_repaire_num,a.air_repaire_no,a.air_list_num,concat(a.air_list_num," ",a.air_list_name) as air_list_name,a.btu as btu
                 ,a.air_location_name,(SELECT detail FROM air_list WHERE air_list_id = a.air_list_id) as debsubsub 
-                ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tectname
+                ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
                 ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
-                ,m.air_repaire_type_code,(select GROUP_CONCAT(distinct b.repaire_sub_name," " "|" " ")) as repaire_sub_name
-                ,al.air_imgname,al.active,al.detail,concat(p.fname," ",p.lname) as ptname
-                FROM air_repaire a 
-                LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
-                LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
-                LEFT JOIN users p ON p.id = a.air_staff_id  
-                LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
-                WHERE a.repaire_date BETWEEN "'.$newDate.'" AND "'.$datenow.'" 
-                GROUP BY a.air_repaire_id 
-                ORDER BY a.air_repaire_id DESC 
-            ');   
-            
-        } else { 
-            $datashow  = DB::select(
-                'SELECT a.repaire_date,a.repaire_time,a.air_repaire_id,a.air_repaire_num,a.air_repaire_no,a.air_list_num,concat(a.air_list_num," ",a.air_list_name) as air_list_name,a.btu as btu
-                ,a.air_location_name,(SELECT detail FROM air_list WHERE air_list_id = a.air_list_id) as debsubsub 
-                ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tectname
-                ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
-                ,m.air_repaire_type_code,(select GROUP_CONCAT(distinct b.repaire_sub_name," " "|" " ")) as repaire_sub_name 
-                ,al.air_imgname,al.active,al.detail,concat(p.fname," ",p.lname) as ptname
+                ,m.air_repaire_type_code,(select GROUP_CONCAT(distinct b.repaire_sub_name,"" "|")) as repaire_sub_name 
+                ,b.repaire_no
                 FROM air_repaire a 
                 LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
                 LEFT JOIN users p ON p.id = a.air_staff_id  
                 LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
-                WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                AND b.air_repaire_type_code = "'.$repaire_type.'"
+                WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND a.air_supplies_id = "'.$idsup.'"  
                 GROUP BY a.air_repaire_id 
                 ORDER BY a.air_repaire_id DESC  
-            '); 
+            ');   
+            foreach ($datashow as $key => $value) {
+                // if ( $value->air_repaire_type_code == '04') {
+                    Air_repaire_supexcel::insert([
+                        'air_repaire_id'     => $value->air_repaire_id,
+                        'repaire_date'       => $value->repaire_date,
+                        'repaire_time'       => $value->repaire_time,
+                        'air_repaire_no'     => $value->air_repaire_no,
+                        'air_repaire_num'    => $value->air_repaire_num,
+                        'air_list_num'       => $value->air_list_num,
+                        'air_list_name'      => $value->air_list_name,
+                        'btu'                => $value->btu,
+                        'air_location_name'  => $value->air_location_name,
+                        'debsubsub'          => $value->debsubsub, 
+                        'repaire_sub_name'   => $value->repaire_sub_name, 
+                        'staff_name'         => $value->staff_name,
+                        'tect_name'          => $value->tect_name,
+                        'air_techout_name'   => $value->air_techout_name,
+                    ]);
+                
+               
+            }
+            
+        } else { 
+            
+
+            if ($repaire_type == '04') {
+                $datashow  = DB::select(
+                    'SELECT a.repaire_date,a.repaire_time,a.air_repaire_id,a.air_repaire_num,a.air_repaire_no,a.air_list_num,concat(a.air_list_num," ",a.air_list_name) as air_list_name,a.btu as btu
+                    ,a.air_location_name,(SELECT detail FROM air_list WHERE air_list_id = a.air_list_id) as debsubsub 
+                    ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
+                    ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
+                    ,m.air_repaire_type_code,(select GROUP_CONCAT(distinct b.repaire_sub_name,"" "|")) as repaire_sub_name 
+                    ,b.repaire_no
+                    FROM air_repaire a 
+                    LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
+                    LEFT JOIN users p ON p.id = a.air_staff_id  
+                    LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
+                    WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                    AND b.air_repaire_type_code = "'.$repaire_type.'"
+                    GROUP BY a.air_repaire_id 
+                    ORDER BY a.air_repaire_id DESC  
+                '); 
+                foreach ($datashow as $key => $value) {
+                    
+                    Air_repaire_supexcel::insert([
+                            'air_repaire_id'     => $value->air_repaire_id,
+                            'repaire_date'       => $value->repaire_date,
+                            'repaire_time'       => $value->repaire_time,
+                            'air_repaire_no'     => $value->air_repaire_no,
+                            'air_repaire_num'    => $value->air_repaire_num,
+                            'air_list_num'       => $value->air_list_num,
+                            'air_list_name'      => $value->air_list_name,
+                            'btu'                => $value->btu,
+                            'air_location_name'  => $value->air_location_name,
+                            'debsubsub'          => $value->debsubsub, 
+                            'repaire_sub_name'   => $value->repaire_sub_name, 
+                            'staff_name'         => $value->staff_name,
+                            'tect_name'          => $value->tect_name,
+                            'air_techout_name'   => $value->air_techout_name,
+                        ]);
+                     
+                }
+            } else {
+                $datashow  = DB::select(
+                    'SELECT a.repaire_date,a.repaire_time,a.air_repaire_id,a.air_repaire_num,a.air_repaire_no,a.air_list_num,concat(a.air_list_num," ",a.air_list_name) as air_list_name,a.btu as btu
+                    ,a.air_location_name,(SELECT detail FROM air_list WHERE air_list_id = a.air_list_id) as debsubsub 
+                    ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
+                    ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
+                    ,m.air_repaire_type_code,(select GROUP_CONCAT(distinct b.repaire_sub_name," " "|")) as repaire_sub_name
+                    ,(select GROUP_CONCAT(distinct b.repaire_sub_name," ครั้งที่ " ,b.repaire_no, "|")) as repaire_sub_name2 
+                    ,b.repaire_no
+                    FROM air_repaire a 
+                    LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
+                    LEFT JOIN users p ON p.id = a.air_staff_id  
+                    LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
+                    WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                    AND b.air_repaire_type_code = "'.$repaire_type.'"
+                    GROUP BY a.air_repaire_id 
+                    ORDER BY a.air_repaire_id DESC  
+                '); 
+                foreach ($datashow as $key => $value) { 
+                    
+                    Air_repaire_supexcel::insert([
+                            'air_repaire_id'     => $value->air_repaire_id,
+                            'repaire_date'       => $value->repaire_date,
+                            'repaire_time'       => $value->repaire_time,
+                            'air_repaire_no'     => $value->air_repaire_no,
+                            'air_repaire_num'    => $value->air_repaire_num,
+                            'air_list_num'       => $value->air_list_num,
+                            'air_list_name'      => $value->air_list_name,
+                            'btu'                => $value->btu,
+                            'air_location_name'  => $value->air_location_name,
+                            'debsubsub'          => $value->debsubsub, 
+                            'repaire_sub_name'   => $value->repaire_sub_name2, 
+                            'staff_name'         => $value->staff_name,
+                            'tect_name'          => $value->tect_name,
+                            'air_techout_name'   => $value->air_techout_name,
+                        ]);
+              
+                    
+                    
+                }
+            }
             
         }
         $data['air_repaire_type']      = DB::table('air_repaire_type')->get();
@@ -165,6 +250,32 @@ class AirController extends Controller
             'enddate'       => $enddate, 
             'datashow'      => $datashow,
             'repaire_type'  => $repaire_type,
+        ]);
+    }
+    public function home_supplies_excel(Request $request)
+    {
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $months         = date('m');
+        $year           = date('Y'); 
+        $startdate      = $request->datepicker;
+        $enddate        = $request->datepicker2;
+        $repaire_type   = $request->air_repaire_type;
+        $idsup          = Auth::user()->air_supplies_id;
+       
+        $datashow  = DB::select(
+            'SELECT *
+            FROM air_repaire_supexcel 
+        '); 
+      
+      
+               
+        //    WHERE a.repaire_date BETWEEN "2024-07-01" AND "2024-07-08"
+
+        return view('supplies_tech.home_supplies_excel',[
+            'startdate'     =>$startdate,
+            'enddate'       =>$enddate,
+            'datashow'      =>$datashow, 
         ]);
     }
     
@@ -301,7 +412,7 @@ class AirController extends Controller
         $data['building_data']      = DB::table('building_data')->get(); 
         $data_detail_ = Air_repaire::leftJoin('users', 'air_repaire.air_tech_id', '=', 'users.id') 
         ->leftJoin('air_list', 'air_list.air_list_id', '=', 'air_repaire.air_list_id') 
-        ->leftJoin('air_repaire_sub', 'air_repaire_sub.air_repaire_id', '=', 'air_repaire.air_repaire_id') 
+        // ->leftJoin('air_repaire_sub', 'air_repaire_sub.air_repaire_id', '=', 'air_repaire.air_repaire_id') 
         ->where('air_repaire.air_repaire_id', '=', $id)
         ->first();
         $data_edit                       = Air_repaire::where('air_repaire_id', '=', $id)->first();
@@ -521,7 +632,7 @@ class AirController extends Controller
         $m = date('H');
         $mm = date('H:m:s');
         $datefull = date('Y-m-d H:m:s');
-
+        // dd( $data_2);
         if ($data_2 == 'on') {
             if ($add_img =='') {
                 return response()->json([
@@ -548,7 +659,8 @@ class AirController extends Controller
                 $update->save();   
             
                 Air_repaire_sub::where('air_repaire_id',$id)->delete();
-                $air_repaire_id = Air_repaire::max('air_repaire_id');
+
+                // $air_repaire_id = Air_repaire::max('air_repaire_id');
 
                 if ($request->air_problems != '' || $request->air_problems != null) {
                     $air_problems = $request->air_problems;
@@ -559,7 +671,7 @@ class AirController extends Controller
                         $count_num_  = DB::table('air_repaire_sub')->where('air_list_num','=', $request->air_list_num)->where('repaire_sub_name','=', $id_problems->air_repaire_ploblemname)->count();   
                         $count_num   = $count_num_+1;
                         $add2                          = new Air_repaire_sub();
-                        $add2->air_repaire_id          = $air_repaire_id;
+                        $add2->air_repaire_id          = $id;
                         $add2->air_list_num            = $request->air_list_num;
                         $add2->air_repaire_ploblem_id  = $id_problems->air_repaire_ploblem_id;
                         $add2->repaire_sub_name        = $id_problems->air_repaire_ploblemname;
@@ -575,7 +687,7 @@ class AirController extends Controller
                     for ($count3 = 0; $count3 < $number3; $count3++) {
                         $id_main = DB::table('air_maintenance_list')->where('maintenance_list_id','=', $maintenance_list_id[$count3])->first(); 
                         $add3                         = new Air_repaire_sub();
-                        $add3->air_repaire_id         = $air_repaire_id;
+                        $add3->air_repaire_id         = $id;
                         $add3->air_list_num           = $request->air_list_num;
                         $add3->air_repaire_ploblem_id = $id_main->maintenance_list_id;
                         $add3->repaire_sub_name       = $id_main->maintenance_list_name;
@@ -636,7 +748,7 @@ class AirController extends Controller
                 $update->save(); 
                 
                 Air_repaire_sub::where('air_repaire_id',$id)->delete();
-                $air_repaire_id = Air_repaire::max('air_repaire_id');
+                // $air_repaire_id = Air_repaire::max('air_repaire_id');
 
                 if ($request->air_problems != '' || $request->air_problems != null) {
                     $air_problems = $request->air_problems;
@@ -647,7 +759,7 @@ class AirController extends Controller
                         $count_num_  = DB::table('air_repaire_sub')->where('air_list_num','=', $request->air_list_num)->where('repaire_sub_name','=', $id_problems->air_repaire_ploblemname)->count();   
                         $count_num   = $count_num_+1;
                         $add2                          = new Air_repaire_sub();
-                        $add2->air_repaire_id          = $air_repaire_id;
+                        $add2->air_repaire_id          = $id;
                         $add2->air_list_num            = $request->air_list_num;
                         $add2->air_repaire_ploblem_id  = $id_problems->air_repaire_ploblem_id;
                         $add2->repaire_sub_name        = $id_problems->air_repaire_ploblemname;
@@ -663,7 +775,7 @@ class AirController extends Controller
                     for ($count3 = 0; $count3 < $number3; $count3++) {
                         $id_main = DB::table('air_maintenance_list')->where('maintenance_list_id','=', $maintenance_list_id[$count3])->first(); 
                         $add3                         = new Air_repaire_sub();
-                        $add3->air_repaire_id         = $air_repaire_id;
+                        $add3->air_repaire_id         = $id;
                         $add3->air_list_num           = $request->air_list_num;
                         $add3->air_repaire_ploblem_id = $id_main->maintenance_list_id;
                         $add3->repaire_sub_name       = $id_main->maintenance_list_name;
@@ -890,67 +1002,137 @@ class AirController extends Controller
                 ,a.air_location_name,(SELECT detail FROM air_list WHERE air_list_id = a.air_list_id) as debsubsub 
                 ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
                 ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
-                ,m.air_repaire_type_code,(select GROUP_CONCAT(distinct b.repaire_sub_name," " "|" " ")) as repaire_sub_name
+                ,m.air_repaire_type_code
+                ,(select GROUP_CONCAT(distinct b.repaire_sub_name,"|")) as repaire_sub_name 
+                ,b.repaire_no
                 FROM air_repaire a 
                 LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
                 LEFT JOIN users p ON p.id = a.air_staff_id  
                 LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
-                WHERE a.repaire_date BETWEEN "'.$newDate.'" AND "'.$date.'" 
+                WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
                 GROUP BY a.air_repaire_id 
                 ORDER BY a.air_repaire_id DESC 
             ');   
             foreach ($datashow as $key => $value) {
-                Air_repaire_excel::insert([
-                    'air_repaire_id'     => $value->air_repaire_id,
-                    'repaire_date'       => $value->repaire_date,
-                    'repaire_time'       => $value->repaire_time,
-                    'air_repaire_no'     => $value->air_repaire_no,
-                    'air_repaire_num'    => $value->air_repaire_num,
-                    'air_list_num'       => $value->air_list_num,
-                    'air_list_name'      => $value->air_list_name,
-                    'btu'                => $value->btu,
-                    'air_location_name'  => $value->air_location_name,
-                    'debsubsub'          => $value->debsubsub, 
-                    'repaire_sub_name'   => $value->repaire_sub_name, 
-                    'staff_name'         => $value->staff_name,
-                    'tect_name'          => $value->tect_name,
-                    'air_techout_name'   => $value->air_techout_name,
-                ]);
+                // if ( $value->air_repaire_type_code == '04') {
+                    Air_repaire_excel::insert([
+                        'air_repaire_id'     => $value->air_repaire_id,
+                        'repaire_date'       => $value->repaire_date,
+                        'repaire_time'       => $value->repaire_time,
+                        'air_repaire_no'     => $value->air_repaire_no,
+                        'air_repaire_num'    => $value->air_repaire_num,
+                        'air_list_num'       => $value->air_list_num,
+                        'air_list_name'      => $value->air_list_name,
+                        'btu'                => $value->btu,
+                        'air_location_name'  => $value->air_location_name,
+                        'debsubsub'          => $value->debsubsub, 
+                        'repaire_sub_name'   => $value->repaire_sub_name, 
+                        'staff_name'         => $value->staff_name,
+                        'tect_name'          => $value->tect_name,
+                        'air_techout_name'   => $value->air_techout_name,
+                    ]);
+                // } else {
+                //     Air_repaire_excel::insert([
+                //         'air_repaire_id'     => $value->air_repaire_id,
+                //         'repaire_date'       => $value->repaire_date,
+                //         'repaire_time'       => $value->repaire_time,
+                //         'air_repaire_no'     => $value->air_repaire_no,
+                //         'air_repaire_num'    => $value->air_repaire_num,
+                //         'air_list_num'       => $value->air_list_num,
+                //         'air_list_name'      => $value->air_list_name,
+                //         'btu'                => $value->btu,
+                //         'air_location_name'  => $value->air_location_name,
+                //         'debsubsub'          => $value->debsubsub, 
+                //         'repaire_sub_name'   => $value->repaire_sub_name2, 
+                //         'staff_name'         => $value->staff_name,
+                //         'tect_name'          => $value->tect_name,
+                //         'air_techout_name'   => $value->air_techout_name,
+                //     ]);
+                // }
+                
+               
             }
         } else { 
-            $datashow  = DB::select(
-                'SELECT a.repaire_date,a.repaire_time,a.air_repaire_id,a.air_repaire_num,a.air_repaire_no,a.air_list_num,concat(a.air_list_num," ",a.air_list_name) as air_list_name,a.btu as btu
-                ,a.air_location_name,(SELECT detail FROM air_list WHERE air_list_id = a.air_list_id) as debsubsub 
-                ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
-                ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
-                ,m.air_repaire_type_code,(select GROUP_CONCAT(distinct b.repaire_sub_name," " "|" " ")) as repaire_sub_name 
-                FROM air_repaire a 
-                LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
-                LEFT JOIN users p ON p.id = a.air_staff_id  
-                LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
-                WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                AND b.air_repaire_type_code = "'.$repaire_type.'"
-                GROUP BY a.air_repaire_id 
-                ORDER BY a.air_repaire_id DESC  
-            '); 
-            foreach ($datashow as $key => $value) {
-                Air_repaire_excel::insert([
-                    'air_repaire_id'     => $value->air_repaire_id,
-                    'repaire_date'       => $value->repaire_date,
-                    'repaire_time'       => $value->repaire_time,
-                    'air_repaire_no'     => $value->air_repaire_no,
-                    'air_repaire_num'    => $value->air_repaire_num,
-                    'air_list_num'       => $value->air_list_num,
-                    'air_list_name'      => $value->air_list_name,
-                    'btu'                => $value->btu,
-                    'air_location_name'  => $value->air_location_name,
-                    'debsubsub'          => $value->debsubsub, 
-                    'repaire_sub_name'   => $value->repaire_sub_name, 
-                    'staff_name'         => $value->staff_name,
-                    'tect_name'          => $value->tect_name,
-                    'air_techout_name'   => $value->air_techout_name,
-                ]);
+            if ($repaire_type == '04') {
+                $datashow  = DB::select(
+                    'SELECT a.repaire_date,a.repaire_time,a.air_repaire_id,a.air_repaire_num,a.air_repaire_no,a.air_list_num,concat(a.air_list_num," ",a.air_list_name) as air_list_name,a.btu as btu
+                    ,a.air_location_name,(SELECT detail FROM air_list WHERE air_list_id = a.air_list_id) as debsubsub 
+                    ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
+                    ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
+                    ,m.air_repaire_type_code,(select GROUP_CONCAT(distinct b.repaire_sub_name," " "|")) as repaire_sub_name 
+                    ,b.repaire_no
+                    FROM air_repaire a 
+                    LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
+                    LEFT JOIN users p ON p.id = a.air_staff_id  
+                    LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
+                    WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                    AND b.air_repaire_type_code = "'.$repaire_type.'"
+                    GROUP BY a.air_repaire_id 
+                    ORDER BY a.air_repaire_id DESC  
+                '); 
+                foreach ($datashow as $key => $value) {
+                    
+                        Air_repaire_excel::insert([
+                            'air_repaire_id'     => $value->air_repaire_id,
+                            'repaire_date'       => $value->repaire_date,
+                            'repaire_time'       => $value->repaire_time,
+                            'air_repaire_no'     => $value->air_repaire_no,
+                            'air_repaire_num'    => $value->air_repaire_num,
+                            'air_list_num'       => $value->air_list_num,
+                            'air_list_name'      => $value->air_list_name,
+                            'btu'                => $value->btu,
+                            'air_location_name'  => $value->air_location_name,
+                            'debsubsub'          => $value->debsubsub, 
+                            'repaire_sub_name'   => $value->repaire_sub_name, 
+                            'staff_name'         => $value->staff_name,
+                            'tect_name'          => $value->tect_name,
+                            'air_techout_name'   => $value->air_techout_name,
+                        ]);
+                     
+                }
+            } else {
+                $datashow  = DB::select(
+                    'SELECT a.repaire_date,a.repaire_time,a.air_repaire_id,a.air_repaire_num,a.air_repaire_no,a.air_list_num,concat(a.air_list_num," ",a.air_list_name) as air_list_name,a.btu as btu
+                    ,a.air_location_name,(SELECT detail FROM air_list WHERE air_list_id = a.air_list_id) as debsubsub 
+                    ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
+                    ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
+                    ,m.air_repaire_type_code,(select GROUP_CONCAT(distinct b.repaire_sub_name," " "|")) as repaire_sub_name
+                    ,(select GROUP_CONCAT(distinct b.repaire_sub_name," ครั้งที่ " ,b.repaire_no, "|")) as repaire_sub_name2 
+                    ,b.repaire_no
+                    FROM air_repaire a 
+                    LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
+                    LEFT JOIN users p ON p.id = a.air_staff_id  
+                    LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
+                    WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                    AND b.air_repaire_type_code = "'.$repaire_type.'"
+                    GROUP BY a.air_repaire_id 
+                    ORDER BY a.air_repaire_id DESC  
+                '); 
+                foreach ($datashow as $key => $value) { 
+                    
+                        Air_repaire_excel::insert([
+                            'air_repaire_id'     => $value->air_repaire_id,
+                            'repaire_date'       => $value->repaire_date,
+                            'repaire_time'       => $value->repaire_time,
+                            'air_repaire_no'     => $value->air_repaire_no,
+                            'air_repaire_num'    => $value->air_repaire_num,
+                            'air_list_num'       => $value->air_list_num,
+                            'air_list_name'      => $value->air_list_name,
+                            'btu'                => $value->btu,
+                            'air_location_name'  => $value->air_location_name,
+                            'debsubsub'          => $value->debsubsub, 
+                            'repaire_sub_name'   => $value->repaire_sub_name2, 
+                            'staff_name'         => $value->staff_name,
+                            'tect_name'          => $value->tect_name,
+                            'air_techout_name'   => $value->air_techout_name,
+                        ]);
+              
+                    
+                    
+                }
             }
+            
+           
         }
          
 
@@ -972,16 +1154,19 @@ class AirController extends Controller
         $year           = date('Y'); 
         $startdate      = $request->datepicker;
         $enddate        = $request->datepicker2;
-        $repaire_type   = $request->air_repaire_type;
+        // $repaire_type   = $request->air_repaire_type;
        
-      
-                $datashow  = DB::select(
-                    'SELECT a.*,(select GROUP_CONCAT(distinct b.repaire_sub_name," " "|" " ")) as repaire_sub_name
-                    FROM air_repaire a 
-                    LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
-                   
-                    GROUP BY a.air_repaire_id
-                '); 
+        $datashow  = DB::select(
+            'SELECT *
+            FROM air_repaire_excel 
+        '); 
+                // $datashow  = DB::select(
+                //     'SELECT a.*,(select GROUP_CONCAT(distinct b.repaire_sub_name," " "|" " ")) as repaire_sub_name,c.detail
+                //     FROM air_repaire a 
+                //     LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                //     LEFT JOIN air_list c ON c.air_list_id = a.air_list_id
+                //     GROUP BY a.air_repaire_id
+                // '); 
         //    WHERE a.repaire_date BETWEEN "2024-07-01" AND "2024-07-08"
 
         return view('support_prs.air.air_report_type_excel',[
