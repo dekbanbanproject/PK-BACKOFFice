@@ -69,15 +69,14 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
             <div class="row mt-4">
 
                 {{-- @for($count = 1; $count <= $dataprint_main->lastPage(); $count++ ) --}}
-
-                    
-
+ 
                         <?php $i = 0; ?>
                         @foreach ($dataprint_main as $key => $item)
                         <?php $i++; ?>
                             <div class="col-md-2 text-center mt-4">
-                                <div class="card mb-5 mt-5"
-                                    style="max-width: 25rem;border-color:rgb(193, 20, 236);background-color:rgb(218, 250, 248);border-radius: 2em 2em 2em 2em">
+                                {{-- <div class="card mb-5 mt-5" style="max-width: 25rem;border-color:rgb(193, 20, 236);background-color:rgb(234, 252, 228);border-radius: 2em 2em 2em 2em"> --}}
+                                    <div class="card mb-5 mt-5" style="max-width: 25rem;border-color:rgb(193, 20, 236);background-color:rgb(252, 248, 228);border-radius: 2em 2em 2em 2em">
+                                    {{-- <div class="card mb-5 mt-5" style="max-width: 25rem;border-color:rgb(193, 20, 236);background-color:rgb(218, 250, 248);border-radius: 2em 2em 2em 2em"> --}}
                                     <div class="body"><br>
                                         {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_detail/' . $item->air_list_num) !!}
                                         <hr style="color:rgb(193, 20, 236)">
@@ -85,11 +84,8 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
                                         แสกนเพื่อตรวจสอบ</p>
                                     </div>
                                 </div>
-                            </div>
-                           
-                            
-                        @endforeach
-                        
+                            </div>                                                       
+                        @endforeach                        
             </div>
             
         </div>  

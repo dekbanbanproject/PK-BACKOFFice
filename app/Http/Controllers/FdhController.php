@@ -2462,7 +2462,7 @@ class FdhController extends Controller
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
                 WHERE c.vstdate BETWEEN "'.$newdays.'" AND "'.$date.'" 
                 AND vp.claim_code is null
-                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
                 AND c.main_dep NOT IN("011","036","107","078","020") 
                 AND v.pdx NOT IN("Z000")
                 GROUP BY c.vn 
@@ -2479,7 +2479,7 @@ class FdhController extends Controller
                 LEFT JOIN pttype pt on pt.pttype=v.pttype
                 LEFT JOIN opduser op on op.loginname = o.staff
                 WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","X7","10","06","C4") 
+                AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
                 AND p.cid IS NOT NULL AND p.nationality ="99" AND p.birthday <> "'.$startdate.'" 
                 AND v.income > 0
                 GROUP BY o.vn 
@@ -2549,7 +2549,7 @@ class FdhController extends Controller
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
                 WHERE c.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
                 AND vp.claim_code is null
-                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
                 AND c.main_dep NOT IN("011","036","107","078","020") 
                 AND v.pdx NOT IN("Z000")
                 GROUP BY c.vn 

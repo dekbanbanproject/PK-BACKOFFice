@@ -96,34 +96,7 @@
                 <h4 style="color:green">รายการซ่อมตามใบแจ้งซ่อม</h4> 
             </div>
             <div class="col"></div> 
-            <div class="col-md-2 text-center">
-                <select class="form-control cardacc" id="air_repaire_type" name="air_repaire_type" style="width: 100%">
-                    <option value="" class="text-center">เลือกประเภททั้งหมด</option>
-                        @foreach ($air_repaire_type as $item_t)
-                        @if ($repaire_type == $item_t->air_repaire_type_code)
-                            <option value="{{ $item_t->air_repaire_type_code }}" class="text-center" selected> {{ $item_t->air_repaire_typename }}</option>
-                        @else
-                            <option value="{{ $item_t->air_repaire_type_code }}" class="text-center"> {{ $item_t->air_repaire_typename }}</option>
-                        @endif 
-                        @endforeach 
-                </select>
-            </div>
             <div class="col-md-4 text-end"> 
-                <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                        data-date-language="th-th" value="{{ $startdate }}" required/>
-                    <input type="text" class="form-control cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                        data-date-language="th-th" value="{{ $enddate }}"/>  
-                        <button type="submit" class="ladda-button btn-pill btn btn-primary cardacc" data-style="expand-left">
-                            <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
-                        </button> 
-                     
-                        <a href="{{url('air_report_type_excel')}}" class="ladda-button btn-pill btn btn-success cardacc">
-                            <span class="ladda-label"> <i class="fa-solid fa-file-excel text-white me-2"></i>Export</span>  
-                        </a>
-                </div> 
-            </div>
-            {{-- <div class="col-md-4 text-end"> 
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
@@ -134,7 +107,7 @@
                         </button> 
                     
                 </div> 
-            </div> --}}
+            </div>
         </div>
     </form>
         <div class="row mt-3">
@@ -156,13 +129,13 @@
                                         <tr style="font-size:13px">
                                           
                                             <th width="3%" class="text-center">ลำดับ</th>  
-                                            {{-- <th class="text-center" width="3%">สถานะ</th>   --}}
+                                            <th class="text-center" width="3%">สถานะ</th>  
                                             <th class="text-center" width="5%">วันที่ซ่อม</th>  
                                             <th class="text-center" width="5%">เวลา</th>
-                                            <th class="text-center" width="5%">เลขที่แจ้งซ่อม</th>  
+                                            <th class="text-center" width="5%">เลขที่แจ้งซ่อม</th>   
+                                            <th class="text-center" width="5%">รหัส</th>  
                                             <th class="text-center" >รายการ</th>  
-                                            <th class="text-center" >สถานที่ตั้ง</th> 
-                                            <th class="text-center" >ซ่อม/บำรุงรักษา</th>  
+                                            <th class="text-center" >สถานที่ตั้ง</th>  
                                             <th class="text-center" >ช่างนอก</th> 
                                             <th class="text-center" >เจ้าหน้าที่</th>  
                                             <th class="text-center" >ช่าง รพ.</th>  
@@ -173,34 +146,19 @@
                                         @foreach ($datashow as $item) 
                                             <tr id="tr_{{$item->air_repaire_id}}" style="font-size:13px">                                                  
                                                 <td class="text-center" width="3%">{{ $i++ }}</td>  
-                                                {{-- <td class="text-center" width="3%" style="font-size: 12px">
+                                                <td class="text-center" width="3%" style="font-size: 12px">
                                                     @if ($item->active == 'Y') 
                                                             <span class="badge bg-success">พร้อมใช้งาน</span> 
                                                     @else
                                                     <span class="badge bg-danger">ไม่พร้อมใช้งาน</span> 
                                                     @endif
-                                                </td>  --}}
+                                                </td> 
                                                 <td class="text-center" width="8%">{{ DateThai($item->repaire_date )}}</td>  
                                                 <td class="text-center" width="5%">{{ $item->repaire_time }}</td> 
                                                 <td class="text-center" width="7%">{{ $item->air_repaire_no }}</td>   
-                                                {{-- <td class="text-center" width="7%">{{ $item->air_list_num }}</td>   --}}
+                                                <td class="text-center" width="7%">{{ $item->air_list_num }}</td>  
                                                 <td class="p-2">{{ $item->air_list_name }}</td>   
                                                 <td class="p-2" width="20%">{{ $item->air_location_name }}</td> 
-                                                <td class="p-2" width="10%"> 
-                                                    @if ($repaire_type == '')
-                                                        <p class="mt-2" style="font-size: 13px;color:rgb(6, 149, 168)">
-                                                            - {{$item->repaire_sub_name}}
-                                                        </p>
-                                                    @else
-                                                        <?php $datas_sub_= DB::select('SELECT * FROM air_repaire_sub WHERE air_repaire_id = "'.$item->air_repaire_id.'" AND air_repaire_type_code = "'.$repaire_type.'"');?>
-                                                        @foreach ($datas_sub_ as $v_1)
-                                                            <p class="mt-2" style="font-size: 13px;color:rgb(6, 149, 168)">
-                                                                - {{$v_1->repaire_sub_name}}
-                                                            </p>
-                                                        @endforeach 
-                                                    @endif
-                                                    
-                                                </td>  
                                                 <td class="p-2" width="10%">{{ $item->air_techout_name }}</td>   
                                                 <td class="p-2" width="10%">{{ $item->ptname }}</td>  
                                                 <td class="p-2" width="10%">{{ $item->tectname }}</td>  
@@ -280,13 +238,6 @@
                 format: 'yyyy-mm-dd'
             });
             $('#datepicker2').datepicker({
-                format: 'yyyy-mm-dd'
-            });
-
-            $('#datepicker3').datepicker({
-                format: 'yyyy-mm-dd'
-            });
-            $('#datepicker4').datepicker({
                 format: 'yyyy-mm-dd'
             });
 

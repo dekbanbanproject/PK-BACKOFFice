@@ -1413,7 +1413,7 @@ class ChecksitController extends Controller
             LEFT JOIN vn_stat v ON v.vn = c.vn
             LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
             WHERE month(c.vstdate) = "'.$m.'" AND YEAR(c.vstdate) = "'.$y.'"
-            AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+            AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
             AND c.main_dep NOT IN("011","036","107","078","020") 
             AND v.pdx NOT IN("Z000","Z108") 
             GROUP BY day
@@ -1431,7 +1431,7 @@ class ChecksitController extends Controller
             LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
             LEFT JOIN opduser od on od.loginname = c.staff
             WHERE c.vstdate = "'.$date_now.'"
-            AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+            AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
             AND c.main_dep NOT IN("011","036","107","078","020") 
             AND v.pdx NOT IN("Z000","Z108") 
             GROUP BY c.staff 
@@ -1459,7 +1459,7 @@ class ChecksitController extends Controller
                 from check_sit_auto c
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
                 WHERE c.vstdate = "'.$date.'"
-                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
                 AND c.pdx NOT IN("Z000","Z108")
                 GROUP BY c.main_dep
 			    ORDER BY Noauthen DESC
@@ -1478,7 +1478,7 @@ class ChecksitController extends Controller
                 from check_sit_auto c
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
                 WHERE c.vstdate = "'.$date.'"
-                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
                 AND c.main_dep NOT IN("011","036","107","078","020") AND c.pdx NOT IN("Z000","Z108")
                 GROUP BY c.staff
                 ORDER BY Noauthen DESC LIMIT 5
@@ -1504,7 +1504,7 @@ class ChecksitController extends Controller
             from check_sit_auto c
             LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
             WHERE year(c.vstdate) = "'.$y.'" 
-            AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+            AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
             AND c.main_dep NOT IN("011","036","107","078","020")
             AND c.pdx NOT IN("Z000","Z108")
             GROUP BY month
@@ -1531,13 +1531,28 @@ class ChecksitController extends Controller
         $y = date('Y');
         $m = date('m');
 
-        $data_sit = DB::connection('mysql')->select('
-            SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,k.department
-            from check_sit_auto c
+        // $data_sit = DB::connection('mysql')->select('
+        //     SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,k.department
+        //     from check_sit_auto c
+        //     LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+        //     WHERE DAY(vstdate) = "'.$day.'" AND MONTH(vstdate) = "'.$month.'" AND YEAR(vstdate) = "'.$year.'" AND c.claimcode  <> ""
+        //     AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+        //     AND c.pdx NOT IN("Z000")
+        // ');
+        $data_sit = DB::connection('mysql10')->select(
+            'SELECT c.vn,c.hn,p.cid,c.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname,c.pttype,"" as subinscl,v.income as debit,vp.claim_code,"" as claimtype,v.hospmain
+            ,p.hometel,c.hospsub,c.main_dep,"" as hmain,"" as hsub,"" as subinscl_name,c.staff,k.department,v.pdx
+            from ovst c
+            LEFT JOIN visit_pttype vp ON vp.vn = c.vn
+            LEFT JOIN vn_stat v ON v.vn = c.vn
+            LEFT JOIN patient p ON p.hn = v.hn
             LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-            WHERE DAY(vstdate) = "'.$day.'" AND MONTH(vstdate) = "'.$month.'" AND YEAR(vstdate) = "'.$year.'" AND c.claimcode  <> ""
-            AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
-            AND c.pdx NOT IN("Z000")
+            WHERE DAY(c.vstdate) = "'.$day.'" AND MONTH(c.vstdate) = "'.$month.'" AND YEAR(c.vstdate) = "'.$year.'"   
+            AND vp.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+            AND c.main_dep NOT IN("011","036","107","078","020") 
+            AND v.pdx NOT IN("Z000","Z108")
+            AND (vp.claim_code is not null OR vp.claim_code <> "")
+            GROUP BY c.vn 
         ');
         // AND c.main_dep NOT IN("011","036","107")
         return view('dashboard.check_dashboard_authen',[
@@ -1566,10 +1581,11 @@ class ChecksitController extends Controller
             LEFT JOIN vn_stat v ON v.vn = c.vn
             LEFT JOIN patient p ON p.hn = v.hn
             LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-            WHERE DAY(c.vstdate) = "'.$day.'" AND MONTH(c.vstdate) = "'.$month.'" AND YEAR(c.vstdate) = "'.$year.'" AND vp.claim_code is null
-            AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+            WHERE DAY(c.vstdate) = "'.$day.'" AND MONTH(c.vstdate) = "'.$month.'" AND YEAR(c.vstdate) = "'.$year.'"   
+            AND vp.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
             AND c.main_dep NOT IN("011","036","107","078","020") 
-            AND v.pdx NOT IN("Z000")
+            AND v.pdx NOT IN("Z000","Z108")
+            AND (vp.claim_code is null OR vp.claim_code = "")
             GROUP BY c.vn 
         ');
         // from ovst c
@@ -1595,12 +1611,27 @@ class ChecksitController extends Controller
         $y = date('Y');
         $m = date('m');
 
-        $data_sit = DB::connection('mysql')->select('
-            SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,k.department
-            from check_sit_auto c
-            LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-            WHERE DAY(vstdate) = "'.$day.'" AND MONTH(vstdate) = "'.$month.'" AND YEAR(vstdate) = "'.$year.'" AND c.staff = "'.$staff.'"  AND c.claimcode <> ""
+        // $data_sit = DB::connection('mysql')->select('
+        //     SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,k.department
+        //     from check_sit_auto c
+        //     LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+        //     WHERE DAY(vstdate) = "'.$day.'" AND MONTH(vstdate) = "'.$month.'" AND YEAR(vstdate) = "'.$year.'" AND c.staff = "'.$staff.'"  AND c.claimcode <> ""
             
+        // ');
+        $data_sit = DB::connection('mysql10')->select(
+            'SELECT c.vn,c.hn,p.cid,c.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname,c.pttype,"" as subinscl,v.income as debit,vp.claim_code,"" as claimtype,v.hospmain
+            ,p.hometel,c.hospsub,c.main_dep,"" as hmain,"" as hsub,"" as subinscl_name,c.staff,k.department,v.pdx
+            from ovst c
+            LEFT JOIN visit_pttype vp ON vp.vn = c.vn
+            LEFT JOIN vn_stat v ON v.vn = c.vn
+            LEFT JOIN patient p ON p.hn = v.hn
+            LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+            WHERE DAY(c.vstdate) = "'.$day.'" AND MONTH(c.vstdate) = "'.$month.'" AND YEAR(c.vstdate) = "'.$year.'" AND c.staff = "'.$staff.'"  
+            AND vp.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+            AND c.main_dep NOT IN("011","036","107","078","020") 
+            AND v.pdx NOT IN("Z000","Z108")
+            AND (vp.claim_code is not null OR vp.claim_code <> "")
+            GROUP BY c.vn 
         ');
 
         return view('dashboard.check_dashboard_staff',[
@@ -1614,11 +1645,26 @@ class ChecksitController extends Controller
         $y = date('Y');
         $m = date('m');
 
-        $data_sit = DB::connection('mysql')->select('
-            SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,k.department
-            from check_sit_auto c
+        // $data_sit = DB::connection('mysql')->select('
+        //     SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,k.department
+        //     from check_sit_auto c
+        //     LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+        //     WHERE DAY(vstdate) = "'.$day.'" AND MONTH(vstdate) = "'.$month.'" AND YEAR(vstdate) = "'.$year.'" AND c.staff = "'.$staff.'"  AND c.claimcode is null
+        // ');
+        $data_sit = DB::connection('mysql10')->select(
+            'SELECT c.vn,c.hn,p.cid,c.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname,c.pttype,"" as subinscl,v.income as debit,vp.claim_code,"" as claimtype,v.hospmain
+            ,p.hometel,c.hospsub,c.main_dep,"" as hmain,"" as hsub,"" as subinscl_name,c.staff,k.department,v.pdx
+            from ovst c
+            LEFT JOIN visit_pttype vp ON vp.vn = c.vn
+            LEFT JOIN vn_stat v ON v.vn = c.vn
+            LEFT JOIN patient p ON p.hn = v.hn
             LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-            WHERE DAY(vstdate) = "'.$day.'" AND MONTH(vstdate) = "'.$month.'" AND YEAR(vstdate) = "'.$year.'" AND c.staff = "'.$staff.'"  AND c.claimcode is null
+            WHERE DAY(c.vstdate) = "'.$day.'" AND MONTH(c.vstdate) = "'.$month.'" AND YEAR(c.vstdate) = "'.$year.'" AND c.staff = "'.$staff.'" 
+            AND vp.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+            AND c.main_dep NOT IN("011","036","107","078","020") 
+            AND v.pdx NOT IN("Z000","Z108")
+            AND (vp.claim_code is null OR vp.claim_code = "")
+            GROUP BY c.vn 
         ');
 
         return view('dashboard.check_dashboard_staffno',[

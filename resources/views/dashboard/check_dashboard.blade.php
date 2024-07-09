@@ -284,7 +284,7 @@
                                         <div style="height:auto;width: auto;" class="p-2">
                                         <canvas id="Mychart"  class="p-2"></canvas>
                                         <br>
-                                        <h6 class="text-center" style="color:rgb(241, 137, 155)">คนไข้ที่มารับบริการ OPD ยกเว้นแผนก 011,036,107 และยกเว้นสิทธิ์ M1-M6,13,23,91,X7</h6>
+                                        <h6 class="text-center" style="color:rgb(241, 137, 155)">คนไข้ที่มารับบริการ OPD ยกเว้นแผนก 011,036,107,078,020 และยกเว้นสิทธิ์ M1-M6,13,23,91,X7,10,11,12,O1-O6,A7</h6>
                                     </div>
                                 </div>
                             </div>
@@ -296,7 +296,7 @@
                                         <div style="height:auto;" class="p-2"> 
                                             <canvas id="myChartNew"></canvas>
                                         <br>
-                                        <h6 class="text-center" style="color:rgb(241, 137, 155)">คนไข้ที่มารับบริการ OPD ยกเว้นแผนก 011,036,107 และยกเว้นสิทธิ์ M1-M6,13,23,91,X7,10</h6>
+                                        <h6 class="text-center" style="color:rgb(241, 137, 155)">คนไข้ที่มารับบริการ OPD ยกเว้นแผนก 011,036,107,078,020 และยกเว้นสิทธิ์ M1-M6,13,23,91,X7,10,11,12,O1-O6,A7</h6>
                                     </div>
                                 </div>
                             </div>

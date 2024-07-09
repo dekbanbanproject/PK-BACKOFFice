@@ -522,11 +522,8 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <span>OR(ผ่าตัด)</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true"> 
-                                <li><a href="{{ url('or_mis') }}">   
-                                        <span>ผ่าตัดกล้องแบบ(MIS)</span> 
-                                    </a>  
-                                </li>  
-                                
+                                <li><a href="{{ url('or_mis') }}"> <span>ผ่าตัดกล้องแบบ(MIS)</span> </a></li>  
+                                <li><a href="{{ url('or_ercp') }}"> <span>ERCP</span> </a></li>  
                             </ul> 
                         </li>
                       
