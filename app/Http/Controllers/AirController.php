@@ -1897,7 +1897,7 @@ class AirController extends Controller
             'datashow'    =>     $datashow, 
         ]);
     }
-    public function air_report_problems(Request $request)
+    public function air_report_problems_old(Request $request)
     {
         $startdate   = $request->startdate;
         $enddate     = $request->enddate;
@@ -2015,7 +2015,100 @@ class AirController extends Controller
             'datashow'    =>     $datashow, 
         ]);
     }
-    public function air_report_problem_detail(Request $request,$id)
+
+    public function air_report_problems(Request $request)
+    {
+        $startdate   = $request->startdate;
+        $enddate     = $request->enddate;
+        $date_now    = date('Y-m-d');
+        $y           = date('Y') + 543;
+        $months = date('m');
+   
+        $newdays     = date('Y-m-d', strtotime($date_now . ' -1 days')); //ย้อนหลัง 1 วัน
+        $newweek     = date('Y-m-d', strtotime($date_now . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        // $newDate     = date('Y-m-d', strtotime($date_now . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear     = date('Y-m-d', strtotime($date_now . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y');
+        $year_old = date('Y')-1;
+        $months_old  = ('10');
+        $startdate_b = (''.$year_old.'-10-01');
+        $enddate_b = (''.$yearnew.'-09-30'); 
+        $iduser       = Auth::user()->id;
+        
+        if ($startdate =='') { 
+            $datashow     = DB::select(
+                'SELECT ap.air_repaire_ploblem_id,ap.air_repaire_ploblemname
+                ,(SELECT COUNT(DISTINCT air_list_num) FROM air_repaire_sub WHERE air_repaire_ploblem_id = ap.air_repaire_ploblem_id AND air_repaire_type_code ="04") as count_ploblems
+                ,(SELECT COUNT(air_list_num) FROM air_repaire_sub WHERE air_repaire_ploblem_id = ap.air_repaire_ploblem_id AND air_repaire_type_code ="04" AND repaire_no > 1) as more_one
+                    FROM air_repaire a 
+                    LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
+                    LEFT JOIN air_repaire_ploblem ap ON ap.air_repaire_ploblem_id = b.air_repaire_ploblem_id
+                    LEFT JOIN users p ON p.id = a.air_staff_id  
+                    LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
+                    LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id 
+                    WHERE a.repaire_date BETWEEN "'.$startdate_b.'" AND "'.$enddate_b.'"
+                    AND ap.air_repaire_ploblemname IS NOT NULL
+                    GROUP BY ap.air_repaire_ploblem_id
+                ');
+
+        } else {
+            $datashow     = DB::select(
+                'SELECT ap.air_repaire_ploblem_id,ap.air_repaire_ploblemname
+                ,(SELECT COUNT(DISTINCT air_list_num) FROM air_repaire_sub WHERE air_repaire_ploblem_id = ap.air_repaire_ploblem_id AND air_repaire_type_code ="04") as count_ploblems
+                ,(SELECT COUNT(air_list_num) FROM air_repaire_sub WHERE air_repaire_ploblem_id = ap.air_repaire_ploblem_id AND air_repaire_type_code ="04" AND repaire_no > 1) as more_one
+                    FROM air_repaire a 
+                    LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
+                    LEFT JOIN air_repaire_ploblem ap ON ap.air_repaire_ploblem_id = b.air_repaire_ploblem_id
+                    LEFT JOIN users p ON p.id = a.air_staff_id  
+                    LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
+                    LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id 
+                    WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                    AND ap.air_repaire_ploblemname IS NOT NULL
+                    GROUP BY ap.air_repaire_ploblem_id
+                ');
+   
+                 
+        }
+         
+      
+        return view('support_prs.air.air_report_problems',[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow, 
+            'startdate_b'   =>     $startdate_b,
+            'enddate_b'     =>     $enddate_b,
+        ]);
+    }
+    public function air_report_problem_morone(Request $request,$startdate,$enddate)
+    {    
+        $iduser = Auth::user()->id; 
+
+        // $datashow_sub = DB::select('SELECT * FROM air_list WHERE air_location_id = "'.$id.'" ORDER BY air_list_id DESC'); 
+        $datashow     = DB::select(
+            'SELECT a.air_repaire_id,a.repaire_date,a.repaire_time,a.air_repaire_no,a.air_list_num,a.air_list_name,a.btu,a.air_location_name
+            ,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tectname
+            ,ap.air_repaire_ploblem_id,ap.air_repaire_ploblemname
+            -- ,(SELECT COUNT(DISTINCT air_list_num) FROM air_repaire_sub WHERE air_repaire_ploblem_id = ap.air_repaire_ploblem_id AND air_repaire_type_code ="04") as count_ploblems
+            -- ,(SELECT COUNT(air_list_num) FROM air_repaire_sub WHERE air_repaire_ploblem_id = ap.air_repaire_ploblem_id AND air_repaire_type_code ="04" AND repaire_no > 1) as more_one
+                FROM air_repaire a 
+                LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
+                LEFT JOIN air_repaire_ploblem ap ON ap.air_repaire_ploblem_id = b.air_repaire_ploblem_id
+                LEFT JOIN users p ON p.id = a.air_staff_id  
+                LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
+                LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id 
+                WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                AND b.air_repaire_type_code ="04" AND b.repaire_no > 1
+                AND ap.air_repaire_ploblemname IS NOT NULL
+             
+        ');
+        // GROUP BY ap.air_repaire_ploblem_id
+        return view('support_prs.air.air_report_problem_morone',[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate,
+            'datashow'      => $datashow,  
+        ]);
+    }
+    public function air_report_problem_detail_old(Request $request,$id)
     {
         $startdate   = $request->startdate;
         $enddate     = $request->enddate;      

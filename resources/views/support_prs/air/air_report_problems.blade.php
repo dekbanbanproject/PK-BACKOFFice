@@ -157,133 +157,52 @@
  
 <div class="row mt-3">
     <div class="col-xl-12">
-        <div class="card card_prs_4">
+        <div class="card card_prs_4" style="background-color: rgb(229, 253, 245)">
             <div class="card-body">     
                 <p class="mb-0">
                     <div class="table-responsive">
-                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">                        
+                        <table id="example" class="table table-striped table-bordered dt-responsive myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">  
+                            <table id="example2" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">                       
                             <thead>                             
                                     <tr style="font-size:13px"> 
-                                        <th width="3%" class="text-center" style="background-color: rgb(199, 253, 237);width: 5%">ลำดับ</th>  
-                                        <th class="text-center" style="background-color: rgb(199, 253, 237)">รายการปัญหาที่พบ</th>  
-                                        <th class="text-center" style="background-color: rgb(199, 253, 237);width: 10%">จำนวน/เครื่อง</th>  
-                                        {{-- <th class="text-center" style="background-color: rgb(199, 253, 237);width: 10%">จำนวน/ครั้ง</th>   --}}
-                                        <th class="text-center" style="background-color: rgb(252, 144, 159);width: 20%">ปัญหาเดิม 2 ครั้งขึ้นไป</th>   
+                                        <th width="3%" class="text-center">ลำดับ</th>  
+                                        <th class="text-center">รายการปัญหาที่พบ</th>  
+                                        <th class="text-center">จำนวน/เครื่อง</th>   
+                                        <th class="text-center">ปัญหาเดิม 2 ครั้งขึ้นไป</th>   
                                     </tr>  
                             </thead>
                             <tbody>
                                 <?php $i = 0; ?>
                                 @foreach ($datashow as $item) 
                                 <?php $i++ ?>    
-                                        <?php  
-                                                $datacheck_1 = DB::select('SELECT COUNT(air_list_id) count_id FROM air_repaire WHERE air_problems_1 = "on" ');
-                                                foreach ($datacheck_1 as $key => $value) {
-                                                    $datacheck1 = $value->count_id;
-                                                }                                   
-                                                $datacheck_2 = DB::select('SELECT COUNT(air_list_id) count_id FROM air_repaire WHERE air_problems_2 = "on" ');
-                                                foreach ($datacheck_2 as $key => $value2) {
-                                                    $datacheck2 = $value2->count_id;
-                                                }
-                                                $datacheck_3 = DB::select('SELECT COUNT(air_list_id) count_id FROM air_repaire WHERE air_problems_3 = "on" ');
-                                                foreach ($datacheck_3 as $key => $value3) {
-                                                    $datacheck3 = $value3->count_id;
-                                                }
-                                                $datacheck_4 = DB::select('SELECT COUNT(air_list_id) count_id FROM air_repaire WHERE air_problems_4 = "on" ');
-                                                foreach ($datacheck_4 as $key => $value4) {
-                                                    $datacheck4 = $value4->count_id;
-                                                }
-                                                $datacheck_5 = DB::select('SELECT COUNT(air_list_id) count_id FROM air_repaire WHERE air_problems_5 = "on" ');
-                                                foreach ($datacheck_5 as $key => $value5) {
-                                                    $datacheck5 = $value5->count_id;
-                                                }
-                                                $datacheck_6 = DB::select('SELECT COUNT(air_list_id) count_id FROM air_repaire WHERE air_problems_orther = "on" ');
-                                                foreach ($datacheck_6 as $key => $value6) {
-                                                    $datacheck6 = $value6->count_id;
-                                                } 
-
-                                                $datacheck_7 = DB::select('SELECT air_list_num,repaire_date_start,repaire_date_end,COUNT(air_repaire_ploblem_id) as air_repaire_ploblem_id FROM air_repaire_ploblemsub WHERE air_repaire_ploblem_id ="'.$item->air_repaire_ploblem_id.'"');
-                                                foreach ($datacheck_7 as $key => $value7) {
-                                                    $datacheck7         = $value7->air_repaire_ploblem_id;
-                                                    $date_start         = $value7->repaire_date_start;
-                                                    $date_end           = $value7->repaire_date_end;
-                                                    $air_list_num       = $value7->air_list_num;
-                                                } 
-                                        ?>                           
+                                                                  
                                     <tr>                                                  
                                         <td class="text-center" style="font-size:13px;width: 5%;color: rgb(13, 134, 185)">{{$i}}</td>
-                                        <td class="text-start" style="font-size:14px;color: rgb(2, 95, 182)">{{$item->air_repaire_ploblemname}}</td>
-                                       
-                                        @if ($item->air_repaire_ploblem_id == '1')
-                                            <td class="text-center" style="font-size:13px;width: 10%;color: rgb(4, 117, 117)">
-                                                <a href="{{url('air_report_problemsub/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(236, 232, 181);width: 70%;">
-                                                    <span class="ladda-label"> <i class="fa-solid fa-glass-water-droplet me-2" style="color: #B216F0"></i>{{$datacheck1}}</span>  
-                                                </a> 
-                                            </td>
-                                            <td class="text-center" style="font-size:13px;width: 20%;color: rgb(50, 3, 68)">
-                                                <a href="{{url('air_report_problem_detail/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(236, 232, 181);width: 50%;">
-                                                    <span class="ladda-label"> <i class="fa-solid fa-glass-water-droplet me-2" style="color: #B216F0"></i>{{$datacheck7}}</span>  
-                                                </a> 
-                                            </td>
-                                        @elseif ($item->air_repaire_ploblem_id == '2')
-                                            <td class="text-center" style="font-size:13px;width: 10%;color: rgb(4, 117, 117)">
-                                                <a href="{{url('air_report_problemsub/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(202, 236, 181);width: 70%;" target="_blank">
-                                                    <span class="ladda-label"> <i class="fab fa-slack me-2" style="color: #07c095"></i>{{$datacheck2}}</span>  
-                                                </a> 
-                                            </td>
-                                            <td class="text-center" style="font-size:13px;width: 20%;color: rgb(50, 3, 68)">
-                                                <a href="{{url('air_report_problem_detail/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(202, 236, 181);width: 50%;" target="_blank">
-                                                    <span class="ladda-label"> <i class="fab fa-slack me-2" style="color: #07c095"></i>{{$datacheck7}}</span>  
-                                                </a> 
-                                            </td>
-                                        @elseif ($item->air_repaire_ploblem_id == '3')
-                                            <td class="text-center" style="font-size:13px;width: 10%;color: rgb(4, 117, 117)">
-                                                <a href="{{url('air_report_problemsub/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(236, 181, 181);width: 70%;" target="_blank">
-                                                    <span class="ladda-label"> <i class="fa-solid fa-soap me-2" style="color: #c0072f"></i>{{$datacheck3}}</span>  
-                                                </a> 
-                                            </td>
-                                            <td class="text-center" style="font-size:13px;width: 20%;color: rgb(50, 3, 68)">
-                                                <a href="{{url('air_report_problem_detail/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(236, 181, 181);width: 50%;" target="_blank">
-                                                    <span class="ladda-label"> <i class="fa-solid fa-soap me-2" style="color: #c0072f"></i>{{$datacheck7}}</span>  
-                                                </a> 
-                                            </td>
-                                        @elseif ($item->air_repaire_ploblem_id == '4')
-                                            <td class="text-center" style="font-size:13px;width: 10%;color: rgb(4, 117, 117)">
-                                                <a href="{{url('air_report_problemsub/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(181, 203, 236);width: 70%;" target="_blank">
-                                                    <span class="ladda-label"> <i class="fa-solid fa-volume-high me-2" style="color: #0760c0"></i>{{$datacheck4}}</span>  
-                                                </a> 
-                                            </td>
-                                            <td class="text-center" style="font-size:13px;width: 20%;color: rgb(50, 3, 68)">
-                                                <a href="{{url('air_report_problem_detail/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(181, 203, 236);width: 50%;" target="_blank">
-                                                    <span class="ladda-label"> <i class="fa-solid fa-volume-high me-2" style="color: #0760c0"></i>{{$datacheck7}}</span>  
+                                        <td class="text-start" style="font-size:14px;color: rgb(2, 95, 182)">{{$item->air_repaire_ploblemname}}</td> 
+                                        <td class="text-center" style="font-size:13px;width: 15%;color: rgb(112, 5, 98)">
+                                            @if ($startdate == '')
+                                                <a href="{{url('air_report_problem_detail/'.$startdate_b.'/'.$enddate_b)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(209, 181, 236);width: 100%;" target="_blank">
+                                                    <span class="ladda-label"> <i class="fa-solid fa-fan me-2" style="color: #8c07c0"></i>{{$item->count_ploblems}}</span>  
                                                 </a>
-                                            </td>
-                                        @elseif ($item->air_repaire_ploblem_id == '5')
-                                            <td class="text-center" style="font-size:13px;width: 10%;color: rgb(4, 117, 117)">
-                                                <a href="{{url('air_report_problemsub/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(209, 181, 236);width: 70%;" target="_blank">
-                                                    <span class="ladda-label"> <i class="fa-solid fa-tenge-sign me-2" style="color: #8c07c0"></i>{{$datacheck5}}</span>  
+                                            @else
+                                                <a href="{{url('air_report_problem_detail/'.$startdate.'/'.$enddate)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(209, 181, 236);width: 100%;" target="_blank">
+                                                    <span class="ladda-label"> <i class="fa-solid fa-fan me-2" style="color: #8c07c0"></i>{{$item->count_ploblems}}</span>  
                                                 </a>
-                                            </td> 
-                                            <td class="text-center" style="font-size:13px;width: 20%;color: rgb(50, 3, 68)">
-                                                <a href="{{url('air_report_problem_detail/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(209, 181, 236);width: 50%;" target="_blank">
-                                                    <span class="ladda-label"> <i class="fa-solid fa-tenge-sign me-2" style="color: #8c07c0"></i>{{$datacheck7}}</span>  
-                                                </a>
-                                            </td>
-                                        @else
-                                            <td class="text-center" style="font-size:13px;width: 10%;color: rgb(4, 117, 117)">
-                                                <a href="{{url('air_report_problemsub/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(185, 253, 250);width: 70%;" target="_blank">
-                                                    <span class="ladda-label"> <i class="fa-solid fa-circle-exclamation me-2" style="color: #037381"></i>{{$datacheck6}}</span>  
-                                                </a> 
-                                            </td>
-                                            <td class="text-center" style="font-size:13px;width: 20%;color: rgb(50, 3, 68)">
-                                                <a href="{{url('air_report_problem_detail/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(185, 253, 250);width: 50%;" target="_blank">
-                                                    <span class="ladda-label"> <i class="fa-solid fa-circle-exclamation me-2" style="color: #037381"></i>{{$datacheck7}}</span>  
-                                                </a> 
-                                            </td>
-                                        @endif 
+                                            @endif                                           
 
-                                        
-                                        {{-- <td class="text-center" style="font-size:13px;width: 10%;color: rgb(228, 15, 86)">0</td> --}}
-                                        {{-- <td class="text-center" style="font-size:13px;width: 20%;color: rgb(50, 3, 68)">{{$datacheck7}}</td> --}}
+                                        </td>
+                                        <td class="text-center" style="font-size:13px;width: 20%;color: rgb(247, 209, 212)">
+                                            @if ($startdate == '')
+                                                <a href="{{url('air_report_problem_morone/'.$startdate_b.'/'.$enddate_b)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank">
+                                                    <span class="ladda-label"> <i class="fa-solid fa-fan me-2" style="color: rgb(253, 65, 81)"></i>{{$item->more_one}}</span>  
+                                                </a>
+                                            @else
+                                                <a href="{{url('air_report_problem_morone/'.$startdate.'/'.$enddate)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank">
+                                                    <span class="ladda-label"> <i class="fa-solid fa-fan me-2" style="color: rgb(253, 65, 81)"></i>{{$item->more_one}}</span>  
+                                                </a>
+                                            @endif
+                                            
+                                        </td>
                                          
                                     </tr>
                                 @endforeach
@@ -308,15 +227,15 @@
             // $('select').select2();
      
         
-            $('#example2').DataTable();
-            var table = $('#example').DataTable({
-                scrollY: '60vh',
-                scrollCollapse: true,
-                scrollX: true,
-                "autoWidth": false,
-                "pageLength": 10,
-                "lengthMenu": [10,25,30,31,50,100,150,200,300],
-            });
+            // $('#example2').DataTable();
+            // var table = $('#example').DataTable({
+            //     scrollY: '60vh',
+            //     scrollCollapse: true,
+            //     scrollX: true,
+            //     "autoWidth": false,
+            //     "pageLength": 10,
+            //     "lengthMenu": [10,25,30,31,50,100,150,200,300],
+            // });
         
             $('#datepicker').datepicker({
                 format: 'yyyy-mm-dd'

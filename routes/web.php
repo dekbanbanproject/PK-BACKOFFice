@@ -3404,6 +3404,7 @@ Route::match(['get','post'],'air_report_problemsub/{id}',[App\Http\Controllers\A
 Route::match(['get','post'],'air_report_problemsub/{id}',[App\Http\Controllers\AirController::class, 'air_report_problemsub'])->name('prs.air_report_problemsub');//
 Route::match(['get','post'],'air_report_problem_detail/{id}',[App\Http\Controllers\AirController::class, 'air_report_problem_detail'])->name('prs.air_report_problem_detail');//
 Route::match(['get','post'],'air_report_problems_excel',[App\Http\Controllers\AirController::class, 'air_report_problems_excel'])->name('prs.air_report_problems_excel');//
+Route::match(['get','post'],'air_report_problem_morone/{startdate}/{enddate}',[App\Http\Controllers\AirController::class, 'air_report_problem_morone'])->name('prs.air_report_problem_morone');//
 
 Route::match(['get','post'],'air_count_sub/{id}',[App\Http\Controllers\AirController::class, 'air_count_sub'])->name('prs.air_count_sub');//
 Route::match(['get','post'],'air_count_qty/{id}',[App\Http\Controllers\AirController::class, 'air_count_qty'])->name('prs.air_count_qty');//
