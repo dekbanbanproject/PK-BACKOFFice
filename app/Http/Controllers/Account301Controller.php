@@ -622,7 +622,46 @@ class Account301Controller extends Controller
             'enddate'        =>     $enddate
         ]);
     }
-    
+    public function account_301_income(Request $request,$startdate,$enddate)
+    {
+        $datenow = date('Y-m-d');
+        $months = date('m');
+        $year = date('Y'); 
+        $startdate     = $request->startdate;
+        $enddate       = $request->enddate;
+        if ($startdate == '') {
+            // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
+                $datashow = DB::select('SELECT * from acc_1102050101_301  GROUP BY vn ORDER BY vstdate DESC');
+            // and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
+        } else {
+            $datashow = DB::select('SELECT * from acc_1102050101_301 WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"  GROUP BY vn ORDER BY vstdate DESC');
+             
+            // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
+        }
+
+        return view('account_301.account_301_income',[
+            'startdate'     =>  $startdate,
+            'enddate'       =>  $enddate,
+            'datashow'      =>  $datashow,
+        ]);
+    }
+    public function account_301_stm_date(Request $request,$startdate,$enddate)
+    {
+        $datenow       = date('Y-m-d'); 
+        $startdate     = $request->startdate;
+        $enddate       = $request->enddate;
+        if ($startdate == '') { 
+                $datashow = DB::select('SELECT * from acc_1102050101_301  GROUP BY vn ORDER BY vstdate DESC'); 
+        } else {
+            $datashow = DB::select('SELECT * from acc_1102050101_301 WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"  GROUP BY vn ORDER BY vstdate DESC'); 
+        }
+
+        return view('account_301.account_301_stm_date',[
+            'startdate'     =>  $startdate,
+            'enddate'       =>  $enddate,
+            'datashow'      =>  $datashow,
+        ]);
+    }
    
  
 

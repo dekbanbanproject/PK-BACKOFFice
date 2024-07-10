@@ -213,6 +213,7 @@
                                         <th class="text-center">เจ้าหน้าที่</th>
                                         <th class="text-center">ช่างซ่อม(รพ)</th>
                                         <th class="text-center">ช่างแอร์</th>
+                                        <th class="text-center">บริษัท</th>
                                     </tr>
                                 
                                
@@ -255,6 +256,7 @@
                                         <td class="p-2" width="7%">{{ $item->staff_name }}</td> 
                                         <td class="p-2" width="7%">{{ $item->tect_name }}</td> 
                                         <td class="p-2" width="7%">{{ $item->air_techout_name }}</td> 
+                                        <td class="p-2" width="7%">{{ $item->supplies_name }}</td> 
                                     </tr>
                                 @endforeach
                             </tbody>

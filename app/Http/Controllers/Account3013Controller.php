@@ -173,7 +173,7 @@ class Account3013Controller extends Controller
         // Acc_opitemrece::truncate();
         $acc_debtor = DB::connection('mysql2')->select(
             'SELECT v.vn,o.hn,p.cid,concat(p.pname,p.fname," ",p.lname) as ptname
-            ,v.vstdate ,o.vsttime ,v.hospmain,op.income as income_group ,pt.pttype_eclaim_id ,vp.pttype,pt.max_debt_money
+            ,v.vstdate ,o.vsttime ,v.hospmain,op.income as income_group ,pt.pttype_eclaim_id ,vp.pttype,pt.max_debt_money,v.pdx
             ,"" as acc_code ,"1102050101.3013" as account_code,"ลูกหนี้ค่ารักษาประกันสังคม - OP CT" as account_name ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money ,v.rcpno_list as rcpno
             ,v.income-v.discount_money-v.rcpt_money as debit
             ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
@@ -183,22 +183,33 @@ class Account3013Controller extends Controller
             ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
             ,(SELECT SUM(o.sum_price) FROM opitemrece o LEFT JOIN nondrugitems n on n.icode = o.icode WHERE o.vn=v.vn AND o.pttype="A7" AND (n.billcode like "8%" OR n.billcode ="2509") and n.billcode not in ("8608","8307") and o.an is null) as debit_ins_sss
             
-             ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3009147") AND vn = v.vn) THEN "1200" 
+            ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3009147","3009148") AND vn = v.vn) THEN "1200" 
             ELSE "0.00" 
-            END as ct_chest_without
+            END as ct_chest_with
+
+            ,(SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3009142") AND vn = v.vn) as ct_Addi3d
+            ,(SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3009143") AND vn = v.vn) as ct_Addi
             
-            ,CASE WHEN (SELECT COUNT(oi.vn) as ovn FROM opitemrece oi 
-                        LEFT JOIN nondrugitems nd ON nd.icode = oi.icode 
-                        WHERE nd.name LIKE "%CT%" AND oi.income = "08" AND oi.icode 
-                        NOT IN("3011265","3011266","3009819","3009820","3009182","3009152") AND oi.vn = v.vn) 
-                        THEN COUNT(op.vn) * 2500
+            ,CASE WHEN (SELECT COUNT(oi.icode) as ovn FROM opitemrece oi 
+                LEFT JOIN s_drugitems nd ON nd.icode = oi.icode 
+                WHERE oi.icode NOT IN("3011265","3011266","3009819","3009820","3009182","3009152","3009147","3009148","3009142","3009143","1670055","1670047") AND nd.name LIKE "%CT%" AND oi.income = "08" AND oi.vn = v.vn) 
+                THEN (SELECT COUNT(oi.icode) as ovn FROM opitemrece oi 
+                LEFT JOIN s_drugitems nd ON nd.icode = oi.icode 
+                WHERE oi.icode NOT IN("3011265","3011266","3009819","3009820","3009182","3009152","3009147","3009148","3009142","3009143","1670055","1670047") AND nd.name LIKE "%CT%" AND oi.income = "08" AND oi.vn = v.vn) * 2500
+                ELSE "0.00" 
+                END as debit_ct
+
+            ,CASE WHEN (SELECT COUNT(DISTINCT oi.vn) as ovn FROM opitemrece oi 
+                        LEFT JOIN s_drugitems nd ON nd.icode = oi.icode 
+                        WHERE nd.name LIKE "%CT%" AND oi.income = "08" AND oi.vn = v.vn) 
+                        THEN SUM(sum_price)
             ELSE "0.00" 
-            END as debit_ct_sss
-            
-            ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011265" AND vn = v.vn) THEN "1100" 
+            END as debit_ct_price
+
+            ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3011265","3009197") AND vn = v.vn) THEN "1100" 
             ELSE "0.00" 
-            END as debit_drug100
-            
+            END as debit_drug100_50
+
             ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011266" AND vn = v.vn) THEN "1100" 
             ELSE "0.00" 
             END as debit_drug150
@@ -223,23 +234,27 @@ class Account3013Controller extends Controller
                     $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.3013')->count(); 
                     if ($check > 0) {
                         Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.3013')->update([
-                            'debit_total'        => $value->debit - ($value->debit_ins_sss+$value->debit_ct_sss),
+                            'hospmain'           => $value->hospmain, 
+                            'pdx'                => $value->pdx, 
+                            'debit_total'        => $value->ct_chest_with+$value->debit_ct+$value->debit_drug100_50+$value->debit_drug150,
                             'debit_ins_sss'      => $value->debit_ins_sss,
-                            'debit_ct_sss'       => $value->debit_ct_sss,
+                            'debit_ct_sss'       => $value->debit_drug100_50+$value->debit_drug150+$value->debit_ct_price, 
                         ]);                     
                                                                     
                     } else {
-                        if ($value->cid !='') {
-                            if ($value->debit_ct_sss > 0) { 
+                        // if ($value->cid !='') {
+                            if ($value->ct_chest_with > 0 || $value->debit_ct > 0 || $value->debit_drug100_50 > 0 || $value->debit_drug150 > 0) { 
                                 Acc_debtor::insert([
                                     'hn'                 => $value->hn,
-                                    'an'                 => $value->an,
+                                    // 'an'                 => $value->an,
                                     'vn'                 => $value->vn,
                                     'cid'                => $value->cid,
                                     'ptname'             => $value->ptname,
                                     'pttype'             => $value->pttype,
                                     'vstdate'            => $value->vstdate, 
-                                    'account_code'       => "1102050101.3013", 
+                                    'hospmain'           => $value->hospmain, 
+                                    'pdx'                => $value->pdx,  
+                                    'account_code'       => $value->account_code, 
                                     'account_name'       => $value->account_name, 
                                     'income'             => $value->income,
                                     'uc_money'           => $value->uc_money,
@@ -252,76 +267,16 @@ class Account3013Controller extends Controller
                                     'debit_toa'          => $value->debit_toa,
                                     'debit_refer'        => $value->debit_refer, 
                                     'fokliad'            => $value->fokliad, 
-                                    'debit_total'        => $value->debit_ct_sss,
+                                    'debit_total'        => $value->ct_chest_with+$value->debit_ct+$value->debit_drug100_50+$value->debit_drug150,
                                     'debit_ins_sss'      => $value->debit_ins_sss,
-                                    'debit_ct_sss'       => $value->debit_ct_sss, 
-                                    'max_debt_amount'    => $value->max_debt_money,
+                                    'debit_ct_sss'       => $value->debit_drug100_50+$value->debit_drug150+$value->debit_ct_price, 
                                     'acc_debtor_userid'  => Auth::user()->id
                                 ]);  
                             }
-                        }   
+                        // }   
                     }  
                     
-                    // if ($value->debit_ct_sss > 0) {
-                    //     $check_ct = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.3013')->count();
-                    //     if ($check_ct > 0) { 
-                    //     } else {
-                    //         Acc_debtor::insert([
-                    //             'hn'                 => $value->hn,
-                    //             'an'                 => $value->an,
-                    //             'vn'                 => $value->vn,
-                    //             'cid'                => $value->cid,
-                    //             'ptname'             => $value->ptname,
-                    //             'pttype'             => $value->pttype,
-                    //             'vstdate'            => $value->vstdate,
-                    //             // 'acc_code'           => $value->acc_code,
-                    //             'account_code'       => "1102050101.3013", 
-                    //             'account_name'       => $value->account_name, 
-                    //             'income'             => $value->income,
-                    //             'uc_money'           => $value->uc_money,
-                    //             'discount_money'     => $value->discount_money,
-                    //             'paid_money'         => $value->paid_money,
-                    //             'rcpt_money'         => $value->rcpt_money,
-                    //             'debit'              => $value->debit,
-                    //             'debit_drug'         => $value->debit_drug,
-                    //             'debit_instument'    => $value->debit_instument,
-                    //             'debit_toa'          => $value->debit_toa,
-                    //             'debit_refer'        => $value->debit_refer, 
-                    //             'fokliad'            => $value->fokliad, 
-                    //             'debit_total'        => $value->debit_ct_sss, 
-                    //             'debit_ins_sss'      => $value->debit_ins_sss,
-                    //             'debit_ct_sss'       => $value->debit_ct_sss, 
-                    //             'max_debt_amount'    => $value->max_debt_money,
-                    //             'acc_debtor_userid'  => Auth::user()->id
-                    //         ]); 
-                    //     }
-                        
-                        
-                        // Acc_1102050101_3013::insert([
-                        //     'hn'                 => $value->hn,
-                        //     'an'                 => $value->an,
-                        //     'vn'                 => $value->vn,
-                        //     'cid'                => $value->cid,
-                        //     'ptname'             => $value->ptname,
-                        //     'pttype'             => $value->pttype,
-                        //     'vstdate'            => $value->vstdate, 
-                        //     'account_code'       => "1102050101.3013", 
-                        //     'income'             => $value->income,
-                        //     'uc_money'           => $value->uc_money,
-                        //     'discount_money'     => $value->discount_money, 
-                        //     'rcpt_money'         => $value->rcpt_money,
-                        //     'debit'              => $value->debit,
-                        //     'debit_drug'         => $value->debit_drug,
-                        //     'debit_instument'    => $value->debit_instument,
-                        //     'debit_toa'          => $value->debit_toa,
-                        //     'debit_refer'        => $value->debit_refer,  
-                        //     'debit_total'        => $value->debit_ct_sss, 
-                        //     'debit_ins_sss'      => $value->debit_ins_sss,
-                        //     'debit_ct_sss'       => $value->debit_ct_sss, 
-                        //     'max_debt_amount'    => $value->max_debt_money,
-                        //     'acc_debtor_userid'  => Auth::user()->id
-                        // ]);
-                    // }   
+                  
         }
 
             return response()->json([

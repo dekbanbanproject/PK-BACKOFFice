@@ -130,11 +130,12 @@ class AirController extends Controller
                 ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
                 ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
                 ,m.air_repaire_type_code,(select GROUP_CONCAT(distinct b.repaire_sub_name,"" "|")) as repaire_sub_name 
-                ,b.repaire_no
+                ,b.repaire_no,s.supplies_name
                 FROM air_repaire a 
                 LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
                 LEFT JOIN users p ON p.id = a.air_staff_id  
                 LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
+                LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id 
                 WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND a.air_supplies_id = "'.$idsup.'"  
                 GROUP BY a.air_repaire_id 
                 ORDER BY a.air_repaire_id DESC  
@@ -156,6 +157,7 @@ class AirController extends Controller
                         'staff_name'         => $value->staff_name,
                         'tect_name'          => $value->tect_name,
                         'air_techout_name'   => $value->air_techout_name,
+                        'supplies_name'      => $value->supplies_name,
                     ]);
                 
                
@@ -171,11 +173,12 @@ class AirController extends Controller
                     ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
                     ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
                     ,m.air_repaire_type_code,(select GROUP_CONCAT(distinct b.repaire_sub_name,"" "|")) as repaire_sub_name 
-                    ,b.repaire_no
+                    ,b.repaire_no,s.supplies_name
                     FROM air_repaire a 
                     LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
                     LEFT JOIN users p ON p.id = a.air_staff_id  
                     LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
+                    LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id 
                     WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                     AND b.air_repaire_type_code = "'.$repaire_type.'"
                     GROUP BY a.air_repaire_id 
@@ -198,6 +201,7 @@ class AirController extends Controller
                             'staff_name'         => $value->staff_name,
                             'tect_name'          => $value->tect_name,
                             'air_techout_name'   => $value->air_techout_name,
+                            'supplies_name'      => $value->supplies_name,
                         ]);
                      
                 }
@@ -209,11 +213,12 @@ class AirController extends Controller
                     ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
                     ,m.air_repaire_type_code,(select GROUP_CONCAT(distinct b.repaire_sub_name," " "|")) as repaire_sub_name
                     ,(select GROUP_CONCAT(distinct b.repaire_sub_name," ครั้งที่ " ,b.repaire_no, "|")) as repaire_sub_name2 
-                    ,b.repaire_no
+                    ,b.repaire_no,s.supplies_name
                     FROM air_repaire a 
                     LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
                     LEFT JOIN users p ON p.id = a.air_staff_id  
                     LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
+                    LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id 
                     WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                     AND b.air_repaire_type_code = "'.$repaire_type.'"
                     GROUP BY a.air_repaire_id 
@@ -236,6 +241,7 @@ class AirController extends Controller
                             'staff_name'         => $value->staff_name,
                             'tect_name'          => $value->tect_name,
                             'air_techout_name'   => $value->air_techout_name,
+                            'supplies_name'      => $value->supplies_name,
                         ]);
               
                     
@@ -1004,11 +1010,12 @@ class AirController extends Controller
                 ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
                 ,m.air_repaire_type_code
                 ,(select GROUP_CONCAT(distinct b.repaire_sub_name,"|")) as repaire_sub_name 
-                ,b.repaire_no
+                ,b.repaire_no,s.supplies_name
                 FROM air_repaire a 
                 LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
                 LEFT JOIN users p ON p.id = a.air_staff_id  
                 LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
+                LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id 
                 WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
                 GROUP BY a.air_repaire_id 
                 ORDER BY a.air_repaire_id DESC 
@@ -1030,6 +1037,7 @@ class AirController extends Controller
                         'staff_name'         => $value->staff_name,
                         'tect_name'          => $value->tect_name,
                         'air_techout_name'   => $value->air_techout_name,
+                        'supplies_name'      => $value->supplies_name,
                     ]);
                 // } else {
                 //     Air_repaire_excel::insert([
@@ -1060,11 +1068,12 @@ class AirController extends Controller
                     ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
                     ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
                     ,m.air_repaire_type_code,(select GROUP_CONCAT(distinct b.repaire_sub_name," " "|")) as repaire_sub_name 
-                    ,b.repaire_no
+                    ,b.repaire_no,s.supplies_name
                     FROM air_repaire a 
                     LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
                     LEFT JOIN users p ON p.id = a.air_staff_id  
                     LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
+                    LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id 
                     WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                     AND b.air_repaire_type_code = "'.$repaire_type.'"
                     GROUP BY a.air_repaire_id 
@@ -1087,6 +1096,7 @@ class AirController extends Controller
                             'staff_name'         => $value->staff_name,
                             'tect_name'          => $value->tect_name,
                             'air_techout_name'   => $value->air_techout_name,
+                            'supplies_name'      => $value->supplies_name,
                         ]);
                      
                 }
@@ -1098,11 +1108,12 @@ class AirController extends Controller
                     ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
                     ,m.air_repaire_type_code,(select GROUP_CONCAT(distinct b.repaire_sub_name," " "|")) as repaire_sub_name
                     ,(select GROUP_CONCAT(distinct b.repaire_sub_name," ครั้งที่ " ,b.repaire_no, "|")) as repaire_sub_name2 
-                    ,b.repaire_no
+                    ,b.repaire_no,s.supplies_name
                     FROM air_repaire a 
                     LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
                     LEFT JOIN users p ON p.id = a.air_staff_id  
                     LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
+                    LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id 
                     WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                     AND b.air_repaire_type_code = "'.$repaire_type.'"
                     GROUP BY a.air_repaire_id 
@@ -1125,6 +1136,7 @@ class AirController extends Controller
                             'staff_name'         => $value->staff_name,
                             'tect_name'          => $value->tect_name,
                             'air_techout_name'   => $value->air_techout_name,
+                            'supplies_name'      => $value->supplies_name,
                         ]);
               
                     

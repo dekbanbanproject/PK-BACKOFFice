@@ -29,7 +29,7 @@ return new class extends Migration
                 $table->char('staff_name', length: 200)->nullable();      
                 $table->char('tect_name', length: 200)->nullable();      
                 $table->char('air_techout_name', length: 200)->nullable();    
-                 
+                $table->char('supplies_name', length: 255)->nullable();  
                 $table->timestamps();
             });
         }

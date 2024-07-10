@@ -1,6 +1,6 @@
 @extends('layouts.accountpk')
 @section('title', 'PK-OFFICER || ACCOUNT')
- 
+<link href="{{ asset('css/loading.css') }}" rel="stylesheet">
 @section('content')
     <script>
         function TypeAdmin() {
@@ -115,7 +115,7 @@
             </div>
         </form>  
 
-        <div class="row">   
+        {{-- <div class="row">   
             <div class="col-xl-8 col-md-8">
                 <div class="card card_audit_4c" style="background-color: rgb(246, 235, 247)">   
                     <div class="table-responsive p-3">                                
@@ -145,7 +145,7 @@
                     </div>
                 </div>
             </div> 
-        </div>
+        </div> --}}
 
         <div class="row">   
             <div class="col-xl-12 col-md-12">
@@ -155,14 +155,14 @@
                             <thead>
                                 <tr>  
                                     <th class="text-center" style="background-color: rgb(219, 247, 232)">ลำดับ</th> 
-                                    <th class="text-center" style="background-color: rgb(219, 247, 232)">ไตรมาส</th> 
+                                    <th class="text-center" style="background-color: rgb(219, 247, 232)">ไตรมาส/ปีงบประมาณ</th> 
                                     <th class="text-center" style="background-color: rgb(219, 247, 232)">income</th> 
                                     <th class="text-center" style="background-color: rgb(135, 190, 253)">ต้องตั้ง-301</th>  
                                     <th class="text-center" style="background-color: rgb(135, 190, 253)">ตั้งลูกหนี้-301</th> 
                                     <th class="text-center" style="background-color: rgb(135, 190, 253)">Stm-301</th>
-                                    <th class="text-center" style="background-color: rgb(253, 135, 174)">ต้องตั้ง-3011</th> 
-                                    <th class="text-center" style="background-color: rgb(253, 135, 174)">ตั้งลูกหนี้-3011</th> 
-                                    <th class="text-center" style="background-color: rgb(253, 135, 174)">Stm-3011</th>
+                                    {{-- <th class="text-center" style="background-color: rgb(253, 135, 174)">ต้องตั้ง-3011</th>  --}}
+                                    {{-- <th class="text-center" style="background-color: rgb(253, 135, 174)">ตั้งลูกหนี้-3011</th>  --}}
+                                    {{-- <th class="text-center" style="background-color: rgb(253, 135, 174)">Stm-3011</th> --}}
                                     <th class="text-center" style="background-color: rgb(250, 246, 198)">ต้องตั้ง-3013</th> 
                                     <th class="text-center" style="background-color: rgb(250, 246, 198)">ตั้งลูกหนี้-3013</th> 
                                     <th class="text-center" style="background-color: rgb(250, 246, 198)">Stm-3013</th>
@@ -295,7 +295,7 @@
                             
                                         <tr>
                                             <td class="text-font" style="text-align: center;" width="4%">{{ $number }} </td>  
-                                            <td class="p-2">{{$item->acc_trimart_name}} {{$y}}</td> 
+                                            <td class="p-2">{{$item->acc_trimart_name}} {{$item->acc_year}}</td> 
                                             <td class="text-end" style="color:rgb(73, 147, 231)" width="10%"> {{ number_format($sum_income, 2) }}</td>                                          
                                             <td class="text-end" style="color:rgb(73, 147, 231);background-color: rgb(193, 222, 255)" width="10%"> 
                                                 <a href="{{url('account_301_pull')}}" target="_blank" style="color:rgb(80, 7, 129);"> {{ number_format($sum_tongtung, 2) }}</a>
@@ -304,18 +304,19 @@
                                                 <a href="{{url('account_301_income/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank" style="color:rgb(186, 75, 250)"> {{ number_format($sum_Y, 2) }}</a>
                                             </td> 
                                             <td class="text-end" width="5%" style="background-color: rgb(193, 222, 255)">
-                                                <a href="{{url('account_301_dashsub/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank" style="color:rgb(7, 143, 143)"> {{ number_format($total301, 2) }}</a>
+                                                {{-- <a href="{{url('account_301_stm_date/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank" style="color:rgb(7, 143, 143)"> {{ number_format($total301, 2) }}</a> --}}
+                                                <a href="" style="color:rgb(7, 143, 143)"> {{ number_format($total301, 2) }}</a>
                                             </td> 
-                                            <td class="text-end" width="5%" style="background-color: rgb(253, 208, 231)">
+                                            {{-- <td class="text-end" width="5%" style="background-color: rgb(253, 208, 231)">
                                                 <a href="{{url('account_301_dashsub/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank" style="color:rgb(115, 7, 119)"> {{ number_format($sum_tongtung3011, 2) }}</a>
-                                            </td>                                                
-                                            <td class="text-end" width="5%" style="background-color: rgb(253, 208, 231)">
+                                            </td>                                                 --}}
+                                            {{-- <td class="text-end" width="5%" style="background-color: rgb(253, 208, 231)">
                                                 <a href="{{url('account_301_ins/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank" style="color:rgb(233, 19, 101)"> {{ number_format($sum_ins_sss, 2) }}</a>
-                                            </td> 
-                                            <td class="text-end" style="color:rgb(4, 161, 135);background-color: rgb(253, 208, 231)" width="5%">
+                                            </td>  --}}
+                                            {{-- <td class="text-end" style="color:rgb(4, 161, 135);background-color: rgb(253, 208, 231)" width="5%">
                                             
                                                 0.00000000
-                                                </td> 
+                                                </td>  --}}
                                             <td class="text-end" width="5%" style="background-color: rgb(253, 246, 223)">
                                                 <a href="{{url('account_3013_pull')}}" target="_blank" style="color:rgb(13, 67, 138)"> {{ number_format($sum_tongtung3013, 2) }}</a>
                                             </td>                                                 
@@ -349,9 +350,9 @@
                                 <td class="text-end" style="background-color: #6842f1"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td> 
                                 <td class="text-end" style="background-color: #9f4efc" ><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td>                                   
                                 <td class="text-end" style="background-color: #10aaa2"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td>
-                                <td class="text-end" style="background-color: #990aac"><label for="" style="color: #FFFFFF">{{ number_format($total5, 2) }}</label></td>
-                                <td class="text-end" style="background-color: #f02584"><label for="" style="color: #FFFFFF">{{ number_format($total6, 2) }}</label></td> 
-                                <td class="text-end" style="background-color: #07ac7a"><label for="" style="color: #FFFFFF">0.00</label></td> 
+                                {{-- <td class="text-end" style="background-color: #990aac"><label for="" style="color: #FFFFFF">{{ number_format($total5, 2) }}</label></td> --}}
+                                {{-- <td class="text-end" style="background-color: #f02584"><label for="" style="color: #FFFFFF">{{ number_format($total6, 2) }}</label></td>  --}}
+                                {{-- <td class="text-end" style="background-color: #07ac7a"><label for="" style="color: #FFFFFF">0.00</label></td>  --}}
                                 <td class="text-end" style="background-color: #073bac"><label for="" style="color: #FFFFFF">{{ number_format($total8, 2) }}</label></td> 
                                 <td class="text-end" style="background-color: #5407ac"><label for="" style="color: #FFFFFF">{{ number_format($total9, 2) }}</label></td> 
                                 <td class="text-end" style="background-color: #07ac7a"><label for="" style="color: #FFFFFF">0.00</label></td> 

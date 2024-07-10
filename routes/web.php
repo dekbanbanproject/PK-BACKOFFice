@@ -2047,6 +2047,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_301_destroy_all',[App\Http\Controllers\Account301Controller::class, 'account_301_destroy_all'])->name('acc.account_301_destroy_all');//
 
     Route::match(['get','post'],'account_301_income/{startdate}/{enddate}',[App\Http\Controllers\Account301Controller::class, 'account_301_income'])->name('acc.account_301_income');//
+    Route::match(['get','post'],'account_301_stm_date/{startdate}/{enddate}',[App\Http\Controllers\Account301Controller::class, 'account_301_stm_date'])->name('acc.account_301_stm_date');//
     Route::match(['get','post'],'account_301_ins/{startdate}/{enddate}',[App\Http\Controllers\Account301Controller::class, 'account_301_ins'])->name('acc.account_301_ins');//
     Route::match(['get','post'],'account_301_ct/{startdate}/{enddate}',[App\Http\Controllers\Account301Controller::class, 'account_301_ct'])->name('acc.account_301_ct');//
 

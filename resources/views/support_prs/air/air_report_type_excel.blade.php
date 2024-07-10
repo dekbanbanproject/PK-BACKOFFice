@@ -75,6 +75,7 @@
                 <th class="text-center" style="border-color: black;background-color: #8be2df">เจ้าหน้าที่</th>
                 <th class="text-center" style="border-color: black;background-color: #8be2df">ช่างซ่อม(รพ)</th>
                 <th class="text-center" style="border-color: black;background-color: #8be2df">ช่างแอร์</th>
+                <th class="text-center" style="border-color: black;background-color: #8be2df">บริษัท</th>
             </tr>
         </thead>
         <tbody>
@@ -102,6 +103,7 @@
                     <td class="p-2" style="width: 7%;border-color: black">{{ $item->staff_name }}</td> 
                     <td class="p-2" style="width: 7%;border-color: black">{{ $item->tect_name }}</td> 
                     <td class="p-2" style="width: 7%;border-color: black">{{ $item->air_techout_name }}</td>  
+                    <td class="p-2" style="width: 7%;border-color: black">{{ $item->supplies_name }}</td>  
                 </tr> 
             @endforeach
         </tbody>
