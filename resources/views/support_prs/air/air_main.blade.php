@@ -139,10 +139,10 @@
         <div class="col"></div>
       
         <div class="col-md-7 text-end">
-            <a href="{{url('air_qrcode_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-info cardacc">  
+            {{-- <a href="{{url('air_qrcode_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-info cardacc">  
                 <i class="fa-solid fa-print me-2 text-white me-2" style="font-size:13px"></i>
                 <span>All</span> 
-            </a> 
+            </a>  --}}
             <a href="{{url('air_qrcode_detail_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-secondary cardacc">  
                 <i class="fa-solid fa-print me-2 text-white me-2" style="font-size:13px"></i>
                 <span>Detail All</span> 
@@ -155,6 +155,10 @@
                 <i class="fa-solid fa-circle-plus text-white me-2"></i>
                เพิ่มรายการ
             </a>  
+
+            <button type="button" class="ladda-button btn-pill btn btn-secondary card_prs_4 me-2" data-bs-toggle="modal" data-bs-target="#exampleModal"> 
+                <i class="fa-solid fa-book-open-reader text-white me-2"></i>คู่มือ 
+            </button>
            
         </div>
 </div> 
@@ -273,11 +277,48 @@
             </div>
         </div>
     </div>
+</div> 
+</div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">คู่มือการใช้งาน</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center"> 
+            <p style="color: red;font-size: 17px;">คู่มือการเพิ่มรายการแอร์</p><br><br>
+            <img src="{{ asset('images/doc/add_air_01.jpg') }}" class="rounded" alt="Image" width="auto" height="520px"> 
+            <br><br><br> 
+            <hr style="color: red;border: blueviolet">
+            <hr style="color: red;border: blueviolet">
+            <br><br><br> 
+            <img src="{{ asset('images/doc/add_air_02.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
+            <br><br><br>
+            <hr style="color: red;border: blueviolet">
+            <hr style="color: red;border: blueviolet">
 
-</div>
-</div>
+
+
+            <p style="color: red;font-size: 17px;">คู่มือการแก้ไขรายการแอร์</p><br><br> 
+            <img src="{{ asset('images/doc/edit_air_01.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
+            <br><br><br>
+            <hr style="color: red;border: blueviolet">
+            <hr style="color: red;border: blueviolet">
+            <img src="{{ asset('images/doc/edit_air_02.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
+
+
+            
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger" data-bs-dismiss="modal">  <i class="fa-solid fa-xmark me-2"></i>Close</button> 
+        </div>
+      </div>
+    </div>
+  </div>
 
 @endsection
 @section('footer')

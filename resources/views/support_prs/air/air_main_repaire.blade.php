@@ -149,7 +149,9 @@
                         <button type="submit" class="ladda-button btn-pill btn btn-primary cardacc" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
                         </button> 
-                    
+                        <button type="button" class="ladda-button btn-pill btn btn-secondary card_prs_4 me-2" data-bs-toggle="modal" data-bs-target="#exampleModal"> 
+                            <i class="fa-solid fa-book-open-reader text-white me-2"></i>คู่มือ 
+                        </button>
                 </div> 
             </div>
         </div>
@@ -278,6 +280,47 @@
 
 </div>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">คู่มือการใช้งาน</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center"> 
+            <p style="color: red;font-size: 17px;">คู่มือการบันทึกข้อมูลในการ ซ่อมแต่ละครั้ง</p><br><br>
+            <img src="{{ asset('images/doc/add_repaire_out_01.jpg') }}" class="rounded" alt="Image" width="auto" height="520px"> 
+            <br><br><br> 
+            <hr style="color: red;border: blueviolet">
+            <hr style="color: red;border: blueviolet">
+            <br><br><br> 
+            <img src="{{ asset('images/doc/add_repaire_out_02.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
+            <br><br><br>
+            <hr style="color: red;border: blueviolet">
+            <hr style="color: red;border: blueviolet">
+
+            <img src="{{ asset('images/doc/add_repaire_out_03.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
+            <br><br><br>
+
+            {{-- <p style="color: red;font-size: 17px;">คู่มือการแก้ไขรายการแอร์</p><br><br> 
+            <img src="{{ asset('images/doc/edit_air_01.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
+            <br><br><br>
+            <hr style="color: red;border: blueviolet">
+            <hr style="color: red;border: blueviolet">
+            <img src="{{ asset('images/doc/edit_air_02.jpg') }}" class="rounded" alt="Image" width="auto" height="520px"> --}}
+
+
+            
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger" data-bs-dismiss="modal">  <i class="fa-solid fa-xmark me-2"></i>Close</button> 
+        </div>
+      </div>
+    </div>
+  </div>
 
 @endsection
 @section('footer')

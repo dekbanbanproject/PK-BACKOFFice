@@ -2086,7 +2086,7 @@ class AirController extends Controller
         Air_report_ploblems::truncate();
         $datashow     = DB::select(
             'SELECT ap.air_repaire_ploblem_id,ap.air_repaire_ploblemname
-                ,(SELECT COUNT(DISTINCT air_list_num) FROM air_repaire_sub WHERE air_repaire_ploblem_id = ap.air_repaire_ploblem_id AND air_list_num = ap.air_list_num  AND air_repaire_type_code ="04") as count_ploblems
+                ,(SELECT COUNT(DISTINCT air_list_num) FROM air_repaire_sub WHERE air_repaire_ploblem_id = ap.air_repaire_ploblem_id  AND air_repaire_type_code ="04") as count_ploblems
                 ,(SELECT COUNT(air_list_num) FROM air_repaire_sub WHERE air_repaire_ploblem_id = ap.air_repaire_ploblem_id AND air_repaire_type_code ="04" AND repaire_no > 1) as more_one
                 FROM air_repaire a 
                 LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id

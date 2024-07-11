@@ -200,8 +200,9 @@ class Account107Controller extends Controller
                 LEFT OUTER JOIN pttype_eclaim e on e.code = t.pttype_eclaim_id
                 WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                 AND r.paid ="N" AND r.pt_type="IPD"
-                GROUP BY a.an
+                
         ');
+        // GROUP BY a.an
         // LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(o.vstdate)
         foreach ($acc_debtor as $key => $value) {
                     $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050102.107')->whereBetween('dchdate', [$startdate, $enddate])->count();

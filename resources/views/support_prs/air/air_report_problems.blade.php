@@ -150,6 +150,9 @@
                         <button type="button" class="ladda-button btn-pill btn btn-success card_prs_4" id="Processdata"> 
                             <i class="fa-solid fa-spinner text-white me-2"></i>ประมวลผล
                         </button>
+                        <button type="button" class="ladda-button btn-pill btn btn-secondary card_prs_4 me-2" data-bs-toggle="modal" data-bs-target="#exampleModal"> 
+                            <i class="fa-solid fa-book-open-reader text-white me-2"></i>คู่มือ 
+                        </button>
                         {{-- <a href="{{url('air_report_problems_excel')}}" class="ladda-button btn-pill btn btn-success card_prs_4">
                             <span class="ladda-label"> <i class="fa-solid fa-file-excel text-white me-2"></i>Excel</span>  
                         </a> --}}
@@ -222,12 +225,28 @@
             </div>
         </div>
     </div>
-</div>
-
-
+</div> 
 </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">คู่มือการใช้งาน</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center"> 
+            <img src="{{ asset('images/doc/document_01.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger" data-bs-dismiss="modal">  <i class="fa-solid fa-xmark me-2"></i>Close</button> 
+        </div>
+      </div>
+    </div>
+  </div>
+ 
 @endsection
 @section('footer')
     <script>
