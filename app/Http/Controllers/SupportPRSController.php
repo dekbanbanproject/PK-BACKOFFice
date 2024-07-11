@@ -178,19 +178,21 @@ class SupportPRSController extends Controller
             '); 
 
             $chart_location = DB::connection('mysql')->select(
-                'SELECT a.air_location_id,a.air_location_name,COUNT(a.air_location_id) as air_count 
-                ,(SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_1 = "on")+
-                (SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_2 = "on")+
-                (SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_3 = "on")+
-                (SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_4 = "on")+
-                (SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_5 = "on")+ 
-                (SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_orther = "on") as c_air_1  
-                ,(SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_1 = "on") as air_problems_1
-                ,(SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_2 = "on") as air_problems_2
-                ,(SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_3 = "on") as air_problems_3
-                ,(SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_4 = "on") as air_problems_4
-                ,(SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_5 = "on") as air_problems_5
-                 ,(SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_orther = "on") as air_problems_orther
+                'SELECT a.air_location_id,a.air_location_name
+              ,COUNT(DISTINCT al.air_list_id) as air_count_qty
+                ,COUNT(a.air_location_id) as air_count_rep 
+                -- ,(SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_1 = "on")+
+                -- (SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_2 = "on")+
+                -- (SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_3 = "on")+
+                -- (SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_4 = "on")+
+                -- (SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_5 = "on")+ 
+                -- (SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_orther = "on") as c_air_1  
+                -- ,(SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_1 = "on") as air_problems_1
+                -- ,(SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_2 = "on") as air_problems_2
+                -- ,(SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_3 = "on") as air_problems_3
+                -- ,(SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_4 = "on") as air_problems_4
+                -- ,(SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_5 = "on") as air_problems_5
+                --  ,(SELECT COUNT(air_list_id) FROM air_repaire WHERE air_location_id = a.air_location_id AND air_problems_orther = "on") as air_problems_orther
                 FROM air_list a 
                 LEFT JOIN air_repaire al ON al.air_list_id = a.air_list_id
                 LEFT JOIN users p ON p.id = al.air_staff_id 

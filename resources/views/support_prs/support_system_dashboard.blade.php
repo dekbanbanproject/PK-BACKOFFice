@@ -150,33 +150,41 @@
                                                         <td class="text-font" style="text-align: center;">
                                                             {{-- <a href="{{url('air_count_sub/'.$item->air_location_id)}}">{{$item->air_count}}</a>  --}}
                                                             <button type="button" class="badge rounded-pill bg-warning aircountModal" value="{{ $item->air_location_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนแอร์ที่มีปัญหา">
-                                                               {{$item->air_count}}
+                                                               {{$item->air_count_qty}}
                                                             </button>
                                                         </td>
                                                         <td class="text-font" style="text-align: center;"> 
-                                                            <a href="{{url('air_count_qty/'.$item->air_location_id)}}">{{$item->c_air_1}}</a>
-
-                                                        </td> 
-                                                        <td class="text-font" style="text-align: center;"> 
-                                                            {{-- <a href="{{url('air_count_ploblem_1/'.$item->air_location_id)}}">{{$item->air_problems_1}}</a>  --}}
-                                                            <button type="button" class="badge rounded-pill bg-primary problems_1Modal" value="{{ $item->air_location_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="น้ำหยด">
-                                                                {{$item->air_problems_1}}
+                                                            {{-- <a href="{{url('air_count_qty/'.$item->air_location_id)}}">{{$item->air_count_rep}}</a> --}}
+                                                            {{-- <a href="{{url('air_count_qty/'.$item->air_location_id)}}" class="badge rounded-pill bg-info problems_1Modal" value="{{ $item->air_location_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="น้ำหยด">
+                                                                {{$item->air_count_rep}}
+                                                            </a> --}}
+                                                            <button type="button" class="badge rounded-pill bg-info problems_1Modal" value="{{ $item->air_location_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนครั้งที่ซ่อม">
+                                                                {{$item->air_count_rep}}
                                                              </button>
                                                         </td> 
                                                         <td class="text-font" style="text-align: center;"> 
-                                                            <a href="{{url('air_count_ploblem_2/'.$item->air_location_id)}}">{{$item->air_problems_2}}</a> 
+                                                            <?php 
+                                                                
+                                                            ?>
+                                                            {{-- <a href="{{url('air_count_ploblem_1/'.$item->air_location_id)}}">{{$item->air_problems_1}}</a>  --}}
+                                                            <button type="button" class="badge rounded-pill bg-primary problems_1Modal" value="{{ $item->air_location_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="น้ำหยด">
+                                                                {{$item->air_count_rep}}
+                                                             </button>
                                                         </td> 
                                                         <td class="text-font" style="text-align: center;"> 
-                                                            <a href="{{url('air_count_ploblem_3/'.$item->air_location_id)}}">{{$item->air_problems_3}}</a> 
+                                                            <a href="{{url('air_count_ploblem_2/'.$item->air_location_id)}}">{{$item->air_count_rep}}</a> 
                                                         </td> 
                                                         <td class="text-font" style="text-align: center;"> 
-                                                            <a href="{{url('air_count_ploblem_4/'.$item->air_location_id)}}">{{$item->air_problems_4}}</a> 
+                                                            <a href="{{url('air_count_ploblem_3/'.$item->air_location_id)}}">{{$item->air_count_rep}}</a> 
                                                         </td> 
                                                         <td class="text-font" style="text-align: center;"> 
-                                                            <a href="{{url('air_count_ploblem_5/'.$item->air_location_id)}}">{{$item->air_problems_5}}</a> 
+                                                            <a href="{{url('air_count_ploblem_4/'.$item->air_location_id)}}">{{$item->air_count_rep}}</a> 
                                                         </td> 
                                                         <td class="text-font" style="text-align: center;"> 
-                                                            <a href="{{url('air_count_ploblem_orther/'.$item->air_location_id)}}">{{$item->air_problems_orther}}</a> 
+                                                            <a href="{{url('air_count_ploblem_5/'.$item->air_location_id)}}">{{$item->air_count_rep}}</a> 
+                                                        </td> 
+                                                        <td class="text-font" style="text-align: center;"> 
+                                                            <a href="{{url('air_count_ploblem_orther/'.$item->air_location_id)}}">{{$item->air_count_rep}}</a> 
                                                         </td> 
                                                     </tr>
                                                    
