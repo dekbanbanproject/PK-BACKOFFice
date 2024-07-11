@@ -141,9 +141,9 @@
             <div class="col-md-4 text-end"> 
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control card_prs_4" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                        data-date-language="th-th" required/>
+                        data-date-language="th-th" value="{{ $startdate }}" required/>
                     <input type="text" class="form-control card_prs_4" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                        data-date-language="th-th" />  
+                        data-date-language="th-th" value="{{ $enddate }}"/>  
                         {{-- <button type="submit" class="ladda-button btn-pill btn btn-primary card_prs_4" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
                         </button>  --}}
@@ -183,10 +183,7 @@
                                         <td class="text-center" style="font-size:13px;width: 5%;color: rgb(13, 134, 185)">{{$i}}</td>
                                         <td class="text-start" style="font-size:14px;color: rgb(2, 95, 182)">{{$item->air_repaire_ploblemname}}</td> 
                                         <td class="text-center" style="font-size:13px;width: 15%;color: rgb(112, 5, 98)">
-                                            <a href="{{url('air_report_problem_group/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(209, 181, 236);width: 70%;" target="_blank">
-                                                <span class="ladda-label"> <i class="fa-solid fa-fan me-2" style="color: #8c07c0"></i>{{$item->count_ploblems}}</span>  
-                                            </a>
-                                            {{-- @if ($startdate == '')
+                                            @if ($startdate == '')
                                                 <a href="{{url('air_report_problem_group/'.$startdate_b.'/'.$enddate_b)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(209, 181, 236);width: 70%;" target="_blank">
                                                     <span class="ladda-label"> <i class="fa-solid fa-fan me-2" style="color: #8c07c0"></i>{{$item->count_ploblems}}</span>  
                                                 </a>
@@ -194,14 +191,11 @@
                                                 <a href="{{url('air_report_problem_group/'.$startdate.'/'.$enddate)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(209, 181, 236);width: 70%;" target="_blank">
                                                     <span class="ladda-label"> <i class="fa-solid fa-fan me-2" style="color: #8c07c0"></i>{{$item->count_ploblems}}</span>  
                                                 </a>
-                                            @endif                                            --}}
+                                            @endif                                           
 
                                         </td>
                                         <td class="text-center" style="font-size:13px;width: 20%;color: rgb(247, 209, 212)">
-                                            <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank">
-                                                <span class="ladda-label"> <i class="fa-solid fa-fan me-2" style="color: rgb(253, 65, 81)"></i>{{$item->more_one}}</span>  
-                                            </a>
-                                            {{-- @if ($startdate == '')
+                                            @if ($startdate == '')
                                                 <a href="{{url('air_report_problem_morone/'.$startdate_b.'/'.$enddate_b)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank">
                                                     <span class="ladda-label"> <i class="fa-solid fa-fan me-2" style="color: rgb(253, 65, 81)"></i>{{$item->more_one}}</span>  
                                                 </a>
@@ -209,7 +203,7 @@
                                                 <a href="{{url('air_report_problem_morone/'.$startdate.'/'.$enddate)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank">
                                                     <span class="ladda-label"> <i class="fa-solid fa-fan me-2" style="color: rgb(253, 65, 81)"></i>{{$item->more_one}}</span>  
                                                 </a>
-                                            @endif --}}
+                                            @endif
                                             
                                         </td>
                                          

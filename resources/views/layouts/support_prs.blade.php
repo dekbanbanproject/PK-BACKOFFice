@@ -344,7 +344,7 @@ use App\Models\Products_request_sub;
 
         <header id="page-topbar">
             {{-- <div class="navbar-header shadow-lg" style="background-color: rgb(252, 252, 252)"> --}}
-                <div class="navbar-header shadow" style="background-color: rgba(147, 204, 248, 0.871)">
+                <div class="navbar-header shadow" style="background-color: #8be2df">
 
                     <div class="d-flex">
                         <!-- LOGO -->

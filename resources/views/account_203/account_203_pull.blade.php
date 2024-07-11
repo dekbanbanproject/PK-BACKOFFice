@@ -169,7 +169,7 @@
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td>  
                                                 <td class="text-center" width="7%">{{ $item->hmain }}</td>  
                                                 <td class="text-center" width="10%">{{ number_format($item->uc_money, 2) }}</td> 
-                                                @if ($item->ct_sumprice > '0')
+                                                @if ($item->ct_price > '0')
                                                     <td class="text-center" width="5%"> 
                                                         <span class="bg-success badge me-2">{{ $item->ct_price }}</span> 
                                                     </td> 
