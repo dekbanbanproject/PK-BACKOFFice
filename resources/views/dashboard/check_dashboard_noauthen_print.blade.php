@@ -1,58 +1,50 @@
-@extends('layouts.report_font')
-@section('title', 'PK-OFFICER || checksit')
-@section('content')
-<style>
-    #button{
-           display:block;
-           margin:20px auto;
-           padding:30px 30px;
-           background-color:#eee;
-           border:solid #ccc 1px;
-           cursor: pointer;
-           }
-           #overlay{
-           position: fixed;
-           top: 0;
-           z-index: 100;
-           width: 100%;
-           height:100%;
-           display: none;
-           background: rgba(0,0,0,0.6);
-           }
-           .cv-spinner {
-           height: 100%;
-           display: flex;
-           justify-content: center;
-           align-items: center;
-           }
-           .spinner {
-           width: 250px;
-           height: 250px;
-           border: 10px #ddd solid;
-           border-top: 10px #1fdab1 solid;
-           border-radius: 50%;
-           animation: sp-anime 0.8s infinite linear;
-           }
-           @keyframes sp-anime {
-           100% {
-               transform: rotate(390deg);
-           }
-           }
-           .is-hide{
-           display:none;
-           }
-</style>
-
-<div class="tabs-animation">
-
-        <div class="row text-center">
-            <div id="overlay">
-                <div class="cv-spinner">
-                  <span class="spinner"></span>
-                </div>
-              </div>
-
-        </div>
+ 
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <title>Document</title>
+     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+     <link href='https://fonts.googleapis.com/css?family=Kanit&subset=thai,latin' rel='stylesheet' type='text/css'>
+ 
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  </head>
+  <?php
+  
+     if ($month == 1) {
+         $mm = 'มกราคม';
+     } elseif ($month == 2) {
+         $mm = 'กุมภาพันธ์';
+     } elseif ($month == 3) {
+         $mm = 'มีนาคม';
+     } elseif ($month == 4) {
+         $mm = 'เมษายน';
+     } elseif ($month == 5) {
+         $mm = 'พฤษภาคม';
+     } elseif ($month == 6) {
+         $mm = 'มิถุนายน';
+     } elseif ($month == 7) {
+         $mm = 'กรกฎาคม';
+     } elseif ($month == 8) {
+         $mm = 'สิงหาคม';
+     } elseif ($month == 9) {
+         $mm = 'กันยายน';
+     } elseif ($month == 10) {
+         $mm = 'ตุลาคม';
+     } elseif ($month == 11) {
+         $mm = 'พฤษจิกายน';
+     } else {
+         $mm = 'ธันวาคม';
+     }
+     
+     ?>
+ <body onload="window.print()">
+        
+     <div class="container-fluid"> 
+      
         <div class="row">
             <div class="col-md-12">
                  <div class="card cardreport">
@@ -63,9 +55,7 @@
                                 {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                     <i class="pe-7s-science btn-icon-wrapper"></i>Token
                                 </button> --}}
-                                <a href="{{url('check_dashboard_noauthen_print/'.$day.'/'.$month.'/'.$year)}}" class="ladda-button me-2 btn-pill btn btn-primary cardacc">
-                                    <i class="fa-solid fa-print me-2"></i>Print
-                                </a>
+
                             </div>
                         </div>
                     </div>
@@ -74,7 +64,7 @@
                         <div class="table-responsive mt-3">
                             <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
-                                    <tr>
+                                    <tr style="font-size: 14px">
                                         <th>ลำดับ</th>
                                         {{-- <th>vn</th> --}}
                                         <th>hn</th>
@@ -98,7 +88,7 @@
                                 <tbody>
                                     <?php $ia = 1; ?>
                                     @foreach ($data_sit as $item)
-                                        <tr>
+                                    <tr style="font-size: 13px">
                                             <td>{{ $ia++ }}</td>
                                             {{-- <td>{{ $item->vn }}</td> --}}
                                             <td>{{ $item->hn }}</td>
@@ -128,37 +118,10 @@
                 </div>
             </div>
         </div>
-</div>
+    </div>
+  
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 
-
-@endsection
-@section('footer')
-
-<script>
-    //  window.setTimeout(function() {
-    //         window.location.reload();
-    //     },500000);
-    $(document).ready(function() {
-        // $("#overlay").fadeIn(300);　
-
-        $('#datepicker').datepicker({
-            format: 'yyyy-mm-dd'
-        });
-        $('#datepicker2').datepicker({
-            format: 'yyyy-mm-dd'
-        });
-
-        $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-        });
-
-        $("#spinner-div").hide(); //Request is complete so hide spinner
-
-
-
-    });
-</script>
-@endsection
-
+    </body>
+    </html>

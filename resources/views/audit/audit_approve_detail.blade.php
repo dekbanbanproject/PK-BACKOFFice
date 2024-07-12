@@ -176,7 +176,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3">
-                                <h4 class="card-title" style="color:rgb(241, 137, 155)"">APPROVE OFC</h4>
+                                <h4 class="card-title" style="color:rgb(241, 137, 155)"">รายการที่ไม่ลง DIAG</h4>
                             </div>
                             <div class="col-md-9 text-end">
                                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
@@ -319,7 +319,7 @@
             <div class="col-xl-7">
                 <div class="card card_audit_4">
                     <div class="card-body">
-                        <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">รายการที่ไม่ลง Approve เดือน
+                        <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">รายการที่ไม่ลง DIAG เดือน
                             {{ $mm }}</h4>
                         <div class="table-responsive">
                             <table id="example2" class="table table-striped table-bordered dt-responsive nowrap"

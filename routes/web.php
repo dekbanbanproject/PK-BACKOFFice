@@ -242,6 +242,7 @@ Route::match(['get','post'],'import_authen_daysend',[App\Http\Controllers\Checks
 Route::match(['get','post'],'check_dashboard',[App\Http\Controllers\ChecksitController::class, 'check_dashboard'])->name('claim.check_dashboard');//
 Route::match(['get','post'],'check_dashboard_authen/{day}/{month}/{year}',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_authen'])->name('claim.check_dashboard_authen');//
 Route::match(['get','post'],'check_dashboard_noauthen/{day}/{month}/{year}',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_noauthen'])->name('claim.check_dashboard_noauthen');//
+Route::match(['get','post'],'check_dashboard_noauthen_print/{day}/{month}/{year}',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_noauthen_print'])->name('claim.check_dashboard_noauthen_print');//
 Route::match(['get','post'],'check_dashboard_bar',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_bar'])->name('claim.check_dashboard_bar');
 Route::match(['get','post'],'check_dashboard_line',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_line'])->name('claim.check_dashboard_line');
 Route::match(['get','post'],'check_line',[App\Http\Controllers\ChecksitController::class, 'check_line'])->name('claim.check_line');
@@ -3341,6 +3342,8 @@ Route::match(['get','post'],'approve_destroy/{id}',[App\Http\Controllers\Preaudi
 Route::match(['get','post'],'pre_audit_chart',[App\Http\Controllers\PreauditController::class, 'pre_audit_chart'])->name('audit.pre_audit_chart');
 Route::match(['get','post'],'audit_pdx',[App\Http\Controllers\PreauditController::class, 'audit_pdx'])->name('audit.audit_pdx');
 Route::match(['get','post'],'audit_pdx_detail/{month}/{year}',[App\Http\Controllers\PreauditController::class, 'audit_pdx_detail'])->name('audit.audit_pdx_detail');
+Route::match(['get','post'],'audit_pdx_detail_print/{month}/{year}',[App\Http\Controllers\PreauditController::class, 'audit_pdx_detail_print'])->name('audit.audit_pdx_detail_print');
+
 
 // **************************** ทาลัสซีเมีย **********************************************
 Route::match(['get','post'],'talassemaie',[App\Http\Controllers\PreauditController::class, 'talassemaie'])->name('audit.talassemaie');

@@ -756,18 +756,27 @@ class Account307Controller extends Controller
         if ($startdate =='') {
            $datashow = DB::select(' 
                SELECT * from acc_1102050101_307 
-               WHERE dchdate BETWEEN "'.$new_day.'" AND  "'.$date.'"  
+               WHERE vstdate BETWEEN "'.$new_day.'" AND  "'.$date.'"  
            ');
+           $datashow_ipd = DB::select(' 
+                SELECT * from acc_1102050101_307 
+                WHERE dchdate BETWEEN "'.$new_day.'" AND  "'.$date.'"  
+            ');
         } else {
            $datashow = DB::select(' 
                SELECT * from acc_1102050101_307
-               WHERE dchdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"  
+               WHERE vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"  
            ');
+           $datashow_ipd = DB::select(' 
+                SELECT * from acc_1102050101_307
+                WHERE dchdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"  
+            ');
         } 
         return view('account_307.account_307_search', $data, [
             'startdate'     => $startdate,
             'enddate'       => $enddate,
             'datashow'      => $datashow,
+            'datashow_ipd'  => $datashow_ipd,
             'startdate'     => $startdate,
             'enddate'       => $enddate
         ]);

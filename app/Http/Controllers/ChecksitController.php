@@ -1556,7 +1556,10 @@ class ChecksitController extends Controller
         ');
         // AND c.main_dep NOT IN("011","036","107")
         return view('dashboard.check_dashboard_authen',[
-            'data_sit'       => $data_sit,
+            'data_sit'    => $data_sit,
+            'day'         => $day,
+            'month'       => $month,
+            'year'        => $year,
         ] );
     }
     public function check_dashboard_noauthen(Request $request,$day,$month,$year)
@@ -1601,8 +1604,58 @@ class ChecksitController extends Controller
 
         // AND c.main_dep NOT IN("011","036","107")
         return view('dashboard.check_dashboard_noauthen',[
-            'data_sit'       => $data_sit,
-            // 'data_year3'       => $data_year3,
+            'data_sit'    => $data_sit,
+            'day'         => $day,
+            'month'       => $month,
+            'year'        => $year,
+        ] );
+    }
+    public function check_dashboard_noauthen_print(Request $request,$day,$month,$year)
+    {
+        $date = date('Y-m-d');
+        $y = date('Y');
+        $m = date('m');
+
+        // $data_sit = DB::connection('mysql')->select('
+        //     SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,k.department,c.pdx
+        //     from check_sit_auto c
+        //     LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+        //     WHERE DAY(vstdate) = "'.$day.'" AND MONTH(vstdate) = "'.$month.'" AND YEAR(vstdate) = "'.$year.'" AND c.claimcode is null
+        //     AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+        //     AND c.pdx NOT IN("Z000")
+        // ');
+        $data_sit = DB::connection('mysql10')->select(
+            'SELECT c.vn,c.hn,p.cid,c.vstdate,c.vsttime,concat(p.pname,p.fname," ",p.lname) as fullname,c.pttype,"" as subinscl,v.income as debit,vp.claim_code,"" as claimtype,v.hospmain
+            ,p.hometel,c.hospsub,c.main_dep,"" as hmain,"" as hsub,"" as subinscl_name,c.staff,k.department,v.pdx
+            from ovst c
+            LEFT JOIN visit_pttype vp ON vp.vn = c.vn
+            LEFT JOIN vn_stat v ON v.vn = c.vn
+            LEFT JOIN patient p ON p.hn = v.hn
+            LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+            WHERE DAY(c.vstdate) = "'.$day.'" AND MONTH(c.vstdate) = "'.$month.'" AND YEAR(c.vstdate) = "'.$year.'"   
+            AND vp.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+            AND c.main_dep NOT IN("011","036","107","078","020") 
+            AND v.pdx NOT IN("Z000","Z108")
+            AND (vp.claim_code is null OR vp.claim_code = "")
+            GROUP BY c.vn 
+        ');
+        // from ovst c
+        //     LEFT JOIN visit_pttype vp ON vp.vn = c.vn
+        //     LEFT JOIN vn_stat v ON v.vn = c.vn
+        //     LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+        //     WHERE month(c.vstdate) = "'.$m.'" AND YEAR(c.vstdate) = "'.$y.'"
+        //     AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+        //     AND c.main_dep NOT IN("011","036","107","078","020") 
+        //     AND v.pdx NOT IN("Z000")
+        //     GROUP BY day
+        //     ORDER BY c.vstdate DESC
+
+        // AND c.main_dep NOT IN("011","036","107")
+        return view('dashboard.check_dashboard_noauthen_print',[
+            'data_sit'    => $data_sit,
+            'day'         => $day,
+            'month'       => $month,
+            'year'        => $year,
         ] );
     }
     public function check_dashboard_staff(Request $request,$staff,$day,$month,$year)

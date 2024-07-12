@@ -243,8 +243,19 @@
             <div class="col-xl-7">
                 <div class="card card_audit_4">
                     <div class="card-body">
-                        <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">รายการที่ไม่ลง Approve เดือน
-                            {{ $mm }}</h4>
+                        <div class="row mb-2"> 
+                            <div class="col-md-6">
+                                <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">รายการที่ไม่ลง Approve เดือน {{ $mm }}</h4>
+                            </div>
+                            <div class="col"></div>
+                            <div class="col-md-2 text-end">
+                                <a href="{{url('audit_pdx_detail_print/'.$month.'/'.$year)}}" class="ladda-button me-2 btn-pill btn btn-primary cardacc">
+                                    <i class="fa-solid fa-print me-2"></i>Print
+                                </a>
+                            </div>
+                        </div> 
+                       
+                        
                         <div class="table-responsive">
                             <table id="example2" class="table table-striped table-bordered dt-responsive nowrap"
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
