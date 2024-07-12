@@ -311,8 +311,6 @@
             <hr style="color: red;border: blueviolet">
             <hr style="color: red;border: blueviolet">
             <img src="{{ asset('images/doc/edit_air_02.jpg') }}" class="rounded" alt="Image" width="auto" height="520px"> --}}
-
-
             
         </div>
         <div class="modal-footer">
