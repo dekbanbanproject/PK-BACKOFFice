@@ -100,7 +100,11 @@ class AirController extends Controller
         $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
         $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
-        $idsup    = Auth::user()->air_supplies_id;
+        $idsup               = Auth::user()->air_supplies_id;
+        $sup_                = DB::table('air_supplies')->where('air_supplies_id','=',$idsup)->first();
+        $data['sup_name']    = $sup_->supplies_name;
+        $data['sup_tel']     = $sup_->supplies_tel;
+        $data['sup_address'] = $sup_->supplies_address;
         // if ($startdate =='') {
         //     $datashow = DB::select(
         //         'SELECT a.* ,al.air_imgname,al.active,al.detail,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tectname
@@ -260,25 +264,25 @@ class AirController extends Controller
     }
     public function home_supplies_excel(Request $request)
     {
-        $date = date('Y-m-d');
-        $y = date('Y') + 543;
-        $months         = date('m');
-        $year           = date('Y'); 
-        $startdate      = $request->datepicker;
-        $enddate        = $request->datepicker2;
-        $repaire_type   = $request->air_repaire_type;
-        $idsup          = Auth::user()->air_supplies_id;
-       
-        $datashow  = DB::select(
-            'SELECT *
-            FROM air_repaire_supexcel 
-        '); 
+        $date                = date('Y-m-d');
+        $y                   = date('Y') + 543;
+        $months              = date('m');
+        $year                = date('Y'); 
+        $startdate           = $request->datepicker;
+        $enddate             = $request->datepicker2;
+        $repaire_type        = $request->air_repaire_type;
+        $idsup               = Auth::user()->air_supplies_id;
+        $sup_                = DB::table('air_supplies')->where('air_supplies_id','=',$idsup)->first();
+        $data['sup_name']    = $sup_->supplies_name;
+        $data['sup_tel']     = $sup_->supplies_tel;
+        $data['sup_address'] = $sup_->supplies_address;
+        $datashow            = DB::select('SELECT * FROM air_repaire_supexcel'); 
       
       
                
         //    WHERE a.repaire_date BETWEEN "2024-07-01" AND "2024-07-08"
 
-        return view('supplies_tech.home_supplies_excel',[
+        return view('supplies_tech.home_supplies_excel',$data,[
             'startdate'     =>$startdate,
             'enddate'       =>$enddate,
             'datashow'      =>$datashow, 

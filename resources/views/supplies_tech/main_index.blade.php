@@ -92,11 +92,11 @@
         <form action="{{ url('home_supplies') }}" method="GET">
             @csrf
         <div class="row"> 
-            <div class="col-md-4"> 
+            <div class="col-md-3"> 
                 <h4 style="color:green">รายการซ่อมตามใบแจ้งซ่อม</h4> 
             </div>
             <div class="col"></div> 
-            <div class="col-md-2 text-center">
+            <div class="col-md-3 text-center">
                 <select class="form-control cardacc" id="air_repaire_type" name="air_repaire_type" style="width: 100%">
                     <option value="" class="text-center">เลือกประเภททั้งหมด</option>
                         @foreach ($air_repaire_type as $item_t)
@@ -108,7 +108,7 @@
                         @endforeach 
                 </select>
             </div>
-            <div class="col-md-4 text-end"> 
+            <div class="col-md-5 text-end"> 
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>

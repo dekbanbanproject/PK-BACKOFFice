@@ -165,13 +165,17 @@
                         <i class="ri-menu-2-line align-middle" style="color: rgb(255, 255, 255)"></i>
                     </button>
                     <a href="{{url('home_supplies')}}">
-                        <h4 style="color:rgb(255, 255, 255)" class="mt-4">Manage Supplies</h4>
+                        <h3 style="color:rgb(5, 131, 153)" class="mt-4">Manage Supplies ( บริษัท {{$sup_name}} )</h3>
                     </a>
                    
                    
                 </div>
 
                 <div class="d-flex">
+                    <button type="button" class="btn header-item noti-icon waves-effect text-danger me-2" data-bs-toggle="modal" data-bs-target="#exampleModal"> 
+                        <i class="fa-solid fa-book-open-reader text-danger me-2"></i>คู่มือการใช้งาน 
+                    </button>
+
                     <div class="dropdown d-none d-lg-inline-block ms-1">
                         <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
                             <i class="ri-fullscreen-line" style="color: rgb(54, 53, 53)"></i>
@@ -237,7 +241,7 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true"> 
                                 {{-- <li><a href="{{ url('air_main') }}">ทะเบียนเครื่องปรับอากาศ</a></li> --}}
-                                <li><a href="{{ url('main_repaire_sup') }}">ทะเบียนแจ้งซ่อม</a></li>
+                                <li><a href="{{ url('home_supplies') }}">ทะเบียนแจ้งซ่อม</a></li>
                                 {{-- <li><a href="{{ url('air_report_type') }}">รายงานแยกตามประเภท</a></li>  --}}
                                 {{-- <li><a href="{{ url('air_report_building') }}">รายงานแยกตามอาคาร</a></li>  --}}
                                 {{-- <li><a href="{{ url('air_report_problems') }}">รายงานแยกตามปัญหา</a></li>  --}}
@@ -295,6 +299,37 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">คู่มือการใช้งาน</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center"> 
+            <p style="color: red;font-size: 17px;">คู่มือการบันทึกข้อมูลในการ ซ่อมแต่ละครั้ง</p><br><br>
+            <img src="{{ asset('images/doc/add_repaire_out_01.jpg') }}" class="rounded" alt="Image" width="auto" height="520px"> 
+            <br><br><br> 
+            <hr style="color: red;border: blueviolet">
+            <hr style="color: red;border: blueviolet">
+            <br><br><br> 
+            <img src="{{ asset('images/doc/add_repaire_out_02.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
+            <br><br><br>
+            <hr style="color: red;border: blueviolet">
+            <hr style="color: red;border: blueviolet">
+
+            <img src="{{ asset('images/doc/add_repaire_out_03.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
+            <br><br><br>
+ 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger" data-bs-dismiss="modal">  <i class="fa-solid fa-xmark me-2"></i>Close</button> 
+        </div>
+      </div>
+    </div>
+  </div>
 
         <!-- ============================================================== -->
         <!-- Start right Content here -->

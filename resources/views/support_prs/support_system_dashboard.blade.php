@@ -144,6 +144,26 @@
                                                 <?php $number = 0; $total1 = 0; $total2 = 0; $total3 = 0;?>
                                                 @foreach ($chart_location as $item)
                                                 <?php $number++;?>
+                                                <?php 
+                                                        $namyod_air = DB::select('SELECT COUNT(b.repaire_sub_id) as namyod FROM air_repaire a 
+                                                            LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                                                            WHERE a.air_location_id = "'.$item->air_location_id.'" AND b.air_repaire_ploblem_id = "1" AND b.air_repaire_type_code ="04"  
+                                                        ');                                     
+                                                        foreach ($namyod_air as $key => $value_air) {$namyod = $value_air->namyod;} 
+
+                                                        $lom_air = DB::select('SELECT COUNT(b.repaire_sub_id) as lomair FROM air_repaire a 
+                                                            LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                                                            WHERE a.air_location_id = "'.$item->air_location_id.'" AND b.air_repaire_ploblem_id = "2" AND b.air_repaire_type_code ="04"  
+                                                        ');                                     
+                                                        foreach ($lom_air as $key => $lom_air) {$lomair = $lom_air->lomair;} 
+
+                                                        $men_air = DB::select('SELECT COUNT(b.repaire_sub_id) as menair FROM air_repaire a 
+                                                            LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                                                            WHERE a.air_location_id = "'.$item->air_location_id.'" AND b.air_repaire_ploblem_id = "3" AND b.air_repaire_type_code ="04"  
+                                                        ');                                     
+                                                        foreach ($men_air as $key => $air_men) {$menair = $air_men->menair;} 
+                                                        
+                                                ?>
                                                     <tr style="font-size: 13px;">
                                                         <td class="text-font" style="text-align: center;" width="4%">{{ $number }} </td> 
                                                         <td class="text-font" style="text-align: left;">{{$item->air_location_name}}</td>
@@ -158,24 +178,28 @@
                                                             {{-- <a href="{{url('air_count_qty/'.$item->air_location_id)}}" class="badge rounded-pill bg-info problems_1Modal" value="{{ $item->air_location_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="น้ำหยด">
                                                                 {{$item->air_count_rep}}
                                                             </a> --}}
-                                                            <button type="button" class="badge rounded-pill bg-info problems_1Modal" value="{{ $item->air_location_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนครั้งที่ซ่อม">
+                                                            <button type="button" class="badge rounded-pill bg-info" value="{{ $item->air_location_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนครั้งที่ซ่อม">
                                                                 {{$item->air_count_rep}}
                                                              </button>
                                                         </td> 
                                                         <td class="text-font" style="text-align: center;"> 
-                                                            <?php 
-                                                                
-                                                            ?>
+                                                             
                                                             {{-- <a href="{{url('air_count_ploblem_1/'.$item->air_location_id)}}">{{$item->air_problems_1}}</a>  --}}
-                                                            <button type="button" class="badge rounded-pill bg-primary problems_1Modal" value="{{ $item->air_location_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="น้ำหยด">
-                                                                {{$item->air_count_rep}}
+                                                            <button type="button" class="badge rounded-pill bg-primary" value="{{ $item->air_location_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="น้ำหยด">
+                                                                {{$namyod}}
                                                              </button>
                                                         </td> 
                                                         <td class="text-font" style="text-align: center;"> 
-                                                            <a href="{{url('air_count_ploblem_2/'.$item->air_location_id)}}">{{$item->air_count_rep}}</a> 
+                                                            {{-- <a href="{{url('air_count_ploblem_2/'.$item->air_location_id)}}">{{$item->air_count_rep}}</a> --}}
+                                                            <button type="button" class="badge rounded-pill bg-success" value="{{ $item->air_location_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="ไม่เย็นมีแต่ลม">
+                                                                {{$lomair}}
+                                                             </button>
                                                         </td> 
                                                         <td class="text-font" style="text-align: center;"> 
-                                                            <a href="{{url('air_count_ploblem_3/'.$item->air_location_id)}}">{{$item->air_count_rep}}</a> 
+                                                            {{-- <a href="{{url('air_count_ploblem_3/'.$item->air_location_id)}}">{{$item->air_count_rep}}</a>  --}}
+                                                            <button type="button" class="badge rounded-pill bg-secondary" value="{{ $item->air_location_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="มีกลิ่นเหม็น">
+                                                                {{$menair}}
+                                                             </button>
                                                         </td> 
                                                         <td class="text-font" style="text-align: center;"> 
                                                             <a href="{{url('air_count_ploblem_4/'.$item->air_location_id)}}">{{$item->air_count_rep}}</a> 
@@ -1177,7 +1201,4 @@
     </script>
 
 @endsection
-{{-- console.log(data.data_sub.air_location_id); 
-$('#addpanghospmain').val(data.data_sub.pang)
-$('#addhospmainpangname').val(data.data_sub.pangname) 
-$('#addair_location_id').val(data.data_sub.air_location_id) --}}
+

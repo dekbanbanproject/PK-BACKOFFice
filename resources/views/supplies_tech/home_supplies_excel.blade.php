@@ -55,11 +55,13 @@
 <center>
     <br><br>
    <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"><b>รายงานการบำรุงรักษาเครื่องปรับอากาศ แยกตามประเภทการซ่อมและบำรุงรักษาประจำปี(Supplies)</b></label><br>
+
+   <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"><b>บริษัท {{$sup_name}} ที่อยู่ {{$sup_address}} โทร.{{$sup_tel}}</b></label> 
  
 </center>
    <br><br>
    <center>
-    <table class="table table-borderless table-bordered" style="width: 100%;border-color: black;">
+    <table class="table" border="1">
         <thead>
           
             <tr style="font-size:13px">  
