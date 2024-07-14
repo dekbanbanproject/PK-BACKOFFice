@@ -173,6 +173,7 @@
                                                                {{$item->air_count_qty}}
                                                             </button>
                                                         </td>
+                                                        
                                                         <td class="text-font" style="text-align: center;"> 
                                                             {{-- <a href="{{url('air_count_qty/'.$item->air_location_id)}}">{{$item->air_count_rep}}</a> --}}
                                                             {{-- <a href="{{url('air_count_qty/'.$item->air_location_id)}}" class="badge rounded-pill bg-info problems_1Modal" value="{{ $item->air_location_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="น้ำหยด">
