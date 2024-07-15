@@ -886,13 +886,13 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
-                                            <a href="{{ url('support_system_dashboard') }}" target="_blank">
+                                            <a href="{{ url('support_main') }}" target="_blank">
                                                 {{-- <h5 class="text-start mb-2">Support System</h5> --}}
                                                 <h5 class="text-start mb-2">ตรวจสอบและบำรุงรักษา ระบบสนับสนุนบริการสุขภาพ</h5> 
                                             </a>
                                         </div>
                                         <div class="avatar ms-2">
-                                            <a href="{{ url('support_system_dashboard') }}" target="_blank">
+                                            <a href="{{ url('support_main') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
                                                         <img src="{{ asset('images/support.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 

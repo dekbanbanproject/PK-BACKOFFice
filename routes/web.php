@@ -3135,6 +3135,7 @@ Route::match(['get','post'],'tb_main_pull',[App\Http\Controllers\TbController::c
 Route::match(['get','post'],'tb_main_detail/{id}',[App\Http\Controllers\TbController::class, 'tb_main_detail'])->name('re.tb_main_detail');
 
 // ************** Support-System ****************************
+Route::match(['get','post'],'support_main',[App\Http\Controllers\SupportPRSController::class, 'support_main'])->name('prs.support_main');//
 Route::match(['get','post'],'support_system_dashboard',[App\Http\Controllers\SupportPRSController::class, 'support_system_dashboard'])->name('prs.support_system_dashboard');//
 Route::match(['get','post'],'support_system_excel',[App\Http\Controllers\SupportPRSController::class, 'support_system_excel'])->name('prs.support_system_excel');//
 Route::match(['get','post'],'support_system_process',[App\Http\Controllers\SupportPRSController::class, 'support_system_process'])->name('prs.support_system_process');//
