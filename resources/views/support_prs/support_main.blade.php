@@ -1,20 +1,54 @@
-{{-- <!doctype html> --}}
-{{-- <html lang="{{ str_replace('_', '-', app()->getLocale()) }}"> --}}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+@extends('layouts.support_prs_new')
+@section('title', 'PK-OFFICER || Support-System')
+
+@section('content')
+    <script>
+        function TypeAdmin() {
+            window.location.href = '{{ route('index') }}';
+        }
+    </script>
+    <?php
+    if (Auth::check()) {
+        $type = Auth::user()->type;
+        $iduser = Auth::user()->id;
+    } else {
+        echo "<body onload=\"TypeAdmin()\"></body>";
+        exit();
+    }
+    $url = Request::url();
+    $pos = strrpos($url, '/') + 1;
+    
+    ?>
+
  
-    <title>ธธธธ</title> 
-    <link href="{{ asset('assets/fontawesome/css/all.css') }}" rel="stylesheet"> 
-    <link href="{{ asset('css/menucir.css') }}" rel="stylesheet"> 
-</head>
- 
- <body>
+    {{-- <div class="tabs-animation"> --}}
+        {{-- <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
+                </div>
+            </div>
+        </div> --}}
+        <div id="preloader">
+            <div id="status">
+                <div id="container_spin">
+                    <svg viewBox="0 0 100 100">
+                        <defs>
+                            <filter id="shadow">
+                            <feDropShadow dx="0" dy="0" stdDeviation="2.5" 
+                                flood-color="#fc6767"/>
+                            </filter>
+                        </defs>
+                        <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 7px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        {{-- <div class="menuToggle">
+            <i class="fa-solid fa-plus"></i>
+        </div> --}}
         <ul class="menu">
-            <div class="Toggle">
+            <div class="menuToggle">
                 <i class="fa-solid fa-plus"></i>
             </div>
             <li style="--i: 0; --clr: #ff2971">
@@ -33,18 +67,22 @@
                 </a>
             </li>
             <li style="--i: 3; --clr: #fe00f1">
-                <a href="#"> 
-                    <i class="fa-solid fa-fan"></i>
+                <a href="{{url('support_system_dashboard')}}"> 
+                    <i class="fa-solid fa-fan"></i> 
+                    <p style="font-size: 13px">เครื่องปรับอากาศ</p>
                 </a>
+               
             </li>
             <li style="--i: 4; --clr: #00b0fe">
                 <a href="#"> 
                     <i class="fa-solid fa-fire-extinguisher"></i>
+                    <p style="font-size: 13px">ถังดับเพลิง</p>
                 </a>
             </li>
             <li style="--i: 5; --clr: #fea600">
                 <a href="#"> 
                     <i class="fa-solid fa-video"></i>
+                    <p style="font-size: 13px">กล้องวงจรปิด</p>
                 </a>
             </li>
             <li style="--i: 6; --clr: #a529ff">
@@ -56,9 +94,53 @@
                 <a href="#"> 
                     <i class="fa-solid fa-desktop"></i>
                 </a>
-            </li>  
+            </li> 
+            
         </ul>
-     
-</body>
 
-</html>
+        
+    {{-- </div> --}}
+ 
+@endsection
+@section('footer')
+ 
+    <script>
+        
+     $(document).ready(function() {
+             
+            $('#datepicker').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+            $('#datepicker2').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+            var table = $('#example').DataTable({
+                scrollY: '60vh',
+                scrollCollapse: true,
+                scrollX: true,
+                "autoWidth": false,
+                "pageLength": 100,
+                "lengthMenu": [10, 100, 150, 200, 300, 400, 500],
+            });
+            var table = $('#example2').DataTable({
+                scrollY: '60vh',
+                scrollCollapse: true,
+                scrollX: true,
+                "autoWidth": false,
+                "pageLength": 10,
+                "lengthMenu": [10, 100, 150, 200, 300, 400, 500],
+            });
+ 
+
+             $("#spinner-div").hide(); //Request is complete so hide spinner
+         
+            
+
+        });
+
+        
+
+    </script>
+
+@endsection
+
