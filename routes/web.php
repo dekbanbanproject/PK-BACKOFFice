@@ -3456,5 +3456,5 @@ Route::match(['get','post'],'vaccine_big_send',[App\Http\Controllers\VaccineCont
 // ************************************* OR ***********************************************************
 Route::match(['get','post'],'or_mis',[App\Http\Controllers\OrController::class, 'or_mis'])->name('or.or_mis');//
 Route::match(['get','post'],'or_ercp',[App\Http\Controllers\OrController::class, 'or_ercp'])->name('or.or_ercp');//
-
+Route::match(['get','post'],'or_ercp_new',[App\Http\Controllers\OrController::class, 'or_ercp_new'])->name('or.or_ercp_new');//
 });

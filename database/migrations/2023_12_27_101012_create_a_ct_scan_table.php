@@ -40,7 +40,9 @@ return new class extends Migration
                 $table->string('user_id')->nullable();// 
                 $table->string('hospcode')->nullable();// 
                 $table->string('hospmain')->nullable();// 
-                $table->string('referin_no')->nullable();// 
+                $table->string('referin_no')->nullable();//
+                $table->string('pdx')->nullable();// 
+                $table->string('cc')->nullable();//  
                 $table->enum('active', ['N', 'Y', 'W'])->default('N');  
                 $table->timestamps();
             });

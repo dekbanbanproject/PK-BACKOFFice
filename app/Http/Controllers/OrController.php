@@ -255,6 +255,98 @@ class OrController extends Controller
             'data_import'      => $data_import,
         ]);
     } 
+
+    public function or_ercp_new(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+ 
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newday = date('Y-m-d', strtotime($date . ' -1 day')); //ย้อนหลัง 1 สัปดาห์
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y');
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+        if ($startdate != '') {                 
+                $datashow = DB::connection('mysql2')->select(
+                    'SELECT i.an,op.hn,pt.cid,concat(pt.pname,pt.fname,"  ",pt.lname) as ptname,a.pttype,a.pdx,i.icd9,i.doctor,ol.enter_date,a.dchdate
+                        ,op.icode,op.qty,op.unitprice ,a.rw,ii.adjrw,group_concat(distinct n.name) as nameknee,a.inc08,a.income,a.admdate
+                        ,case 
+                        when u2.inst is null then c.inst
+                        else u2.inst
+                        end as inst
+                        ,case 
+                        when u2.total_approve is null then c.pricereq_all
+                        else u2.total_approve
+                        end as total_approve
+                        ,case 
+                        when u2.STMdoc is null then c.STMdoc
+                        else u2.STMdoc
+                        end as STMdoc
+
+                        FROM iptoprt i
+                        LEFT OUTER JOIN operation_list ol ON ol.an = i.an
+                        LEFT OUTER JOIN an_stat a on a.an = ol.an and a.an is not null 
+                        LEFT OUTER JOIN ipt ii on ii.an = i.an
+                        LEFT OUTER JOIN patient pt on pt.hn = ol.hn 
+                        LEFT OUTER JOIN operation_detail od ON od.operation_id = ol.operation_id
+                        LEFT OUTER JOIN opitemrece op ON op.an = i.an 
+                        LEFT OUTER JOIN nondrugitems n on n.icode = op.icode
+                        LEFT OUTER JOIN pkbackoffice.acc_stm_ucs u2 on u2.an = i.an 
+                        LEFT OUTER JOIN pkbackoffice.acc_stm_ofc c on c.an = i.an
+                        WHERE i.icd9 IN("5110")
+                        AND a.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                        AND op.income = "02"  
+                        GROUP BY i.an   
+                    ');
+                    
+        } else { 
+            $datashow = DB::connection('mysql2')->select(
+                'SELECT i.an,op.hn,pt.cid,concat(pt.pname,pt.fname,"  ",pt.lname) as ptname,a.pttype,a.pdx,i.icd9,i.doctor,ol.enter_date,a.dchdate
+                    ,op.icode,op.qty,op.unitprice ,a.rw,ii.adjrw,group_concat(distinct n.name) as nameknee,a.inc08,a.income,a.admdate
+                    ,case 
+                    when u2.inst is null then c.inst
+                    else u2.inst
+                    end as inst
+                    ,case 
+                    when u2.total_approve is null then c.pricereq_all
+                    else u2.total_approve
+                    end as total_approve
+                    ,case 
+                    when u2.STMdoc is null then c.STMdoc
+                    else u2.STMdoc
+                    end as STMdoc
+
+                    FROM iptoprt i
+                    LEFT OUTER JOIN operation_list ol ON ol.an = i.an
+                    LEFT OUTER JOIN an_stat a on a.an = ol.an and a.an is not null 
+                    LEFT OUTER JOIN ipt ii on ii.an = i.an
+                    LEFT OUTER JOIN patient pt on pt.hn = ol.hn 
+                    LEFT OUTER JOIN operation_detail od ON od.operation_id = ol.operation_id
+                    LEFT OUTER JOIN opitemrece op ON op.an = i.an 
+                    LEFT OUTER JOIN nondrugitems n on n.icode = op.icode
+                    LEFT OUTER JOIN pkbackoffice.acc_stm_ucs u2 on u2.an = i.an 
+                    LEFT OUTER JOIN pkbackoffice.acc_stm_ofc c on c.an = i.an
+                    WHERE i.icd9 IN("5110")
+                    AND a.dchdate BETWEEN "'.$newDate.'" and "'.$date.'"
+                    AND op.income = "02"  
+                    GROUP BY i.an   
+                ');
+        } 
+        $countc     = DB::table('vaccine_big_excel_rep')->count(); 
+        $data_import = DB::table('vaccine_big_excel_rep')->get(); 
+        return view('or.or_ercp_new',[
+            'startdate'        => $startdate,
+            'enddate'          => $enddate, 
+            'datashow'         => $datashow, 
+            'countc'           => $countc,
+            'data_import'      => $data_import,
+        ]);
+    } 
     // public function vaccine_big_process(Request $request)
     // {
     //     $startdate = $request->datepicker;

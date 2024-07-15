@@ -92,6 +92,49 @@ background-repeat: no-repeat;
 background-image: url('/pkbackoffice/public/images/bgheader.jpg');
 background-repeat: no-repeat;
 }
+.card{
+    border-radius: 3em 3em 3em 3em; 
+}
+.card-ucs{
+    border-radius: 3em 3em 3em 3em;
+    box-shadow: 0 0 10px rgb(14, 240, 240);
+}
+.card-ofc{
+    border-radius: 3em 3em 3em 3em;
+    box-shadow: 0 0 10px rgb(10, 110, 223);
+}
+.card-lgo{
+    border-radius: 3em 3em 3em 3em;
+    box-shadow: 0 0 10px teal;
+}
+.cardshadow{
+    border-radius: 2em 2em 2em 2em;
+    box-shadow: 0 0 15px teal;
+}
+.d-shadow{ 
+    box-shadow: 0 0 10px teal;
+}
+.cardacc{
+    border-radius: 4em 4em 4em 4em;
+    box-shadow: 0 0 10px pink; 
+}
+.inputacc{
+    border-radius: 4em 4em 4em 4em;
+    box-shadow: 0 0 10px pink;
+}
+.checkboxacc{         
+    width: 25px;
+    height: 25px;  
+    border: 10px solid pink; 
+    box-shadow: 0 0 10px pinkteal; 
+}
+ 
+.d-checkbox{         
+    width: 30px;
+    height: 30px;    
+    border: 10px solid teal; 
+    box-shadow: 0 0 10px teal; 
+}
 
 </style>
        

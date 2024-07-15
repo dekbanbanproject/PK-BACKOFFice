@@ -267,7 +267,7 @@ class NurseController extends Controller
             ');
             foreach ($datashow_ as $key => $value) {
 
-                if ($m < '8') {
+                if ($m < '10') {
                     $check = Nurse::where('datesave', $date)->where('ward', $value->ward)->count();
                     if ($check > 0) {
                         Nurse::where('datesave', $date)->where('ward', $value->ward)->update([
@@ -290,7 +290,7 @@ class NurseController extends Controller
                         $add->soot_c           = $value->soot_c;
                         $add->save();
                     }
-                } else if ($m > '8' && $m < '16') {
+                } else if ($m > '10' && $m < '17') {
                         $check = Nurse::where('datesave', $date)->where('ward', $value->ward)->count();
                         if ($check > 0) {
                             Nurse::where('datesave', $date)->where('ward', $value->ward)->update([
@@ -360,7 +360,7 @@ class NurseController extends Controller
                 $datesave = $c_an_->datesave; 
                 $m = date('H'); 
                  
-                if ($m < '8') {
+                if ($m < '10') {
                     if ($datesave == $date) {  
                         if ($request->ward == '01') {
                             $data  = array(  
@@ -449,7 +449,7 @@ class NurseController extends Controller
                         } else { 
                         }
                     }
-                } else if ($m > '8' && $m < '16') {
+                } else if ($m > '10' && $m < '17') {
                     if ($datesave == $date) {  
                         if ($request->ward == '01') {
                             $data  = array(  
@@ -460,7 +460,7 @@ class NurseController extends Controller
                         }else if ($request->ward == '03') {
                             $data  = array(  
                                 'np_b'          => $request->np_b,        
-                                'soot_b_total'  => ($an2 * 1.44 * 100 )/(4 * 7),
+                                'soot_b_total'  => ($an2 * 1.44 * 100 )/($request->np_b * 7),
                             );
                             DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
                         }else if ($request->ward == '04') {
@@ -544,6 +544,7 @@ class NurseController extends Controller
                             $data  = array(  
                                 'np_c'          => $request->np_c,        
                                 'soot_c_total'  => ($an3 * 0.69 * 100 )/($request->np_c * 7),
+                                // 'soot_c_total'  => ($an3 * 0.69 * 100 )/($request->np_c * 7),
                             );
                             DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
                         }else if ($request->ward == '03') {

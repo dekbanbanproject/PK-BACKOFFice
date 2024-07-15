@@ -207,13 +207,15 @@
                                     <thead>
                                         <tr> 
                                             <th width="5%" class="text-center">ลำดับ</th>  
-                                            <th class="text-center">vn</th>
+                                            {{-- <th class="text-center">vn</th> --}}
                                             <th class="text-center" >hn</th>
                                             <th class="text-center" >cid</th>
                                             <th class="text-center">ptname</th>
                                             <th class="text-center">request_date</th> 
                                             <th class="text-center">สิทธิ์</th>  
                                             <th class="text-center">spsch</th> 
+                                            <th class="text-center">pdx</th>
+                                            <th class="text-center">cc</th>
                                             {{-- <th class="text-center">xray_price</th>  --}}
                                             <th class="text-center">CXR+CT</th> 
                                             <th class="text-center">ค่าใช้จ่ายรวม</th> 
@@ -239,13 +241,16 @@
                                             @else      --}}
                                                     <tr id="tr_{{$item->vn}}">                                                  
                                                         <td class="text-center" width="5%">{{ $i++ }}</td>    
-                                                        <td class="text-center" width="5%">{{ $item->vn }}</td> 
+                                                        {{-- <td class="text-center" width="5%">{{ $item->vn }}</td>  --}}
                                                         <td class="text-center" width="5%">{{ $item->hn }}</td>  
-                                                        <td class="text-center" width="10%">{{ $item->cid }}</td>  
+                                                        <td class="text-center" width="7%">{{ $item->cid }}</td>  
                                                         <td class="p-2" >{{ $item->ptname }}</td> 
-                                                        <td class="text-center" width="10%">{{ $item->request_date }}</td>   
-                                                        <td class="text-center" width="10%">{{ $item->pttype }}</td> 
+                                                        <td class="text-center" width="7%">{{ $item->request_date }}</td>   
+                                                        <td class="text-center" width="5%">{{ $item->pttype }}</td> 
                                                         <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->ptty_spsch }}</td>   
+                                                        <td class="text-center" width="5%">{{ $item->pdx }}</td> 
+                                                        <td class="text-start" width="12%">{{ $item->cc }}</td> 
+                                                       
                                                         {{-- <td class="text-center" width="7%">{{ number_format($item->xray_price, 2) }}</td>  --}}
                                                         @if ($countcxr < 1)
                                                             <td class="text-center" width="5%"> 
