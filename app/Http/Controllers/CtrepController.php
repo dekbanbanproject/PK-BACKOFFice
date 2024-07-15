@@ -140,7 +140,7 @@ class CtrepController extends Controller
                 // $data['datashow'] = DB::connection('mysql')->select('SELECT * FROM a_ct WHERE vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '" ORDER BY vstdate DESC'); 
                 $data['datashow'] = DB::connection('mysql')->select('
                     SELECT a_ct_scan_id,vn,hn,cid,order_date,order_time,order_date_time,request_date,ptname,xray_list,confirm_all,department,department_code
-                    ,department_name,pttype,ptty_spsch,xray_order_number,xray_price,total_price,department_list,priority_name,STMdoc,user_id,active,pdx,cc
+                    ,department_name,pttype,ptty_spsch,xray_order_number,xray_price,total_price,department_list,priority_name,STMdoc,user_id,active,pdx,cc,an
                     FROM a_ct_scan 
                     WHERE request_date BETWEEN "' . $startdate . '" AND "' . $enddate . '" 
                     GROUP BY vn
@@ -149,7 +149,7 @@ class CtrepController extends Controller
         } else { 
                 $data['datashow'] = DB::connection('mysql')->select('
                     SELECT a_ct_scan_id,vn,hn,cid,order_date,order_time,order_date_time,request_date,ptname,xray_list,confirm_all,department,department_code
-                    ,department_name,pttype,ptty_spsch,xray_order_number,xray_price,total_price,department_list,priority_name,STMdoc,user_id,active,pdx,cc
+                    ,department_name,pttype,ptty_spsch,xray_order_number,xray_price,total_price,department_list,priority_name,STMdoc,user_id,active,pdx,cc,an
                     FROM a_ct_scan 
                     WHERE request_date BETWEEN "' . $newweek . '" AND "' . $date . '"
                     

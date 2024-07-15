@@ -207,7 +207,7 @@
                                     <thead>
                                         <tr> 
                                             <th width="5%" class="text-center">ลำดับ</th>  
-                                            {{-- <th class="text-center">vn</th> --}}
+                                            <th class="text-center">an</th>
                                             <th class="text-center" >hn</th>
                                             <th class="text-center" >cid</th>
                                             <th class="text-center">ptname</th>
@@ -241,7 +241,7 @@
                                             @else      --}}
                                                     <tr id="tr_{{$item->vn}}">                                                  
                                                         <td class="text-center" width="5%">{{ $i++ }}</td>    
-                                                        {{-- <td class="text-center" width="5%">{{ $item->vn }}</td>  --}}
+                                                        <td class="text-center" width="5%">{{ $item->an }}</td> 
                                                         <td class="text-center" width="5%">{{ $item->hn }}</td>  
                                                         <td class="text-center" width="7%">{{ $item->cid }}</td>  
                                                         <td class="p-2" >{{ $item->ptname }}</td> 
