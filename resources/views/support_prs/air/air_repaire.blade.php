@@ -529,7 +529,8 @@
                                         <input type="hidden" name="serial_no" id="serial_no" value="{{ $data_detail_->serial_no}}">
                                         <input type="hidden" name="air_location_id" id="air_location_id" value="{{ $data_detail_->air_location_id}}">
                                         <input type="hidden" name="air_location_name" id="air_location_name" value="{{ $data_detail_->air_location_name}}">
-
+                                        <input type="hidden" name="detail" id="detail" value="{{ $data_detail_->detail}}">
+                                     
                         <hr style="color:red">
                         <div class="row mt-3">
                             <div class="col text-center">

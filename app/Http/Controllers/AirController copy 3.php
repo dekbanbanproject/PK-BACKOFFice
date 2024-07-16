@@ -867,7 +867,28 @@ class AirController extends Controller
                 $add->btu                     = $request->btu;
                 $add->serial_no               = $request->serial_no;
                 $add->air_location_id         = $request->air_location_id;
-                $add->air_location_name       = $request->air_location_name; 
+                $add->air_location_name       = $request->air_location_name;
+                // $add->air_problems_1          = $request->air_problems_1;
+                // $add->air_problems_2          = $request->air_problems_2;
+                // $add->air_problems_3          = $request->air_problems_3;
+                // $add->air_problems_4          = $request->air_problems_4;
+                // $add->air_problems_5          = $request->air_problems_5;
+                // $add->air_problems_6          = $request->air_problems_6;
+                // $add->air_problems_7          = $request->air_problems_7;
+                // $add->air_problems_8          = $request->air_problems_8;
+                // $add->air_problems_9          = $request->air_problems_9;
+                // $add->air_problems_10         = $request->air_problems_10;
+                // $add->air_problems_11         = $request->air_problems_11;
+                // $add->air_problems_12         = $request->air_problems_12;
+                // $add->air_problems_13         = $request->air_problems_13;
+                // $add->air_problems_14         = $request->air_problems_14;
+                // $add->air_problems_15         = $request->air_problems_15;
+                // $add->air_problems_16         = $request->air_problems_16;
+                // $add->air_problems_17         = $request->air_problems_17;
+                // $add->air_problems_18         = $request->air_problems_18;
+                // $add->air_problems_19         = $request->air_problems_19;
+                // $add->air_problems_20         = $request->air_problems_20;
+                // $add->air_problems_orther     = $request->air_problems_orther;
                 $add->air_problems_orthersub  = $request->air_problems_orthersub;
                 $add->signature               = $add_img;
                 $add->signature2              = $add_img2;
@@ -878,9 +899,7 @@ class AirController extends Controller
                 $add->air_staff_id            = $request->air_staff_id; 
                 $add->air_status_tech         = $request->air_status_tech; 
                 $add->air_tech_id             = $request->air_tech_id; 
-                $add->air_supplies_id         = $idsup;  
-          
-                             
+                $add->air_supplies_id         = $idsup;               
                 $add->save();
 
                 $air_repaire_id = Air_repaire::max('air_repaire_id');
@@ -920,77 +939,6 @@ class AirController extends Controller
                         $add3->save();        
                     }
                 }
-
-
-            //แจ้งเตือน 
-            function DateThailine($strDate)
-            {
-                $strYear = date("Y", strtotime($strDate)) + 543;
-                $strMonth = date("n", strtotime($strDate));
-                $strDay = date("j", strtotime($strDate));
-
-                $strMonthCut = array("", "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
-                $strMonthThai = $strMonthCut[$strMonth];
-                return "$strDay $strMonthThai $strYear";
-            }
-
-            $header = "ซ่อมเครื่องปรับอากาศ";
-            // $linegroup = DB::table('line_token')->where('line_token_id', '=', 6)->first();
-            // $line = $linegroup->line_token_code;
-
-            $link = DB::table('orginfo')->where('orginfo_id', '=', 1)->first();
-            $link_line = $link->orginfo_link;
-
-            $datesend = date('Y-m-d');
-            $sendate = DateThailine($datesend);
-            // $user = DB::table('users')->where('id', '=', $iduser)->first();
-
-            function formatetime($strtime)
-            {
-                $H = substr($strtime, 0, 5);
-                return $H;
-            }
-
-            $message = $header .               
-                "\n" . "วันที่ซ่อม: " . $sendate.
-                "\n" . "รหัส : " . $request->air_list_num ."". 
-                "\n" . "ชื่อ  : " . $request->air_list_name . "".
-                "\n" . "Btu  : " . $request->btu ."". 
-                "\n" . "serial_no  : " . $request->serial_no ."".
-                "\n" . "ที่ตั้ง : " .$request->air_location_name."".
-                "\n" . "หน่วยงาน : " . $request->detail."".
-
-                "\n" . "Authenสำเร็จ : " .$authen_success. " คน".
-                "\n" . "ยอด Authen: " .number_format($sum_total_authen, 2) ." บาท";
-
-            // $linesend = $line;
-            $linesend = "DDpDNOOH6RowPLajt0JUzC2belFNcZOWZPx5lbG8kj1";
-            if ($linesend == null) {
-                $test = '';
-            } else {
-                $test = $linesend;
-            }
-
-            if ($test !== '' && $test !== null) {
-                $chOne = curl_init();
-                curl_setopt($chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
-                curl_setopt($chOne, CURLOPT_SSL_VERIFYHOST, 0);
-                curl_setopt($chOne, CURLOPT_SSL_VERIFYPEER, 0);
-                curl_setopt($chOne, CURLOPT_POST, 1);
-                curl_setopt($chOne, CURLOPT_POSTFIELDS, $message);
-                curl_setopt($chOne, CURLOPT_POSTFIELDS, "message=$message");
-                curl_setopt($chOne, CURLOPT_FOLLOWLOCATION, 1);
-                $headers = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $test . '',);
-                curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
-                curl_setopt($chOne, CURLOPT_RETURNTRANSFER, 1);
-                $result = curl_exec($chOne);
-                if (curl_error($chOne)) {
-                    echo 'error:' . curl_error($chOne);
-                } else {
-                    $result_ = json_decode($result, true);                        
-                }
-                curl_close($chOne);
-            }
                 
                 return response()->json([
                     'status'     => '200'

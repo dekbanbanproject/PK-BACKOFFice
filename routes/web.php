@@ -3458,4 +3458,14 @@ Route::match(['get','post'],'vaccine_big_send',[App\Http\Controllers\VaccineCont
 Route::match(['get','post'],'or_mis',[App\Http\Controllers\OrController::class, 'or_mis'])->name('or.or_mis');//
 Route::match(['get','post'],'or_ercp',[App\Http\Controllers\OrController::class, 'or_ercp'])->name('or.or_ercp');//
 Route::match(['get','post'],'or_ercp_new',[App\Http\Controllers\OrController::class, 'or_ercp_new'])->name('or.or_ercp_new');//
+
+Route::match(['get','post'],'stm_oneid_opd',[App\Http\Controllers\AccountSTMONEIDController::class, 'stm_oneid_opd'])->name('acc.stm_oneid_opd');//
+Route::match(['get','post'],'stm_oneid_opdsave',[App\Http\Controllers\AccountSTMONEIDController::class, 'stm_oneid_opdsave'])->name('acc.stm_oneid_opdsave');//
+Route::match(['get','post'],'stm_oneid_opdsend',[App\Http\Controllers\AccountSTMONEIDController::class, 'stm_oneid_opdsend'])->name('acc.stm_oneid_opdsend');//
+
+
+
+
+
+
 });

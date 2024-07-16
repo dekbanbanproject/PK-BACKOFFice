@@ -923,7 +923,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                             <li><a href="{{ url('upstm_bkk_ipd') }}">BKK IPD 804</a></li>
                                         </ul>
                                     </li>
-
+                                    <li><a href="{{ url('stm_oneid_opd') }}">UCS(ONEID-OPD)</a></li>
                                     <li><a href="{{ url('upstm_ucsopd') }}">UCS(Excel-OPD)</a></li>
                                     <li><a href="{{ url('upstm_ucs') }}">UCS(Excel-IPD)OK</a></li>
                                     <li><a href="{{ url('upstm_ofcexcel') }}">OFC(Excel)OK</a></li> 
