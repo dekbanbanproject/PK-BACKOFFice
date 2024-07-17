@@ -30,6 +30,7 @@ return new class extends Migration
                 $table->string('pttype_nhso')->nullable();// 
                 $table->date('pttype_nhso_startdate')->nullable();// 
                 $table->string('income_group')->nullable();// 
+                $table->string('projectcode')->nullable();// 
                 $table->string('acc_code')->nullable();// 
                 $table->string('account_code')->nullable();// 
                 $table->string('income')->nullable();// 
@@ -64,6 +65,7 @@ return new class extends Migration
                 $table->string('stm_total')->nullable();// 
                 $table->string('va')->nullable();// 
                 $table->string('STMdoc')->nullable();// 
+             
                 $table->timestamps();
             });
         }

@@ -216,7 +216,7 @@
 
         <header id="page-topbar">
             {{-- <div class="navbar-header shadow-lg" style="background-color: rgb(252, 252, 252)"> --}}
-                <div class="navbar-header shadow" style="background-color: #8be2df">
+                <div class="navbar-header shadow" style="background-color: #37d4cf">
 
                     <div class="d-flex">
                         <!-- LOGO -->

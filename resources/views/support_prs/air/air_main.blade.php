@@ -1,4 +1,4 @@
-@extends('layouts.support_prs')
+@extends('layouts.support_prs_airback')
 @section('title', 'PK-OFFICER || Air-Service')
 
 @section('content')
@@ -64,7 +64,7 @@
     
     ?>
 
-    <style>
+    {{-- <style>
         #button {
             display: block;
             margin: 20px auto;
@@ -109,7 +109,7 @@
         .is-hide {
             display: none;
         }
-    </style>
+    </style> --}}
 
     <?php
     $ynow = date('Y') + 543;
@@ -117,7 +117,22 @@
     ?>
 
 <div class="tabs-animation">
-    <div class="row text-center">
+    <div id="preloader">
+        <div id="status">
+            <div id="container_spin">
+                <svg viewBox="0 0 100 100">
+                    <defs>
+                        <filter id="shadow">
+                        <feDropShadow dx="0" dy="0" stdDeviation="2.5" 
+                            flood-color="#fc6767"/>
+                        </filter>
+                    </defs>
+                    <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 7px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+    {{-- <div class="row text-center">
         <div id="overlay">
             <div class="cv-spinner">
                 <span class="spinner"></span>
@@ -129,12 +144,13 @@
             <div class="spinner"> 
             </div>
         </div>
-    </div>
+    </div> --}}
    
     <div class="row"> 
         <div class="col-md-4">
-            <h4 class="card-title" style="color:rgb(10, 151, 85)">Register Air</h4>
-            <p class="card-title-desc">ทะเบียนครุภัณฑ์เครื่องปรับอากาศ</p>
+           
+            <h4 style="color:rgb(10, 151, 85)">เครื่องปรับอากาศ</h4>
+            <p class="card-title-desc" style="font-size: 17px;">ทะเบียนเครื่องปรับอากาศ</p>
         </div>
         <div class="col"></div>
       
@@ -143,20 +159,20 @@
                 <i class="fa-solid fa-print me-2 text-white me-2" style="font-size:13px"></i>
                 <span>All</span> 
             </a>  --}}
-            <a href="{{url('air_qrcode_detail_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-secondary cardacc">  
+            <a href="{{url('air_qrcode_detail_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-secondary bt_prs">  
                 <i class="fa-solid fa-print me-2 text-white me-2" style="font-size:13px"></i>
                 <span>Detail All</span> 
             </a> 
-            <a href="{{url('air_qrcode_repaire')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-warning cardacc">  
+            <a href="{{url('air_qrcode_repaire')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-warning bt_prs">  
                 <i class="fa-solid fa-print me-2 text-white me-2" style="font-size:13px"></i>
                 <span>Repaire All</span> 
             </a> 
-            <a href="{{url('air_add')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-primary cardacc"> 
+            <a href="{{url('air_add')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-primary bt_prs"> 
                 <i class="fa-solid fa-circle-plus text-white me-2"></i>
                เพิ่มรายการ
             </a>  
 
-            <button type="button" class="ladda-button btn-pill btn btn-secondary card_prs_4 me-2" data-bs-toggle="modal" data-bs-target="#exampleModal"> 
+            <button type="button" class="ladda-button btn-pill btn btn-secondary bt_prs me-2" data-bs-toggle="modal" data-bs-target="#exampleModal"> 
                 <i class="fa-solid fa-book-open-reader text-white me-2"></i>คู่มือ 
             </button>
            
@@ -177,7 +193,8 @@
 
                 <p class="mb-0">
                     <div class="table-responsive">
-                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <table id="example" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;">
+                        {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                         {{-- <table id="example" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;"> --}}
                             <thead>
                                 <tr>
@@ -224,9 +241,9 @@
 
                                         </td> 
 
-                                        <td class="text-center" width="7%">{{ $item->air_list_num }}</td>  
+                                        <td class="text-center" width="7%" style="font-size: 12px">{{ $item->air_list_num }}</td>  
                                         <td class="p-2">{{ $item->air_list_name }}</td>  
-                                        <td class="text-center" width="5%">{{ $item->btu }}</td>    
+                                        <td class="text-center" width="5%" style="font-size: 12px">{{ $item->btu }}</td>    
                                         <td class="p-2" width="20%">{{ $item->air_location_id }} - {{ $item->air_location_name }}</td>  
                                         <td class="p-2" width="20%">{{ $item->detail }}</td> 
                                         <td class="text-center" width="5%">{{ $item->air_room_class }}</td> 
@@ -234,7 +251,7 @@
                                         {{-- <td class="text-center" width="7%">{{ DateThai($item->air_date_exp) }}</td>  --}}
                                         <td class="text-center" width="5%">
 
-                                            <div class="dropdown d-inline-block">
+                                            {{-- <div class="dropdown d-inline-block">
                                                 <button type="button" aria-haspopup="true" aria-expanded="false"
                                                     data-bs-toggle="dropdown"
                                                     class="dropdown-toggle btn btn-outline-secondary btn-sm">
@@ -246,11 +263,7 @@
                                                         <span>Print QR</span>
                                                     </a> 
                                                     
-                                                    {{-- <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item text-info" href="{{ url('air_qrcode_detail/'.$item->air_list_id) }}" style="font-size:13px" target="_blank"> 
-                                                        <i class="fa-solid fa-print me-2 text-info" style="font-size:13px"></i>
-                                                        <span>Print QR Detail</span>
-                                                    </a>  --}}
+                                                  
                                                     <div class="dropdown-divider"></div>
                                                     <a class="dropdown-item text-warning" href="{{ url('air_edit/' . $item->air_list_id) }}" style="font-size:13px" target="blank">
                                                         <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
@@ -264,8 +277,33 @@
                                                         <label for="" style="color: rgb(255, 2, 2);font-size:13px">ลบ</label>
                                                     </a>
                                                 </div>
-                                            </div>
+                                            </div> --}}
 
+                                            <div class="btn-group me-1">
+                                                <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    ทำรายการ <i class="mdi mdi-chevron-down"></i>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                   
+                                                    <a class="dropdown-item text-primary" href="{{ url('air_qrcode/'.$item->air_list_id) }}" style="font-size:13px" target="_blank"
+                                                        data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="Print QR"> 
+                                                        <i class="fa-solid fa-print me-2 text-primary" style="font-size:13px"></i>
+                                                        <span>Print QR</span>
+                                                    </a> 
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item text-warning" href="{{ url('air_edit/' . $item->air_list_id) }}" style="font-size:13px" target="blank"
+                                                        data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="แก้ไข">
+                                                        <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
+                                                        <span>แก้ไข</span>
+                                                    </a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="air_main_repaire_destroy({{ $item->air_list_id }})" style="font-size:13px"
+                                                        data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="ลบ">
+                                                        <i class="fa-solid fa-trash-can me-2"></i>
+                                                        <span style="color: rgb(255, 2, 2);font-size:13px">ลบ</span> 
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </td>
 
                                     </tr>

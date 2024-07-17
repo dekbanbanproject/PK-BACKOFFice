@@ -137,6 +137,7 @@
                                                 <th>Adjrw</th>  
                                                 <th>pdx</th> 
                                                 <th>icd9</th>  
+                                                <th>วันนอน</th> 
                                                 <th>inst</th>  
                                                 <th>income</th> 
                                                 <th>ชดเชย inst</th> 
@@ -159,6 +160,8 @@
                                                     <td width="5%" class="text-center">{{ $item->adjrw }}</td>    
                                                     <td width="5%" class="text-center">{{ $item->pdx }}</td> 
                                                     <td width="5%" class="text-center">{{ $item->icd9 }}</td>  
+                                                    <td width="5%" class="text-center">{{ $item->admdate }} วัน</td> 
+                                                  
                                                     <td class="text-center" width="7%">
                                                         <button class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-info" data-bs-toggle="modal" target="_blank" data-bs-target="#exampleModal{{$item->an}}" >                                                           
                                                             Detail INST {{number_format($item->inc08,2)}} ฿

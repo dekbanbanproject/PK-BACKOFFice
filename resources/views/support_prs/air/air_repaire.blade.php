@@ -43,7 +43,7 @@
 
 
     <div class="container-fluid mt-3">
-        <div class="row text-center">
+        {{-- <div class="row text-center">
             <div id="overlay">
                 <div class="cv-spinner">
                     <span class="spinner"></span>
@@ -53,6 +53,21 @@
         <div id="preloader">
             <div id="status">
                 <div class="spinner"> 
+                </div>
+            </div>
+        </div> --}}
+        <div id="preloader">
+            <div id="status">
+                <div id="container_spin">
+                    <svg viewBox="0 0 100 100">
+                        <defs>
+                            <filter id="shadow">
+                            <feDropShadow dx="0" dy="0" stdDeviation="2.5" 
+                                flood-color="#fc6767"/>
+                            </filter>
+                        </defs>
+                        <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 7px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
+                    </svg>
                 </div>
             </div>
         </div>

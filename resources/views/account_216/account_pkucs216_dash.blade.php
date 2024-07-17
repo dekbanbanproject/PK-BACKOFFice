@@ -92,7 +92,7 @@
             <div class="row"> 
                 <div class="col"></div>
                 <div class="col-md-5">
-                    <h4 class="card-title">Detail 1102050101.216</h4>
+                    <h4 class="card-title" style="color: #0ea080">Detail 1102050101.216</h4>
                     <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.216</p>
                 </div>
                 {{-- <div class="col"></div> --}}
@@ -148,7 +148,7 @@
                                         <th class="text-center">เดือน</th> 
                                         <th class="text-center">ลูกหนี้ที่ต้องตั้ง</th> 
                                         <th class="text-center">ตั้งลูกหนี้</th> 
-                                        {{-- <th class="text-center">ลูกหนี้ Walkin</th>  --}}
+                                        {{-- <th class="text-center">ลูกหนี้</th>  --}}
                                         <th class="text-center">Statement</th>
                                         <th class="text-center">ยกยอดไปเดือนนี้</th> 
                                     </tr>
@@ -181,8 +181,7 @@
                                                 SELECT sum(debit_total) as debit_total,count(DISTINCT vn) as Cvit
                                                 from acc_1102050101_216
                                                 where month(vstdate) = "'.$item->months.'"
-                                                AND year(vstdate) = "'.$item->year.'"
-                                            
+                                                AND year(vstdate) = "'.$item->year.'" 
                                             ');   
                                             foreach ($datasum_ as $key => $value2) {
                                                 $sum_Y = $value2->debit_total;
@@ -207,20 +206,19 @@
                                             
                                             // STM
                                             $stm_ = DB::select(
-                                                'SELECT sum(stm_money) as stm_money,count(DISTINCT vn) as Countvisit FROM acc_1102050101_216 
+                                                'SELECT sum(debit_total) as debit_total,sum(stm_money) as stm_money,count(DISTINCT vn) as Countvisit FROM acc_1102050101_216 
                                                 WHERE month(vstdate) = "'.$item->months.'" AND year(vstdate) = "'.$item->year.'" AND (stm_money IS NOT NULL OR stm_money <> "")
                                             ');                                           
                                             foreach ($stm_ as $key => $value3) {
+                                                $sum_debit_total  = $value3->debit_total; 
                                                 $sum_stm_money  = $value3->stm_money; 
                                                 $count_stm      = $value3->Countvisit; 
                                             }
 
                                             // ยกไป
-                                            $yokpai_ = DB::select('
-                                                    SELECT sum(debit_total) as debit_total,count(vn) as Countvi
-                                                        from acc_1102050101_216
-                                                        where month(vstdate) = "'.$item->months.'"
-                                                        AND year(vstdate) = "'.$item->year.'"                                                        
+                                            $yokpai_ = DB::select(
+                                                'SELECT sum(debit_total) as debit_total,count(DISTINCT vn) as Countvi FROM acc_1102050101_216 
+                                                WHERE month(vstdate) = "'.$item->months.'" AND year(vstdate) = "'.$item->year.'" AND (stm_money IS NULL OR stm_money = "")                                                        
                                                 ');                                           
                                                 foreach ($yokpai_ as $key => $valpai) {
                                                     $sum_yokpai = $valpai->debit_total; 
@@ -235,14 +233,19 @@
                                                 <td class="text-end" style="color:rgb(73, 147, 231)" width="10%"> {{ number_format($sum_N, 2) }}</td>  
                                                 <td class="text-end" width="10%">  <a href="{{url('account_pkucs216_detail/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(186, 75, 250)"> {{ number_format($sum_Y, 2) }}</a></td> 
                                                 {{-- <td class="text-end" width="10%"><a href="" style="color:rgb(238, 36, 86)">{{ number_format($sum_walkin, 2) }}</a></td>  --}}
-                                                <td class="text-end" style="color:rgb(4, 161, 135)" width="10%">{{ number_format($sum_stm_money, 2) }}</td> 
-                                                <td class="text-end" style="color:rgb(224, 128, 17)" width="10%">0.00</td> 
+                                                <td class="text-end" style="color:rgb(4, 161, 135)" width="10%"> 
+                                                    <a href="{{url('account_pkucs216_stm/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(4, 161, 135)"> {{ number_format($sum_stm_money, 2) }}</a>
+                                                </td> 
+                                                <td class="text-end" style="color:rgb(224, 128, 17)" width="10%">
+                                                    <a href="{{url('account_pkucs216_yokpai/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(224, 128, 17)"> {{ number_format(($sum_yokpai), 2) }}</a>
+                                                </td> 
                                             </tr>
                                         <?php
                                                 $total1 = $total1 + $sum_N;
                                                 $total2 = $total2 + $sum_Y; 
                                                 // $total3 = $total3 + $sum_walkin; 
                                                 $total4 = $total4 + $sum_stm_money; 
+                                                $total5 = $total5 + ($sum_yokpai);
                                         ?>
                                     @endforeach
 
@@ -253,7 +256,7 @@
                                     <td class="text-end" style="background-color: #9f4efc" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td> 
                                     {{-- <td class="text-end" style="background-color: #c5224b"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td> --}}
                                     <td class="text-end" style="background-color: #0ea080"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td> 
-                                    <td class="text-end" style="background-color: #f89625"><label for="" style="color: #FFFFFF">0.00</label></td> 
+                                    <td class="text-end" style="background-color: #f89625"><label for="" style="color: #FFFFFF">{{ number_format($total5, 2) }}</label></td> 
                                  
                                 </tr>  
                             </table>

@@ -1,4 +1,4 @@
-@extends('layouts.support_prs')
+@extends('layouts.support_prs_airback')
 @section('title', 'PK-OFFICER || Air-Service')
 
 <style>
@@ -138,7 +138,7 @@ $loter = $date.''.$time
     ?>
 
 <div class="tabs-animation">
-    <div class="row text-center">
+    {{-- <div class="row text-center">
         <div id="overlay">
             <div class="cv-spinner">
                 <span class="spinner"></span>
@@ -150,13 +150,28 @@ $loter = $date.''.$time
             <div class="spinner"> 
             </div>
         </div>
+    </div> --}}
+    <div id="preloader">
+        <div id="status">
+            <div id="container_spin">
+                <svg viewBox="0 0 100 100">
+                    <defs>
+                        <filter id="shadow">
+                        <feDropShadow dx="0" dy="0" stdDeviation="2.5" 
+                            flood-color="#fc6767"/>
+                        </filter>
+                    </defs>
+                    <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 7px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
+                </svg>
+            </div>
+        </div>
     </div>
     <form class="custom-validation" action="{{ route('prs.air_save') }}" method="POST" id="insert_Form" enctype="multipart/form-data">
         @csrf
     <div class="row"> 
         <div class="col-md-4">
-            <h4 class="card-title" style="color:rgb(10, 151, 85)">ADD AIR LIST</h4>
-            <p class="card-title-desc">เพิ่มข้อมูลทะเบียนครุภัณฑ์แอร์</p>
+            <h4 style="color:rgb(10, 151, 85)">เครื่องปรับอากาศ</h4>
+            <p class="card-title-desc" style="font-size: 17px;">เพิ่มข้อมูลทะเบียนเครื่องปรับอากาศ</p>
         </div>
         <div class="col"></div>
         <div class="col-md-2 text-end">
@@ -180,12 +195,12 @@ $loter = $date.''.$time
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <img src="{{ asset('assets/images/default-image.jpg') }}" id="add_upload_preview"
-                                        alt="Image" class="img-thumbnail" width="450px" height="380px">
+                                        alt="Image" class="img-thumbnail bg_prs" width="450px" height="380px">
                                     <br>
                                     <div class="input-group mt-3">
                                         {{-- <label class="input-group-text" for="air_imgname">Upload</label> --}}
                                         {{-- <canvas> --}}
-                                        <input type="file" class="form-control" id="air_imgname" name="air_imgname"
+                                        <input type="file" class="form-control bg_prs" id="air_imgname" name="air_imgname"
                                             onchange="addarticle(this)">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         {{-- <input type="hidden" id="signature" name="signature"> --}}
@@ -228,7 +243,7 @@ $loter = $date.''.$time
                                             <div class="input-group-prepend">
                                               <span class="input-group-text" id="inputGroup-sizing-sm">วันที่รับเข้า</span>
                                             </div>
-                                            <input type="date" class="form-control" id="air_recive_date" name="air_recive_date" aria-label="air_recive_date" aria-describedby="inputGroup-sizing-sm">
+                                            <input type="date" class="form-control bg_prs" id="air_recive_date" name="air_recive_date" aria-label="air_recive_date" aria-describedby="inputGroup-sizing-sm">
                                         </div>
                                     </div>
                                 </div>
@@ -247,7 +262,7 @@ $loter = $date.''.$time
                                             <div class="input-group-prepend">
                                               <span class="input-group-text" id="inputGroup-sizing-sm">รหัสแอร์</span>
                                             </div>
-                                            <input type="text" class="form-control" id="air_list_num" name="air_list_num" aria-label="air_list_num" aria-describedby="inputGroup-sizing-sm">
+                                            <input type="text" class="form-control bg_prs" id="air_list_num" name="air_list_num" aria-label="air_list_num" aria-describedby="inputGroup-sizing-sm">
                                         </div>
                                     </div>
                                     {{-- <div class="col-md-2 text-end">
@@ -262,7 +277,7 @@ $loter = $date.''.$time
                                             <div class="input-group-prepend">
                                               <span class="input-group-text" id="inputGroup-sizing-sm">ราคา</span>
                                             </div>
-                                            <input type="text" class="form-control" id="air_price" name="air_price" aria-label="air_price" aria-describedby="inputGroup-sizing-sm">
+                                            <input type="text" class="form-control bg_prs" id="air_price" name="air_price" aria-label="air_price" aria-describedby="inputGroup-sizing-sm">
                                         </div>
                                     </div>
                                     <div class="col-md-1">
@@ -285,7 +300,7 @@ $loter = $date.''.$time
                                             <div class="input-group-prepend">
                                               <span class="input-group-text" id="inputGroup-sizing-sm">ชื่อครุภัณฑ์</span>
                                             </div>
-                                            <input type="text" class="form-control" id="air_list_name" name="air_list_name" aria-label="air_list_name" aria-describedby="inputGroup-sizing-sm">
+                                            <input type="text" class="form-control bg_prs" id="air_list_name" name="air_list_name" aria-label="air_list_name" aria-describedby="inputGroup-sizing-sm">
                                         </div>
 
                                     </div>
@@ -301,7 +316,7 @@ $loter = $date.''.$time
                                             <div class="input-group-prepend">
                                               <span class="input-group-text" id="inputGroup-sizing-sm">Serial no</span>
                                             </div>
-                                            <input type="text" class="form-control" id="serial_no" name="serial_no" aria-label="serial_no" aria-describedby="inputGroup-sizing-sm">
+                                            <input type="text" class="form-control bg_prs" id="serial_no" name="serial_no" aria-label="serial_no" aria-describedby="inputGroup-sizing-sm">
                                         </div>
                                     </div>
                                     
@@ -348,7 +363,7 @@ $loter = $date.''.$time
                                             <div class="input-group-prepend">
                                               <span class="input-group-text" id="inputGroup-sizing-sm">แผนก/ห้อง</span>
                                             </div>
-                                            <input type="text" class="form-control" id="detail" name="detail" aria-label="detail" aria-describedby="inputGroup-sizing-sm">
+                                            <input type="text" class="form-control bg_prs" id="detail" name="detail" aria-label="detail" aria-describedby="inputGroup-sizing-sm">
                                         </div>
                                     </div> 
                                 </div>
@@ -367,7 +382,7 @@ $loter = $date.''.$time
                                             <div class="input-group-prepend">
                                               <span class="input-group-text" id="inputGroup-sizing-sm">ขนาด(BTU)</span>
                                             </div>
-                                            <input type="text" class="form-control" id="btu" name="btu" aria-label="btu" aria-describedby="inputGroup-sizing-sm">
+                                            <input type="text" class="form-control bg_prs" id="btu" name="btu" aria-label="btu" aria-describedby="inputGroup-sizing-sm">
                                         </div>
                                     </div> 
                                     <div class="col-md-6"> 
@@ -405,7 +420,7 @@ $loter = $date.''.$time
                                             <div class="input-group-prepend">
                                               <span class="input-group-text" id="inputGroup-sizing-sm">ชั้น</span>
                                             </div>
-                                            <input type="text" class="form-control" id="air_room_class" name="air_room_class" aria-label="air_room_class" aria-describedby="inputGroup-sizing-sm">
+                                            <input type="text" class="form-control bg_prs" id="air_room_class" name="air_room_class" aria-label="air_room_class" aria-describedby="inputGroup-sizing-sm">
                                         </div>
                                     </div>
                                     {{-- <div class="col-md-2 text-end">
@@ -450,6 +465,7 @@ $loter = $date.''.$time
                 <div class="form-group">
                     <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="fa-solid fa-floppy-disk me-2"></i>
+                        {{-- <i class="fa-regular fa-pen-to-square me-2"></i> --}}
                         บันทึกข้อมูล
                     </button>
                     <a href="{{ url('fire_main') }}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">

@@ -1,4 +1,4 @@
-@extends('layouts.support_prs')
+@extends('layouts.support_prs_airback')
 @section('title', 'PK-OFFICER || Air-Service')
 
 @section('content')
@@ -117,7 +117,7 @@
     ?>
 
 <div class="tabs-animation">
-    <div class="row text-center">
+    {{-- <div class="row text-center">
         <div id="overlay">
             <div class="cv-spinner">
                 <span class="spinner"></span>
@@ -129,27 +129,42 @@
             <div class="spinner"> 
             </div>
         </div>
+    </div> --}}
+    <div id="preloader">
+        <div id="status">
+            <div id="container_spin">
+                <svg viewBox="0 0 100 100">
+                    <defs>
+                        <filter id="shadow">
+                        <feDropShadow dx="0" dy="0" stdDeviation="2.5" 
+                            flood-color="#fc6767"/>
+                        </filter>
+                    </defs>
+                    <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 7px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
+                </svg>
+            </div>
+        </div>
     </div>
     <form action="{{ url('air_main_repaire') }}" method="GET">
         @csrf
    
         <div class="row"> 
             <div class="col-md-3">
-                <h4 class="card-title" style="color:rgb(10, 151, 85)">เครื่องปรับอากาศ</h4>
-                <p class="card-title-desc">ทะเบียนแจ้งซ่อม-เครื่องปรับอากาศ</p>
+                <h4 style="color:rgb(10, 151, 85)">เครื่องปรับอากาศ</h4>
+                <p class="card-title-desc" style="font-size: 17px;">ทะเบียนแจ้งซ่อม-เครื่องปรับอากาศ</p>
             </div>
             <div class="col"></div>
         
-            <div class="col-md-4 text-end"> 
+            <div class="col-md-5 text-end"> 
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control bt_prs" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
-                    <input type="text" class="form-control cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control bt_prs" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
-                        <button type="submit" class="ladda-button btn-pill btn btn-primary cardacc" data-style="expand-left">
+                        <button type="submit" class="ladda-button btn-pill btn btn-info bt_prs" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
                         </button> 
-                        <button type="button" class="ladda-button btn-pill btn btn-secondary card_prs_4 me-2" data-bs-toggle="modal" data-bs-target="#exampleModal"> 
+                        <button type="button" class="ladda-button btn-pill btn btn-secondary bt_prs me-2" data-bs-toggle="modal" data-bs-target="#exampleModal"> 
                             <i class="fa-solid fa-book-open-reader text-white me-2"></i>คู่มือ 
                         </button>
                 </div> 
@@ -199,8 +214,8 @@
 
                 <p class="mb-0">
                     <div class="table-responsive">
-                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                        {{-- <table id="example" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;"> --}}
+                        {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                        <table id="example" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr style="font-size:13px">
                                   
@@ -223,7 +238,7 @@
                                 @foreach ($datashow as $item) 
                                     <tr id="tr_{{$item->air_repaire_id}}">                                                  
                                         <td class="text-center" width="3%">{{ $i++ }}</td>  
-                                        <td class="text-center" width="3%" style="font-size: 12px">
+                                        <td class="text-center" width="3%" style="font-size: 13px">
                                             @if ($item->active == 'Y')
                                                 {{-- <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-success">
                                                     พร้อมใช้งาน
@@ -234,22 +249,42 @@
                                                 {{-- <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger"> ไม่พร้อมใช้งาน</span> --}}
                                             @endif
                                         </td> 
-                                        <td class="text-center" width="8%">{{ DateThai($item->repaire_date )}}</td>   
-                                        <td class="text-center" width="5%">{{ $item->repaire_time }}</td> 
-                                        <td class="text-center" width="7%">{{ $item->air_repaire_no }}</td>   
-                                        <td class="text-center" width="7%">{{ $item->air_list_num }}</td>  
+                                        <td class="text-center" width="8%" style="font-size: 12px">{{ DateThai($item->repaire_date )}}</td>   
+                                        <td class="text-center" width="5%" style="font-size: 12px">{{ $item->repaire_time }}</td> 
+                                        <td class="text-center" width="7%" style="font-size: 11px">{{ $item->air_repaire_no }}</td>   
+                                        <td class="text-center" width="7%" style="font-size: 11px">{{ $item->air_list_num }}</td>  
                                         <td class="p-2">{{ $item->air_list_name }}</td>   
                                         <td class="p-2" width="20%">{{ $item->air_location_name }}</td>  
                                         <td class="p-2" width="10%">{{ $item->air_techout_name }}</td> 
                                         <td class="p-2" width="10%">{{ $item->ptname }}</td>  
                                         <td class="p-2" width="10%">{{ $item->tectname }}</td>  
-                                        <td class="text-center" width="5%" style="font-size: 12px"> 
-                                            <div class="dropdown d-inline-block">
-                                                <button type="button" aria-haspopup="true" aria-expanded="false"
+                                        <td class="text-center" width="5%"> 
+                                            <div class="btn-group me-1">
+                                                <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    ทำรายการ <i class="mdi mdi-chevron-down"></i>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item text-warning" href="{{ url('air_repaire_edit/' . $item->air_repaire_id) }}" style="font-size:13px" target="blank"
+                                                        data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="แก้ไข">
+                                                        <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
+                                                        <span>แก้ไข</span>
+                                                    </a>
+                                                    <div class="dropdown-divider"></div>
+                                                    
+                                                    <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="air_main_repaire_destroy({{ $item->air_repaire_id }})" style="font-size:13px"
+                                                        data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="ลบ">
+                                                        <i class="fa-solid fa-trash-can me-2"></i>
+                                                        <span style="color: rgb(255, 2, 2);font-size:13px">ลบ</span> 
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                            {{-- <div class="dropdown ">
+                                                <a aria-haspopup="true" aria-expanded="false"
                                                     data-bs-toggle="dropdown"
                                                     class="dropdown-toggle btn btn-outline-secondary btn-sm">    
                                                     ทำรายการ
-                                                </button>
+                                            </a>
                                                 <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-hover-link dropdown-menu">  
                                                     <a class="dropdown-item text-warning" href="{{ url('air_repaire_edit/' . $item->air_repaire_id) }}" style="font-size:13px" target="blank">
                                                         <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
@@ -263,7 +298,7 @@
                                                         <label for="" style="color: rgb(255, 2, 2);font-size:13px">ลบ</label>
                                                     </a>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </td>
 
                                     </tr>

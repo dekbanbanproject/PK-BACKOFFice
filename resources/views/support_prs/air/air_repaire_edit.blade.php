@@ -1,4 +1,4 @@
-@extends('layouts.support_prs')
+@extends('layouts.support_prs_airback')
 @section('title', 'PK-OFFICER || Air-Service')
 
 <style>
@@ -117,7 +117,7 @@ $count_article = StaticController::count_article();
     ?>
 
     <div class="tabs-animation">
-        <div class="row text-center">
+        {{-- <div class="row text-center">
             <div id="overlay">
                 <div class="cv-spinner">
                     <span class="spinner"></span>
@@ -129,22 +129,39 @@ $count_article = StaticController::count_article();
                 <div class="spinner">
                 </div>
             </div>
+        </div> --}}
+        <div id="preloader">
+            <div id="status">
+                <div id="container_spin">
+                    <svg viewBox="0 0 100 100">
+                        <defs>
+                            <filter id="shadow">
+                            <feDropShadow dx="0" dy="0" stdDeviation="2.5" 
+                                flood-color="#fc6767"/>
+                            </filter>
+                        </defs>
+                        <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 7px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
+                    </svg>
+                </div>
+            </div>
         </div>
 
         <form action="{{ route('prs.air_repiare_update') }}" id="update_Form" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-md-4">
-                    <h4 class="card-title" style="color:rgb(10, 151, 85)">UPADTE AIR</h4>
-                    <p class="card-title-desc">แก้ไขทะเบียนซ่อม-เครื่องปรับอากาศ</p>
+                  
+                    <h4 style="color:rgb(10, 151, 85)">เครื่องปรับอากาศ</h4>
+                    <p class="card-title-desc" style="font-size: 17px;">แก้ไขทะเบียนซ่อม-เครื่องปรับอากาศ</p>
                 </div>
                 <div class="col"></div>
                 <div class="col-md-2 text-end">
-                    <a href="{{ url('air_main_repaire') }}" class="ladda-button me-2 btn-pill btn btn-warning cardacc">
+                    <a href="{{ url('air_main_repaire') }}" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-warning bt_prs">
                         <i class="fa-solid fa-arrow-left me-2"></i>
                         ย้อนกลับ
                     </a>
                 </div>
+                {{-- ladda-button me-2 btn-pill btn btn-sm btn-warning bt_prs  --}}
             </div>
 
             <div class="row">
@@ -195,7 +212,7 @@ $count_article = StaticController::count_article();
                                                         role="tab" style="background-color: #e8fcfa">
                                                         <span class="d-block d-sm-none"><i class="fas fa-detail"></i></span>
                                                         <span class="d-none d-sm-block">
-                                                            <p>ส่วนที่ 2 : ช่างซ่อม(นอก รพ.) </p>
+                                                            <p style="font-size: 15px;color:rgb(4, 119, 113)">ส่วนที่ 2 : ช่างซ่อม(นอก รพ.) </p>
                                                         </span>
                                                     </a>
                                                 </li>
@@ -204,7 +221,7 @@ $count_article = StaticController::count_article();
                                                         style="background-color: #fcf8e8">
                                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
                                                         <span class="d-none d-sm-block">
-                                                            <p>ส่วนที่ 3 : เจ้าหน้าที่ </p>
+                                                            <p style="font-size: 15px;color:rgb(4, 119, 113)">ส่วนที่ 3 : เจ้าหน้าที่ </p>
                                                         </span>
                                                     </a>
                                                 </li>
@@ -213,7 +230,7 @@ $count_article = StaticController::count_article();
                                                         style="background-color: #D0FDE0">
                                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
                                                         <span class="d-none d-sm-block">
-                                                            <p>ส่วนที่ 4 : ช่างซ่อม(รพ.) </p>
+                                                            <p style="font-size: 15px;color:rgb(4, 119, 113)">ส่วนที่ 4 : ช่างซ่อม(รพ.) </p>
                                                         </span>
                                                     </a>
                                                 </li>
@@ -225,7 +242,7 @@ $count_article = StaticController::count_article();
                                                     <div class="row ms-2">
                                                         <div class="col-md-8">
                                                             <p class="mt-2" style="font-size:17px;color:rgb(245, 21, 51)">
-                                                                <input class="form-check-input dcheckbox me-2"
+                                                                <input class="form-check-input dcheckbox bg_prs me-2"
                                                                     type="checkbox" id="air_2" name="air_2" />
                                                                 แก้ไขเฉพาะ ส่วนที่ 2
                                                             </p>
@@ -246,7 +263,7 @@ $count_article = StaticController::count_article();
                                                                 @foreach ($air_repaire_ploblem as $itep)
                                                                     <div class="col-6 text-start">
                                                                         <div class="input-group">
-                                                                            <input type="checkbox" class="form-check-input dcheckbox" id="air_problems" name="air_problems[]" value="{{ $itep->air_repaire_ploblem_id }}">
+                                                                            <input type="checkbox" class="form-check-input dcheckbox bg_prs" id="air_problems" name="air_problems[]" value="{{ $itep->air_repaire_ploblem_id }}">
                                                                             &nbsp;&nbsp;<p class="mt-2 ms-2"> {{ $itep->air_repaire_ploblemname }}</p>
                                                                         </div>
                                                                     </div>
@@ -255,7 +272,7 @@ $count_article = StaticController::count_article();
                                                             <div class="row">
                                                                 <div class="col">
                                                                     <div class="input-group">
-                                                                        <textarea class="form-control form-control-sm" id="air_problems_orthersub" name="air_problems_orthersub"
+                                                                        <textarea class="form-control form-control-sm bg_prs" id="air_problems_orthersub" name="air_problems_orthersub"
                                                                             rows="3">{{ $data_detail_->air_problems_orthersub }}</textarea>
                                                                     </div>
                                                                 </div>
@@ -278,7 +295,7 @@ $count_article = StaticController::count_article();
                                                                     <div class="col-6 text-start">
                                                                         <div class="input-group">
                                                                             <input type="checkbox"
-                                                                                class="form-check-input dcheckbox"
+                                                                                class="form-check-input dcheckbox bg_prs"
                                                                                 id="maintenance_list_id"
                                                                                 name="maintenance_list_id[]"
                                                                                 value="{{ $ite_lis->maintenance_list_id }}">
@@ -554,8 +571,9 @@ $count_article = StaticController::count_article();
 
                                         <div class="col-md-2 text-end">
                                             <button type="submit"
-                                                class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-info">
-                                                <i class="pe-7s-diskette btn-icon-wrapper"></i>แก้ไขข้อมูล
+                                                class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-info bt_prs">
+                                                {{-- <i class="pe-7s-diskette btn-icon-wrapper"></i>แก้ไขข้อมูล --}}
+                                                <i class="fa-regular fa-pen-to-square me-2"></i>แก้ไขข้อมูล
                                             </button>
                                         </div>
                                     </div>

@@ -120,17 +120,16 @@ $yb = date('Y') + 542;
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
-                                    <th class="text-center">stm_trainid</th>
+                                    {{-- <th class="text-center">stm_trainid</th> --}}
                                     <th class="text-center" width="5%">vn</th>  
                                     <th class="text-center" >hn</th> 
                                     <th class="text-center">ptname</th>
                                     <th class="text-center">vstdate</th>   
-                                    <th class="text-center">projectcode</th> 
                                     <th class="text-center">ลูกหนี้</th>  
                                     <th class="text-center">ส่วนต่าง</th> 
                                     <th class="text-center">Stm 216</th> 
                                     <th class="text-center">ยอดชดเชยทั้งสิ้น</th>  
-                                    <th class="text-center">STMdoc</th> 
+                                    {{-- <th class="text-center">STMdoc</th>  --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -139,17 +138,16 @@ $yb = date('Y') + 542;
                                     <?php $number++; ?>
                                     <tr height="20" style="font-size: 14px;">
                                         <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td> 
-                                        <td class="text-center" width="6%">{{ $item->stm_trainid }}</td>  
-                                        <td class="text-center" width="6%">{{ $item->vn }}</td>  
+                                        {{-- <td class="text-center" width="6%">{{ $item->stm_trainid }}</td>   --}}
+                                        <td class="text-center" width="10%">{{ $item->vn }}</td>  
                                         <td class="text-center" width="5%">{{ $item->hn }}</td>   
-                                        <td class="p-2">{{ $item->ptname }}</td>   
-                                        <td class="text-center" width="7%">{{ $item->vstdate }}</td>   
-                                        <td class="text-center" width="7%">{{ $item->projectcode }}</td>
+                                        <td class="p-2" >{{ $item->ptname }}</td>   
+                                        <td class="text-center" width="10%">{{ $item->vstdate }}</td>   
                                         <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td> 
-                                        <td class="text-end" style="color:rgb(238, 21, 57)" width="7%">{{ number_format(($item->debit_total-$item->stm_money),2)}}</td> 
+                                        <td class="text-end" style="color:rgb(184, 12, 169)" width="7%">{{ number_format(($item->debit_total-$item->stm_money),2)}}</td> 
                                         <td class="text-end" style="color:rgb(4, 141, 146)" width="7%">{{ number_format($item->stm_money,2)}}</td> 
                                         <td class="text-end" style="color:rgb(6, 231, 213)" width="8%">{{ number_format($item->stm_total,2)}}</td>  
-                                        <td class="p-2" width="10%">{{ $item->STMdoc }}</td>  
+                                        {{-- <td class="p-2" width="10%">{{ $item->STMdoc }}</td>   --}}
                                       
                                     </tr>
                                         <?php
@@ -164,13 +162,13 @@ $yb = date('Y') + 542;
                                
                             </tbody>
                             <tr style="background-color: #f3fca1">
-                                <td colspan="7" class="text-end" style="background-color: #fca1a1"></td>
+                                <td colspan="5" class="text-end" style="background-color: #fca1a1"></td>
                                 <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label> </td> 
-                                <td class="text-end" style="background-color: #ec1959"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
+                                <td class="text-end" style="background-color: #9b33fc"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
                                 <td class="text-end" style="background-color: #06869c" ><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td>
                                 {{-- <td class="text-center" style="background-color: #f08640"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label> </td>  --}}
                                 <td class="text-end" style="background-color: rgb(5, 201, 184)"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label> </td> 
-                                <td colspan="1" class="text-end" style="background-color: #fca1a1"></td>
+                                {{-- <td colspan="1" class="text-end" style="background-color: #fca1a1"></td> --}}
                             </tr>  
                                      
                         </table>

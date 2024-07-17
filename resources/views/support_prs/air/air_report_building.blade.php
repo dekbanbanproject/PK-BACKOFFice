@@ -1,4 +1,4 @@
-@extends('layouts.support_prs')
+@extends('layouts.support_prs_airback')
 @section('title', 'PK-OFFICER || Air-Service')
 
 @section('content')
@@ -64,7 +64,7 @@
     
     ?>
 
-    <style>
+    {{-- <style>
         #button {
             display: block;
             margin: 20px auto;
@@ -109,7 +109,7 @@
         .is-hide {
             display: none;
         }
-    </style>
+    </style> --}}
 
     <?php
     $ynow = date('Y') + 543;
@@ -117,7 +117,7 @@
     ?>
 
 <div class="tabs-animation">
-    <div class="row text-center">
+    {{-- <div class="row text-center">
         <div id="overlay">
             <div class="cv-spinner">
                 <span class="spinner"></span>
@@ -127,6 +127,21 @@
     <div id="preloader">
         <div id="status">
             <div class="spinner"> 
+            </div>
+        </div>
+    </div> --}}
+    <div id="preloader">
+        <div id="status">
+            <div id="container_spin">
+                <svg viewBox="0 0 100 100">
+                    <defs>
+                        <filter id="shadow">
+                        <feDropShadow dx="0" dy="0" stdDeviation="2.5" 
+                            flood-color="#fc6767"/>
+                        </filter>
+                    </defs>
+                    <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 7px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
+                </svg>
             </div>
         </div>
     </div>
@@ -144,7 +159,7 @@
                     <i class="fa-solid fa-file-excel me-2"></i>
                     Export To Excel
                 </a> --}}
-                <a href="{{url('air_report_building_excel')}}" class="ladda-button btn-pill btn btn-success card_prs_4">
+                <a href="{{url('air_report_building_excel')}}" class="ladda-button btn-pill btn btn-success bt_prs">
                     <span class="ladda-label"> <i class="fa-solid fa-file-excel text-white me-2"></i>Export To Excel</span>  
                 </a>
             
@@ -163,10 +178,10 @@
                         <table id="example" class="table table-striped table-bordered dt-responsive" style="border-collapse: collapse; border-spacing: 0; width: 100%;">                        
                             <thead>                             
                                     <tr style="font-size:13px"> 
-                                        <th rowspan="2" width="3%" class="text-center" style="background-color: rgb(255, 251, 228);width: 5%">ลำดับ</th>  
-                                        <th rowspan="2" class="text-center" style="background-color: rgb(253, 245, 199)">อาคาร</th>  
-                                        <th rowspan="2" class="text-center" style="background-color: rgb(253, 245, 199);width: 7%">อาคาร</th>  
-                                        <th rowspan="2" class="text-center" style="background-color: rgb(253, 245, 199);width: 7%">จำนวน</th>  
+                                        <th rowspan="2" width="3%" class="text-center" style="background-color: rgb(228, 255, 255);width: 5%">ลำดับ</th>  
+                                        <th rowspan="2" class="text-center" style="background-color: rgb(228, 255, 255)">อาคาร</th>  
+                                        <th rowspan="2" class="text-center" style="background-color: rgb(228, 255, 255);width: 7%">อาคาร</th>  
+                                        <th rowspan="2" class="text-center" style="background-color: rgb(228, 255, 255);width: 7%">จำนวน</th>  
                                         <th colspan="6" class="text-center" style="background-color: rgb(239, 228, 255);width: 40%">ขนาด( BTU )</th>   
                                     </tr> 
                                     <tr style="font-size:11px">  

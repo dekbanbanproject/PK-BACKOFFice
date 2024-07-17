@@ -1,4 +1,4 @@
-@extends('layouts.support_prs')
+@extends('layouts.support_prs_fireback')
 @section('title', 'PK-OFFICER || Fire-Service')
 
 @section('content')

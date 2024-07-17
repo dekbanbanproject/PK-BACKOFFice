@@ -1,4 +1,4 @@
-@extends('layouts.support_prs')
+@extends('layouts.support_prs_airback')
 @section('title', 'PK-OFFICER || Air-Service')
 
 @section('content')
@@ -64,7 +64,7 @@
     
     ?>
 
-    <style>
+    {{-- <style>
         #button {
             display: block;
             margin: 20px auto;
@@ -109,7 +109,7 @@
         .is-hide {
             display: none;
         }
-    </style>
+    </style> --}}
 
     <?php
     $ynow = date('Y') + 543;
@@ -117,7 +117,7 @@
     ?>
 
 <div class="tabs-animation">
-    <div class="row text-center">
+    {{-- <div class="row text-center">
         <div id="overlay">
             <div class="cv-spinner">
                 <span class="spinner"></span>
@@ -129,6 +129,21 @@
             <div class="spinner"> 
             </div>
         </div>
+    </div> --}}
+    <div id="preloader">
+        <div id="status">
+            <div id="container_spin">
+                <svg viewBox="0 0 100 100">
+                    <defs>
+                        <filter id="shadow">
+                        <feDropShadow dx="0" dy="0" stdDeviation="2.5" 
+                            flood-color="#fc6767"/>
+                        </filter>
+                    </defs>
+                    <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 7px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
+                </svg>
+            </div>
+        </div>
     </div>
     <form action="{{ url('air_report_type') }}" method="GET">
         @csrf
@@ -138,7 +153,7 @@
                 {{-- <p class="card-title-desc">รายงานถังดับเพลิง</p> --}}
             </div>
             <div class="col-md-2 text-center">
-                <select class="form-control cardacc" id="air_repaire_type" name="air_repaire_type" style="width: 100%">
+                <select class="form-control bt_prs" id="air_repaire_type" name="air_repaire_type" style="width: 100%">
                     <option value="" class="text-center">เลือกประเภททั้งหมด</option>
                         @foreach ($air_repaire_type as $item_t)
                         @if ($repaire_type == $item_t->air_repaire_type_code)
@@ -152,19 +167,19 @@
          
             <div class="col-md-4 text-end"> 
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control bt_prs" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
-                    <input type="text" class="form-control cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control bt_prs" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
-                        <button type="submit" class="ladda-button btn-pill btn btn-primary cardacc" data-style="expand-left">
+                        <button type="submit" class="ladda-button btn-pill btn btn-info bt_prs" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
                         </button> 
                         {{-- <button type="button" class="ladda-button btn-pill btn btn-success card_prs_4 exportExcel" data-url="{{url('air_report_type_excel')}}">
                             <i class="fa-solid fa-file-excel text-white me-2"></i>
                             Export
                         </button> --}}
-                        <a href="{{url('air_report_type_excel')}}" class="ladda-button btn-pill btn btn-success card_prs_4">
-                            <span class="ladda-label"> <i class="fa-solid fa-file-excel text-white me-2"></i>Export</span>  
+                        <a href="{{url('air_report_type_excel')}}" class="ladda-button btn-pill btn btn-success bt_prs">
+                            <span class="ladda-label"> <i class="fa-solid fa-file-excel me-2"></i>Export</span>  
                         </a>
                 </div> 
             </div>

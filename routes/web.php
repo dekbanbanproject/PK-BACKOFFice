@@ -2014,6 +2014,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_pkucs216_stm_date/{startdate}/{enddate}',[App\Http\Controllers\Account216Controller::class, 'account_pkucs216_stm_date'])->name('acc.account_pkucs216_stm_date');//
     Route::match(['get','post'],'account_pkucs216_stmnull_date/{months}/{year}',[App\Http\Controllers\Account216Controller::class, 'account_pkucs216_stmnull_date'])->name('acc.account_pkucs216_stmnull_date');//
     Route::match(['get','post'],'account_216_destroy',[App\Http\Controllers\Account216Controller::class, 'account_216_destroy'])->name('acc.account_216_destroy');//
+    Route::match(['get','post'],'account_pkucs216_yokpai/{months}/{year}',[App\Http\Controllers\Account216Controller::class, 'account_pkucs216_yokpai'])->name('acc.account_pkucs216_yokpai');//
 
     Route::match(['get','post'],'account_pkucs217_pull',[App\Http\Controllers\Account217Controller::class, 'account_pkucs217_pull'])->name('acc.account_pkucs217_pull');//
     Route::match(['get','post'],'account_pkucs217_search',[App\Http\Controllers\Account217Controller::class, 'account_pkucs217_search'])->name('acc.account_pkucs217_search');//

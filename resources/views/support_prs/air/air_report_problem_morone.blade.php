@@ -1,4 +1,4 @@
-@extends('layouts.support_prs')
+@extends('layouts.support_prs_airback')
 @section('title', 'PK-OFFICER || Air-Service')
 
 @section('content')
@@ -21,7 +21,7 @@
     
     ?>
 
-    <style>
+    {{-- <style>
         #button {
             display: block;
             margin: 20px auto;
@@ -66,7 +66,7 @@
         .is-hide {
             display: none;
         }
-    </style>
+    </style> --}}
 
     <?php
         $ynow = date('Y') + 543;
@@ -74,7 +74,7 @@
     ?>
 
 <div class="tabs-animation">
-    <div class="row text-center">
+    {{-- <div class="row text-center">
         <div id="overlay">
             <div class="cv-spinner">
                 <span class="spinner"></span>
@@ -86,12 +86,27 @@
             <div class="spinner"> 
             </div>
         </div>
+    </div> --}}
+    <div id="preloader">
+        <div id="status">
+            <div id="container_spin">
+                <svg viewBox="0 0 100 100">
+                    <defs>
+                        <filter id="shadow">
+                        <feDropShadow dx="0" dy="0" stdDeviation="2.5" 
+                            flood-color="#fc6767"/>
+                        </filter>
+                    </defs>
+                    <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 7px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
+                </svg>
+            </div>
+        </div>
     </div>
   
    
         <div class="row"> 
-            <div class="col-md-3">
-                <h4 class="card-title" style="color:rgb(10, 151, 85)">ปัญหาเดิม 2 ครั้งขึ้นไป
+            <div class="col-md-6">
+                <h4 style="color:rgb(10, 151, 85)">เครื่องปรับอากาศที่มีปัญหาเดิม 2 ครั้งขึ้นไป
                     {{-- @if ($id == '1')
                         ( น้ำหยด ) 
                     @elseif ($id == '2')
@@ -109,7 +124,12 @@
                 </h4> 
             </div>
             <div class="col"></div>
-        
+            <div class="col-md-2 text-end">
+                <a href="{{ url('air_report_problems') }}" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-warning bt_prs">
+                    <i class="fa-solid fa-arrow-left me-2"></i>
+                    ย้อนกลับ
+                </a>
+            </div>
             
         </div>
     

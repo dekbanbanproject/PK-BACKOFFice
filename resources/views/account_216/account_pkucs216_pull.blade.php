@@ -147,6 +147,7 @@
                                             <th class="text-center">vstdate</th>  
                                             <th class="text-center">pttype</th> 
                                             <th class="text-center">spsch</th>   
+                                            <th class="text-center">projectcode</th> 
                                             <th class="text-end">income</th>  
                                             <th class="text-end">ลูกหนี้</th> 
                                             <th class="text-end">ins</th> 
@@ -181,6 +182,7 @@
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td> 
                                                 
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td>  
+                                                <td class="text-center" style="color:rgb(85, 14, 216)" width="5%">{{ $item->projectcode }}</td>  
                                                 <td class="text-end" style="color:rgb(119, 39, 247)" width="5%">{{ number_format($item->income, 2) }}</td> 
                                                 <td class="text-end" style="color:rgb(247, 81, 39)" width="7%">{{ number_format($item->debit_total, 2) }}</td> 
 
@@ -202,7 +204,7 @@
                                         @endforeach
                                     </tbody>
                                     <tr style="background-color: #f3fca1">
-                                        <td colspan="9" class="text-end" style="background-color: #fca1a1"></td>
+                                        <td colspan="10" class="text-end" style="background-color: #fca1a1"></td>
                                         <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
                                         <td class="text-center" style="background-color: #FCA533" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
                                         <td class="text-center" style="background-color: #FC7373"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td>

@@ -182,7 +182,7 @@ class OrController extends Controller
         if ($startdate != '') {                 
                 $datashow = DB::connection('mysql2')->select(
                     'SELECT i.an,op.hn,pt.cid,concat(pt.pname,pt.fname,"  ",pt.lname) as ptname,a.pttype,a.pdx,i.icd9,i.doctor,ol.enter_date,a.dchdate
-                        ,op.icode,op.qty,op.unitprice ,a.rw,ii.adjrw,group_concat(distinct n.name) as nameknee,a.inc08,a.income
+                        ,op.icode,op.qty,op.unitprice ,a.rw,ii.adjrw,group_concat(distinct n.name) as nameknee,a.inc08,a.income,a.admdate
                         ,case 
                         when u2.inst is null then c.inst
                         else u2.inst
@@ -215,7 +215,7 @@ class OrController extends Controller
         } else { 
             $datashow = DB::connection('mysql2')->select(
                 'SELECT i.an,op.hn,pt.cid,concat(pt.pname,pt.fname,"  ",pt.lname) as ptname,a.pttype,a.pdx,i.icd9,i.doctor,ol.enter_date,a.dchdate
-                    ,op.icode,op.qty,op.unitprice ,a.rw,ii.adjrw,group_concat(distinct n.name) as nameknee,a.inc08,a.income
+                    ,op.icode,op.qty,op.unitprice ,a.rw,ii.adjrw,group_concat(distinct n.name) as nameknee,a.inc08,a.income,a.admdate
                     ,case 
                     when u2.inst is null then c.inst
                     else u2.inst

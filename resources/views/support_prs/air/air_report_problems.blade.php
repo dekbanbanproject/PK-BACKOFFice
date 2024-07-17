@@ -1,4 +1,4 @@
-@extends('layouts.support_prs')
+@extends('layouts.support_prs_airback')
 @section('title', 'PK-OFFICER || Air-Service')
 
 @section('content')
@@ -64,7 +64,7 @@
     
     ?>
 
-    <style>
+    {{-- <style>
         #button {
             display: block;
             margin: 20px auto;
@@ -109,7 +109,7 @@
         .is-hide {
             display: none;
         }
-    </style>
+    </style> --}}
 
     <?php
     $ynow = date('Y') + 543;
@@ -117,7 +117,7 @@
     ?>
 
 <div class="tabs-animation">
-    <div class="row text-center">
+    {{-- <div class="row text-center">
         <div id="overlay">
             <div class="cv-spinner">
                 <span class="spinner"></span>
@@ -129,28 +129,43 @@
             <div class="spinner"> 
             </div>
         </div>
+    </div> --}}
+    <div id="preloader">
+        <div id="status">
+            <div id="container_spin">
+                <svg viewBox="0 0 100 100">
+                    <defs>
+                        <filter id="shadow">
+                        <feDropShadow dx="0" dy="0" stdDeviation="2.5" 
+                            flood-color="#fc6767"/>
+                        </filter>
+                    </defs>
+                    <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 7px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
+                </svg>
+            </div>
+        </div>
     </div>
     {{-- <form action="{{ url('air_report_problems') }}" method="GET">
         @csrf --}}
         <div class="row"> 
-            <div class="col-md-7">
+            <div class="col-md-6">
                 <h5 style="color:rgb(10, 151, 85)">รายงานปัญหาที่มีการแจ้งซ่อมเครื่องปรับอากาศ แยกตามปัญหาที่พบ(ไม่ใช่การล้างประจำปี) </h5> 
             </div>
              
             <div class="col"></div>
-            <div class="col-md-4 text-end"> 
+            <div class="col-md-5 text-end"> 
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control card_prs_4" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control bt_prs" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" required/>
-                    <input type="text" class="form-control card_prs_4" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control bt_prs" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" />  
                         {{-- <button type="submit" class="ladda-button btn-pill btn btn-primary card_prs_4" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
                         </button>  --}}
-                        <button type="button" class="ladda-button btn-pill btn btn-success card_prs_4" id="Processdata"> 
+                        <button type="button" class="ladda-button btn-pill btn btn-success bt_prs" id="Processdata"> 
                             <i class="fa-solid fa-spinner text-white me-2"></i>ประมวลผล
                         </button>
-                        <button type="button" class="ladda-button btn-pill btn btn-secondary card_prs_4 me-2" data-bs-toggle="modal" data-bs-target="#exampleModal"> 
+                        <button type="button" class="ladda-button btn-pill btn btn-secondary bt_prs me-2" data-bs-toggle="modal" data-bs-target="#exampleModal"> 
                             <i class="fa-solid fa-book-open-reader text-white me-2"></i>คู่มือ 
                         </button>
                         {{-- <a href="{{url('air_report_problems_excel')}}" class="ladda-button btn-pill btn btn-success card_prs_4">
@@ -186,7 +201,7 @@
                                         <td class="text-center" style="font-size:13px;width: 5%;color: rgb(13, 134, 185)">{{$i}}</td>
                                         <td class="text-start" style="font-size:14px;color: rgb(2, 95, 182)">{{$item->air_repaire_ploblemname}}</td> 
                                         <td class="text-center" style="font-size:13px;width: 15%;color: rgb(112, 5, 98)">
-                                            <a href="{{url('air_report_problem_group/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(209, 181, 236);width: 70%;" target="_blank">
+                                            <a href="{{url('air_report_problem_group/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(209, 181, 236);width: 70%;" target="_blank">
                                                 <span class="ladda-label"> <i class="fa-solid fa-fan me-2" style="color: #8c07c0"></i>{{$item->count_ploblems}}</span>  
                                             </a>
                                             {{-- @if ($startdate == '')
@@ -201,7 +216,7 @@
 
                                         </td>
                                         <td class="text-center" style="font-size:13px;width: 20%;color: rgb(247, 209, 212)">
-                                            <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank">
+                                            <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank">
                                                 <span class="ladda-label"> <i class="fa-solid fa-fan me-2" style="color: rgb(253, 65, 81)"></i>{{$item->more_one}}</span>  
                                             </a>
                                             {{-- @if ($startdate == '')

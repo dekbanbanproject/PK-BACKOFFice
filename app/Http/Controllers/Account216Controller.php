@@ -416,36 +416,77 @@ class Account216Controller extends Controller
             if ($value->debit_refer > 0 ) {
                 # code...
             } else { 
-                if ($value->debit > 0) {
+                if ($value->debit > 0 && $value->cid != '') {
                     // $check = Acc_debtor::where('vn', $value->vn)->where('account_code', '1102050101.216')->whereBetween('vstdate', [$startdate, $enddate])->count();
-                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code', '1102050101.216')->count();
-                    if ($check == 0) {
-                        Acc_debtor::insert([
-                            'hn'                 => $value->hn,
-                            'an'                 => $value->an,
-                            'vn'                 => $value->vn,
-                            'cid'                => $value->cid,
-                            'ptname'             => $value->ptname,
-                            'pttype'             => $value->pttype,
-                            'vstdate'            => $value->vstdate, 
-                            'acc_code'           => $value->acc_code,
-                            'account_code'       => $value->account_code,
-                            'account_name'       => $value->account_name, 
-                            'income'             => $value->income,
-                            'uc_money'           => $value->uc_money,
-                            'discount_money'     => $value->discount_money, 
-                            'rcpt_money'         => $value->rcpt_money,
-                            'debit'              => $value->debit,
-                            'debit_drug'         => $value->debit_drug,
-                            'debit_instument'    => $value->debit_instument,
-                            'debit_toa'          => $value->debit_toa,
-                            'debit_refer'        => $value->debit_refer,
-                            'debit_walkin'       => $value->debit_walkin,
-                            'debit_total'        => $value->debit,
-                            'max_debt_amount'    => $value->max_debt_amount, 
-                            'acc_debtor_userid'  => Auth::user()->id
-                        ]);
+                    if ($value->debit_walkin > '0') {
+                        $check = Acc_debtor::where('vn', $value->vn)->where('account_code', '1102050101.216')->count();
+                        if ($check > 0) {
+                            Acc_debtor::where('vn', $value->vn)->where('account_code', '1102050101.216')->update([ 
+                                'projectcode'        => 'WALKIN', 
+                            ]);
+                            Acc_1102050101_216::where('vn', $value->vn)->where('account_code', '1102050101.216')->update([ 
+                                'projectcode'        => 'WALKIN', 
+                            ]);
+                        }else{
+                            Acc_debtor::insert([
+                                'hn'                 => $value->hn,
+                                'an'                 => $value->an,
+                                'vn'                 => $value->vn,
+                                'cid'                => $value->cid,
+                                'ptname'             => $value->ptname,
+                                'pttype'             => $value->pttype,
+                                'vstdate'            => $value->vstdate, 
+                                'acc_code'           => $value->acc_code,
+                                'account_code'       => $value->account_code,
+                                'account_name'       => $value->account_name, 
+                                'projectcode'        => 'WALKIN',
+                                'income'             => $value->income,
+                                'uc_money'           => $value->uc_money,
+                                'discount_money'     => $value->discount_money, 
+                                'rcpt_money'         => $value->rcpt_money,
+                                'debit'              => $value->debit,
+                                'debit_drug'         => $value->debit_drug,
+                                'debit_instument'    => $value->debit_instument,
+                                'debit_toa'          => $value->debit_toa,
+                                'debit_refer'        => $value->debit_refer,
+                                'debit_walkin'       => $value->debit_walkin,
+                                'debit_total'        => $value->debit,
+                                'max_debt_amount'    => $value->max_debt_amount, 
+                                'acc_debtor_userid'  => Auth::user()->id
+                            ]);
+                        }
+                    } else {
+                        $check = Acc_debtor::where('vn', $value->vn)->where('account_code', '1102050101.216')->count();
+                        if ($check == 0) {
+                            Acc_debtor::insert([
+                                'hn'                 => $value->hn,
+                                'an'                 => $value->an,
+                                'vn'                 => $value->vn,
+                                'cid'                => $value->cid,
+                                'ptname'             => $value->ptname,
+                                'pttype'             => $value->pttype,
+                                'vstdate'            => $value->vstdate, 
+                                'acc_code'           => $value->acc_code,
+                                'account_code'       => $value->account_code,
+                                'account_name'       => $value->account_name, 
+                                'income'             => $value->income,
+                                'uc_money'           => $value->uc_money,
+                                'discount_money'     => $value->discount_money, 
+                                'rcpt_money'         => $value->rcpt_money,
+                                'debit'              => $value->debit,
+                                'debit_drug'         => $value->debit_drug,
+                                'debit_instument'    => $value->debit_instument,
+                                'debit_toa'          => $value->debit_toa,
+                                'debit_refer'        => $value->debit_refer,
+                                'debit_walkin'       => $value->debit_walkin,
+                                'debit_total'        => $value->debit,
+                                'max_debt_amount'    => $value->max_debt_amount, 
+                                'acc_debtor_userid'  => Auth::user()->id
+                            ]);
+                        }
                     }
+                    
+                   
                 } else {
                     # code...
                 }  
@@ -747,6 +788,30 @@ class Account216Controller extends Controller
                   
         return response()->json([
             'status'    => '200'
+        ]);
+    }
+    public function account_pkucs216_yokpai(Request $request,$months,$year)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        // dd($id);
+        $data['users'] = User::get();
+
+        $datashow = DB::connection('mysql')->select(
+            'SELECT *             
+            FROM acc_1102050101_216            
+            WHERE month(vstdate) = "'.$months.'" and year(vstdate) = "'.$year.'" 
+            AND (stm_money IS NULL OR stm_money = "")
+           
+        ');
+  
+        return view('account_216.account_pkucs216_yokpai', $data, [
+            'startdate'         =>     $startdate,
+            'enddate'           =>     $enddate,
+            'datashow'          =>     $datashow,
+            'months'            =>     $months,
+            'year'              =>     $year, 
         ]);
     }
 

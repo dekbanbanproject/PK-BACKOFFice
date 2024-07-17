@@ -288,7 +288,21 @@ class AirController extends Controller
             'datashow'      =>$datashow, 
         ]);
     }
-    
+    public function air_dashboard(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $months = date('m');
+        $year = date('Y'); 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::select('SELECT * FROM air_list ORDER BY air_list_id DESC'); 
+        // WHERE active="Y"
+        return view('support_prs.air.air_dashboard',[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate, 
+            'datashow'      => $datashow,
+        ]);
+    }
     public function air_main(Request $request)
     {
         $datenow = date('Y-m-d');
@@ -951,46 +965,45 @@ class AirController extends Controller
                 return $H;
             }
 
-            $message = $header .               
-                "\n" . "วันที่ซ่อม: " . $sendate.
-                "\n" . "รหัส : " . $request->air_list_num ."". 
-                "\n" . "ชื่อ  : " . $request->air_list_name . "".
-                "\n" . "Btu  : " . $request->btu ."". 
-                "\n" . "serial_no  : " . $request->serial_no ."".
-                "\n" . "ที่ตั้ง : " .$request->air_location_name."".
-                "\n" . "หน่วยงาน : " . $request->detail."".
+            // $message = $header .               
+            //     "\n" . "วันที่ซ่อม: " . $sendate.
+            //     "\n" . "รหัส : " . $request->air_list_num ."". 
+            //     "\n" . "ชื่อ  : " . $request->air_list_name . "".
+            //     "\n" . "Btu  : " . $request->btu ."". 
+            //     "\n" . "serial_no  : " . $request->serial_no ."".
+            //     "\n" . "ที่ตั้ง : " .$request->air_location_name."".
+            //     "\n" . "หน่วยงาน : " . $request->detail."".
 
-                "\n" . "Authenสำเร็จ : " .$authen_success. " คน".
-                "\n" . "ยอด Authen: " .number_format($sum_total_authen, 2) ." บาท";
+            //     "\n" . "Authenสำเร็จ : " .$authen_success. " คน".
+            //     "\n" . "ยอด Authen: " .number_format($sum_total_authen, 2) ." บาท";
+            // // $linesend = $line;
+            // $linesend = "ibZC2tCju5YgpiTBMRqFw3j8U0Dx4br9odv5lSXsXBe";
+            // if ($linesend == null) {
+            //     $test = '';
+            // } else {
+            //     $test = $linesend;
+            // }
 
-            // $linesend = $line;
-            $linesend = "DDpDNOOH6RowPLajt0JUzC2belFNcZOWZPx5lbG8kj1";
-            if ($linesend == null) {
-                $test = '';
-            } else {
-                $test = $linesend;
-            }
-
-            if ($test !== '' && $test !== null) {
-                $chOne = curl_init();
-                curl_setopt($chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
-                curl_setopt($chOne, CURLOPT_SSL_VERIFYHOST, 0);
-                curl_setopt($chOne, CURLOPT_SSL_VERIFYPEER, 0);
-                curl_setopt($chOne, CURLOPT_POST, 1);
-                curl_setopt($chOne, CURLOPT_POSTFIELDS, $message);
-                curl_setopt($chOne, CURLOPT_POSTFIELDS, "message=$message");
-                curl_setopt($chOne, CURLOPT_FOLLOWLOCATION, 1);
-                $headers = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $test . '',);
-                curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
-                curl_setopt($chOne, CURLOPT_RETURNTRANSFER, 1);
-                $result = curl_exec($chOne);
-                if (curl_error($chOne)) {
-                    echo 'error:' . curl_error($chOne);
-                } else {
-                    $result_ = json_decode($result, true);                        
-                }
-                curl_close($chOne);
-            }
+            // if ($test !== '' && $test !== null) {
+            //     $chOne = curl_init();
+            //     curl_setopt($chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+            //     curl_setopt($chOne, CURLOPT_SSL_VERIFYHOST, 0);
+            //     curl_setopt($chOne, CURLOPT_SSL_VERIFYPEER, 0);
+            //     curl_setopt($chOne, CURLOPT_POST, 1);
+            //     curl_setopt($chOne, CURLOPT_POSTFIELDS, $message);
+            //     curl_setopt($chOne, CURLOPT_POSTFIELDS, "message=$message");
+            //     curl_setopt($chOne, CURLOPT_FOLLOWLOCATION, 1);
+            //     $headers = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $test . '',);
+            //     curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+            //     curl_setopt($chOne, CURLOPT_RETURNTRANSFER, 1);
+            //     $result = curl_exec($chOne);
+            //     if (curl_error($chOne)) {
+            //         echo 'error:' . curl_error($chOne);
+            //     } else {
+            //         $result_ = json_decode($result, true);                        
+            //     }
+            //     curl_close($chOne);
+            // }
                 
                 return response()->json([
                     'status'     => '200'
