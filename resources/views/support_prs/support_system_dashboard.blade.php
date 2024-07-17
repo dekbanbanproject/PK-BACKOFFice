@@ -107,7 +107,7 @@
                                     <span class="d-inline-block pe-2">
                                         <i class="lnr-apartment opacity-6" style="color:rgb(228, 8, 129)"></i>
                                     </span>
-                                    <span class="d-inline-block">ตรวจสอบและบำรุงรักษา ระบบสนับสนุนบริการสุขภาพ Dashboard</span>
+                                    <span class="d-inline-block"><h3>ตรวจสอบและบำรุงรักษา ระบบสนับสนุนบริการสุขภาพ Dashboard</h3></span>
                                 </div>
                                 <div class="page-title-subheading opacity-10">
                                     <nav class="" aria-label="breadcrumb">
@@ -138,6 +138,7 @@
                     <div class="col-md-3">
                             <div class="row">
                                 <div class="col-md-12">
+                                {{-- <div class="col-md-12">
                                     <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-danger border-danger card">
                                         <div class="widget-chat-wrapper-outer">
                                             <div class="widget-chart-content">
@@ -161,11 +162,35 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div> --}}
+                                    <div class="card" style="height: 125px">
+                                        <div class="card-body">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-truncate font-size-14 mb-2">ถังดับเพลิง (RED)</p>
+                                                    <h2 class="mb-2">{{ number_format($count_red_all, 0) }} </h2> 
+                                                </div>
+                                                <div class="avatar-sm" style="width: 70px;height:60px">
+                                                    <span class="avatar-title bg-light text-primary rounded-3"> 
+                                                        <img src="{{ asset('images/fire_extinguisher_r.png') }}" height="50px" width="50px" class="text-danger"> 
+                                                    </span>
+                                                </div>
+                                            </div>  
+                                            <div class="d-flex align-content-center flex-wrap">
+                                                <p class="text-muted mb-0">
+                                                    <span class="text-success fw-bold font-size-20 me-2">
+                                                        <i class="ri-arrow-right-up-line me-1 align-middle"></i>พร้อมใช้งาน {{$count_red_allactive}} ถัง
+                                                    </span>
+                                                    {{-- from previous period --}}
+                                                </p>
+                                            </div>                                           
+                                        </div> 
+                                    </div> 
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-success border-success card">
+                                    {{-- <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-success border-success card">
                                         <div class="widget-chat-wrapper-outer">
                                             <div class="widget-chart-content">
                                                 <div class="widget-title opacity-5 text-uppercase">ถังดับเพลิง (GREEN)</div>
@@ -187,12 +212,35 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
+                                    <div class="card" style="height: 125px">
+                                        <div class="card-body">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-truncate font-size-14 mb-2">ถังดับเพลิง (GREEN)</p>
+                                                    <h2 class="mb-2">{{ number_format($count_green_all, 0) }} </h2> 
+                                                </div>
+                                                <div class="avatar-sm" style="width: 70px;height:60px">
+                                                    <span class="avatar-title bg-light text-primary rounded-3"> 
+                                                        <img src="{{ asset('images/fire_extinguisher_g.png') }}" height="50px" width="50px" class="text-danger"> 
+                                                    </span>
+                                                </div>
+                                            </div>  
+                                            <div class="d-flex align-content-center flex-wrap">
+                                                <p class="text-muted mb-0">
+                                                    <span class="text-success fw-bold font-size-20 me-2">
+                                                        <i class="ri-arrow-right-up-line me-1 align-middle"></i>พร้อมใช้งาน {{$count_green_allactive}} ถัง
+                                                    </span>
+                                                    {{-- from previous period --}}
+                                                </p>
+                                            </div>                                           
+                                        </div> 
+                                    </div> 
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-danger border-danger card">
+                                    {{-- <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-danger border-danger card">
                                         <div class="widget-chat-wrapper-outer">
                                             <div class="widget-chart-content">
                                                 <div class="widget-title opacity-5 text-uppercase">ถังดับเพลิง (RED สำรอง)</div>
@@ -206,10 +254,33 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
+                                    <div class="card" style="height: 125px">
+                                        <div class="card-body">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-truncate font-size-14 mb-2">ถังดับเพลิง (RED สำรอง)</p>
+                                                    <h2 class="mb-2">{{ number_format($count_red_back, 0) }} </h2> 
+                                                </div>
+                                                <div class="avatar-sm" style="width: 70px;height:60px">
+                                                    <span class="avatar-title bg-light text-primary rounded-3"> 
+                                                        <img src="{{ asset('images/fire_extinguisher_r.png') }}" height="50px" width="50px" class="text-danger"> 
+                                                    </span>
+                                                </div>
+                                            </div>  
+                                            <div class="d-flex align-content-center flex-wrap">
+                                                <p class="text-muted mb-0">
+                                                    <span class="text-success fw-bold font-size-20 me-2">
+                                                        <i class="ri-arrow-right-up-line me-1 align-middle"></i>พร้อมใช้งาน {{$count_red_back}} ถัง
+                                                    </span>
+                                                    {{-- from previous period --}}
+                                                </p>
+                                            </div>                                           
+                                        </div> 
+                                    </div> 
                                 </div>
                             </div>
-                            <div class="row">
+                            {{-- <div class="row">
                                 <div class="col-md-12">
                                     <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-success border-success card">
                                         <div class="widget-chat-wrapper-outer">
@@ -227,7 +298,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                       
                     </div>
                     <div class="col-md-9">
@@ -247,10 +318,10 @@
                                             <div class="widget-content-outer">
                                                 <div class="widget-content-wrapper">
                                                     <div class="widget-content-left pe-2 fsize-1">
-                                                        <div class="widget-numbers mt-0 fsize-3 text-danger">{{ $count_color_red_qty }}ถัง</div> 
+                                                        <div class="widget-numbers mt-0 fsize-3 text-danger ms-3">{{ $count_color_red_qty }} ถัง</div> 
                                                     </div>
                                                     <div class="widget-content-right w-100">
-                                                        <div class="progress-bar-xs progress">
+                                                        <div class="progress-bar-xs progress ms-3 me-3">
                                                             <div class="progress-bar bg-danger" role="progressbar"
                                                                 aria-valuenow="{{$count_color_red_qty}}" aria-valuemin="0" aria-valuemax="100"
                                                                 style="width: {{$count_red_percent}}%;">
@@ -258,7 +329,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="widget-content-left fsize-1">
+                                                <div class="widget-content-left fsize-1 ms-3">
                                                     <div class="text-muted opacity-6">Check Qty</div>
                                                 </div>
                                             </div>
@@ -281,10 +352,10 @@
                                             <div class="widget-content-outer">
                                                 <div class="widget-content-wrapper">
                                                     <div class="widget-content-left pe-2 fsize-1">
-                                                        <div class="widget-numbers mt-0 fsize-3 text-success">{{$count_color_green_qty}}ถัง</div>
+                                                        <div class="widget-numbers mt-0 fsize-3 text-success ms-3">{{$count_color_green_qty}} ถัง</div>
                                                     </div>
                                                     <div class="widget-content-right w-100">
-                                                        <div class="progress-bar-xs progress">
+                                                        <div class="progress-bar-xs progress ms-3 me-3">
                                                             <div class="progress-bar bg-success" role="progressbar"
                                                                 aria-valuenow="{{$count_color_green_qty}}" aria-valuemin="0" aria-valuemax="100"
                                                                 style="width: {{$count_green_percent}}%;">
@@ -292,7 +363,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="widget-content-left fsize-1">
+                                                <div class="widget-content-left fsize-1 ms-3">
                                                     <div class="text-muted opacity-6">Check Qty</div>
                                                 </div>
                                             </div>
@@ -313,171 +384,178 @@
                 </div>
             
   
-                <div class="main-card mb-3 card">
-                    <div class="card-header">
-                        <div class="card-header-title font-size-lg text-capitalize fw-normal">
-                            รายงานผลการตรวจสอบสภาพถังดับเพลิง  โรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ
+                <div class="card card_prs_4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-10">
+                                {{-- <div class="ont-size-lg text-capitalize fw-normal"> --}}
+                                    <h4 style="color: rgb(7, 121, 106)">รายงานผลการตรวจสอบสภาพถังดับเพลิง  โรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ</h4>
+                                {{-- </div>  --}}
+                            </div>
+                            <div class="col-md-2 text-end"> 
+                                    <a href="{{url('support_system_excel')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-success bt_prs">
+                                        <i class="fa-solid fa-file-excel me-2"></i>
+                                        Export To Excel
+                                    </a> 
+                            </div>
                         </div>
-                        <div class="btn-actions-pane-right">
-                            <a href="{{url('support_system_excel')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
-                                <i class="fa-solid fa-file-excel me-2"></i>
-                                Export To Excel
-                            </a>
-                        </div>
-                       
-                    </div>
-                    <div class="table-responsive">
-                        <table class="align-middle text-truncate mb-0 table table-borderless table-hover table-bordered" style="width: 100%;">
-                            <thead>
-                                <tr>
-                                    <th rowspan="3" class="text-center" style="background-color: rgb(255, 251, 228)">ลำดับ</th>
-                                    <th rowspan="3" class="text-center" style="background-color: rgb(255, 251, 228)">เดือนที่ตรวจ</th>
-                                    <th colspan="6" class="text-center" style="background-color: rgb(255, 237, 117)">ถังดับเพลิงทั้งหมดที่มี (ถัง)</th>
-                                    <th colspan="6" class="text-center" style="background-color: rgb(117, 216, 255)">ถังดับเพลิงที่ได้รับการตรวจสอบ (ถัง)</th>
-                                    <th rowspan="3" class="text-center" style="background-color: rgb(247, 157, 151)">จำนวน<br>ที่ไม่ได้ตรวจ<br>รวม(ถัง)</th>
-                                    <th rowspan="3" class="text-center" style="background-color: rgb(250, 211, 226)">จำนวน<br>ที่ชำรุด<br>รวม(ถัง)</th>
-                                    <th colspan="2" class="text-center" style="background-color: rgb(253, 185, 211)">ร้อยละ</th> 
-                                </tr>
-                                <tr> 
-                                    <th colspan="3" class="text-center" style="background-color: rgb(255, 176, 157)">ชนิดผงเคมีแห้ง (ถังแดง)</th>
-                                    <th colspan="2" class="text-center" style="background-color: rgb(139, 247, 211)">ชนิดน้ำยาระเหย</th>
-                                    <th rowspan="2" class="text-center" style="background-color: rgb(138, 189, 247)">รวมทั้งหมด</th> 
-                                    <th colspan="3" class="text-center" style="background-color: rgb(255, 176, 157)">ชนิดผงเคมีแห้ง (ถังแดง)</th>
-                                    <th colspan="2" class="text-center" style="background-color: rgb(139, 247, 211)">ชนิดน้ำยาระเหย</th>
-                                    <th rowspan="2" class="text-center" style="background-color: rgb(138, 189, 247)">รวมทั้งหมด</th>   
-                                    <th rowspan="2" class="text-center" style="background-color: rgb(255, 251, 228)">ที่ตรวจ<br> รวม(ถัง)</th> 
-                                    <th rowspan="2" class="text-center" style="background-color: rgb(228, 253, 255)">ที่ชำรุด<br> รวม(ถัง)</th> 
-                                </tr>
-                                <tr> 
-                                    <th class="text-center" style="background-color: rgb(253, 210, 199)">10 ปอนด์</th>
-                                    <th class="text-center" style="background-color: rgb(253, 210, 199)">15 ปอนด์</th>
-                                    <th class="text-center" style="background-color: rgb(253, 210, 199)">20 ปอนด์</th>
-                                    <th colspan="2" class="text-center" style="background-color: rgb(218, 252, 241)">(ถังเขียว) 10 ปอนด์</th> 
-                                    <th class="text-center" style="background-color: rgb(253, 210, 199)">10 ปอนด์</th>
-                                    <th class="text-center" style="background-color: rgb(253, 210, 199)">15 ปอนด์</th>
-                                    <th class="text-center" style="background-color: rgb(253, 210, 199)">20 ปอนด์</th>
-                                    <th colspan="2" class="text-center" style="background-color: rgb(218, 252, 241)">(ถังเขียว) 10 ปอนด์</th>  
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $i = 0; ?>
-                                @foreach ($datareport as $itemreport) 
-                                    <?php $i++ ?>
-                                    <?php 
-                                            $dashboard_ = DB::select(
-                                                'SELECT (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red") as red_all
-                                                    ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="10" AND fire_edit ="Narmal") as redten
-                                                    ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="15" AND fire_edit ="Narmal") as redfifteen
-                                                    ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="20" AND fire_edit ="Narmal") as redtwenty 
-                                                    ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green" AND fire_size ="10" AND fire_edit ="Narmal") as greenten
-                                                    ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="10" AND fire_edit ="Narmal")+
-                                                    (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="15" AND fire_edit ="Narmal")+
-                                                    (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="20" AND fire_edit ="Narmal")+
-                                                    (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green" AND fire_size ="10" AND fire_edit ="Narmal") total_all
+                        
+                        <div class="row mt-2">
+                            <div class="col-md-12">
+                   
+                                <div class="table-responsive">
+                                    <table class="align-middle text-truncate mb-0 table table-borderless table-hover table-bordered" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="3" class="text-center" style="background-color: rgb(255, 251, 228)">ลำดับ</th>
+                                                <th rowspan="3" class="text-center" style="background-color: rgb(255, 251, 228)">เดือนที่ตรวจ</th>
+                                                <th colspan="6" class="text-center" style="background-color: rgb(255, 237, 117)">ถังดับเพลิงทั้งหมดที่มี (ถัง)</th>
+                                                <th colspan="6" class="text-center" style="background-color: rgb(117, 216, 255)">ถังดับเพลิงที่ได้รับการตรวจสอบ (ถัง)</th>
+                                                <th rowspan="3" class="text-center" style="background-color: rgb(247, 157, 151)">จำนวน<br>ที่ไม่ได้ตรวจ<br>รวม(ถัง)</th>
+                                                <th rowspan="3" class="text-center" style="background-color: rgb(250, 211, 226)">จำนวน<br>ที่ชำรุด<br>รวม(ถัง)</th>
+                                                <th colspan="2" class="text-center" style="background-color: rgb(253, 185, 211)">ร้อยละ</th> 
+                                            </tr>
+                                            <tr> 
+                                                <th colspan="3" class="text-center" style="background-color: rgb(255, 176, 157)">ชนิดผงเคมีแห้ง (ถังแดง)</th>
+                                                <th colspan="2" class="text-center" style="background-color: rgb(139, 247, 211)">ชนิดน้ำยาระเหย</th>
+                                                <th rowspan="2" class="text-center" style="background-color: rgb(138, 189, 247)">รวมทั้งหมด</th> 
+                                                <th colspan="3" class="text-center" style="background-color: rgb(255, 176, 157)">ชนิดผงเคมีแห้ง (ถังแดง)</th>
+                                                <th colspan="2" class="text-center" style="background-color: rgb(139, 247, 211)">ชนิดน้ำยาระเหย</th>
+                                                <th rowspan="2" class="text-center" style="background-color: rgb(138, 189, 247)">รวมทั้งหมด</th>   
+                                                <th rowspan="2" class="text-center" style="background-color: rgb(255, 251, 228)">ที่ตรวจ<br> รวม(ถัง)</th> 
+                                                <th rowspan="2" class="text-center" style="background-color: rgb(228, 253, 255)">ที่ชำรุด<br> รวม(ถัง)</th> 
+                                            </tr>
+                                            <tr> 
+                                                <th class="text-center" style="background-color: rgb(253, 210, 199)">10 ปอนด์</th>
+                                                <th class="text-center" style="background-color: rgb(253, 210, 199)">15 ปอนด์</th>
+                                                <th class="text-center" style="background-color: rgb(253, 210, 199)">20 ปอนด์</th>
+                                                <th colspan="2" class="text-center" style="background-color: rgb(218, 252, 241)">(ถังเขียว) 10 ปอนด์</th> 
+                                                <th class="text-center" style="background-color: rgb(253, 210, 199)">10 ปอนด์</th>
+                                                <th class="text-center" style="background-color: rgb(253, 210, 199)">15 ปอนด์</th>
+                                                <th class="text-center" style="background-color: rgb(253, 210, 199)">20 ปอนด์</th>
+                                                <th colspan="2" class="text-center" style="background-color: rgb(218, 252, 241)">(ถังเขียว) 10 ปอนด์</th>  
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php $i = 0; ?>
+                                            @foreach ($datareport as $itemreport) 
+                                                <?php $i++ ?>
+                                                <?php 
+                                                        $dashboard_ = DB::select(
+                                                            'SELECT (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red") as red_all
+                                                                ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="10" AND fire_edit ="Narmal") as redten
+                                                                ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="15" AND fire_edit ="Narmal") as redfifteen
+                                                                ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="20" AND fire_edit ="Narmal") as redtwenty 
+                                                                ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green" AND fire_size ="10" AND fire_edit ="Narmal") as greenten
+                                                                ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="10" AND fire_edit ="Narmal")+
+                                                                (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="15" AND fire_edit ="Narmal")+
+                                                                (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="20" AND fire_edit ="Narmal")+
+                                                                (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green" AND fire_size ="10" AND fire_edit ="Narmal") total_all
+                                                                
+                                                                ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="10" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'") as Check_redten
+                                                                ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="15" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'") as Check_redfifteen
+                                                                ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="20" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'") as Check_redtwenty
+                                                                ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "green" AND f.fire_size ="10" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'") as Check_greenten
+
+                                                                ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="10" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'")+
+                                                                (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="15" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'")+
+                                                                (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="20" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'")+
+                                                                (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "green" AND f.fire_size ="10" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'") as Checktotal_all
+
+                                                                ,(SELECT COUNT(fire_id) FROM fire WHERE active = "N") as camroot
+                                                                ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green") as green_all
+                                                                ,(SELECT COUNT(fire_id) FROM fire_check WHERE fire_check_color = "green") as Checkgreen_all
+                                                                ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_backup = "Y") as backup_red
+                                                                ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green" AND fire_backup = "Y") as backup_green
+                                                            FROM fire_check f
+                                                            WHERE month(f.check_date) = "'.$itemreport->months.'"
+                                                            AND year(f.check_date) = "'.$itemreport->years.'" 
+            
+                                                        ');                                     
+                                                        foreach ($dashboard_ as $key => $value) {
+                                                            $red_all               = $value->red_all;
+                                                            $redten                = $value->redten;
+                                                            $redfifteen            = $value->redfifteen;
+                                                            $redtwenty             = $value->redtwenty;
+                                                            $greenten              = $value->greenten;
+                                                            $total_all             = $value->total_all;
+                                                            $Check_redten          = $value->Check_redten;
+                                                            $Check_redfifteen      = $value->Check_redfifteen;
+                                                            $Check_redtwenty       = $value->Check_redtwenty;
+                                                            $Check_greenten        = $value->Check_greenten;
+                                                            $Checktotal_all        = $value->Checktotal_all;
+                                                            $camroot               = $value->camroot;
+                                                            $green_all             = $value->green_all;
+                                                            $Checkgreen_all        = $value->Checkgreen_all;
+                                                        } 
+                                                        $sumyokma_all_ = DB::select(
+                                                            'SELECT COUNT(f.fire_id) as cfire 
+                                                                FROM fire_check fc  
+                                                                LEFT OUTER JOIN fire f ON f.fire_id = fc.fire_id
+                                                                WHERE month(fc.check_date) = "'.$itemreport->months.'" 
+                                                                AND year(fc.check_date) = "'.$itemreport->years.'" 
+                                                        '); 
+                                                        $trut          = 100 / $total_all * $Checktotal_all;
+                                                        $chamrootcount = 100 / $total_all * $camroot;
+                                                ?>
+                                                <tr> 
+                                                    <td class="text-center text-muted" style="width: 5%;background-color: rgb(2255, 251, 228)">{{$i}}</td>
+                                                    <td class="text-start" style="width: 10%;background-color: rgb(2255, 251, 228)">
+                                                        {{$itemreport->MONTH_NAME}} พ.ศ.{{$itemreport->yearsthai}}
+                                                    </td>
+                                                    <td class="text-center" style="background-color: rgb(255, 255, 255)">
+                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">{{$redten}}</a>
+                                                    </td>
+                                                    <td class="text-center" style="background-color: rgb(255, 255, 255)">
+                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">{{$redfifteen}}</a>
+                                                    </td>
+                                                    <td class="text-center" style="background-color: rgb(255, 255, 255)">
+                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">{{$redtwenty}}</a>
+                                                    </td>
+                                                    <td colspan="2" class="text-center" style="background-color: rgb(255, 255, 255)">
+                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-success me-2 ms-2">{{$greenten}}</a>
+                                                    </td>
+                                                    <td class="text-center" style="background-color: rgb(255, 255, 255)">
                                                     
-                                                    ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="10" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'") as Check_redten
-                                                    ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="15" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'") as Check_redfifteen
-                                                    ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="20" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'") as Check_redtwenty
-                                                    ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "green" AND f.fire_size ="10" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'") as Check_greenten
+                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-info me-2 ms-2">{{$total_all}}</a>
+                                                    </td>
+                                                    <td class="text-center" style="background-color: rgb(255, 255, 255)">
+                                                        <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">{{$Check_redten}}</a>
+                                                    </td>
+                                                    <td class="text-center" style="background-color: rgb(255, 255, 255)">
+                                                        <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">{{$Check_redfifteen}}</a>
+                                                    </td>
+                                                    <td class="text-center" style="background-color: rgb(255, 255, 255)">
+                                                        <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">{{$Check_redtwenty}}</a>
+                                                    </td>
+                                                    <td colspan="2" class="text-center" style="background-color: rgb(255, 255, 255)">
+                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-success me-2 ms-2">{{$Check_greenten}}</a>
+                                                    </td>
+                                                    <td class="text-center" style="background-color: rgb(219, 243, 252)">
+                                                        <a href="{{url('support_system_check/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill bg-primary me-2 ms-2">{{$Checktotal_all}}</a>
+                                                    </td> 
 
-                                                    ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="10" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'")+
-                                                    (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="15" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'")+
-                                                    (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="20" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'")+
-                                                    (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "green" AND f.fire_size ="10" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'") as Checktotal_all
-
-                                                    ,(SELECT COUNT(fire_id) FROM fire WHERE active = "N") as camroot
-                                                    ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green") as green_all
-                                                    ,(SELECT COUNT(fire_id) FROM fire_check WHERE fire_check_color = "green") as Checkgreen_all
-                                                    ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_backup = "Y") as backup_red
-                                                    ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green" AND fire_backup = "Y") as backup_green
-                                                FROM fire_check f
-                                                WHERE month(f.check_date) = "'.$itemreport->months.'"
-                                                AND year(f.check_date) = "'.$itemreport->years.'" 
- 
-                                            ');                                     
-                                            foreach ($dashboard_ as $key => $value) {
-                                                $red_all               = $value->red_all;
-                                                $redten                = $value->redten;
-                                                $redfifteen            = $value->redfifteen;
-                                                $redtwenty             = $value->redtwenty;
-                                                $greenten              = $value->greenten;
-                                                $total_all             = $value->total_all;
-                                                $Check_redten          = $value->Check_redten;
-                                                $Check_redfifteen      = $value->Check_redfifteen;
-                                                $Check_redtwenty       = $value->Check_redtwenty;
-                                                $Check_greenten        = $value->Check_greenten;
-                                                $Checktotal_all        = $value->Checktotal_all;
-                                                $camroot               = $value->camroot;
-                                                $green_all             = $value->green_all;
-                                                $Checkgreen_all        = $value->Checkgreen_all;
-                                            } 
-                                            $sumyokma_all_ = DB::select(
-                                                'SELECT COUNT(f.fire_id) as cfire 
-                                                    FROM fire_check fc  
-                                                    LEFT OUTER JOIN fire f ON f.fire_id = fc.fire_id
-                                                    WHERE month(fc.check_date) = "'.$itemreport->months.'" 
-                                                    AND year(fc.check_date) = "'.$itemreport->years.'" 
-                                            '); 
-                                            $trut          = 100 / $total_all * $Checktotal_all;
-                                            $chamrootcount = 100 / $total_all * $camroot;
-                                    ?>
-                                    <tr> 
-                                        <td class="text-center text-muted" style="width: 5%;background-color: rgb(2255, 251, 228)">{{$i}}</td>
-                                        <td class="text-start" style="width: 10%;background-color: rgb(2255, 251, 228)">
-                                            {{$itemreport->MONTH_NAME}} พ.ศ.{{$itemreport->yearsthai}}
-                                        </td>
-                                        <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                            <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">{{$redten}}</a>
-                                        </td>
-                                        <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                            <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">{{$redfifteen}}</a>
-                                        </td>
-                                        <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                            <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">{{$redtwenty}}</a>
-                                        </td>
-                                        <td colspan="2" class="text-center" style="background-color: rgb(255, 255, 255)">
-                                            <a href="javascript:void(0)" class="badge rounded-pill bg-success me-2 ms-2">{{$greenten}}</a>
-                                        </td>
-                                        <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                           
-                                            <a href="javascript:void(0)" class="badge rounded-pill bg-info me-2 ms-2">{{$total_all}}</a>
-                                        </td>
-                                        <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                            <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">{{$Check_redten}}</a>
-                                        </td>
-                                        <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                            <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">{{$Check_redfifteen}}</a>
-                                        </td>
-                                        <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                            <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">{{$Check_redtwenty}}</a>
-                                        </td>
-                                        <td colspan="2" class="text-center" style="background-color: rgb(255, 255, 255)">
-                                            <a href="javascript:void(0)" class="badge rounded-pill bg-success me-2 ms-2">{{$Check_greenten}}</a>
-                                        </td>
-                                        <td class="text-center" style="background-color: rgb(219, 243, 252)">
-                                            <a href="{{url('support_system_check/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill bg-primary me-2 ms-2">{{$Checktotal_all}}</a>
-                                        </td> 
-
-                                        <td class="text-center" style="background-color: rgb(253, 202, 198)">
-                                            <a href="{{url('support_system_nocheck/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(253, 80, 68)">{{$total_all- $Checktotal_all}}</a>
-                                        </td>
-                                        <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                            <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">{{$camroot}}</a>
-                                        </td>
-                                        <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                            <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">{{ number_format($trut, 2) }}</a>
-                                        </td>
-                                        <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                            <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">{{ number_format($chamrootcount, 2) }}</a>
-                                        </td>
-                                    </tr> 
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="d-block p-4 text-center card-footer">
-                       
-                    </div>
+                                                    <td class="text-center" style="background-color: rgb(253, 202, 198)">
+                                                        <a href="{{url('support_system_nocheck/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(253, 80, 68)">{{$total_all- $Checktotal_all}}</a>
+                                                    </td>
+                                                    <td class="text-center" style="background-color: rgb(255, 255, 255)">
+                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">{{$camroot}}</a>
+                                                    </td>
+                                                    <td class="text-center" style="background-color: rgb(255, 255, 255)">
+                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">{{ number_format($trut, 2) }}</a>
+                                                    </td>
+                                                    <td class="text-center" style="background-color: rgb(255, 255, 255)">
+                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">{{ number_format($chamrootcount, 2) }}</a>
+                                                    </td>
+                                                </tr> 
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div> 
+                        </div>
+                    {{-- <div class="d-block p-4 text-center card-footer"> 
+                    </div> --}}
                 </div>
 
             </div> 

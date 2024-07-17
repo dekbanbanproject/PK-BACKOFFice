@@ -364,11 +364,15 @@ use App\Models\Products_request_sub;
                     <div class="collapse navbar-collapse" id="topnav-menu-content">
                         <ul class="navbar-nav">
 
-                        
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="{{ url('support_system_dashboard') }}" id="topnav-more" role="button">
+                                    <i class="fa-solid fa-chart-pie me-2"></i>Dashboard  
+                                </a> 
+                            </li>
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="{{ url('fire_main') }}" id="topnav-more" role="button">
-                                    <i class="fa-solid fa-fan me-2"></i>ทะเบียนถังดับเพลิง  
+                                    <i class="fa-solid fa-fire-extinguisher me-2"></i>ทะเบียนถังดับเพลิง  
                                 </a>
                                 
                             </li>

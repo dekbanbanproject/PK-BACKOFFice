@@ -65,7 +65,7 @@
         </span> --}}
         <div class="row"> 
             <div class="col-xl-3 col-md-6">
-                <a href="{{url('air_dashboard')}}" target="blank">
+                <a href="{{url('air_dashboard')}}" target="_blank">
                     <div class="card" style="height: 200px">
                         <div class="card-body">
                             <div class="d-flex">
@@ -92,7 +92,7 @@
             </div> 
             
             <div class="col-xl-3 col-md-6">
-                <a href="{{url('support_system_dashboard')}}" target="blank">
+                <a href="{{url('support_system_dashboard')}}" target="_blank">
                     <div class="card" style="height: 200px">
                         <div class="card-body">
                             <div class="d-flex">
@@ -145,7 +145,7 @@
             <div class="col-xl-3 col-md-6">
                 <div class="card" style="height: 200px">
                     <div class="card-body">
-                        <div class="d-flex mb-5">
+                        <div class="d-flex">
                             <div class="flex-grow-1">
                                 <p class="text-truncate font-size-14 mb-2">ระบบน้ำใช้สำรอง</p>
                                 <h2 class="mb-5">29670</h2> 
@@ -172,7 +172,7 @@
             <div class="col-xl-3 col-md-6">
                 <div class="card" style="height: 200px">
                     <div class="card-body">
-                        <div class="d-flex mb-5">
+                        <div class="d-flex">
                             <div class="flex-grow-1">
                                 <p class="text-truncate font-size-14 mb-2">ระบบน้ำบริโภค</p>
                                 <h2 class="mb-5">29670</h2> 
@@ -186,17 +186,17 @@
                         <div class="d-flex align-content-center flex-wrap mt-4">
                             <p class="text-muted mb-0">
                                 <span class="text-info fw-bold font-size-20 me-2">
-                                    <i class="ri-arrow-right-up-line me-1 align-middle"></i>0.00 %
+                                    <i class="ri-arrow-right-down-line me-1 align-middle"></i>0.00 %
                                 </span>from previous period
                             </p>
-                        </div> 
+                        </div>  
                     </div> 
                 </div> 
             </div> 
             <div class="col-xl-3 col-md-6">
                 <div class="card" style="height: 200px">
                     <div class="card-body">
-                        <div class="d-flex mb-5">
+                        <div class="d-flex">
                             <div class="flex-grow-1">
                                 <p class="text-truncate font-size-14 mb-2">ระบบเครื่องกำเนิดไฟฟ้า</p>
                                 <h2 class="mb-5">29670</h2> 
@@ -220,7 +220,7 @@
             <div class="col-xl-3 col-md-6">
                 <div class="card" style="height: 200px">
                     <div class="card-body">
-                        <div class="d-flex mb-5">
+                        <div class="d-flex">
                             <div class="flex-grow-1">
                                 <p class="text-truncate font-size-14 mb-2">ระบบหม้อแปลงไฟฟ้า</p>
                                 <h2 class="mb-5">29670</h2> 
@@ -244,7 +244,7 @@
             <div class="col-xl-3 col-md-6">
                 <div class="card" style="height: 200px">
                     <div class="card-body">
-                        <div class="d-flex mb-5">
+                        <div class="d-flex">
                             <div class="flex-grow-1">
                                 <p class="text-truncate font-size-14 mb-2">ระบบลิฟต์โดยสาร</p>
                                 <h2 class="mb-5">29670</h2> 
@@ -270,7 +270,7 @@
             <div class="col-xl-3 col-md-6">
                 <div class="card" style="height: 200px">
                     <div class="card-body">
-                        <div class="d-flex mb-5">
+                        <div class="d-flex">
                             <div class="flex-grow-1">
                                 <p class="text-truncate font-size-14 mb-2">ระบบห้องน้ำ/ห้องส้วม</p>
                                 <h2 class="mb-5">29670</h2> 
@@ -294,7 +294,7 @@
             <div class="col-xl-3 col-md-6">
                 <div class="card" style="height: 200px">
                     <div class="card-body">
-                        <div class="d-flex mb-5">
+                        <div class="d-flex">
                             <div class="flex-grow-1">
                                 <p class="text-truncate font-size-14 mb-2">ระบบก๊าซทางการแพทย์</p>
                                 <h2 class="mb-5">29670</h2> 
