@@ -66,7 +66,7 @@
         <div class="row"> 
             <div class="col-xl-3 col-md-6">
                 <a href="{{url('air_dashboard')}}" target="blank">
-                    <div class="card" style="height: 220px">
+                    <div class="card" style="height: 200px">
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
@@ -79,7 +79,7 @@
                                     </span>
                                 </div>
                             </div>  
-                            <div class="d-flex align-content-center flex-wrap mt-5">
+                            <div class="d-flex align-content-center flex-wrap mt-4">
                                 <p class="text-muted mb-0">
                                     <span class="text-success fw-bold font-size-20 me-2">
                                         <i class="ri-arrow-right-up-line me-1 align-middle"></i>0.00 %
@@ -93,7 +93,7 @@
             
             <div class="col-xl-3 col-md-6">
                 <a href="{{url('support_system_dashboard')}}" target="blank">
-                    <div class="card" style="height: 220px">
+                    <div class="card" style="height: 200px">
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
@@ -106,7 +106,7 @@
                                     </span>
                                 </div>
                             </div>   
-                            <div class="d-flex align-content-center flex-wrap mt-5">
+                            <div class="d-flex align-content-center flex-wrap mt-4">
                                 <p class="text-muted mb-0">
                                     <span class="text-danger fw-bold font-size-20 me-2">
                                         <i class="ri-arrow-right-down-line me-1 align-middle"></i>0.00 %
@@ -118,7 +118,7 @@
                 </a>
             </div> 
             <div class="col-xl-3 col-md-6">
-                <div class="card" style="height: 220px">
+                <div class="card" style="height: 200px">
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="flex-grow-1">
@@ -131,7 +131,7 @@
                                 </span>
                             </div>
                         </div>  
-                        <div class="d-flex align-content-center flex-wrap mt-5">
+                        <div class="d-flex align-content-center flex-wrap mt-4">
                             <p class="text-muted mb-0">
                                 <span class="text-warning fw-bold font-size-20 me-2">
                                     <i class="ri-arrow-right-down-line me-1 align-middle"></i>0.00 %
@@ -143,7 +143,7 @@
             </div> 
 
             <div class="col-xl-3 col-md-6">
-                <div class="card" style="height: 220px">
+                <div class="card" style="height: 200px">
                     <div class="card-body">
                         <div class="d-flex mb-5">
                             <div class="flex-grow-1">
@@ -156,7 +156,7 @@
                                 </span>
                             </div>
                         </div>  
-                        <div class="d-flex align-content-center flex-wrap mt-5">
+                        <div class="d-flex align-content-center flex-wrap mt-4">
                             <p class="text-muted mb-0">
                                 <span class="text-info fw-bold font-size-20 me-2">
                                     <i class="ri-arrow-right-up-line me-1 align-middle"></i>0.00 %
@@ -170,7 +170,7 @@
 
         <div class="row"> 
             <div class="col-xl-3 col-md-6">
-                <div class="card" style="height: 220px">
+                <div class="card" style="height: 200px">
                     <div class="card-body">
                         <div class="d-flex mb-5">
                             <div class="flex-grow-1">
@@ -183,7 +183,7 @@
                                 </span>
                             </div>
                         </div>  
-                        <div class="d-flex align-content-center flex-wrap mt-5">
+                        <div class="d-flex align-content-center flex-wrap mt-4">
                             <p class="text-muted mb-0">
                                 <span class="text-info fw-bold font-size-20 me-2">
                                     <i class="ri-arrow-right-up-line me-1 align-middle"></i>0.00 %
@@ -194,7 +194,7 @@
                 </div> 
             </div> 
             <div class="col-xl-3 col-md-6">
-                <div class="card" style="height: 220px">
+                <div class="card" style="height: 200px">
                     <div class="card-body">
                         <div class="d-flex mb-5">
                             <div class="flex-grow-1">
@@ -207,7 +207,7 @@
                                 </span>
                             </div>
                         </div>  
-                        <div class="d-flex align-content-center flex-wrap mt-5">
+                        <div class="d-flex align-content-center flex-wrap mt-4">
                             <p class="text-muted mb-0">
                                 <span class="text-info fw-bold font-size-20 me-2">
                                     <i class="ri-arrow-right-up-line me-1 align-middle"></i>0.00 %
@@ -218,7 +218,7 @@
                 </div> 
             </div> 
             <div class="col-xl-3 col-md-6">
-                <div class="card" style="height: 220px">
+                <div class="card" style="height: 200px">
                     <div class="card-body">
                         <div class="d-flex mb-5">
                             <div class="flex-grow-1">
@@ -231,7 +231,7 @@
                                 </span>
                             </div>
                         </div>  
-                        <div class="d-flex align-content-center flex-wrap mt-5">
+                        <div class="d-flex align-content-center flex-wrap mt-4">
                             <p class="text-muted mb-0">
                                 <span class="text-info fw-bold font-size-20 me-2">
                                     <i class="ri-arrow-right-up-line me-1 align-middle"></i>0.00 %
@@ -242,7 +242,7 @@
                 </div> 
             </div> 
             <div class="col-xl-3 col-md-6">
-                <div class="card" style="height: 220px">
+                <div class="card" style="height: 200px">
                     <div class="card-body">
                         <div class="d-flex mb-5">
                             <div class="flex-grow-1">
@@ -255,7 +255,7 @@
                                 </span>
                             </div>
                         </div>  
-                        <div class="d-flex align-content-center flex-wrap mt-5">
+                        <div class="d-flex align-content-center flex-wrap mt-4">
                             <p class="text-muted mb-0">
                                 <span class="text-info fw-bold font-size-20 me-2">
                                     <i class="ri-arrow-right-up-line me-1 align-middle"></i>0.00 %
@@ -268,7 +268,7 @@
         </div> 
         <div class="row"> 
             <div class="col-xl-3 col-md-6">
-                <div class="card" style="height: 220px">
+                <div class="card" style="height: 200px">
                     <div class="card-body">
                         <div class="d-flex mb-5">
                             <div class="flex-grow-1">
@@ -281,7 +281,7 @@
                                 </span>
                             </div>
                         </div>  
-                        <div class="d-flex align-content-center flex-wrap mt-5">
+                        <div class="d-flex align-content-center flex-wrap mt-4">
                             <p class="text-muted mb-0">
                                 <span class="text-info fw-bold font-size-20 me-2">
                                     <i class="ri-arrow-right-up-line me-1 align-middle"></i>0.00 %
@@ -292,7 +292,7 @@
                 </div> 
             </div> 
             <div class="col-xl-3 col-md-6">
-                <div class="card" style="height: 220px">
+                <div class="card" style="height: 200px">
                     <div class="card-body">
                         <div class="d-flex mb-5">
                             <div class="flex-grow-1">
@@ -305,7 +305,7 @@
                                 </span>
                             </div>
                         </div>  
-                        <div class="d-flex align-content-center flex-wrap mt-5">
+                        <div class="d-flex align-content-center flex-wrap mt-4">
                             <p class="text-muted mb-0">
                                 <span class="text-info fw-bold font-size-20 me-2">
                                     <i class="ri-arrow-right-up-line me-1 align-middle"></i>0.00 %
