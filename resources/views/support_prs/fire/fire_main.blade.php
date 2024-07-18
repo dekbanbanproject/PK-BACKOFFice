@@ -147,22 +147,23 @@
    
     <div class="row"> 
         <div class="col-md-4">
-            <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail FIRE</h4>
-            <p class="card-title-desc">รายละเอียดถังดับเพลิง</p>
+          
+            <h4 style="color:rgb(10, 151, 85)">ถังดับเพลิง</h4>
+            <p class="card-title-desc" style="font-size: 17px;">ทะเบียนถังดับเพลิง</p>
         </div>
         <div class="col"></div>
       
         <div class="col-md-6 text-end">
-            <a href="{{url('fire_qrcode_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-info cardacc">  
+            <a href="{{url('fire_qrcode_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-info bt_prs">  
                 <i class="fa-solid fa-print me-2 text-white me-2" style="font-size:13px"></i>
                 <span>Print QRCODE All</span> 
             </a> 
-            <a href="{{url('fire_qrcode_detail_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-secondary cardacc">  
+            <a href="{{url('fire_qrcode_detail_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-secondary bt_prs">  
                 <i class="fa-solid fa-print me-2 text-white me-2" style="font-size:13px"></i>
                 <span>Print QRCODE Detail All</span>
                 
             </a> 
-            <a href="{{url('fire_add')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-primary cardacc"> 
+            <a href="{{url('fire_add')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-primary bt_prs"> 
                 <i class="fa-solid fa-circle-plus text-white me-2"></i>
                เพิ่มรายการ
             </a>  
@@ -184,8 +185,8 @@
 
                 <p class="mb-0">
                     <div class="table-responsive">
-                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                        {{-- <table id="example" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;"> --}}
+                        {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                            <table id="example" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
                                   
@@ -218,14 +219,14 @@
                                         </td>
                                       
                                         @if ( $item->fire_imgname == Null )
-                                        <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="30px" width="30px" alt="Image" class="img-thumbnail"></td> 
+                                        <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="20px" width="20px" alt="Image" class="img-thumbnail"></td> 
                                         @else
-                                        <td class="text-center" width="3%"><img src="{{asset('storage/fire/'.$item->fire_imgname)}}" height="30px" width="30px" alt="Image" class="img-thumbnail">  </td>                                
+                                        <td class="text-center" width="3%"><img src="{{asset('storage/fire/'.$item->fire_imgname)}}" height="20px" width="20px" alt="Image" class="img-thumbnail">  </td>                                
                                         @endif
 
                                         <td class="text-center" width="5%"> 
                                           
-                                            {!!QrCode::size(30)->generate(" $item->fire_id ")!!}  
+                                            {!!QrCode::size(20)->generate(" $item->fire_id ")!!}  
 
                                         </td> 
 
@@ -237,7 +238,7 @@
                                         <td class="text-center" width="7%">{{ DateThai($item->fire_date_exp) }}</td> 
                                         <td class="text-center" width="5%">
 
-                                            <div class="dropdown d-inline-block">
+                                            {{-- <div class="dropdown d-inline-block">
                                                 <button type="button" aria-haspopup="true" aria-expanded="false"
                                                     data-bs-toggle="dropdown"
                                                     class="dropdown-toggle btn btn-outline-secondary btn-sm">
@@ -247,8 +248,7 @@
                                                     <a class="dropdown-item text-primary" href="{{ url('fire_qrcode/'.$item->fire_id) }}" style="font-size:13px"> 
                                                         <i class="fa-solid fa-print me-2 text-primary" style="font-size:13px"></i>
                                                         <span>Print QR</span>
-                                                    </a> 
-                                                    
+                                                    </a>                                                     
                                                     <div class="dropdown-divider"></div>
                                                     <a class="dropdown-item text-info" href="{{ url('fire_qrcode_detail/'.$item->fire_id) }}" style="font-size:13px"> 
                                                         <i class="fa-solid fa-print me-2 text-info" style="font-size:13px"></i>
@@ -265,6 +265,32 @@
                                                         data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="ลบ">
                                                         <i class="fa-solid fa-trash-can me-2 mb-1"></i>
                                                         <label for="" style="color: rgb(255, 2, 2);font-size:13px">ลบ</label>
+                                                    </a>
+                                                </div>
+                                            </div> --}}
+
+                                            <div class="btn-group me-1">
+                                                <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    ทำรายการ <i class="mdi mdi-chevron-down"></i>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                   
+                                                    <a class="dropdown-item text-primary" href="{{ url('fire_qrcode_detail/'.$item->fire_id) }}" style="font-size:13px" target="_blank"
+                                                        data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="Print QR"> 
+                                                        <i class="fa-solid fa-print me-2 text-primary" style="font-size:13px"></i>
+                                                        <span>Print QR Detail</span>
+                                                    </a> 
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item text-warning" href="{{ url('fire_edit/' . $item->fire_id) }}" style="font-size:13px" target="_blank"
+                                                        data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="แก้ไข">
+                                                        <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
+                                                        <span>แก้ไข</span>
+                                                    </a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="fire_destroy({{ $item->fire_id }})" style="font-size:13px"
+                                                        data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="ลบ">
+                                                        <i class="fa-solid fa-trash-can me-2"></i>
+                                                        <span style="color: rgb(255, 2, 2);font-size:13px">ลบ</span> 
                                                     </a>
                                                 </div>
                                             </div>

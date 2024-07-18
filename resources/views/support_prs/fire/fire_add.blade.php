@@ -1,4 +1,4 @@
-@extends('layouts.support_prs')
+@extends('layouts.support_prs_fireback')
 @section('title', 'PK-OFFICER || Fire')
 
 <style>
@@ -106,7 +106,7 @@ $loter = $date.''.$time
     ?>
 
 <div class="tabs-animation">
-    <div class="row text-center">
+    {{-- <div class="row text-center">
         <div id="overlay">
             <div class="cv-spinner">
                 <span class="spinner"></span>
@@ -118,16 +118,37 @@ $loter = $date.''.$time
             <div class="spinner"> 
             </div>
         </div>
+    </div> --}}
+    <div id="preloader">
+        <div id="status">
+            <div id="container_spin">
+                <svg viewBox="0 0 100 100">
+                    <defs>
+                        <filter id="shadow">
+                        <feDropShadow dx="0" dy="0" stdDeviation="2.5" 
+                            flood-color="#fc6767"/>
+                        </filter>
+                    </defs>
+                    <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 7px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
+                </svg>
+            </div>
+        </div>
     </div>
+
     <form class="custom-validation" action="{{ route('prs.fire_save') }}" method="POST" id="insert_Form" enctype="multipart/form-data">
         @csrf
     <div class="row"> 
-        <div class="col-md-3">
-            <h4 class="card-title" style="color:rgb(10, 151, 85)">ADD FIRE</h4>
-            <p class="card-title-desc">เพิ่มข้อมูลถังดับเพลิง</p>
+        <div class="col-md-3"> 
+            <h4 style="color:rgb(10, 151, 85)">ถังดับเพลิง</h4>
+            <p class="card-title-desc" style="font-size: 17px;">เพิ่มข้อมูลถังดับเพลิง</p>
         </div>
         <div class="col"></div>
-        
+        <div class="col-md-2 text-end">
+            <a href="{{url('fire_main')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-warning bt_prs"> 
+                <i class="fa-solid fa-arrow-left me-2"></i> 
+               ย้อนกลับ
+            </a> 
+        </div>
        
     </div> 
    
@@ -141,18 +162,18 @@ $loter = $date.''.$time
                         
                         <div class="row">
 
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <img src="{{ asset('assets/images/default-image.jpg') }}" id="add_upload_preview"
-                                        alt="Image" class="img-thumbnail" width="450px" height="350px">
+                                        alt="Image" class="img-thumbnail bg_prs" width="450px" height="350px">
                                     <br>
-                                    <div class="input-group mb-3" id="signature-pad">
-                                        <label class="input-group-text" for="fire_imgname">Upload</label>
+                                    <div class="input-group mt-3">
+                                        {{-- <label class="input-group-text" for="fire_imgname">Upload</label> --}}
                                         {{-- <canvas> --}}
-                                        <input type="file" class="form-control" id="fire_imgname" name="fire_imgname"
+                                        <input type="file" class="form-control bg_prs" id="fire_imgname" name="fire_imgname"
                                             onchange="addarticle(this)">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="hidden" id="signature" name="signature">
+                                        {{-- <input type="hidden" id="signature" name="signature"> --}}
                                     {{-- </canvas>
                                     <button type="button" id="save_btn"
                                     class="btn btn-info btn-sm mt-3 me-2 text-white" data-action="save-png"
@@ -162,44 +183,16 @@ $loter = $date.''.$time
                                     </div>
                                 </div>
                             </div>
+ 
 
-                            {{-- <div class="col-md-4 mt-3">
-                                <h3 class="mt-1 text-center">ผู้รับงาน(หน่วยงานที่แจ้งซ่อม)</h3>
-                                <div id="signature-pad" class="mt-2 text-center">
-                                    <div style="border:solid 1px teal;height:120px;">
-                                        <div id="note" onmouseover="my_function();" class="text-center">The
-                                            signature should be inside box</div>
-                                        <canvas id="the_canvas" width="320px" height="120px"> </canvas>
-                                    </div>
-
-                                    <input type="hidden" id="signature" name="signature">
-
-                                    <button type="button" id="clear_btn"
-                                        class="btn btn-secondary btn-sm mt-3 ms-2 me-2" data-action="clear"><span
-                                            class="glyphicon glyphicon-remove"></span>
-                                        Clear</button>
-
-                                    <button type="button" id="save_btn"
-                                        class="btn btn-info btn-sm mt-3 me-2 text-white" data-action="save-png"
-                                        onclick="create()"><span class="glyphicon glyphicon-ok"></span>
-                                        Create
-                                    </button>
-                                </div>
-                            </div> --}}
-
-
-
-                            <div class="col-md-9">
-                                <div class="row">
-                                    <div class="col-md-2 text-end">
-                                        <label for="fire_year">ปีงบประมาณ </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <select id="fire_year" name="fire_year" class="form-select form-select-lg"
-                                                style="width: 100%">
-                                                <option value="">ปีงบประมาณ</option>
-                                                
+                            <div class="col-md-8">
+                                <div class="row"> 
+                                    <div class="col-md-6"> 
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <label class="input-group-text" for="fire_year">ปีงบประมาณ</label>
+                                            </div>
+                                            <select class="js-example-responsive" id="fire_year" name="fire_year" style="width: 75%">  
                                                 @foreach ($budget_year as $ye)
                                                 @if ($ye->leave_year_id == $date)
                                                     <option value="{{ $ye->leave_year_id }}" selected>
@@ -209,87 +202,83 @@ $loter = $date.''.$time
                                                     </option>
                                                 @endif
                                             @endforeach
-                                            </select>
+                                            </select> 
                                         </div>
                                     </div>
-                                    <div class="col-md-2 text-end">
-                                        <label for="fire_date">วันที่รับเข้า </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <input id="fire_date" type="date"
-                                                class="form-control form-control-sm" name="fire_date">
-                                        </div>
+                                   
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">วันที่รับเข้า</span>
+                                            </div>
+                                            <input type="date" class="form-control bg_prs" id="fire_date" name="fire_date" aria-label="fire_date" aria-describedby="inputGroup-sizing-sm">
+                                        </div> 
                                     </div>
                                 </div>
 
                                 <div class="row mt-3">
-                                    <div class="col-md-2 text-end">
-                                        <label for="fire_year">วันที่ผลิต </label>
+                                  
+                                    <div class="col-md-6">                                      
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">วันที่ผลิต</span>
+                                            </div>
+                                            <input type="date" class="form-control bg_prs" id="fire_date_pdd" name="fire_date_pdd" aria-label="fire_date_pdd" aria-describedby="inputGroup-sizing-sm">
+                                        </div> 
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <input id="fire_date" type="date" class="form-control form-control-sm" name="fire_date_pdd">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 text-end">
-                                        <label for="fire_date">วันที่หมดอายุ </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <input id="fire_date" type="date" class="form-control form-control-sm" name="fire_date_exp">
-                                        </div>
-                                    </div>
+                                    <div class="col-md-6">                                      
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">วันที่หมดอายุ</span>
+                                            </div>
+                                            <input type="date" class="form-control bg_prs" id="fire_date_exp" name="fire_date_exp" aria-label="fire_date_exp" aria-describedby="inputGroup-sizing-sm">
+                                        </div> 
+                                    </div> 
                                 </div>
 
-                                <div class="row mt-3">
-                                    <div class="col-md-2 text-end">
-                                        <label for="fire_num">เลขครุภัณฑ์/รหัสถังดับเพลิง</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <input id="fire_num" type="text" class="form-control form-control-sm"
-                                                name="fire_num">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 text-end">
-                                        <label for="fire_name">ชื่อครุภัณฑ์ </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <input id="fire_name" type="text" class="form-control form-control-sm"
-                                                name="fire_name">
-                                        </div>
-                                    </div>
+                                <div class="row mt-3"> 
+                                    <div class="col-md-6">                                      
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">รหัสถังดับเพลิง</span>
+                                            </div>
+                                            <input type="text" class="form-control bg_prs" id="fire_num" name="fire_num" aria-label="fire_num" aria-describedby="inputGroup-sizing-sm">
+                                        </div> 
+                                    </div> 
+                                    <div class="col-md-6">                                      
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">ชื่อครุภัณฑ์</span>
+                                            </div>
+                                            <input type="text" class="form-control bg_prs" id="fire_name" name="fire_name" aria-label="fire_name" aria-describedby="inputGroup-sizing-sm">
+                                        </div> 
+                                    </div> 
                                 </div>
 
                                
                                 <div class="row mt-3">
-                                    <div class="col-md-2 text-end">
-                                        <label for="fire_price">ราคา </label>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <input id="fire_price" type="text" class="form-control form-control-sm"
-                                                name="fire_price">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-1">
+                                    <div class="col-md-5">                                      
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">ราคา</span>
+                                            </div>
+                                            <input type="text" class="form-control bg_prs" id="fire_price" name="fire_price" aria-label="fire_price" aria-describedby="inputGroup-sizing-sm">
+                                        </div>  
+                                    </div> 
+                                    <div class="col-md-1 mt-2">
                                         <label for="fire_price">บาท</label>
                                     </div>
-                                    <div class="col-md-2 text-end">
-                                        <label for="active">สถานะ </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <select id="active" name="active" class="form-select form-select-lg" style="width: 100%">
+                                    <div class="col-md-6">  
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <label class="input-group-text" for="fire_year">สถานะ</label>
+                                            </div>                                          
+                                            <select id="active" name="active" class="js-example-responsive" style="width: 75%">
                                                 <option value="Y">ปกติ</option>
                                                 <option value="N">ชำรุด</option> 
                                             </select>
-                                        </div>
-                                    </div>
-
-
+                                        </div> 
+                                    </div> 
                                 </div>
 
 

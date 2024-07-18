@@ -175,7 +175,7 @@ $loter = $date.''.$time
         </div>
         <div class="col"></div>
         <div class="col-md-2 text-end">
-        <a href="{{url('air_main')}}" class="ladda-button me-2 btn-pill btn btn-warning cardacc"> 
+        <a href="{{url('air_main')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-warning bt_prs"> 
             <i class="fa-solid fa-arrow-left me-2"></i> 
            ย้อนกลับ
         </a> 
@@ -216,7 +216,7 @@ $loter = $date.''.$time
                                         <label for="air_year">ปีงบประมาณ </label>
                                     </div> --}}
                                     <div class="col-md-6"> 
-                                              <div class="input-group">
+                                            <div class="input-group">
                                                 <div class="input-group-prepend">
                                                   <label class="input-group-text" for="bran_id">ปีงบประมาณ</label>
                                                 </div>
@@ -229,7 +229,7 @@ $loter = $date.''.$time
                                                         @endif
                                                     @endforeach
                                                 </select> 
-                                        </div>
+                                            </div>
                                     </div>
                                     {{-- <div class="col-md-2 text-end fsize12">
                                         <label for="air_recive_date" >วันที่รับเข้า </label>

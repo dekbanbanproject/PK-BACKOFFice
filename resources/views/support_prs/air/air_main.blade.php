@@ -291,7 +291,7 @@
                                                         <span>Print QR</span>
                                                     </a> 
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item text-warning" href="{{ url('air_edit/' . $item->air_list_id) }}" style="font-size:13px" target="blank"
+                                                    <a class="dropdown-item text-warning" href="{{ url('air_edit/' . $item->air_list_id) }}" style="font-size:13px" target="_blank"
                                                         data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="แก้ไข">
                                                         <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
                                                         <span>แก้ไข</span>
