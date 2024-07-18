@@ -163,9 +163,11 @@
                                             <th class="text-center" >รายการ</th>  
                                             <th class="text-center" >สถานที่ตั้ง</th> 
                                             <th class="text-center" >ซ่อม/บำรุงรักษา</th>  
+                                            <th class="text-center" >เจ้าหน้าที่</th> 
+                                            <th class="text-center" >ช่าง รพ.</th> 
                                             <th class="text-center" >ช่างนอก</th> 
-                                            <th class="text-center" >เจ้าหน้าที่</th>  
-                                            <th class="text-center" >ช่าง รพ.</th>  
+                                            
+                                             
                                         </tr>
                                     </thead>
                                     <tbody>

@@ -936,85 +936,185 @@ class AirController extends Controller
                 }
 
 
-            //แจ้งเตือน 
-            function DateThailine($strDate)
-            {
-                $strYear = date("Y", strtotime($strDate)) + 543;
-                $strMonth = date("n", strtotime($strDate));
-                $strDay = date("j", strtotime($strDate));
+                //แจ้งเตือน 
+                function DateThailine($strDate)
+                {
+                    $strYear = date("Y", strtotime($strDate)) + 543;
+                    $strMonth = date("n", strtotime($strDate));
+                    $strDay = date("j", strtotime($strDate));
 
-                $strMonthCut = array("", "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
-                $strMonthThai = $strMonthCut[$strMonth];
-                return "$strDay $strMonthThai $strYear";
-            }
+                    $strMonthCut = array("", "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
+                    $strMonthThai = $strMonthCut[$strMonth];
+                    return "$strDay $strMonthThai $strYear";
+                }
 
-            $header = "ซ่อมเครื่องปรับอากาศ";
-            // $linegroup = DB::table('line_token')->where('line_token_id', '=', 6)->first();
-            // $line = $linegroup->line_token_code;
+                // $header = "ซ่อมเครื่องปรับอากาศ";
+                // $linegroup = DB::table('line_token')->where('line_token_id', '=', 6)->first();
+                // $line = $linegroup->line_token_code;
 
-            $link = DB::table('orginfo')->where('orginfo_id', '=', 1)->first();
-            $link_line = $link->orginfo_link;
+                // $link = DB::table('orginfo')->where('orginfo_id', '=', 1)->first();
+                // $link_line = $link->orginfo_link;
 
-            $datesend = date('Y-m-d');
-            $sendate = DateThailine($datesend);
-            // $user = DB::table('users')->where('id', '=', $iduser)->first();
+                $datesend = date('Y-m-d');
+                $sendate = DateThailine($datesend);
+                $data_users = DB::table('users')->where('id', '=', $request->air_techout_name)->first();
+                $techoutname = $data_users->fname.' '.$data_users->lname;
 
-            function formatetime($strtime)
-            {
-                $H = substr($strtime, 0, 5);
-                return $H;
-            }
+                $data_staff = DB::table('users')->where('id', '=', $request->air_staff_id)->first();
+                $staffname = $data_staff->fname.' '.$data_staff->lname;
 
-            // $message = $header .               
-            //     "\n" . "วันที่ซ่อม: " . $sendate.
-            //     "\n" . "รหัส : " . $request->air_list_num ."". 
-            //     "\n" . "ชื่อ  : " . $request->air_list_name . "".
-            //     "\n" . "Btu  : " . $request->btu ."". 
-            //     "\n" . "serial_no  : " . $request->serial_no ."".
-            //     "\n" . "ที่ตั้ง : " .$request->air_location_name."".
-            //     "\n" . "หน่วยงาน : " . $request->detail."".
+                $data_tech = DB::table('users')->where('id', '=', $request->air_tech_id)->first();
+                $techname = $data_tech->fname.' '.$data_tech->lname;
 
-            //     "\n" . "Authenสำเร็จ : " .$authen_success. " คน".
-            //     "\n" . "ยอด Authen: " .number_format($sum_total_authen, 2) ." บาท";
-            // // $linesend = $line;
-            // $linesend = "ibZC2tCju5YgpiTBMRqFw3j8U0Dx4br9odv5lSXsXBe";
-            // if ($linesend == null) {
-            //     $test = '';
-            // } else {
-            //     $test = $linesend;
-            // }
+                // function formatetime($strtime)
+                // {
+                //     $H = substr($strtime, 0, 5);
+                //     return $H;
+                // }
 
-            // if ($test !== '' && $test !== null) {
-            //     $chOne = curl_init();
-            //     curl_setopt($chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
-            //     curl_setopt($chOne, CURLOPT_SSL_VERIFYHOST, 0);
-            //     curl_setopt($chOne, CURLOPT_SSL_VERIFYPEER, 0);
-            //     curl_setopt($chOne, CURLOPT_POST, 1);
-            //     curl_setopt($chOne, CURLOPT_POSTFIELDS, $message);
-            //     curl_setopt($chOne, CURLOPT_POSTFIELDS, "message=$message");
-            //     curl_setopt($chOne, CURLOPT_FOLLOWLOCATION, 1);
-            //     $headers = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $test . '',);
-            //     curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
-            //     curl_setopt($chOne, CURLOPT_RETURNTRANSFER, 1);
-            //     $result = curl_exec($chOne);
-            //     if (curl_error($chOne)) {
-            //         echo 'error:' . curl_error($chOne);
-            //     } else {
-            //         $result_ = json_decode($result, true);                        
-            //     }
-            //     curl_close($chOne);
-            // }
+                // $message = $header .               
+                //     "\n" . "วันที่ซ่อม: " . $sendate.
+                //     "\n" . "รหัส : " . $request->air_list_num ."". 
+                //     "\n" . "ชื่อ  : " . $request->air_list_name . "".
+                //     "\n" . "Btu  : " . $request->btu ."". 
+                //     "\n" . "serial_no  : " . $request->serial_no ."".
+                //     "\n" . "ที่ตั้ง : " .$request->air_location_name."".
+                //     "\n" . "หน่วยงาน : " . $request->detail;
+                // $linesend = $line;
+                // $linesend = "ibZC2tCju5YgpiTBMRqFw3j8U0Dx4br9odv5lSXsXBe";
+                // if ($linesend == null) {
+                //     $test = '';
+                // } else {
+                //     $test = $linesend;
+                // }
+
+                // if ($test !== '' && $test !== null) {
+                //     $chOne = curl_init();
+                //     curl_setopt($chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+                //     curl_setopt($chOne, CURLOPT_SSL_VERIFYHOST, 0);
+                //     curl_setopt($chOne, CURLOPT_SSL_VERIFYPEER, 0);
+                //     curl_setopt($chOne, CURLOPT_POST, 1);
+                //     curl_setopt($chOne, CURLOPT_POSTFIELDS, $message);
+                //     curl_setopt($chOne, CURLOPT_POSTFIELDS, "message=$message");
+                //     curl_setopt($chOne, CURLOPT_FOLLOWLOCATION, 1);
+                //     $headers = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $test . '',);
+                //     curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+                //     curl_setopt($chOne, CURLOPT_RETURNTRANSFER, 1);
+                //     $result = curl_exec($chOne);
+                //     if (curl_error($chOne)) {
+                //         echo 'error:' . curl_error($chOne);
+                //     } else {
+                //         $result_ = json_decode($result, true);                        
+                //     }
+                //     curl_close($chOne);
+
+                //     // $chOne = curl_init();
+                //     // curl_setopt( $chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+                //     // curl_setopt( $chOne, CURLOPT_SSL_VERIFYHOST, 0);
+                //     // curl_setopt( $chOne, CURLOPT_SSL_VERIFYPEER, 0);
+                //     // curl_setopt( $chOne, CURLOPT_POST, 1);
+                //     // // curl_setopt( $chOne, CURLOPT_POSTFIELDS, $message);
+                //     // curl_setopt( $chOne, CURLOPT_POSTFIELDS, "message=$message");
+                //     // curl_setopt( $chOne, CURLOPT_FOLLOWLOCATION, 1);
+                //     // $headers = array( 'Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer '.$linetoken.'', );
+                //     // curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+                //     // curl_setopt( $chOne, CURLOPT_RETURNTRANSFER, 1);
+                //     // $result = curl_exec($chOne);
+                //     // if (curl_error($chOne)) {echo 'error:' . curl_error($chOne);} else { $result_ = json_decode($result, true);
+                //     //     echo "status : " . $result_['status'];
+                //     //     echo "message : " . $result_['message'];}
+                //     // curl_close($chOne);
+                // }
+
+                // *************************************
+
+                $data_loob = Air_repaire_sub::where('air_repaire_id','=',$air_repaire_id)->get();
+                // $name = User::where('id','=',$iduser)->first();
+                // $data_users = User::where('id','=',$request->trash_user)->first();
+                // $name = $data_users->fname.' '.$data_users->lname;
+
+                $mMessage = array();
+                foreach ($data_loob as $key => $value) { 
+
+                    $mMessage[] = [
+                            'air_list_num'            => $value->air_list_num,
+                            'repaire_sub_name'        => $value->repaire_sub_name, 
+                            'air_repaire_type_code'   => $value->air_repaire_type_code,
+                            'repaire_no'              => $value->repaire_no,           
+                        ];   
+                    }   
+            
+                    // $linetoken = "WjIv0Lz17olawMA0cERmglC7IljvUz3virCbq9Wzuaj"; //ใส่ token line ENV แล้ว         
                 
+                    // $smessage = [];
+                    $header = "ซ่อมเครื่องปรับอากาศ";
+                    $header_sub = "รายการซ่อม";
+                    $message =  $header. 
+                            "\n" . "วันที่ซ่อม: " . $sendate.
+                            "\n" . "เวลา : " . $mm ."". 
+                            "\n" . "เลขที่แจ้งซ่อม : " . $request->air_repaire_no ."". 
+                            "\n" . "รหัส : " . $request->air_list_num ."". 
+                            "\n" . "ชื่อ  : " . $request->air_list_name . "".
+                            "\n" . "Btu  : " . $request->btu ."". 
+                            "\n" . "serial_no  : " . $request->serial_no ."".
+                            "\n" . "ที่ตั้ง : " .$request->air_location_name."".
+                            "\n" . "หน่วยงาน : " . $request->detail.
+                            "\n" . "ช่างซ่อม(นอก รพ.) : " . $techoutname.
+                            "\n" . "เจ้าหน้าที่ : " . $staffname.
+                            "\n" . "ช่างซ่อม(รพ.) : " . $techname;
+                            
+                    foreach ($mMessage as $key => $smes) {
+                        // $num_mesage           = $smes['air_list_num'];
+                        
+                        if ($smes['air_repaire_type_code'] =='04') {
+                            $list_mesage           = $smes['repaire_sub_name']; 
+                            $message.="\n"."รายการซ่อม(ตามปัญหา): " . $list_mesage;  
+                        } else {
+                            $list_mesage           = $smes['repaire_sub_name']; 
+                            $repaire_no            = $smes['repaire_no']; 
+                            $message.="\n"."การบำรุงรักษาประจำปี: " . $list_mesage." ครั้งที่ ".$repaire_no; 
+                        }
+                        
+                        // (ตามปัญหา)
+                        // $message.="\n"."รายการซ่อม : " . $list_mesage;
+                                // "\n"."ปริมาณ : " . $list_mesage.
+                                // "\n"."หน่วย : "   . $unit_mesage;
+                                
+                    } 
+                    // $message.="\n"."รายการซ่อม  : " . $list_mesage; 
+                    //token ห้องช่าง
+                    $linesend = "YNWHjzi9EA6mr5myMrcTvTaSlfOMPHMOiCyOfeSJTHr";
+                    if ($linesend == null) {
+                        $test = '';
+                    } else {
+                        $test = $linesend;
+                    }
+    
+                    if ($test !== '' && $test !== null) {
+                        $chOne = curl_init();
+                        curl_setopt($chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+                        curl_setopt($chOne, CURLOPT_SSL_VERIFYHOST, 0);
+                        curl_setopt($chOne, CURLOPT_SSL_VERIFYPEER, 0);
+                        curl_setopt($chOne, CURLOPT_POST, 1);
+                        curl_setopt($chOne, CURLOPT_POSTFIELDS, $message);
+                        curl_setopt($chOne, CURLOPT_POSTFIELDS, "message=$message");
+                        curl_setopt($chOne, CURLOPT_FOLLOWLOCATION, 1);
+                        $headers = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $test . '',);
+                        curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+                        curl_setopt($chOne, CURLOPT_RETURNTRANSFER, 1);
+                        $result = curl_exec($chOne);
+                        if (curl_error($chOne)) {
+                            echo 'error:' . curl_error($chOne);
+                        } else {
+                            $result_ = json_decode($result, true);                        
+                        }
+                        curl_close($chOne); 
+                    }
+                }
                 return response()->json([
                     'status'     => '200'
                 ]);
-        }
-       
-
-
-       
-
-       
+            
         
     }
     public function air_main_repaire(Request $request)

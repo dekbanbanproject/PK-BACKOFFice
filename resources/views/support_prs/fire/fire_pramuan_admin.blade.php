@@ -1,4 +1,4 @@
-@extends('layouts.support_prs')
+@extends('layouts.support_prs_fireback')
 @section('title', 'PK-OFFICER || Fire')
  
 @section('content')
@@ -19,7 +19,7 @@
     $url = Request::url();
     $pos = strrpos($url, '/') + 1;
     ?>
-    <style>
+    {{-- <style>
         #button{
                display:block;
                margin:20px auto;
@@ -59,10 +59,10 @@
                .is-hide{
                display:none;
                }
-    </style>
+    </style> --}}
     
     <div class="tabs-animation">
-        <div class="row text-center">
+        {{-- <div class="row text-center">
             <div id="overlay">
                 <div class="cv-spinner">
                     <span class="spinner"></span>
@@ -74,25 +74,43 @@
                 <div class="spinner"> 
                 </div>
             </div>
+        </div> --}}
+        <div id="preloader">
+            <div id="status">
+                <div id="container_spin">
+                    <svg viewBox="0 0 100 100">
+                        <defs>
+                            <filter id="shadow">
+                            <feDropShadow dx="0" dy="0" stdDeviation="2.5" 
+                                flood-color="#fc6767"/>
+                            </filter>
+                        </defs>
+                        <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 7px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
+                    </svg>
+                </div>
+            </div>
         </div>
        
         <div class="row"> 
-            <div class="col-md-6">
-                <h4 class="card-title" style="color:rgb(10, 151, 85)">REPORT FIRE </h4>
+            <div class="col-md-8">
+                {{-- <h4 class="card-title" style="color:rgb(10, 151, 85)">REPORT FIRE </h4>
                 <p class="card-title-desc">แบบประเมินความพึงพอใจการใช้งานระบบสารสนเทศตรวจดูผลการเช็คถังดับเพลิง(สำหรับผู้ใช้งานทั่วไป)
                     โรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ
-                    </p>
+                    </p> --}}
+                    <h4 style="color:rgb(10, 151, 85)">ถังดับเพลิง</h4>
+                <p class="card-title-desc" style="font-size: 17px;">แบบประเมินความพึงพอใจการใช้งานระบบสารสนเทศตรวจดูผลการเช็คถังดับเพลิง(สำหรับผู้ใช้งานทั่วไป)
+                    โรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ</p>
             </div>
-            <div class="col"></div>
+            {{-- <div class="col"></div> --}}
             <div class="col-md-4 text-end">
                 <form action="{{ url('fire_pramuan_admin') }}" method="GET">
                     @csrf
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control bt_prs" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
-                    <input type="text" class="form-control cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control bt_prs" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
-                        <button type="submit" class="ladda-button btn-pill btn btn-primary cardacc" data-style="expand-left">
+                        <button type="submit" class="ladda-button btn-pill btn btn-primary bt_prs" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
                         </button> 
                     </form>
@@ -103,7 +121,7 @@
         
         <div class="row">
             <div class="col-xl-12">
-                <div class="card cardacc">
+                <div class="card card_prs_4">
                     <div class="card-body">    
                         <div class="row mb-3">
                            
@@ -116,7 +134,8 @@
                         <p class="mb-0">
                             <div class="table-responsive">
                                 {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
-                                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                {{-- <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                                    <table id="example" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr> 
                                             <th width="5%" class="text-center">ลำดับ</th>  

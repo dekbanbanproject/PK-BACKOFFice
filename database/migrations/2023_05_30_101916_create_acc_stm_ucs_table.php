@@ -42,6 +42,8 @@ return new class extends Migration
 
                 $table->string('ip_pay1')->nullable();//
                 $table->string('ip_paytrue')->nullable();//
+                $table->string('ip_paytrue_auton', 255)->nullable();//อุทรณ์
+                $table->string('ip_paytrue_total', 255)->nullable();//
                 $table->string('hc')->nullable();//
                 $table->string('hc_drug')->nullable();//
                 $table->string('ae')->nullable();//
@@ -56,6 +58,8 @@ return new class extends Migration
                 $table->string('fs')->nullable();//FS
                 $table->string('opbkk')->nullable();//OPBKK
                 $table->string('total_approve')->nullable();//ยอดชดเชยทั้งสิ้น
+                $table->string('total_approve_auton', 255)->nullable();//ยอดชดเชยทั้งสิ้น อุทรณ์
+                $table->string('total_approve_total', 255)->nullable();//
                 $table->string('va')->nullable();//va
                 $table->string('covid')->nullable();//covid 
                 $table->date('date_save')->nullable();// 

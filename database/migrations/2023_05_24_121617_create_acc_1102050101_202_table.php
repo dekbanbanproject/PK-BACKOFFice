@@ -58,6 +58,7 @@ return new class extends Migration
                 $table->string('stm_trainid')->nullable();// 
                 $table->string('stm_rw')->nullable();// 
                 $table->string('stm_total')->nullable();// 
+                $table->string('stm_auton', 255)->nullable();//
                 $table->string('acc_debtor_userid')->nullable();// 
                 $table->enum('status', ['Y', 'N'])->default('N');
                 $table->string('comment')->nullable();// 

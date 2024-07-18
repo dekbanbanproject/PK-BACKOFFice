@@ -224,7 +224,7 @@ $loter = $date.''.$time
                                             <div class="input-group-prepend">
                                               <span class="input-group-text" id="inputGroup-sizing-sm">วันที่รับเข้า</span>
                                             </div>
-                                            <input type="date" class="form-control bg_prs" id="fire_date" name="fire_date" aria-label="fire_date" aria-describedby="inputGroup-sizing-sm">
+                                            <input type="date" class="form-control bg_prs form-control-sm" id="fire_date" name="fire_date" aria-label="fire_date" aria-describedby="inputGroup-sizing-sm">
                                         </div> 
                                     </div>
                                 </div>
@@ -261,7 +261,7 @@ $loter = $date.''.$time
                                     <div class="col-md-6">                                      
                                         <div class="input-group input-group-sm">
                                             <div class="input-group-prepend">
-                                              <span class="input-group-text" id="inputGroup-sizing-sm">ชื่อครุภัณฑ์</span>
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">ชื่อ</span>
                                             </div>
                                             <input type="text" class="form-control bg_prs" id="fire_name" name="fire_name" aria-label="fire_name" aria-describedby="inputGroup-sizing-sm">
                                         </div> 

@@ -100,7 +100,7 @@
 
             <div class="col"></div>
             <div class="col-xl-8 col-md-6">
-                <div class="card cardacc">
+                <div class="card card_audit_4c">
                     <div class="grid-menu-col">
                         <form action="{{ route('acc.upstm_ucs_excel') }}" method="POST" enctype="multipart/form-data"> 
                             @csrf
@@ -149,7 +149,7 @@
 
             <div class="col"></div>
             <div class="col-xl-8 col-md-6">
-                <div class="card p-3 cardacc">
+                <div class="card p-3 card_audit_4c">
                     <div class="grid-menu-col">
 
                         <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
