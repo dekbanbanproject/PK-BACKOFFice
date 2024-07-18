@@ -463,12 +463,12 @@ $loter = $date.''.$time
             <div class="col"></div>
             <div class="col-md-4 text-end">
                 <div class="form-group">
-                    <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                    <button type="submit" class="ms-2 me-2 ladda-button btn-pill btn btn-info bt_prs">
                         <i class="fa-solid fa-floppy-disk me-2"></i>
                         {{-- <i class="fa-regular fa-pen-to-square me-2"></i> --}}
                         บันทึกข้อมูล
                     </button>
-                    <a href="{{ url('fire_main') }}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                    <a href="{{ url('fire_main') }}" class="ms-2 me-2 ladda-button btn-pill btn btn-danger bt_prs">
                         <i class="fa-solid fa-xmark me-2"></i>
                         ยกเลิก
                     </a>

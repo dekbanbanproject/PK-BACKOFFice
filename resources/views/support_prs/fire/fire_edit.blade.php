@@ -1,4 +1,4 @@
-@extends('layouts.support_prs')
+@extends('layouts.support_prs_fireback')
 @section('title', 'PK-OFFICER || Fire')
 
 <style>
@@ -91,12 +91,19 @@ $loter = $date.''.$time
         <div class="col"></div>
         <div class="col-md-4 text-end">
             <div class="form-group">
-                <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                    {{-- <i class="fa-solid fa-floppy-disk me-2"></i> --}}
+                {{-- <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info"> 
                     <i class="fa-solid fa-pen-to-square me-2"></i>
                     แก้ไขข้อมูล
                 </button>
                 <a href="{{ url('fire_main') }}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                    <i class="fa-solid fa-xmark me-2"></i>
+                    ยกเลิก
+                </a> --}}
+                <button type="submit" class="mb-2 me-2 ladda-button me-2 btn-pill btn btn-info bt_prs"> 
+                    <i class="fa-solid fa-pen-to-square me-2"></i>
+                    แก้ไขข้อมูล
+                </button>
+                <a href="{{ url('fire_main') }}" class="mb-2 me-2 ladda-button me-2 btn-pill btn btn-danger bt_prs">
                     <i class="fa-solid fa-xmark me-2"></i>
                     ยกเลิก
                 </a>
@@ -121,18 +128,18 @@ $loter = $date.''.$time
                                 
                                     @if ($data_edit->fire_img == null)
                                         <img src="{{ asset('assets/images/default-image.jpg') }}" id="edit_upload_preview"
-                                            height="450px" width="350px" alt="Image" class="img-thumbnail">
+                                            height="450px" width="350px" alt="Image" class="img-thumbnail bt_prs">
                                     @else
                                         <img src="{{ asset('storage/fire/' . $data_edit->fire_imgname) }}"
                                             id="edit_upload_preview" height="450px" width="350px" alt="Image"
-                                            class="img-thumbnail">
+                                            class="img-thumbnail bt_prs">
                                             {{-- <img src="data:image/png;base64,{{ $pic_fire }}" id="edit_upload_preview" height="450px" width="350px" alt="Image"> --}}
                                     @endif
                                     <br>
                                     <div class="input-group mt-3">
-                                        <label class="input-group-text" for="fire_imgname">Upload</label>
+                                        {{-- <label class="input-group-text" for="fire_imgname">Upload</label> --}}
                                      
-                                        <input type="file" class="form-control-sm" id="fire_imgname" name="fire_imgname"
+                                        <input type="file" class="form-control bt_prs" id="fire_imgname" name="fire_imgname"
                                             onchange="addarticle(this)">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                        

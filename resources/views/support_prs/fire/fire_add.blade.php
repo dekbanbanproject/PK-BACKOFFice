@@ -143,13 +143,26 @@ $loter = $date.''.$time
             <p class="card-title-desc" style="font-size: 17px;">เพิ่มข้อมูลถังดับเพลิง</p>
         </div>
         <div class="col"></div>
-        <div class="col-md-2 text-end">
+        {{-- <div class="col-md-2 text-end">
             <a href="{{url('fire_main')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-warning bt_prs"> 
                 <i class="fa-solid fa-arrow-left me-2"></i> 
                ย้อนกลับ
             </a> 
+        </div> --}}
+        <div class="col-md-4 text-end">
+            <div class="form-group">
+                <button type="submit" class="mb-2 me-2 ladda-button me-2 btn-pill btn btn-info bt_prs"> 
+                    <i class="fa-solid fa-floppy-disk me-2"></i>
+                        บันทึกข้อมูล
+                </button>
+                <a href="{{ url('fire_main') }}" class="mb-2 me-2 ladda-button me-2 btn-pill btn btn-danger bt_prs">
+                    <i class="fa-solid fa-xmark me-2"></i>
+                    ยกเลิก
+                </a>
+            </div>
         </div>
        
+        
     </div> 
    
         <div class="row">
@@ -283,35 +296,33 @@ $loter = $date.''.$time
 
 
                                 <div class="row mt-3">
-                                    
-                                    <div class="col-md-2 text-end">
-                                        <label for="fire_location">สถานที่ตั้ง </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <input id="fire_location" type="text" class="form-control form-control-sm" name="fire_location">
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 text-end">
-                                        <label for="fire_size">ขนาด(ปอนด์) </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <input id="fire_size" type="text" class="form-control form-control-sm" name="fire_size">
-                                            
-                                        </div>
-                                    </div>
 
+                                    <div class="col-md-6">                                      
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">สถานที่ตั้ง</span>
+                                            </div>
+                                            <input type="text" class="form-control bg_prs" id="fire_location" name="fire_location" aria-label="fire_location" aria-describedby="inputGroup-sizing-sm">
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-6">                                      
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">ขนาด(ปอนด์)</span>
+                                            </div>
+                                            <input type="text" class="form-control bg_prs" id="fire_size" name="fire_size" aria-label="fire_size" aria-describedby="inputGroup-sizing-sm">
+                                        </div> 
+                                    </div> 
+ 
                                 </div>
  
 
                                 <div class="row mt-3">
-                                    <div class="col-md-2 text-end">
+                                    {{-- <div class="col-md-2 text-end">
                                         <label for="article_unit_id">หน่วยนับ </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
+                                    </div> --}}
+                                    <div class="col-md-6">
+                                        {{-- <div class="form-group">
                                             <select id="article_unit_id" name="article_unit_id"
                                                 class="form-select form-select-lg show_unit" style="width: 100%">
                                                 <option value=""></option>
@@ -321,7 +332,21 @@ $loter = $date.''.$time
                                                     </option>
                                                 @endforeach
                                             </select>
+                                        </div> --}}
+
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <label class="input-group-text" for="fire_year">หน่วยนับ</label>
+                                            </div>
+                                            <select class="js-example-responsive show_unit" id="article_unit_id" name="article_unit_id" style="width: 75%">  
+                                                @foreach ($product_unit as $uni)
+                                                <option value="{{ $uni->unit_id }}">
+                                                    {{ $uni->unit_name }}
+                                                </option>
+                                            @endforeach
+                                            </select> 
                                         </div>
+
                                     </div>
                                     <div class="col-md-2 text-end">
                                         <label for="" style="color: rgb(255, 145, 0)">* ถ้าไม่มีให้เพิ่ม </label>
@@ -329,13 +354,12 @@ $loter = $date.''.$time
                                     <div class="col-md-3">
                                         <div class="form-outline bga">
                                             <input type="text" id="UNIT_INSERT" name="UNIT_INSERT"
-                                                class="form-control form-control-sm shadow" />
-                                            {{-- <label class="form-label" for="UNIT_INSERT">เพิ่มหน่วยนับ</label> --}}
+                                                class="form-control form-control-sm shadow bg_prs" /> 
                                         </div>
                                     </div>
                                     <div class="col-md-1">
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-info btn-sm" onclick="addunit();">
+                                            <button type="button" class="ladda-button btn-pill btn btn-sm btn-info bt_prs" onclick="addunit();">
                                                 <i class="fa-solid fa-square-plus me-2"></i>
                                                 เพิ่ม
                                             </button>
@@ -344,11 +368,11 @@ $loter = $date.''.$time
                                 </div>
 
                                 <div class="row mt-3">
-                                    <div class="col-md-2 text-end">
+                                    {{-- <div class="col-md-2 text-end">
                                         <label for="article_brand_id">ยี่ห้อ </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
+                                    </div> --}}
+                                    <div class="col-md-6">
+                                        {{-- <div class="form-group">
                                             <select id="article_brand_id" name="article_brand_id"
                                                 class="form-select form-select-lg show_brand" style="width: 100%">
                                                 <option value=""></option>
@@ -358,6 +382,18 @@ $loter = $date.''.$time
                                                     </option>
                                                 @endforeach
                                             </select>
+                                        </div> --}}
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <label class="input-group-text" for="article_brand_id">ยี่ห้อ</label>
+                                            </div>
+                                            <select class="js-example-responsive show_brand" id="article_brand_id" name="article_brand_id" style="width: 75%">  
+                                                @foreach ($product_brand as $bra)
+                                                    <option value="{{ $bra->brand_id }}">
+                                                        {{ $bra->brand_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select> 
                                         </div>
                                     </div>
                                     <div class="col-md-2 text-end">
@@ -366,14 +402,13 @@ $loter = $date.''.$time
                                     <div class="col-md-3">
                                         <div class="form-outline bga">
                                             <input type="text" id="BRAND_INSERT" name="BRAND_INSERT"
-                                                class="form-control form-control-sm shadow" />
-                                            {{-- <label class="form-label" for="BRAND_INSERT">เพิ่มยี่ห้อ</label> --}}
+                                                class="form-control form-control-sm shadow bg_prs" /> 
                                         </div>
                                     </div>
                                     <div class="col-md-1">
                                         <div class="form-group">
 
-                                            <button type="button" class="btn btn-info btn-sm" onclick="addbrand();">
+                                            <button type="button" class="ladda-button btn-pill btn btn-sm btn-info bt_prs" onclick="addbrand();">
                                                 <i class="fa-solid fa-square-plus me-2"></i>
                                                 เพิ่ม
                                             </button>
@@ -383,18 +418,30 @@ $loter = $date.''.$time
 
                                 <div class="row mt-3">
                                     
-                                    <div class="col-md-2 text-end">
+                                    {{-- <div class="col-md-2 text-end">
                                         <label for="fire_color">ถังสี </label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
+                                    </div> --}}
+                                    <div class="col-md-6">
+                                        {{-- <div class="form-group">
                                             
                                             <select id="fire_color" name="fire_color" class="form-select form-select-lg" style="width: 100%">
                                                 <option value="green">เขียว</option>
                                                 <option value="red">แดง</option> 
                                                 <option value="yellow">เหลือง</option> 
                                             </select>                                            
+                                        </div> --}}
+
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <label class="input-group-text" for="fire_color">ถังสี</label>
+                                            </div>
+                                            <select class="js-example-responsive " id="fire_color" name="fire_color" style="width: 75%">  
+                                                <option value="green">เขียว</option>
+                                                <option value="red">แดง</option> 
+                                                <option value="yellow">เหลือง</option>
+                                            </select> 
                                         </div>
+
                                     </div>
                                     <div class="col"></div>
 
@@ -409,21 +456,21 @@ $loter = $date.''.$time
                 </div>
             </div>
         </div>
-        <div class="row">
+        {{-- <div class="row">
             <div class="col"></div>
             <div class="col-md-4 text-end">
                 <div class="form-group">
-                    <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                    <button type="submit" class="ms-2 me-2 ladda-button btn-pill btn btn-info bt_prs"> 
                         <i class="fa-solid fa-floppy-disk me-2"></i>
                         บันทึกข้อมูล
                     </button>
-                    <a href="{{ url('fire_main') }}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                    <a href="{{ url('fire_main') }}" class="ms-2 me-2 ladda-button btn-pill btn btn-danger bt_prs">
                         <i class="fa-solid fa-xmark me-2"></i>
                         ยกเลิก
                     </a>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
     </div>
 </form>
