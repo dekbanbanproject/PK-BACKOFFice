@@ -182,8 +182,9 @@
             <div class="card-body">     
                 <p class="mb-0">
                     <div class="table-responsive">
-                        <table id="example" class="table table-striped table-bordered dt-responsive myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">  
-                            <table id="example2" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">                       
+                        <table id="example" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;">
+                        {{-- <table id="example" class="table table-striped table-bordered dt-responsive myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">   --}}
+                            {{-- <table id="example2" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">                        --}}
                             <thead>                             
                                     <tr style="font-size:13px"> 
                                         <th width="3%" class="text-center">ลำดับ</th>  

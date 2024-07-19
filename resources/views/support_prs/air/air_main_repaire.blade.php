@@ -252,7 +252,9 @@
                                         <td class="text-center" width="8%" style="font-size: 12px">{{ DateThai($item->repaire_date )}}</td>   
                                         <td class="text-center" width="5%" style="font-size: 12px">{{ $item->repaire_time }}</td> 
                                         <td class="text-center" width="7%" style="font-size: 11px">{{ $item->air_repaire_no }}</td>   
-                                        <td class="text-center" width="7%" style="font-size: 11px">{{ $item->air_list_num }}</td>  
+                                        <td class="text-center" width="7%" style="font-size: 11px">
+                                            {{ $item->air_list_num }}
+                                        </td>  
                                         <td class="p-2">{{ $item->air_list_name }}</td>   
                                         <td class="p-2" width="20%">{{ $item->air_location_name }}</td>  
                                         <td class="p-2" width="10%">{{ $item->air_techout_name }}</td> 

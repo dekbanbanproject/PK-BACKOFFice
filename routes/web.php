@@ -3136,7 +3136,7 @@ Route::match(['get','post'],'tb_main_pull',[App\Http\Controllers\TbController::c
 Route::match(['get','post'],'tb_main_detail/{id}',[App\Http\Controllers\TbController::class, 'tb_main_detail'])->name('re.tb_main_detail');
 
 // ************** Support-System ****************************
-Route::match(['get','post'],'support_main',[App\Http\Controllers\SupportPRSController::class, 'support_main'])->name('prs.support_main');//
+
 Route::match(['get','post'],'support_system_dashboard',[App\Http\Controllers\SupportPRSController::class, 'support_system_dashboard'])->name('prs.support_system_dashboard');//
 Route::match(['get','post'],'support_system_excel',[App\Http\Controllers\SupportPRSController::class, 'support_system_excel'])->name('prs.support_system_excel');//
 Route::match(['get','post'],'support_system_process',[App\Http\Controllers\SupportPRSController::class, 'support_system_process'])->name('prs.support_system_process');//
@@ -3380,6 +3380,9 @@ Route::match(['get','post'],'sss_insipd302_zip',[App\Http\Controllers\Fdh_sss302
 
 // Route::match(['get','post'],'fdh_mini_dataset_apicliamauto',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_apicliamauto'])->name('fdh.fdh_mini_dataset_apicliamauto');
 // Route::match(['get','post'],'fdh_mini_dataset_pulljongauto',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pulljongauto'])->name('fdh.fdh_mini_dataset_pulljongauto');
+
+Route::match(['get','post'],'support_main',[App\Http\Controllers\AirController::class, 'support_main'])->name('prs.support_main');//
+
 Route::match(['get','post'],'air_dashboard',[App\Http\Controllers\AirController::class, 'air_dashboard'])->name('prs.air_dashboard');//
 Route::match(['get','post'],'air_main',[App\Http\Controllers\AirController::class, 'air_main'])->name('prs.air_main');//
 Route::match(['get','post'],'air_pramuan_admin',[App\Http\Controllers\AirController::class, 'air_pramuan_admin'])->name('prs.air_pramuan_admin');//
@@ -3412,6 +3415,7 @@ Route::match(['get','post'],'air_report_problems_excel',[App\Http\Controllers\Ai
 Route::match(['get','post'],'air_report_problem_group/{startdate}/{enddate}',[App\Http\Controllers\AirController::class, 'air_report_problem_group'])->name('prs.air_report_problem_group');//
 Route::match(['get','post'],'air_report_problem_morone/{startdate}/{enddate}',[App\Http\Controllers\AirController::class, 'air_report_problem_morone'])->name('prs.air_report_problem_morone');//
 Route::match(['get','post'],'air_report_problem_process',[App\Http\Controllers\AirController::class, 'air_report_problem_process'])->name('prs.air_report_problem_process');//
+Route::match(['get','post'],'air_report_month',[App\Http\Controllers\AirController::class, 'air_report_month'])->name('prs.air_report_month');//
 
 Route::match(['get','post'],'air_count_sub/{id}',[App\Http\Controllers\AirController::class, 'air_count_sub'])->name('prs.air_count_sub');//
 Route::match(['get','post'],'air_count_qty/{id}',[App\Http\Controllers\AirController::class, 'air_count_qty'])->name('prs.air_count_qty');//

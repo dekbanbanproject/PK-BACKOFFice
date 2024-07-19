@@ -85,7 +85,7 @@
                width: 250px;
                height: 250px;
                border: 5px #ddd solid;
-               border-top: 10px #e68dfc solid;
+               border-top: 10px #e92cf0 solid;
                border-radius: 50%;
                animation: sp-anime 0.8s infinite linear;
                }

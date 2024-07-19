@@ -49,6 +49,7 @@ use App\Models\Air_maintenance_list;
 use App\Models\Product_budget;
 use App\Models\Fire_check;
 use App\Models\Fire;
+use App\Models\Air_edit_log;
 use PDF;
 use setasign\Fpdi\Fpdi;
 use App\Models\Budget_year;
@@ -288,6 +289,46 @@ class AirController extends Controller
             'datashow'      =>$datashow, 
         ]);
     }
+
+    public function support_main(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $months = date('m');
+        $year = date('Y'); 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y');
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+
+        // $year_s = date('Y'); 
+        // dd($y);
+        $count_red_all                 = Fire::where('fire_color','red')->where('fire_edit','Narmal')->where('fire_backup','N')->count(); 
+        $count_green_all               = Fire::where('fire_color','green')->where('fire_edit','Narmal')->where('fire_backup','N')->count(); 
+        $count_red_allactive           = Fire::where('fire_color','red')->where('active','Y')->where('fire_edit','Narmal')->where('fire_backup','N')->count(); 
+        $count_green_allactive         = Fire::where('fire_color','green')->where('active','Y')->where('fire_edit','Narmal')->where('fire_backup','N')->count(); 
+        $data['count_red_back']        = Fire::where('fire_color','red')->where('fire_backup','Y')->count(); 
+        $data['count_green_back']      = Fire::where('fire_color','green')->where('fire_backup','Y')->count(); 
+        $datashow = DB::select('SELECT COUNT(DISTINCT air_list_num) as count_air FROM air_list WHERE active = "Y"'); 
+        $data['count_air']             = Air_list::where('active','Y')->count();
+               
+        return view('support_prs.support_main',$data,[
+            'startdate'               =>  $startdate,
+            'enddate'                 =>  $enddate,  
+            'count_red_all'           =>  $count_red_all,
+            'count_green_all'         =>  $count_green_all, 
+            'count_red_allactive'     =>  $count_red_allactive,
+            'count_green_allactive'   =>  $count_green_allactive, 
+        ]);
+    }
     public function air_dashboard(Request $request)
     {
         $datenow = date('Y-m-d');
@@ -295,8 +336,17 @@ class AirController extends Controller
         $year = date('Y'); 
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        $datashow = DB::select('SELECT * FROM air_list ORDER BY air_list_id DESC'); 
-        // WHERE active="Y"
+        $datashow = DB::select(
+            'SELECT s.air_supplies_id,s.supplies_name,COUNT(air_repaire_id) as c_repaire           
+                FROM air_repaire a
+                LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
+                LEFT JOIN users p ON p.id = a.air_staff_id 
+                LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id
+                GROUP BY a.air_supplies_id
+        '); 
+        //  a.* ,al.air_imgname,al.active,al.detail,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tectname
+        //  ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
+       
         return view('support_prs.air.air_dashboard',[
             'startdate'     => $startdate,
             'enddate'       => $enddate, 
@@ -655,18 +705,92 @@ class AirController extends Controller
         $idsup           = Auth::user()->air_supplies_id;
         $tech_out_       = User::where('id', '=',$request->air_techout_name)->first();
         $tech_sup_out    = $tech_out_->air_supplies_id;
+        $iduser           = Auth::user()->id;
+        $name_            = User::where('id', '=',$iduser)->first();
+        $name_edit        = $name_->fname. '  '.$name_->lname;
         $m = date('H');
         $mm = date('H:m:s');
         $datefull = date('Y-m-d H:m:s');
         // dd( $data_2);
         if ($data_2 == 'on') {
             if ($add_img =='') {
+                // return response()->json([
+                //     'status'     => '50'
+                // ]); 
+                $update                          = Air_repaire::find($id); 
+                $update->air_repaire_no          = $repaire_id;
+                $update->air_repaire_num         = $repaire_num;
+                $update->air_list_id             = $request->air_list_id;
+                $update->air_list_num            = $request->air_list_num;
+                $update->air_list_name           = $request->air_list_name;
+                $update->btu                     = $request->btu;
+                $update->serial_no               = $request->serial_no;
+                $update->air_location_id         = $request->air_location_id;
+                $update->air_location_name       = $request->air_location_name; 
+                $update->air_problems_orther     = $request->air_problems_orther;
+                $update->air_problems_orthersub  = $request->air_problems_orthersub;
+                // $update->signature               = $add_img;  
+                $update->air_status_techout      = $request->air_status_techout; 
+                $update->air_techout_name        = $request->air_techout_name;   
+                $update->air_supplies_id         = $tech_sup_out; 
+                $update->save();   
+            
+                Air_repaire_sub::where('air_repaire_id',$id)->delete();
+
+                // $air_repaire_id = Air_repaire::max('air_repaire_id');
+
+                if ($request->air_problems != '' || $request->air_problems != null) {
+                    $air_problems = $request->air_problems;
+                    $number = count($air_problems);
+                    $count = 0;                   
+                    for ($count = 0; $count < $number; $count++) {
+                        $id_problems = DB::table('air_repaire_ploblem')->where('air_repaire_ploblem_id','=', $air_problems[$count])->first();   
+                        $count_num_  = DB::table('air_repaire_sub')->where('air_list_num','=', $request->air_list_num)->where('repaire_sub_name','=', $id_problems->air_repaire_ploblemname)->count();   
+                        $count_num   = $count_num_+1;
+                        $add2                          = new Air_repaire_sub();
+                        $add2->air_repaire_id          = $id;
+                        $add2->air_list_num            = $request->air_list_num;
+                        $add2->air_repaire_ploblem_id  = $id_problems->air_repaire_ploblem_id;
+                        $add2->repaire_sub_name        = $id_problems->air_repaire_ploblemname;
+                        $add2->repaire_no              = $count_num;
+                        $add2->air_repaire_type_code   = $id_problems->air_repaire_type_code;
+                        $add2->save();        
+                    }
+                }
+                if ($request->maintenance_list_id != '' || $request->maintenance_list_id != null) {
+                    $maintenance_list_id = $request->maintenance_list_id;
+                    $number3 = count($maintenance_list_id);
+                    $count3 = 0;                   
+                    for ($count3 = 0; $count3 < $number3; $count3++) {
+                        $id_main = DB::table('air_maintenance_list')->where('maintenance_list_id','=', $maintenance_list_id[$count3])->first(); 
+                        $add3                         = new Air_repaire_sub();
+                        $add3->air_repaire_id         = $id;
+                        $add3->air_list_num           = $request->air_list_num;
+                        $add3->air_repaire_ploblem_id = $id_main->maintenance_list_id;
+                        $add3->repaire_sub_name       = $id_main->maintenance_list_name;
+                        $add3->repaire_no             = $id_main->maintenance_list_num;
+                        $add3->air_repaire_type_code  = $id_main->air_repaire_type_code;
+                        $add3->save();        
+                    }
+                }
+
+                if ($request->air_status_techout == 'N' || $request->air_status_staff == 'N' || $request->air_status_tech == 'N') {
+                    Air_list::where('air_list_id', '=', $request->air_list_id)->update(['active' => 'N']); 
+                } else {
+                    Air_list::where('air_list_id', '=', $request->air_list_id)->update(['active' => 'Y']); 
+                }
+                Air_edit_log::insert([
+                    'user_id'     =>$iduser,
+                    'user_name'   =>$name_edit,
+                    'date_edit'   =>$date_now,
+                    'time_edit'   =>$mm,
+                    'status'      =>'EDIT',
+                ]);
                 return response()->json([
-                    'status'     => '50'
-                ]); 
+                    'status'     => '200'
+                ]);
             } else {
-                $update                          = Air_repaire::find($id);
-                // $update->repaire_date            = $date_now;
+                $update                          = Air_repaire::find($id); 
                 $update->air_repaire_no          = $repaire_id;
                 $update->air_repaire_num         = $repaire_num;
                 $update->air_list_id             = $request->air_list_id;
@@ -728,6 +852,13 @@ class AirController extends Controller
                 } else {
                     Air_list::where('air_list_id', '=', $request->air_list_id)->update(['active' => 'Y']); 
                 }
+                Air_edit_log::insert([
+                    'user_id'     =>$iduser,
+                    'user_name'   =>$name_edit,
+                    'date_edit'   =>$date_now,
+                    'time_edit'   =>$mm,
+                    'status'      =>'EDIT',
+                ]);
                 return response()->json([
                     'status'     => '200'
                 ]);
@@ -816,12 +947,20 @@ class AirController extends Controller
                 } else {
                     Air_list::where('air_list_id', '=', $request->air_list_id)->update(['active' => 'Y']); 
                 }
+                Air_edit_log::insert([
+                    'user_id'     =>$iduser,
+                    'user_name'   =>$name_edit,
+                    'date_edit'   =>$date_now,
+                    'time_edit'   =>$mm,
+                    'status'      =>'EDIT',
+                ]);
                 return response()->json([
                     'status'     => '200'
                 ]);
             }
         }
         
+       
     }
     
     public function air_detail(Request $request, $id)
@@ -847,6 +986,25 @@ class AirController extends Controller
         $del = Air_repaire::find($id);  
         $del->delete();  
 
+        Air_repaire_sub::where('air_repaire_id',$id)->delete();
+
+        $date_now = date('Y-m-d');
+        $iduser           = Auth::user()->id;
+        $name_            = User::where('id', '=',$iduser)->first();
+        $name_edit        = $name_->fname. ''.$name_->lname;
+        $m = date('H');
+        $mm = date('H:m:s');
+        $datefull = date('Y-m-d H:m:s');
+
+        Air_edit_log::insert([
+            'user_id'     =>$iduser,
+            'user_name'   =>$name_edit,
+            'date_edit'   =>$date_now,
+            'time_edit'   =>$mm,
+            'status'      =>'DEL',
+            'detail'      =>'air_repaire_id'.'-'.$id
+        ]);
+
         return response()->json(['status' => '200']);
     }
     public function air_repiare_save(Request $request)
@@ -856,230 +1014,238 @@ class AirController extends Controller
         $add_img2 = $request->input('signature2');
         $add_img3 = $request->input('signature3');
         $idsup    = Auth::user()->air_supplies_id;
-
+        $iduser           = Auth::user()->id;
+        $name_            = User::where('id', '=',$iduser)->first();
+        $name_edit        = $name_->fname. '  '.$name_->lname;
         $m = date('H');
         $mm = date('H:m:s');
         $datefull = date('Y-m-d H:m:s');
-
-        if ($add_img =='') {
-            return response()->json([
-                'status'     => '50'
-            ]);
-        } else if ($add_img2 =='') {
-            return response()->json([
-                'status'     => '60'
-            ]);
-        } else { 
-                $add                          = new Air_repaire();
-                $add->repaire_date            = $date_now;
-                $add->repaire_time            = $mm;
-                $add->air_num                 = $request->air_num;
-                $add->air_repaire_no          = $request->air_repaire_no;
-                $add->air_list_id             = $request->air_list_id;
-                $add->air_list_num            = $request->air_list_num;
-                $add->air_list_name           = $request->air_list_name;
-                $add->btu                     = $request->btu;
-                $add->serial_no               = $request->serial_no;
-                $add->air_location_id         = $request->air_location_id;
-                $add->air_location_name       = $request->air_location_name; 
-                $add->air_problems_orthersub  = $request->air_problems_orthersub;
-                $add->signature               = $add_img;
-                $add->signature2              = $add_img2;
-                $add->signature3              = $add_img3;
-                $add->air_status_techout      = $request->air_status_techout; 
-                $add->air_techout_name        = $request->air_techout_name;  
-                $add->air_status_staff        = $request->air_status_staff;   
-                $add->air_staff_id            = $request->air_staff_id; 
-                $add->air_status_tech         = $request->air_status_tech; 
-                $add->air_tech_id             = $request->air_tech_id; 
-                $add->air_supplies_id         = $idsup;  
-          
-                             
-                $add->save();
-
-                $air_repaire_id = Air_repaire::max('air_repaire_id');
-
-                if ($request->air_problems != '' || $request->air_problems != null) {
-                    $air_problems = $request->air_problems;
-                    $number = count($air_problems);
-                    $count = 0;                   
-                    for ($count = 0; $count < $number; $count++) {
-                        $id_problems = DB::table('air_repaire_ploblem')->where('air_repaire_ploblem_id','=', $air_problems[$count])->first();   
-                        $count_num_  = DB::table('air_repaire_sub')->where('air_list_num','=', $request->air_list_num)->where('repaire_sub_name','=', $id_problems->air_repaire_ploblemname)->count();   
-                        $count_num   = $count_num_+1;
-                        $add2                          = new Air_repaire_sub();
-                        $add2->air_repaire_id          = $air_repaire_id;
-                        $add2->air_list_num            = $request->air_list_num;
-                        $add2->air_repaire_ploblem_id  = $id_problems->air_repaire_ploblem_id;
-                        $add2->repaire_sub_name        = $id_problems->air_repaire_ploblemname;
-                        $add2->repaire_no              = $count_num;
-                        $add2->air_repaire_type_code   = $id_problems->air_repaire_type_code;
-                        $add2->save();        
-                    }
-                }
-                if ($request->maintenance_list_id != '' || $request->maintenance_list_id != null) {
-                    $maintenance_list_id = $request->maintenance_list_id;
-                    $number3 = count($maintenance_list_id);
-                    $count3 = 0;                   
-                    for ($count3 = 0; $count3 < $number3; $count3++) {
-                        $id_main = DB::table('air_maintenance_list')->where('maintenance_list_id','=', $maintenance_list_id[$count3])->first();        
-                        // $add3                         = new Air_maintenance();
-                        $add3                         = new Air_repaire_sub();
-                        $add3->air_repaire_id         = $air_repaire_id;
-                        $add3->air_list_num           = $request->air_list_num;
-                        $add3->air_repaire_ploblem_id = $id_main->maintenance_list_id;
-                        $add3->repaire_sub_name       = $id_main->maintenance_list_name;
-                        $add3->repaire_no             = $id_main->maintenance_list_num;
-                        $add3->air_repaire_type_code  = $id_main->air_repaire_type_code;
-                        $add3->save();        
-                    }
-                }
-
-
-                //แจ้งเตือน 
-                function DateThailine($strDate)
-                {
-                    $strYear = date("Y", strtotime($strDate)) + 543;
-                    $strMonth = date("n", strtotime($strDate));
-                    $strDay = date("j", strtotime($strDate));
-
-                    $strMonthCut = array("", "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
-                    $strMonthThai = $strMonthCut[$strMonth];
-                    return "$strDay $strMonthThai $strYear";
-                }
-
-                // $header = "ซ่อมเครื่องปรับอากาศ";
-                // $linegroup = DB::table('line_token')->where('line_token_id', '=', 6)->first();
-                // $line = $linegroup->line_token_code;
-
-                // $link = DB::table('orginfo')->where('orginfo_id', '=', 1)->first();
-                // $link_line = $link->orginfo_link;
-
-                $datesend = date('Y-m-d');
-                $sendate = DateThailine($datesend);
-                $data_users = DB::table('users')->where('id', '=', $request->air_techout_name)->first();
-                $techoutname = $data_users->fname.' '.$data_users->lname;
-
-                $data_staff = DB::table('users')->where('id', '=', $request->air_staff_id)->first();
-                $staffname = $data_staff->fname.' '.$data_staff->lname;
-
-                $data_tech = DB::table('users')->where('id', '=', $request->air_tech_id)->first();
-                $techname = $data_tech->fname.' '.$data_tech->lname;
-
-                // function formatetime($strtime)
-                // {
-                //     $H = substr($strtime, 0, 5);
-                //     return $H;
-                // }
-
-                // $message = $header .               
-                //     "\n" . "วันที่ซ่อม: " . $sendate.
-                //     "\n" . "รหัส : " . $request->air_list_num ."". 
-                //     "\n" . "ชื่อ  : " . $request->air_list_name . "".
-                //     "\n" . "Btu  : " . $request->btu ."". 
-                //     "\n" . "serial_no  : " . $request->serial_no ."".
-                //     "\n" . "ที่ตั้ง : " .$request->air_location_name."".
-                //     "\n" . "หน่วยงาน : " . $request->detail;
-                // $linesend = $line;
-                // $linesend = "ibZC2tCju5YgpiTBMRqFw3j8U0Dx4br9odv5lSXsXBe";
-                // if ($linesend == null) {
-                //     $test = '';
-                // } else {
-                //     $test = $linesend;
-                // }
-
-                // if ($test !== '' && $test !== null) {
-                //     $chOne = curl_init();
-                //     curl_setopt($chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
-                //     curl_setopt($chOne, CURLOPT_SSL_VERIFYHOST, 0);
-                //     curl_setopt($chOne, CURLOPT_SSL_VERIFYPEER, 0);
-                //     curl_setopt($chOne, CURLOPT_POST, 1);
-                //     curl_setopt($chOne, CURLOPT_POSTFIELDS, $message);
-                //     curl_setopt($chOne, CURLOPT_POSTFIELDS, "message=$message");
-                //     curl_setopt($chOne, CURLOPT_FOLLOWLOCATION, 1);
-                //     $headers = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $test . '',);
-                //     curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
-                //     curl_setopt($chOne, CURLOPT_RETURNTRANSFER, 1);
-                //     $result = curl_exec($chOne);
-                //     if (curl_error($chOne)) {
-                //         echo 'error:' . curl_error($chOne);
-                //     } else {
-                //         $result_ = json_decode($result, true);                        
-                //     }
-                //     curl_close($chOne);
-
-                //     // $chOne = curl_init();
-                //     // curl_setopt( $chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
-                //     // curl_setopt( $chOne, CURLOPT_SSL_VERIFYHOST, 0);
-                //     // curl_setopt( $chOne, CURLOPT_SSL_VERIFYPEER, 0);
-                //     // curl_setopt( $chOne, CURLOPT_POST, 1);
-                //     // // curl_setopt( $chOne, CURLOPT_POSTFIELDS, $message);
-                //     // curl_setopt( $chOne, CURLOPT_POSTFIELDS, "message=$message");
-                //     // curl_setopt( $chOne, CURLOPT_FOLLOWLOCATION, 1);
-                //     // $headers = array( 'Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer '.$linetoken.'', );
-                //     // curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
-                //     // curl_setopt( $chOne, CURLOPT_RETURNTRANSFER, 1);
-                //     // $result = curl_exec($chOne);
-                //     // if (curl_error($chOne)) {echo 'error:' . curl_error($chOne);} else { $result_ = json_decode($result, true);
-                //     //     echo "status : " . $result_['status'];
-                //     //     echo "message : " . $result_['message'];}
-                //     // curl_close($chOne);
-                // }
-
-                // *************************************
-
-                $data_loob = Air_repaire_sub::where('air_repaire_id','=',$air_repaire_id)->get();
-                // $name = User::where('id','=',$iduser)->first();
-                // $data_users = User::where('id','=',$request->trash_user)->first();
-                // $name = $data_users->fname.' '.$data_users->lname;
-
-                $mMessage = array();
-                foreach ($data_loob as $key => $value) { 
-
-                    $mMessage[] = [
-                            'air_list_num'            => $value->air_list_num,
-                            'repaire_sub_name'        => $value->repaire_sub_name, 
-                            'air_repaire_type_code'   => $value->air_repaire_type_code,
-                            'repaire_no'              => $value->repaire_no,           
-                        ];   
-                    }   
+         
+            if ($add_img =='') {
+                return response()->json([
+                    'status'     => '50'
+                ]);
+            } else if ($add_img2 =='') {
+                return response()->json([
+                    'status'     => '60'
+                ]);
+            } else { 
+                $check_no = Air_repaire::where('air_repaire_no',$request->air_repaire_no)->where('air_list_num',$request->air_list_num)->count();
+              
+                if ($check_no > 0) {
+                    # code...
+                } else {
+                      
+                    $add                          = new Air_repaire();
+                    $add->repaire_date            = $date_now;
+                    $add->repaire_time            = $mm;
+                    $add->air_num                 = $request->air_num;
+                    $add->air_repaire_no          = $request->air_repaire_no;
+                    $add->air_list_id             = $request->air_list_id;
+                    $add->air_list_num            = $request->air_list_num;
+                    $add->air_list_name           = $request->air_list_name;
+                    $add->btu                     = $request->btu;
+                    $add->serial_no               = $request->serial_no;
+                    $add->air_location_id         = $request->air_location_id;
+                    $add->air_location_name       = $request->air_location_name; 
+                    $add->air_problems_orthersub  = $request->air_problems_orthersub;
+                    $add->signature               = $add_img;
+                    $add->signature2              = $add_img2;
+                    $add->signature3              = $add_img3;
+                    $add->air_status_techout      = $request->air_status_techout; 
+                    $add->air_techout_name        = $request->air_techout_name;  
+                    $add->air_status_staff        = $request->air_status_staff;   
+                    $add->air_staff_id            = $request->air_staff_id; 
+                    $add->air_status_tech         = $request->air_status_tech; 
+                    $add->air_tech_id             = $request->air_tech_id; 
+                    $add->air_supplies_id         = $idsup;  
             
-                    // $linetoken = "WjIv0Lz17olawMA0cERmglC7IljvUz3virCbq9Wzuaj"; //ใส่ token line ENV แล้ว         
-                
-                    // $smessage = [];
-                    $header = "ซ่อมเครื่องปรับอากาศ";
-                    $header_sub = "รายการซ่อม";
-                    $message =  $header. 
-                            "\n" . "วันที่ซ่อม: " . $sendate.
-                            "\n" . "เวลา : " . $mm ."". 
-                            "\n" . "เลขที่แจ้งซ่อม : " . $request->air_repaire_no ."". 
-                            "\n" . "รหัส : " . $request->air_list_num ."". 
-                            "\n" . "ชื่อ  : " . $request->air_list_name . "".
-                            "\n" . "Btu  : " . $request->btu ."". 
-                            "\n" . "serial_no  : " . $request->serial_no ."".
-                            "\n" . "ที่ตั้ง : " .$request->air_location_name."".
-                            "\n" . "หน่วยงาน : " . $request->detail.
-                            "\n" . "ช่างซ่อม(นอก รพ.) : " . $techoutname.
-                            "\n" . "เจ้าหน้าที่ : " . $staffname.
-                            "\n" . "ช่างซ่อม(รพ.) : " . $techname;
-                            
-                    foreach ($mMessage as $key => $smes) {
-                        // $num_mesage           = $smes['air_list_num'];
-                        
-                        if ($smes['air_repaire_type_code'] =='04') {
-                            $list_mesage           = $smes['repaire_sub_name']; 
-                            $message.="\n"."รายการซ่อม(ตามปัญหา): " . $list_mesage;  
-                        } else {
-                            $list_mesage           = $smes['repaire_sub_name']; 
-                            $repaire_no            = $smes['repaire_no']; 
-                            $message.="\n"."การบำรุงรักษาประจำปี: " . $list_mesage." ครั้งที่ ".$repaire_no; 
-                        }
-                        
-                        // (ตามปัญหา)
-                        // $message.="\n"."รายการซ่อม : " . $list_mesage;
-                                // "\n"."ปริมาณ : " . $list_mesage.
-                                // "\n"."หน่วย : "   . $unit_mesage;
                                 
+                    $add->save();
+
+                    $air_repaire_id = Air_repaire::max('air_repaire_id');
+
+                    if ($request->air_problems != '' || $request->air_problems != null) {
+                        $air_problems = $request->air_problems;
+                        $number = count($air_problems);
+                        $count = 0;                   
+                        for ($count = 0; $count < $number; $count++) {
+                            $id_problems = DB::table('air_repaire_ploblem')->where('air_repaire_ploblem_id','=', $air_problems[$count])->first();   
+                            $count_num_  = DB::table('air_repaire_sub')->where('air_list_num','=', $request->air_list_num)->where('repaire_sub_name','=', $id_problems->air_repaire_ploblemname)->count();   
+                            $count_num   = $count_num_+1;
+                            $add2                          = new Air_repaire_sub();
+                            $add2->air_repaire_id          = $air_repaire_id;
+                            $add2->air_list_num            = $request->air_list_num;
+                            $add2->air_repaire_ploblem_id  = $id_problems->air_repaire_ploblem_id;
+                            $add2->repaire_sub_name        = $id_problems->air_repaire_ploblemname;
+                            $add2->repaire_no              = $count_num;
+                            $add2->air_repaire_type_code   = $id_problems->air_repaire_type_code;
+                            $add2->save();        
+                        }
+                    }
+                    if ($request->maintenance_list_id != '' || $request->maintenance_list_id != null) {
+                        $maintenance_list_id = $request->maintenance_list_id;
+                        $number3 = count($maintenance_list_id);
+                        $count3 = 0;                   
+                        for ($count3 = 0; $count3 < $number3; $count3++) {
+                            $id_main = DB::table('air_maintenance_list')->where('maintenance_list_id','=', $maintenance_list_id[$count3])->first();        
+                            // $add3                         = new Air_maintenance();
+                            $add3                         = new Air_repaire_sub();
+                            $add3->air_repaire_id         = $air_repaire_id;
+                            $add3->air_list_num           = $request->air_list_num;
+                            $add3->air_repaire_ploblem_id = $id_main->maintenance_list_id;
+                            $add3->repaire_sub_name       = $id_main->maintenance_list_name;
+                            $add3->repaire_no             = $id_main->maintenance_list_num;
+                            $add3->air_repaire_type_code  = $id_main->air_repaire_type_code;
+                            $add3->save();        
+                        }
+                    }
+
+
+                    //แจ้งเตือน 
+                    function DateThailine($strDate)
+                    {
+                        $strYear = date("Y", strtotime($strDate)) + 543;
+                        $strMonth = date("n", strtotime($strDate));
+                        $strDay = date("j", strtotime($strDate));
+
+                        $strMonthCut = array("", "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
+                        $strMonthThai = $strMonthCut[$strMonth];
+                        return "$strDay $strMonthThai $strYear";
+                    }
+
+                    // $header = "ซ่อมเครื่องปรับอากาศ";
+                    // $linegroup = DB::table('line_token')->where('line_token_id', '=', 6)->first();
+                    // $line = $linegroup->line_token_code;
+
+                    // $link = DB::table('orginfo')->where('orginfo_id', '=', 1)->first();
+                    // $link_line = $link->orginfo_link;
+
+                    $datesend = date('Y-m-d');
+                    $sendate = DateThailine($datesend);
+                    $data_users = DB::table('users')->where('id', '=', $request->air_techout_name)->first();
+                    $techoutname = $data_users->fname.' '.$data_users->lname;
+
+                    $data_staff = DB::table('users')->where('id', '=', $request->air_staff_id)->first();
+                    $staffname = $data_staff->fname.' '.$data_staff->lname;
+
+                    $data_tech = DB::table('users')->where('id', '=', $request->air_tech_id)->first();
+                    $techname = $data_tech->fname.' '.$data_tech->lname;
+
+                    // function formatetime($strtime)
+                    // {
+                    //     $H = substr($strtime, 0, 5);
+                    //     return $H;
+                    // }
+
+                    // $message = $header .               
+                    //     "\n" . "วันที่ซ่อม: " . $sendate.
+                    //     "\n" . "รหัส : " . $request->air_list_num ."". 
+                    //     "\n" . "ชื่อ  : " . $request->air_list_name . "".
+                    //     "\n" . "Btu  : " . $request->btu ."". 
+                    //     "\n" . "serial_no  : " . $request->serial_no ."".
+                    //     "\n" . "ที่ตั้ง : " .$request->air_location_name."".
+                    //     "\n" . "หน่วยงาน : " . $request->detail;
+                    // $linesend = $line;
+                    // $linesend = "ibZC2tCju5YgpiTBMRqFw3j8U0Dx4br9odv5lSXsXBe";
+                    // if ($linesend == null) {
+                    //     $test = '';
+                    // } else {
+                    //     $test = $linesend;
+                    // }
+
+                    // if ($test !== '' && $test !== null) {
+                    //     $chOne = curl_init();
+                    //     curl_setopt($chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+                    //     curl_setopt($chOne, CURLOPT_SSL_VERIFYHOST, 0);
+                    //     curl_setopt($chOne, CURLOPT_SSL_VERIFYPEER, 0);
+                    //     curl_setopt($chOne, CURLOPT_POST, 1);
+                    //     curl_setopt($chOne, CURLOPT_POSTFIELDS, $message);
+                    //     curl_setopt($chOne, CURLOPT_POSTFIELDS, "message=$message");
+                    //     curl_setopt($chOne, CURLOPT_FOLLOWLOCATION, 1);
+                    //     $headers = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $test . '',);
+                    //     curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+                    //     curl_setopt($chOne, CURLOPT_RETURNTRANSFER, 1);
+                    //     $result = curl_exec($chOne);
+                    //     if (curl_error($chOne)) {
+                    //         echo 'error:' . curl_error($chOne);
+                    //     } else {
+                    //         $result_ = json_decode($result, true);                        
+                    //     }
+                    //     curl_close($chOne);
+
+                    //     // $chOne = curl_init();
+                    //     // curl_setopt( $chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+                    //     // curl_setopt( $chOne, CURLOPT_SSL_VERIFYHOST, 0);
+                    //     // curl_setopt( $chOne, CURLOPT_SSL_VERIFYPEER, 0);
+                    //     // curl_setopt( $chOne, CURLOPT_POST, 1);
+                    //     // // curl_setopt( $chOne, CURLOPT_POSTFIELDS, $message);
+                    //     // curl_setopt( $chOne, CURLOPT_POSTFIELDS, "message=$message");
+                    //     // curl_setopt( $chOne, CURLOPT_FOLLOWLOCATION, 1);
+                    //     // $headers = array( 'Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer '.$linetoken.'', );
+                    //     // curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+                    //     // curl_setopt( $chOne, CURLOPT_RETURNTRANSFER, 1);
+                    //     // $result = curl_exec($chOne);
+                    //     // if (curl_error($chOne)) {echo 'error:' . curl_error($chOne);} else { $result_ = json_decode($result, true);
+                    //     //     echo "status : " . $result_['status'];
+                    //     //     echo "message : " . $result_['message'];}
+                    //     // curl_close($chOne);
+                    // }
+
+                    // *************************************
+
+                    $data_loob = Air_repaire_sub::where('air_repaire_id','=',$air_repaire_id)->get();
+                    // $name = User::where('id','=',$iduser)->first();
+                    // $data_users = User::where('id','=',$request->trash_user)->first();
+                    // $name = $data_users->fname.' '.$data_users->lname;
+
+                    $mMessage = array();
+                    foreach ($data_loob as $key => $value) { 
+
+                        $mMessage[] = [
+                                'air_list_num'            => $value->air_list_num,
+                                'repaire_sub_name'        => $value->repaire_sub_name, 
+                                'air_repaire_type_code'   => $value->air_repaire_type_code,
+                                'repaire_no'              => $value->repaire_no,           
+                            ];   
+                        }   
+                
+                        // $linetoken = "WjIv0Lz17olawMA0cERmglC7IljvUz3virCbq9Wzuaj"; //ใส่ token line ENV แล้ว         
+                    
+                        // $smessage = [];
+                        $header = "ซ่อมเครื่องปรับอากาศ";
+                        $header_sub = "รายการซ่อม";
+                        $message =  $header. 
+                                "\n" . "วันที่ซ่อม: " . $sendate.
+                                "\n" . "เวลา : " . $mm ."". 
+                                "\n" . "เลขที่แจ้งซ่อม : " . $request->air_repaire_no ."". 
+                                "\n" . "รหัส : " . $request->air_list_num ."". 
+                                "\n" . "ชื่อ  : " . $request->air_list_name . "".
+                                "\n" . "Btu  : " . $request->btu ."". 
+                                "\n" . "serial_no  : " . $request->serial_no ."".
+                                "\n" . "ที่ตั้ง : " .$request->air_location_name."".
+                                "\n" . "หน่วยงาน : " . $request->detail.
+                                "\n" . "ช่างซ่อม(นอก รพ.) : " . $techoutname.
+                                "\n" . "เจ้าหน้าที่ : " . $staffname.
+                                "\n" . "ช่างซ่อม(รพ.) : " . $techname;
+                                
+                        foreach ($mMessage as $key => $smes) {
+                            // $num_mesage           = $smes['air_list_num'];
+                            
+                            if ($smes['air_repaire_type_code'] =='04') {
+                                $list_mesage           = $smes['repaire_sub_name']; 
+                                $message.="\n"."รายการซ่อม(ตามปัญหา): " . $list_mesage;  
+                            } else {
+                                $list_mesage           = $smes['repaire_sub_name']; 
+                                $repaire_no            = $smes['repaire_no']; 
+                                $message.="\n"."การบำรุงรักษาประจำปี: " . $list_mesage." ครั้งที่ ".$repaire_no; 
+                            }
+                            
+                            // (ตามปัญหา)
+                            // $message.="\n"."รายการซ่อม : " . $list_mesage;
+                                    // "\n"."ปริมาณ : " . $list_mesage.
+                                    // "\n"."หน่วย : "   . $unit_mesage;
+                                    
                     } 
                     // $message.="\n"."รายการซ่อม  : " . $list_mesage; 
                     //token ห้องช่าง
@@ -1110,10 +1276,25 @@ class AirController extends Controller
                         }
                         curl_close($chOne); 
                     }
+
+                    Air_edit_log::insert([
+                        'user_id'     =>$iduser,
+                        'user_name'   =>$name_edit,
+                        'date_edit'   =>$date_now,
+                        'time_edit'   =>$mm,
+                        'status'      =>'SAVE',
+                        'detail'      =>'air_repaire_id'.'-'.$air_repaire_id
+                    ]);
+        
+
                 }
-                return response()->json([
-                    'status'     => '200'
-                ]);
+            }
+
+           
+
+            return response()->json([
+                'status'     => '200'
+            ]);
             
         
     }
@@ -2542,6 +2723,53 @@ class AirController extends Controller
             'datashow'      => $datashow, 
             'datashow_sub'  => $datashow_sub,
             'id'            => $id,
+        ]);
+    }
+    public function air_report_month(Request $request)
+    {
+        $startdate   = $request->startdate;
+        $enddate     = $request->enddate;
+        $date_now    = date('Y-m-d');
+        $y           = date('Y') + 543;
+        $months = date('m');
+   
+        $newdays     = date('Y-m-d', strtotime($date_now . ' -1 days')); //ย้อนหลัง 1 วัน
+        $newweek     = date('Y-m-d', strtotime($date_now . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate     = date('Y-m-d', strtotime($date_now . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear     = date('Y-m-d', strtotime($date_now . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y');
+        $year_old = date('Y')-1;
+        $months_old  = ('10');
+        $startdate_b = (''.$year_old.'-10-01');
+        $enddate_b = (''.$yearnew.'-09-30'); 
+        $iduser       = Auth::user()->id;
+       
+        if ($startdate != '') {
+            $datashow  = DB::select(
+                'SELECT MONTH(a.repaire_date) as months,l.MONTH_NAME,YEAR(a.repaire_date) as years,(YEAR(a.repaire_date)+543) as years_ps 
+                FROM air_repaire a
+                LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.repaire_date)
+                WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                GROUP BY MONTH(a.repaire_date)
+                ORDER BY MONTH(a.repaire_date) ASC
+            ');
+        } else {
+            $datashow  = DB::select(
+                'SELECT MONTH(a.repaire_date) as months,l.MONTH_NAME,YEAR(a.repaire_date) as years,(YEAR(a.repaire_date)+543) as years_ps 
+                FROM air_repaire a
+                LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.repaire_date)
+                WHERE a.repaire_date BETWEEN "'.$startdate_b.'" AND "'.$enddate_b.'"
+                GROUP BY MONTH(a.repaire_date)
+                ORDER BY MONTH(a.repaire_date) ASC
+            ');
+        }
+        
+            
+      
+        return view('support_prs.air.air_report_month',[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow,  
         ]);
     }
       

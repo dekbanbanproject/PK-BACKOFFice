@@ -1,7 +1,7 @@
 {{-- @extends('layouts.support_prs_new') --}}
 @extends('layouts.support_prs_db')
 @section('title', 'PK-OFFICER || Support-System')
-
+<link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
 @section('content')
     <script>
         function TypeAdmin() {
@@ -66,12 +66,13 @@
         <div class="row"> 
             <div class="col-xl-3 col-md-6">
                 <a href="{{url('air_dashboard')}}" target="_blank">
-                    <div class="card" style="height: 200px">
+                    <div class="card widget-chart widget-chart-hover" style="height: 200px">
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">เครื่องปรับอากาศ</p>
-                                    <h2 class="mb-2">1452</h2> 
+                                    <p class="text-start font-size-14 mb-2 ">เครื่องปรับอากาศ( ทั้งหมด )</p>
+                                    <h2 class="text-start mb-2">{{$count_air}}</h2>  
+                                    {{-- <p class="text-start font-size-14">เครื่อง</p> --}}
                                 </div>
                                 <div class="avatar-sm" style="width: 100px;height:100px">
                                     <span class="avatar-title bg-light text-primary rounded-3"> 
@@ -87,18 +88,46 @@
                                 </p>
                             </div>                                           
                         </div> 
+
+                        {{-- <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgba(147, 204, 248, 0.871)">
+                            <div class="grid-menu-col">
+                                <div class="g-0 row">
+                                    <div class="col-sm-12">
+                                        <div class="widget-chart widget-chart-hover rounded-pill">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                                    <a href="{{ url('support_main') }}" target="_blank"> 
+                                                        <h5 class="text-start mb-2">ตรวจสอบและบำรุงรักษา ระบบสนับสนุนบริการสุขภาพ</h5> 
+                                                    </a>
+                                                </div>
+                                                <div class="avatar ms-2">
+                                                    <a href="{{ url('support_main') }}" target="_blank">
+                                                        <button
+                                                            class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
+                                                                <img src="{{ asset('images/support.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  --}}
+
                     </div> 
                 </a>
             </div> 
             
             <div class="col-xl-3 col-md-6">
                 <a href="{{url('support_system_dashboard')}}" target="_blank">
-                    <div class="card" style="height: 200px">
+                    <div class="card widget-chart widget-chart-hover" style="height: 200px">
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-truncate font-size-14 mb-2">ถังดับเพลิง</p>
-                                    <h2 class="mb-2">938</h2> 
+                                    <p class="text-start font-size-14 mb-2">ถังดับเพลิง</p>
+                                    <h2 class="text-start mb-2">938</h2> 
                                 </div>
                                 <div class="avatar-sm" style="width: 100px;height:100px">
                                     <span class="avatar-title bg-light text-success rounded-3">
@@ -118,12 +147,12 @@
                 </a>
             </div> 
             <div class="col-xl-3 col-md-6">
-                <div class="card" style="height: 200px">
+                <div class="card widget-chart widget-chart-hover" style="height: 200px">
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="flex-grow-1">
-                                <p class="text-truncate font-size-14 mb-2">กล้อง CCTV</p>
-                                <h2 class="mb-2">8246</h2> 
+                                <p class="text-start font-size-14 mb-2">กล้อง CCTV</p>
+                                <h2 class="text-start mb-2">8246</h2> 
                             </div>
                             <div class="avatar-sm" style="width: 100px;height:100px">
                                 <span class="avatar-title bg-light text-primary rounded-3">
@@ -143,12 +172,12 @@
             </div> 
 
             <div class="col-xl-3 col-md-6">
-                <div class="card" style="height: 200px">
+                <div class="card widget-chart widget-chart-hover" style="height: 200px">
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="flex-grow-1">
-                                <p class="text-truncate font-size-14 mb-2">ระบบน้ำใช้สำรอง</p>
-                                <h2 class="mb-5">29670</h2> 
+                                <p class="text-start font-size-14 mb-2">ระบบน้ำใช้สำรอง</p>
+                                <h2 class="text-start mb-2">29670</h2> 
                             </div> 
                             <div class="avatar-sm" style="width: 100px;height:100px">
                                 <span class="avatar-title bg-light text-success rounded-3">
@@ -170,12 +199,12 @@
 
         <div class="row"> 
             <div class="col-xl-3 col-md-6">
-                <div class="card" style="height: 200px">
+                <div class="card widget-chart widget-chart-hover" style="height: 200px">
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="flex-grow-1">
-                                <p class="text-truncate font-size-14 mb-2">ระบบน้ำบริโภค</p>
-                                <h2 class="mb-5">29670</h2> 
+                                <p class="text-start font-size-14 mb-2">ระบบน้ำบริโภค</p>
+                                <h2 class="text-start mb-2">29670</h2> 
                             </div> 
                             <div class="avatar-sm" style="width: 100px;height:100px">
                                 <span class="avatar-title bg-light text-success rounded-3">
@@ -194,12 +223,12 @@
                 </div> 
             </div> 
             <div class="col-xl-3 col-md-6">
-                <div class="card" style="height: 200px">
+                <div class="card widget-chart widget-chart-hover" style="height: 200px">
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="flex-grow-1">
-                                <p class="text-truncate font-size-14 mb-2">ระบบเครื่องกำเนิดไฟฟ้า</p>
-                                <h2 class="mb-5">29670</h2> 
+                                <p class="text-start font-size-14 mb-2">ระบบเครื่องกำเนิดไฟฟ้า</p>
+                                <h2 class="text-start mb-2">29670</h2> 
                             </div> 
                             <div class="avatar-sm" style="width: 100px;height:100px">
                                 <span class="avatar-title bg-light text-success rounded-3">
@@ -218,12 +247,12 @@
                 </div> 
             </div> 
             <div class="col-xl-3 col-md-6">
-                <div class="card" style="height: 200px">
+                <div class="card widget-chart widget-chart-hover" style="height: 200px">
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="flex-grow-1">
-                                <p class="text-truncate font-size-14 mb-2">ระบบหม้อแปลงไฟฟ้า</p>
-                                <h2 class="mb-5">29670</h2> 
+                                <p class="text-start font-size-14 mb-2">ระบบหม้อแปลงไฟฟ้า</p>
+                                <h2 class="text-start mb-2">29670</h2> 
                             </div> 
                             <div class="avatar-sm" style="width: 100px;height:100px">
                                 <span class="avatar-title bg-light text-success rounded-3">
@@ -242,12 +271,12 @@
                 </div> 
             </div> 
             <div class="col-xl-3 col-md-6">
-                <div class="card" style="height: 200px">
+                <div class="card widget-chart widget-chart-hover" style="height: 200px">
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="flex-grow-1">
-                                <p class="text-truncate font-size-14 mb-2">ระบบลิฟต์โดยสาร</p>
-                                <h2 class="mb-5">29670</h2> 
+                                <p class="text-start font-size-14 mb-2">ระบบลิฟต์โดยสาร</p>
+                                <h2 class="text-start mb-2">29670</h2> 
                             </div> 
                             <div class="avatar-sm" style="width: 100px;height:100px">
                                 <span class="avatar-title bg-light text-success rounded-3">
@@ -268,12 +297,12 @@
         </div> 
         <div class="row"> 
             <div class="col-xl-3 col-md-6">
-                <div class="card" style="height: 200px">
+                <div class="card widget-chart widget-chart-hover" style="height: 200px">
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="flex-grow-1">
-                                <p class="text-truncate font-size-14 mb-2">ระบบห้องน้ำ/ห้องส้วม</p>
-                                <h2 class="mb-5">29670</h2> 
+                                <p class="text-start font-size-14 mb-2">ระบบห้องน้ำ/ห้องส้วม</p>
+                                <h2 class="text-start mb-2">29670</h2> 
                             </div> 
                             <div class="avatar-sm" style="width: 100px;height:100px">
                                 <span class="avatar-title bg-light text-success rounded-3">
@@ -292,12 +321,12 @@
                 </div> 
             </div> 
             <div class="col-xl-3 col-md-6">
-                <div class="card" style="height: 200px">
+                <div class="card widget-chart widget-chart-hover" style="height: 200px">
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="flex-grow-1">
-                                <p class="text-truncate font-size-14 mb-2">ระบบก๊าซทางการแพทย์</p>
-                                <h2 class="mb-5">29670</h2> 
+                                <p class="text-start font-size-14 mb-2">ระบบก๊าซทางการแพทย์</p>
+                                <h2 class="text-start mb-2">29670</h2> 
                             </div> 
                             <div class="avatar-sm" style="width: 100px;height:100px">
                                 <span class="avatar-title bg-light text-success rounded-3">

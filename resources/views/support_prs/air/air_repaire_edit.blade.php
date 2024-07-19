@@ -156,7 +156,7 @@ $count_article = StaticController::count_article();
                 </div>
                 <div class="col"></div>
                 <div class="col-md-2 text-end">
-                    <a href="{{ url('air_main_repaire') }}" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-warning bt_prs">
+                    <a href="{{ url('air_main_repaire') }}" class="ladda-button me-2 btn-pill btn btn-warning bt_prs">
                         <i class="fa-solid fa-arrow-left me-2"></i>
                         ย้อนกลับ
                     </a>
@@ -571,7 +571,7 @@ $count_article = StaticController::count_article();
 
                                         <div class="col-md-2 text-end">
                                             <button type="submit"
-                                                class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-info bt_prs">
+                                                class="btn-icon btn-shadow btn-dashed btn btn-outline-info bt_prs">
                                                 {{-- <i class="pe-7s-diskette btn-icon-wrapper"></i>แก้ไขข้อมูล --}}
                                                 <i class="fa-regular fa-pen-to-square me-2"></i>แก้ไขข้อมูล
                                             </button>

@@ -523,8 +523,14 @@ use App\Models\Products_request_sub;
                                     </div>
                                 </div>
                             </li> --}}
-
                             <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="{{ url('air_dashboard') }}" id="topnav-more" role="button">
+                                    <i class="fa-solid fa-chart-pie me-2"></i>Dashboard  
+                                </a> 
+                            </li>
+
+                            <li class="nav-item dropdown"> 
+
                                 <a class="nav-link dropdown-toggle arrow-none" href="{{ url('air_main') }}" id="topnav-more" role="button">
                                     <i class="fa-solid fa-fan me-2"></i>ทะเบียนเครื่องปรับอากาศ  
                                 </a>
@@ -580,6 +586,12 @@ use App\Models\Products_request_sub;
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="{{ url('air_report_problems') }}" id="topnav-more" role="button">
                                     <i class="fa-solid fa-chart-line me-2"></i>รายงานแยกตามปัญหา  
+                                </a>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="{{ url('air_report_month') }}" id="topnav-more" role="button">
+                                    <i class="fa-solid fa-chart-line me-2"></i>รายงานประจำเดือน  
                                 </a>
                             </li>
 
