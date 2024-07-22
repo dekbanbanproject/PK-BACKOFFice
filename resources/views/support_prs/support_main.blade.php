@@ -20,7 +20,7 @@
         $pos = strrpos($url, '/') + 1; 
     ?>
  
- 
+ <div class="tabs-animation">
         
         <div id="preloader">
             <div id="status">
@@ -346,7 +346,7 @@
             </div> 
         </div> 
  
- 
+    </div> 
 @endsection
 @section('footer')
   

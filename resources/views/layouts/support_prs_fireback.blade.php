@@ -252,7 +252,7 @@ use App\Models\Products_request_sub;
             
                     <div class="navbar-brand-box">
                       
-                        <a href="{{url('support_main')}}" class="logo logo-dark">
+                        <a href="{{url('support_system_dashboard')}}" class="logo logo-dark">
                             <span class="logo-sm">
                                 <img src="assets/images/p.png" alt="logo-sm" height="22">
                             </span>
@@ -261,7 +261,7 @@ use App\Models\Products_request_sub;
                             </span>
                         </a>
  
-                        <a href="{{url('support_main')}}" class="logo logo-light">
+                        <a href="{{url('support_system_dashboard')}}" class="logo logo-light">
                             <span class="logo-sm me-2">
                                 <img src="{{ asset('images/pk_smal.png') }}" alt="logo-sm-light" height="40">
                             </span>
@@ -286,10 +286,7 @@ use App\Models\Products_request_sub;
                         <div class="position-relative">
                             <h3 style="color:rgb(255, 255, 255)" class="mt-1 noto-sans-thai-looped-light">Fire Extinguisher</h3> 
                         </div>
-                    </form>
-
-                    
- 
+                    </form> 
                 </div>
 
                 <div class="d-flex">

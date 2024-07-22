@@ -250,8 +250,7 @@ use App\Models\Products_request_sub;
                             <span class="logo-lg">
                                 <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
                                 <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/officer_g.png') }}" class="" alt="logo-sm-light" height="30">
-                               
+                                <img src="{{ asset('images/officer_g.png') }}" class="" alt="logo-sm-light" height="30"> 
                             </span>
                             
                         </a>
@@ -267,11 +266,9 @@ use App\Models\Products_request_sub;
                 
                     <form class="app-search d-none d-lg-block">
                         <div class="position-relative">
-                            <input type="text" class="form-control" placeholder="Search...">
-                            <span class="ri-search-line"></span>
+                            <h3 style="color:rgb(255, 255, 255)" class="mt-1 noto-sans-thai-looped-light">Dashboard</h3> 
                         </div>
-                    </form>
- 
+                    </form> 
                 </div>
 
                 <div class="d-flex">
@@ -347,9 +344,8 @@ use App\Models\Products_request_sub;
                         <ul class="navbar-nav">
 
                             <li class="nav-item">
-                                <a class="nav-link">
-                                    {{-- <i class="ri-dashboard-line me-2">  --}}
-                                         <h3>ตรวจสอบและบำรุงรักษา ระบบสนับสนุนบริการสุขภาพ</h3> </i>
+                                <a class="nav-link"> 
+                                         <h4>ตรวจสอบและบำรุงรักษา ระบบสนับสนุนบริการสุขภาพ</h4> </i>
                                 </a>
                             </li>
 
