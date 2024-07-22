@@ -385,7 +385,7 @@ class AirController extends Controller
                     $startdate = $request->startdate;
                     $enddate   = $request->enddate;
                     $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-                    $newDate   = date('Y-m-d', strtotime($datenow . ' -5 months')); //ย้อนหลัง 3 เดือน
+                    $newDate   = date('Y-m-d', strtotime($datenow . ' -5 months')); //ย้อนหลัง 5 เดือน
                     // $iduser    = Auth::user()->id;
                 
                     $data_detail = Air_repaire::leftJoin('users', 'air_repaire.air_tech_id', '=', 'users.id') 
