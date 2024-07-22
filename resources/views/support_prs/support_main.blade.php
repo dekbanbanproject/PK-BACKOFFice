@@ -70,7 +70,7 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-start font-size-14 mb-2 ">เครื่องปรับอากาศ( ทั้งหมด )</p>
+                                    <p class="text-start font-size-14 mb-2 ">เครื่องปรับอากาศ(ทั้งหมด)</p>
                                     <h2 class="text-start mb-2">{{$count_air}}</h2>  
                                     {{-- <p class="text-start font-size-14">เครื่อง</p> --}}
                                 </div>
@@ -126,8 +126,8 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-start font-size-14 mb-2">ถังดับเพลิง</p>
-                                    <h2 class="text-start mb-2">938</h2> 
+                                    <p class="text-start font-size-14 mb-2">ถังดับเพลิง(ทั้งหมด)</p>
+                                    <h2 class="text-start mb-2">{{$fire}}</h2> 
                                 </div>
                                 <div class="avatar-sm" style="width: 100px;height:100px">
                                     <span class="avatar-title bg-light text-success rounded-3">
@@ -151,8 +151,8 @@
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="flex-grow-1">
-                                <p class="text-start font-size-14 mb-2">กล้อง CCTV</p>
-                                <h2 class="text-start mb-2">8246</h2> 
+                                <p class="text-start font-size-14 mb-2">กล้อง CCTV(ทั้งหมด)</p>
+                                <h2 class="text-start mb-2">{{$cctv_list}}</h2> 
                             </div>
                             <div class="avatar-sm" style="width: 100px;height:100px">
                                 <span class="avatar-title bg-light text-primary rounded-3">

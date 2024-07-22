@@ -34,7 +34,7 @@ use App\Models\Products_vendor;
 use App\Models\Status;
 use App\Models\Products_request;
 use App\Models\Products_request_sub;
-use App\Models\Acc_stm_prb;
+use App\Models\Cctv_list;
 use App\Models\Air_report_ploblems;
 use App\Models\Air_repaire_supexcel;
 use App\Models\Air_repaire_excel;
@@ -319,6 +319,8 @@ class AirController extends Controller
         $data['count_green_back']      = Fire::where('fire_color','green')->where('fire_backup','Y')->count(); 
         $datashow = DB::select('SELECT COUNT(DISTINCT air_list_num) as count_air FROM air_list WHERE active = "Y"'); 
         $data['count_air']             = Air_list::where('active','Y')->count();
+        $data['fire']                  = Fire::where('active','Y')->count();
+        $data['cctv_list']             = Cctv_list::where('cctv_status','0')->count();
                
         return view('support_prs.support_main',$data,[
             'startdate'               =>  $startdate,
