@@ -148,8 +148,8 @@
                                                 <p style="color:rgb(22, 61, 236)">เลขที่แจ้งซ่อม :  </p>
                                             </div>
                                             <div class="col-8 text-start">
-                                                <select class="custom-select custom-select-sm" id="air_repaire_no" name="air_repaire_no"
-                                                    style="width: 100%"> 
+                                                <select class="custom-select custom-select-sm" id="air_repaire_no" name="air_repaire_no" style="width: 100%"> 
+                                                    <option value="" >--เลือก--</option>
                                                     @foreach ($air_no as $item_no)
                                                         <option value="{{ $item_no->REPAIR_ID }}" class="text-center">{{ $item_no->REPAIR_ID }} {{ $item_no->REPAIR_NAME }} / วันที่แจ้ง{{ $item_no->DATE_TIME_REQUEST }}</option>
                                                     @endforeach
