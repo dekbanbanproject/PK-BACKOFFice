@@ -3426,6 +3426,9 @@ Route::match(['get','post'],'air_count_ploblem_4/{id}',[App\Http\Controllers\Air
 Route::match(['get','post'],'air_count_ploblem_5/{id}',[App\Http\Controllers\AirController::class, 'air_count_ploblem_5'])->name('prs.air_count_ploblem_5');//
 Route::match(['get','post'],'air_count_ploblem_orther/{id}',[App\Http\Controllers\AirController::class, 'air_count_ploblem_orther'])->name('prs.air_count_ploblem_orther');//
 
+Route::match(['get','post'],'detail_companyall',[App\Http\Controllers\AirController::class, 'detail_companyall'])->name('prs.detail_companyall');//
+Route::match(['get','post'],'detail_maintenance1',[App\Http\Controllers\AirController::class, 'detail_maintenance1'])->name('prs.detail_maintenance1');//
+
 Route::match(['get','post'],'document',[App\Http\Controllers\DocumentController::class, 'document'])->name('d.document');//
 Route::match(['get','post'],'document_save',[App\Http\Controllers\DocumentController::class, 'document_save'])->name('d.document_save');//
 Route::match(['get','post'],'documentsub/{id}',[App\Http\Controllers\DocumentController::class, 'documentsub'])->name('d.documentsub');//

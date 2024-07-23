@@ -113,6 +113,7 @@
                                 WHERE a.air_supplies_id = "'.$item->air_supplies_id.'" AND b.air_repaire_ploblem_id = "6" AND b.air_repaire_type_code ="04"  
                             ');                                     
                             foreach ($aeun_air as $key => $air_auen) {$aeunair = $air_auen->aeunair;}
+ 
                         ?>
                     <div class="row">
                         <div class="col-xl-4 col-md-6">
@@ -121,7 +122,9 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1"> 
                                             <p class="text-start font-size-14 mb-2">บริษัท {{$item->supplies_name}} (ครั้ง)</p>
-                                            <h1 class="text-start mb-2">{{$item->c_repaire}}</h1> 
+                                            <button type="button" class="btn companyallModal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
+                                                <h1 class="text-start">{{$item->c_repaire}}</h1> 
+                                            </button>
                                         </div> 
                                         <div class="avatar-sm" style="width: 100px;height:100px">
                                             <span class="avatar-title bg-light text-success rounded-3">
@@ -143,7 +146,7 @@
                                 </div> 
                             </div> 
                         </div> 
-                        <div class="col-xl-6 col-md-6">
+                        <div class="col-xl-8 col-md-6">
                             <div class="row">
                                 <div class="col-xl-4 col-md-4">
                                     <div class="card widget-chart widget-chart-hover" style="height: 100px">
@@ -254,20 +257,262 @@
                                 </div>
                             </div>
                         </div> 
-                        <div class="col"></div>
-                      
-                        <hr style="color:#ffffff">
+                        {{-- <div class="col-xl-3 col-md-6">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-4">
+                                    <div class="card widget-chart widget-chart-hover" style="height: 100px">
+                                        <div class="card-body">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1"> 
+                                                    <p class="text-start font-size-14">น้ำหยด</p> 
+                                                    <h3 class="text-start">{{$namyod}}</h3> 
+                                                </div> 
+                                                <div class="avatar-sm" style="width: 40px;height:40px">
+                                                    <span class="avatar-title bg-light text-success rounded-3"> 
+                                                        <i class="fa-solid fa-droplet" style="color: rgb(252, 90, 203);font-size:30px"></i> 
+                                                    </span>
+                                                </div>
+                                            </div>  
+                                            
+                                        </div> 
+                                    </div> 
+                                </div> 
+                            </div> 
+                       </div> --}}  
                     </div> 
+                    <div class="row">
+                        <?php 
+                            $repairetype = DB::select('SELECT * FROM air_repaire_type WHERE air_repaire_type_code IN("01","02","03")');   
+                        ?>
+                        @foreach ($repairetype as $item_type) 
+                            <?php   
+                                    $maintenance_1 = DB::select('SELECT COUNT(b.repaire_sub_id) as maintenance_1,COUNT(DISTINCT a.air_list_num) as air_qty FROM air_repaire a 
+                                        LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id LEFT JOIN air_maintenance_list c ON c.maintenance_list_id = b.air_repaire_ploblem_id  
+                                        WHERE a.air_supplies_id = "'.$item->air_supplies_id.'" AND c.maintenance_list_num = "1" AND b.air_repaire_type_code ="01"  
+                                    ');    
+                                    // WHERE a.air_supplies_id = "'.$item->air_supplies_id.'" AND b.air_repaire_ploblem_id = "'.$item_type->air_repaire_type_id.'" AND b.air_repaire_type_code ="01"                                 
+                                    foreach ($maintenance_1 as $key => $nance_1) {$maintenance1 = $nance_1->maintenance_1;$qty1 = $nance_1->air_qty;}
+                                    $maintenance_2 = DB::select('SELECT COUNT(b.repaire_sub_id) as maintenance_2,COUNT(DISTINCT a.air_list_num) as air_qty FROM air_repaire a 
+                                        LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id LEFT JOIN air_maintenance_list c ON c.maintenance_list_id = b.air_repaire_ploblem_id
+                                        WHERE a.air_supplies_id = "'.$item->air_supplies_id.'" AND c.maintenance_list_num = "2" AND b.air_repaire_type_code ="01"  
+                                    ');                                 
+                                    foreach ($maintenance_2 as $key => $nance_2) {$maintenance2 = $nance_2->maintenance_2;$qty2 = $nance_2->air_qty;}
+
+                                    $maintenance_3 = DB::select('SELECT COUNT(b.repaire_sub_id) as maintenance_3,COUNT(DISTINCT a.air_list_num) as air_qty FROM air_repaire a 
+                                        LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id LEFT JOIN air_maintenance_list c ON c.maintenance_list_id = b.air_repaire_ploblem_id
+                                        WHERE a.air_supplies_id = "'.$item->air_supplies_id.'" AND c.maintenance_list_num = "3" AND b.air_repaire_type_code ="01"  
+                                    ');                                 
+                                    foreach ($maintenance_3 as $key => $nance_3) {$maintenance3 = $nance_3->maintenance_3;$qty3 = $nance_3->air_qty;}
+                            ?>
+
+                            <div class="col-xl-4 col-md-4">
+                                <div class="card widget-chart widget-chart-hover" style="height: 110px">
+                                    <div class="card-body">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1"> 
+                                                
+                                                
+                                                @if ($item_type->air_repaire_type_id == '1') 
+                                                    @if ($qty1 > 0)
+                                                        <p class="text-start font-size-14">{{$item_type->air_repaire_typename}} == >> ทั้งหมด {{$qty1}} เครื่อง</p> 
+                                                    @else
+                                                        <p class="text-start font-size-14">{{$item_type->air_repaire_typename}}</p> 
+                                                    @endif
+                                                    <button type="button" class="btn maintenance1Modal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
+                                                        <h3 class="text-start">{{$maintenance1}} (รายการ)</h3>
+                                                    </button>
+                                                @elseif ($item_type->air_repaire_type_id == '2')
+                                                    @if ($qty2 > 0)
+                                                        <p class="text-start font-size-14">{{$item_type->air_repaire_typename}} == >> ทั้งหมด {{$qty2}} เครื่อง</p> 
+                                                    @else
+                                                        <p class="text-start font-size-14">{{$item_type->air_repaire_typename}}</p> 
+                                                    @endif
+                                                    <button type="button" class="btn maintenance2Modal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
+                                                        <h3 class="text-start">{{$maintenance2}} (รายการ)</h3>
+                                                    </button> 
+                                                @else
+                                                    @if ($qty3 > 0)
+                                                        <p class="text-start font-size-14">{{$item_type->air_repaire_typename}} == >> ทั้งหมด {{$qty3}} เครื่อง</p> 
+                                                    @else
+                                                        <p class="text-start font-size-14">{{$item_type->air_repaire_typename}}</p> 
+                                                    @endif
+                                                    <a class="maintenance3Modal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
+                                                        <h3 class="text-start">{{$maintenance3}} (รายการ)</h3>
+                                                    </a>  
+                                                @endif
+                                               
+                                            </div> 
+                                            <div class="avatar-sm" style="width: 40px;height:40px">
+                                                <span class="avatar-title bg-light text-success rounded-3"> 
+                                                    <i class="fas fa-toolbox" style="color: rgb(255, 101, 135);font-size:30px"></i> 
+                                                </span>
+                                            </div>
+                                        </div>  
+                                        
+                                    </div> 
+                                </div> 
+                            </div> 
+                        @endforeach
+                    </div> 
+                    <hr style="color:#ffffff">
+
                     @endforeach
                     
-               
-            {{-- </div> --}}
-            {{-- <div class="col"></div> --}}
-        {{-- </div> --}}
-        <!-- end page title -->
-        
+                <!-- companyallModal Modal --> 
+                <div class="modal fade" id="companyallModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content ">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">รายการซ่อม</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body"> 
+                                {{-- <div class="modal-body" style="background-color: #ffffff">  --}}
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div style='overflow:scroll; height:600px;'>
+
+                                                <div id="detail_companyall"></div>
+                                                
+                                            </div>
+                                        </div> 
+                                    </div>  
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+
+                <!-- maintenance1Modal Modal --> 
+                <div class="modal fade" id="maintenance1Modal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content ">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">รายการบำรุงรักษาประจำปีครั้งที่ 1</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body">  
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div style='overflow:scroll; height:600px;'>
+
+                                                <div id="detail_maintenance1Modal"></div>
+                                                
+                                            </div>
+                                        </div> 
+                                    </div>  
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+
+                <!-- maintenance2Modal Modal --> 
+                <div class="modal fade" id="maintenance2Modal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content ">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">รายการบำรุงรักษาประจำปีครั้งที่ 2</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body">  
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div style='overflow:scroll; height:600px;'>
+
+                                                <div id="detail_maintenance2Modal"></div>
+                                                
+                                            </div>
+                                        </div> 
+                                    </div>  
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+
+                <!-- maintenance3Modal Modal --> 
+                <div class="modal fade" id="maintenance3Modal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content ">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">รายการบำรุงรักษาประจำปีครั้งที่ 3</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body">  
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div style='overflow:scroll; height:600px;'>
+
+                                                <div id="detail_maintenance3Modal"></div>
+                                                
+                                            </div>
+                                        </div> 
+                                    </div>  
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
  
 @endsection
 @section('footer')   
+        <script>
+            $(document).on('click', '.companyallModal', function() {
+                var air_supplies_id = $(this).val();  
+                $('#companyallModal').modal('show');           
+                $.ajax({
+                    type: "GET",
+                    url:"{{ url('detail_companyall') }}",
+                    data: { air_supplies_id: air_supplies_id },
+                    success: function(result) { 
+                        $('#detail_companyall').html(result);
+                    },
+                });
+            });
+
+            $(document).on('click', '.maintenance1Modal', function() {
+                var air_supplies_id = $(this).val(); 
+                var maintenance_list_num = '1';
+                $('#maintenance1Modal').modal('show');   
+                // alert(air_supplies_id);        
+                $.ajax({
+                    type: "GET",
+                    url:"{{ url('detail_maintenance1') }}",
+                    data: { air_supplies_id: air_supplies_id ,maintenance_list_num: maintenance_list_num},
+                    success: function(result) { 
+                        $('#detail_maintenance1Modal').html(result);
+                    },
+                });
+            });
+            $(document).on('click', '.maintenance2Modal', function() {
+                var air_supplies_id = $(this).val(); 
+                $('#maintenance2Modal').modal('show');           
+                // $.ajax({
+                    // type: "GET",
+                    // url:"{{ url('detail_maintenance2Modal') }}",
+                    // data: { air_supplies_id: air_supplies_id },
+                    // success: function(result) { 
+                    //     $('#detail_maintenance2Modal').html(result);
+                    // },
+                // });
+            });
+            $(document).on('click', '.maintenance3Modal', function() {
+                var air_supplies_id = $(this).val(); 
+                $('#maintenance3Modal').modal('show');           
+                // $.ajax({
+                //     type: "GET",
+                //     url:"{{ url('detail_maintenance3Modal') }}",
+                //     data: { air_supplies_id: air_supplies_id },
+                //     success: function(result) { 
+                //         $('#detail_maintenance3Modal').html(result);
+                //     },
+                // });
+            });
+        </script>
 @endsection
 

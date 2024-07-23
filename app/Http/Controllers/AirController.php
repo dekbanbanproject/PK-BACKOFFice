@@ -2774,6 +2774,101 @@ class AirController extends Controller
             'datashow'      =>     $datashow,  
         ]);
     }
+
+    // ***************** Detail Dashboard *************************
+    public function detail_companyall(Request $request)
+    {
+        $id       = $request->air_supplies_id;
+       
+        $data_sub = Air_repaire::where('air_supplies_id',$id)->get();       
+        $output=' 
+            <div class="row">  
+             <div class="col-md-12">         
+                 <table class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th width="5%">ลำดับ</th>
+                            <th width="10%">วันที่</th>
+                            <th width="7%">เวลา</th>
+                            <th width="10%">เลขที่แจ้งซ่อม</th>
+                            <th width="10%">รหัสแอร์</th>
+                            <th>รายการ</th>
+                            <th width="7%">btu</th>
+                            <th width="8%">serial_no</th>
+                            <th>สถานที่ตั้ง</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                     ';
+                     $i = 1;
+                     foreach ($data_sub as $key => $value) {
+                        $output.=' 
+                        <tr>
+                            <td>'.$i++.'</td>
+                            <td>'.DateThai($value->repaire_date).'</td>
+                            <td>'.$value->repaire_time.'</td>
+                            <td>'.$value->air_repaire_no.'</td>
+                            <td>'.$value->air_list_num.'</td>
+                            <td>'.$value->air_list_name.'</td>
+                            <td>'.$value->btu.'</td>
+                            <td>'.$value->serial_no.'</td>
+                            <td>'.$value->air_location_name.'</td>
+                        </tr>';
+                     }
+                       
+                    $output.='
+                    </tbody> 
+                </table> 
+            </div>
+        </div>
+        ';
+        echo $output;        
+    }
+    public function detail_maintenance1(Request $request)
+    {
+        $id                =  $request->air_supplies_id;
+        $maintenance_num   = $request->maintenance_list_num;
+        // $data_sub = Air_repaire::where('air_supplies_id',$id)->get();  
+        $data_sub = DB::select('SELECT b.* 
+                FROM air_repaire a 
+                LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id LEFT JOIN air_maintenance_list c ON c.maintenance_list_id = b.air_repaire_ploblem_id
+                WHERE a.air_supplies_id = "'.$id.'" AND c.maintenance_list_num = "'.$maintenance_num.'" AND b.air_repaire_type_code ="01"  
+        ');     
+        // a.repaire_date,a.repaire_time,a.air_repaire_no,a.air_list_num,a.air_list_name,a.btu,a.serial_no,a.air_location_name 
+        $output=' 
+            <div class="row">  
+             <div class="col-md-12">         
+                 <table class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th width="5%">ลำดับ</th> 
+                            <th width="10%">รหัสแอร์</th>
+                            <th>รายการ</th>
+                            <th width="7%">ครั้งที่</th> 
+                        </tr>
+                    </thead>
+                    <tbody>
+                     ';
+                     $i = 1;
+                     foreach ($data_sub as $key => $value) {
+                        $output.=' 
+                        <tr>
+                            <td>'.$i++.'</td> 
+                            <td>'.$value->air_list_num.'</td>
+                            <td>'.$value->repaire_sub_name.'</td>
+                            <td>'.$value->repaire_no.'</td> 
+                        </tr>';
+                     }
+                       
+                    $output.='
+                    </tbody> 
+                </table> 
+            </div>
+        </div>
+        ';
+        echo $output;        
+    }
+
       
 
  }
