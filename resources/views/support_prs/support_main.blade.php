@@ -177,7 +177,7 @@
                         <div class="d-flex">
                             <div class="flex-grow-1">
                                 <p class="text-start font-size-14 mb-2">ระบบน้ำใช้สำรอง</p>
-                                <h2 class="text-start mb-2">29670</h2> 
+                                <h2 class="text-start mb-2">0</h2> 
                             </div> 
                             <div class="avatar-sm" style="width: 100px;height:100px">
                                 <span class="avatar-title bg-light text-success rounded-3">
@@ -204,7 +204,7 @@
                         <div class="d-flex">
                             <div class="flex-grow-1">
                                 <p class="text-start font-size-14 mb-2">ระบบน้ำบริโภค</p>
-                                <h2 class="text-start mb-2">29670</h2> 
+                                <h2 class="text-start mb-2">0</h2> 
                             </div> 
                             <div class="avatar-sm" style="width: 100px;height:100px">
                                 <span class="avatar-title bg-light text-success rounded-3">
@@ -228,7 +228,7 @@
                         <div class="d-flex">
                             <div class="flex-grow-1">
                                 <p class="text-start font-size-14 mb-2">ระบบเครื่องกำเนิดไฟฟ้า</p>
-                                <h2 class="text-start mb-2">29670</h2> 
+                                <h2 class="text-start mb-2">0</h2> 
                             </div> 
                             <div class="avatar-sm" style="width: 100px;height:100px">
                                 <span class="avatar-title bg-light text-success rounded-3">
@@ -252,7 +252,7 @@
                         <div class="d-flex">
                             <div class="flex-grow-1">
                                 <p class="text-start font-size-14 mb-2">ระบบหม้อแปลงไฟฟ้า</p>
-                                <h2 class="text-start mb-2">29670</h2> 
+                                <h2 class="text-start mb-2">0</h2> 
                             </div> 
                             <div class="avatar-sm" style="width: 100px;height:100px">
                                 <span class="avatar-title bg-light text-success rounded-3">
@@ -276,7 +276,7 @@
                         <div class="d-flex">
                             <div class="flex-grow-1">
                                 <p class="text-start font-size-14 mb-2">ระบบลิฟต์โดยสาร</p>
-                                <h2 class="text-start mb-2">29670</h2> 
+                                <h2 class="text-start mb-2">0</h2> 
                             </div> 
                             <div class="avatar-sm" style="width: 100px;height:100px">
                                 <span class="avatar-title bg-light text-success rounded-3">
@@ -302,7 +302,7 @@
                         <div class="d-flex">
                             <div class="flex-grow-1">
                                 <p class="text-start font-size-14 mb-2">ระบบห้องน้ำ/ห้องส้วม</p>
-                                <h2 class="text-start mb-2">29670</h2> 
+                                <h2 class="text-start mb-2">0</h2> 
                             </div> 
                             <div class="avatar-sm" style="width: 100px;height:100px">
                                 <span class="avatar-title bg-light text-success rounded-3">
@@ -326,7 +326,7 @@
                         <div class="d-flex">
                             <div class="flex-grow-1">
                                 <p class="text-start font-size-14 mb-2">ระบบก๊าซทางการแพทย์</p>
-                                <h2 class="text-start mb-2">29670</h2> 
+                                <h2 class="text-start mb-2">0</h2> 
                             </div> 
                             <div class="avatar-sm" style="width: 100px;height:100px">
                                 <span class="avatar-title bg-light text-success rounded-3">

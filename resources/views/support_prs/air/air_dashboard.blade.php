@@ -117,7 +117,7 @@
                         ?>
                     <div class="row">
                         <div class="col-xl-4 col-md-6">
-                            <div class="card widget-chart widget-chart-hover" style="height: 225px">
+                            <div class="card widget-chart widget-chart-hover" style="height: 245px">
                                 <div class="card-body">
                                     <div class="d-flex">
                                         <div class="flex-grow-1"> 
@@ -149,12 +149,14 @@
                         <div class="col-xl-8 col-md-6">
                             <div class="row">
                                 <div class="col-xl-4 col-md-4">
-                                    <div class="card widget-chart widget-chart-hover" style="height: 100px">
+                                    <div class="card widget-chart widget-chart-hover" style="height: 110px">
                                         <div class="card-body">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1"> 
                                                     <p class="text-start font-size-14">น้ำหยด</p> 
-                                                    <h3 class="text-start">{{$namyod}}</h3> 
+                                                    <button type="button" class="btn namyod_qtyModal" style="background: transparent" value="{{ $item->air_supplies_id }}">
+                                                        <h3 class="text-start">{{$namyod}}</h3>
+                                                    </button> 
                                                 </div> 
                                                 <div class="avatar-sm" style="width: 40px;height:40px">
                                                     <span class="avatar-title bg-light text-success rounded-3"> 
@@ -167,7 +169,7 @@
                                     </div> 
                                 </div> 
                                 <div class="col-xl-4 col-md-4">
-                                    <div class="card widget-chart widget-chart-hover" style="height: 100px">
+                                    <div class="card widget-chart widget-chart-hover" style="height: 110px">
                                         <div class="card-body">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1"> 
@@ -185,7 +187,7 @@
                                     </div> 
                                 </div>
                                 <div class="col-xl-4 col-md-4">
-                                    <div class="card widget-chart widget-chart-hover" style="height: 100px">
+                                    <div class="card widget-chart widget-chart-hover" style="height: 110px">
                                         <div class="card-body">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1"> 
@@ -205,7 +207,7 @@
                             </div> 
                             <div class="row">
                                 <div class="col-xl-4 col-md-4">
-                                    <div class="card widget-chart widget-chart-hover" style="height: 100px">
+                                    <div class="card widget-chart widget-chart-hover" style="height: 110px">
                                         <div class="card-body">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1"> 
@@ -222,7 +224,7 @@
                                     </div> 
                                 </div> 
                                 <div class="col-xl-4 col-md-4">
-                                    <div class="card widget-chart widget-chart-hover" style="height: 100px">
+                                    <div class="card widget-chart widget-chart-hover" style="height: 110px">
                                         <div class="card-body">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1"> 
@@ -239,7 +241,7 @@
                                     </div> 
                                 </div> 
                                 <div class="col-xl-4 col-md-4">
-                                    <div class="card widget-chart widget-chart-hover" style="height: 100px">
+                                    <div class="card widget-chart widget-chart-hover" style="height: 110px">
                                         <div class="card-body">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1"> 
@@ -306,45 +308,68 @@
                             ?>
 
                             <div class="col-xl-4 col-md-4">
-                                <div class="card widget-chart widget-chart-hover" style="height: 110px">
+                                <div class="card widget-chart widget-chart-hover" style="height: 120px">
                                     <div class="card-body">
                                         <div class="d-flex">
-                                            <div class="flex-grow-1"> 
-                                                
+                                            <div class="flex-grow-1">                                                 
                                                 
                                                 @if ($item_type->air_repaire_type_id == '1') 
-                                                    @if ($qty1 > 0)
-                                                        <p class="text-start font-size-14">{{$item_type->air_repaire_typename}} == >> ทั้งหมด {{$qty1}} เครื่อง</p> 
+                                                    @if ($qty1 > 0)                                                        
+                                                        <button type="button" class="btn maintenance1_qtyModal" style="background: transparent" value="{{ $item->air_supplies_id }}"> 
+                                                            <p class="text-start font-size-14">{{$item_type->air_repaire_typename}} == >> ทั้งหมด {{$qty1}} เครื่อง</p> 
+                                                        </button>
+                                                        <button type="button" class="btn maintenance1Modal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
+                                                            <h3 class="text-start">{{$maintenance1}} รายการ</h3>
+                                                        </button>
                                                     @else
                                                         <p class="text-start font-size-14">{{$item_type->air_repaire_typename}}</p> 
+                                                        <button type="button" class="btn maintenance1Modal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
+                                                            <h3 class="text-start">{{$maintenance1}}</h3>
+                                                        </button>
                                                     @endif
-                                                    <button type="button" class="btn maintenance1Modal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
-                                                        <h3 class="text-start">{{$maintenance1}} (รายการ)</h3>
-                                                    </button>
+                                                   
                                                 @elseif ($item_type->air_repaire_type_id == '2')
                                                     @if ($qty2 > 0)
-                                                        <p class="text-start font-size-14">{{$item_type->air_repaire_typename}} == >> ทั้งหมด {{$qty2}} เครื่อง</p> 
+                                                        {{-- <p class="text-start font-size-14">{{$item_type->air_repaire_typename}} == >> ทั้งหมด {{$qty2}} เครื่อง</p> --}}
+                                                        <button type="button" class="btn maintenance2_qtyModal" style="background: transparent" value="{{ $item->air_supplies_id }}"> 
+                                                            <p class="text-start font-size-14">{{$item_type->air_repaire_typename}} == >> ทั้งหมด {{$qty2}} เครื่อง</p> 
+                                                        </button> 
+                                                        <button type="button" class="btn maintenance2Modal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
+                                                            <h3 class="text-start">{{$maintenance2}} รายการ</h3>
+                                                        </button>
                                                     @else
                                                         <p class="text-start font-size-14">{{$item_type->air_repaire_typename}}</p> 
+                                                        <button type="button" class="btn maintenance2Modal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
+                                                            <h3 class="text-start">{{$maintenance2}}</h3>
+                                                        </button>
                                                     @endif
-                                                    <button type="button" class="btn maintenance2Modal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
-                                                        <h3 class="text-start">{{$maintenance2}} (รายการ)</h3>
-                                                    </button> 
+                                                     
                                                 @else
-                                                    @if ($qty3 > 0)
-                                                        <p class="text-start font-size-14">{{$item_type->air_repaire_typename}} == >> ทั้งหมด {{$qty3}} เครื่อง</p> 
+                                                    @if ($qty3 > 0) 
+                                                        <button type="button" class="btn maintenance3_qtyModal" style="background: transparent" value="{{ $item->air_supplies_id }}"> 
+                                                            <p class="text-start font-size-14">{{$item_type->air_repaire_typename}} == >> ทั้งหมด {{$qty3}} เครื่อง</p> 
+                                                        </button>
+                                                        <button type="button" class="btn maintenance3Modal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
+                                                            <h3 class="text-start">{{$maintenance3}} รายการ</h3>
+                                                        </button>
                                                     @else
                                                         <p class="text-start font-size-14">{{$item_type->air_repaire_typename}}</p> 
+                                                        <button type="button" class="btn maintenance3Modal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
+                                                            <h3 class="text-start">{{$maintenance3}}</h3>
+                                                        </button>
                                                     @endif
-                                                    <a class="maintenance3Modal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
-                                                        <h3 class="text-start">{{$maintenance3}} (รายการ)</h3>
-                                                    </a>  
+                                                      
                                                 @endif
                                                
                                             </div> 
                                             <div class="avatar-sm" style="width: 40px;height:40px">
                                                 <span class="avatar-title bg-light text-success rounded-3"> 
-                                                    <i class="fas fa-toolbox" style="color: rgb(255, 101, 135);font-size:30px"></i> 
+                                                    @if ($item->air_supplies_id == '2')
+                                                        <i class="fas fa-toolbox" style="color: rgb(56, 235, 248);font-size:30px"></i> 
+                                                    @else
+                                                        <i class="fas fa-toolbox" style="color: rgb(255, 101, 135);font-size:30px"></i> 
+                                                    @endif 
+                                                    
                                                 </span>
                                             </div>
                                         </div>  
@@ -397,9 +422,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div style='overflow:scroll; height:600px;'>
-
-                                                <div id="detail_maintenance1Modal"></div>
-                                                
+                                                <div id="detail_maintenance1Modal"></div>                                                
                                             </div>
                                         </div> 
                                     </div>  
@@ -407,8 +430,7 @@
                         
                         </div>
                     </div>
-                </div>
-
+                </div> 
                 <!-- maintenance2Modal Modal --> 
                 <div class="modal fade" id="maintenance2Modal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-xl" role="document">
@@ -422,9 +444,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div style='overflow:scroll; height:600px;'>
-
-                                                <div id="detail_maintenance2Modal"></div>
-                                                
+                                                <div id="detail_maintenance2Modal"></div>                                                
                                             </div>
                                         </div> 
                                     </div>  
@@ -432,8 +452,7 @@
                         
                         </div>
                     </div>
-                </div>
-
+                </div> 
                 <!-- maintenance3Modal Modal --> 
                 <div class="modal fade" id="maintenance3Modal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-xl" role="document">
@@ -447,9 +466,72 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div style='overflow:scroll; height:600px;'>
+                                                <div id="detail_maintenance3Modal"></div>                                                
+                                            </div>
+                                        </div> 
+                                    </div>  
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
 
-                                                <div id="detail_maintenance3Modal"></div>
-                                                
+
+                <!-- maintenance1_qtyModal Modal --> 
+                <div class="modal fade" id="maintenance1_qtyModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content ">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">รายการเครื่องที่มีการบำรุงรักษาประจำปีครั้งที่ 1</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+                            </div>
+                            <div class="modal-body">  
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div style='overflow:scroll; height:600px;'>
+                                                <div id="detail_maintenance1_qtyModal"></div>                                                
+                                            </div>
+                                        </div> 
+                                    </div>  
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+                <!-- maintenance2_qtyModal Modal --> 
+                <div class="modal fade" id="maintenance2_qtyModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content ">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">รายการเครื่องที่มีการบำรุงรักษาประจำปีครั้งที่ 2</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+                            </div>
+                            <div class="modal-body">  
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div style='overflow:scroll; height:600px;'>
+                                                <div id="detail_maintenance2_qtyModal"></div>                                                
+                                            </div>
+                                        </div> 
+                                    </div>  
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+                <!-- maintenance3_qtyModal Modal --> 
+                <div class="modal fade" id="maintenance3_qtyModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content ">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">รายการเครื่องที่มีการบำรุงรักษาประจำปีครั้งที่ 3</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+                            </div>
+                            <div class="modal-body">  
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div style='overflow:scroll; height:600px;'>
+                                                <div id="detail_maintenance3_qtyModal"></div>                                                
                                             </div>
                                         </div> 
                                     </div>  
@@ -482,7 +564,7 @@
                 // alert(air_supplies_id);        
                 $.ajax({
                     type: "GET",
-                    url:"{{ url('detail_maintenance1') }}",
+                    url:"{{ url('detail_maintenance') }}",
                     data: { air_supplies_id: air_supplies_id ,maintenance_list_num: maintenance_list_num},
                     success: function(result) { 
                         $('#detail_maintenance1Modal').html(result);
@@ -491,27 +573,72 @@
             });
             $(document).on('click', '.maintenance2Modal', function() {
                 var air_supplies_id = $(this).val(); 
+                var maintenance_list_num = '2';
                 $('#maintenance2Modal').modal('show');           
-                // $.ajax({
-                    // type: "GET",
-                    // url:"{{ url('detail_maintenance2Modal') }}",
-                    // data: { air_supplies_id: air_supplies_id },
-                    // success: function(result) { 
-                    //     $('#detail_maintenance2Modal').html(result);
-                    // },
-                // });
+                $.ajax({
+                    type: "GET",
+                    url:"{{ url('detail_maintenance') }}",
+                    data: { air_supplies_id: air_supplies_id ,maintenance_list_num: maintenance_list_num},
+                    success: function(result) { 
+                        $('#detail_maintenance2Modal').html(result);
+                    },
+                });
             });
             $(document).on('click', '.maintenance3Modal', function() {
                 var air_supplies_id = $(this).val(); 
+                var maintenance_list_num = '3';
                 $('#maintenance3Modal').modal('show');           
-                // $.ajax({
-                //     type: "GET",
-                //     url:"{{ url('detail_maintenance3Modal') }}",
-                //     data: { air_supplies_id: air_supplies_id },
-                //     success: function(result) { 
-                //         $('#detail_maintenance3Modal').html(result);
-                //     },
-                // });
+                $.ajax({
+                    type: "GET",
+                    url:"{{ url('detail_maintenance') }}",
+                    data: { air_supplies_id: air_supplies_id ,maintenance_list_num: maintenance_list_num},
+                    success: function(result) { 
+                        $('#detail_maintenance3Modal').html(result);
+                    },
+                });
+            });
+
+            $(document).on('click', '.maintenance1_qtyModal', function() {
+                var air_supplies_id = $(this).val(); 
+                var maintenance_list_num = '1';
+                $('#maintenance1_qtyModal').modal('show');   
+                // alert(air_supplies_id);        
+                $.ajax({
+                    type: "GET",
+                    url:"{{ url('detail_maintenance_qty') }}",
+                    data: { air_supplies_id: air_supplies_id ,maintenance_list_num: maintenance_list_num},
+                    success: function(result) { 
+                        $('#detail_maintenance1_qtyModal').html(result);
+                    },
+                });
+            });
+            $(document).on('click', '.maintenance2_qtyModal', function() {
+                var air_supplies_id = $(this).val(); 
+                var maintenance_list_num = '2';
+                $('#maintenance2_qtyModal').modal('show');   
+                // alert(air_supplies_id);        
+                $.ajax({
+                    type: "GET",
+                    url:"{{ url('detail_maintenance_qty') }}",
+                    data: { air_supplies_id: air_supplies_id ,maintenance_list_num: maintenance_list_num},
+                    success: function(result) { 
+                        $('#detail_maintenance2_qtyModal').html(result);
+                    },
+                });
+            });
+            $(document).on('click', '.maintenance3_qtyModal', function() {
+                var air_supplies_id = $(this).val(); 
+                var maintenance_list_num = '3';
+                $('#maintenance3_qtyModal').modal('show');   
+                // alert(air_supplies_id);        
+                $.ajax({
+                    type: "GET",
+                    url:"{{ url('detail_maintenance_qty') }}",
+                    data: { air_supplies_id: air_supplies_id ,maintenance_list_num: maintenance_list_num},
+                    success: function(result) { 
+                        $('#detail_maintenance3_qtyModal').html(result);
+                    },
+                });
             });
         </script>
 @endsection
