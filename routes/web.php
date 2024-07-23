@@ -3346,6 +3346,7 @@ Route::match(['get','post'],'audit_pdx',[App\Http\Controllers\PreauditController
 Route::match(['get','post'],'audit_pdx_detail/{month}/{year}',[App\Http\Controllers\PreauditController::class, 'audit_pdx_detail'])->name('audit.audit_pdx_detail');
 Route::match(['get','post'],'audit_pdx_detail_print/{month}/{year}',[App\Http\Controllers\PreauditController::class, 'audit_pdx_detail_print'])->name('audit.audit_pdx_detail_print');
 
+Route::match(['get','post'],'audit_only',[App\Http\Controllers\PreauditController::class, 'audit_only'])->name('audit.audit_only');
 
 // **************************** ทาลัสซีเมีย **********************************************
 Route::match(['get','post'],'talassemaie',[App\Http\Controllers\PreauditController::class, 'talassemaie'])->name('audit.talassemaie');
