@@ -84,7 +84,7 @@
                                 <p class="text-muted mb-0">
                                     <span class="text-success fw-bold font-size-20 me-2">
                                         <i class="ri-arrow-right-up-line me-1 align-middle"></i>0.00 %
-                                    </span>from previous period
+                                    </span>from previous 
                                 </p>
                             </div>                                           
                         </div> 
@@ -139,7 +139,7 @@
                                 <p class="text-muted mb-0">
                                     <span class="text-danger fw-bold font-size-20 me-2">
                                         <i class="ri-arrow-right-down-line me-1 align-middle"></i>0.00 %
-                                    </span>from previous period
+                                    </span>from previous 
                                 </p>
                             </div>                                              
                         </div> 
@@ -164,7 +164,7 @@
                             <p class="text-muted mb-0">
                                 <span class="text-warning fw-bold font-size-20 me-2">
                                     <i class="ri-arrow-right-down-line me-1 align-middle"></i>0.00 %
-                                </span>from previous period
+                                </span>from previous 
                             </p>
                         </div>                                                
                     </div> 
@@ -189,7 +189,7 @@
                             <p class="text-muted mb-0">
                                 <span class="text-info fw-bold font-size-20 me-2">
                                     <i class="ri-arrow-right-up-line me-1 align-middle"></i>0.00 %
-                                </span>from previous period
+                                </span>from previous 
                             </p>
                         </div> 
                     </div> 
@@ -216,7 +216,7 @@
                             <p class="text-muted mb-0">
                                 <span class="text-info fw-bold font-size-20 me-2">
                                     <i class="ri-arrow-right-down-line me-1 align-middle"></i>0.00 %
-                                </span>from previous period
+                                </span>from previous 
                             </p>
                         </div>  
                     </div> 
@@ -240,7 +240,7 @@
                             <p class="text-muted mb-0">
                                 <span class="text-info fw-bold font-size-20 me-2">
                                     <i class="ri-arrow-right-up-line me-1 align-middle"></i>0.00 %
-                                </span>from previous period
+                                </span>from previous 
                             </p>
                         </div> 
                     </div> 
@@ -264,7 +264,7 @@
                             <p class="text-muted mb-0">
                                 <span class="text-info fw-bold font-size-20 me-2">
                                     <i class="ri-arrow-right-up-line me-1 align-middle"></i>0.00 %
-                                </span>from previous period
+                                </span>from previous 
                             </p>
                         </div> 
                     </div> 
@@ -288,7 +288,7 @@
                             <p class="text-muted mb-0">
                                 <span class="text-info fw-bold font-size-20 me-2">
                                     <i class="ri-arrow-right-up-line me-1 align-middle"></i>0.00 %
-                                </span>from previous period
+                                </span>from previous 
                             </p>
                         </div> 
                     </div> 
@@ -314,7 +314,7 @@
                             <p class="text-muted mb-0">
                                 <span class="text-info fw-bold font-size-20 me-2">
                                     <i class="ri-arrow-right-up-line me-1 align-middle"></i>0.00 %
-                                </span>from previous period
+                                </span>from previous 
                             </p>
                         </div> 
                     </div> 
@@ -338,7 +338,7 @@
                             <p class="text-muted mb-0">
                                 <span class="text-info fw-bold font-size-20 me-2">
                                     <i class="ri-arrow-right-up-line me-1 align-middle"></i>0.00 %
-                                </span>from previous period
+                                </span>from previous 
                             </p>
                         </div> 
                     </div> 

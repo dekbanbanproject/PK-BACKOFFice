@@ -117,7 +117,7 @@
                         ?>
                     <div class="row">
                         <div class="col-xl-4 col-md-6">
-                            <div class="card widget-chart widget-chart-hover" style="height: 245px">
+                            <div class="card widget-chart widget-chart-hover" style="height: 265px">
                                 <div class="card-body">
                                     <div class="d-flex">
                                         <div class="flex-grow-1"> 
@@ -149,7 +149,7 @@
                         <div class="col-xl-8 col-md-6">
                             <div class="row">
                                 <div class="col-xl-4 col-md-4">
-                                    <div class="card widget-chart widget-chart-hover" style="height: 110px">
+                                    <div class="card widget-chart widget-chart-hover" style="height: 120px">
                                         <div class="card-body">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1"> 
@@ -169,7 +169,7 @@
                                     </div> 
                                 </div> 
                                 <div class="col-xl-4 col-md-4">
-                                    <div class="card widget-chart widget-chart-hover" style="height: 110px">
+                                    <div class="card widget-chart widget-chart-hover" style="height: 120px">
                                         <div class="card-body">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1"> 
@@ -187,7 +187,7 @@
                                     </div> 
                                 </div>
                                 <div class="col-xl-4 col-md-4">
-                                    <div class="card widget-chart widget-chart-hover" style="height: 110px">
+                                    <div class="card widget-chart widget-chart-hover" style="height: 120px">
                                         <div class="card-body">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1"> 
@@ -207,7 +207,7 @@
                             </div> 
                             <div class="row">
                                 <div class="col-xl-4 col-md-4">
-                                    <div class="card widget-chart widget-chart-hover" style="height: 110px">
+                                    <div class="card widget-chart widget-chart-hover" style="height: 120px">
                                         <div class="card-body">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1"> 
@@ -224,7 +224,7 @@
                                     </div> 
                                 </div> 
                                 <div class="col-xl-4 col-md-4">
-                                    <div class="card widget-chart widget-chart-hover" style="height: 110px">
+                                    <div class="card widget-chart widget-chart-hover" style="height: 120px">
                                         <div class="card-body">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1"> 
@@ -241,7 +241,7 @@
                                     </div> 
                                 </div> 
                                 <div class="col-xl-4 col-md-4">
-                                    <div class="card widget-chart widget-chart-hover" style="height: 110px">
+                                    <div class="card widget-chart widget-chart-hover" style="height: 120px">
                                         <div class="card-body">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1"> 
@@ -315,15 +315,15 @@
                                                 
                                                 @if ($item_type->air_repaire_type_id == '1') 
                                                     @if ($qty1 > 0)                                                        
-                                                        <button type="button" class="btn maintenance1_qtyModal" style="background: transparent" value="{{ $item->air_supplies_id }}"> 
+                                                        <button type="button" class="btn btn-sm maintenance1_qtyModal" style="background: transparent" value="{{ $item->air_supplies_id }}"> 
                                                             <p class="text-start font-size-14">{{$item_type->air_repaire_typename}} == >> ทั้งหมด {{$qty1}} เครื่อง</p> 
                                                         </button>
-                                                        <button type="button" class="btn maintenance1Modal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
+                                                        <button type="button" class="btn btn-sm maintenance1Modal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
                                                             <h3 class="text-start">{{$maintenance1}} รายการ</h3>
                                                         </button>
                                                     @else
                                                         <p class="text-start font-size-14">{{$item_type->air_repaire_typename}}</p> 
-                                                        <button type="button" class="btn maintenance1Modal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
+                                                        <button type="button" class="btn btn-sm maintenance1Modal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
                                                             <h3 class="text-start">{{$maintenance1}}</h3>
                                                         </button>
                                                     @endif
@@ -331,30 +331,30 @@
                                                 @elseif ($item_type->air_repaire_type_id == '2')
                                                     @if ($qty2 > 0)
                                                         {{-- <p class="text-start font-size-14">{{$item_type->air_repaire_typename}} == >> ทั้งหมด {{$qty2}} เครื่อง</p> --}}
-                                                        <button type="button" class="btn maintenance2_qtyModal" style="background: transparent" value="{{ $item->air_supplies_id }}"> 
+                                                        <button type="button" class="btn btn-sm maintenance2_qtyModal" style="background: transparent" value="{{ $item->air_supplies_id }}"> 
                                                             <p class="text-start font-size-14">{{$item_type->air_repaire_typename}} == >> ทั้งหมด {{$qty2}} เครื่อง</p> 
                                                         </button> 
-                                                        <button type="button" class="btn maintenance2Modal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
+                                                        <button type="button" class="btn btn-sm maintenance2Modal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
                                                             <h3 class="text-start">{{$maintenance2}} รายการ</h3>
                                                         </button>
                                                     @else
                                                         <p class="text-start font-size-14">{{$item_type->air_repaire_typename}}</p> 
-                                                        <button type="button" class="btn maintenance2Modal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
+                                                        <button type="button" class="btn btn-sm maintenance2Modal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
                                                             <h3 class="text-start">{{$maintenance2}}</h3>
                                                         </button>
                                                     @endif
                                                      
                                                 @else
                                                     @if ($qty3 > 0) 
-                                                        <button type="button" class="btn maintenance3_qtyModal" style="background: transparent" value="{{ $item->air_supplies_id }}"> 
+                                                        <button type="button" class="btn btn-sm maintenance3_qtyModal" style="background: transparent" value="{{ $item->air_supplies_id }}"> 
                                                             <p class="text-start font-size-14">{{$item_type->air_repaire_typename}} == >> ทั้งหมด {{$qty3}} เครื่อง</p> 
                                                         </button>
-                                                        <button type="button" class="btn maintenance3Modal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
+                                                        <button type="button" class="btn btn-sm maintenance3Modal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
                                                             <h3 class="text-start">{{$maintenance3}} รายการ</h3>
                                                         </button>
                                                     @else
                                                         <p class="text-start font-size-14">{{$item_type->air_repaire_typename}}</p> 
-                                                        <button type="button" class="btn maintenance3Modal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
+                                                        <button type="button" class="btn btn-sm maintenance3Modal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
                                                             <h3 class="text-start">{{$maintenance3}}</h3>
                                                         </button>
                                                     @endif
