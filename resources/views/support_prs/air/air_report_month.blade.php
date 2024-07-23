@@ -61,6 +61,14 @@
                         <button type="submit" class="ladda-button btn-pill btn btn-info bt_prs" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
                         </button>  
+                        {{-- <a href="" target="_blank" class="ladda-button me-2 btn-pill btn btn-warning bt_prs">  
+                            <i class="fa-solid fa-print me-2 text-white" style="font-size:13px"></i>
+                            <span>Print</span> 
+                        </a>  --}}
+                        <button type="button" class="ladda-button me-2 btn-pill btn btn-warning bt_prs">  
+                            <i class="fa-solid fa-print me-2 text-white" style="font-size:13px"></i>
+                            <span>Print</span> 
+                        </button> 
                 </div> 
             </div> 
         </div>  

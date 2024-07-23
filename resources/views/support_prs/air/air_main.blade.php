@@ -156,15 +156,15 @@
       
         <div class="col-md-7 text-end">
             {{-- <a href="{{url('air_qrcode_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-info cardacc">  
-                <i class="fa-solid fa-print me-2 text-white me-2" style="font-size:13px"></i>
+                <i class="fa-solid fa-print text-white me-2" style="font-size:13px"></i>
                 <span>All</span> 
             </a>  --}}
             <a href="{{url('air_qrcode_detail_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-secondary bt_prs">  
-                <i class="fa-solid fa-print me-2 text-white me-2" style="font-size:13px"></i>
+                <i class="fa-solid fa-print text-white me-2" style="font-size:13px"></i>
                 <span>Detail All</span> 
             </a> 
             <a href="{{url('air_qrcode_repaire')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-warning bt_prs">  
-                <i class="fa-solid fa-print me-2 text-white me-2" style="font-size:13px"></i>
+                <i class="fa-solid fa-print text-white me-2" style="font-size:13px"></i>
                 <span>Repaire All</span> 
             </a> 
             <a href="{{url('air_add')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-primary bt_prs"> 
