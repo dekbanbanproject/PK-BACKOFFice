@@ -60,7 +60,14 @@
                         data-date-language="th-th" />  
                         <button type="submit" class="ladda-button btn-pill btn btn-info bt_prs" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
-                        </button>  
+                        </button> 
+                        {{-- <button type="button" class="ladda-button btn-pill btn btn-success bt_prs" id="Processdata"> 
+                            <i class="fa-solid fa-spinner text-white me-2"></i>ประมวลผล
+                        </button>
+                        <button type="button" class="ladda-button btn-pill btn btn-secondary bt_prs me-2" data-bs-toggle="modal" data-bs-target="#exampleModal"> 
+                            <i class="fa-solid fa-book-open-reader text-white me-2"></i>คู่มือ 
+                        </button> --}}
+                   
                 </div> 
             </div> 
         </div>  
@@ -68,7 +75,7 @@
  
         <div class="row mt-3">
             <div class="col-xl-12">
-                <div class="card card_prs_4">
+                <div class="card card_prs_4" style="background-color: rgb(229, 253, 245)">
                     <div class="card-body">  
                        @if ($startdate != '')
                             <p class="mb-0">
@@ -78,77 +85,102 @@
                                                 <tr style="font-size:13px"> 
                                                     <th width="3%" class="text-center">ลำดับ</th>  
                                                     <th class="text-center">เดือน</th>  
-                                                    <th class="text-center">AIR ทั้งหมด(เครื่อง)</th> 
-                                                    <th class="text-center">AIR ที่ซ่อม(เครื่อง)</th>   
-                                                    <th class="text-center">ปัญหาซ่อม AIR(รายการ)</th> 
-                                                    <th class="text-center">แผนการบำรุงรักษา(ครั้ง)</th> 
-                                                    <th class="text-center">ผลการบำรุงรักษา(ครั้ง)</th> 
-                                                    <th class="text-center">ร้อยละ AIR ที่ซ่อม</th> 
-                                                    <th class="text-center">ร้อยละ AIR ที่บำรุงรักษา</th>  
+                                                    <th class="text-center">จำนวน(เครื่อง)</th> 
+                                                    <th class="text-center">จำนวนครั้งที่ซ่อม</th>   
+                                                    <th class="text-center">น้ำหยด</th> 
+                                                    <th class="text-center">ไม่เย็นมีแต่ลม</th> 
+                                                    <th class="text-center">มีกลิ่นเหม็น</th> 
+                                                    <th class="text-center">เสียงดัง</th> 
+                                                    <th class="text-center">ไม่ติด/ติดๆดับๆ</th> 
+                                                    <th class="text-center">อื่นๆ</th> 
                                                 </tr>  
                                         </thead>
                                         <tbody>
                                             <?php $i = 0; ?>
                                             @foreach ($datashow as $item) 
                                             <?php $i++  ?>
-                                            <?php  
-                                                    $repaire_air = DB::select('SELECT COUNT(DISTINCT air_list_num) as air_problems FROM air_repaire WHERE repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"');                                     
-                                                    foreach ($repaire_air as $key => $rep_air) {$airproblems = $rep_air->air_problems;}
+                                            <?php 
+                                                    $namyod_air = DB::select('SELECT COUNT(b.repaire_sub_id) as namyod FROM air_repaire a 
+                                                        LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                                                        WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND b.air_repaire_ploblem_id = "1" AND b.air_repaire_type_code ="04"  
+                                                    ');                                     
+                                                    foreach ($namyod_air as $key => $value_air) {$namyod = $value_air->namyod;} 
 
-                                                    $repaire_air_pro = DB::select('SELECT COUNT(b.repaire_sub_id) as air_problems04 FROM air_repaire a 
-                                                    LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
-                                                    WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND b.air_repaire_type_code ="04"');                                     
-                                                    foreach ($repaire_air_pro as $key => $rep_air_pro) {$airproblems04 = $rep_air_pro->air_problems04;}
-                                                    
+                                                    $lom_air = DB::select('SELECT COUNT(b.repaire_sub_id) as lomair FROM air_repaire a 
+                                                        LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                                                        WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND b.air_repaire_ploblem_id = "2" AND b.air_repaire_type_code ="04"  
+                                                    ');                                     
+                                                    foreach ($lom_air as $key => $lom_air) {$lomair = $lom_air->lomair;} 
 
-                                                    $repaire_air_plan = DB::select('SELECT COUNT(b.repaire_sub_id) as air_problems_plan FROM air_repaire a 
-                                                    LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
-                                                    WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND b.air_repaire_type_code IN("01","02","03")');                                     
-                                                    foreach ($repaire_air_plan as $key => $rep_air_plan) {$airproblems_plan = $rep_air_plan->air_problems_plan;}
+                                                    $men_air = DB::select('SELECT COUNT(b.repaire_sub_id) as menair FROM air_repaire a 
+                                                        LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                                                        WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND b.air_repaire_ploblem_id = "3" AND b.air_repaire_type_code ="04"  
+                                                    ');                                     
+                                                    foreach ($men_air as $key => $air_men) {$menair = $air_men->menair;} 
 
-                                                    $percent_ploblames =  (100 / $count_air) * $airproblems;
-                                                    $percent_plan      =  (100 / $count_air) * $airproblems_plan;
+                                                    $valumn_air = DB::select('SELECT COUNT(b.repaire_sub_id) as valumnair FROM air_repaire a 
+                                                        LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                                                        WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND b.air_repaire_ploblem_id = "4" AND b.air_repaire_type_code ="04"  
+                                                    ');                                     
+                                                    foreach ($valumn_air as $key => $air_valumn) {$valumnair = $air_valumn->valumnair;}
+
+                                                    $dap_air = DB::select('SELECT COUNT(b.repaire_sub_id) as dapair FROM air_repaire a 
+                                                        LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                                                        WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND b.air_repaire_ploblem_id = "5" AND b.air_repaire_type_code ="04"  
+                                                    ');                                     
+                                                    foreach ($dap_air as $key => $air_dap) {$dapair = $air_dap->dapair;}
+
+                                                    $aeun_air = DB::select('SELECT COUNT(b.repaire_sub_id) as aeunair FROM air_repaire a 
+                                                        LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                                                        WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND b.air_repaire_ploblem_id = "6" AND b.air_repaire_type_code ="04"  
+                                                    ');                                     
+                                                    foreach ($aeun_air as $key => $air_auen) {$aeunair = $air_auen->aeunair;}
                                                     
                                             ?>                    
                                                 <tr>                                                  
                                                     <td class="text-center" style="font-size:13px;width: 5%;color: rgb(13, 134, 185)">{{$i}}</td>
                                                     <td class="text-start" style="font-size:14px;color: rgb(2, 95, 182)">{{$item->MONTH_NAME}} พ.ศ. {{$item->years_ps}}</td> 
                                                     <td class="text-center" style="font-size:13px;width: 10%;color: rgb(112, 5, 98)">
-                                                        {{-- <a href="{{url('air_report_problem_group/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(209, 181, 236);width: 70%;" target="_blank"> --}}
-                                                            <span class="ladda-label"> {{$count_air}}</span>  
-                                                        {{-- </a>   --}}
+                                                        {{-- <a href="{{url('air_report_problem_group/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(209, 181, 236);width: 70%;" target="_blank">
+                                                            <span class="ladda-label"> <i class="fa-solid fa-fan me-2" style="color: #8c07c0"></i>{{$item->count_ploblems}}</span>  
+                                                        </a>  --}} 
                                                     </td>
-                                                    <td class="text-center" style="font-size:13px;width: 8%;color: rgb(253, 65, 81)">
-                                                        {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
-                                                            <span class="ladda-label"> {{$airproblems}}</span>  
-                                                        {{-- </a>  --}}
+                                                    <td class="text-center" style="font-size:13px;width: 8%;color: rgb(247, 209, 212)">
+                                                        {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank">
+                                                            <span class="ladda-label"> <i class="fa-solid fa-fan me-2" style="color: rgb(253, 65, 81)"></i>{{$item->more_one}}</span>  
+                                                        </a> --}} 
                                                     </td>
                                                     <td class="text-center" style="font-size:13px;width: 8%;color: rgb(252, 90, 203)">
                                                         {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
-                                                            <span class="ladda-label">{{$airproblems04}}</span>  
+                                                            <span class="ladda-label"> <i class="fa-solid fa-droplet me-2"></i>{{$namyod}}</span>  
                                                         {{-- </a>  --}}
                                                     </td>
                                                     <td class="text-center" style="font-size:13px;width: 8%;color: rgb(5, 179, 170)">
                                                         {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
-                                                            <span class="ladda-label">{{$airproblems_plan}}</span>  
+                                                            <span class="ladda-label"> <i class="fa-solid fa-fan me-2"></i>{{$lomair}}</span>  
                                                         {{-- </a>  --}}
                                                     </td>
                                                     <td class="text-center" style="font-size:13px;width: 8%;color: rgb(253, 102, 15)">
                                                         {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
-                                                            <span class="ladda-label"> 0</span>  
+                                                            <span class="ladda-label"> <i class="fas fa-soap me-2"></i>{{$menair}}</span>  
                                                         {{-- </a>  --}}
                                                     </td>
                                                     <td class="text-center" style="font-size:13px;width: 8%;color: rgb(10, 132, 231)">
                                                         {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
-                                                            <span class="ladda-label">{{number_format($percent_ploblames, 2)}} %</span>  
+                                                            <span class="ladda-label"> <i class="fa-solid fa-volume-high me-2"></i>{{$valumnair}}</span>  
                                                         {{-- </a>  --}}
                                                     </td>
                                                     <td class="text-center" style="font-size:13px;width: 8%;color: rgb(250, 128, 138)">
                                                         {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
-                                                            <span class="ladda-label"> {{number_format($percent_plan, 2)}} %</span>  
+                                                            <span class="ladda-label"> <i class="fa-solid fa-tenge-sign me-2"></i>{{$dapair}}</span>  
                                                         {{-- </a>  --}}
                                                     </td>
-                                                  
+                                                    <td class="text-center" style="font-size:13px;width: 8%;color: rgb(8, 184, 228)">
+                                                        {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
+                                                            <span class="ladda-label"> <i class="fab fa-slack me-2"></i>{{$aeunair}}</span>  
+                                                        {{-- </a>  --}}
+                                                    </td>
+                                                    
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -163,13 +195,14 @@
                                                 <tr style="font-size:13px"> 
                                                     <th width="3%" class="text-center">ลำดับ</th>  
                                                     <th class="text-center">เดือน</th>  
-                                                    <th class="text-center">AIR ทั้งหมด(เครื่อง)</th> 
-                                                    <th class="text-center">AIR ที่ซ่อม(เครื่อง)</th>   
-                                                    <th class="text-center">ปัญหาซ่อม AIR(รายการ)</th> 
-                                                    <th class="text-center">แผนการบำรุงรักษา(ครั้ง)</th> 
-                                                    <th class="text-center">ผลการบำรุงรักษา(ครั้ง)</th> 
-                                                    <th class="text-center">ร้อยละ AIR ที่ซ่อม</th> 
-                                                    <th class="text-center">ร้อยละ AIR ที่บำรุงรักษา</th>  
+                                                    <th class="text-center">จำนวน(เครื่อง)</th> 
+                                                    <th class="text-center">จำนวนครั้งที่ซ่อม</th>   
+                                                    <th class="text-center">น้ำหยด</th> 
+                                                    <th class="text-center">ไม่เย็นมีแต่ลม</th> 
+                                                    <th class="text-center">มีกลิ่นเหม็น</th> 
+                                                    <th class="text-center">เสียงดัง</th> 
+                                                    <th class="text-center">ไม่ติด/ติดๆดับๆ</th> 
+                                                    <th class="text-center">อื่นๆ</th> 
                                                 </tr>  
                                         </thead>
                                         <tbody>
@@ -177,63 +210,87 @@
                                             @foreach ($datashow as $item) 
                                             <?php $i++  ?>
                                             <?php 
-                                                    $repaire_air = DB::select('SELECT COUNT(DISTINCT air_list_num) as air_problems FROM air_repaire WHERE YEAR(repaire_date) = "'.$item->years.'" AND MONTH(repaire_date) = "'.$item->months.'"');                                     
-                                                    foreach ($repaire_air as $key => $rep_air) {$airproblems = $rep_air->air_problems;}
+                                                    $namyod_air = DB::select('SELECT COUNT(b.repaire_sub_id) as namyod FROM air_repaire a 
+                                                        LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                                                        WHERE MONTH(a.repaire_date) = "'.$item->months.'" AND YEAR(a.repaire_date) = "'.$item->years.'" AND b.air_repaire_ploblem_id = "1" AND b.air_repaire_type_code ="04"  
+                                                    ');                                     
+                                                    foreach ($namyod_air as $key => $value_air) {$namyod = $value_air->namyod;} 
 
-                                                    $repaire_air_pro = DB::select('SELECT COUNT(b.repaire_sub_id) as air_problems04 FROM air_repaire a 
-                                                    LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
-                                                    WHERE YEAR(a.repaire_date) = "'.$item->years.'" AND MONTH(a.repaire_date) = "'.$item->months.'" AND b.air_repaire_type_code ="04"');                                     
-                                                    foreach ($repaire_air_pro as $key => $rep_air_pro) {$airproblems04 = $rep_air_pro->air_problems04;}
+                                                    $lom_air = DB::select('SELECT COUNT(b.repaire_sub_id) as lomair FROM air_repaire a 
+                                                        LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                                                        WHERE MONTH(a.repaire_date) = "'.$item->months.'" AND YEAR(a.repaire_date) = "'.$item->years.'" AND b.air_repaire_ploblem_id = "2" AND b.air_repaire_type_code ="04"  
+                                                    ');                                     
+                                                    foreach ($lom_air as $key => $lom_air) {$lomair = $lom_air->lomair;} 
+
+                                                    $men_air = DB::select('SELECT COUNT(b.repaire_sub_id) as menair FROM air_repaire a 
+                                                        LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                                                        WHERE MONTH(a.repaire_date) = "'.$item->months.'" AND YEAR(a.repaire_date) = "'.$item->years.'" AND b.air_repaire_ploblem_id = "3" AND b.air_repaire_type_code ="04"  
+                                                    ');                                     
+                                                    foreach ($men_air as $key => $air_men) {$menair = $air_men->menair;} 
+
+                                                    $valumn_air = DB::select('SELECT COUNT(b.repaire_sub_id) as valumnair FROM air_repaire a 
+                                                        LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                                                        WHERE MONTH(a.repaire_date) = "'.$item->months.'" AND YEAR(a.repaire_date) = "'.$item->years.'" AND b.air_repaire_ploblem_id = "4" AND b.air_repaire_type_code ="04"  
+                                                    ');                                     
+                                                    foreach ($valumn_air as $key => $air_valumn) {$valumnair = $air_valumn->valumnair;}
+
+                                                    $dap_air = DB::select('SELECT COUNT(b.repaire_sub_id) as dapair FROM air_repaire a 
+                                                        LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                                                        WHERE MONTH(a.repaire_date) = "'.$item->months.'" AND YEAR(a.repaire_date) = "'.$item->years.'" AND b.air_repaire_ploblem_id = "5" AND b.air_repaire_type_code ="04"  
+                                                    ');                                     
+                                                    foreach ($dap_air as $key => $air_dap) {$dapair = $air_dap->dapair;}
+
+                                                    $aeun_air = DB::select('SELECT COUNT(b.repaire_sub_id) as aeunair FROM air_repaire a 
+                                                        LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                                                        WHERE MONTH(a.repaire_date) = "'.$item->months.'" AND YEAR(a.repaire_date) = "'.$item->years.'" AND b.air_repaire_ploblem_id = "6" AND b.air_repaire_type_code ="04"  
+                                                    ');                                     
+                                                    foreach ($aeun_air as $key => $air_auen) {$aeunair = $air_auen->aeunair;}
                                                     
-
-                                                    $repaire_air_plan = DB::select('SELECT COUNT(b.repaire_sub_id) as air_problems_plan FROM air_repaire a 
-                                                    LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
-                                                    WHERE YEAR(a.repaire_date) = "'.$item->years.'" AND MONTH(a.repaire_date) = "'.$item->months.'" AND b.air_repaire_type_code IN("01","02","03")');                                     
-                                                    foreach ($repaire_air_plan as $key => $rep_air_plan) {$airproblems_plan = $rep_air_plan->air_problems_plan;}
-
-                                                    $percent_ploblames =  (100 / $count_air) * $airproblems;
-                                                    $percent_plan      =  (100 / $count_air) * $airproblems_plan;
-                                                     
                                             ?>                    
                                                 <tr>                                                  
                                                     <td class="text-center" style="font-size:13px;width: 5%;color: rgb(13, 134, 185)">{{$i}}</td>
                                                     <td class="text-start" style="font-size:14px;color: rgb(2, 95, 182)">{{$item->MONTH_NAME}} พ.ศ. {{$item->years_ps}}</td> 
                                                     <td class="text-center" style="font-size:13px;width: 10%;color: rgb(112, 5, 98)">
-                                                        {{-- <a href="{{url('air_report_problem_group/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(209, 181, 236);width: 70%;" target="_blank"> --}}
-                                                            <span class="ladda-label"> {{$count_air}}</span>  
-                                                        {{-- </a>   --}}
+                                                        {{-- <a href="{{url('air_report_problem_group/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(209, 181, 236);width: 70%;" target="_blank">
+                                                            <span class="ladda-label"> <i class="fa-solid fa-fan me-2" style="color: #8c07c0"></i>{{$item->count_ploblems}}</span>  
+                                                        </a>  --}} 
                                                     </td>
-                                                    <td class="text-center" style="font-size:13px;width: 8%;color: rgb(253, 65, 81)">
-                                                        {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
-                                                            <span class="ladda-label"> {{$airproblems}}</span>  
-                                                        {{-- </a>  --}}
+                                                    <td class="text-center" style="font-size:13px;width: 8%;color: rgb(247, 209, 212)">
+                                                        {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank">
+                                                            <span class="ladda-label"> <i class="fa-solid fa-fan me-2" style="color: rgb(253, 65, 81)"></i>{{$item->more_one}}</span>  
+                                                        </a> --}} 
                                                     </td>
                                                     <td class="text-center" style="font-size:13px;width: 8%;color: rgb(252, 90, 203)">
                                                         {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
-                                                            <span class="ladda-label">{{$airproblems04}}</span>  
+                                                            <span class="ladda-label"> <i class="fa-solid fa-droplet me-2"></i>{{$namyod}}</span>  
                                                         {{-- </a>  --}}
                                                     </td>
                                                     <td class="text-center" style="font-size:13px;width: 8%;color: rgb(5, 179, 170)">
                                                         {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
-                                                            <span class="ladda-label">{{$airproblems_plan}}</span>  
+                                                            <span class="ladda-label"> <i class="fa-solid fa-fan me-2"></i>{{$lomair}}</span>  
                                                         {{-- </a>  --}}
                                                     </td>
                                                     <td class="text-center" style="font-size:13px;width: 8%;color: rgb(253, 102, 15)">
                                                         {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
-                                                            <span class="ladda-label"> 0</span>  
+                                                            <span class="ladda-label"> <i class="fas fa-soap me-2"></i>{{$menair}}</span>  
                                                         {{-- </a>  --}}
                                                     </td>
                                                     <td class="text-center" style="font-size:13px;width: 8%;color: rgb(10, 132, 231)">
                                                         {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
-                                                            <span class="ladda-label">{{number_format($percent_ploblames, 2)}} %</span>  
+                                                            <span class="ladda-label"> <i class="fa-solid fa-volume-high me-2"></i>{{$valumnair}}</span>  
                                                         {{-- </a>  --}}
                                                     </td>
                                                     <td class="text-center" style="font-size:13px;width: 8%;color: rgb(250, 128, 138)">
                                                         {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
-                                                            <span class="ladda-label"> {{number_format($percent_plan, 2)}} %</span>  
+                                                            <span class="ladda-label"> <i class="fa-solid fa-tenge-sign me-2"></i>{{$dapair}}</span>  
                                                         {{-- </a>  --}}
                                                     </td>
-                                                     
+                                                    <td class="text-center" style="font-size:13px;width: 8%;color: rgb(8, 184, 228)">
+                                                        {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
+                                                            <span class="ladda-label"> <i class="fab fa-slack me-2"></i>{{$aeunair}}</span>  
+                                                        {{-- </a>  --}}
+                                                    </td>
+                                                    
                                                 </tr>
                                             @endforeach
                                         </tbody>
