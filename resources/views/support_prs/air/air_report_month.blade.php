@@ -2,29 +2,24 @@
 @section('title', 'PK-OFFICER || Air-Service')
 
 @section('content')
+
     <script>
         function TypeAdmin() {
             window.location.href = '{{ route('index') }}';
-        }
-        
+        }        
     </script>
     <?php
-    if (Auth::check()) {
-        $type = Auth::user()->type;
-        $iduser = Auth::user()->id;
-    } else {
-        echo "<body onload=\"TypeAdmin()\"></body>";
-        exit();
-    }
-    $url = Request::url();
-    $pos = strrpos($url, '/') + 1;
-    
-    ?>
-
-    
-    <?php
-    $ynow = date('Y') + 543;
-    $yb = date('Y') + 542;
+        if (Auth::check()) {
+            $type = Auth::user()->type;
+            $iduser = Auth::user()->id;
+        } else {
+            echo "<body onload=\"TypeAdmin()\"></body>";
+            exit();
+        }
+        $url = Request::url();
+        $pos = strrpos($url, '/') + 1;     
+        $ynow = date('Y') + 543;
+        $yb = date('Y') + 542;
     ?>
 
 <div class="tabs-animation">
@@ -52,7 +47,7 @@
             </div>
              
             <div class="col"></div>
-            <div class="col-md-4 text-end"> 
+            <div class="col-md-5 text-end"> 
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control bt_prs" name="startdate" value="{{$startdate}}" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" required/>
@@ -65,7 +60,7 @@
                             <i class="fa-solid fa-print me-2 text-white" style="font-size:13px"></i>
                             <span>Print</span> 
                         </a>  --}}
-                        <button type="button" class="ladda-button me-2 btn-pill btn btn-warning bt_prs">  
+                        <button type="button" class="ladda-button me-2 btn-pill btn btn-primary bt_prs">  
                             <i class="fa-solid fa-print me-2 text-white" style="font-size:13px"></i>
                             <span>Print</span> 
                         </button> 
@@ -81,82 +76,90 @@
                        @if ($startdate != '')
                             <p class="mb-0">
                                 <div class="table-responsive">
-                                    <table id="example" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;">                     
+                                    <table id="example" class="table table-hover table-sm" style=" border-spacing: 0; width: 100%;">                       
                                         <thead>                             
                                                 <tr style="font-size:13px"> 
-                                                    <th width="3%" class="text-center">ลำดับ</th>  
+                                                    <th class="text-center" width="5%">ลำดับ</th>  
                                                     <th class="text-center">เดือน</th>  
-                                                    <th class="text-center">AIR ทั้งหมด(เครื่อง)</th> 
-                                                    <th class="text-center">AIR ที่ซ่อม(เครื่อง)</th>   
-                                                    <th class="text-center">ปัญหาซ่อม AIR(รายการ)</th> 
-                                                    <th class="text-center">แผนการบำรุงรักษา(ครั้ง)</th> 
-                                                    <th class="text-center">ผลการบำรุงรักษา(ครั้ง)</th> 
-                                                    <th class="text-center">ร้อยละ AIR ที่ซ่อม</th> 
-                                                    <th class="text-center">ร้อยละ AIR ที่บำรุงรักษา</th>  
+                                                    <th class="text-center" width="8%">AIR ทั้งหมด(เครื่อง)</th> 
+                                                    <th class="text-center" width="8%">AIR ที่ซ่อม(เครื่อง)</th>   
+                                                    <th class="text-center" width="8%">ปัญหาซ่อม AIR(รายการ)</th> 
+                                                    <th class="text-center" width="8%">แผนการบำรุงรักษา(ครั้ง)</th> 
+                                                    <th class="text-center" width="8%">ผลการบำรุงรักษา(ครั้ง)</th> 
+                                                    <th class="text-center" width="8%">ร้อยละ AIR ที่ซ่อม</th> 
+                                                    <th class="text-center" width="8%">ร้อยละ AIR ที่บำรุงรักษา</th>  
                                                 </tr>  
                                         </thead>
                                         <tbody>
                                             <?php $i = 0; ?>
                                             @foreach ($datashow as $item) 
                                             <?php $i++  ?>
-                                            <?php  
+                                            <?php   
+                                                    $budget_year = DB::select('SELECT leave_year_id FROM budget_year WHERE years_now = "Y"');
+                                                    foreach ($budget_year as $key => $va_y) {
+                                                        $budgetyear   = $va_y->leave_year_id;
+                                                    }
+                                                    $plan_count = DB::select(
+                                                        'SELECT COUNT(a.air_plan_id) as air_plan_id 
+                                                            FROM air_plan a
+                                                            LEFT JOIN air_plan_month b ON b.air_plan_month_id = a.air_plan_month_id
+                                                            WHERE a.air_plan_year = "'.$budgetyear.'" AND b.air_plan_month = "'.$item->months.'"
+                                                            AND b.air_plan_year = "'.$item->years.'"
+                                                        ');
+                                                    foreach ($plan_count as $key => $val_count) {
+                                                        $plan_s   = $val_count->air_plan_id;
+                                                    }                                            
+
                                                     $repaire_air = DB::select('SELECT COUNT(DISTINCT air_list_num) as air_problems FROM air_repaire WHERE repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"');                                     
                                                     foreach ($repaire_air as $key => $rep_air) {$airproblems = $rep_air->air_problems;}
 
                                                     $repaire_air_pro = DB::select('SELECT COUNT(b.repaire_sub_id) as air_problems04 FROM air_repaire a 
                                                     LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
-                                                    WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND b.air_repaire_type_code ="04"');                                     
+                                                    WHERE repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND b.air_repaire_type_code ="04"');                                     
                                                     foreach ($repaire_air_pro as $key => $rep_air_pro) {$airproblems04 = $rep_air_pro->air_problems04;}
                                                     
-
                                                     $repaire_air_plan = DB::select('SELECT COUNT(b.repaire_sub_id) as air_problems_plan FROM air_repaire a 
                                                     LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
-                                                    WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND b.air_repaire_type_code IN("01","02","03")');                                     
+                                                    WHERE repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND b.air_repaire_type_code IN("01","02","03")');                                     
                                                     foreach ($repaire_air_plan as $key => $rep_air_plan) {$airproblems_plan = $rep_air_plan->air_problems_plan;}
 
-                                                    $percent_ploblames =  (100 / $count_air) * $airproblems;
-                                                    $percent_plan      =  (100 / $count_air) * $airproblems_plan;
+                                                    // แผนการบำรุงรักษา
+                                                    if ($plan_s < 1) {
+                                                        $plan = "0";
+                                                        $percent_ploblames =  "0";
+                                                        $percent_plan      =  "0";
+                                                    } else {
+                                                        $plan = $plan_s ;
+                                                        $percent_ploblames =  (100 / $plan) * $airproblems;
+                                                        $percent_plan      =  (100 / $plan) * $airproblems_plan;
+                                                    }
                                                     
                                             ?>                    
-                                                <tr>                                                  
+                                                 <tr>                                                  
                                                     <td class="text-center" style="font-size:13px;width: 5%;color: rgb(13, 134, 185)">{{$i}}</td>
                                                     <td class="text-start" style="font-size:14px;color: rgb(2, 95, 182)">{{$item->MONTH_NAME}} พ.ศ. {{$item->years_ps}}</td> 
-                                                    <td class="text-center" style="font-size:13px;width: 10%;color: rgb(112, 5, 98)">
-                                                        {{-- <a href="{{url('air_report_problem_group/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(209, 181, 236);width: 70%;" target="_blank"> --}}
-                                                            <span class="ladda-label"> {{$count_air}}</span>  
-                                                        {{-- </a>   --}}
+                                                    <td class="text-center" style="font-size:13px;color: rgb(112, 5, 98)" width="12%"> 
+                                                            {{$count_air}}   
                                                     </td>
-                                                    <td class="text-center" style="font-size:13px;width: 8%;color: rgb(253, 65, 81)">
-                                                        {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
-                                                            <span class="ladda-label"> {{$airproblems}}</span>  
-                                                        {{-- </a>  --}}
+                                                    <td class="text-center" style="font-size:13px;color: rgb(253, 65, 81)" width="10%"> 
+                                                             {{$airproblems}}  
                                                     </td>
-                                                    <td class="text-center" style="font-size:13px;width: 8%;color: rgb(252, 90, 203)">
-                                                        {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
-                                                            <span class="ladda-label">{{$airproblems04}}</span>  
-                                                        {{-- </a>  --}}
+                                                    <td class="text-center" style="font-size:13px;color: rgb(252, 90, 203)" width="12%"> 
+                                                            {{$airproblems04}} 
                                                     </td>
-                                                    <td class="text-center" style="font-size:13px;width: 8%;color: rgb(5, 179, 170)">
-                                                        {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
-                                                            <span class="ladda-label">{{$airproblems_plan}}</span>  
-                                                        {{-- </a>  --}}
+                                                    <td class="text-center" style="font-size:13px;color: rgb(5, 179, 170)" width="12%">  
+                                                            {{$plan}}
                                                     </td>
-                                                    <td class="text-center" style="font-size:13px;width: 8%;color: rgb(253, 102, 15)">
-                                                        {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
-                                                            <span class="ladda-label"> 0</span>  
-                                                        {{-- </a>  --}}
+                                                    <td class="text-center" style="font-size:13px;color: rgb(253, 102, 15)" width="12%"> 
+                                                            {{$airproblems_plan}}  
                                                     </td>
-                                                    <td class="text-center" style="font-size:13px;width: 8%;color: rgb(10, 132, 231)">
-                                                        {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
-                                                            <span class="ladda-label">{{number_format($percent_ploblames, 2)}} %</span>  
-                                                        {{-- </a>  --}}
+                                                    <td class="text-center" style="font-size:13px;color: rgb(10, 132, 231)" width="10%"> 
+                                                            {{number_format($percent_ploblames, 2)}} % 
                                                     </td>
-                                                    <td class="text-center" style="font-size:13px;width: 8%;color: rgb(250, 128, 138)">
-                                                        {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
-                                                            <span class="ladda-label"> {{number_format($percent_plan, 2)}} %</span>  
-                                                        {{-- </a>  --}}
+                                                    <td class="text-center" style="font-size:13px;color: rgb(250, 128, 138)" width="12%"> 
+                                                            {{number_format($percent_plan, 2)}} %
                                                     </td>
-                                                  
+                                                     
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -166,18 +169,19 @@
                        @else 
                             <p class="mb-0">
                                 <div class="table-responsive">
-                                    <table id="example" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;">                       
+                                    {{-- <table id="example" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;">  --}}
+                                    <table id="example" class="table table-hover table-sm" style=" border-spacing: 0; width: 100%;">                       
                                         <thead>                             
                                                 <tr style="font-size:13px"> 
-                                                    <th width="3%" class="text-center">ลำดับ</th>  
+                                                    <th class="text-center" width="5%">ลำดับ</th>  
                                                     <th class="text-center">เดือน</th>  
-                                                    <th class="text-center">AIR ทั้งหมด(เครื่อง)</th> 
-                                                    <th class="text-center">AIR ที่ซ่อม(เครื่อง)</th>   
-                                                    <th class="text-center">ปัญหาซ่อม AIR(รายการ)</th> 
-                                                    <th class="text-center">แผนการบำรุงรักษา(ครั้ง)</th> 
-                                                    <th class="text-center">ผลการบำรุงรักษา(ครั้ง)</th> 
-                                                    <th class="text-center">ร้อยละ AIR ที่ซ่อม</th> 
-                                                    <th class="text-center">ร้อยละ AIR ที่บำรุงรักษา</th>  
+                                                    <th class="text-center" width="8%">AIR ทั้งหมด(เครื่อง)</th> 
+                                                    <th class="text-center" width="8%">AIR ที่ซ่อม(เครื่อง)</th>   
+                                                    <th class="text-center" width="8%">ปัญหาซ่อม AIR(รายการ)</th> 
+                                                    <th class="text-center" width="8%">แผนการบำรุงรักษา(ครั้ง)</th> 
+                                                    <th class="text-center" width="8%">ผลการบำรุงรักษา(ครั้ง)</th> 
+                                                    <th class="text-center" width="8%">ร้อยละ AIR ที่ซ่อม</th> 
+                                                    <th class="text-center" width="8%">ร้อยละ AIR ที่บำรุงรักษา</th>  
                                                 </tr>  
                                         </thead>
                                         <tbody>
@@ -185,6 +189,21 @@
                                             @foreach ($datashow as $item) 
                                             <?php $i++  ?>
                                             <?php 
+                                                    $budget_year = DB::select('SELECT leave_year_id FROM budget_year WHERE years_now = "Y"');
+                                                    foreach ($budget_year as $key => $va_y) {
+                                                        $budgetyear   = $va_y->leave_year_id;
+                                                    }
+                                                    $plan_count = DB::select(
+                                                        'SELECT COUNT(a.air_plan_id) as air_plan_id 
+                                                            FROM air_plan a
+                                                            LEFT JOIN air_plan_month b ON b.air_plan_month_id = a.air_plan_month_id
+                                                            WHERE a.air_plan_year = "'.$budgetyear.'" AND b.air_plan_month = "'.$item->months.'"
+                                                            AND b.air_plan_year = "'.$item->years.'"
+                                                        ');
+                                                    foreach ($plan_count as $key => $val_count) {
+                                                        $plan_s   = $val_count->air_plan_id;
+                                                    }                                            
+
                                                     $repaire_air = DB::select('SELECT COUNT(DISTINCT air_list_num) as air_problems FROM air_repaire WHERE YEAR(repaire_date) = "'.$item->years.'" AND MONTH(repaire_date) = "'.$item->months.'"');                                     
                                                     foreach ($repaire_air as $key => $rep_air) {$airproblems = $rep_air->air_problems;}
 
@@ -193,53 +212,45 @@
                                                     WHERE YEAR(a.repaire_date) = "'.$item->years.'" AND MONTH(a.repaire_date) = "'.$item->months.'" AND b.air_repaire_type_code ="04"');                                     
                                                     foreach ($repaire_air_pro as $key => $rep_air_pro) {$airproblems04 = $rep_air_pro->air_problems04;}
                                                     
-
                                                     $repaire_air_plan = DB::select('SELECT COUNT(b.repaire_sub_id) as air_problems_plan FROM air_repaire a 
                                                     LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
                                                     WHERE YEAR(a.repaire_date) = "'.$item->years.'" AND MONTH(a.repaire_date) = "'.$item->months.'" AND b.air_repaire_type_code IN("01","02","03")');                                     
                                                     foreach ($repaire_air_plan as $key => $rep_air_plan) {$airproblems_plan = $rep_air_plan->air_problems_plan;}
 
-                                                    $percent_ploblames =  (100 / $count_air) * $airproblems;
-                                                    $percent_plan      =  (100 / $count_air) * $airproblems_plan;
-                                                     
+                                                    // แผนการบำรุงรักษา
+                                                    if ($plan_s < 1) {
+                                                        $plan = "0";
+                                                        $percent_ploblames =  "0";
+                                                        $percent_plan      =  "0";
+                                                    } else {
+                                                        $plan = $plan_s ;
+                                                        $percent_ploblames =  (100 / $plan) * $airproblems;
+                                                        $percent_plan      =  (100 / $plan) * $airproblems_plan;
+                                                    }  
                                             ?>                    
                                                 <tr>                                                  
                                                     <td class="text-center" style="font-size:13px;width: 5%;color: rgb(13, 134, 185)">{{$i}}</td>
                                                     <td class="text-start" style="font-size:14px;color: rgb(2, 95, 182)">{{$item->MONTH_NAME}} พ.ศ. {{$item->years_ps}}</td> 
-                                                    <td class="text-center" style="font-size:13px;width: 10%;color: rgb(112, 5, 98)">
-                                                        {{-- <a href="{{url('air_report_problem_group/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(209, 181, 236);width: 70%;" target="_blank"> --}}
-                                                            <span class="ladda-label"> {{$count_air}}</span>  
-                                                        {{-- </a>   --}}
+                                                    <td class="text-center" style="font-size:13px;color: rgb(112, 5, 98)" width="12%"> 
+                                                            {{$count_air}}   
                                                     </td>
-                                                    <td class="text-center" style="font-size:13px;width: 8%;color: rgb(253, 65, 81)">
-                                                        {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
-                                                            <span class="ladda-label"> {{$airproblems}}</span>  
-                                                        {{-- </a>  --}}
+                                                    <td class="text-center" style="font-size:13px;color: rgb(253, 65, 81)" width="10%"> 
+                                                             {{$airproblems}}  
                                                     </td>
-                                                    <td class="text-center" style="font-size:13px;width: 8%;color: rgb(252, 90, 203)">
-                                                        {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
-                                                            <span class="ladda-label">{{$airproblems04}}</span>  
-                                                        {{-- </a>  --}}
+                                                    <td class="text-center" style="font-size:13px;color: rgb(252, 90, 203)" width="12%"> 
+                                                            {{$airproblems04}} 
                                                     </td>
-                                                    <td class="text-center" style="font-size:13px;width: 8%;color: rgb(5, 179, 170)">
-                                                        {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
-                                                            <span class="ladda-label">{{$airproblems_plan}}</span>  
-                                                        {{-- </a>  --}}
+                                                    <td class="text-center" style="font-size:13px;color: rgb(5, 179, 170)" width="12%">  
+                                                            {{$plan}}
                                                     </td>
-                                                    <td class="text-center" style="font-size:13px;width: 8%;color: rgb(253, 102, 15)">
-                                                        {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
-                                                            <span class="ladda-label"> 0</span>  
-                                                        {{-- </a>  --}}
+                                                    <td class="text-center" style="font-size:13px;color: rgb(253, 102, 15)" width="12%"> 
+                                                            {{$airproblems_plan}}  
                                                     </td>
-                                                    <td class="text-center" style="font-size:13px;width: 8%;color: rgb(10, 132, 231)">
-                                                        {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
-                                                            <span class="ladda-label">{{number_format($percent_ploblames, 2)}} %</span>  
-                                                        {{-- </a>  --}}
+                                                    <td class="text-center" style="font-size:13px;color: rgb(10, 132, 231)" width="10%"> 
+                                                            {{number_format($percent_ploblames, 2)}} % 
                                                     </td>
-                                                    <td class="text-center" style="font-size:13px;width: 8%;color: rgb(250, 128, 138)">
-                                                        {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
-                                                            <span class="ladda-label"> {{number_format($percent_plan, 2)}} %</span>  
-                                                        {{-- </a>  --}}
+                                                    <td class="text-center" style="font-size:13px;color: rgb(250, 128, 138)" width="12%"> 
+                                                            {{number_format($percent_plan, 2)}} %
                                                     </td>
                                                      
                                                 </tr>
@@ -261,39 +272,7 @@
 @section('footer')
     <script>
         $(document).ready(function() {
-           
-            // $('select').select2();
-     
-        
-            // $('#example2').DataTable();
-            // var table = $('#example').DataTable({
-            //     scrollY: '60vh',
-            //     scrollCollapse: true,
-            //     scrollX: true,
-            //     "autoWidth": false,
-            //     "pageLength": 10,
-            //     "lengthMenu": [10,25,30,31,50,100,150,200,300],
-            // });
-        
-            $('#datepicker').datepicker({
-                format: 'yyyy-mm-dd'
-            });
-            $('#datepicker2').datepicker({
-                format: 'yyyy-mm-dd'
-            });
-
-            $('#datepicker3').datepicker({
-                format: 'yyyy-mm-dd'
-            });
-            $('#datepicker4').datepicker({
-                format: 'yyyy-mm-dd'
-            });
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
+                  
             $('#Processdata').click(function() {
                 var startdate    = $('#datepicker').val(); 
                 var enddate      = $('#datepicker2').val(); 
@@ -346,7 +325,7 @@
                                 
                             }
                 })
-        });
+            });
 
         });
     </script>

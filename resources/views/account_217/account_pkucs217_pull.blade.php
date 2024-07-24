@@ -216,7 +216,7 @@ $yb = date('Y') + 542;
                 "pageLength": 10,
                 "lengthMenu": [10,25,50,100,150,200,300,400,500],
         });
-            $('#example').DataTable();
+            // $('#example').DataTable();
             $('#example2').DataTable();
             $('#datepicker').datepicker({
                 format: 'yyyy-mm-dd'

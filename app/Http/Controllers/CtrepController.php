@@ -147,11 +147,11 @@ class CtrepController extends Controller
                     ORDER BY request_date ASC
                 ');  
         } else { 
-                $data['datashow'] = DB::connection('mysql')->select('
-                    SELECT a_ct_scan_id,vn,hn,cid,order_date,order_time,order_date_time,request_date,ptname,xray_list,confirm_all,department,department_code
+                $data['datashow'] = DB::connection('mysql')->select(
+                    'SELECT a_ct_scan_id,vn,hn,cid,order_date,order_time,order_date_time,request_date,ptname,xray_list,confirm_all,department,department_code
                     ,department_name,pttype,ptty_spsch,xray_order_number,xray_price,total_price,department_list,priority_name,STMdoc,user_id,active,pdx,cc,an
                     FROM a_ct_scan 
-                    WHERE request_date BETWEEN "2024-05-11" AND "2024-05-20" 
+                    WHERE request_date BETWEEN "2024-05-09" AND "2024-05-20" 
                     
                     GROUP BY vn
                     ORDER BY request_date ASC

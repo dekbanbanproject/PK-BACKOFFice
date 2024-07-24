@@ -2777,6 +2777,58 @@ class AirController extends Controller
             'datashow'      =>     $datashow,  
         ]);
     }
+    public function air_setting(Request $request)
+    {
+        $startdate          = $request->startdate;
+        $enddate            = $request->enddate;
+        $air_plan_month_id  = $request->air_plan_month_id;
+        $date_now           = date('Y-m-d');
+        $years              = date('Y') + 543;
+        $monthsnew          = date('m');   
+        $newdays            = date('Y-m-d', strtotime($date_now . ' -1 days')); //ย้อนหลัง 1 วัน
+        $newweek            = date('Y-m-d', strtotime($date_now . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate            = date('Y-m-d', strtotime($date_now . ' -1 months')); //ย้อนหลัง 3 เดือน
+        $newyear            = date('Y-m-d', strtotime($date_now . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew            = date('Y');
+        $year_old           = date('Y')-1;
+        $months_old         = ('10');
+        $startdate_b        = (''.$year_old.'-10-01');
+        $enddate_b          = (''.$yearnew.'-09-30'); 
+        $iduser             = Auth::user()->id;
+
+        $data['years_show'] = DB::select('SELECT * FROM air_plan_month WHERE active = "Y" ORDER BY air_plan_month_id ASC');        
+       
+        if ($air_plan_month_id != '') {
+            $data_searchs       = DB::table('air_plan_month')->where('air_plan_month_id','=',$air_plan_month_id)->first();
+            $data_months        = $data_searchs->air_plan_month;
+            $data_years         = $data_searchs->air_plan_year;
+            $datashow  = DB::select(
+                'SELECT a.air_plan_id,a.air_list_num,a.air_plan_month_id,a.active,b.years
+                ,b.air_plan_month,b.air_plan_year,b.air_plan_name,b.start_date,b.end_date,b.air_repaire_type_id,c.air_repaire_typename 
+                FROM air_plan a
+                LEFT JOIN air_plan_month b ON b.air_plan_month_id = a.air_plan_month_id
+                LEFT JOIN air_repaire_type c ON c.air_repaire_type_id = b.air_repaire_type_id
+                WHERE b.air_plan_month = "'.$data_months.'" AND b.air_plan_year = "'.$data_years.'" 
+            ');
+             
+        } else {
+            $datashow  = DB::select(
+                'SELECT a.air_plan_id,a.air_list_num,a.air_plan_month_id,a.active,b.years
+                ,b.air_plan_month,b.air_plan_year,b.air_plan_name,b.start_date,b.end_date,b.air_repaire_type_id,c.air_repaire_typename 
+                FROM air_plan a
+                LEFT JOIN air_plan_month b ON b.air_plan_month_id = a.air_plan_month_id
+                LEFT JOIN air_repaire_type c ON c.air_repaire_type_id = b.air_repaire_type_id
+                WHERE b.air_plan_month = "'.$monthsnew.'" AND b.air_plan_year = "'.$yearnew.'"
+            ');
+            
+        }
+ 
+        return view('support_prs.air.air_setting',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow,  
+        ]);
+    }
 
     // ***************** Detail Dashboard *************************
     public function detail_companyall(Request $request)
@@ -2923,6 +2975,19 @@ class AirController extends Controller
         </div>
         ';
         echo $output;        
+    }
+
+    public function air_report_monthpdf(Request $request)
+    {
+      
+        $dataprint = Fire::get();
+
+        // $qrcode = base64_encode(QrCode::format('svg')->size(200)->errorCorrection('H')->generate('string'));
+        // $pdf = PDF::loadView('main.inventory.view_pdf', compact('qrcode'));
+        // return $pdf->stream();
+    
+        $pdf = PDF::loadView('support_prs.air.air_report_monthpdf',['dataprint'  =>  $dataprint]);
+        return @$pdf->stream();
     }
 
       

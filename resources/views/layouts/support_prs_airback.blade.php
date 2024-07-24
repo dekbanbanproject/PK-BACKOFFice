@@ -38,22 +38,7 @@
        <link rel="stylesheet" href="{{ asset('asset/js/plugins/select2/css/select2.min.css') }}"> 
        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-
-           {{-- <!-- jquery.vectormap css -->
-           <link href="assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
-
-           <!-- DataTables -->
-           <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-   
-           <!-- Responsive datatable examples -->
-           <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />  
-   
-           <!-- Bootstrap Css -->
-           <link href="assets/css/bootstrap-dark.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
-           <!-- Icons Css -->
-           <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-           <!-- App Css-->
-           <link href="assets/css/app-dark.min.css" id="app-style" rel="stylesheet" type="text/css" /> --}}
+ 
 </head>
  
 
@@ -66,7 +51,7 @@
         background-size: 100% 100%; 
         font-size: 13px;
     }
-    /* Logo หมุน */
+    /* Logo หมุน Start */
     @keyframes colorShift {
         0% {
             background-color: #22dcdf
@@ -102,27 +87,24 @@
             transform: rotate(360deg);
         }
     }
-
     #container_spin {
         width: 300px;
         height: 300px;
     }
-
     @keyframes animation {
-    0% {
-        stroke-dasharray: 1 98;
-        stroke-dashoffset: -105;
+        0% {
+            stroke-dasharray: 1 98;
+            stroke-dashoffset: -105;
+        }
+        50% {
+            stroke-dasharray: 80 10;
+            stroke-dashoffset: -160;
+        }
+        100% {
+            stroke-dasharray: 1 98;
+            stroke-dashoffset: -300;
+        }
     }
-    50% {
-        stroke-dasharray: 80 10;
-        stroke-dashoffset: -160;
-    }
-    100% {
-        stroke-dasharray: 1 98;
-        stroke-dashoffset: -300;
-    }
-    }
-
     #spinner {
         transform-origin: center;
         animation-name: animation;
@@ -130,6 +112,7 @@
         animation-timing-function: cubic-bezier;
         animation-iteration-count: infinite;
     }
+    /* Logo หมุน END */
  
     .card_prs_2b{
         border-radius: 0em 0em 2em 2em;
@@ -138,37 +121,26 @@
     }
     .bt_prs{
         border-radius: 2em 2em 2em 2em;
-        box-shadow: 0 0 25px rgb(124, 225, 250);
-        /* border-color: #0583cc */
-        border:solid 1px #0583cc;
-        /* background-color: aliceblue; */
+        box-shadow: 0 0 25px rgb(124, 225, 250); 
+        border:solid 1px #0583cc; 
     }
     .card_prs_4{
         border-radius: 2em 2em 2em 2em;
-        box-shadow: 0 0 25px rgb(124, 225, 250);
-        /* border-color: #0583cc */
+        box-shadow: 0 0 25px rgb(124, 225, 250); 
         border:solid 1px #0583cc;
         background-color: aliceblue;
     }
     .prscheckbox{         
         width: 20px;
-        height: 20px;       
-        /* border-radius: 2em 2em 2em 2em; */
-        border: 10px solid rgb(250, 128, 124);
-        /* color: teal; */
-        /* border-color: teal; */
-        box-shadow: 0 0 10px rgb(250, 128, 124);
-        /* box-shadow: 0 0 10px teal; */
+        height: 20px;     
+        border: 10px solid rgb(250, 128, 124); 
+        box-shadow: 0 0 10px rgb(250, 128, 124); 
     }
     .dcheckbox{         
         width: 25px;
-        height: 25px;       
-        /* border-radius: 2em 2em 2em 2em; */
-        border: 2px solid rgb(250, 128, 124);
-        /* color: teal; */
-        /* border-color: teal; */
-        box-shadow: 0 0 5px rgb(250, 128, 124);
-        /* box-shadow: 0 0 10px teal; */
+        height: 25px;        
+        border: 2px solid rgb(250, 128, 124); 
+        box-shadow: 0 0 5px rgb(250, 128, 124); 
     }
     .bg_prs{
         background-color: rgb(255, 255, 255);
@@ -176,19 +148,19 @@
      
 </style>
 <?php
-if (Auth::check()) {
-    $type = Auth::user()->type;
-    $iduser = Auth::user()->id;
-} else {
-    echo "<body onload=\"TypeAdmin()\"></body>";
-    exit();
-}
-$url = Request::url();
-$pos = strrpos($url, '/') + 1;
+    if (Auth::check()) {
+        $type = Auth::user()->type;
+        $iduser = Auth::user()->id;
+    } else {
+        echo "<body onload=\"TypeAdmin()\"></body>";
+        exit();
+    }
+    $url = Request::url();
+    $pos = strrpos($url, '/') + 1;
 
-use App\Http\Controllers\StaticController;
-use App\Http\Controllers\UsersuppliesController;
-use App\Models\Products_request_sub;
+    use App\Http\Controllers\StaticController;
+    use App\Http\Controllers\UsersuppliesController;
+    use App\Models\Products_request_sub;
     $permiss_account         = StaticController::permiss_account($iduser);
     $permiss_setting_upstm   = StaticController::permiss_setting_upstm($iduser);
     $permiss_ucs             = StaticController::permiss_ucs($iduser);
@@ -243,8 +215,6 @@ use App\Models\Products_request_sub;
  <body data-topbar="dark" data-layout="horizontal">
      
     <div id="layout-wrapper">
-
-        
  
         <header id="page-topbar">
             <div class="navbar-header">
@@ -595,27 +565,23 @@ use App\Models\Products_request_sub;
                                 </a>
                             </li>
 
-                            {{-- <li class="nav-item dropdown">
+                            <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layout" role="button">
-                                    <i class="ri-layout-3-line me-2"></i><span key="t-layouts">Layouts</span> <div class="arrow-down"></div>
+                                    <i class="fas fa-tools me-2"></i><span key="t-layouts">Setting</span> <div class="arrow-down"></div>
+                              
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-layout">
                                     <div class="dropdown">
                                         <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-layout-verti"
                                             role="button">
-                                            <span key="t-vertical">Vertical</span> <div class="arrow-down"></div>
+                                            <span key="t-vertical">Import Data</span> <div class="arrow-down"></div>
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="topnav-layout-verti">
-                                            <a href="layouts-dark-sidebar.html" class="dropdown-item" key="t-dark-sidebar">Dark Sidebar</a>
-                                            <a href="layouts-compact-sidebar.html" class="dropdown-item" key="t-compact-sidebar">Compact Sidebar</a>
-                                            <a href="layouts-icon-sidebar.html" class="dropdown-item" key="t-icon-sidebar">Icon Sidebar</a>
-                                            <a href="layouts-boxed.html" class="dropdown-item" key="t-boxed-width">Boxed Width</a>
-                                            <a href="layouts-preloader.html" class="dropdown-item" key="t-preloader">Preloader</a>
-                                            <a href="layouts-colored-sidebar.html" class="dropdown-item" key="t-colored-sidebar">Colored Sidebar</a>
+                                            <a href="{{url('air_setting')}}" class="dropdown-item" key="t-dark-sidebar">แผนการบำรุงรักษารายปี</a> 
                                         </div>
                                     </div>
 
-                                    <div class="dropdown">
+                                    <!-- <div class="dropdown">
                                         <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-layout-hori"
                                             role="button">
                                             <span key="t-horizontal">Horizontal</span> <div class="arrow-down"></div>
@@ -627,9 +593,9 @@ use App\Models\Products_request_sub;
                                             <a href="layouts-hori-preloader.html" class="dropdown-item" key="t-preloader">Preloader</a>
                                             <a href="layouts-hori-colored-header.html" class="dropdown-item" key="t-colored-topbar">Colored Header</a>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
-                            </li> --}}
+                            </li>
  
 
                         </ul>
@@ -791,7 +757,6 @@ use App\Models\Products_request_sub;
         <script src="{{ asset('pkclaim/libs/metismenu/metisMenu.min.js') }}"></script>
         <script src="{{ asset('pkclaim/libs/simplebar/simplebar.min.js') }}"></script>
         <script src="{{ asset('pkclaim/libs/node-waves/waves.min.js') }}"></script>
-
         <script src="{{ asset('js/select2.min.js') }}"></script> 
         <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
         <script src="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.js') }}"></script>
@@ -803,25 +768,19 @@ use App\Models\Products_request_sub;
             integrity="sha512-cp+S0Bkyv7xKBSbmjJR0K7va0cor7vHYhETzm2Jy//ZTQDUvugH/byC4eWuTii9o5HN9msulx2zqhEXWau20Dg=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <!-- apexcharts -->
-        <script src="{{ asset('pkclaim/libs/apexcharts/apexcharts.min.js') }}"></script>
-
+        {{-- <script src="{{ asset('pkclaim/libs/apexcharts/apexcharts.min.js') }}"></script> --}}
         <!-- jquery.vectormap map -->
         <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
         <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js') }}"></script>
-
         <!-- Required datatable js -->
         <script src="{{ asset('pkclaim/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-        <script src="{{ asset('pkclaim/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-        
+        <script src="{{ asset('pkclaim/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>        
         <!-- Responsive examples -->
         <script src="{{ asset('pkclaim/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
         <script src="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
-
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="{{ asset('assets/jquery-tabledit/jquery.tabledit.min.js') }}"></script>
-
-        
-        <script src="{{ asset('pkclaim/js/pages/dashboard.init.js') }}"></script>
+        <script src="{{ asset('assets/jquery-tabledit/jquery.tabledit.min.js') }}"></script>        
+        {{-- <script src="{{ asset('pkclaim/js/pages/dashboard.init.js') }}"></script> --}}
         <script src="{{ asset('pkclaim/js/app.js') }}"></script>
  
     @yield('footer')
@@ -831,12 +790,32 @@ use App\Models\Products_request_sub;
             $('#example').DataTable();
             $('#example2').DataTable();
             $('#example3').DataTable();
+            var table = $('#example4').DataTable({
+                scrollY: '60vh',
+                scrollCollapse: true,
+                scrollX: true,
+                "autoWidth": false,
+                "pageLength": 10,
+                "lengthMenu": [10,25,50,100,150,200,300,400,500],
+            });
+            $('#datepicker').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+            $('#datepicker2').datepicker({
+                format: 'yyyy-mm-dd'
+            });
 
+            $('#datepicker3').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+            $('#datepicker4').datepicker({
+                format: 'yyyy-mm-dd'
+            });
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
-            });
+            }); 
             $('#SaveChang').click(function() {
                 var password = $('#password').val();  
                 $.ajax({

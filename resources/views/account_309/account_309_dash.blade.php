@@ -68,10 +68,7 @@
         }
     </style>
 
-    <?php
-        $ynow = date('Y')+543;
-        $yb =  date('Y')+542;
-    ?>
+ 
 
 <div class="tabs-animation">
     <div class="row text-center">

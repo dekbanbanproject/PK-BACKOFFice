@@ -1,5 +1,5 @@
-@extends('layouts.audit')
-@section('title', 'PK-OFFICER || Audit')
+@extends('layouts.audit_nodata')
+@section('title', 'PK-OFFICER || Audit Nodata')
 @section('content')
     <script>
         function TypeAdmin() {
@@ -204,109 +204,19 @@
                 "pageLength": 10,
                 "lengthMenu": [10, 100, 150, 200, 300, 400, 500],
             });
-
             $('#datepicker').datepicker({
                 format: 'yyyy-mm-dd'
             });
             $('#datepicker2').datepicker({
                 format: 'yyyy-mm-dd'
-            });
-
-            $('#example').DataTable();
-            $('#hospcode').select2({
-                placeholder: "--เลือก--",
-                allowClear: true
-            });
-            $('#stamp').on('click', function(e) {
-                if ($(this).is(':checked', true)) {
-                    $(".sub_chk").prop('checked', true);
-                } else {
-                    $(".sub_chk").prop('checked', false);
-                }
-            });
+            }); 
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
             $("#spinner-div").hide(); //Request is complete so hide spinner
-
-            $('.Process_A').click(function() {
-                var startdate = $('#datepicker').val();
-                var enddate = $('#datepicker2').val();
-                Swal.fire({
-                    title: 'ต้องการประมวลผลข้อมูลใช่ไหม ?',
-                    text: "You Warn Process Data!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, Process it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $("#overlay").fadeIn(300);
-                        $("#spinner").show(); //Load button clicked show spinner 
-
-                        $.ajax({
-                            url: "{{ route('audit.pre_audit_process_a') }}",
-                            type: "POST",
-                            dataType: 'json',
-                            data: {
-                                startdate,
-                                enddate
-                            },
-                            success: function(data) {
-                                if (data.status == 200) {
-                                    Swal.fire({
-                                        position: "top-end",
-                                        title: 'ประมวลผลข้อมูลสำเร็จ',
-                                        text: "You Process data success",
-                                        icon: 'success',
-                                        showCancelButton: false,
-                                        confirmButtonColor: '#06D177',
-                                        confirmButtonText: 'เรียบร้อย'
-                                    }).then((result) => {
-                                        if (result
-                                            .isConfirmed) {
-                                            console.log(
-                                                data);
-                                            window.location.reload();
-                                            $('#spinner')
-                                        .hide(); //Request is complete so hide spinner
-                                            setTimeout(function() {
-                                                $("#overlay").fadeOut(
-                                                    300);
-                                            }, 500);
-                                        }
-                                    })
-                                } else {
-                                   
-                                    Swal.fire({
-                                        position: "top-end",
-                                        icon: "warning",
-                                        title: "ยังไม่ได้เลือกวันที่",
-                                        showCancelButton: false,
-                                        confirmButtonColor: '#ed8d29',
-                                        confirmButtonText: 'เลือกใหม่'
-                                        // timer: 1500
-                                    }).then((result) => {
-                                        if (result
-                                            .isConfirmed) {
-                                            window.location.reload();
-                                        }
-                                    })
-
-                                }
-                            },
-                        });
-
-                    }
-                })
-            });
-
-           
-
-
+ 
         });
     </script>
 @endsection
