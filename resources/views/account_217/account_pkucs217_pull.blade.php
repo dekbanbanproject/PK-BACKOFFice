@@ -233,6 +233,8 @@ $yb = date('Y') + 542;
             }  
             }); 
             
+            $("#spinner-div").hide(); //Request is complete so hide spinner
+
             $('.Savestamp').on('click', function(e) {
                 // alert('oo');
                 var allValls = [];
@@ -319,8 +321,7 @@ $yb = date('Y') + 542;
             });
              
 
-            $("#spinner-div").hide(); //Request is complete so hide spinner
-
+           
          
             $('#Pulldata').click(function() {
                 var datepicker = $('#datepicker').val(); 

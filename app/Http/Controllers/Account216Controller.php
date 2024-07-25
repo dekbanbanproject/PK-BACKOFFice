@@ -618,13 +618,20 @@ class Account216Controller extends Controller
         $data['users'] = User::get();
         if ($startdate =='') {
            $datashow = DB::select(' 
-               SELECT * from acc_1102050101_216 
-               WHERE vstdate BETWEEN "'.$new_day.'" AND  "'.$date.'"  
+                
+               SELECT a.*,b.pp,b.fs 
+               from acc_1102050101_216 a
+               LEFT JOIN acc_stm_ucs b ON b.hn = a.hn AND b.vstdate = a.vstdate
+               WHERE a.vstdate BETWEEN "'.$new_day.'" AND  "'.$date.'" 
+               GROUP BY a.vn
            ');
         } else {
            $datashow = DB::select(' 
-               SELECT * from acc_1102050101_216 
-               WHERE vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"  
+               SELECT a.*,b.pp,b.fs 
+               from acc_1102050101_216 a
+               LEFT JOIN acc_stm_ucs b ON b.hn = a.hn AND b.vstdate = a.vstdate
+               WHERE a.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" 
+               GROUP BY a.vn 
            ');
         } 
         return view('account_216.account_pkucs216_search', $data, [

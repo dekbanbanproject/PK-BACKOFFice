@@ -168,7 +168,7 @@
                             <tbody>
                                 <?php $i = 1; ?>
                                 @foreach ($datashow as $item) 
-                                    <tr id="tr_{{$item->air_repaire_id}}">                                                  
+                                    <tr id="tr_{{$item->air_report_ploblems_id}}">                                                  
                                         <td class="text-center" width="3%">{{ $i++ }}</td>  
                                         
                                         {{-- <td class="text-center" width="8%">{{ DateThai($item->repaire_date )}}</td>   --}}

@@ -202,9 +202,9 @@
                                         <td class="text-center" style="font-size:13px;width: 5%;color: rgb(13, 134, 185)">{{$i}}</td>
                                         <td class="text-start" style="font-size:14px;color: rgb(2, 95, 182)">{{$item->air_repaire_ploblemname}}</td> 
                                         <td class="text-center" style="font-size:13px;width: 15%;color: rgb(112, 5, 98)">
-                                            <a href="{{url('air_report_problem_group/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(209, 181, 236);width: 70%;" target="_blank">
+                                            {{-- <a href="{{url('air_report_problem_group/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(209, 181, 236);width: 70%;" target="_blank"> --}}
                                                 <span class="ladda-label"> <i class="fa-solid fa-fan me-2" style="color: #8c07c0"></i>{{$item->count_ploblems}}</span>  
-                                            </a>
+                                            {{-- </a> --}}
                                             {{-- @if ($startdate == '')
                                                 <a href="{{url('air_report_problem_group/'.$startdate_b.'/'.$enddate_b)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(209, 181, 236);width: 70%;" target="_blank">
                                                     <span class="ladda-label"> <i class="fa-solid fa-fan me-2" style="color: #8c07c0"></i>{{$item->count_ploblems}}</span>  
@@ -217,9 +217,10 @@
 
                                         </td>
                                         <td class="text-center" style="font-size:13px;width: 20%;color: rgb(247, 209, 212)">
-                                            <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank">
+                                            {{-- <a href="{{url('air_report_problem_morone/'.$item->repaire_date_start.'/'.$item->repaire_date_end)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
+                                            {{-- <a href="{{url('air_report_problem_morone/'.$item->air_repaire_ploblem_id)}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank"> --}}
                                                 <span class="ladda-label"> <i class="fa-solid fa-fan me-2" style="color: rgb(253, 65, 81)"></i>{{$item->more_one}}</span>  
-                                            </a>
+                                            {{-- </a> --}}
                                             {{-- @if ($startdate == '')
                                                 <a href="{{url('air_report_problem_morone/'.$startdate_b.'/'.$enddate_b)}}" class="ladda-button btn-pill btn card_prs_4" style="background-color: rgb(250, 195, 200);width: 50%;" target="_blank">
                                                     <span class="ladda-label"> <i class="fa-solid fa-fan me-2" style="color: rgb(253, 65, 81)"></i>{{$item->more_one}}</span>  

@@ -3414,14 +3414,17 @@ Route::match(['get','post'],'air_report_problemsub/{id}',[App\Http\Controllers\A
 Route::match(['get','post'],'air_report_problem_detail/{id}',[App\Http\Controllers\AirController::class, 'air_report_problem_detail'])->name('prs.air_report_problem_detail');//
 Route::match(['get','post'],'air_report_problems_excel',[App\Http\Controllers\AirController::class, 'air_report_problems_excel'])->name('prs.air_report_problems_excel');//
 Route::match(['get','post'],'air_report_problem_group/{startdate}/{enddate}',[App\Http\Controllers\AirController::class, 'air_report_problem_group'])->name('prs.air_report_problem_group');//
-Route::match(['get','post'],'air_report_problem_morone/{startdate}/{enddate}',[App\Http\Controllers\AirController::class, 'air_report_problem_morone'])->name('prs.air_report_problem_morone');//
+Route::match(['get','post'],'air_report_problem_morone/{id}',[App\Http\Controllers\AirController::class, 'air_report_problem_morone'])->name('prs.air_report_problem_morone');//
 Route::match(['get','post'],'air_report_problem_process',[App\Http\Controllers\AirController::class, 'air_report_problem_process'])->name('prs.air_report_problem_process');//
 Route::match(['get','post'],'air_report_month',[App\Http\Controllers\AirController::class, 'air_report_month'])->name('prs.air_report_month');//
 Route::match(['get','post'],'air_report_monthpdf',[App\Http\Controllers\AirController::class, 'air_report_monthpdf'])->name('prs.air_report_monthpdf');//
 
 Route::match(['get','post'],'air_setting',[App\Http\Controllers\AirController::class, 'air_setting'])->name('prs.air_setting');//
-Route::match(['get','post'],'air_setting_importplan',[App\Http\Controllers\AirController::class, 'air_setting_importplan'])->name('prs.air_setting_importplan');//
-
+Route::match(['get','post'],'importplan_excel',[App\Http\Controllers\AirController::class, 'importplan_excel'])->name('prs.importplan_excel');//
+Route::match(['get','post'],'importplan_send',[App\Http\Controllers\AirController::class, 'importplan_send'])->name('prs.importplan_send');//
+Route::match(['get','post'],'air_setting_type',[App\Http\Controllers\AirController::class, 'air_setting_type'])->name('prs.air_setting_type');//
+Route::match(['get','post'],'air_setting_typeswith',[App\Http\Controllers\AirController::class, 'air_setting_typeswith'])->name('prs.air_setting_typeswith');//
+Route::match(['get','post'],'air_setting_typecopy',[App\Http\Controllers\AirController::class, 'air_setting_typecopy'])->name('prs.air_setting_typecopy');//
 
 Route::match(['get','post'],'air_count_sub/{id}',[App\Http\Controllers\AirController::class, 'air_count_sub'])->name('prs.air_count_sub');//
 Route::match(['get','post'],'air_count_qty/{id}',[App\Http\Controllers\AirController::class, 'air_count_qty'])->name('prs.air_count_qty');//

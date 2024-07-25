@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     { 
-        if (!Schema::hasTable('air_plan'))
+        if (!Schema::hasTable('air_plan_excel'))
         {
-            Schema::create('air_plan', function (Blueprint $table) {
-                $table->bigIncrements('air_plan_id');  
+            Schema::create('air_plan_excel', function (Blueprint $table) {
+                $table->bigIncrements('air_plan_excel_id');  
                 $table->string('air_plan_year')->nullable();//  
                 $table->string('air_list_num')->nullable();// 
                 $table->string('air_plan_month_id')->nullable();//   
                 $table->enum('active', ['Y', 'N'])->default('N'); 
-                $table->string('PlanDOC')->nullable();//
+                $table->string('PlanDOC')->nullable();// 
                 $table->timestamps();
             });
         }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('air_plan');
+        Schema::dropIfExists('air_plan_excel');
     }
 };

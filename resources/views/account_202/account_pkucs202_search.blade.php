@@ -133,7 +133,7 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center">an</th>
                                     <th class="text-center" >hn</th> 
                                     <th class="text-center">ptname</th> 
-                                    <th class="text-center">Adjrw*8350</th>
+                                    {{-- <th class="text-center">Adjrw*8350</th> --}}
                                     <th class="text-center">dchdate</th> 
 
                                     <th class="text-center">drug</th> 
@@ -141,7 +141,7 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center">toa</th> 
                                     <th class="text-center">refer</th> 
                                     <th class="text-center">ucep</th> 
-
+                                    {{-- <th class="text-center">fs</th>  --}}
                                     <th class="text-center">ลูกหนี้</th>  
                                     <th class="text-center">ส่วนต่าง</th> 
                                     <th class="text-center">Stm 202</th> 
@@ -151,7 +151,7 @@ $pos = strrpos($url, '/') + 1;
                             </thead>
                             <tbody>
                                 <?php $number = 0; 
-                                $total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0;$total7 = 0;$total8 = 0;$total9 = 0;
+                                $total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0;$total7 = 0;$total8 = 0;$total9 = 0;$total10 = 0;
                                 ?>
                                 @foreach ($datashow as $item)
                                     <?php $number++; ?>
@@ -161,14 +161,14 @@ $pos = strrpos($url, '/') + 1;
                                         <td class="text-center" width="6%">{{ $item->an }}</td> 
                                         <td class="text-center" width="4%">{{ $item->hn }}</td>   
                                         <td class="p-2" width="8%">{{ $item->ptname }}</td>   
-                                        <td class="text-center" width="5%">{{ $item->total_adjrw_income }}</td>
+                                        {{-- <td class="text-center" width="5%">{{ $item->total_adjrw_income }}</td> --}}
                                         <td class="text-center" width="6%">{{ $item->dchdate }}</td>
                                         <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_drug,2)}}</td> 
                                         <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_instument,2)}}</td> 
                                         <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_toa,2)}}</td> 
                                         <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_refer,2)}}</td> 
                                         <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_ucep,2)}}</td> 
-
+                                        {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->fs,2)}}</td>  --}}
                                         <td class="text-end" style="color:rgb(73, 147, 231)" width="6%">{{ number_format($item->debit_total,2)}}</td> 
                                         <td class="text-end" style="color:rgb(184, 12, 169)" width="6%">{{ number_format(($item->debit_total-$item->stm_money),2)}}</td> 
                                         <td class="text-end" style="color:rgb(216, 95, 14)" width="6%">{{ number_format($item->stm_money,2)}}</td> 
@@ -183,6 +183,8 @@ $pos = strrpos($url, '/') + 1;
                                             $total4 = $total4 + $item->debit_refer;
                                             $total5 = $total5 + $item->debit_ucep;
 
+                                            // $total10 = $total10 + $item->fs;
+
                                             $total6 = $total6 + $item->debit_total;
                                             $total7 = $total7 + ($item->debit_total-$item->stm_money); 
                                             $total8 = $total8 + $item->stm_money;
@@ -192,12 +194,15 @@ $pos = strrpos($url, '/') + 1;
                                
                             </tbody>
                                         <tr style="background-color: #f3fca1">
-                                            <td colspan="7" class="text-end" style="background-color: #ff9d9d"></td>
+                                            <td colspan="6" class="text-end" style="background-color: #ff9d9d"></td>
                                             <td class="text-end" style="background-color: #f58d73">{{ number_format($total1,2)}}</td> 
                                             <td class="text-end" style="background-color: #f58d73">{{ number_format($total2,2)}}</td> 
                                             <td class="text-end" style="background-color: #f58d73">{{ number_format($total3,2)}}</td> 
                                             <td class="text-end" style="background-color: #f58d73">{{ number_format($total4,2)}}</td>                                             
                                             <td class="text-end" style="background-color: #ace5fc">{{ number_format($total5,2)}}</td> 
+
+                                            {{-- <td class="text-end" style="background-color: #ace5fc">{{ number_format($total10,2)}}</td>  --}}
+
                                             <td class="text-end" style="background-color: #e09be9">{{ number_format($total6,2)}}</td> 
                                             <td class="text-end" style="background-color: #f5a382">{{ number_format($total7,2)}}</td> 
                                             <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total8,2)}}</td>  

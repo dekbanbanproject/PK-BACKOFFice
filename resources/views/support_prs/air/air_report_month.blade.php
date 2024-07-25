@@ -197,25 +197,31 @@
                                                         'SELECT COUNT(a.air_plan_id) as air_plan_id 
                                                             FROM air_plan a
                                                             LEFT JOIN air_plan_month b ON b.air_plan_month_id = a.air_plan_month_id
-                                                            WHERE a.air_plan_year = "'.$budgetyear.'" AND b.air_plan_month = "'.$item->months.'"
-                                                            AND b.air_plan_year = "'.$item->years.'"
+                                                            WHERE a.air_plan_year = "'.$budgetyear.'" AND b.air_plan_month = "'.$item->months.'" AND b.air_plan_year = "'.$item->years.'"
                                                         ');
                                                     foreach ($plan_count as $key => $val_count) {
                                                         $plan_s   = $val_count->air_plan_id;
                                                     }                                            
 
-                                                    $repaire_air = DB::select('SELECT COUNT(DISTINCT air_list_num) as air_problems FROM air_repaire WHERE YEAR(repaire_date) = "'.$item->years.'" AND MONTH(repaire_date) = "'.$item->months.'"');                                     
+                                                    $repaire_air = DB::select('SELECT COUNT(DISTINCT air_list_num) as air_problems FROM air_repaire 
+                                                    WHERE YEAR(repaire_date) = "'.$item->years.'" AND MONTH(repaire_date) = "'.$item->months.'"');                                     
                                                     foreach ($repaire_air as $key => $rep_air) {$airproblems = $rep_air->air_problems;}
 
                                                     $repaire_air_pro = DB::select('SELECT COUNT(b.repaire_sub_id) as air_problems04 FROM air_repaire a 
-                                                    LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
-                                                    WHERE YEAR(a.repaire_date) = "'.$item->years.'" AND MONTH(a.repaire_date) = "'.$item->months.'" AND b.air_repaire_type_code ="04"');                                     
+                                                        LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
+                                                        WHERE YEAR(a.repaire_date) = "'.$item->years.'" AND MONTH(a.repaire_date) = "'.$item->months.'" AND b.air_repaire_type_code ="04"');                                     
                                                     foreach ($repaire_air_pro as $key => $rep_air_pro) {$airproblems04 = $rep_air_pro->air_problems04;}
                                                     
                                                     $repaire_air_plan = DB::select('SELECT COUNT(b.repaire_sub_id) as air_problems_plan FROM air_repaire a 
-                                                    LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
-                                                    WHERE YEAR(a.repaire_date) = "'.$item->years.'" AND MONTH(a.repaire_date) = "'.$item->months.'" AND b.air_repaire_type_code IN("01","02","03")');                                     
-                                                    foreach ($repaire_air_plan as $key => $rep_air_plan) {$airproblems_plan = $rep_air_plan->air_problems_plan;}
+                                                        LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
+                                                        WHERE YEAR(a.repaire_date) = "'.$item->years.'" AND MONTH(a.repaire_date) = "'.$item->months.'" AND b.air_repaire_type_code IN("01","02","03")
+                                                        AND a.air_list_num IN(SELECT a.air_list_num FROM air_plan a
+                                                            LEFT JOIN air_plan_month b ON b.air_plan_month_id = a.air_plan_month_id
+                                                            WHERE a.air_plan_year = "'.$budgetyear.'" AND b.air_plan_month = "'.$item->months.'" AND b.air_plan_year = "'.$item->years.'")
+                                                    ');                                     
+                                                    foreach ($repaire_air_plan as $key => $rep_air_plan) {
+                                                        $airproblems_plan = $rep_air_plan->air_problems_plan;
+                                                    }
 
                                                     // แผนการบำรุงรักษา
                                                     if ($plan_s < 1) {
@@ -224,7 +230,7 @@
                                                         $percent_plan      =  "0";
                                                     } else {
                                                         $plan = $plan_s ;
-                                                        $percent_ploblames =  (100 / $plan) * $airproblems;
+                                                        $percent_ploblames =  (100 / $count_air) * $airproblems;
                                                         $percent_plan      =  (100 / $plan) * $airproblems_plan;
                                                     }  
                                             ?>                    

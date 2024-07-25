@@ -581,19 +581,16 @@
                                         </div>
                                     </div>
 
-                                    <!-- <div class="dropdown">
+                                   <div class="dropdown">
                                         <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-layout-hori"
                                             role="button">
-                                            <span key="t-horizontal">Horizontal</span> <div class="arrow-down"></div>
+                                            <span key="t-horizontal">ประเภท/ปีงบประมาณ</span> <div class="arrow-down"></div>
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="topnav-layout-hori">
-                                            <a href="layouts-horizontal.html" class="dropdown-item" key="t-horizontal">Horizontal</a>
-                                            <a href="layouts-hori-topbar-light.html" class="dropdown-item" key="t-topbar-light">Topbar light</a>
-                                            <a href="layouts-hori-boxed-width.html" class="dropdown-item" key="t-boxed-width">Boxed width</a>
-                                            <a href="layouts-hori-preloader.html" class="dropdown-item" key="t-preloader">Preloader</a>
-                                            <a href="layouts-hori-colored-header.html" class="dropdown-item" key="t-colored-topbar">Colored Header</a>
+                                            <a href="{{url('air_setting_type')}}" class="dropdown-item" key="t-horizontal">กำหนดประเภท/ปีงบประมาณ</a>
+                                       
                                         </div>
-                                    </div> -->
+                                    </div>  
                                 </div>
                             </li>
  

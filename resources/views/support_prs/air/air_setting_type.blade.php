@@ -43,38 +43,34 @@
         @csrf
         <div class="row"> 
             <div class="col-md-3">
-                <h4 style="color:rgb(10, 151, 85)">Import Data Plan</h4> 
+                <h4 style="color:rgb(10, 151, 85)">กำหนดประเภท / ปีงบประมาณ</h4> 
             </div>
              
             <div class="col"></div>               
-            <div class="col-md-2"> 
+            {{-- <div class="col-md-2"> 
                 <select name="air_plan_month_id" id="air_plan_month_id" class="form-control inputmedsalt text-center bt_prs" style="width: 100%;font-size:13px">
                     @foreach ($years_show as $item_y) 
                             <option value="{{$item_y->air_plan_month_id}}">{{$item_y->air_plan_name}} {{$item_y->air_plan_year}} ปีงบประมาณ {{$item_y->years}}</option> 
                     @endforeach
                 </select>
-            </div>                     
-            <div class="col-md-1 text-start">  
+            </div>                      --}}
+            {{-- <div class="col-md-1 text-start">  
                 <button type="submit" class="ladda-button btn-pill btn btn-primary bt_prs me-2" data-style="expand-left">
                     <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                     <span class="ladda-spinner"></span>
                 </button>  
-            </div>  
-            <div class="col"></div> 
+            </div>   --}}
+            {{-- <div class="col"></div>  --}}
             <div class="col-md-4 text-end">   
                 <button type="button" class="ladda-button btn-pill btn btn-info bt_prs" data-bs-toggle="modal" target="_blank" data-bs-target="#exampleModal">   
-                    <i class="fas fa-file-excel text-white me-2" style="font-size:13px"></i>
-                    <span>Import</span> 
+                    <i class="fa-solid fa-circle-plus text-white me-2"></i>
+                    <span>เพิ่มรายการ</span> 
                 </button> 
-                {{-- <a href="{{url('importplan_send')}}" class="ladda-button btn-pill btn btn-success bt_prs">   
+              
+                {{-- <button type="button" class="ladda-button btn-pill btn btn-success bt_prs" id="Sendata">   
                     <i class="fa-solid fa-file-import text-white me-2" style="font-size:13px"></i>
                     <span>Send</span> 
-                </a>   --}}
-                {{-- <button type="button" class="ladda-button btn-pill btn btn-success bt_prs Sendata" data-url="{{url('importplan_send')}}">  --}}
-                <button type="button" class="ladda-button btn-pill btn btn-success bt_prs" id="Sendata">   
-                    <i class="fa-solid fa-file-import text-white me-2" style="font-size:13px"></i>
-                    <span>Send</span> 
-                </button> 
+                </button>  --}}
                 <button type="button" class="ladda-button btn-pill btn btn-secondary bt_prs me-2" data-bs-toggle="modal" data-bs-target="#documentModal"> 
                     <i class="fa-solid fa-book-open-reader text-white me-2"></i>คู่มือ 
                 </button>
@@ -83,7 +79,7 @@
     </form>
  
         <div class="row mt-3">
-            <div class="col-xl-7">
+            <div class="col-xl-12">
                 <div class="card card_prs_4">
                     <div class="card-body">  
                        
@@ -94,11 +90,10 @@
                                         <thead>                             
                                                 <tr style="font-size:13px"> 
                                                     <th class="text-center" width="5%">ลำดับ</th>  
-                                                    <th class="text-center" width="10%">ปีงบประมาณ</th> 
-                                                    <th class="text-center" width="12%">เดือน</th> 
-                                                    <th class="text-center">รายการเครื่องปรับอากาศ</th>   
+                                                    <th class="text-center" width="10%">ปีงบประมาณ</th>  
+                                                    <th class="text-center">เดือน</th>   
                                                     <th class="text-center" width="25%">แผนการบำรุงรักษา</th>   
-                                                    {{-- <th class="text-center" width="10%">active</th>   --}}
+                                                    <th class="text-center" width="8%">เปิดใช้งาน</th>  
                                                 </tr>  
                                         </thead>
                                         <tbody>
@@ -107,18 +102,19 @@
                                             <?php $i++  ?> 
                                                 <tr id="sid{{ $item->air_plan_month_id }}">                                                  
                                                     <td class="text-center" style="font-size:13px;width: 5%;color: rgb(13, 134, 185)">{{$i}}</td>
-                                                    <td class="text-center" style="font-size:14px;color: rgb(2, 95, 182)" width="10%">{{$item->years}}</td> 
-                                                    <td class="text-center" style="font-size:14px;color: rgb(2, 95, 182)" width="12%">{{$item->air_plan_name}}</td> 
-                                                    <td class="text-start" style="font-size:13px;color: rgb(112, 5, 98)" > {{$item->air_list_num}}</td>
-                                                    <td class="text-start" style="font-size:13px;color: rgb(253, 65, 81)" width="25%">{{$item->air_repaire_typename}} </td>
-                                                    {{-- <td class="text-center" style="font-size:13px;color: rgb(252, 90, 203)" width="10%">
-                                                        @if($item->active == 'Y' )
-                                                        <input type="checkbox" id="{{ $item->air_plan_month_id }}" name="{{ $item->air_plan_month_id }}" switch="none" onchange="switchactive({{ $item->air_plan_month_id }});" checked />
-                                                        @else
-                                                        <input type="checkbox" id="{{ $item->air_plan_month_id }}" name="{{ $item->air_plan_month_id }}" switch="none" onchange="switchactive({{ $item->air_plan_month_id }});" />
-                                                        @endif
-                                                        <label for="{{ $item-> air_plan_month_id }}" data-on-label="On" data-off-label="Off"></label>
-                                                    </td>  --}}
+                                                    <td class="text-center" style="font-size:14px;color: rgb(2, 95, 182)" width="10%">{{$item->years}}</td>  
+                                                    <td class="text-start" style="font-size:13px;color: rgb(253, 65, 81)" width="20%">{{$item->air_plan_name}} </td>
+                                                    <td class="text-start" style="font-size:13px;color: rgb(112, 5, 98)" > {{$item->air_repaire_typename}}</td>                                                   
+                                                    <td class="text-center" style="font-size:17px;color: rgb(252, 90, 203)" width="8%">
+                                                        <div class="form-check form-switch">
+                                                            @if ($item->active == 'Y')
+                                                                <input type="checkbox" class="form-check-input" id="{{ $item->air_plan_month_id }}" name="{{ $item->air_plan_month_id }}" onchange="switchactive({{ $item->air_plan_month_id }});" checked>
+                                                            @else
+                                                                <input type="checkbox" class="form-check-input" id="{{ $item->air_plan_month_id }}" name="{{ $item->air_plan_month_id }}" onchange="switchactive({{ $item->air_plan_month_id }});">
+                                                            @endif 
+                                                            <label class="form-check-label" for="{{ $item->air_plan_month_id }}"></label>
+                                                        </div> 
+                                                    </td> 
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -130,42 +126,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-5">
-                <div class="card card_prs_4">
-                    <div class="card-body">  
-                       
-                            <p class="mb-0">
-                                <div class="table-responsive">
-                                   
-                                    <table id="example2" class="table table-hover table-sm" style=" border-spacing: 0; width: 100%;">                       
-                                        <thead>                             
-                                                <tr style="font-size:13px"> 
-                                                    <th class="text-center" width="5%">ลำดับ</th>  
-                                                    <th class="text-center" width="10%">ปีงบประมาณ</th>  
-                                                    <th class="text-center">รายการเครื่องปรับอากาศ</th>   
-                                                    <th class="text-center" width="40%">แผนการบำรุงรักษา</th>    
-                                                </tr>  
-                                        </thead>
-                                        <tbody>
-                                            <?php $ii = 0; ?>
-                                            @foreach ($air_plan_excel as $item2) 
-                                            <?php $ii++  ?> 
-                                                <tr id="sid{{ $item2->air_plan_excel_id }}">                                                  
-                                                    <td class="text-center" style="font-size:13px;width: 5%;color: rgb(13, 134, 185)">{{$ii}}</td>
-                                                    <td class="text-center" style="font-size:14px;color: rgb(2, 95, 182)" width="10%">{{$item2->air_plan_year}}</td>  
-                                                    <td class="text-start" style="font-size:13px;color: rgb(112, 5, 98)" > {{$item2->air_list_num}}</td>
-                                                    <td class="text-start" style="font-size:13px;color: rgb(253, 65, 81)" width="40%">{{$item2->air_repaire_typename}} </td>
-                                                    
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </p>
-                  
-                    </div>
-                </div>
-            </div>
+            
         </div> 
 
         <!-- exampleModal Modal -->
@@ -178,13 +139,16 @@
                             <br>                            
                                 <div class="container"> 
                                     <div class="row">
+                                        <h3 class="text-center">คัดลอกข้อมูล</h3>
                                         <div class="col-md-12">
-                                            <div class="form-group"> 
-                                                <i class="fas fa-7x fa-file-excel text-white me-2"></i>
-                                                <br>
+                                            <div class="form-group">  
                                                 <div class="input-group mt-3"> 
-                                                    <input type="file" class="form-control" id="PlanDOC" name="PlanDOC" onchange="addimg(this)" required>
-                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">  
+                                                    <select name="air_plan_month_id" id="air_plan_month_id" class="form-control" style="width: 100%">
+                                                        {{-- <option value="">-Choose-</option> --}}
+                                                        @foreach ($yearsshow as $item1)
+                                                        <option value="{{$item1->air_plan_month_id}}">{{$item1->years}}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div> 
@@ -193,9 +157,10 @@
                                         <div class="col"></div>
                                         <div class="col-md-4">
                                             <div class="form-group"> 
-                                                <button type="submit" class="ladda-button btn-pill btn btn-success">
-                                                    <i class="fa-solid fa-circle-check text-white me-2"></i>
-                                                    บันทึกข้อมูล
+                                                <button type="button" class="ladda-button btn-pill btn btn-success bt_prs" id="Copydata">
+                                                    {{-- <i class="fa-solid fa-circle-check text-white me-2"></i> --}}
+                                                    <i class="fa-regular fa-clone text-white me-2"></i>
+                                                    คัดลอกข้อมูล
                                                 </button>
                                             </div>
                                         </div>
@@ -218,32 +183,32 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center"> 
-                    <p style="color: rgb(255, 255, 255);font-size: 17px;">คู่มือการนำเข้าแผนการบำรุงรักษา</p><br><br>
-                    <img src="{{ asset('images/doc/p1.jpg') }}" class="rounded" alt="Image" width="auto" height="520px"> 
+                    <p style="color: rgb(255, 255, 255);font-size: 17px;">คู่มือการกำหนดประเภท / ปีงบประมาณ</p><br><br>
+                    <img src="{{ asset('images/doc/t1.jpg') }}" class="rounded" alt="Image" width="auto" height="520px"> 
                     <br><br><br> 
                     <hr style="color: rgb(255, 255, 255);border: blueviolet">
                     <hr style="color: rgb(255, 255, 255);border: blueviolet">
                     <br><br><br> 
                     
-                    <img src="{{ asset('images/doc/p2.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
+                    <img src="{{ asset('images/doc/t2.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
                     <br><br><br>
                     <hr style="color: rgb(255, 255, 255);border: blueviolet">
                     <hr style="color: rgb(255, 255, 255);border: blueviolet">
 
-                    <img src="{{ asset('images/doc/p3.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
+                    <img src="{{ asset('images/doc/t3.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
                     <br><br><br>
                     <hr style="color: rgb(255, 255, 255);border: blueviolet">
                     <hr style="color: rgb(255, 255, 255);border: blueviolet">
 
-                    <img src="{{ asset('images/doc/p4.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
+                    {{-- <img src="{{ asset('images/doc/p4.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
                     <br><br><br>
                     <hr style="color: rgb(255, 255, 255);border: blueviolet">
-                    <hr style="color: rgb(255, 255, 255);border: blueviolet">
+                    <hr style="color: rgb(255, 255, 255);border: blueviolet"> --}}
 
-                    <img src="{{ asset('images/doc/p5.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
+                    {{-- <img src="{{ asset('images/doc/p5.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
                     <br><br><br>
                     <hr style="color: rgb(255, 255, 255);border: blueviolet">
-                    <hr style="color: rgb(255, 255, 255);border: blueviolet">
+                    <hr style="color: rgb(255, 255, 255);border: blueviolet"> --}}
 
                 </div>
                 <div class="modal-footer">
@@ -264,24 +229,26 @@
     function switchactive(idfunc){
             // var nameVar = document.getElementById("name").value;
             var checkBox = document.getElementById(idfunc);
-            var onoff;
-            
+            var onoff;            
             if (checkBox.checked == true){
-                onoff = "TRUE";
+                onoff = "Y";
             } else {
-                onoff = "FALSE";
-            }
- 
+                onoff = "N";
+            } 
             var _token=$('input[name="_token"]').val();
-                // $.ajax({
-                        // url:"{{route('env.env_water_parameter_switchactive')}}",
-                        // method:"GET",
-                        // data:{onoff:onoff,idfunc:idfunc,_token:_token}
-                // })
+            $.ajax({
+                    url:"{{route('prs.air_setting_typeswith')}}",
+                    method:"GET",
+                    data:{onoff:onoff,idfunc:idfunc,_token:_token}
+            })
        }
 </script>
     <script>
         $(document).ready(function() {
+
+            $('#air_plan_month_id').select2({
+                dropdownParent: $('#exampleModal')
+            });
                   
             $('#insert_Form').on('submit',function(e){
                   e.preventDefault();
@@ -358,6 +325,59 @@
                                                 position: "top-end",
                                                 title: 'นำเข้าข้อมูลสำเร็จ',
                                                 text: "You Import data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+                                        } else {
+                                            
+                                        }
+                                    },
+                                });
+                                
+                            }
+                })
+            });
+
+            $('#Copydata').click(function() {
+                var air_plan_month_id = $('#air_plan_month_id').val();  
+                Swal.fire({
+                    position: "top-end",
+                        title: 'คุณต้องการคัดลอกข้อมูลใช่ไหม ?',
+                        text: "You Copy Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, Copy it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+                                
+                                $.ajax({
+                                    url: "{{ route('prs.air_setting_typecopy') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {air_plan_month_id},
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({
+                                                position: "top-end",
+                                                title: 'คัดลอกข้อมูลสำเร็จ',
+                                                text: "You Copy data success",
                                                 icon: 'success',
                                                 showCancelButton: false,
                                                 confirmButtonColor: '#06D177',
