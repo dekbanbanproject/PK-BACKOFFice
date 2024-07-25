@@ -371,7 +371,7 @@ class AirController extends Controller
             'datashow'      => $datashow,
         ]);
     }
-    public function air_repaire(Request $request, $id)
+    public function air_repaire_ok(Request $request, $id)
     {  
         if (Auth::check()) {
             $type      = Auth::user()->type;
@@ -451,6 +451,142 @@ class AirController extends Controller
             // }
             
             
+    }
+    public function air_repaire(Request $request, $id)
+    {  
+        // if (Auth::check()) {
+        //     $type      = Auth::user()->type;
+        //     $iduser    = Auth::user()->id;
+        //     $iddep     = Auth::user()->dep_subsubtrueid;
+        //     $idsup     = Auth::user()->air_supplies_id; 
+
+        //       if ($idsup == '1' || $idsup == '2' || $idsup == 'on') {
+                    $datenow   = date('Y-m-d');
+                    $months    = date('m');
+                    $year      = date('Y'); 
+                    $startdate = $request->startdate;
+                    $enddate   = $request->enddate;
+                    $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+                    $newDate   = date('Y-m-d', strtotime($datenow . ' -5 months')); //ย้อนหลัง 5 เดือน
+                    // $iduser    = Auth::user()->id;
+                
+                    $data_detail = Air_repaire::leftJoin('users', 'air_repaire.air_tech_id', '=', 'users.id') 
+                    ->leftJoin('air_list', 'air_list.air_list_id', '=', 'air_repaire.air_list_id') 
+                    ->where('air_list.air_list_id', '=', $id)
+                    ->get();
+
+                    // $users_tech_out_                 = DB::table('users')->where('id','=',$iduser)->first();
+                    // $data['users_tech_out']          = $users_tech_out_->fname.'  '.$users_tech_out_->lname; 
+                    // $data['users_tech_out_id']       = $users_tech_out_->id;   
+                    $data['air_repaire_ploblem']     = DB::table('air_repaire_ploblem')->get();
+                    $data['air_maintenance_list']     = DB::table('air_maintenance_list')->get();
+                    $data['users']                   = DB::table('users')->get();
+                    $data['users_tech']              = DB::table('users')->where('dep_id','=','1')->get();
+                    $data['air_tech']                = DB::table('air_tech')->where('air_type','=','IN')->get();
+                    $data_detail_                    = Air_list::where('air_list_id', '=', $id)->first();
+                    // $signat = $data_detail_->air_img_base;
+                    // $pic_fire = base64_encode(file_get_contents($signat)); 
+                    // $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE REPAIR_STATUS ="RECEIVE" AND TECH_RECEIVE_DATE BETWEEN "'.$newDate.'" AND "'.$datenow.'" ORDER BY REPAIR_ID ASC'); 
+                    // $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE REPAIR_NAME LIKE "%แอร์%" ORDER BY REPAIR_ID ASC');
+                    // $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE REPAIR_NAME LIKE "%แอร์%" ORDER BY REPAIR_ID ASC');  
+                    $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE TECH_RECEIVE_DATE BETWEEN "'.$newDate.'" AND "'.$datenow.'" ORDER BY REPAIR_ID ASC'); 
+                    // $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE REPAIR_SYSTEM ="1" AND REPAIR_STATUS ="RECEIVE" ORDER BY REPAIR_ID ASC'); 
+                    return view('support_prs.air.air_repaire',$data, [ 
+                    'data_detail'   => $data_detail,
+                    'data_detail_'  => $data_detail_,
+                    'air_no'        => $air_no,
+                    'id'            => $id
+                ]); 
+            // } else {
+            //     return view('support_prs.air.air_repaire_null'); 
+            // }
+
+            
+        
+            // return view('support_prs.air.air_repaire',$data, [ 
+            //     'data_detail'   => $data_detail,
+            //     'data_detail_'  => $data_detail_,
+            //     'air_no'        => $air_no,
+            //     'id'            => $id
+            // ]); 
+
+        // } else {
+            // echo "<body onload=\"TypeAdmin()\"></body>";
+            // exit();
+                    //   return view('support_prs.air.air_repaire_null'); 
+        // }
+            // if ($idsup == '1' || $idsup == '2') {
+                // return view('support_prs.air.air_repaire',$data, [ 
+                //     'data_detail'   => $data_detail,
+                //     'data_detail_'  => $data_detail_,
+                //     'air_no'        => $air_no,
+                //     'id'            => $id
+                // ]); 
+            // } else {
+            //     return view('support_prs.air.air_repaire_null',$data, [ 
+            //         'data_detail'   => $data_detail,
+            //         'data_detail_'  => $data_detail_,
+            //         'air_no'        => $air_no,
+            //         'id'            => $id
+            //     ]); 
+            // }
+            
+            
+    }
+    public function air_repaire_add(Request $request, $id)
+    {  
+        if (Auth::check()) {
+            $type      = Auth::user()->type;
+            $iduser    = Auth::user()->id;
+            $iddep     = Auth::user()->dep_subsubtrueid;
+            $idsup     = Auth::user()->air_supplies_id; 
+
+              if ($idsup == '1' || $idsup == '2' || $idsup == 'on') {
+                    $datenow   = date('Y-m-d');
+                    $months    = date('m');
+                    $year      = date('Y'); 
+                    $startdate = $request->startdate;
+                    $enddate   = $request->enddate;
+                    $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+                    $newDate   = date('Y-m-d', strtotime($datenow . ' -5 months')); //ย้อนหลัง 5 เดือน
+                    // $iduser    = Auth::user()->id;
+                
+                    $data_detail = Air_repaire::leftJoin('users', 'air_repaire.air_tech_id', '=', 'users.id') 
+                    ->leftJoin('air_list', 'air_list.air_list_id', '=', 'air_repaire.air_list_id') 
+                    ->where('air_list.air_list_id', '=', $id)
+                    ->get();
+
+                    $users_tech_out_                 = DB::table('users')->where('id','=',$iduser)->first();
+                    $data['users_tech_out']          = $users_tech_out_->fname.'  '.$users_tech_out_->lname; 
+                    $data['users_tech_out_id']       = $users_tech_out_->id;   
+                    $data['air_repaire_ploblem']     = DB::table('air_repaire_ploblem')->get();
+                    $data['air_maintenance_list']     = DB::table('air_maintenance_list')->get();
+                    $data['users']                   = DB::table('users')->get();
+                    $data['users_tech']              = DB::table('users')->where('dep_id','=','1')->get();
+                    $data['air_tech']                = DB::table('air_tech')->where('air_type','=','IN')->get();
+                    $data_detail_ = Air_list::where('air_list_id', '=', $id)->first();
+                    // $signat = $data_detail_->air_img_base;
+                    // $pic_fire = base64_encode(file_get_contents($signat)); 
+                    // $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE REPAIR_STATUS ="RECEIVE" AND TECH_RECEIVE_DATE BETWEEN "'.$newDate.'" AND "'.$datenow.'" ORDER BY REPAIR_ID ASC'); 
+                    // $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE REPAIR_NAME LIKE "%แอร์%" ORDER BY REPAIR_ID ASC');
+                    // $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE REPAIR_NAME LIKE "%แอร์%" ORDER BY REPAIR_ID ASC');  
+                    $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE TECH_RECEIVE_DATE BETWEEN "'.$newDate.'" AND "'.$datenow.'" ORDER BY REPAIR_ID ASC'); 
+                    // $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE REPAIR_SYSTEM ="1" AND REPAIR_STATUS ="RECEIVE" ORDER BY REPAIR_ID ASC'); 
+                    return view('support_prs.air.air_repaire_add',$data, [ 
+                    'data_detail'   => $data_detail,
+                    'data_detail_'  => $data_detail_,
+                    'air_no'        => $air_no,
+                    'id'            => $id
+                ]); 
+            } else {
+                return view('support_prs.air.air_repaire_null'); 
+            }
+ 
+        } else {
+          
+                return view('support_prs.air.air_repaire_null'); 
+        }
+         
     }
     public function air_repaire_edit(Request $request,$id)
     {  

@@ -40,6 +40,8 @@ Route::match(['get','post'],'fire_pramuan_save',[App\Http\Controllers\FireContro
 Route::match(['get','post'],'fire_detail/{id}',[App\Http\Controllers\FireController::class, 'fire_detail'])->name('prs.fire_detail');//
 
 Route::match(['get','post'],'air_repaire/{id}',[App\Http\Controllers\AirController::class, 'air_repaire'])->name('prs.air_repaire');//
+Route::match(['get','post'],'air_repaire_add/{id}',[App\Http\Controllers\AirController::class, 'air_repaire_add'])->name('prs.air_repaire_add');//
+Route::match(['get','post'],'air_repaire_detail/{id}',[App\Http\Controllers\AirController::class, 'air_repaire_detail'])->name('prs.air_repaire_detail');//
 Route::match(['get','post'],'air_repiare_save',[App\Http\Controllers\AirController::class, 'air_repiare_save'])->name('prs.air_repiare_save');//
 Route::match(['get','post'],'air_detail/{id}',[App\Http\Controllers\AirController::class, 'air_detail'])->name('prs.air_detail');//
 // ***************   Report  **********************************

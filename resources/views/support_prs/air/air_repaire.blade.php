@@ -74,21 +74,10 @@
         <div class="row text-center">
             <div class="col"></div>
             <div class="col-md-6 text-center">
-                <h2>ทะเบียนแจ้งซ่อม-เครื่องปรับอากาศ</h2>
+                <h2>ทะเบียนเครื่องปรับอากาศ</h2>
             </div>
             <div class="col"></div>
-            {{-- <div class="col-md-4 text-end"> 
-                <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                        data-date-language="th-th" value="{{ $startdate }}" required/>
-                    <input type="text" class="form-control cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                        data-date-language="th-th" value="{{ $enddate }}"/>  
-                        <button type="submit" class="ladda-button btn-pill btn btn-primary cardacc" data-style="expand-left">
-                            <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
-                        </button> 
-                  
-                </div> 
-            </div> --}}
+            
         </div>
 
         <div class="row mt-2">
@@ -96,10 +85,8 @@
                 <div class="card cardfire">
                     <div class="card-body">
 
-                        <form action="{{ route('prs.air_repiare_save') }}" id="update_Form" method="POST" enctype="multipart/form-data">
-                            @csrf
-
-                                        <div class="row">
+                      
+                                        {{-- <div class="row">
                                             <div class="col text-start"> 
                                                 <p style="color:red">ส่วนที่ 1 : รายละเอียด </p>
                                             </div>
@@ -112,7 +99,7 @@
                                                 ?>
                                                 <p style="color:red">ซ่อมไปแล้ว {{$countqti}} ครั้ง</p>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <div class="row">
                                             <div class="col text-start">
                                                 @if ($data_detail_->air_imgname == null)
@@ -136,407 +123,34 @@
                                         </div>
                                         <div class="row">
                                             <div class="col text-start"> <p>หน่วยงาน : {{ $data_detail_->detail }}</p> </div>
-                                        </div>                         
-                                        <hr style="color:red">
+                                        </div>   
                                         <div class="row">
-                                            <div class="col text-start">
-                                                <p style="color:red">ส่วนที่ 2 : ช่างซ่อม(นอก รพ.) </p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-4 text-start">
-                                                <p style="color:rgb(22, 61, 236)">เลขที่แจ้งซ่อม :  </p>
-                                            </div>
-                                            <div class="col-8 text-start">
-                                                <select class="custom-select custom-select-sm" id="air_repaire_no" name="air_repaire_no" style="width: 100%"> 
-                                                    <option value="" >--เลือก--</option>
-                                                    @foreach ($air_no as $item_no)
-                                                        <option value="{{ $item_no->REPAIR_ID }}" class="text-center">{{ $item_no->REPAIR_ID }} {{ $item_no->REPAIR_NAME }} / วันที่แจ้ง{{ $item_no->DATE_TIME_REQUEST }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-
-                        <!-- ******************************** รายการซ่อม(ตามปัญหา) *****************************************  -->
-
-                                        <div class="row">
-                                            <div class="col text-start">
-                                                <p style="color:rgb(9, 119, 209)">- รายการซ่อม(ตามปัญหา) </p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            @foreach ($air_repaire_ploblem as $item_p)
-                                                <div class="col-6 text-start">
-                                                    <div class="input-group">
-                                                        <input type="checkbox" class="discheckbox" id="air_problems" name="air_problems[]" value="{{$item_p->air_repaire_ploblem_id}}">
-                                                        &nbsp;&nbsp;<p>{{$item_p->air_repaire_ploblemname}}</p>
+                                            <div class="col-6 justify-content-center"> 
+                                                {{-- <div class="card" style="width: auto;height: 100px;"> --}}
+                                                    <div class="row justify-content-center">
+                                                        <div class="col text-center">
+                                                            <a href="http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_detail/{{$data_detail_->air_list_num}}" class="ladda-button btn-pill btn btn-primary cardfire mt-3 mb-2 ms-2 me-2">
+                                                                {{-- <h5 style="color: white">ประวัติการซ่อม</h5> --}}
+                                                                <h5 style="color: white">เพื่อตรวจสอบ</h5>
+                                                            </a> 
+                                                        </div> 
                                                     </div>
-                                                </div>
-                                            @endforeach
-                                            {{-- <div class="col-6 text-start">
-                                                <div class="input-group">
-                                                    <input type="checkbox" class="discheckbox" id="air_problems_1" name="air_problems_1">
-                                                    &nbsp;&nbsp;<p>น้ำหยด</p>
-                                                </div>
-                                            </div> 
-                                            <div class="col-6">
-                                                <div class="input-group">
-                                                    <input type="checkbox" class="discheckbox" id="air_problems_3" name="air_problems_3">
-                                                    &nbsp;&nbsp;<p> มีกลิ่นเหม็น</p>
-                                                </div>
-                                            </div> --}}
-                                        </div>
-                                        <div class="row">
-                                            <div class="col"> 
-                                                <div class="input-group">  
-                                                    <textarea class="form-control form-control-sm" id="air_problems_orthersub" name="air_problems_orthersub" rows="3"></textarea>
-                                                </div>
+                                                {{-- </div> --}}  
+                                            </div>
+                                            <div class="col-6 text-start"> 
+                                                {{-- <div class="card" style="width: auto;height: 100px;"> --}}
+                                                    <div class="row justify-content-center">
+                                                        <div class="col text-center">
+                                                            <a href="{{url('air_repaire_add/'.$id)}}" class="ladda-button btn-pill btn btn-info cardfire mt-3 mb-2 ms-3 me-3">
+                                                                <h5 style="color: white">บันทึกซ่อม</h5>
+                                                            </a> 
+                                                        </div> 
+                                                    </div>
+                                                {{-- </div> --}}
                                             </div>
                                         </div> 
-                                        {{-- <div class="row">
-                                            <div class="col-6 text-start">
-                                                <div class="input-group">
-                                                    <input type="checkbox" class="discheckbox" id="air_problems_4" name="air_problems_4">
-                                                    &nbsp;&nbsp;<p>เสียงดัง</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="input-group">
-                                                    <input type="checkbox" class="discheckbox" id="air_problems_5" name="air_problems_5">
-                                                    &nbsp;&nbsp;<p>ไม่ติด/ติดๆ ดับๆ</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-3 text-start"> 
-                                                <div class="input-group">
-                                                    <input type="checkbox" class="discheckbox" id="air_problems_orther" name="air_problems_orther">
-                                                    &nbsp;&nbsp;<p>อื่นๆ</p>
-                                                </div>
-                                            </div>
-                                            <div class="col"> 
-                                                <div class="input-group">  
-                                                    <textarea class="form-control form-control-sm" id="air_problems_orthersub" name="air_problems_orthersub" rows="3"></textarea>
-                                                </div>
-                                            </div>
-                                        </div> --}}
-
-                        <!-- ******************************** การบำรุงรักษา ประจำปี ครั้ง 1*****************************************  -->
-                                        <hr style="color:rgb(7, 114, 141)">
-                                        <div class="row">
-                                            <div class="col text-start">
-                                                <p style="color:rgb(9, 119, 209)">- การบำรุงรักษา ประจำปี </p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            @foreach ($air_maintenance_list as $item_ma)
-                                                <div class="col-6">
-                                                    <div class="input-group">
-                                                        <input type="checkbox" class="discheckbox" id="maintenance_list_id" name="maintenance_list_id[]" value="{{$item_ma->maintenance_list_id}}">
-                                                        &nbsp;&nbsp;<p>{{$item_ma->maintenance_list_name}} ครั้งที่ {{$item_ma->maintenance_list_num}}</p>
-                                                    </div>
-                                                </div>
-                                            @endforeach 
-                                        </div>
-
-                                        {{-- <div class="row">
-                                            <div class="col-6 text-start">
-                                                <div class="input-group">
-                                                    <input type="checkbox" class="discheckbox" id="air_problems_8" name="air_problems_8">
-                                                    &nbsp;&nbsp;<p>ล้างแผงคอยล์เย็น</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="input-group">
-                                                    <input type="checkbox" class="discheckbox" id="air_problems_9" name="air_problems_9">
-                                                    &nbsp;&nbsp;<p>ล้างแผงคอยล์ร้อน</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row"> 
-                                            <div class="col text-start">
-                                                <div class="input-group">
-                                                    <input type="checkbox" class="discheckbox" id="air_problems_6" name="air_problems_6">
-                                                    &nbsp;&nbsp;<p>ถอดล้างพัดลมกรงกระรอก</p>
-                                                </div>
-                                            </div>
-                                        </div> --}}
-
-                        <!-- ******************************** การบำรุงรักษา ประจำปี ครั้ง 2*****************************************  -->
-                                        {{-- <hr style="color:rgb(7, 114, 141)">
-                                        <div class="row">
-                                            <div class="col text-start">
-                                                <p style="color:rgb(9, 119, 209)">- การบำรุงรักษา ประจำปี ครั้ง 2 </p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-6 text-start">
-                                                <div class="input-group">
-                                                    <input type="checkbox" class="discheckbox" id="air_problems_15"
-                                                        name="air_problems_15">
-                                                    &nbsp;&nbsp;<p>ตรวจเช็คน้ำยา</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="input-group">
-                                                    <input type="checkbox" class="discheckbox" id="air_problems_12"
-                                                        name="air_problems_12">
-                                                    &nbsp;&nbsp;<p>ล้างถาดหลังแอร์</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-6 text-start">
-                                                <div class="input-group">
-                                                    <input type="checkbox" class="discheckbox" id="air_problems_13"
-                                                        name="air_problems_13">
-                                                    &nbsp;&nbsp;<p>ล้างแผงคอยล์เย็น</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="input-group">
-                                                    <input type="checkbox" class="discheckbox" id="air_problems_14"
-                                                        name="air_problems_14">
-                                                    &nbsp;&nbsp;<p>ล้างแผงคอยล์ร้อน</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col text-start"> 
-                                                <div class="input-group">
-                                                    <input type="checkbox" class="discheckbox" id="air_problems_11"
-                                                        name="air_problems_11">
-                                                    &nbsp;&nbsp;<p>ถอดล้างพัดลมกรงกระรอก</p>
-                                                </div>
-                                            </div>
-                                        </div> --}}
-
-                        <!-- ******************************** การบำรุงรักษา ประจำปี ครั้ง 2*****************************************  -->
-                                        {{-- <hr style="color:rgb(7, 114, 141)">
-                                        <div class="row">
-                                            <div class="col text-start">
-                                                <p style="color:rgb(9, 119, 209)">- การบำรุงรักษา ประจำปี ครั้ง 3 </p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-6 text-start">
-                                                <div class="input-group">
-                                                    <input type="checkbox" class="discheckbox" id="air_problems_20"
-                                                        name="air_problems_20">
-                                                    &nbsp;&nbsp;<p>ตรวจเช็คน้ำยา</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="input-group">
-                                                    <input type="checkbox" class="discheckbox" id="air_problems_17"
-                                                        name="air_problems_17">
-                                                    &nbsp;&nbsp;<p>ล้างถาดหลังแอร์</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-6 text-start">
-                                                <div class="input-group">
-                                                    <input type="checkbox" class="discheckbox" id="air_problems_18"
-                                                        name="air_problems_18">
-                                                    &nbsp;&nbsp;<p>ล้างแผงคอยล์เย็น</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="input-group">
-                                                    <input type="checkbox" class="discheckbox" id="air_problems_19"
-                                                        name="air_problems_19">
-                                                    &nbsp;&nbsp;<p>ล้างแผงคอยล์ร้อน</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col text-start"> 
-                                                <div class="input-group">
-                                                    <input type="checkbox" class="discheckbox" id="air_problems_16"
-                                                        name="air_problems_16">
-                                                    &nbsp;&nbsp;<p>ถอดล้างพัดลมกรงกระรอก</p>
-                                                </div>
-                                            </div>
-                                        </div> --}}
-
-
-
-
-
-
-                                        <hr style="color:rgb(7, 114, 141)">
-                                        <div class="row">
-                                            <div class="col text-start">
-                                                <p>สถานะซ่อม :</p>
-                                            </div>
-                                            <div class="col-8">
-                                                <select class="custom-select custom-select-sm" id="air_status_techout"
-                                                    name="air_status_techout" style="width: 100%">
-                                                    {{-- <option value="" class="text-center">- เลือก -</option> --}}
-                                                    <option value="Y" class="text-center">- พร้อมใช้งาน -</option>
-                                                    <option value="N" class="text-center">- ไม่พร้อมใช้งาน -</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col text-start">
-                                                <p>ชื่อ-นามสกุล :</p>
-                                            </div>
-                                            <div class="col-8">
-                                                <input type="hidden" class="form-control form-control-sm" id="air_techout_name" name="air_techout_name" value="{{$users_tech_out_id}}">
-                                                <input type="text" class="form-control form-control-sm" id="" name="" value="{{$users_tech_out}}">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            {{-- <div class="col"> </div> --}}
-                                            <div class="col">
-                                                <div id="signature-pad" class="mt-2 text-center">
-                                                    <div style="border:solid 1px teal;height:120px;width: auto">
-                                                        <div id="note" onmouseover="my_function();" class="text-center">The
-                                                            signature should be inside box</div>
-                                                        <canvas id="the_canvas" width="320px" height="120px"> </canvas>
-                                                    </div>
-
-                                                    <input type="hidden" id="signature" name="signature">
-
-                                                    <button type="button" id="clear_btn" class="btn btn-secondary btn-sm mt-3 ms-3 me-3"
-                                                        data-action="clear"><span class="glyphicon glyphicon-remove"></span>
-                                                        Clear</button>
-
-                                                    <button type="button" id="save_btn"
-                                                        class="btn btn-info btn-sm mt-3 me-2 text-white" data-action="save-png"
-                                                        onclick="create()"><span class="glyphicon glyphicon-ok"></span>
-                                                        Create
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            {{-- <div class="col"> </div> --}}
-                                        </div>
-
-
-
-                                        <hr style="color:red">
-                                        <div class="row">
-                                            <div class="col text-start">
-                                                <p style="color:red">ส่วนที่ 3 : เจ้าหน้าที่ </p>
-                                            </div>
-                                            <div class="col-6"> </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col text-start">
-                                                <p>สถานะซ่อม :</p>
-                                            </div>
-                                            <div class="col-8">
-                                                <select class="custom-select custom-select-sm" id="air_status_staff"
-                                                    name="air_status_staff" style="width: 100%">
-                                                    {{-- <option value="" class="text-center">- เลือก -</option> --}}
-                                                    <option value="Y" class="text-center">- พร้อมใช้งาน -</option>
-                                                    <option value="N" class="text-center">- ไม่พร้อมใช้งาน -</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col text-start">
-                                                <p>ชื่อ-นามสกุล :</p>
-                                            </div>
-                                            <div class="col-8"> 
-                                                <select class="custom-select custom-select-sm" id="air_staff_id" name="air_staff_id"
-                                                    style="width: 100%"> 
-                                                    @foreach ($users as $item_u)
-                                                        <option value="{{ $item_u->id }}" class="text-center">{{ $item_u->fname }}
-                                                            {{ $item_u->lname }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            {{-- <div class="col"> </div> --}}
-                                            <div class="col">
-                                                <div id="signature-pad2" class="mt-2 text-center">
-                                                    <div style="border:solid 1px teal;height:120px;width: auto">
-                                                        <div id="note2" onmouseover="my_function2();" class="text-center">The
-                                                            signature should be inside box</div>
-                                                        <canvas id="the_canvas2" width="320px" height="120px"> </canvas>
-                                                    </div>
-
-                                                    <input type="hidden" id="signature2" name="signature2">
-                                                    <button type="button" id="clear_btn2"
-                                                        class="btn btn-secondary btn-sm mt-3 ms-3 me-3" data-action="clear2"><span
-                                                            class="glyphicon glyphicon-remove"></span>
-                                                        Clear</button>
-
-                                                    <button type="button" id="save_btn2"
-                                                        class="btn btn-info btn-sm mt-3 me-2 text-white" data-action="save-png2"
-                                                        onclick="create2()"><span class="glyphicon glyphicon-ok"></span>
-                                                        Create
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            {{-- <div class="col"> </div> --}}
-                                        </div>
-
-                                        <hr style="color:red">
-                                        <div class="row">
-                                            <div class="col text-start">
-                                                <p style="color:red">ส่วนที่ 4 : ช่างซ่อม(รพ.) </p>
-                                            </div>
-                                            <div class="col-6"> </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col text-start">
-                                                <p>สถานะซ่อม :</p>
-                                            </div>
-                                            <div class="col-8">
-                                                <select class="custom-select custom-select-sm" id="air_status_tech"
-                                                    name="air_status_tech" style="width: 100%"> 
-                                                    <option value="Y" class="text-center">- พร้อมใช้งาน -</option>
-                                                    <option value="N" class="text-center">- ไม่พร้อมใช้งาน -</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col text-start">
-                                                <p>ชื่อ-นามสกุล :</p>
-                                            </div>
-                                            <div class="col-8">
-                                                {{-- <input type="text" class="form-control form-control-sm" id="air_tech_id" name="air_tech_id"> --}}
-                                                <select class="custom-select custom-select-sm" id="air_tech_id" name="air_tech_id"
-                                                    style="width: 100%"> 
-                                                    @foreach ($air_tech as $item_u)
-                                                        <option value="{{ $item_u->air_user_id }}" class="text-center">{{ $item_u->air_user_name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            {{-- <div class="col"> </div> --}}
-                                            <div class="col">
-                                                <div id="signature-pad3" class="mt-2 text-center">
-                                                    <div style="border:solid 1px teal;height:120px;width: auto;">
-                                                        <div id="note3" onmouseover="my_function3();" class="text-center">The
-                                                            signature should be inside box</div>
-                                                        <canvas id="the_canvas3" width="320px" height="120px"> </canvas>
-                                                    </div>
-
-                                                    <input type="hidden" id="signature3" name="signature3">
-                                                    <button type="button" id="clear_btn3"
-                                                        class="btn btn-secondary btn-sm mt-3 ms-3 me-3" data-action="clear3"><span
-                                                            class="glyphicon glyphicon-remove"></span>
-                                                        Clear</button>
-
-                                                    <button type="button" id="save_btn3"
-                                                        class="btn btn-info btn-sm mt-3 me-2 text-white" data-action="save-png3"
-                                                        onclick="create3()"><span class="glyphicon glyphicon-ok"></span>
-                                                        Create
-                                                    </button>
-
-                                                </div>
-                                            </div>
-                                            {{-- <div class="col"> </div> --}}
-                                        </div>
-
+                                        
+                                      
                                         <input type="hidden" name="air_list_id" id="air_list_id" value="{{ $data_detail_->air_list_id}}">
                                         <input type="hidden" name="air_list_num" id="air_list_num" value="{{ $data_detail_->air_list_num}}">
                                         <input type="hidden" name="air_list_name" id="air_list_name" value="{{ $data_detail_->air_list_name}}">
@@ -546,19 +160,9 @@
                                         <input type="hidden" name="air_location_name" id="air_location_name" value="{{ $data_detail_->air_location_name}}">
                                         <input type="hidden" name="detail" id="detail" value="{{ $data_detail_->detail}}">
                                      
-                        <hr style="color:red">
-                        <div class="row mt-3">
-                            <div class="col text-center">
-                                {{-- <button type="button" id="saveBtn" class="ladda-button btn-pill btn btn-success"> --}}
-                                <button type="submit" class="ladda-button btn-pill btn btn-success">
-                                    <i class="fa-solid fa-circle-check text-white me-2"></i>
-                                    บันทึกข้อมูล
-                                </button>
-                            </div>
-                        </div>
+                       
 
-
-                        </form>
+ 
                     </div>
                 </div>
 
