@@ -165,7 +165,7 @@
                         <i class="ri-menu-2-line align-middle" style="color: rgb(255, 255, 255)"></i>
                     </button>
                     <a href="{{url('home_supplies')}}">
-                        <h3 style="color:rgb(5, 131, 153)" class="mt-4">Manage Supplies ( บริษัท {{$sup_name}} )</h3>
+                        <h3 style="color:rgb(5, 131, 153)" class="mt-4">Manage Supplies (บริษัท {{$sup_name}})</h3>
                     </a>
                    
                    
