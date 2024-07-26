@@ -71,7 +71,7 @@
     <link rel="stylesheet" href="{{ asset('disacc/vendors/linearicons-master/dist/web-font/style.css') }}">
     <link rel="stylesheet"
         href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
-    <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet"> --}}
     <link rel="stylesheet" href="{{ asset('css/dacccss.css') }}">
 </head>
   <style>

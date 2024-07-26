@@ -3392,7 +3392,9 @@ Route::match(['get','post'],'air_pramuan_admin',[App\Http\Controllers\AirControl
 Route::match(['get','post'],'air_add',[App\Http\Controllers\AirController::class, 'air_add'])->name('prs.air_add');//
 Route::match(['get','post'],'air_save',[App\Http\Controllers\AirController::class, 'air_save'])->name('prs.air_save');//
 Route::match(['get','post'],'air_edit/{id}',[App\Http\Controllers\AirController::class, 'air_edit'])->name('prs.air_edit');//
+Route::match(['get','post'],'air_edit_mobile/{id}',[App\Http\Controllers\AirController::class, 'air_edit_mobile'])->name('prs.air_edit_mobile');//
 Route::match(['get','post'],'air_update',[App\Http\Controllers\AirController::class, 'air_update'])->name('prs.air_update');//
+Route::match(['get','post'],'air_update_mobile',[App\Http\Controllers\AirController::class, 'air_update_mobile'])->name('prs.air_update_mobile');//
 Route::match(['get','post'],'air_destroy/{id}',[App\Http\Controllers\AirController::class, 'air_destroy'])->name('prs.air_destroy');//
 Route::match(['get','post'],'air_qrcode_all',[App\Http\Controllers\AirController::class, 'air_qrcode_all'])->name('prs.air_qrcode_all');//
 Route::match(['get','post'],'air_qrcode_detail_all',[App\Http\Controllers\AirController::class, 'air_qrcode_detail_all'])->name('prs.air_qrcode_detail_all');//
@@ -3440,6 +3442,12 @@ Route::match(['get','post'],'air_count_ploblem_orther/{id}',[App\Http\Controller
 Route::match(['get','post'],'detail_companyall',[App\Http\Controllers\AirController::class, 'detail_companyall'])->name('prs.detail_companyall');//
 Route::match(['get','post'],'detail_maintenance',[App\Http\Controllers\AirController::class, 'detail_maintenance'])->name('prs.detail_maintenance');//
 Route::match(['get','post'],'detail_maintenance_qty',[App\Http\Controllers\AirController::class, 'detail_maintenance_qty'])->name('prs.detail_maintenance_qty');//
+Route::match(['get','post'],'detail_namyod',[App\Http\Controllers\AirController::class, 'detail_namyod'])->name('prs.detail_namyod');//
+Route::match(['get','post'],'detail_men',[App\Http\Controllers\AirController::class, 'detail_men'])->name('prs.detail_men');//
+Route::match(['get','post'],'detail_volumn',[App\Http\Controllers\AirController::class, 'detail_volumn'])->name('prs.detail_volumn');//
+Route::match(['get','post'],'detail_lom',[App\Http\Controllers\AirController::class, 'detail_lom'])->name('prs.detail_lom');//
+Route::match(['get','post'],'detail_dap',[App\Http\Controllers\AirController::class, 'detail_dap'])->name('prs.detail_dap');//
+Route::match(['get','post'],'detail_orther',[App\Http\Controllers\AirController::class, 'detail_orther'])->name('prs.detail_orther');//
 
 Route::match(['get','post'],'document',[App\Http\Controllers\DocumentController::class, 'document'])->name('d.document');//
 Route::match(['get','post'],'document_save',[App\Http\Controllers\DocumentController::class, 'document_save'])->name('d.document_save');//

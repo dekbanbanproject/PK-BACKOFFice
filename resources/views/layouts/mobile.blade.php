@@ -7,7 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>ทะเบียนครุภัณฑ์-เครื่องปรับอากาศ</title>
 
-
+ <!-- Font Awesome -->
+ <link href="{{ asset('assets/fontawesome/css/all.css') }}" rel="stylesheet">
 
     <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

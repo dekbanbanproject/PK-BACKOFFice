@@ -79,40 +79,52 @@
     
                     @foreach ($datashow as $item) 
                         <?php 
+                            // *********** ปีงบประมาณปัจบัน *******************
+                            $yearnew     = date('Y');
+                            $year_old    = date('Y')-1; 
+                            $startdate   = (''.$year_old.'-10-01');
+                            $enddate     = (''.$yearnew.'-09-30'); 
+
                             $namyod_air = DB::select('SELECT COUNT(b.repaire_sub_id) as namyod FROM air_repaire a 
                                 LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
-                                WHERE a.air_supplies_id = "'.$item->air_supplies_id.'" AND b.air_repaire_ploblem_id = "1" AND b.air_repaire_type_code ="04"  
+                                WHERE a.air_supplies_id = "'.$item->air_supplies_id.'" AND b.air_repaire_ploblem_id = "1" AND b.air_repaire_type_code ="04" 
+                                AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                             ');                                     
                             foreach ($namyod_air as $key => $value_air) {$namyod = $value_air->namyod;}
 
                             $lom_air = DB::select('SELECT COUNT(b.repaire_sub_id) as lomair FROM air_repaire a 
                                 LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
-                                WHERE a.air_supplies_id = "'.$item->air_supplies_id.'" AND b.air_repaire_ploblem_id = "2" AND b.air_repaire_type_code ="04"  
+                                WHERE a.air_supplies_id = "'.$item->air_supplies_id.'" AND b.air_repaire_ploblem_id = "2" AND b.air_repaire_type_code ="04" 
+                                AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
                             ');                                     
                             foreach ($lom_air as $key => $lom_air) {$lomair = $lom_air->lomair;} 
 
                             $men_air = DB::select('SELECT COUNT(b.repaire_sub_id) as menair FROM air_repaire a 
                                 LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
-                                WHERE a.air_supplies_id = "'.$item->air_supplies_id.'" AND b.air_repaire_ploblem_id = "3" AND b.air_repaire_type_code ="04"  
+                                WHERE a.air_supplies_id = "'.$item->air_supplies_id.'" AND b.air_repaire_ploblem_id = "3" AND b.air_repaire_type_code ="04"
+                                AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"  
                             ');                                     
                             foreach ($men_air as $key => $air_men) {$menair = $air_men->menair;} 
 
                             $valumn_air = DB::select('SELECT COUNT(b.repaire_sub_id) as valumnair FROM air_repaire a 
                                 LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
-                                WHERE a.air_supplies_id = "'.$item->air_supplies_id.'" AND b.air_repaire_ploblem_id = "4" AND b.air_repaire_type_code ="04"  
+                                WHERE a.air_supplies_id = "'.$item->air_supplies_id.'" AND b.air_repaire_ploblem_id = "4" AND b.air_repaire_type_code ="04"
+                                AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"  
                             ');                                     
                             foreach ($valumn_air as $key => $air_valumn) {$valumnair = $air_valumn->valumnair;}
 
                             $dap_air = DB::select('SELECT COUNT(b.repaire_sub_id) as dapair FROM air_repaire a 
                                 LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
                                 WHERE a.air_supplies_id = "'.$item->air_supplies_id.'" AND b.air_repaire_ploblem_id = "5" AND b.air_repaire_type_code ="04"  
+                                AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                             ');                                     
                             foreach ($dap_air as $key => $air_dap) {$dapair = $air_dap->dapair;}
-                            $aeun_air = DB::select('SELECT COUNT(b.repaire_sub_id) as aeunair FROM air_repaire a 
+                            $orther_air = DB::select('SELECT COUNT(b.repaire_sub_id) as aeunair FROM air_repaire a 
                                 LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
                                 WHERE a.air_supplies_id = "'.$item->air_supplies_id.'" AND b.air_repaire_ploblem_id = "6" AND b.air_repaire_type_code ="04"  
+                                AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                             ');                                     
-                            foreach ($aeun_air as $key => $air_auen) {$aeunair = $air_auen->aeunair;}
+                            foreach ($orther_air as $key => $air_auen) {$ortherair = $air_auen->aeunair;}
  
                         ?>
                     <div class="row">
@@ -174,7 +186,9 @@
                                             <div class="d-flex">
                                                 <div class="flex-grow-1"> 
                                                     <p class="text-start font-size-14">มีกลิ่นเหม็น</p> 
-                                                    <h3 class="text-start">{{$menair}}</h3> 
+                                                    <button type="button" class="btn menModal" style="background: transparent" value="{{ $item->air_supplies_id }}">
+                                                        <h3 class="text-start">{{$menair}}</h3>
+                                                    </button> 
                                                 </div> 
                                                 <div class="avatar-sm" style="width: 40px;height:40px">
                                                     <span class="avatar-title bg-light text-success rounded-3"> 
@@ -191,8 +205,10 @@
                                         <div class="card-body">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1"> 
-                                                    <p class="text-start font-size-14">เสียงดัง</p> 
-                                                    <h3 class="text-start">{{$valumnair}}</h3> 
+                                                    <p class="text-start font-size-14">เสียงดัง</p>  
+                                                    <button type="button" class="btn volumnModal" style="background: transparent" value="{{ $item->air_supplies_id }}">
+                                                        <h3 class="text-start">{{$valumnair}}</h3>
+                                                    </button>
                                                 </div> 
                                                 <div class="avatar-sm" style="width: 40px;height:40px">
                                                     <span class="avatar-title bg-light text-success rounded-3"> 
@@ -212,7 +228,9 @@
                                             <div class="d-flex">
                                                 <div class="flex-grow-1"> 
                                                     <p class="text-start font-size-14">ไม่เย็นมีแต่ลม</p> 
-                                                    <h3 class="text-start">{{$lomair}}</h3> 
+                                                    <button type="button" class="btn lomModal" style="background: transparent" value="{{ $item->air_supplies_id }}">
+                                                        <h3 class="text-start">{{$lomair}}</h3>
+                                                    </button> 
                                                 </div> 
                                                 <div class="avatar-sm" style="width: 40px;height:40px">
                                                     <span class="avatar-title bg-light text-success rounded-3"> 
@@ -229,7 +247,9 @@
                                             <div class="d-flex">
                                                 <div class="flex-grow-1"> 
                                                     <p class="text-start font-size-14">ไม่ติด/ติดๆดับๆ</p> 
-                                                    <h3 class="text-start">{{$dapair}}</h3> 
+                                                    <button type="button" class="btn dapModal" style="background: transparent" value="{{ $item->air_supplies_id }}">
+                                                        <h3 class="text-start">{{$dapair}}</h3>
+                                                    </button> 
                                                 </div> 
                                                 <div class="avatar-sm" style="width: 40px;height:40px">
                                                     <span class="avatar-title bg-light text-success rounded-3"> 
@@ -246,7 +266,9 @@
                                             <div class="d-flex">
                                                 <div class="flex-grow-1"> 
                                                     <p class="text-start font-size-14">อื่นๆ</p> 
-                                                    <h3 class="text-start">{{$aeunair}}</h3> 
+                                                    <button type="button" class="btn ortherModal" style="background: transparent" value="{{ $item->air_supplies_id }}">
+                                                        <h3 class="text-start">{{$ortherair}}</h3>
+                                                    </button>  
                                                 </div> 
                                                 <div class="avatar-sm" style="width: 40px;height:40px">
                                                     <span class="avatar-title bg-light text-success rounded-3"> 
@@ -396,10 +418,154 @@
                                 {{-- <div class="modal-body" style="background-color: #ffffff">  --}}
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <div style='overflow:scroll; height:600px;'>
+                                            <div style='overflow:scroll; height:500px;'>
 
                                                 <div id="detail_companyall"></div>
                                                 
+                                            </div>
+                                        </div> 
+                                    </div>  
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+
+                <!-- namyod_qtyModal Modal น้ำหยด--> 
+                <div class="modal fade" id="namyod_qtyModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content ">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">รายการซ่อมตามปัญหา(น้ำหยด)</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body"> 
+                                {{-- <div class="modal-body" style="background-color: #ffffff">  --}}
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div style='overflow:scroll; height:500px;'>
+
+                                                <div id="detail_namyod"></div>
+                                                <input type="hidden" name="startdate" id="startdate" value="{{$startdate}}">
+                                                <input type="hidden" name="enddate" id="enddate" value="{{$enddate}}">
+                                            </div>
+                                        </div> 
+                                    </div>  
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- menModal Modal มีกลิ่นเหม็น--> 
+                 <div class="modal fade" id="menModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content ">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">รายการซ่อมตามปัญหา(มีกลิ่นเหม็น)</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body">  
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div style='overflow:scroll; height:500px;'>
+
+                                                <div id="detail_men"></div>
+                                                
+                                            </div>
+                                        </div> 
+                                    </div>  
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+
+                <!-- volumnModal Modal เสียงดัง--> 
+                <div class="modal fade" id="volumnModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content ">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">รายการซ่อมตามปัญหา(เสียงดัง)</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body">  
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div style='overflow:scroll; height:500px;'>
+                                                <div id="detail_volumn"></div>                                                
+                                            </div>
+                                        </div> 
+                                    </div>  
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+
+                <!-- lomModal Modal ไม่เย็นมีแต่ลม--> 
+                <div class="modal fade" id="lomModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content ">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">รายการซ่อมตามปัญหา(ไม่เย็นมีแต่ลม)</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body">  
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div style='overflow:scroll; height:500px;'>
+                                                <div id="detail_lom"></div>                                                
+                                            </div>
+                                        </div> 
+                                    </div>  
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+
+                <!-- dapModal Modal ไม่ติด/ติดๆดับๆ--> 
+                <div class="modal fade" id="dapModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content ">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">รายการซ่อมตามปัญหา(ไม่ติด/ติดๆดับๆ)</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body">  
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div style='overflow:scroll; height:500px;'>
+                                                <div id="detail_dap"></div>                                                
+                                            </div>
+                                        </div> 
+                                    </div>  
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ortherModal Modal อื่นๆ--> 
+                <div class="modal fade" id="ortherModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content ">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">รายการซ่อมตามปัญหา(อื่นๆ)</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body">  
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div style='overflow:scroll; height:500px;'>
+                                                <div id="detail_orther"></div>                                                
                                             </div>
                                         </div> 
                                     </div>  
@@ -421,7 +587,7 @@
                             <div class="modal-body">  
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <div style='overflow:scroll; height:600px;'>
+                                            <div style='overflow:scroll; height:500px;'>
                                                 <div id="detail_maintenance1Modal"></div>                                                
                                             </div>
                                         </div> 
@@ -443,7 +609,7 @@
                             <div class="modal-body">  
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <div style='overflow:scroll; height:600px;'>
+                                            <div style='overflow:scroll; height:500px;'>
                                                 <div id="detail_maintenance2Modal"></div>                                                
                                             </div>
                                         </div> 
@@ -465,7 +631,7 @@
                             <div class="modal-body">  
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <div style='overflow:scroll; height:600px;'>
+                                            <div style='overflow:scroll; height:500px;'>
                                                 <div id="detail_maintenance3Modal"></div>                                                
                                             </div>
                                         </div> 
@@ -488,7 +654,7 @@
                             <div class="modal-body">  
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <div style='overflow:scroll; height:600px;'>
+                                            <div style='overflow:scroll; height:500px;'>
                                                 <div id="detail_maintenance1_qtyModal"></div>                                                
                                             </div>
                                         </div> 
@@ -509,7 +675,7 @@
                             <div class="modal-body">  
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <div style='overflow:scroll; height:600px;'>
+                                            <div style='overflow:scroll; height:500px;'>
                                                 <div id="detail_maintenance2_qtyModal"></div>                                                
                                             </div>
                                         </div> 
@@ -530,7 +696,7 @@
                             <div class="modal-body">  
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <div style='overflow:scroll; height:600px;'>
+                                            <div style='overflow:scroll; height:500px;'>
                                                 <div id="detail_maintenance3_qtyModal"></div>                                                
                                             </div>
                                         </div> 
@@ -640,6 +806,92 @@
                     },
                 });
             });
+            $(document).on('click', '.namyod_qtyModal', function() {
+                var air_supplies_id = $(this).val(); 
+                var startdate       = $('#startdate').val();
+                var enddate         = $('#enddate').val();
+                $('#namyod_qtyModal').modal('show');  
+                $.ajax({
+                    type: "GET",
+                    url:"{{ url('detail_namyod') }}",
+                    data: { air_supplies_id: air_supplies_id ,startdate: startdate,enddate: enddate},
+                    success: function(result) { 
+                        $('#detail_namyod').html(result);
+                    },
+                });
+            });
+            $(document).on('click', '.menModal', function() {
+                var air_supplies_id = $(this).val(); 
+                var startdate       = $('#startdate').val();
+                var enddate         = $('#enddate').val();
+                $('#menModal').modal('show');  
+                $.ajax({
+                    type: "GET",
+                    url:"{{ url('detail_men') }}",
+                    data: { air_supplies_id: air_supplies_id ,startdate: startdate,enddate: enddate},
+                    success: function(result) { 
+                        $('#detail_men').html(result);
+                    },
+                });
+            });
+            $(document).on('click', '.volumnModal', function() {
+                var air_supplies_id = $(this).val(); 
+                var startdate       = $('#startdate').val();
+                var enddate         = $('#enddate').val();
+                $('#volumnModal').modal('show');  
+                $.ajax({
+                    type: "GET",
+                    url:"{{ url('detail_volumn') }}",
+                    data: { air_supplies_id: air_supplies_id ,startdate: startdate,enddate: enddate},
+                    success: function(result) { 
+                        $('#detail_volumn').html(result);
+                    },
+                });
+            });
+            $(document).on('click', '.lomModal', function() {
+                var air_supplies_id = $(this).val(); 
+                var startdate       = $('#startdate').val();
+                var enddate         = $('#enddate').val();
+                $('#lomModal').modal('show');  
+                $.ajax({
+                    type: "GET",
+                    url:"{{ url('detail_lom') }}",
+                    data: { air_supplies_id: air_supplies_id ,startdate: startdate,enddate: enddate},
+                    success: function(result) { 
+                        $('#detail_lom').html(result);
+                    },
+                });
+            });
+            $(document).on('click', '.dapModal', function() {
+                var air_supplies_id = $(this).val(); 
+                var startdate       = $('#startdate').val();
+                var enddate         = $('#enddate').val();
+                $('#dapModal').modal('show');  
+                $.ajax({
+                    type: "GET",
+                    url:"{{ url('detail_dap') }}",
+                    data: { air_supplies_id: air_supplies_id ,startdate: startdate,enddate: enddate},
+                    success: function(result) { 
+                        $('#detail_dap').html(result);
+                    },
+                });
+            });
+            $(document).on('click', '.ortherModal', function() {
+                var air_supplies_id = $(this).val(); 
+                var startdate       = $('#startdate').val();
+                var enddate         = $('#enddate').val();
+                $('#ortherModal').modal('show');  
+                $.ajax({
+                    type: "GET",
+                    url:"{{ url('detail_orther') }}",
+                    data: { air_supplies_id: air_supplies_id ,startdate: startdate,enddate: enddate},
+                    success: function(result) { 
+                        $('#detail_orther').html(result);
+                    },
+                });
+            });
+            
+            
         </script>
 @endsection
 

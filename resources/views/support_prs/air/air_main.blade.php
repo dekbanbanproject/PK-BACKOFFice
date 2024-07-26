@@ -229,9 +229,9 @@
                                         </td>
                                       
                                         @if ( $item->air_imgname == Null )
-                                        <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="20px" width="20px" alt="Image" class="img-thumbnail bt_prs"></td> 
+                                        <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="30px" width="30px" alt="Image" class="img-thumbnail bt_prs" style="background: white"></td> 
                                         @else
-                                        <td class="text-center" width="3%"><img src="{{asset('storage/air/'.$item->air_imgname)}}" height="20px" width="20px" alt="Image" class="img-thumbnail bt_prs">  </td>                                
+                                        <td class="text-center" width="3%"><img src="{{asset('storage/air/'.$item->air_imgname)}}" height="30px" width="30px" alt="Image" class="img-thumbnail bt_prs" style="background: white">  </td>                                
                                         @endif
 
                                         <td class="text-center" width="5%"> 

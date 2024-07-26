@@ -84,22 +84,7 @@
             <div class="col-sm-12">
                 <div class="card cardfire">
                     <div class="card-body">
-
-                      
-                                        {{-- <div class="row">
-                                            <div class="col text-start"> 
-                                                <p style="color:red">ส่วนที่ 1 : รายละเอียด </p>
-                                            </div>
-                                            <div class="col-6 text-end"> 
-                                                <?php 
-                                                    $countqti_ = DB::select('SELECT COUNT(air_list_num) as air_list_num FROM air_repaire WHERE air_list_num = "'.$data_detail_->air_list_num.'"');
-                                                    foreach ($countqti_ as $key => $value) {
-                                                        $countqti = $value->air_list_num;
-                                                    }
-                                                ?>
-                                                <p style="color:red">ซ่อมไปแล้ว {{$countqti}} ครั้ง</p>
-                                            </div>
-                                        </div> --}}
+ 
                                         <div class="row">
                                             <div class="col text-start">
                                                 @if ($data_detail_->air_imgname == null)
@@ -124,30 +109,61 @@
                                         <div class="row">
                                             <div class="col text-start"> <p>หน่วยงาน : {{ $data_detail_->detail }}</p> </div>
                                         </div>   
-                                        <div class="row">
-                                            <div class="col-6 justify-content-center"> 
+                                        <div class="row justify-content-center mt-3">
+                                            {{-- <div class="col"></div> --}}
+                                            {{-- <div class="col-4">  --}}
                                                 {{-- <div class="card" style="width: auto;height: 100px;"> --}}
-                                                    <div class="row justify-content-center">
-                                                        <div class="col text-center">
-                                                            <a href="http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_detail/{{$data_detail_->air_list_num}}" class="ladda-button btn-pill btn btn-primary cardfire mt-3 mb-2 ms-2 me-2">
-                                                                {{-- <h5 style="color: white">ประวัติการซ่อม</h5> --}}
-                                                                <h5 style="color: white">เพื่อตรวจสอบ</h5>
+                                                    {{-- <div class="row"> --}}
+                                                        <div class="col-6 text-center">
+                                                            <a href="http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_detail/{{$data_detail_->air_list_num}}" class="ladda-button me-2 btn-pill btn btn-primary cardfire">
+                                                                <i class="fa-regular fa-square-check me-2"></i>เพื่อตรวจสอบ
+                                                                {{-- <h5 style="color: white">เพื่อตรวจสอบ</h5> --}}
                                                             </a> 
                                                         </div> 
-                                                    </div>
+                                                    {{-- </div> --}}
                                                 {{-- </div> --}}  
-                                            </div>
-                                            <div class="col-6 text-start"> 
+                                            {{-- </div> --}}
+                                                        <div class="col-6 text-center"> 
                                                 {{-- <div class="card" style="width: auto;height: 100px;"> --}}
-                                                    <div class="row justify-content-center">
-                                                        <div class="col text-center">
-                                                            <a href="{{url('air_repaire_add/'.$id)}}" class="ladda-button btn-pill btn btn-info cardfire mt-3 mb-2 ms-3 me-3">
-                                                                <h5 style="color: white">บันทึกซ่อม</h5>
+                                                    {{-- <div class="row"> --}}
+                                                        {{-- <div class="col text-center"> --}}
+                                                            <a href="{{url('air_repaire_add/'.$id)}}" class="ladda-button me-2 btn-pill btn btn-info cardfire">
+                                                                <i class="fa-regular fa-floppy-disk me-2"></i>ลงบันทึกซ่อม
+                                                                {{-- <h5 style="color: white">บันทึกซ่อม</h5> --}} 
+                                                            </a> 
+                                                        {{-- </div>  --}}
+                                                    {{-- </div> --}}
+                                                {{-- </div> --}}
+                                                        </div>
+                                            {{-- <div class="col"></div> --}}
+                                        </div> 
+
+                                        <div class="row justify-content-center mt-3 mb-4">
+                                            {{-- <div class="col-6">   --}}
+                                                    {{-- <div class="row"> --}}
+                                                        <div class="col-6 text-center">
+                                                            {{-- <a href="http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_edit/{{$data_detail_->air_list_id}}" class="ladda-button btn-pill btn btn-warning cardfire mt-3 mb-2 ms-2 me-2"> --}}
+                                                            <a href="http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_edit_mobile/{{$data_detail_->air_list_id}}" class="ladda-button me-2 btn-pill btn btn-warning cardfire">
+                                                                {{-- <a href="#" class="ladda-button me-2 btn-pill btn btn-warning cardfire"> --}}
+                                                                <i class="fa-regular fa-pen-to-square me-2"></i>
+                                                               แก้ไขข้อมูล 
+                                                                
+                                                                {{-- <h6 style="color: white">แก้ไขข้อมูล</h6> --}}
                                                             </a> 
                                                         </div> 
-                                                    </div>
-                                                {{-- </div> --}}
-                                            </div>
+                                                    {{-- </div>  --}}
+                                            {{-- </div> --}}
+                                                        <div class="col-6 text-center">  
+                                                    {{-- <div class="row justify-content-center"> --}}
+                                                        {{-- <div class="col text-center"> --}}
+                                                            {{-- <a href="{{url('air_repaire_add/'.$id)}}" class="ladda-button btn-pill btn btn-secondary cardfire mt-3 mb-2 ms-3 me-3"> --}}
+                                                            <a href="#" class="ladda-button me-2 btn-pill btn btn-secondary cardfire">
+                                                                <i class="fa-solid fa-screwdriver-wrench me-2"></i>แจ้งซ่อม
+                                                                {{-- <h5 style="color: white">แจ้งซ่อม</h5> --}}
+                                                            </a> 
+                                                        {{-- </div>  --}}
+                                                    {{-- </div>  --}}
+                                                        </div>
                                         </div> 
                                         
                                       

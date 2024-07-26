@@ -757,6 +757,7 @@ class Account307Controller extends Controller
            $datashow = DB::select(' 
                SELECT * from acc_1102050101_307 
                WHERE vstdate BETWEEN "'.$new_day.'" AND  "'.$date.'"  
+               AND (an IS NULL OR an ="")
            ');
            $datashow_ipd = DB::select(' 
                 SELECT * from acc_1102050101_307 
@@ -766,6 +767,7 @@ class Account307Controller extends Controller
            $datashow = DB::select(' 
                SELECT * from acc_1102050101_307
                WHERE vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"  
+               AND (an IS NULL OR an ="")
            ');
            $datashow_ipd = DB::select(' 
                 SELECT * from acc_1102050101_307

@@ -19,7 +19,7 @@ use App\Models\Pttype_acc;
 use App\Models\Department;
 use App\Models\Departmentsub;
 use App\Models\Departmentsubsub;
-use App\Models\Position;
+use App\Models\Fire;
 use App\Models\Product_spyprice;
 use App\Models\Products;
 use App\Models\Products_type;
@@ -339,6 +339,20 @@ class AirController extends Controller
         $year = date('Y'); 
         $startdate = $request->startdate;
         $enddate = $request->enddate;
+        $date_now    = date('Y-m-d');
+        $y           = date('Y') + 543;
+        $months = date('m');
+   
+        $newdays     = date('Y-m-d', strtotime($date_now . ' -1 days')); //ย้อนหลัง 1 วัน
+        $newweek     = date('Y-m-d', strtotime($date_now . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate     = date('Y-m-d', strtotime($date_now . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear     = date('Y-m-d', strtotime($date_now . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew     = date('Y');
+        $year_old    = date('Y')-1; 
+        $startdate   = (''.$year_old.'-10-01');
+        $enddate     = (''.$yearnew.'-09-30'); 
+        $iduser      = Auth::user()->id;
+        // dd($enddate);
         $datashow = DB::select(
             'SELECT s.air_supplies_id,s.supplies_name,COUNT(air_repaire_id) as c_repaire           
                 FROM air_repaire a
@@ -924,6 +938,7 @@ class AirController extends Controller
                     'date_edit'   =>$date_now,
                     'time_edit'   =>$mm,
                     'status'      =>'EDIT',
+                    'detail'      =>'air_repaire_id'.'-'.$id
                 ]);
                 return response()->json([
                     'status'     => '200'
@@ -997,6 +1012,7 @@ class AirController extends Controller
                     'date_edit'   =>$date_now,
                     'time_edit'   =>$mm,
                     'status'      =>'EDIT',
+                    'detail'      =>'air_repaire_id'.'-'.$id
                 ]);
                 return response()->json([
                     'status'     => '200'
@@ -1092,6 +1108,7 @@ class AirController extends Controller
                     'date_edit'   =>$date_now,
                     'time_edit'   =>$mm,
                     'status'      =>'EDIT',
+                    'detail'      =>'air_repaire_id'.'-'.$id
                 ]);
                 return response()->json([
                     'status'     => '200'
@@ -2097,6 +2114,107 @@ class AirController extends Controller
             // 'pic_fire'     => $pic_fire
         ]);
     }
+    public function air_edit_mobile(Request $request,$id)
+    {  
+        if (Auth::check()) {
+            $type      = Auth::user()->type;
+            $iduser    = Auth::user()->id;
+            $iddep     = Auth::user()->dep_subsubtrueid;
+            $idsup     = Auth::user()->air_supplies_id; 
+            if ($idsup == '1' || $idsup == '2') {
+                return view('support_prs.air.air_repaire_null'); 
+            } else {
+                $data['department_sub_sub'] = Department_sub_sub::get();
+                $data['article_status']     = Article_status::get();
+                $data['product_decline']    = Product_decline::get();
+                $data['product_prop']       = Product_prop::get();
+                $data['supplies_prop']      = DB::table('supplies_prop')->get();
+                $data['budget_year']        = DB::table('budget_year')->where('active','=',true)->orderBy('leave_year_id', 'DESC')->get();
+                $data['product_data']       = Products::get();
+                $data['product_category']   = Products_category::get();
+                $data['product_type']       = Products_type::get();
+                $data['product_spyprice']   = Product_spyprice::get();
+                $data['product_group']      = Product_group::get();
+                $data['product_unit']       = Product_unit::get();
+                $data['data_province']      = DB::table('data_province')->get();
+                $data['data_amphur']        = DB::table('data_amphur')->get();
+                $data['data_tumbon']        = DB::table('data_tumbon')->get(); 
+                $data['land_data']          = DB::table('land_data')->get();
+                $data['product_budget']     = Product_budget::get(); 
+                $data['product_buy']        = Product_buy::get();
+                $data['users']              = User::get(); 
+                $data['products_vendor']    = Products_vendor::get(); 
+                $data['product_brand']      = DB::table('product_brand')->get();
+                $data['medical_typecat']    = DB::table('medical_typecat')->get();
+                $data['building_data']      = DB::table('building_data')->get(); 
+                $data_edit                  = Air_list::where('air_list_id', '=', $id)->first();
+                
+                return view('support_prs.air.air_edit_mobile', $data,[
+                    'data_edit'    => $data_edit,
+                    // 'pic_fire'     => $pic_fire
+                ]);
+            } 
+        } 
+    }
+    public function air_update_mobile(Request $request)
+    { 
+        $id = $request->air_list_id; 
+        $air_list_num = $request->air_list_num;
+        $update = Air_list::find($id);
+        $update->air_year            = $request->air_year;
+        $update->air_recive_date     = $request->air_recive_date;
+        $update->air_list_num        = $air_list_num;
+        $update->air_list_name       = $request->air_list_name;
+        $update->air_price           = $request->air_price;
+        $update->active              = $request->active;
+        $update->serial_no           = $request->serial_no;
+        $update->detail              = $request->detail; 
+        $update->btu                 = $request->btu;  
+        $update->air_room_class      = $request->air_room_class;  
+
+        $locationid = $request->input('air_location_id');
+        if ($locationid != '') {
+            $losave = DB::table('building_data')->where('building_id', '=', $locationid)->first(); 
+            $update->air_location_id = $losave->building_id;
+            $update->air_location_name = $losave->building_name;
+        } else { 
+            $update->air_location_id = '';
+            $update->air_location_name = '';
+        } 
+        $branid = $request->input('bran_id');
+        if ($branid != '') {
+            $bransave = DB::table('product_brand')->where('brand_id', '=', $branid)->first(); 
+            $update->bran_id = $bransave->brand_id;
+            $update->brand_name = $bransave->brand_name;
+        } else { 
+            $update->bran_id = '';
+            $update->brand_name = '';
+        } 
+        if ($request->hasfile('air_imgname')) {
+
+            $description = 'storage/air/' . $update->air_imgname;
+            if (File::exists($description)) {
+                File::delete($description);
+            }
+            $image_64 = $request->file('air_imgname');  
+            $extention = $image_64->getClientOriginalExtension(); 
+            $filename = $air_list_num. '.' . $extention;
+            $request->air_imgname->storeAs('air', $filename, 'public');   
+            $update->air_img            = $filename;
+            $update->air_imgname        = $filename; 
+            if ($extention =='.jpg') {
+                $file64 = "data:image/jpg;base64,".base64_encode(file_get_contents($request->file('air_imgname'))); 
+            } else {
+                $file64 = "data:image/png;base64,".base64_encode(file_get_contents($request->file('air_imgname'))); 
+            } 
+            $update->air_img_base       = $file64; ;
+        } 
+        $update->save();
+
+        return response()->json([
+            'status'     => '200'
+        ]);
+    }
     public function air_update(Request $request)
     { 
         $id = $request->air_list_id; 
@@ -3086,6 +3204,394 @@ class AirController extends Controller
         ';
         echo $output;        
     }
+    public function detail_namyod(Request $request)
+    {
+        $id             =  $request->air_supplies_id;
+        $startdate      = $request->startdate;
+        $enddate        = $request->enddate;  
+        $data_sub       = DB::select(
+            'SELECT 
+            a.repaire_date,a.repaire_time,a.air_repaire_no,a.air_list_id,a.air_list_num,a.air_list_name,a.btu,a.serial_no,a.air_location_id,a.air_location_name,a.air_problems_orthersub
+            ,a.air_techout_name,a.air_staff_id,a.air_tech_id,a.air_supplies_id 
+             ,(SELECT COUNT(air_list_num) FROM air_repaire_sub WHERE air_list_num = a.air_list_num AND air_repaire_ploblem_id="1" AND air_repaire_type_code ="04" AND repaire_no > 1) as more_one             
+            FROM air_repaire a 
+            LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
+            LEFT JOIN air_repaire_ploblem ap ON ap.air_repaire_ploblem_id = b.air_repaire_ploblem_id
+            LEFT JOIN users p ON p.id = a.air_staff_id  
+            LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
+            LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id 
+            WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            AND a.air_supplies_id = "'.$id.'"  
+            AND b.air_repaire_ploblem_id = "1" AND b.air_repaire_type_code ="04"
+            GROUP BY a.air_list_num 
+        ');  
+      
+        $output=' 
+            <div class="row">  
+            <div class="col-md-12">         
+                <table class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th width="5%">ลำดับ</th>
+                            <th width="10%">วันที่</th>
+                            <th width="7%">เวลา</th>
+                            <th width="10%">เลขที่แจ้งซ่อม</th>
+                            <th width="10%">รหัสแอร์</th>
+                            <th>รายการ</th>
+                            <th width="7%">btu</th> 
+                            <th>สถานที่ตั้ง</th>
+                            <th width="8%">มากกว่า 1ครั้ง</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    ';
+                    $i = 1;
+                    foreach ($data_sub as $key => $value) {
+                        $output.=' 
+                        <tr>
+                            <td width="5%">'.$i++.'</td>
+                            <td width="8%">'.DateThai($value->repaire_date).'</td>
+                            <td width="8%">'.$value->repaire_time.'</td>
+                            <td width="8%">'.$value->air_repaire_no.'</td>
+                            <td width="8%">'.$value->air_list_num.'</td>
+                            <td>'.$value->air_list_name.'</td>
+                            <td width="5%">'.$value->btu.'</td> 
+                            <td>'.$value->air_location_name.'</td>
+                            <td width="10%">'.$value->more_one.'</td>
+                        </tr>';
+                    }
+                    
+                    $output.='
+                    </tbody> 
+                </table> 
+            </div>
+        </div>
+        ';
+        echo $output;        
+    }
+    public function detail_men(Request $request)
+    {
+        $id             =  $request->air_supplies_id;
+        $startdate      = $request->startdate;
+        $enddate        = $request->enddate;  
+        $data_sub       = DB::select(
+            'SELECT a.repaire_date,a.repaire_time,a.air_repaire_no,a.air_list_id,a.air_list_num,a.air_list_name,a.btu,a.serial_no,a.air_location_id,a.air_location_name,a.air_problems_orthersub
+            ,a.air_techout_name,a.air_staff_id,a.air_tech_id,a.air_supplies_id 
+             ,(SELECT COUNT(air_list_num) FROM air_repaire_sub WHERE air_list_num = a.air_list_num AND air_repaire_ploblem_id="3" AND air_repaire_type_code ="04" AND repaire_no > 1) as more_one             
+            FROM air_repaire a 
+            LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
+            LEFT JOIN air_repaire_ploblem ap ON ap.air_repaire_ploblem_id = b.air_repaire_ploblem_id
+            LEFT JOIN users p ON p.id = a.air_staff_id  
+            LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
+            LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id 
+            WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            AND a.air_supplies_id = "'.$id.'"  
+            AND b.air_repaire_ploblem_id = "3" AND b.air_repaire_type_code ="04"
+            GROUP BY a.air_list_num 
+        ');  
+      
+        $output=' 
+            <div class="row">  
+            <div class="col-md-12">         
+                <table class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th width="5%">ลำดับ</th>
+                            <th width="10%">วันที่</th>
+                            <th width="7%">เวลา</th>
+                            <th width="10%">เลขที่แจ้งซ่อม</th>
+                            <th width="10%">รหัสแอร์</th>
+                            <th>รายการ</th>
+                            <th width="7%">btu</th> 
+                            <th>สถานที่ตั้ง</th>
+                            <th width="8%">มากกว่า 1ครั้ง</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    ';
+                    $i = 1;
+                    foreach ($data_sub as $key => $value) {
+                        $output.=' 
+                        <tr>
+                            <td width="5%">'.$i++.'</td>
+                            <td width="8%">'.DateThai($value->repaire_date).'</td>
+                            <td width="8%">'.$value->repaire_time.'</td>
+                            <td width="8%">'.$value->air_repaire_no.'</td>
+                            <td width="8%">'.$value->air_list_num.'</td>
+                            <td>'.$value->air_list_name.'</td>
+                            <td width="5%">'.$value->btu.'</td> 
+                            <td>'.$value->air_location_name.'</td>
+                            <td width="10%">'.$value->more_one.'</td>
+                        </tr>';
+                    }
+                    
+                    $output.='
+                    </tbody> 
+                </table> 
+            </div>
+        </div>
+        ';
+        echo $output;        
+    }
+    public function detail_volumn(Request $request)
+    {
+        $id             =  $request->air_supplies_id;
+        $startdate      = $request->startdate;
+        $enddate        = $request->enddate;  
+        $data_sub       = DB::select(
+            'SELECT a.repaire_date,a.repaire_time,a.air_repaire_no,a.air_list_id,a.air_list_num,a.air_list_name,a.btu,a.serial_no,a.air_location_id,a.air_location_name,a.air_problems_orthersub
+            ,a.air_techout_name,a.air_staff_id,a.air_tech_id,a.air_supplies_id 
+             ,(SELECT COUNT(air_list_num) FROM air_repaire_sub WHERE air_list_num = a.air_list_num AND air_repaire_ploblem_id="4" AND air_repaire_type_code ="04" AND repaire_no > 1) as more_one             
+            FROM air_repaire a 
+            LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
+            LEFT JOIN air_repaire_ploblem ap ON ap.air_repaire_ploblem_id = b.air_repaire_ploblem_id
+            LEFT JOIN users p ON p.id = a.air_staff_id  
+            LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
+            LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id 
+            WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            AND a.air_supplies_id = "'.$id.'"  
+            AND b.air_repaire_ploblem_id = "4" AND b.air_repaire_type_code ="04"
+            GROUP BY a.air_list_num 
+        ');  
+      
+        $output=' 
+            <div class="row">  
+            <div class="col-md-12">         
+                <table class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th width="5%">ลำดับ</th>
+                            <th width="10%">วันที่</th>
+                            <th width="7%">เวลา</th>
+                            <th width="10%">เลขที่แจ้งซ่อม</th>
+                            <th width="10%">รหัสแอร์</th>
+                            <th>รายการ</th>
+                            <th width="7%">btu</th> 
+                            <th>สถานที่ตั้ง</th>
+                            <th width="8%">มากกว่า 1ครั้ง</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    ';
+                    $i = 1;
+                    foreach ($data_sub as $key => $value) {
+                        $output.=' 
+                        <tr>
+                            <td width="5%">'.$i++.'</td>
+                            <td width="8%">'.DateThai($value->repaire_date).'</td>
+                            <td width="8%">'.$value->repaire_time.'</td>
+                            <td width="8%">'.$value->air_repaire_no.'</td>
+                            <td width="8%">'.$value->air_list_num.'</td>
+                            <td>'.$value->air_list_name.'</td>
+                            <td width="5%">'.$value->btu.'</td> 
+                            <td>'.$value->air_location_name.'</td>
+                            <td width="10%">'.$value->more_one.'</td>
+                        </tr>';
+                    }
+                    
+                    $output.='
+                    </tbody> 
+                </table> 
+            </div>
+        </div>
+        ';
+        echo $output;        
+    }
+    public function detail_lom(Request $request)
+    {
+        $id             =  $request->air_supplies_id;
+        $startdate      = $request->startdate;
+        $enddate        = $request->enddate;  
+        $data_sub       = DB::select(
+            'SELECT a.repaire_date,a.repaire_time,a.air_repaire_no,a.air_list_id,a.air_list_num,a.air_list_name,a.btu,a.serial_no,a.air_location_id,a.air_location_name,a.air_problems_orthersub
+            ,a.air_techout_name,a.air_staff_id,a.air_tech_id,a.air_supplies_id 
+             ,(SELECT COUNT(air_list_num) FROM air_repaire_sub WHERE air_list_num = a.air_list_num AND air_repaire_ploblem_id="2" AND air_repaire_type_code ="04" AND repaire_no > 1) as more_one             
+            FROM air_repaire a 
+            LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
+            LEFT JOIN air_repaire_ploblem ap ON ap.air_repaire_ploblem_id = b.air_repaire_ploblem_id
+            LEFT JOIN users p ON p.id = a.air_staff_id  
+            LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
+            LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id 
+            WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            AND a.air_supplies_id = "'.$id.'"  
+            AND b.air_repaire_ploblem_id = "2" AND b.air_repaire_type_code ="04"
+            GROUP BY a.air_list_num 
+        ');  
+      
+        $output=' 
+            <div class="row">  
+            <div class="col-md-12">         
+                <table class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th width="5%">ลำดับ</th>
+                            <th width="10%">วันที่</th>
+                            <th width="7%">เวลา</th>
+                            <th width="10%">เลขที่แจ้งซ่อม</th>
+                            <th width="10%">รหัสแอร์</th>
+                            <th>รายการ</th>
+                            <th width="7%">btu</th> 
+                            <th>สถานที่ตั้ง</th>
+                            <th width="8%">มากกว่า 1ครั้ง</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    ';
+                    $i = 1;
+                    foreach ($data_sub as $key => $value) {
+                        $output.=' 
+                        <tr>
+                            <td width="5%">'.$i++.'</td>
+                            <td width="8%">'.DateThai($value->repaire_date).'</td>
+                            <td width="8%">'.$value->repaire_time.'</td>
+                            <td width="8%">'.$value->air_repaire_no.'</td>
+                            <td width="8%">'.$value->air_list_num.'</td>
+                            <td>'.$value->air_list_name.'</td>
+                            <td width="5%">'.$value->btu.'</td> 
+                            <td>'.$value->air_location_name.'</td>
+                            <td width="10%">'.$value->more_one.'</td>
+                        </tr>';
+                    }
+                    
+                    $output.='
+                    </tbody> 
+                </table> 
+            </div>
+        </div>
+        ';
+        echo $output;        
+    }
+    public function detail_dap(Request $request)
+    {
+        $id             =  $request->air_supplies_id;
+        $startdate      = $request->startdate;
+        $enddate        = $request->enddate;  
+        $data_sub       = DB::select(
+            'SELECT a.repaire_date,a.repaire_time,a.air_repaire_no,a.air_list_id,a.air_list_num,a.air_list_name,a.btu,a.serial_no,a.air_location_id,a.air_location_name,a.air_problems_orthersub
+            ,a.air_techout_name,a.air_staff_id,a.air_tech_id,a.air_supplies_id 
+             ,(SELECT COUNT(air_list_num) FROM air_repaire_sub WHERE air_list_num = a.air_list_num AND air_repaire_ploblem_id="5" AND air_repaire_type_code ="04" AND repaire_no > 1) as more_one             
+            FROM air_repaire a 
+            LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
+            LEFT JOIN air_repaire_ploblem ap ON ap.air_repaire_ploblem_id = b.air_repaire_ploblem_id
+            LEFT JOIN users p ON p.id = a.air_staff_id  
+            LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
+            LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id 
+            WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            AND a.air_supplies_id = "'.$id.'"  
+            AND b.air_repaire_ploblem_id = "5" AND b.air_repaire_type_code ="04"
+            GROUP BY a.air_list_num 
+        ');  
+      
+        $output=' 
+            <div class="row">  
+            <div class="col-md-12">         
+                <table class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th width="5%">ลำดับ</th>
+                            <th width="10%">วันที่</th>
+                            <th width="7%">เวลา</th>
+                            <th width="10%">เลขที่แจ้งซ่อม</th>
+                            <th width="10%">รหัสแอร์</th>
+                            <th>รายการ</th>
+                            <th width="7%">btu</th> 
+                            <th>สถานที่ตั้ง</th>
+                            <th width="8%">มากกว่า 1ครั้ง</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    ';
+                    $i = 1;
+                    foreach ($data_sub as $key => $value) {
+                        $output.=' 
+                        <tr>
+                            <td width="5%">'.$i++.'</td>
+                            <td width="8%">'.DateThai($value->repaire_date).'</td>
+                            <td width="8%">'.$value->repaire_time.'</td>
+                            <td width="8%">'.$value->air_repaire_no.'</td>
+                            <td width="8%">'.$value->air_list_num.'</td>
+                            <td>'.$value->air_list_name.'</td>
+                            <td width="5%">'.$value->btu.'</td> 
+                            <td>'.$value->air_location_name.'</td>
+                            <td width="10%">'.$value->more_one.'</td>
+                        </tr>';
+                    }
+                    
+                    $output.='
+                    </tbody> 
+                </table> 
+            </div>
+        </div>
+        ';
+        echo $output;        
+    }
+    public function detail_orther(Request $request)
+    {
+        $id             =  $request->air_supplies_id;
+        $startdate      = $request->startdate;
+        $enddate        = $request->enddate;  
+        $data_sub       = DB::select(
+            'SELECT a.repaire_date,a.repaire_time,a.air_repaire_no,a.air_list_id,a.air_list_num,a.air_list_name,a.btu,a.serial_no,a.air_location_id,a.air_location_name,a.air_problems_orthersub
+            ,a.air_techout_name,a.air_staff_id,a.air_tech_id,a.air_supplies_id 
+             ,(SELECT COUNT(air_list_num) FROM air_repaire_sub WHERE air_list_num = a.air_list_num AND air_repaire_ploblem_id="6" AND air_repaire_type_code ="04" AND repaire_no > 1) as more_one             
+            FROM air_repaire a 
+            LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
+            LEFT JOIN air_repaire_ploblem ap ON ap.air_repaire_ploblem_id = b.air_repaire_ploblem_id
+            LEFT JOIN users p ON p.id = a.air_staff_id  
+            LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
+            LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id 
+            WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            AND a.air_supplies_id = "'.$id.'"  
+            AND b.air_repaire_ploblem_id = "6" AND b.air_repaire_type_code ="04"
+            GROUP BY a.air_list_num 
+        ');  
+      
+        $output=' 
+            <div class="row">  
+            <div class="col-md-12">         
+                <table class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th width="5%">ลำดับ</th>
+                            <th width="10%">วันที่</th>
+                            <th width="7%">เวลา</th>
+                            <th width="10%">เลขที่แจ้งซ่อม</th>
+                            <th width="10%">รหัสแอร์</th>
+                            <th>รายการ</th>
+                            <th width="7%">btu</th> 
+                            <th>สถานที่ตั้ง</th>
+                            <th width="8%">มากกว่า 1ครั้ง</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    ';
+                    $i = 1;
+                    foreach ($data_sub as $key => $value) {
+                        $output.=' 
+                        <tr>
+                            <td width="5%">'.$i++.'</td>
+                            <td width="8%">'.DateThai($value->repaire_date).'</td>
+                            <td width="8%">'.$value->repaire_time.'</td>
+                            <td width="8%">'.$value->air_repaire_no.'</td>
+                            <td width="8%">'.$value->air_list_num.'</td>
+                            <td>'.$value->air_list_name.'</td>
+                            <td width="5%">'.$value->btu.'</td> 
+                            <td>'.$value->air_location_name.'</td>
+                            <td width="10%">'.$value->more_one.'</td>
+                        </tr>';
+                    }
+                    
+                    $output.='
+                    </tbody> 
+                </table> 
+            </div>
+        </div>
+        ';
+        echo $output;        
+    }
+
+
+
 
     public function air_report_monthpdf(Request $request)
     {

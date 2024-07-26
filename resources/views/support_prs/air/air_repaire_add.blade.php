@@ -219,7 +219,7 @@
                                         </div>
                                         <div class="row">
                                             @foreach ($air_maintenance_list as $item_ma)
-                                                <div class="col-6">
+                                                <div class="col-12">
                                                     <div class="input-group">
                                                         <input type="checkbox" class="discheckbox" id="maintenance_list_id" name="maintenance_list_id[]" value="{{$item_ma->maintenance_list_id}}">
                                                         &nbsp;&nbsp;<p>{{$item_ma->maintenance_list_name}} ครั้งที่ {{$item_ma->maintenance_list_num}}</p>

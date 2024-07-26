@@ -243,7 +243,7 @@
                                                     <td class="text-center" style="font-size:13px;color: rgb(253, 65, 81)" width="10%"> 
                                                              {{$airproblems}}  
                                                     </td>
-                                                    <td class="text-center" style="font-size:13px;color: rgb(252, 90, 203)" width="12%"> 
+                                                    <td class="text-center" style="font-size:13px;color: rgb(252, 90, 203)" width="15%"> 
                                                             {{$airproblems04}} 
                                                     </td>
                                                     <td class="text-center" style="font-size:13px;color: rgb(5, 179, 170)" width="12%">  

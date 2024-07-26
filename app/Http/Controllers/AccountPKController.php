@@ -2808,7 +2808,7 @@ class AccountPKController extends Controller
                 AND b.total_approve IS NOT NULL
         ');
         $data['ucs_216'] = DB::connection('mysql')->select('
-                SELECT b.STMDoc,SUM(b.hc_drug) + SUM(b.hc) + SUM(b.ae_drug) + SUM(b.inst) + SUM(b.ae) as total
+                SELECT a.vn,b.STMDoc,SUM(b.hc_drug) + SUM(b.hc) + SUM(b.ae_drug) + SUM(b.inst) + SUM(b.ae) as total
                 FROM acc_1102050101_216 a
                 LEFT JOIN acc_stm_ucs b ON b.cid = a.cid AND b.vstdate = a.vstdate
                 WHERE b.STMDoc LIKE "STM_10978_OPU%" 

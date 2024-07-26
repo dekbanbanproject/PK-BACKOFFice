@@ -1,4 +1,4 @@
-@extends('layouts.support_prs')
+@extends('layouts.support_prs_airback')
 @section('title', 'PK-OFFICER || Air-Service')
 
 @section('content')
@@ -64,60 +64,14 @@
     
     ?>
 
-    <style>
-        #button {
-            display: block;
-            margin: 20px auto;
-            padding: 30px 30px;
-            background-color: #eee;
-            border: solid #ccc 1px;
-            cursor: pointer;
-        }
-
-        #overlay {
-            position: fixed;
-            top: 0;
-            z-index: 100;
-            width: 100%;
-            height: 100%;
-            display: none;
-            background: rgba(0, 0, 0, 0.6);
-        }
-
-        .cv-spinner {
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .spinner {
-            width: 250px;
-            height: 250px;
-            border: 5px #ddd solid;
-            border-top: 10px #12c6fd solid;
-            border-radius: 50%;
-            animation: sp-anime 0.8s infinite linear;
-        }
-
-        @keyframes sp-anime {
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .is-hide {
-            display: none;
-        }
-    </style>
-
+ 
     <?php
     $ynow = date('Y') + 543;
     $yb = date('Y') + 542;
     ?>
 
 <div class="tabs-animation">
-    <div class="row text-center">
+    {{-- <div class="row text-center">
         <div id="overlay">
             <div class="cv-spinner">
                 <span class="spinner"></span>
@@ -127,6 +81,21 @@
     <div id="preloader">
         <div id="status">
             <div class="spinner"> 
+            </div>
+        </div>
+    </div> --}}
+    <div id="preloader">
+        <div id="status">
+            <div id="container_spin">
+                <svg viewBox="0 0 100 100">
+                    <defs>
+                        <filter id="shadow">
+                        <feDropShadow dx="0" dy="0" stdDeviation="2.5" 
+                            flood-color="#fc6767"/>
+                        </filter>
+                    </defs>
+                    <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 7px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
+                </svg>
             </div>
         </div>
     </div>
@@ -154,15 +123,15 @@
 
                 <p class="mb-0">
                     <div class="table-responsive">
-                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                       
+                        {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                            <table id="example" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
                                   
                                     <th width="3%" class="text-center">ลำดับ</th>  
                                     <th class="text-center" width="3%">สถานะ</th> 
-                                    <th class="text-center" width="3%">รูปภาพ</th> 
-                                    <th class="text-center" width="5%">QRcode</th>  
+                                    {{-- <th class="text-center" width="3%">รูปภาพ</th>  --}}
+                                    {{-- <th class="text-center" width="5%">QRcode</th>   --}}
                                     <th class="text-center" width="5%">รหัส</th>  
                                     <th class="text-center" >รายการ</th> 
                                     <th class="text-center">ขนาด(BTU)</th> 
@@ -178,25 +147,21 @@
                                     <tr id="tr_{{$item->air_list_id}}">                                                  
                                         <td class="text-center" width="3%">{{ $i++ }}</td>  
                                         <td class="text-center" width="3%">
-                                            @if ($item->active == 'Y')
-                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">พร้อมใช้งาน</span> 
-                                            @else
-                                                <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">ไม่พร้อมใช้งาน</span>
+                                            @if ($item->active == 'Y') 
+                                                <span class="badge bg-success">พร้อมใช้งาน</span> 
+                                            @else 
+                                                <span class="badge bg-danger">ไม่พร้อมใช้งาน</span>
                                             @endif
                                         </td>
                                       
-                                        @if ( $item->air_imgname == Null )
-                                        <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="40px" width="50px" alt="Image" class="img-thumbnail"></td> 
+                                        {{-- @if ( $item->air_imgname == Null )
+                                        <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="20px" width="20px" alt="Image" class="img-thumbnail"></td> 
                                         @else
-                                        <td class="text-center" width="3%"><img src="{{asset('storage/air/'.$item->air_imgname)}}" height="40px" width="50px" alt="Image" class="img-thumbnail">  </td>                                
-                                        @endif
-
-                                        <td class="text-center" width="5%"> 
-                                          
-                                            {{-- {!!QrCode::size(30)->generate(" $item->air_list_id ")!!}   --}}
-                                            {!! QrCode::size(30)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_repaire/' . $item->air_list_id) !!}
-
-                                        </td> 
+                                        <td class="text-center" width="3%"><img src="{{asset('storage/air/'.$item->air_imgname)}}" height="20px" width="20px" alt="Image" class="img-thumbnail">  </td>                                
+                                        @endif 
+                                        <td class="text-center" width="5%">  
+                                            {!! QrCode::size(20)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_repaire/' . $item->air_list_id) !!} 
+                                        </td>  --}}
 
                                         <td class="text-center" width="7%">{{ $item->air_list_num }}</td>  
                                         <td class="p-2">{{ $item->air_list_name }}</td>  

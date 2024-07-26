@@ -143,10 +143,14 @@ $loter = $date.''.$time
         </div>
         <div class="col"></div>
         <div class="col-md-2 text-end">
-        <a href="{{url('air_main')}}" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-warning bt_prs"> 
+        <a href="{{url('air_main')}}" class="ladda-button me-2 btn-pill btn btn-warning bt_prs"> 
             <i class="fa-solid fa-arrow-left me-2"></i> 
            ย้อนกลับ
         </a> 
+        {{-- <a href="{{url('air_report_building')}}" class="ladda-button me-2 btn-pill btn btn-warning cardacc"> 
+            <i class="fa-solid fa-arrow-left me-2"></i> 
+           ย้อนกลับ
+        </a> --}}
     </div>
     </div> 
    
