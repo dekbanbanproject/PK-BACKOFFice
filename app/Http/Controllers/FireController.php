@@ -672,6 +672,72 @@ class FireController extends Controller
             'datashow'      => $datashow, 
         ]);
     }
+    public function fire_report_ploblems(Request $request)
+    {
+        $startdate   = $request->startdate;
+        $enddate     = $request->enddate;
+        $date        = date('Y-m-d');
+        $y           = date('Y') + 543;
+        $months = date('m');
+   
+        $newdays     = date('Y-m-d', strtotime($date . ' -1 days')); //ย้อนหลัง 1 วัน
+        $newweek     = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate     = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear     = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+      
+        $iduser = Auth::user()->id;
+        $datashow = DB::select(
+            'SELECT c.check_date,a.fire_num,a.fire_name,a.fire_location 
+                ,(SELECT fire_num FROM fire WHERE fire_id = b.fire_num_chang )as fire_chang_new,b.fire_chang_comment,b.fire_chang_date 
+                FROM fire a 
+                INNER JOIN fire_chang b ON b.fire_id = a.fire_id
+                LEFT JOIN fire_check c ON c.fire_id = a.fire_id 
+                GROUP BY a.fire_id
+                ORDER BY a.fire_id ASC
+        ');
+         
+        return view('support_prs.fire.fire_report_ploblems',[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate,
+            'datashow'      => $datashow, 
+        ]);
+    }
+    public function fire_report_ploblems_excel(Request $request)
+    {
+        $startdate   = $request->startdate;
+        $enddate     = $request->enddate;
+        $date        = date('Y-m-d');
+        $y           = date('Y') + 543;
+        $months = date('m');
+   
+        $newdays     = date('Y-m-d', strtotime($date . ' -1 days')); //ย้อนหลัง 1 วัน
+        $newweek     = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate     = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear     = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+      
+        $iduser = Auth::user()->id;
+        $datashow = DB::select(
+            'SELECT c.check_date,a.fire_num,a.fire_name,a.fire_location 
+                ,(SELECT fire_num FROM fire WHERE fire_id = b.fire_num_chang )as fire_chang_new,b.fire_chang_comment,b.fire_chang_date 
+                FROM fire a 
+                INNER JOIN fire_chang b ON b.fire_id = a.fire_id
+                LEFT JOIN fire_check c ON c.fire_id = a.fire_id 
+                GROUP BY a.fire_id
+                ORDER BY a.fire_id ASC
+        ');
+         
+        return view('support_prs.fire.fire_report_ploblems_excel',[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate,
+            'datashow'      => $datashow, 
+        ]);
+    }
+
+
+
+
+
+
     public function fire_qrcode_all๘๘๘๘(Request $request)
     {
       

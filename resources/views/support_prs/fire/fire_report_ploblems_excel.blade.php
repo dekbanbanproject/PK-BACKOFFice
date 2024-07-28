@@ -2,7 +2,7 @@
    
    <?php
    header("Content-Type: application/vnd.ms-excel");
-   header('Content-Disposition: attachment; filename="รายงานจำนวนถังดับเพลิงแยกตามสถานที่ตั้งและขนาด.xls"');//ชื่อไฟล์
+   header('Content-Disposition: attachment; filename="รายงานผลการแก้ไขปัญหาถังดับเพลิงชำรุด.xls"');//ชื่อไฟล์
    
    function DateThais($strDate)
    {
@@ -54,7 +54,7 @@
    ?>
 <center>
     <br><br>
-   <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"><b>รายงานการข้อมูลเครื่องปรับอากาศ โรงพยาบาลภูเขียวเฉลิมพระเกียรติ</b></label><br>
+   <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"><b>รายงานผลการแก้ไขปัญหาถังดับเพลิง ชำรุด โรงพระยาบาลภูเขียว</b></label><br>
    <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"><b>ปีงบประมาณ {{$y}}</b></label><br> 
 </center>
    <br><br>
@@ -64,12 +64,13 @@
          
             <tr style="font-size:13px">  
                 <th class="text-center" style="border: 1px solid black;">ลำดับ</th> 
-                <th class="text-center" style="border: 1px solid black;">ที่ตั้ง/อาคาร</th>   
-                <th class="text-center" style="border: 1px solid black;">ถังแดง 10 ปอนด์</th> 
-                <th class="text-center" style="border: 1px solid black;">ถังแดง 15 ปอนด์</th>
-                <th class="text-center" style="border: 1px solid black;">ถังแดง 20 ปอนด์</th>
-                <th class="text-center" style="border: 1px solid black;">ถังเขียว 10 ปอนด์</th>
-                <th class="text-center" style="border: 1px solid black;">รวม</th>
+                <th class="text-center" style="border: 1px solid black;">วันที่ตรวจ</th>   
+                <th class="text-center" style="border: 1px solid black;">รหัส</th> 
+                <th class="text-center" style="border: 1px solid black;">รายการ/ชื่อ</th>
+                <th class="text-center" style="border: 1px solid black;">ที่ตั้ง/อาคาร</th>
+                <th class="text-center" style="border: 1px solid black;">รายการที่เปลี่ยน</th>
+                <th class="text-center" style="border: 1px solid black;">การแก้ไข</th>
+                <th class="text-center" style="border: 1px solid black;">วันที่แก้ไข</th>
             </tr> 
         </thead>
         <tbody>
@@ -79,12 +80,13 @@
                      
                 <tr> 
                     <td class="text-center" style="width: 5%;border: 1px solid black;">{{$i}}</td>
-                    <td class="text-start;" style="border: 1px solid black;"> {{$item->building_name}}</td>
-                    <td class="text-center;" style="border: 1px solid black;width: 7%;"> {{$item->red_10}} </td>
-                    <td class="text-center;" style="border: 1px solid black;width: 7%;"> {{$item->red_15}}</td>
-                    <td class="text-center;" style="border: 1px solid black;width: 7%;"> {{$item->red_20}} </td>
-                    <td class="text-center;" style="border: 1px solid black;width: 7%;"> {{$item->green_10}} </td>
-                    <td class="text-center;" style="border: 1px solid black;width: 7%;"> {{$item->total_all}} </td> 
+                    <td class="text-center;" style="border: 1px solid black;"> {{DateThai($item->check_date)}}</td>
+                    <td class="text-center;" style="border: 1px solid black;width: 10%;"> {{$item->fire_num}} </td>
+                    <td class="text-start;" style="border: 1px solid black;width: 10%;"> {{$item->fire_name}}</td>
+                    <td class="text-start;" style="border: 1px solid black;"> {{$item->fire_location}} </td>
+                    <td class="text-center;" style="border: 1px solid black;width: 10%;"> {{$item->fire_chang_new}} </td>
+                    <td class="text-start;" style="border: 1px solid black;width: 10%;"> {{$item->fire_chang_comment}} </td> 
+                    <td class="text-start;" style="border: 1px solid black;width: 10%;">{{DateThai($item->fire_chang_date)}}</td> 
                 </tr> 
             @endforeach
         </tbody>
