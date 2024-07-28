@@ -374,30 +374,37 @@ use App\Models\Products_request_sub;
                                 
                             </li>
 
-
-                            {{-- <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle arrow-none" href="{{ url('air_main_repaire') }}" id="topnav-more" role="button">
-                                    <i class="fa-solid fa-fan me-2"></i>ทะเบียนแจ้งซ่อม  
-                                </a>
-                            </li> --}}
+ 
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="{{ url('fire_report_day') }}" id="topnav-more" role="button">
-                                    <i class="fa-solid fa-chart-line me-2"></i>รายงานรายวัน  
+                                    <i class="fa-regular fa-pen-to-square me-2 me-2"></i>บันทึกการตรวจสอบ  
+                                </a>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="{{ url('fire_report_ploblems') }}" id="topnav-more" role="button">
+                                    <i class="fa-solid fa-chart-line me-2"></i>รายงานปัญหา/ชำรุด  
                                 </a>
                             </li>
                   
-                            {{-- <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle arrow-none" href="{{ url('air_report_building') }}" id="topnav-more" role="button">
-                                    <i class="fa-solid fa-chart-line me-2"></i>รายงานแยกตามอาคาร  
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="{{ url('fire_report_building') }}" id="topnav-more" role="button">
+                                    <i class="fa-solid fa-chart-line me-2"></i>รายงานแยกตามที่ตั้ง  
                                 </a>
-                            </li> --}}
+                            </li>
 
                             <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="{{ url('fire_report_month') }}" id="topnav-more" role="button">
+                                    <i class="fa-solid fa-chart-line me-2"></i>รายงานรวมรายเดือน 
+                                </a>
+                            </li>
+
+                            {{-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="{{ url('fire_pramuan_admin') }}" id="topnav-more" role="button">
                                     <i class="fa-solid fa-chart-line me-2"></i>แบบประเมิน  
                                 </a>
-                            </li>
+                            </li> --}}
 
                          
                         </ul>
