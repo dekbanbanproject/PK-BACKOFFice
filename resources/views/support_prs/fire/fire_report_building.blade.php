@@ -1,5 +1,5 @@
-@extends('layouts.support_prs_airback')
-@section('title', 'PK-OFFICER || Air-Service')
+@extends('layouts.support_prs_fireback')
+@section('title', 'PK-OFFICER || Fire-Service')
 
 @section('content')
     <script>
@@ -63,54 +63,7 @@
     $pos = strrpos($url, '/') + 1;
     
     ?>
-
-    {{-- <style>
-        #button {
-            display: block;
-            margin: 20px auto;
-            padding: 30px 30px;
-            background-color: #eee;
-            border: solid #ccc 1px;
-            cursor: pointer;
-        }
-
-        #overlay {
-            position: fixed;
-            top: 0;
-            z-index: 100;
-            width: 100%;
-            height: 100%;
-            display: none;
-            background: rgba(0, 0, 0, 0.6);
-        }
-
-        .cv-spinner {
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .spinner {
-            width: 250px;
-            height: 250px;
-            border: 5px #ddd solid;
-            border-top: 10px #12c6fd solid;
-            border-radius: 50%;
-            animation: sp-anime 0.8s infinite linear;
-        }
-
-        @keyframes sp-anime {
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .is-hide {
-            display: none;
-        }
-    </style> --}}
-
+ 
     <?php
     $ynow = date('Y') + 543;
     $yb = date('Y') + 542;
@@ -149,7 +102,7 @@
         @csrf
         <div class="row"> 
             <div class="col-md-7">
-                <h4 style="color:rgb(10, 151, 85)">รายงานการข้อมูลเครื่องปรับอากาศ โรงพยาบาลภูเขียวเฉลิมพระเกียรติ ปีงบประมาณ </h4>
+                <h4 style="color:rgb(10, 151, 85)">รายงานจำนวนถังดับเพลิงแยกตามสถานที่ตั้งและขนาด ปีงบประมาณ </h4>
                 {{-- <p class="card-title-desc">รายงานถังดับเพลิง</p> --}}
             </div>
              
@@ -159,7 +112,7 @@
                     <i class="fa-solid fa-file-excel me-2"></i>
                     Export To Excel
                 </a> --}}
-                <a href="{{url('air_report_building_excel')}}" class="ladda-button btn-pill btn btn-success bt_prs">
+                <a href="{{url('fire_report_building_excel')}}" class="ladda-button btn-pill btn btn-success bt_prs">
                     <span class="ladda-label"> <i class="fa-solid fa-file-excel text-white me-2"></i>Export To Excel</span>  
                 </a>
             
@@ -178,20 +131,15 @@
                         <table id="example" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;">
                         {{-- <table id="example" class="table table-striped table-bordered dt-responsive" style="border-collapse: collapse; border-spacing: 0; width: 100%;">                         --}}
                             <thead>                             
-                                    <tr style="font-size:13px"> 
-                                        <th rowspan="2" width="3%" class="text-center" style="background-color: rgb(228, 255, 255);width: 5%">ลำดับ</th>  
-                                        <th rowspan="2" class="text-center" style="background-color: rgb(228, 255, 255)">อาคาร</th>  
-                                        <th rowspan="2" class="text-center" style="background-color: rgb(228, 255, 255);width: 7%">อาคาร</th>  
-                                        <th rowspan="2" class="text-center" style="background-color: rgb(228, 255, 255);width: 7%">จำนวน</th>  
-                                        <th colspan="6" class="text-center" style="background-color: rgb(239, 228, 255);width: 40%">ขนาด( BTU )</th>   
-                                    </tr> 
-                                    <tr style="font-size:11px">  
-                                        <th class="text-center">< 10000</th> 
-                                        <th class="text-center">10001-20000</th>   
-                                        <th class="text-center">20001-30000</th> 
-                                        <th class="text-center">30001-40000</th>
-                                        <th class="text-center">40001-50000</th>
-                                        <th class="text-center">50000 ขึ้นไป</th>
+                                  
+                                    <tr style="font-size:14px">  
+                                        <th class="text-center">ลำดับ</th> 
+                                        <th class="text-center">ที่ตั้ง/อาคาร</th> 
+                                        <th class="text-center">ถังแดง 10 ปอนด์</th> 
+                                        <th class="text-center">ถังแดง 15 ปอนด์</th>   
+                                        <th class="text-center">ถังแดง 20 ปอนด์</th> 
+                                        <th class="text-center">ถังเขียว 10 ปอนด์</th>  
+                                        <th class="text-center">รวม</th>
                                     </tr> 
                             </thead>
                             <tbody>
@@ -201,18 +149,11 @@
                                     <tr>                                                  
                                         <td class="text-center" style="font-size:13px;width: 5%;color: rgb(13, 134, 185)">{{$i}}</td>
                                         <td class="text-start" style="font-size:13px;color: rgb(2, 95, 182)">{{$item->building_name}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(4, 117, 117)">{{$item->building_id}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(228, 15, 86)">
-                                           <a href="{{url('air_report_building_sub/'.$item->building_id)}}" target="_blank"> 
-                                                <span class="badge bg-success"> {{$item->qtyall}}</span> 
-                                            </a> 
-                                        </td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->less_10000}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->one_two}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->two_tree}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->tree_four}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->four_five}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->more_five}}</td>
+                                        <td class="text-center" style="font-size:13px;color: rgb(4, 117, 117)">{{$item->red_10}}</td> 
+                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->red_15}}</td>
+                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->red_20}}</td>
+                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->green_10}}</td>
+                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->total_all}}</td> 
                                     </tr>
                                 @endforeach
                             </tbody>

@@ -578,7 +578,7 @@ use App\Models\Products_request_sub;
             integrity="sha512-cp+S0Bkyv7xKBSbmjJR0K7va0cor7vHYhETzm2Jy//ZTQDUvugH/byC4eWuTii9o5HN9msulx2zqhEXWau20Dg=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <!-- apexcharts -->
-        <script src="{{ asset('pkclaim/libs/apexcharts/apexcharts.min.js') }}"></script>
+        {{-- <script src="{{ asset('pkclaim/libs/apexcharts/apexcharts.min.js') }}"></script> --}}
 
         <!-- jquery.vectormap map -->
         <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
@@ -596,7 +596,7 @@ use App\Models\Products_request_sub;
         <script src="{{ asset('assets/jquery-tabledit/jquery.tabledit.min.js') }}"></script>
 
         
-        <script src="{{ asset('pkclaim/js/pages/dashboard.init.js') }}"></script>
+        {{-- <script src="{{ asset('pkclaim/js/pages/dashboard.init.js') }}"></script> --}}
         <script src="{{ asset('pkclaim/js/app.js') }}"></script>
  
     @yield('footer')

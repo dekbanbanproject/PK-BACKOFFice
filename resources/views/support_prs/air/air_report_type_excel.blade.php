@@ -50,7 +50,7 @@
         $m = 'ธันวาคม';  
     }
     
-   
+    
    ?>
 <center>
     <br><br>
@@ -59,23 +59,23 @@
 </center>
    <br><br>
    <center>
-    <table class="table table-borderless table-bordered" style="width: 100%;border-color: black;">
+    <table class="table table-borderless table-bordered" style="width: 100%;">
         <thead>
           
             <tr style="font-size:13px">  
-                <th class="text-center" width="5%" style="border-color: black;background-color: #8be2df">วันที่ซ่อม</th>   
-                <th class="text-center" width="5%" style="border-color: black;background-color: #8be2df">เวลา</th>  
-                <th class="text-center" width="5%" style="border-color: black;background-color: #8be2df">เลขที่แจ้งซ่อม</th> 
-                {{-- <th class="text-center" width="5%" style="border-color: black;background-color: #8be2df">รหัส</th>  --}}
-                <th class="text-center" style="border-color: black;background-color: #8be2df">รายการ</th>  
-                {{-- <th class="text-center" style="border-color: black;background-color: #8be2df">ขนาด(btu)</th>   --}}
-                <th class="text-center" style="border-color: black;background-color: #8be2df">อาคารที่ตั้ง</th>  
-                <th class="text-center" style="border-color: black;background-color: #8be2df">หน่วยงาน</th>  
-                <th class="text-center" style="border-color: black;background-color: #8be2df">ซ่อม/บำรุงรักษา</th>   
-                <th class="text-center" style="border-color: black;background-color: #8be2df">เจ้าหน้าที่</th>
-                <th class="text-center" style="border-color: black;background-color: #8be2df">ช่างซ่อม(รพ)</th>
-                <th class="text-center" style="border-color: black;background-color: #8be2df">ช่างแอร์</th>
-                <th class="text-center" style="border-color: black;background-color: #8be2df">บริษัท</th>
+                <th class="text-center" width="5%" style="border: 1px solid black;background-color: #8be2df">วันที่ซ่อม</th>   
+                <th class="text-center" width="5%" style="border: 1px solid black;background-color: #8be2df">เวลา</th>  
+                <th class="text-center" width="5%" style="border: 1px solid black;background-color: #8be2df">เลขที่แจ้งซ่อม</th> 
+                {{-- <th class="text-center" width="5%" style="border: 1px solid black;background-color: #8be2df">รหัส</th>  --}}
+                <th class="text-center" style="border: 1px solid black;background-color: #8be2df">รายการ</th>  
+                {{-- <th class="text-center" style="border: 1px solid black;background-color: #8be2df">ขนาด(btu)</th>   --}}
+                <th class="text-center" style="border: 1px solid black;background-color: #8be2df">อาคารที่ตั้ง</th>  
+                <th class="text-center" style="border: 1px solid black;background-color: #8be2df">หน่วยงาน</th>  
+                <th class="text-center" style="border: 1px solid black;background-color: #8be2df">ซ่อม/บำรุงรักษา</th>   
+                <th class="text-center" style="border: 1px solid black;background-color: #8be2df">เจ้าหน้าที่</th>
+                <th class="text-center" style="border: 1px solid black;background-color: #8be2df">ช่างซ่อม(รพ)</th>
+                <th class="text-center" style="border: 1px solid black;background-color: #8be2df">ช่างแอร์</th>
+                <th class="text-center" style="border: 1px solid black;background-color: #8be2df">บริษัท</th>
             </tr>
         </thead>
         <tbody>
@@ -84,15 +84,15 @@
             <?php $i++ ?> 
                      
                 <tr> 
-                    <td class="text-center" style="width: 7%;border-color: black">{{ DateThai($item->repaire_date )}}</td>  
-                    <td class="text-center" style="width: 5%;border-color: black">{{ $item->repaire_time }}</td>   
-                    <td class="text-center" style="width: 5%;border-color: black">{{ $item->air_repaire_no }}</td> 
-                    {{-- <td class="text-center" style="width: 5%;border-color: black">{{ $item->air_list_num }}</td>  --}}
-                    <td class="p-2" style="border-color: black">{{ $item->air_list_name }} - {{ $item->btu }} btu</td>  
-                    {{-- <td class="p-2" style="width: 5%;border-color: black">{{ $item->btu }}</td>   --}}
-                    <td class="p-2" style="width: 10%;border-color: black">{{ $item->air_location_name }}</td>  
-                    <td class="p-2" style="width: 10%;border-color: black">{{ $item->debsubsub }}</td>  
-                    <td class="p-2" style="width: 10%;border-color: black"> 
+                    <td class="text-center" style="width: 7%;border: 1px solid black;">{{ DateThai($item->repaire_date )}}</td>  
+                    <td class="text-center" style="width: 5%;border: 1px solid black;">{{ $item->repaire_time }}</td>   
+                    <td class="text-center" style="width: 5%;border: 1px solid black;">{{ $item->air_repaire_no }}</td> 
+                    {{-- <td class="text-center" style="width: 5%;border: 1px solid black;">{{ $item->air_list_num }}</td>  --}}
+                    <td class="p-2" style="border: 1px solid black;">{{ $item->air_list_name }} - {{ $item->btu }} btu</td>  
+                    {{-- <td class="p-2" style="width: 5%;border: 1px solid black;">{{ $item->btu }}</td>   --}}
+                    <td class="p-2" style="width: 10%;border: 1px solid black;">{{ $item->air_location_name }}</td>  
+                    <td class="p-2" style="width: 10%;border: 1px solid black;">{{ $item->debsubsub }}</td>  
+                    <td class="p-2" style="width: 10%;border: 1px solid black;"> 
                          
                
                         <p class="mt-2" style="font-size: 13px;color:rgb(6, 149, 168)">
@@ -100,10 +100,10 @@
                         </p>
                        
                     </td>  
-                    <td class="p-2" style="width: 7%;border-color: black">{{ $item->staff_name }}</td> 
-                    <td class="p-2" style="width: 7%;border-color: black">{{ $item->tect_name }}</td> 
-                    <td class="p-2" style="width: 7%;border-color: black">{{ $item->air_techout_name }}</td>  
-                    <td class="p-2" style="width: 7%;border-color: black">{{ $item->supplies_name }}</td>  
+                    <td class="p-2" style="width: 7%;border: 1px solid black;">{{ $item->staff_name }}</td> 
+                    <td class="p-2" style="width: 7%;border: 1px solid black;">{{ $item->tect_name }}</td> 
+                    <td class="p-2" style="width: 7%;border: 1px solid black;">{{ $item->air_techout_name }}</td>  
+                    <td class="p-2" style="width: 7%;border: 1px solid black;">{{ $item->supplies_name }}</td>  
                 </tr> 
             @endforeach
         </tbody>

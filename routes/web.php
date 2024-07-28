@@ -3185,6 +3185,7 @@ Route::match(['get','post'],'fire_destroy/{id}',[App\Http\Controllers\FireContro
 Route::match(['get','post'],'fire_report_day',[App\Http\Controllers\FireController::class, 'fire_report_day'])->name('prs.fire_report_day');//
 Route::match(['get','post'],'fire_report_ploblems',[App\Http\Controllers\FireController::class, 'fire_report_ploblems'])->name('prs.fire_report_ploblems');//
 Route::match(['get','post'],'fire_report_building',[App\Http\Controllers\FireController::class, 'fire_report_building'])->name('prs.fire_report_building');//
+Route::match(['get','post'],'fire_report_building_excel',[App\Http\Controllers\FireController::class, 'fire_report_building_excel'])->name('prs.fire_report_building_excel');//
 Route::match(['get','post'],'fire_report_month',[App\Http\Controllers\FireController::class, 'fire_report_month'])->name('prs.fire_report_month');//
 
 

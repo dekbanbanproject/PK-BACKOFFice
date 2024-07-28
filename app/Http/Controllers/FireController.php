@@ -620,27 +620,58 @@ class FireController extends Controller
       
         $iduser = Auth::user()->id;
         $datashow = DB::select(
-            'SELECT a.building_id,a.building_name 
-                ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id) as qtyall
-                ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND btu < "10000" )	as less_10000
-                ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND btu BETWEEN "10001" AND "20000" ) as one_two 
-                ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND btu BETWEEN "20001" AND "30000" ) as two_tree
-                ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND btu BETWEEN "30001" AND "40000" ) as tree_four
-                ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND btu BETWEEN "40001" AND "50000" ) as four_five
-                ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND btu > "50001" )	as more_five
-            FROM air_list al 
-            LEFT JOIN building_data a ON a.building_id = al.air_location_id 
-            GROUP BY a.building_id
-            ORDER BY building_id ASC
+            'SELECT a.building_id,b.building_name 
+                ,(SELECT COUNT(fire_id) FROM fire WHERE building_id = a.building_id AND fire_size ="10" AND fire_color = "red" AND active ="Y")	as red_10
+                ,(SELECT COUNT(fire_id) FROM fire WHERE building_id = a.building_id AND fire_size ="15" AND fire_color = "red" AND active ="Y")	as red_15 
+                ,(SELECT COUNT(fire_id) FROM fire WHERE building_id = a.building_id AND fire_size ="20" AND fire_color = "red" AND active ="Y")	as red_20
+                ,(SELECT COUNT(fire_id) FROM fire WHERE building_id = a.building_id AND fire_size ="10" AND fire_color = "green" AND active ="Y")	as green_10
+                ,(SELECT COUNT(fire_id) FROM fire WHERE building_id = a.building_id AND active ="Y") as total_all
+                FROM fire a 
+                LEFT JOIN building_data b ON b.building_id = a.building_id 
+                WHERE active ="Y"
+                GROUP BY a.building_id
+                ORDER BY a.building_id ASC
         ');
          
         return view('support_prs.fire.fire_report_building',[
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate,
-            'datashow'    =>     $datashow, 
+            'startdate'     => $startdate,
+            'enddate'       => $enddate,
+            'datashow'      => $datashow, 
         ]);
     }
-
+    public function fire_report_building_excel(Request $request)
+    {
+        $startdate     = $request->startdate;
+        $enddate       = $request->enddate;
+        $date          = date('Y-m-d');
+        $data['ynow']  = date('Y') + 543;
+        $months        = date('m'); 
+        $newdays       = date('Y-m-d', strtotime($date . ' -1 days')); //ย้อนหลัง 1 วัน
+        $newweek       = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate       = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear       = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+      
+        $iduser = Auth::user()->id;
+        $datashow = DB::select(
+            'SELECT a.building_id,b.building_name 
+                ,(SELECT COUNT(fire_id) FROM fire WHERE building_id = a.building_id AND fire_size ="10" AND fire_color = "red" AND active ="Y")	as red_10
+                ,(SELECT COUNT(fire_id) FROM fire WHERE building_id = a.building_id AND fire_size ="15" AND fire_color = "red" AND active ="Y")	as red_15 
+                ,(SELECT COUNT(fire_id) FROM fire WHERE building_id = a.building_id AND fire_size ="20" AND fire_color = "red" AND active ="Y")	as red_20
+                ,(SELECT COUNT(fire_id) FROM fire WHERE building_id = a.building_id AND fire_size ="10" AND fire_color = "green" AND active ="Y") as green_10
+                ,(SELECT COUNT(fire_id) FROM fire WHERE building_id = a.building_id AND active ="Y") as total_all
+                FROM fire a 
+                LEFT JOIN building_data b ON b.building_id = a.building_id 
+                WHERE active ="Y"
+                GROUP BY a.building_id
+                ORDER BY a.building_id ASC
+        ');
+         
+        return view('support_prs.fire.fire_report_building_excel',$data,[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate,
+            'datashow'      => $datashow, 
+        ]);
+    }
     public function fire_qrcode_all๘๘๘๘(Request $request)
     {
       
