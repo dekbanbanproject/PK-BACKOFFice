@@ -105,7 +105,7 @@
      
             <div class="row">
                 <div class="col-md-3">                               
-                    <div class="nav flex-column" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    {{-- <div class="nav flex-column" id="v-pills-tab" role="tablist" aria-orientation="vertical"> --}}
                         <div class="card p-4 card_pink">
                             <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL UCS OPD 216</h4>
                             <div class="table-responsive">
@@ -114,7 +114,7 @@
                                     <thead>
                                         <tr> 
                                             <th class="text-center">STMDoc</th>  
-                                            <th class="text-center">total</th>
+                                            {{-- <th class="text-center">total</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -124,21 +124,23 @@
                                             <?php $number++; ?> 
                                             <tr height="20"> 
                                                 <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px"> 
-                                                    <a href="{{url('upstm_ucs_detail_opd_216/'.$item_1->STMDoc)}}"> {{ $item_1->STMDoc }}</a>  
-                                                    <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($item_1->total, 2) }}</td>
+                                                    <a href="{{url('upstm_ucs_detail_opd_216/'.$item_1->STMDoc)}}"> {{ $item_1->STMDoc }}</a> 
                                                 </td>   
+                                                {{-- <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($item_1->total, 2) }}</td> --}}
+                                                
                                             </tr>
                                         @endforeach 
                                     </tbody> 
                                 </table>
                             </div>
                         </div> 
-                    </div>  
+                    {{-- </div>   --}}
                 </div>
                 <div class="col-md-9">
-                    <div class="tab-content text-muted mt-4 mt-md-0" id="v-pills-tabContent">
+                    {{-- <div class="tab-content text-muted mt-4 mt-md-0" id="v-pills-tabContent"> --}}
 
-                        <div class="tab-pane fade show active" id="v-pills-ucs" role="tabpanel" aria-labelledby="v-pills-ucs-tab">
+                        {{-- <div class="tab-pane fade show active" id="v-pills-ucs" role="tabpanel" aria-labelledby="v-pills-ucs-tab"> --}}
+
                             <div class="row"> 
                                 <div class="col-md-12">
                                     <div class="card p-4 card_pink">
@@ -151,7 +153,7 @@
                                                         <th class="text-center">ลำดับ</th> 
                                                         <th class="text-center">vn</th> 
                                                         <th class="text-center">hn</th>
-                                                        <th class="text-center">cid</th> 
+                                                        <th class="text-center">projectcode</th> 
                                                         <th class="text-center">vstdate</th> 
                                                         <th class="text-center">ptname</th> 
                                                         <th class="text-center">income</th> 
@@ -169,7 +171,7 @@
                                                             <td class="text-center" width="4%">{{ $number }}</td>
                                                             <td class="text-center" width="7%">{{ $item->vn }}</td>
                                                             <td class="text-center" width="7%">{{ $item->hn }}</td>
-                                                            <td class="text-center" width="7%">{{ $item->cid }}</td>
+                                                            <td class="text-center" width="7%">{{ $item->projectcode }}</td>
                                                             <td class="text-center" width="7%">{{ $item->vstdate }}</td>
                                                             <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px"> {{ $item->ptname }}</td>  
                                                             <td class="text-center" style="color:rgb(233, 83, 14);font-size:15px" width="10%">{{ number_format($item->income, 2) }}</td>
@@ -199,10 +201,9 @@
                                 </div>
                                     
                             </div> 
-                        </div>
 
-                        
-                    </div>
+                        {{-- </div> --}} 
+                    {{-- </div> --}}
                 </div>
             </div>
                      

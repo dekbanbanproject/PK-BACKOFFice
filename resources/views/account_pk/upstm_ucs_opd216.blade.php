@@ -118,7 +118,7 @@
                                                                 <tr>
                                                                     <th class="text-center">ลำดับ</th> 
                                                                     <th class="text-center">STMDoc</th> 
-                                                                    <th class="text-center">total</th>
+                                                                    {{-- <th class="text-center">total</th> --}}
                                 
                                                                 </tr>
                                                             </thead>
@@ -133,7 +133,7 @@
                                                                         <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px">  
                                                                             <a href="{{url('upstm_ucs_detail_opd_216/'.$item->STMDoc)}}" target="_blank"> {{ $item->STMDoc }}</a>  
                                                                         </td>  
-                                                                        <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($item->total, 2) }}</td>
+                                                                        {{-- <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($item->total, 2) }}</td> --}}
                                                                     </tr>
                                                                 @endforeach
                                 
