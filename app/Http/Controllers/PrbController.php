@@ -206,12 +206,14 @@ class PrbController extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate; 
         
-        $data['data_repopd'] =  DB::connection('mysql3')->select('
+        $data['data_repopd'] =  DB::connection('mysql2')->select('
                 select month(v.vstdate) as vstdate
                 ,count(distinct v.hn) as hn
                 ,count(distinct v.vn) as vn
                 ,COUNT(vp.nhso_docno) as claim_code 
-                ,COUNT(distinct v.vn)-COUNT(vp.nhso_docno) as noclaim_code 
+                ,COUNT(IF(vp.nhso_docno IS NULL, 1, NULL)) noclaim_code
+                ,COUNT(distinct v.vn)-COUNT(vp.nhso_docno) as noclaim_code2 
+
                 ,sum(v.income) as income
                 ,sum(vp.nhso_ownright_pid) as ownright_pid
                 ,sum(vp.nhso_ownright_name) as ownright_name
@@ -365,9 +367,9 @@ class PrbController extends Controller
     public function prb_repopd_subnoreq(Request $request,$months,$startdate,$enddate)
     {
       
-        $data['data_repopdsubnoreq'] =  DB::connection('mysql3')->select('
+        $data['data_repopdsubnoreq'] =  DB::connection('mysql2')->select('
             select v.hn,v.cid,v.vstdate,v.pdx,concat(p.pname,p.fname," ",p.lname) as fullname,v.pttype,v.income,
-            if(vp.claim_code ="1","เบิก","") as claim_code,
+            if(vp.nhso_docno ="1","เบิก","") as claim_code,
             vp.nhso_docno,vp.nhso_ownright_pid,vp.nhso_ownright_name
             from vn_stat v
             left outer join ipt i on i.vn = v.vn
@@ -383,7 +385,8 @@ class PrbController extends Controller
             
             group by v.vn
             order by v.hn,v.vstdate 
-        '); 
+        ');
+        // AND (vp.nhso_docno IS NULL OR vp.nhso_docno ="") 
         // and (vp.claim_code ="2" or vp.claim_code is null)
         return view('prb.prb_repopd_subnoreq', $data,[ 
             'startdate'      =>  $startdate,
